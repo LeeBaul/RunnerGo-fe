@@ -1,0 +1,60 @@
+.handle-log {
+    width: 36%;
+    height: 229px;
+    border: 1px solid #39393D;
+    border-radius: 5px;
+    padding: 16px;
+    box-sizing: border-box;
+    color: #fff;
+    margin: 0 8px;
+
+    .log-top {
+        display: flex;
+        justify-content: space-between;
+
+        &-left,
+        &-right {
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 16px;
+                height: 16px;
+                fill: #fff;
+            }
+
+            p {
+                margin: 0 4px;
+            }
+        }
+    }
+
+    .log-bottom {
+        display: flex;
+        flex-direction: column;
+        margin-top: 9px;
+
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 13px;
+
+            &-left {
+                display: flex;
+                align-items: center;
+                img {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+
+            &-mid {
+                display: flex;
+                align-items: center;
+                p {
+                    margin-left: 8px;
+                }
+            }
+        }
+    }
+}

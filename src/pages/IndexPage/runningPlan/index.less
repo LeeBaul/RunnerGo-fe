@@ -1,0 +1,42 @@
+.running-plan {
+    width: 36%;
+    height: 229px;
+    border: 1px solid #39393D;
+    border-radius: 5px;
+    padding: 16px;
+    box-sizing: border-box;
+    .running-top {
+        display: flex;
+        justify-content: space-between;
+        color: #fff;
+        &-right {
+            display: flex;
+            svg {
+                fill: #fff;
+                width: 12px;
+                height: 12px;
+                margin-left: 9px;
+            }
+        }
+    }
+    .running-bottom {
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        align-items: center;
+        width: 100%;
+        .plan-detail {
+            display: flex;
+            margin-top: 25px;
+            width: 100%;
+            justify-content: center;
+            .progress {
+                width: 75%;
+                height: 11px;
+                background-color: #3cc071;
+                border-radius: 17px;
+                margin: 0 5px;
+            }
+        }
+    }
+}

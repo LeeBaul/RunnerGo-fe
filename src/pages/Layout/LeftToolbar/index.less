@@ -1,0 +1,84 @@
+.left-toolbars {
+    height: 100%;
+    width: 78px;
+    box-sizing: content-box;
+    background-color: var(--background-color-secondary);
+    border-right: 1px solid var(--border-color-default);
+    padding: 0;
+
+    .toolbar-item {
+        width: 78px;
+        height: 60px;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        // color: var(--content-color-secondary);
+        // background: var(--background-color-secondary);
+        color: var(--content-color-primary);
+        background-color: var(--highlight-background-color-primary);
+
+        &:hover {
+            color: var(--content-color-primary);
+            background-color: var(--highlight-background-color-primary);
+
+            svg {
+                fill: var(--content-color-primary)
+            }
+
+            .item-text {
+                color: var(--content-color-primary);
+            }
+        }
+
+        &.active {
+            color: var(--content-color-primary) !important;
+            background-color: var(--highlight-background-color-tertiary);
+
+            svg {
+                fill: var(--content-color-primary)
+            }
+
+            .item-text {
+                color: var(--content-color-primary);
+            }
+        }
+
+        // &.active::after {
+        //     position: absolute;
+        //     content: "";
+        //     height: 100%;
+        //     width: 2px;
+        //     background-color: var(--base-color-brand);
+        //     left: 0;
+        //     top: 0;
+        // }
+
+        .svg-item {
+            width: 16px;
+            height: 16px;
+        }
+
+        .item-text {
+            padding-top: 4px;
+            color: var(--content-color-secondary);
+            // color: var(--content-color-primary);
+
+            text-decoration: none;
+        }
+        svg {
+            fill: var(--content-color-secondary);
+            // fill: var(--content-color-primary);
+        }
+    }
+
+    .split-line {
+        width: 78px;
+        height: 1px;
+        background-color: var(--border-color-strong);
+    }
+
+}

@@ -1,0 +1,49 @@
+/*ApiPost 颜色变量 - 样式设置文件*/
+:root {
+
+    /* New apipost css reset start */
+
+    --base-color-brand: #ff6c37;
+    --base-color-info: #097bed;
+    --base-color-error:#eb2013;
+    --base-color-success:#0cbb52;
+    --base-color-warning: #ffb400;
+
+    --background-color-primary: #212121;
+    --background-color-secondary: #262626;
+    --background-color-tertiary: #2b2b2b;
+    --background-modal-backdrop: rgba(0, 0, 0, 0.7);
+
+    --content-color-primary: #ffffff;
+    /* --content-color-secondary: #a6a6a6; */
+    --content-color-secondary: #c4c4c4;
+    /* --content-color-secondary: #666666; */
+    --content-color-constant: #ffffff;
+    --content-color-tertiary:#6B6B6B;
+
+    --border-color-default: #303030;
+    --border-color-strong: #3b3b3b;
+
+    --highlight-background-color-brand: #e05320;
+    --highlight-background-color-info: #0265d2;
+    --highlight-background-color-primary: #303030;
+    --highlight-background-color-secondary: #303030;
+    --highlight-background-color-tertiary: #3b3b3b;
+
+    --scrollbar-thumb-background-color: #3B3B3B;
+    --scrollbar-track-background-color: #2B2B2B;
+
+    --shadow-default: 0px 2px 8px 0px rgba(0, 0, 0, 0.65);
+
+    --text-select-color: rgb(91 127 165);
+
+    /* 浅色模式/按钮 */
+    --text-lightmode-color: #3A86FF;
+
+    --text-weight-regular: 400;
+    --text-weight-medium: 600;
+    --text-weight-bold: 600;
+    
+    /* New apipost css reset end */
+
+}
