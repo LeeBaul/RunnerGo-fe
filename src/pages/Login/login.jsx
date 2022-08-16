@@ -8,7 +8,7 @@ import { Input, Button } from 'adesign-react';
 import WxiconSvg from '@assets/login/wxicon.svg';
 import logoImg from '@assets/logo/qrlogo.png';
 // import getVcodefun from '@utils/getVcode';
-// import { isElectron } from '@utils/utils';
+// import { isElectron } from '@utils';
 
 const LoginBox = (props) => {
   const [panelType, setPanelType] = useState('email');

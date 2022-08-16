@@ -1,0 +1,26 @@
+@inputbg: #eee;
+
+// 需要换成变量 todo...
+.filter-box {
+    height: 30px;
+    display: flex;
+    align-items: center;
+
+    .textBox {
+        flex: 1;
+        width: 0;
+        background-color: fade(@inputbg, 10%);
+
+        &:hover {
+            background-color: fade(@inputbg, 20%);
+        }
+    }
+
+    .btn-location {
+        margin-left: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import './index.less';
 import { Apis as SvgApis, Right as SvgRight } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
-import HandleTag from '../../../components/handleTag';
+import HandleTag from '../../../components/HandleTag';
 
 const HandleLog = () => {
     const logList = [
@@ -64,7 +64,7 @@ const HandleLog = () => {
             <div className='log-bottom'>
                 {
                     logList.map((item, index) => (
-                        <div className='log-item'>
+                        <div className='log-item' key={index}>
                             <div className='log-item-left'>
                                 <img src={item.avatarUrl} alt="" />
                                 <p>{item.nickname}</p>

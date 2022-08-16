@@ -1,0 +1,146 @@
+.api-url-panel {
+    display: flex;
+    flex-direction: row;
+    padding: 8px 16px;
+    padding-bottom: 0;
+
+    .api-url-panel-group {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        border-radius: var(--border-radius-default);
+        border: 1px solid var(--border-color-strong);
+        background-color: var(--background-color-tertiary);
+
+        .apipost-select,
+        .api-url {
+            border: 0;
+            border-radius: 0;
+        }
+
+        .apipost-select {
+            border-right: 1px solid var(--border-color-strong);
+            width: 115px;
+            overflow: hidden;
+            border-bottom-left-radius: var(--border-radius-default);
+            border-top-left-radius: var(--border-radius-default);
+
+            .apipost-select-view-text {
+                font-weight: 500;
+                color: var(--content-color-primary);
+                font-size: var(--size-12px);
+            }
+        }
+
+        .api-url {
+            padding: 0;
+            border-bottom-right-radius: var(--border-radius-default);
+            border-top-right-radius: var(--border-radius-default);
+
+            input {
+                padding: 0 8px;
+                color: var(--content-color-primary);
+                border-bottom-right-radius: var(--border-radius-default);
+                border-top-right-radius: var(--border-radius-default);
+
+                &:hover {
+                    background-color: var(--background-color-primary);
+                }
+            }
+        }
+
+        .api-method {
+            flex: 0 0 100px;
+        }
+
+        .api-name {
+            flex: 1;
+        }
+    }
+
+    .btn-send {
+        display: flex;
+        background: var(--base-color-info);
+        border-color: var(--base-color-info);
+        flex: 0 0 100px;
+        height: 40px;
+        border-radius: var(--border-radius-default);
+        cursor: pointer;
+        color: var(--content-color-constant);
+        position: relative;
+
+        .apipost-btn {
+            font-size: var(--size-14px);
+            font-weight: var(--text-weight-medium);
+            color: var(--content-color-constant);
+            flex: 1;
+            height: 40px;
+            border-radius: 0;
+            border-bottom-left-radius: var(--border-radius-default);
+            border-top-left-radius: var(--border-radius-default);
+            background: var(--base-color-info);
+
+            &:hover {
+                background-color: var(--highlight-background-color-info);
+            }
+        }
+
+        .right {
+            height: 40px;
+            flex: 0 0 32px;
+            color: var(--content-color-constant);
+            display: flex;
+            align-items: center;
+            border-left: 1px solid hsla(0, 0%, 100%, .08);
+            justify-content: center;
+            border-radius: 0;
+            border-bottom-right-radius: var(--border-radius-default);
+            border-top-right-radius: var(--border-radius-default);
+            background: var(--base-color-info);
+
+            &:hover {
+                background-color: var(--highlight-background-color-info);
+            }
+        }
+
+        svg {
+            fill: var(--content-color-constant);
+        }
+    }
+
+    .btn-send.disabled::after {
+        content: "";
+        border-radius: var(--border-radius-default);
+        width: 100px;
+        height: 40px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        cursor: not-allowed;
+        opacity: 0.6;
+        background-color: var(--highlight-background-color-info);
+        color: var(--content-color-secondary);
+    }
+}
+
+.request-download-btn {
+    min-width: 150px;
+    padding: 0;
+    box-shadow: 0;
+    padding: 4px 0;
+
+    .drop-item {
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+        cursor: pointer;
+        text-align: center;
+        color: var(--content-color-primary);
+        font-size: var(--size-12px);
+
+        &:hover {
+            background-color: var(--highlight-background-color-secondary)
+        }
+    }
+}

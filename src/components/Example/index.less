@@ -1,0 +1,60 @@
+.api-example-header{
+  display: flex;
+  align-items: center;
+  padding: 8px;
+
+  .button, .apipost-btn{
+    display: flex;
+    align-items: center;
+    margin: 0 ;
+    margin-left: 4px;
+    margin-right: 16px;
+    cursor: pointer;
+    color: var(--content-color-secondary);
+    padding: 0 ;
+    &:hover{
+      background: transparent;
+      color: var(--content-color-primary);
+      svg{
+        fill:var(--content-color-primary);
+      }
+    }
+    svg{
+      fill:var(--content-color-secondary);
+    }
+  }
+}
+.response-example {
+  height: 100%;
+  overflow: auto;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: #666666;
+  }
+
+  &-header {
+    padding: 0 8px 8px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    & .button {
+      display: flex;
+      align-items: center;
+      margin-right: 32px;
+      cursor: pointer;
+      color: #666666;
+
+      &>svg {
+        fill: #666666;
+      }
+    }
+  }
+
+  &-scale {
+    height: calc(100% - 48px);
+  }
+
+}

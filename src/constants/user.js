@@ -1,5 +1,5 @@
 export const Settings = {
-    SYSTHEMCOLOR: 'white', // 主题色 white dark
+    SYSTHEMCOLOR: 'dark', // 主题色 white dark
     SYSCOMPACTVIEW: -1, // 精简视图 -1(不精简) 1(精简)
     SYSSCALE: 100, // 缩放比例 90 100 110 120
     MAX_CONSOLE_LOG: 10, // 最大日志显示数量
