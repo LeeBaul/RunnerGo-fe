@@ -23,20 +23,20 @@ const defaultLayouts = {
 };
 
 const ApiManage = (props) => {
-    const { data, tempData, onChange } = props;
+    const { data, tempData, onChange, showInfo = true } = props;
     // 调整scale
     const [codeVisible, setCodeVisible] = useState(false);
 
     return (
         <ApisWrapper>
             <div className={ApiHeaderWrapper}>
-                <InfoPanel
+                {showInfo && <InfoPanel
                     data={data}
                     onChange={onChange}
                     showGenetateCode={() => {
                         setCodeVisible(true);
                     }}
-                />
+                />}
                 <UrlPanel data={data} tempData={tempData} onChange={onChange} />
             </div>
             <ApisContent data={data} onChange={onChange} tempData={tempData} />

@@ -34,7 +34,7 @@ import { urlParseLax } from '@utils/common';
 import { from, lastValueFrom } from 'rxjs';
 import { CONFILCTURL } from '@constants/confilct';
 import { SaveTargetRequest, saveApiBakRequest } from '@services/apis';
-import { getBaseCollection } from '../../../../constants/baseCollection';
+import { getBaseCollection } from '@constants/baseCollection';
 
 // 新建接口
 const useOpens = () => {
@@ -159,6 +159,8 @@ const useOpens = () => {
 
     const addOpensByObj = async (Obj, selected = false, callback) => {
         const tempOpenApis = cloneDeep(open_apis);
+        console.log(Obj);
+        console.log(open_apis);
         tempOpenApis[Obj.target_id] = Obj;
         // await Opens.put(Obj, Obj.target_id).then(() => {
             dispatch({
@@ -173,6 +175,7 @@ const useOpens = () => {
             apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
                 open_navs: openNavs,
             });
+            console.log(apGlobalConfigStore);
         // });
     };
 
@@ -407,14 +410,14 @@ const useOpens = () => {
             newApi.project_id = CURRENT_PROJECT_ID || '-1';
             newApi.is_changed = 1;
             // const userInfo = await User.get(localStorage.getItem('uuid') || '-1');
-            // if (isPlainObject(userInfo?.config) && type === 'api') {
+            if (type === 'api') {
                 // 默认请求method
                 // newApi.method = userInfo.config?.AJAX_DEFAULT_METHOD || 'POST';
                 newApi.method = 'POST'
                 // 默认请求方式
                 // newApi.request.body.mode = userInfo.config?.AJAX_DEFAULT_MODE || 'none';
                 newApi.request.body.mode = 'none';
-            // }
+            }
         }
         if (!newApi) return;
 

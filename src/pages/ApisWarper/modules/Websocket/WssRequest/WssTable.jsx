@@ -5,7 +5,7 @@ import { dataItem, newDataItem } from '@constants/dataItem';
 import isArray from 'lodash/isArray';
 import Bus from '@utils/eventBus';
 import DescChoice from '@components/descChoice';
-// import MetionInput from '@components/metionInput ';
+import ApiInput from '@components/ApiInput';
 import { cloneDeep, isString, trim } from 'lodash';
 
 const WssTable = (props) => {
@@ -83,7 +83,7 @@ const WssTable = (props) => {
       width: 100,
       render: (text, rowData, rowIndex) => {
         return (
-          <MetionInput
+          <ApiInput
             size="mini"
             value={text}
             onChange={(newVal) => {
@@ -114,7 +114,7 @@ const WssTable = (props) => {
       width: 150,
       render: (text, rowData, rowIndex) => {
         return (
-          <MetionInput
+          <ApiInput
             size="mini"
             value={text}
             onChange={(newVal) => {

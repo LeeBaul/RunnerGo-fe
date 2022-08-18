@@ -16,7 +16,7 @@ import InputSelectFile from '@components/InputSelectFile';
 import { BODYTYPELIST, INPUTTYPELIST } from '@constants/typeList';
 import isFunction from 'lodash/isFunction';
 import { isArrayLikeObject, isString, trim } from 'lodash';
-import MetionInput from '@components/metionInput';
+import ApiInput from '@components/ApiInput';
 import Importexport from '../importExport';
 import Example from '../../Example';
 import { MODE, RAWMODE } from '../constant';
@@ -33,8 +33,6 @@ const Body = (props) => {
   const refRequest = useRef(null);
   const { config } = useSelector((d) => d?.user);
   const { APIS_TAB_DIRECTION } = config || {};
-
-  // console.log(MetionInput);
 
   const renderBodyTabSelect = () => {
     if (APIS_TAB_DIRECTION > 0) {
@@ -134,7 +132,7 @@ const Body = (props) => {
       render: (text, rowData, rowIndex) => {
         if (value.mode === 'form-data') {
           return (
-            <MetionInput
+            <ApiInput
               placeholder="参数名"
               className="request-key"
               value={text}
@@ -182,7 +180,7 @@ const Body = (props) => {
           );
         }
         return (
-          <MetionInput
+          <ApiInput
             placeholder="参数名"
             value={text}
             readonly={readonly == 1}
@@ -243,7 +241,7 @@ const Body = (props) => {
           );
         }
         return (
-          <MetionInput
+          <ApiInput
             placeholder="参数值,支持mock字段变量"
             value={text}
             onChange={(newVal) => {

@@ -6,10 +6,12 @@ import useListData from './menuTree/hooks/useListData';
 import FilterBox from './filterBox';
 import ButtonBox from './buttonBox';
 import MenuTrees from './menuTree';
+import SceneBox from './sceneBox';
 
 import { MenuWrapper } from './style';
 
-const TreeMenu = () => {
+const TreeMenu = (props) => {
+    const { type = 'apis' } = props;
     const [filterParams, setFilterParams] = useState({ key: '', status: 'all' }); // 接口过滤参数
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [modalType, setModalType] = useState('');
@@ -25,8 +27,8 @@ const TreeMenu = () => {
     return (
         <MenuWrapper>
             <div className='menus-header'>
-                <FilterBox />
-                <ButtonBox />
+                <FilterBox type={type} />
+                { type === 'apis' ? <ButtonBox /> : <SceneBox /> }
             </div>
             <MenuTrees
                 ref={treeRef}

@@ -8,7 +8,8 @@ import ApiStatus from '@components/ApiStatus';
 
 import './index.less';
 
-const FilterBox = () => {
+const FilterBox = (props) => {
+    const { type } = props;
     return (
         <div className='filter-box'>
             <Input
@@ -25,9 +26,12 @@ const FilterBox = () => {
                 // }
                 placeholder="搜索目录或接口"
             />
-            <Button size="mini" className="btn-location">
-                <SvgLocation width="20px" height="20px" />
-            </Button>
+            {
+                (type === 'apis') && 
+                <Button size="mini" className="btn-location">
+                    <SvgLocation width="20px" height="20px" />
+                </Button>
+            }
         </div>
     )
 };

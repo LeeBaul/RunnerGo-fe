@@ -6,7 +6,7 @@ import { dataItem, newDataItem } from '@constants/dataItem';
 import Bus from '@utils/eventBus';
 import { HEADERTYPELIST } from '@constants/typeList';
 import cloneDeep from 'lodash/cloneDeep';
-import MetionInput from '@components/metionInput';
+import ApiInput from '@components/ApiInput';
 import SearchInput from '@components/SearchInput';
 import AutoSizeTextArea from '@components/AutoSizeTextArea';
 import DescChoice from '@components/descChoice';
@@ -96,7 +96,7 @@ const Header = (props) => {
       width: 150,
       render: (text, rowData, rowIndex) => {
         return (
-          <MetionInput
+          <ApiInput
             size="mini"
             value={text}
             onChange={(newVal) => {

@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
 import LogoSvg from '@assets/login/logo.svg';
 import BannerSvg from '@assets/login/banner.svg';
 import LoginBox from './login';
+import RegisterBox from './register';
 
 import { LoginWrapper } from './style';
 import { cloneDeep } from 'lodash';
 
-const Login = () => {
+const Login = (props) => {
+    const { children } = props;
     const dispatch = useDispatch();
     const config = useSelector((store) => store.user.config);
     useEffect(() => {
@@ -17,7 +20,17 @@ const Login = () => {
             type: 'user/updateConfig',
             payload: newConfig
         });
-    }, [])
+    }, []);
+
+    const contentRender = () => {
+        return (
+            <Routes>
+                <Route path="login" element={<LoginBox />}></Route>
+                <Route path="register" element={<RegisterBox />}></Route>
+            </Routes>
+        )
+    }
+
     return (
         <LoginWrapper>
             <div className='left'>
@@ -32,7 +45,7 @@ const Login = () => {
                 </div>
             </div>
             <div className='right'>
-                <LoginBox />
+                { children }
             </div>
         </LoginWrapper>
     )

@@ -1,0 +1,30 @@
+.scene-box {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    &-item {
+        display: flex;
+        width: 82px;
+        height: 30px;
+        align-items: center;
+        cursor: pointer;
+        svg {
+            fill: var(--content-color-secondary);
+            margin-right: 4px;
+        }
+    }
+    &-item:hover {
+        color: #fff;
+
+        svg {
+            fill: #fff;
+        }
+    }
+    .line {
+        margin: 0 14px;
+        height: 18px;
+        width: 1px;
+        background-color: #39393D;
+    }
+}

@@ -6,7 +6,7 @@ import Bus from '@utils/eventBus';
 import { HEADERTYPELIST } from '@constants/typeList';
 import AutoSizeTextArea from '@components/AutoSizeTextArea';
 import DescChoice from '@components/descChoice';
-import MetionInput from '@components/metionInput';
+import ApiInput from '@components/ApiInput';
 import { isString, trim } from 'lodash';
 import Importexport from '../importExport';
 
@@ -60,7 +60,7 @@ const Query = (props) => {
       width: 100,
       render: (text, rowData, rowIndex) => {
         return (
-          <MetionInput
+          <ApiInput
             value={text}
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { key: newVal });
@@ -90,7 +90,7 @@ const Query = (props) => {
       width: 150,
       render: (text, rowData, rowIndex) => {
         return (
-          <MetionInput
+          <ApiInput
             value={text}
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { value: newVal });

@@ -88,8 +88,46 @@ export const LoginWrapper = styled.div`
         }
       }
     }
+    .remeber {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 0 28px 0;
+  
+      &-left {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
+
+    .login-have {
+      color: #3A86FF;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  
+    .forget {
+      color: var(--content-color-secondary);
+      cursor: pointer;
+    }
+  
+    .resign {
+      color: var(--base-color-info);
+      text-align: center;
+  
+      span {
+        cursor: pointer;
+      }
+    }
+
     .item {
       height: 76px;
+
+      .apipost-btn {
+        height: 41px;
+      }
     }
     .qr-code {
       .login_wx {
@@ -106,6 +144,12 @@ export const LoginWrapper = styled.div`
           }
         }
       }
+      .wx-tips {
+        text-align: center;
+        font-size: var(--size-14px);
+        color: var(--base-color-info);;
+      }
+      
       .tips {
         text-align: center;
         font-size: var(--size-14px);
