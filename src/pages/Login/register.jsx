@@ -11,6 +11,7 @@ import { FE_BASEURL } from '@config/index';
 import getVcodefun from '@utils/getVcode';
 import {
     fetchUserLoginForEmailRequest,
+    fetchUserRegisterForEmailRequest,
     fetchGetWxCodeRequest,
     fetchCheckUserWxCodeRequest
 } from '@services/user';
@@ -29,8 +30,14 @@ const RegisterBox = (props) => {
     const { onCancel } = props;
     const navigate = useNavigate();
     const [panelType, setPanelType] = useState('email');
+    // 邮箱
     const [email, setEmail] = useState('');
+    // 密码
     const [password, setPassword] = useState('');
+    // 确认密码
+    const [repeatPassword, setRepeatPassword] = useState('');
+    // 昵称
+    const [nickname, setNickname] = useState('');
     const [checked, setchecked] = useState('checked');
     // 微信二维码超时
     const [timeOver, setTimeOver] = useState(false);
@@ -132,21 +139,24 @@ const RegisterBox = (props) => {
         </>
     );
 
-    const loginNow = () => {
+    const registerNow = () => {
         if (Object.keys(vcodeObj).length === 0) {
             return Message('error', '请进行验证');
         }
-        try {
-            // 记住密码
-            localStorage.setItem('userInfo', JSON.stringify({ email, password }));
-        } catch (err) {
-            // console.log(err);
-        }
-        fetchUserLoginForEmailRequest({
+        fetch('172.17.101.188:20123/management/api/v1/auth/signup', {
+            method: 'post',
+            body: JSON.stringify({
+                email: '505417246@qq.com'
+            })
+        }).then(res => {
+            console.log(res);
+        })
+        return;
+        fetchUserRegisterForEmailRequest({
             email,
             password,
-            expiry_date: checked === 'checked' ? 30 : 0,
-            captcha: vcodeObj,
+            repeatPassword,
+            nickname
         })
             .pipe(
                 tap((resp) => {
@@ -232,20 +242,23 @@ const RegisterBox = (props) => {
                         <Input
                             type="password"
                             placeholder="请确认密码"
-                            value={password}
+                            value={repeatPassword}
                             onChange={(value) => {
-                                setPassword(value);
+                                setRepeatPassword(value);
                             }}
                         />
                     </div>
                     <div className="item">
                         <Input
                             placeholder="请输入昵称"
-                            value={password}
+                            value={nickname}
                             onChange={(value) => {
-                                setPassword(value);
+                                setNickname(value);
                             }}
                         />
+                    </div>
+                    <div className="item">
+                        <div id="captcha"></div>
                     </div>
                     <div className="item">
                         <Button
@@ -253,9 +266,9 @@ const RegisterBox = (props) => {
                             className="modal-userreg-btn apipost-blue-btn"
                             size="large"
                             style={{ width: '100%' }}
-                            onClick={loginNow}
+                            onClick={registerNow}
                         >
-                            立即登录
+                            立即注册
                         </Button>
                     </div>
                     <div className="login-have" onClick={() => navigate('/login')}>

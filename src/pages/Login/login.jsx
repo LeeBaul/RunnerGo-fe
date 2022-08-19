@@ -230,6 +230,9 @@ const LoginBox = (props) => {
             />
           </div>
           <div className="item">
+            <div id="captcha"></div>
+          </div>
+          <div className="item">
             <Button
               type="primary"
               className="modal-userreg-btn apipost-blue-btn"

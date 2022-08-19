@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.less';
 import { Apis as SvgApis, Right as SvgRight } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
-import HandleTag from '../../../components/HandleTag';
+import HandleTag from '@components/HandleTag';
+import TeamworkLogs from '@modals/TeamworkLogs';
 
 const HandleLog = () => {
+    const [showLog, setShowLog] = useState(false);
+
     const logList = [
         {
             avatarUrl: avatar,
@@ -56,7 +59,7 @@ const HandleLog = () => {
                     <SvgApis />
                     <p>操作日志</p>
                 </div>
-                <div className='log-top-right'>
+                <div className='log-top-right' onClick={() => setShowLog(true)}>
                     <p>查看更多</p>
                     <SvgRight />
                 </div>
@@ -80,6 +83,7 @@ const HandleLog = () => {
                     ))
                 }
             </div>
+            { showLog &&  <TeamworkLogs onCancel={() => setShowLog(false)} />}
         </div>
     )
 };

@@ -9,7 +9,7 @@ import { RD_BASE_URL, APP_VERSION, REQUEST_TIMEOUT } from '@config/index';
 import { getCookie } from '../../utils/cookie';
 import { ContentType } from '@constants/ajax';
 
-const path = isElectron() ? APP_VERSION : 'api';
+// const path = isElectron() ? APP_VERSION : 'api';
 const ignoreCodeArr = [11001, 11007, 11006, 11023, 10080, 11090, 11095];
 const defaultHeaders = {
     is_silent: -1,
@@ -31,7 +31,7 @@ export const rxAjax = (
 ) => {
     let request = ajax({
         method,
-        url: `${RD_BASE_URL}${path}${url}`,
+        url: `${RD_BASE_URL}${url}`,
         headers: {
             ...defaultHeaders,
             token: getCookie('token') || 'NOLOGIN',

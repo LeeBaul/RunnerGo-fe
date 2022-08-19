@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Button } from 'adesign-react';
+import { Right as SvgRight } from 'adesign-react/icons';
 import ApiStatus from '@components/ApiStatus';
 import APIModal from '@components/ApisDescription';
 import ManageGroup from '@components/ManageGroup';
@@ -23,12 +24,12 @@ const ApiInfoPanel = (props) => {
             <div className="api-manage">
                 <div className="api-info-panel">
                     <div className="api-name-group">
-                        <ApiStatus
+                        {/* <ApiStatus
                             value={data?.mark}
                             onChange={(value) => {
                                 onChange('mark', value);
                             }}
-                        ></ApiStatus>
+                        ></ApiStatus> */}
                         <Input
                             size="mini"
                             className="api-name"
@@ -43,11 +44,13 @@ const ApiInfoPanel = (props) => {
                         className="api-explain"
                         size="mini"
                         onClick={setModalType.bind(null, 'description')}
+                        afterFix={<SvgRight />}
                     >
                         接口说明
                     </Button>
-                    <ManageGroup target={data} showGenetateCode={showGenetateCode} />
+                    {/* <ManageGroup target={data} showGenetateCode={showGenetateCode} /> */}
                 </div>
+                <Button className='save-btn'>保存</Button>
             </div>
         </>
     );

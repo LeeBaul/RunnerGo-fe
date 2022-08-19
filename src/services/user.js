@@ -3,7 +3,11 @@ import ajax, { RxAjaxObservable } from './ajax';
 // 用户邮箱登陆
 export const fetchUserLoginForEmailRequest = (
   params
-) => ajax('post', '/login/email_login', 'json', false, params);
+) => ajax('post', '/management/api/v1/auth/login', 'json', false, params);
+// 用户邮箱注册
+export const fetchUserRegisterForEmailRequest = (
+  params
+) => ajax('post', '/management/api/v1/auth/signup', 'json', false, params);
 // 获取微信二维码
 export const fetchGetWxCodeRequest = (
   params
