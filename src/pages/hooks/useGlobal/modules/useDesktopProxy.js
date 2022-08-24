@@ -13,10 +13,10 @@ const useDesktopProxy = () => {
     // socket 初始化
     const desktopProxyInit = () => {
         if (isEmpty(desktop_proxy) && !desktop_proxy?.connected) {
-            dispatch({
-                type: 'desktopProxy/updateDesktopProxy',
-                payload: { desktop_proxy: window.io(CLOUD_PROXY_URL, { reconnectionDelayMax: 30000 }) },
-            });
+            // dispatch({
+            //     type: 'desktopProxy/updateDesktopProxy',
+            //     payload: { desktop_proxy: window.io(CLOUD_PROXY_URL, { reconnectionDelayMax: 30000 }) },
+            // });
         }
     };
     // 断开socket连接

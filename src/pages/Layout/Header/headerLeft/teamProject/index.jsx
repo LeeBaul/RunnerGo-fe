@@ -21,10 +21,15 @@ const TeamProject = () => {
     const userTeams = useSelector((store) => store?.teams?.teamData);
 
     const currentTeamName = useMemo(() => {
-        let teamName = '离线团队';
-        if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
-            teamName = userTeams?.[currentTeamId]?.name;
-        }
+        // let teamName = '离线团队';
+        console.log(userTeams, 'userTeams');
+        let team_id = window.team_id;
+        let teamName = userTeams ?  userTeams[team_id].name : '离线团队';
+        // if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
+        //     teamName = userTeams?.[currentTeamId]?.name;
+        // }
+        // console.log(userTeams);
+        // console.log(userTeams);
         return teamName;
     }, [userTeams, currentTeamId]);
 

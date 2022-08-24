@@ -8,13 +8,15 @@ import { isLogin } from '@utils/common';
 import { RD_BASE_URL, APP_VERSION, REQUEST_TIMEOUT } from '@config/index';
 import { getCookie } from '../../utils/cookie';
 import { ContentType } from '@constants/ajax';
+import { fetchTokenRefresh } from '../user';
+import { tap } from 'rxjs';
 
 // const path = isElectron() ? APP_VERSION : 'api';
 const ignoreCodeArr = [11001, 11007, 11006, 11023, 10080, 11090, 11095];
 const defaultHeaders = {
     is_silent: -1,
     appversion: APP_VERSION,
-    timeout: REQUEST_TIMEOUT,
+    // timeout: REQUEST_TIMEOUT,
     terminal: isElectron() ? 'client' : 'web',
     platform: 'Mac',
     clientid: window.sessionStorage.clientId ? window.sessionStorage.clientId : 'NOLOGIN',
@@ -27,27 +29,44 @@ export const rxAjax = (
     url,
     contentType,
     loading,
-    params
+    params,
+    query
 ) => {
     let request = ajax({
         method,
         url: `${RD_BASE_URL}${url}`,
         headers: {
-            ...defaultHeaders,
-            token: getCookie('token') || 'NOLOGIN',
-            clientid: sessionStorage.getItem('clientId') || 'NOLOGIN',
-            contentType: ContentType[contentType],
+            // ...defaultHeaders,
+            // token: getCookie('token') || 'NOLOGIN',
+            Authorization: getCookie('token') || 'NOLOGIN',
+            // clientid: sessionStorage.getItem('clientId') || 'NOLOGIN',
+            // contentType: ContentType[contentType],
         },
         body: params,
+        queryParams: query,
     });
     const reg = /^\/apis/;
     const regPro = /^\/project/;
     request = request.pipe(
         map((resp, a) => {
             if (resp?.status === 200) {
-                if (resp.response.code === 10000) {
+                if (resp.response.code === 0) {
                     return resp?.response;
                 }
+                if (resp.response.code === 20006) {
+                    Message('error', '请先登录!');
+                    window.location.href = '/login';
+                }
+                // if (resp.response.code === 0000) {
+                //     fetchTokenRefresh()
+                //     .pipe(
+                //         tap((userData) => {
+                //             saveLocalData(userData);
+                //             localStorage.setItem('expire_time_sec', userData.expire_time_sec * 1000);
+                //         })
+                //     )
+                //     .subscribe()
+                // }
                 // 11000;   //token已过期或退出登录 (已登陆)提示 + 弹窗
                 // 11090;   //token必传 弹窗
                 // 11091;   //token被顶替（已登陆）提示 + 弹窗

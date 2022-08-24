@@ -13,10 +13,12 @@ import {
 import { isString, isObject, isEmpty } from 'lodash';
 import Bus from '@utils/eventBus';
 import { DropWrapper } from './style';
+import FolderCreate from '@modals/folder/create';
 
 const ButtonBox = () => {
 
     const [isExpandAll, setIsExpandAll] = useState(false);
+    const [showFolder, setShowFolder] = useState(false);
 
     const handleExpandAll = () => {
         const newExpandStatus = !isExpandAll;
@@ -36,7 +38,7 @@ const ButtonBox = () => {
                         </Button>
                     </Tooltip>
                     <Tooltip content="新建目录" placement="top">
-                        <Button size="mini">
+                        <Button size="mini" onClick={() => setShowFolder(true)}>
                             <SvgNewFolder width="18px" height="18px" />
                         </Button>
                     </Tooltip>
@@ -75,6 +77,7 @@ const ButtonBox = () => {
                         </Button>
                     </Tooltip>
                 </div>
+                { showFolder && <FolderCreate onCancel={() => setShowFolder(false)} /> }
             </div>
         </>
     )

@@ -1,74 +1,71 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 import { Table } from 'adesign-react';
+import { 
+    Iconeye as SvgEye,
+    Export as SvgExport,
+    Delete as SvgDelete    
+} from 'adesign-react/icons';
+import { fetchReportList } from '@services/report';
+import { tap } from 'rxjs';
+import dayjs from 'dayjs';
 
 const RecentReport = () => {
-    const data = [
-        {
-            key: '1',
-            id: '1',
-            plan: '世界和平',
-            mode: 'qps模式',
-            runTime: '2022.5.9 11:00:00',
-            lastUpdate: '2022.5.9 11:00:00',
-            performer: '路人甲',
-            status: '运行中',
-            operation: '导出'
-        },
-        {
-            key: '2',
-            id: '2',
-            plan: '世界和平',
-            mode: 'qps模式',
-            runTime: '2022.5.9 11:00:00',
-            lastUpdate: '2022.5.9 11:00:00',
-            performer: '路人甲',
-            status: '运行中',
-            operation: '导出'
-        },
-        {
-            key: '3',
-            id: '3',
-            plan: '世界和平',
-            mode: 'qps模式',
-            runTime: '2022.5.9 11:00:00',
-            lastUpdate: '2022.5.9 11:00:00',
-            performer: '路人甲',
-            status: '运行中',
-            operation: '导出'
-        },
-        {
-            key: '4',
-            id: '4',
-            plan: '世界和平',
-            mode: 'qps模式',
-            runTime: '2022.5.9 11:00:00',
-            lastUpdate: '2022.5.9 11:00:00',
-            performer: '路人甲',
-            status: '运行中',
-            operation: '导出'
-        },
-        {
-            key: '5',
-            id: '5',
-            plan: '世界和平',
-            mode: 'qps模式',
-            runTime: '2022.5.9 11:00:00',
-            lastUpdate: '2022.5.9 11:00:00',
-            performer: '路人甲',
-            status: '运行中',
-            operation: '导出'
-        },
-    ];
 
+    const [reportList, setReportList] = useState([]);
+
+    useEffect(() => {
+        const query = {
+            page: 1,
+            size: 10,
+            team_id: 9,
+            keyword: '',
+            start_time_sec: '',
+            end_time_sec: '',
+        }
+        fetchReportList(query)
+        .pipe(
+            tap((res) => {
+                const { code, data } = res;
+                if (code === 0) {
+                    const { reports } = data;
+                    const list = reports.map((item, index) => {
+                        const { report_id, name, mode, run_time_sec, last_time_sec, run_user_name, status } = item;
+                        return {
+                            report_id,
+                            name,
+                            mode,
+                            run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                            last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                            run_user_name,
+                            status,
+                            operation: <HandleContent />
+                        }
+                    });
+                    setReportList(list);
+                }
+            })
+        )
+        .subscribe();
+    }, []);
+
+    const HandleContent = () => {
+        return (
+            <div className='handle-content'>
+                <SvgEye />
+                <SvgExport />
+                <SvgDelete className='delete' />
+            </div>
+        )
+    };
     const columns = [
         {
             title: '序列号',
-            dataIndex: 'id',
+            dataIndex: 'report_id',
         },
         {
             title: '计划名称',
-            dataIndex: 'plan',
+            dataIndex: 'name',
         },
         {
             title: '压测模式',
@@ -76,15 +73,15 @@ const RecentReport = () => {
         },
         {
             title: '运行时间',
-            dataIndex: 'runTime',
+            dataIndex: 'run_time_sec',
         },
         {
             title: '最后修改时间',
-            dataIndex: 'lastUpdate'
+            dataIndex: 'last_time_sec'
         },
         {
             title: '执行者',
-            dataIndex: 'performer',
+            dataIndex: 'run_user_name',
         },
         {
             title: '状态',
@@ -100,7 +97,7 @@ const RecentReport = () => {
         <div className='recent-report'>
             <p className='title'>近期测试报告</p>
             <div className='report-search'></div>
-            <Table className="report-table" showBorder columns={columns} data={data} />
+            <Table className="report-table" showBorder columns={columns} data={reportList} />
         </div>
     )
 };

@@ -175,16 +175,16 @@ const useAutoImport = () => {
     };
 
     const openAutoImport = async () => {
-        const resp = await getSyncProjectAllApi().toPromise();
-        if (resp && resp.code === 10000) {
+        // const resp = await getSyncProjectAllApi().toPromise();
+        // if (resp && resp.code === 10000) {
             // await SourceAutoImport.where('uuid')
             //     .anyOf([localStorage.getItem('uuid')])
             //     .delete();
-            if (Array.isArray(resp?.data) || resp?.data?.length > 0) {
-                const newarr = resp?.data?.map((it) => ({ ...it, uuid: localStorage.getItem('uuid') }));
+            // if (Array.isArray(resp?.data) || resp?.data?.length > 0) {
+                // const newarr = resp?.data?.map((it) => ({ ...it, uuid: localStorage.getItem('uuid') }));
                 // await SourceAutoImport.bulkPut(newarr);
-            }
-        }
+            // }
+        // }
         // await SourceAutoImport.where('uuid')
         //     .anyOf([localStorage.getItem('uuid')])
         //     .toArray()

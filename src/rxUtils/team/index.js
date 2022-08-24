@@ -1,5 +1,6 @@
-import { from, iif, of, catchError, mergeMap, concatMap, map } from 'rxjs';
+import { from, iif, of, catchError, mergeMap, concatMap, map, tap } from 'rxjs';
 import { fetchUserTeamList } from '@services/projects';
+import { fetchTeamList } from '@services/user';
 // import { UserTeams } from '@indexedDB/team';
 import { isLogin } from '@utils/common';
 
@@ -40,14 +41,16 @@ const getDefaultOfflineTeam = (uuid) => {
 export const getUserTeamList$ = (uuid) => {
     return iif(
         isLogin,
-        fetchUserTeamList().pipe(
-            concatMap((res) => {
-                if (res?.code === 10000) {
-                    return from(updateLocalTeamList(uuid, res.data)).pipe(
-                        mergeMap(() => getUserLocalTeamList(uuid))
-                    );
-                }
-                return getUserLocalTeamList(uuid);
+        fetchTeamList().pipe(
+            tap((res) => {
+                console.log(res, 'teammmmmmmmmmmmm');
+                return res;
+                // if (res.code === 0) {
+                //     return from(updateLocalTeamList(uuid, res.data)).pipe(
+                //         mergeMap(() => getUserLocalTeamList(uuid))
+                //     );
+                // }
+                // return getUserLocalTeamList(uuid);
             }),
             catchError(() => {
                 return getUserLocalTeamList(uuid);

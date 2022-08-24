@@ -5,12 +5,14 @@ import { Dropdown, Message } from 'adesign-react';
 import cn from 'classnames';
 import { changeUserRole } from '@services/projects';
 import UserContext from './userContext';
+import avatar from '@assets/logo/avatar.png'
 
 const SingleUser = (props) => {
   const project_id = useSelector((store) => store.workspace.CURRENT_PROJECT_ID);
   const { useMsg, onSecMenuToggle, currentUser } = props;
   const { is_manager: IsManager, is_super_admin: IsAdmin } = currentUser;
-  const { getAllProUser } = useContext(UserContext);
+  // const { getAllProUser } = useContext(UserContext);
+
 
   const roleClass = () => {
     return cn({
@@ -28,23 +30,23 @@ const SingleUser = (props) => {
     return '只读';
   };
 
-  const handleChangeUserRole = (role) => {
-    changeUserRole({
-      project_id,
-      uuid: useMsg.uuid,
-      role,
-    }).subscribe({
-      next(resp) {
-        if (resp?.code === 10000) {
-          Message('success', '修改权限成功');
-          getAllProUser();
-        } else {
-          Message('error', resp?.msg || '暂无修改权限');
-        }
-      },
-      error(resp) {},
-    });
-  };
+  // const handleChangeUserRole = (role) => {
+  //   changeUserRole({
+  //     project_id,
+  //     uuid: useMsg.uuid,
+  //     role,
+  //   }).subscribe({
+  //     next(resp) {
+  //       if (resp?.code === 10000) {
+  //         Message('success', '修改权限成功');
+  //         getAllProUser();
+  //       } else {
+  //         Message('error', resp?.msg || '暂无修改权限');
+  //       }
+  //     },
+  //     error(resp) {},
+  //   });
+  // };
 
   const renderRole = () => {
     return (
@@ -104,19 +106,20 @@ const SingleUser = (props) => {
     <>
       <div className="single-user">
         <div className="worker-avatar">
-          <img className="useritem" src={useMsg.portrait} />
+          <img className="useritem" src={useMsg.avatar || avatar} />
           <div
             className={cn('isOnline', {
-              notOnline: !useMsg?.isOnline,
+              // notOnline: !useMsg?.isOnline,
+              notOnline: false
             })}
           ></div>
         </div>
         <div className="worker-msg">
-          <div className="name">{useMsg.nick_name}</div>
+          <div className="name">{useMsg.nickname}</div>
           <div className="email">{useMsg.email}</div>
         </div>
         <div className="work-role">
-          {IsManager == 1 || IsAdmin == 1 ? (
+          {/* {IsManager == 1 || IsAdmin == 1 ? (
             renderRole()
           ) : (
             <>
@@ -130,7 +133,7 @@ const SingleUser = (props) => {
                 {roleMsg()}
               </div>
             </>
-          )}
+          )} */}
         </div>
       </div>
     </>

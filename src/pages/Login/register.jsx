@@ -143,15 +143,6 @@ const RegisterBox = (props) => {
         if (Object.keys(vcodeObj).length === 0) {
             return Message('error', '请进行验证');
         }
-        fetch('172.17.101.188:20123/management/api/v1/auth/signup', {
-            method: 'post',
-            body: JSON.stringify({
-                email: '505417246@qq.com'
-            })
-        }).then(res => {
-            console.log(res);
-        })
-        return;
         fetchUserRegisterForEmailRequest({
             email,
             password,
@@ -160,16 +151,26 @@ const RegisterBox = (props) => {
         })
             .pipe(
                 tap((resp) => {
-                    if (resp.code !== 10000) {
-                        captchaObj && captchaObj?.destroy();
-                        getVcodeUrl();
-                        setVcodeObj({});
-                        setCaptchaObj(null);
+                    console.log(resp);
+                    const { data: { token, expire_time_sec }, code } = resp;
+                    if (code === 0) {
+                        localStorage.setItem('token', token);
+                        localStorage.setItem('expire_time_sec', expire_time_sec * 1000);
+                        Message('success', '注册成功!');
+                        navigate('/login');
+
                     }
+                    // if (resp.code !== 10000) {
+                    //     captchaObj && captchaObj?.destroy();
+                    //     getVcodeUrl();
+                    //     setVcodeObj({});
+                    //     setCaptchaObj(null);
+                    // }
                 }),
                 filter((resp) => resp.code === 10000),
                 map((resp) => resp.data),
                 tap((userData) => {
+                    console.log(userData);
                     saveLocalData(userData);
                     // 关闭弹窗
                     onCancel();

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { of } from 'rxjs';
 import { tap, filter, concatMap, map, switchMap, mergeMap } from 'rxjs/operators';
 import { getUserConfig$, getProjectUserList$ } from '@rxUtils/user';
@@ -14,7 +14,7 @@ import { getReportList$ } from '@rxUtils/runner/testReports';
 import { getLocalTargets } from '@busLogics/projects';
 import { useEventCallback } from 'rxjs-hooks';
 import { getLocalEnvsDatas } from '@rxUtils/env';
-import { isArray, isPlainObject } from 'lodash';
+import { isArray, isPlainObject, cloneDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { webSocket } from '@utils/websocket/websocket';
 import WebSocket2 from '@utils/websocket/WebSocket2';
@@ -25,6 +25,7 @@ import { global$ } from '../global';
 
 const useProject = () => {
     const dispatch = useDispatch();
+    const userInfo = useSelector((store) => store.user.userInfo);
     // 项目初始化完成
     const handleInitProjectFinish = async (project_id) => {
         const apiDatas = await getLocalTargets(project_id);
@@ -48,9 +49,10 @@ const useProject = () => {
     };
 
     // 展示团队列表
-    const handleInitTeams = (teamList) => {
+    const handleInitTeams = ({ data: { teams } }) => {
+        console.log('展示团队列表', teams);
         const teamData = {};
-        teamList.length && teamList.forEach((data) => {
+        teams.length && teams.forEach((data) => {
             teamData[data.team_id] = data;
         });
         dispatch({
@@ -75,25 +77,35 @@ const useProject = () => {
     const [getReportList] = useEventCallback(getReportList$);
 
     // 展示用户配置信息
-    const handleInitUserConfig = (userConfig) => {
-        const {
-            DEFAULT_PROJECT_ID = '-1',
-            DEFAULT_TEAM_ID = '-1',
-            CURRENT_PROJECT_ID = '-1',
-            CURRENT_TEAM_ID = '-1',
-            CURRENT_ENV_ID = '-1',
-        } = userConfig?.workspace || {};
-        window.currentProjectId = CURRENT_PROJECT_ID;
-        dispatch({
-            type: 'workspace/updateWorkspaceState',
-            payload: {
-                DEFAULT_TEAM_ID,
-                DEFAULT_PROJECT_ID,
-                CURRENT_PROJECT_ID,
-                CURRENT_TEAM_ID,
-                CURRENT_ENV_ID,
-            },
-        });
+    const handleInitUserConfig = ({ data }) => {
+        window.team_id = data.settings.current_team_id;
+        // console.log('userConfig!!!', data, userInfo);
+        // let newInfo = cloneDeep(userInfo);
+        // newInfo.team_id = data.settings.current_team_id;
+        // console.log(newInfo);
+        // dispatch({
+        //     type: 'user/updateUserInfo',
+        //     payload: newInfo
+        // });
+        // console.log('userConfig', userConfig);
+        // const {
+        //     DEFAULT_PROJECT_ID = '-1',
+        //     DEFAULT_TEAM_ID = '-1',
+        //     CURRENT_PROJECT_ID = '-1',
+        //     CURRENT_TEAM_ID = '-1',
+        //     CURRENT_ENV_ID = '-1',
+        // } = userConfig?.workspace || {};
+        // window.currentProjectId = CURRENT_PROJECT_ID;
+        // dispatch({
+        //     type: 'workspace/updateWorkspaceState',
+        //     payload: {
+        //         DEFAULT_TEAM_ID,
+        //         DEFAULT_PROJECT_ID,
+        //         CURRENT_PROJECT_ID,
+        //         CURRENT_TEAM_ID,
+        //         CURRENT_ENV_ID,
+        //     },
+        // });
     };
 
     // 应用程序初始化 第一次打开应用程序

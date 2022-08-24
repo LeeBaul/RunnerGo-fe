@@ -1,7 +1,6 @@
 // import { IBaseResponse } from '@dto/baseResponse';
 // import ajax from './axios';
 import ajax, { RxAjaxObservable } from './ajax';
-
 // 获取用户目录简要信息列表
 export const fetchTargetIdsRequest = (
     params

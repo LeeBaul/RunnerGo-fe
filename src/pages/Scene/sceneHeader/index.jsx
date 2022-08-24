@@ -8,7 +8,8 @@ import {
 import { Button } from 'adesign-react';
 import CreateApi from '@modals/CreateApi';
 
-const SceneHeader = () => {
+const SceneHeader = (props) => {
+    const { from } = props;
     const [showCreateApi, setCreateApi] = useState(false);
     return (
         <div className='scene-header'>
@@ -19,7 +20,7 @@ const SceneHeader = () => {
                     <span>场景设置</span>
                 </div>
                 <Button className='saveBtn' preFix={<SvgSave />}>保存</Button>
-                <Button className='runBtn' preFix={<SvgCaretRight />}>开始运行</Button>
+                { from === 'scene' && <Button className='runBtn' preFix={<SvgCaretRight />}>开始运行</Button> }
             </div>
             { showCreateApi && <CreateApi onCancel={() => setCreateApi(false)} /> }
         </div>

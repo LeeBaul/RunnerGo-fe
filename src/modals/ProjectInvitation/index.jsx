@@ -21,10 +21,16 @@ import './index.less';
 import PaymentModal from './Payment/modal';
 import PayAddSuccessModal from './PayAddSuccessModal';
 
+import { fetchInviteMember } from '@services/user';
+import { tap } from 'rxjs';
+
 const Option = Select.Option;
 const InvitationModal = (props) => {
   const project_id = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
   const team_id = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
+  const userInfo = useSelector((store) => store.user.userInfo);
+
+  console.log(userInfo, 'userInfo++++');
 
   const { projectInfoAll, onCancel } = props;
 
@@ -364,6 +370,24 @@ const InvitationModal = (props) => {
     setIfSelectAll(!ifSelectAll);
   };
   const onSubmit = () => {
+    const params = {
+      team_id: window.team_id,
+      member_email: addList.map(item => item.email)
+    }
+    fetchInviteMember(params)
+    .pipe(
+      tap((res) => {
+        const { code } = res;
+      
+        if (code === 0) {
+          Message('success', '邀请成功!');
+        } else {
+          Message('error', '邀请失败!');
+        }
+      })
+    )
+    .subscribe();
+    return;
     const submitObj = {
       project_id: current_project_id,
       invitees: [],
@@ -451,9 +475,10 @@ const InvitationModal = (props) => {
                   maxLength={30}
                   onPressEnter={() => changeTeamInvitation('add')}
                 />
-                <Select value={selectValue} onChange={(key) => setSelectValue(key)}>
-                  {renderOptions()}
-                  {/* <Option value="admin">超管</Option> */}
+                <Select  onChange={(key) => setSelectValue(key)}>
+                  {/* {renderOptions()} */}
+                  <Option value="admin">管理员</Option>
+                  <Option value="common">普通用户</Option>
                 </Select>
                 <Button
                   type="primary"

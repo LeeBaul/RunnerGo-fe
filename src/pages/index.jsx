@@ -1,5 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
 import ReactDOM from 'react-dom';
 import store from '../redux/store';
 import 'adesign-react/libs/style.css';
@@ -12,7 +14,9 @@ import App from './App';
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>,
     document.getElementById('root'),
 );

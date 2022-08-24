@@ -22,7 +22,7 @@ const Scene = () => {
                 <TreeMenu type='scene' />
             </ScaleItem>
             <ScaleItem className="right-apis" enableScale={false}>
-                <SceneHeader />
+                <SceneHeader from='scene' />
                 <SceneContainer />
             </ScaleItem>
         </ScalePanel>

@@ -4,54 +4,14 @@ import { Apis as SvgApis, Right as SvgRight } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
 import HandleTag from '@components/HandleTag';
 import TeamworkLogs from '@modals/TeamworkLogs';
+import dayjs from 'dayjs';
 
-const HandleLog = () => {
+const HandleLog = (props) => {
+    const { logList } = props;
     const [showLog, setShowLog] = useState(false);
 
-    const logList = [
-        {
-            avatarUrl: avatar,
-            nickname: '哎呀思',
-            content: '接口-登录接口 副本',
-            time: '2022-01-09 17:34:00',
-            type: 'create'
-        },
-        {
-            avatarUrl: avatar,
-            nickname: '哎呀思',
-            content: '接口-登录接口 副本',
-            time: '2022-01-09 17:34:00',
-            type: 'update'
-        },
-        {
-            avatarUrl: avatar,
-            nickname: '哎呀思',
-            content: '接口-登录接口 副本',
-            time: '2022-01-09 17:34:00',
-            type: 'delete'
-        },
-        {
-            avatarUrl: avatar,
-            nickname: '哎呀思',
-            content: '接口-登录接口 副本',
-            time: '2022-01-09 17:34:00',
-            type: 'run'
-        },
-        {
-            avatarUrl: avatar,
-            nickname: '哎呀思',
-            content: '接口-登录接口 副本',
-            time: '2022-01-09 17:34:00',
-            type: 'run'
-        },
-        {
-            avatarUrl: avatar,
-            nickname: '哎呀思',
-            content: '接口-登录接口 副本',
-            time: '2022-01-09 17:34:00',
-            type: 'update'
-        }
-    ];
+    console.log(logList);
+
     return (
         <div className='handle-log'>
             <div className='log-top'>
@@ -66,18 +26,18 @@ const HandleLog = () => {
             </div>
             <div className='log-bottom'>
                 {
-                    logList.map((item, index) => (
+                    logList && logList.map((item, index) => (
                         <div className='log-item' key={index}>
                             <div className='log-item-left'>
-                                <img src={item.avatarUrl} alt="" />
-                                <p>{item.nickname}</p>
+                                <img src={item.avatarUrl || avatar} alt="" />
+                                <p>{item.user_name}</p>
                             </div>
                             <div className='log-item-mid'>
-                                <HandleTag type={item.type} />
-                                <p>{item.content}</p>
+                                {/* <HandleTag type={item.type} /> */}
+                                <p>{item.name}</p>
                             </div>
                             <div className='log-item-right'>
-                                {item.time}
+                                {dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss')}
                             </div>
                         </div>
                     ))

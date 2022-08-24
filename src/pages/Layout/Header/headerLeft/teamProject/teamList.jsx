@@ -5,6 +5,9 @@ import { isArray } from 'lodash';
 import { getLatestTeamProjectList$, getLocalDataList$ } from '@rxUtils/project';
 import { TeamHeader } from './style';
 import ProjectList from './projectList';
+import { fetchTeamList } from '@services/user';
+import { tap } from 'rxjs';
+import { useDispatch } from 'react-redux';
 
 const { Collapse, CollapseItem } = CollapseComponent;
 
@@ -14,33 +17,60 @@ const TeamList = (props) => {
   const [teamList, setTeamList] = useState([]);
   const [projectList, setProjectList] = useState([]);
 
+  const dispatch = useDispatch();
+
   const uuid = localStorage.getItem('uuid');
 
   const filterdProjectList = projectList?.filter(
     (pro) =>
-      filterValue === '' ||
-      `${pro.name}`.toLowerCase().indexOf(`${filterValue}`.toLowerCase()) !== -1
+      // filterValue === '' ||
+      // `${pro.name}`.toLowerCase().indexOf(`${filterValue}`.toLowerCase()) !== -1
+      pro
   );
 
-  const filterdTeamList = teamList?.filter(
+  const filterdTeamList = teamList.filter(
     (team) =>
       filterValue === '' ||
-      `${team.name}`.toLowerCase().indexOf(`${filterValue}`.toLowerCase()) !== -1 ||
-      filterdProjectList.map((d) => d.team_id).includes(team.team_id)
+      `${team.name}`.toLowerCase().indexOf(`${filterValue}`.toLowerCase()) !== -1
+      //  || filterdProjectList.map((d) => d.team_id).includes(team.team_id)
   );
 
   useEffect(() => {
-    if (uuid === null) {
-      return;
-    }
-    getLatestTeamProjectList$(uuid).subscribe((localData) => {
-      if (isArray(localData.teamList)) {
-        setTeamList(localData.teamList);
-      }
-      if (isArray(localData.projectList)) {
-        setProjectList(localData.projectList);
-      }
-    });
+    // if (uuid === null) {
+    //   return;
+    // }
+    // getLatestTeamProjectList$(uuid).subscribe((localData) => {
+    //   if (isArray(localData.teamList)) {
+    //     setTeamList(localData.teamList);
+    //   }
+    //   if (isArray(localData.projectList)) {
+    //     setProjectList(localData.projectList);
+    //   }
+    // });
+    fetchTeamList()
+      .pipe(
+        tap((res) => {
+          const { code, data } = res;
+          if (code === 0) {
+            const { teams } = data;
+            console.log(teams, 6666666666);
+          
+            if (isArray(teams)) {
+              setTeamList(teams);
+              const teamData = {};
+              console.log(teams, 6666666666);
+              teams.forEach((data) => {
+                teamData[data.team_id] = data;
+              });
+              dispatch({
+                type: 'teams/updateTeamData',
+                payload: teamData,
+              });
+            }
+          }
+        })
+      )
+      .subscribe();
   }, []);
 
   return (
@@ -48,7 +78,7 @@ const TeamList = (props) => {
       defaultActiveKey={currentTeamId}
       style={{ border: 'none', overflow: 'auto', margin: '5px 0' }}
     >
-      {filterdTeamList?.map((team) => (
+      {filterdTeamList.map((team) => (
         <CollapseItem
           key={team.team_id}
           name={team.team_id}

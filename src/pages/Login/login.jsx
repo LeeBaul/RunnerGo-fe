@@ -38,6 +38,8 @@ const LoginBox = (props) => {
   // 极验验证码
   const [vcodeObj, setVcodeObj] = useState({});
   const [captchaObj, setCaptchaObj] = useState(null);
+  // 获取用户全局配置
+  const config = useSelector((store) => store.user.config);
   // 获取极验内容
   const getVcodeUrl = async () => {
     const { result, captcha } = await getVcodefun();
@@ -145,11 +147,12 @@ const LoginBox = (props) => {
     fetchUserLoginForEmailRequest({
       email,
       password,
-      expiry_date: checked === 'checked' ? 30 : 0,
-      captcha: vcodeObj,
+      // expiry_date: checked === 'checked' ? 30 : 0,
+      // captcha: vcodeObj,
     })
       .pipe(
         tap((resp) => {
+          console.log(resp);
           if (resp.code !== 10000) {
             captchaObj && captchaObj?.destroy();
             getVcodeUrl();
@@ -157,12 +160,24 @@ const LoginBox = (props) => {
             setCaptchaObj(null);
           }
         }),
-        filter((resp) => resp.code === 10000),
+        // filter((resp) => resp.code === 10000),
         map((resp) => resp.data),
         tap((userData) => {
+          console.log(userData);
           saveLocalData(userData);
+          localStorage.setItem('expire_time_sec', userData.expire_time_sec * 1000);
+          Message('success', '登录成功!');
+          navigate('/index');
+          const newConfig = cloneDeep(config);
+          newConfig.SYSCOMPACTVIEW = -1;
+          dispatch({
+            type: 'user/updateConfig',
+            payload: newConfig
+          })
+          
+          
           // 关闭弹窗
-          onCancel();
+          // onCancel();
         }),
         tap(() => {
           global$.next({

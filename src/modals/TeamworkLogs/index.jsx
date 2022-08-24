@@ -8,6 +8,9 @@ import Collapse from '@components/Collapse';
 import { useSelector } from 'react-redux';
 import { actioinType } from './constant';
 import { TeamworkLosWrapper } from './style';
+import { fetchOperationLog } from '@services/dashboard';
+import { tap } from 'rxjs';
+import avatar from '@assets/logo/avatar.png';
 
 const Option = Select.Option;
 
@@ -32,6 +35,54 @@ const TeamworkLogs = (props) => {
       // console.log(refTooltip);
       refTooltip?.current?.setPopupVisible(false);
     };
+
+    const query = {
+      team_id: 9,
+      page: 1,
+      size: 20
+    }
+
+    fetchOperationLog(query)
+      .pipe(
+        tap((res) => {
+          const { code, data } = res;
+
+          if (code === 0) {
+            const { operations } = data;
+            let list = [];
+            operations.forEach(item => {
+              const itemData = {
+                ...item,
+                time: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD'),
+                created_time_sec: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+              };
+
+              if (list.length === 0) {
+                list.push({
+                  time: itemData.time,
+                  created_time_sec: itemData.created_time_sec,
+                  data: [itemData]
+                });
+              } else {
+                for (let i = 0; i < list.length; i++) {
+                  if (list[i].time === itemData.time) {
+                    list[i].data.push(itemData);
+                  } else if (i === list.length - 1) {
+                    list.push({
+                      time: itemData.time,
+                      created_time_sec: itemData.created_time_sec,
+                      data: [itemData]
+                    });
+                  }
+                }
+              }
+            });
+            console.log(list);
+            setList(list);
+          }
+        })
+      )
+      .subscribe();
 
     document.body.addEventListener('wheel', listener1);
     return () => {
@@ -106,9 +157,9 @@ const TeamworkLogs = (props) => {
     }
   }, [pageSize]);
   const Intercept = (str) => {
-    if (str[0] === '(') {
-      return str.slice(str.indexOf(')') + 1);
-    }
+    // if (str[0] === '(') {
+    //   return str.slice(str.indexOf(')') + 1);
+    // }
     return str;
   };
 
@@ -223,9 +274,9 @@ const TeamworkLogs = (props) => {
                     it?.data?.map((logItem, logIndex) => (
                       <div key={logIndex} className="teamwork-log_collapse_con_item">
                         <div className="operator">
-                          <img className="avatar" src={logItem?.portrait} alt="" />
-                          <div>{logItem.nick_name}</div>
-                          {logItem?.status === -1 && <span className="logOff">已注销</span>}
+                          <img className="avatar" src={logItem.user_avatar || avatar} alt="" />
+                          <div>{logItem.user_name}</div>
+                          {logItem.user_status === -1 && <span className="logOff">已注销</span>}
                         </div>
                         <div className="action">
                           <div
@@ -244,30 +295,29 @@ const TeamworkLogs = (props) => {
                             content={
                               <div className="tiptitle">
                                 {logItem?.message?.action === 'lock' ||
-                                logItem?.message?.action === 'unlock'
+                                  logItem?.message?.action === 'unlock'
                                   ? logItem?.message?.subject?.modify_subject.slice(
-                                      0,
-                                      logItem?.message?.subject?.modify_subject.length - 3
-                                    )
+                                    0,
+                                    logItem?.message?.subject?.modify_subject.length - 3
+                                  )
                                   : Intercept(logItem?.message?.subject?.modify_subject)}
                               </div>
                             }
                           >
                             <div className="text-ellipsis">
-                              {logItem?.message?.action === 'lock' ||
-                              logItem?.message?.action === 'unlock'
+                              {/* {logItem?.message?.action === 'lock' ||
+                                logItem?.message?.action === 'unlock'
                                 ? logItem?.message?.subject?.modify_subject.slice(
-                                    0,
-                                    logItem?.message?.subject?.modify_subject.length - 3
-                                  )
-                                : Intercept(logItem?.message?.subject?.modify_subject)}
+                                  0,
+                                  logItem?.message?.subject?.modify_subject.length - 3
+                                )
+                                : Intercept(logItem?.message?.subject?.modify_subject)} */}
+                                { logItem.name }
                             </div>
                           </Tooltip>
                         </div>
                         <div className="time">
-                          {dayjs(logItem?.message?.subject?.modify_time * 1000).format(
-                            'YYYY-MM-DD HH:mm:ss'
-                          )}
+                          { it.created_time_sec }
                         </div>
                       </div>
                     )),

@@ -1,16 +1,19 @@
-import { from, iif, of, throwError } from 'rxjs';
+import { from, iif, of, throwError, tap } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import { isLogin } from '@utils/common';
 import { v4 as uuidV4 } from 'uuid';
 // import { User, UserList } from '@indexedDB/user';
-import { fetchUserConfigRequest, fetchProjectUserListRequest } from '@services/user';
+import { fetchUserConfig, fetchProjectUserListRequest } from '@services/user';
+import { fetchDashBoardInfo } from '@services/dashboard';
 import isUndefined from 'lodash/isUndefined';
 import { USER_CONFIG } from '@constants/userConfig';
 // import { IUser } from '@models/user/user';
-import { isArray, isObject, isString } from 'lodash';
+import { isArray, isObject, isString, cloneDeep } from 'lodash';
+import { useSelector, useDispatch } from 'react-redux';
 
 // 获取用户配置信息 若获取不到，则创建用户默认配置
-const getLocalUserConfig = async (uuid) => {
+const getLocalUserConfig = async (uuid, a) => {
+    console.log('error!!!!!!!', a)
     // let userConfig = await User.get(uuid);
     const defaultProjectId = uuidV4();
 
@@ -33,60 +36,74 @@ const getLocalUserConfig = async (uuid) => {
 };
 
 // 更新用户本地配置信息
-const updateUserLocalConfig = async (uuid, configInfo = {}) => {
+const updateUserLocalConfig = async (settings) => {
+    const userInfo = useSelector((store) => store.user.userInfo);
+    const dispatch = useDispatch();
+    console.log('userConfig!!!', settings);
+    const newInfo = cloneDeep(userInfo);
+    newInfo.team_id = settings.current_team_id;
+
+    dispatch({
+        type: 'user/updateUserInfo',
+        payload: newInfo
+    });
+
+
     // const oldConfig = await User.get(uuid);
-    const {
-        DEFAULT_TEAM_ID = '-1',
-        DEFAULT_PROJECT_ID = '-1',
-        CURRENT_TEAM_ID = '-1',
-        CURRENT_PROJECT_ID = '-1',
-        config = USER_CONFIG,
-    } = configInfo;
+    // const {
+    //     DEFAULT_TEAM_ID = '-1',
+    //     DEFAULT_PROJECT_ID = '-1',
+    //     CURRENT_TEAM_ID = '-1',
+    //     CURRENT_PROJECT_ID = '-1',
+    //     config = USER_CONFIG,
+    // } = configInfo;
 
-    // 若不存在，则创建
-    if (isUndefined(oldConfig)) {
-        const userConfig = {
-            uuid,
-            hideMenus: [],
-            workspace: {
-                DEFAULT_TEAM_ID,
-                DEFAULT_PROJECT_ID,
-                CURRENT_TEAM_ID,
-                CURRENT_PROJECT_ID,
-            },
-            config: USER_CONFIG,
-        };
-        // await User.put(userConfig, userConfig.uuid);
-    } else {
-        const newConfig = Object.assign({}, USER_CONFIG, config);
-        // await User.update(uuid, {
-        //     'workspace.DEFAULT_TEAM_ID': DEFAULT_TEAM_ID,
-        //     'workspace.DEFAULT_PROJECT_ID': DEFAULT_PROJECT_ID,
+    // // 若不存在，则创建
+    // if (isUndefined(oldConfig)) {
+    //     const userConfig = {
+    //         uuid,
+    //         hideMenus: [],
+    //         workspace: {
+    //             DEFAULT_TEAM_ID,
+    //             DEFAULT_PROJECT_ID,
+    //             CURRENT_TEAM_ID,
+    //             CURRENT_PROJECT_ID,
+    //         },
+    //         config: USER_CONFIG,
+    //     };
+    //     // await User.put(userConfig, userConfig.uuid);
+    // } else {
+    //     const newConfig = Object.assign({}, USER_CONFIG, config);
+    //     // await User.update(uuid, {
+    //     //     'workspace.DEFAULT_TEAM_ID': DEFAULT_TEAM_ID,
+    //     //     'workspace.DEFAULT_PROJECT_ID': DEFAULT_PROJECT_ID,
 
-        //     //* 与易凯沟通后，不从云端同步最新项目ID与团队ID
-        //     // 'workspace.CURRENT_TEAM_ID': CURRENT_TEAM_ID,
-        //     // 'workspace.CURRENT_PROJECT_ID': CURRENT_PROJECT_ID,
-        //     config: newConfig || USER_CONFIG,
-        // });
-    }
+    //     //     //* 与易凯沟通后，不从云端同步最新项目ID与团队ID
+    //     //     // 'workspace.CURRENT_TEAM_ID': CURRENT_TEAM_ID,
+    //     //     // 'workspace.CURRENT_PROJECT_ID': CURRENT_PROJECT_ID,
+    //     //     config: newConfig || USER_CONFIG,
+    //     // });
+    // }
 };
 
 // 获取用户配置信息
 export const getUserConfig$ = (uuid) => {
-    return iif(
-        isLogin,
-        from(fetchUserConfigRequest()).pipe(
-            mergeMap((res) => {
-                if (res?.code === 10000) {
-                    return updateUserLocalConfig(uuid, isObject(res?.data) ? res.data : {});
+    console.log(123123123, isLogin());
+    // return iif(
+        // isLogin(),
+    return from(fetchUserConfig()).pipe(
+            tap((res) => {
+                console.log(res, '----------');
+                if (res?.code === 0) {
+                    return updateUserLocalConfig(res.data);
                 }
                 return of('');
             }),
-            mergeMap(() => getLocalUserConfig(uuid)),
-            catchError(() => getLocalUserConfig(uuid))
-        ),
-        of('').pipe(mergeMap(() => getLocalUserConfig(uuid)))
-    );
+            // mergeMap(() => getLocalUserConfig(uuid, 1)),
+            catchError((err) => getLocalUserConfig(uuid, err))
+        );
+        // of('').pipe(mergeMap(() => getLocalUserConfig(uuid)))
+    // );
 };
 
 // 更新本地用户列表信息

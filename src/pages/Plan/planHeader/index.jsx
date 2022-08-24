@@ -5,8 +5,10 @@ import {
     Search as SvgSearch,
     Add as SvgAdd
 } from 'adesign-react/icons';
+import { useNavigate } from 'react-router-dom';
 
 const PlanHeader = () => {
+    const navigate = useNavigate();
     return (
         <div className='plan-header'>
             <div className='plan-header-left'>
@@ -17,7 +19,7 @@ const PlanHeader = () => {
                 />
             </div>
             <div className='plan-header-right'>
-                <Button className='createBtn' preFix={<SvgAdd />}>新建任务</Button>
+                <Button className='createBtn' preFix={<SvgAdd />} onClick={() => navigate('/plan/detail')}>新建计划</Button>
             </div>
         </div>
     )

@@ -152,6 +152,7 @@ export const getCookie = IATools.getCookie;
 
 // 保存本地localData数据 token....
 export const saveLocalData = (data) => {
+    console.log(data);
     const storage = window.localStorage;
     setCookie('token', data?.token || 'NOLOGIN');
     storage.identity = data?.identity || '-1';

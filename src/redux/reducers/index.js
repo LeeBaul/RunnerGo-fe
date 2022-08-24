@@ -12,6 +12,7 @@ import workspaceReducer from './workspace';
 import desktopProxyReducer from './desktopProxy';
 import conflictReducer from './conflict';
 import runnerReducer from './runner';
+import plansReducer from './plan';
 
 const reducers = combineReducers({
     apis: apisReducer,
@@ -26,6 +27,7 @@ const reducers = combineReducers({
     conflict: conflictReducer,
     console: consoleReducer,
     runner: runnerReducer,
+    plan: plansReducer,
 });
 
 export default reducers;

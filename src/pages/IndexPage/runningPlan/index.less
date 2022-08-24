@@ -5,6 +5,7 @@
     border-radius: 5px;
     padding: 16px;
     box-sizing: border-box;
+    overflow: hidden;
     .running-top {
         display: flex;
         justify-content: space-between;
@@ -37,7 +38,33 @@
                 background-color: #3cc071;
                 border-radius: 17px;
                 margin: 0 5px;
+                position: relative;
+                overflow: hidden;
+
+                .item {
+                    position: absolute;
+                    width: 15px;
+                    height: 80px;
+                    background-color: #000;
+                    opacity: 0.1;
+                    transform: rotate(30deg);
+                    // left: 5px;
+                    top: -38px;
+                    // z-index: 10;
+                    // animation-name: ;
+                    // animation-delay: ;
+                    animation-name: runProgress;
+                    animation-timing-function: linear;
+                    animation-iteration-count: infinite;
+                    // animation: runProgress 5s linear infinite;
+                }
             }
         }
+    }
+}
+
+@keyframes runProgress {
+    100% {
+        left: 100%;
     }
 }

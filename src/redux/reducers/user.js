@@ -8,9 +8,11 @@ const initialState = {
     // 当前用户信息
     userInfo: {
         email: '',
-        nick_name: '',
-        portrait: ''
-    }
+        nickname: '',
+        avatar: '',
+        user_id: null,
+        role_id: null,
+    },
 };
 
 // action名称
@@ -24,6 +26,7 @@ export const userReducer = (state = initialState, action) => {
         case `${NAMESPACE}/${actionTypes.updateConfig}`:
             return { ...state, config: action.payload };
         case `${NAMESPACE}/${actionTypes.updateUserInfo}`:
+            console.log('redux/user', action);
             return { ...state, userInfo: action.payload };
         default:
             return state;

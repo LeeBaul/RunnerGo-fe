@@ -3,28 +3,30 @@ import './index.less';
 import avatar from '@assets/logo/avatar.png';
 import { Apis as SvgApis } from 'adesign-react/icons';
 
-const Info = () => {
+const Info = (props) => {
+    const { data, user } = props;
+    console.log('Info', data);
     const taskList = [
         {
-            number: 994,
+            number: data.plan_num,
             icon: SvgApis,
-            name: '报告数',
+            name: '计划数',
             color: '#3A86FF',
         },
         {
-            number: 2455,
+            number: data.scene_num,
             icon: SvgApis,
             name: '场景数',
             color: '#2BA58F',
         },
         {
-            number: 114,
+            number: data.report_num,
             icon: SvgApis,
             name: '报告数',
             color: '#E1A022',
         },
         {
-            number: 9644,
+            number: data.api_num,
             icon: SvgApis,
             name: '接口数',
             color: '#00ACD7',
@@ -33,10 +35,10 @@ const Info = () => {
     return (
         <div className='info'>
             <div className='user-info'>
-                <img src={avatar} alt="" />
+                <img src={user.avatar || avatar} alt="" />
                 <div className='info-detail'>
-                    <p className='name'>哎呀思</p>
-                    <p className='email'>aiyasi.@163.com</p>
+                    <p className='name'>{ user.nickname }</p>
+                    <p className='email'>{ user.email }</p>
                 </div>
             </div>
             <div className='task-info'>

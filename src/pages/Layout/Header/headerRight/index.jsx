@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.less';
 import { Button, Dropdown } from 'adesign-react';
 import {
@@ -9,44 +9,83 @@ import avatar from '@assets/logo/avatar.png'
 import InvitationModal from '@modals/ProjectInvitation';
 import ProjectMember from '@modals/ProjectMember';
 import TeamworkLogs from '@modals/TeamworkLogs';
-// import SingleUser from './SingleUser.Jsx';
+import SingleUser from './SingleUser';
+import { fetchTeamMemberList } from '@services/user';
+import { tap } from 'rxjs';
 
 const HeaderRight = () => {
     const [showModal, setShowModal] = useState(false);
     const [showMember, setMemberModal] = useState(false);
     const [showLog, setShowLog] = useState(false);
+    const [memberList, setMemberList] = useState([]);
+
+    const [outsideClose, setOutsideClose] = useState(true);
+
+    useEffect(() => {
+        const query = {
+            team_id: 10
+        }
+        fetchTeamMemberList(query)
+            .pipe(
+                tap((res) => {
+                    console.log(res);
+                    const { code, data: { members } } = res;
+                    setMemberList(members);
+                    // if (code === 0) {
+                    //     let dataList = [];
+                    //     dataList = members.map((item, index) => {
+                    //         const { avatar, email, nickname, join_time_sec } = item;
+                    //         const userInfo = {
+                    //             avatar,
+                    //             email,
+                    //             nickname
+                    //         }
+                    //         return {
+                    //             member: <MemberInfo userInfo={userInfo}  />,
+                    //             joinTime: dayjs(join_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                    //             // invitedBy: '七七',
+                    //             stationType: '读写工位',
+                    //             handle: <p style={{cursor: 'pointer'}} onClick={() => removeMember(item.user_id)}>移除成员</p>,
+                    //         }
+                    //     });
+                    //     setData(dataList);
+                    // }
+                })
+            )
+            .subscribe();
+    }, []);
+
+    const RenderMemberList = () => {
+        console.log(memberList);
+        return memberList.slice(0, 3).map(item => (
+            <Dropdown
+                content={
+                    <div className="online-list">
+                        <SingleUser
+                            useMsg={item}
+                            currentUser={item}
+                        ></SingleUser>
+                    </div>
+                }
+            >
+                <div className='person-avatar'>
+                    <img src={item.avatar || avatar} alt="" />
+                    <div className='person-status'></div>
+                </div>
+            </Dropdown>
+        ))
+    }
+
     return (
         <div className='header-right'>
-            <div className='team-person' onClick={() => setMemberModal(true)}>
-                <Dropdown
-                    content={
-                        <div className="online-list">
-                            {/* <SingleUser
-                                useMsg={user}
-                                currentUser={currentUser}
-                                onSecMenuToggle={(val) => {
-                                    setOutsideClose(val);
-                                }}
-                            ></SingleUser> */}
-                        </div>
-                    }
-                >
-                    <div className='person-avatar'>
-                        <img src={avatar} alt="" />
-                        <div className='person-status'></div>
+            <div className='team-person'>
+                <RenderMemberList />
+                {
+                    memberList.length > 3 &&
+                    <div className='person-number' onClick={() => setMemberModal(true)}>
+                        <p>{memberList.length}</p>
                     </div>
-                </Dropdown>
-                <div className='person-avatar'>
-                    <img src={avatar} alt="" />
-                    <div className='person-status'></div>
-                </div>
-                <div className='person-avatar'>
-                    <img src={avatar} alt="" />
-                    <div className='person-status'></div>
-                </div>
-                <div className='person-number'>
-                    <p>4</p>
-                </div>
+                }
             </div>
             <Button className='invite' preFix={<SvgInvite />} onClick={() => setShowModal(true)}>邀请协作</Button>
             <div className='more-btn'>

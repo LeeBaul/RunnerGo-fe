@@ -8,6 +8,7 @@ import ApiManage from '@pages/ApisWarper/modules/ApiManage';
 
 const SceneContainer = () => {
     const [showDrawer, setDrawer] = useState(false);
+    const [showConfig, setConfig] = useState(true);
 
     const DrawerHeader = () => {
         return (

@@ -6,9 +6,10 @@ import { isUndefined, isArray, isFunction, isNumber } from 'lodash';
 
 export const isLogin = () => {
     const token = getCookie('token');
-    const uuid = localStorage.getItem('uuid');
+    const expire_time_sec = localStorage.getItem('expire_time_sec');
+    const isExpire = new Date().getTime() < expire_time_sec;
     return (
-        isString(token) && token !== 'NOLOGIN' && token.length > 0 && isString(uuid) && uuid !== '-1'
+        isString(token) && token !== 'NOLOGIN' && token.length > 0 && isExpire
     );
 };
 
