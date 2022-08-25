@@ -105,6 +105,7 @@ pipeline {
                   npm config get registry
                   node -v 
                   export CI=false
+                  npm i 
                   npm  run build:${JOB_BASE_NAME}
             '''
                 }
