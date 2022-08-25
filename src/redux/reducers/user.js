@@ -13,12 +13,14 @@ const initialState = {
         user_id: null,
         role_id: null,
     },
+    team_id: null,
 };
 
 // action名称
 const actionTypes = {
     updateConfig: 'updateConfig',
     updateUserInfo: 'updateUserInfo',
+    updateTeamId: 'updateTeamId',
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -28,6 +30,8 @@ export const userReducer = (state = initialState, action) => {
         case `${NAMESPACE}/${actionTypes.updateUserInfo}`:
             // console.log('redux/user', action);
             return { ...state, userInfo: action.payload };
+        case `${NAMESPACE}/${actionTypes.updateTeamId}`:
+            return { ...state, team_id: action.team_id }    
         default:
             return state;
     }

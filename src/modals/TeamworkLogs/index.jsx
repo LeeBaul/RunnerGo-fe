@@ -37,7 +37,7 @@ const TeamworkLogs = (props) => {
     };
 
     const query = {
-      team_id: window.team_id,
+      team_id: sessionStorage.getItem('team_id'),
       page: 1,
       size: 20
     }

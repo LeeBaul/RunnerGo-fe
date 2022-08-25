@@ -372,7 +372,7 @@ const InvitationModal = (props) => {
   };
   const onSubmit = () => {
     const params = {
-      team_id: window.team_id,
+      team_id: sessionStorage.getItem('team_id'),
       member_email: addList.map(item => item.email)
     }
     fetchInviteMember(params)

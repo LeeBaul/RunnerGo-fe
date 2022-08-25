@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode.react';
 import cn from 'classnames';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { tap, filter, map, concatMap } from 'rxjs/operators';
 import { Input, Button, CheckBox, Message } from 'adesign-react';
 import WxiconSvg from '@assets/login/wxicon.svg';
 import logoImg from '@assets/logo/qrlogo.png';
-import { openUrl, saveLocalData } from '@utils';
+import { openUrl, saveLocalData, setCookie } from '@utils';
 import { FE_BASEURL } from '@config/index';
 import getVcodefun from '@utils/getVcode';
 import {
   fetchUserLoginForEmailRequest,
   fetchGetWxCodeRequest,
-  fetchCheckUserWxCodeRequest
+  fetchCheckUserWxCodeRequest,
+  fetchUserConfig
 } from '@services/user';
+import Bus from '@utils/eventBus';
 
 import { global$ } from '@hooks/useGlobal/global';
+import { getUserConfig$ } from '@rxUtils/user';
 
 
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +52,6 @@ const LoginBox = (props) => {
   };
 
   useEffect(() => {
-    // console.log(window.team_id);
     if (panelType === 'email') {
       getVcodeUrl();
       clearInterval(wxCodeTimer);
@@ -153,41 +155,101 @@ const LoginBox = (props) => {
       // captcha: vcodeObj,
     })
       .pipe(
-        tap((resp) => {
-          // console.log(resp);
-          if (resp.code !== 10000) {
-            captchaObj && captchaObj?.destroy();
-            getVcodeUrl();
-            setVcodeObj({});
-            setCaptchaObj(null);
-          }
-        }),
-        // filter((resp) => resp.code === 10000),
-        map((resp) => resp.data),
-        tap((userData) => {
-          // console.log(userData);
-          saveLocalData(userData);
-          localStorage.setItem('expire_time_sec', userData.expire_time_sec * 1000);
+        concatMap(({ data }) => {
+          console.log(data);
+          saveLocalData(data);
+          localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
           Message('success', '登录成功!');
+          // setCookie('token', userData.token);
 
-          const newConfig = cloneDeep(config);
-          newConfig.SYSCOMPACTVIEW = -1;
-          dispatch({
-            type: 'user/updateConfig',
-            payload: newConfig
-          });
-                  
-          // 关闭弹窗
-          // onCancel();
+          return getUserConfig$();
+
+          // return global$.next({
+          //   action: 'INIT_APPLICATION',
+          // });
         }),
-        tap(() => {
+        concatMap(({ data }) => {
+          console.log(data);
+          const team_id = data.settings.current_team_id;
+          sessionStorage.setItem('team_id', team_id);
+          // console.log(123123123123);
+          dispatch({
+            type: 'user/updateTeamId',
+            payload: team_id
+          });
+
+          navigate('/index');
           global$.next({
             action: 'INIT_APPLICATION',
           });
         }),
         tap(() => {
-          navigate('/index');
+          console.log(123123);
+
+
         })
+        // tap(() => {
+        //   navigate('/index')
+        // })
+
+
+        // tap((resp) => {
+        //   // console.log(resp);
+        //   if (resp.code !== 10000) {
+        //     captchaObj && captchaObj?.destroy();
+        //     getVcodeUrl();
+        //     setVcodeObj({});
+        //     setCaptchaObj(null);
+        //   }
+        // }),
+        // // filter((resp) => resp.code === 10000),
+        // map((resp) => resp.data),
+        // tap((userData) => {
+        //   // console.log(userData);
+        //   saveLocalData(userData);
+        //   localStorage.setItem('expire_time_sec', userData.expire_time_sec * 1000);
+        //   Message('success', '登录成功!');
+
+        //   // Bus.$emit('getUserConfig');
+
+        //   // const newConfig = cloneDeep(config);
+        //   // newConfig.SYSCOMPACTVIEW = -1;
+        //   // dispatch({
+        //   //   type: 'user/updateConfig',
+        //   //   payload: newConfig
+        //   // });
+        // global$.next({
+        //   action: 'INIT_APPLICATION',
+        // });
+
+        //   // 关闭弹窗
+        //   // onCancel();
+        // }),
+        // tap(() => {
+
+        //   // fetchUserConfig().pipe(
+        //   //     tap((res) => {
+        //   //       console.log(res);
+        //   //     })
+        //   // )
+        //   // let timer = null;
+        //   // timer = setInterval(() => {
+        //   //   if (sessionStorage.getItem('team_id')) {
+        //   //     navigate('/index');
+        //   //     clearInterval(timer);
+        //   //   }
+        //   // }, 100);
+        // }),
+        // concatMap(() => {
+        //   fetchUserConfig().pipe(
+        //     tap((res) => {
+        //       console.log(res);
+        //     })
+        //   )
+        // }),
+        // tap(() => {
+        //   navigate('/index');
+        // })
       )
       .subscribe();
   };
@@ -293,7 +355,7 @@ const LoginBox = (props) => {
             className="wx-tips"
             onClick={() => navigate('/register')}
           >
-              注册新用户
+            注册新用户
           </div>
         </div>
       )}

@@ -23,9 +23,10 @@ const App = () => {
     const ignorePage = ['/login', '/register', '/find']
 
     useEffect(() => {
-        // const token = getCookie('token');
-        // const expire_time_sec = localStorage.getItem('expire_time_sec');
-        // const isExpire = new Date().getTime() > parseInt(expire_time_sec)
+        const token = getCookie('token');
+        const expire_time_sec = localStorage.getItem('expire_time_sec');
+        const isExpire = new Date().getTime() > parseInt(expire_time_sec);
+        console.log(token, isExpire);
         // if (!token || isExpire) {
         //     window.location.href = '/login';
         // }
@@ -34,7 +35,7 @@ const App = () => {
             setLayout(true)
         } else if (showLayout) {
             setLayout(false);
-            window.team_id = undefined;
+            sessionStorage.removeItem('team_id');
         }
     }, [location.pathname])
 

@@ -16,15 +16,17 @@ import { TeamProjectPanel, DropdownContainer, TeamProjectWrapper } from './style
 const TeamProject = () => {
     const [filterValue, setFilterValue] = useState('');
     const refDropdown = useRef(null);
-    const currentTeamId = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
+    const currentTeamId = useSelector((store) => store.user.team_id);
+    // const currentTeamId = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
-    const userTeams = useSelector((store) => store?.teams?.teamData);
+    const userTeams = useSelector((store) => store.teams.teamData);
 
     const currentTeamName = useMemo(() => {
         // let teamName = '离线团队';
         // console.log(userTeams, 'userTeams');
-        let team_id = window.team_id;
+        let team_id = sessionStorage.getItem('team_id');
         let teamName = userTeams[team_id] ?  userTeams[team_id].name : '离线团队';
+        console.log(userTeams, currentTeamId);
         // if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
         //     teamName = userTeams?.[currentTeamId]?.name;
         // }

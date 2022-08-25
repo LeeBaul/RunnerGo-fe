@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { of } from 'rxjs';
-import { tap, filter, concatMap, map, switchMap, mergeMap } from 'rxjs/operators';
+import { tap, filter, concatMap, map, switchMap, mergeMap, catchError } from 'rxjs/operators';
 import { getUserConfig$, getProjectUserList$, getIndexPage$, getRunningPlan$ } from '@rxUtils/user';
 import { getUserTeamList$ } from '@rxUtils/team';
 import { getUserProjectList$, getMultiProjectDetails$ } from '@rxUtils/project';
@@ -21,13 +21,18 @@ import WebSocket2 from '@utils/websocket/WebSocket2';
 import { LIVE_SOCKET_URL } from '@config/server';
 import { isElectron } from '@utils';
 import { APP_VERSION } from '@config/base';
-import { fetchTeamMemberList } from '@services/user';
+import { fetchTeamMemberList, fetchTeamList, fetchUserConfig } from '@services/user';
 import Bus, { useEventBus } from '@utils/eventBus';
+import { useNavigate } from 'react-router-dom';
+
+import { fetchDashBoardInfo, fetchRunningPlan } from '@services/dashboard';
+
 
 import { global$ } from '../global';
 
 const useProject = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const userInfo = useSelector((store) => store.user.userInfo);
     // const userData = useSelector((store) => store.dashboard.userData);
     // 项目初始化完成
@@ -137,7 +142,8 @@ const useProject = () => {
 
     // 展示用户配置信息
     const handleInitUserConfig = ({ data }) => {
-        window.team_id = data.settings.current_team_id;
+        // sessionStorage.setItem('team_id', data.settings.current_team_id);
+        // window.team_id = data.settings.current_team_id;
         // console.log('userConfig!!!', data, userInfo);
         // let newInfo = cloneDeep(userInfo);
         // newInfo.team_id = data.settings.current_team_id;
@@ -206,7 +212,7 @@ const useProject = () => {
                 // console.log('用户配置信息获取成功：', userConfig);
                 // 初始化主题色
                 ininTheme(userConfig);
-                const team_id = window.team_id;
+                const team_id = sessionStorage.getItem('team_id');
                 return of(team_id).pipe(
                     // step1.加载团队列表
                     concatMap(() => getUserTeamList$(uuid).pipe(tap(handleInitTeams))),
@@ -284,7 +290,7 @@ const useProject = () => {
     const getTeamMemberList = () => {
         // console.log('获取当前团队成员列表', window.team_id);
         const query = {
-            team_id: window.team_id,
+            team_id: sessionStorage.getItem('team_id'),
         }
         fetchTeamMemberList(query)
         .pipe(
@@ -303,9 +309,62 @@ const useProject = () => {
         )
         .subscribe();
     }
+    // 获取当前团队列表
+    const getTeamList = () => {
+        fetchTeamList().pipe(
+            tap((res) => {
+                const { data: { teams } } = res;
+                const teamData = {};
+                teams.length && teams.forEach((data) => {
+                    teamData[data.team_id] = data;
+                });
+                dispatch({
+                    type: 'teams/updateTeamData',
+                    payload: teamData,
+                });
+            })
+        )
+    };
+    // 获取当前运行中的计划
+    const getRunningPlan = () => {
+        const params = {
+            team_id: sessionStorage.getItem('team_id'),
+            page: 1,
+            size: 5
+        };
+        fetchRunningPlan(params).pipe(
+            tap((res) => {
+                const { data: { plans } } = res;
+                dispatch({
+                    type: 'plan/updatePlanData',
+                    payload: plans
+                })
+            })
+        )
+    };
+    // 获取当前用户基本配置
+    const getUserConfig = () => {
+        console.log(123123123);
+        fetchUserConfig().pipe(
+            tap((res) => {
+                console.log(res);
+                const { data: { settings } } = res;
+                const team_id = settings.current_team_id;
+                sessionStorage.setItem('team_id', team_id);
+                dispatch({
+                    type: 'user/updateTeamId',
+                    payload: team_id
+                });
+            
+            }),
+            catchError((err) => console.log(err))
+        )
+    }
 
     useEventBus('getTeamMemberList', getTeamMemberList);
-
+    useEventBus('getTeamList', getTeamList);
+    useEventBus('getRunningPlan', getRunningPlan);
+    useEventBus('getUserConfig', getUserConfig);
 
     useEffect(() => {
         // 初始化用户统计长连接

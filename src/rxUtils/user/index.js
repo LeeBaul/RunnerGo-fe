@@ -37,15 +37,17 @@ const getLocalUserConfig = async (uuid, a) => {
 
 // 更新用户本地配置信息
 const updateUserLocalConfig = async (settings) => {
-    const userInfo = useSelector((store) => store.user.userInfo);
+    // const team_id = useSelector((store) => store.user.team_id);
     const dispatch = useDispatch();
     // console.log('userConfig!!!', settings);
-    const newInfo = cloneDeep(userInfo);
-    newInfo.team_id = settings.current_team_id;
-
+    // const newInfo = cloneDeep(userInfo);
+    // newInfo.team_id = settings.current_team_id;
+    const team_id = settings.current_team_id;
+    sessionStorage.setItem('team_id', team_id);
+    // console.log(123123123123);
     dispatch({
-        type: 'user/updateUserInfo',
-        payload: newInfo
+        type: 'user/updateTeamId',
+        payload: team_id
     });
 
 
@@ -109,7 +111,7 @@ export const getUserConfig$ = (uuid) => {
 // 获取首页基本信息
 export const getIndexPage$ = () => {
     return from(fetchDashBoardInfo({
-        team_id: window.team_id
+        team_id: sessionStorage.getItem('team_id')
     })).pipe(
         tap((res) => {
             return res;
@@ -120,7 +122,7 @@ export const getIndexPage$ = () => {
 // 获取运行中的计划
 export const getRunningPlan$ = () => {
     const params = {
-        team_id: window.team_id,
+        team_id: sessionStorage.getItem('team_id'),
         page: 1,
         size: 5
     }

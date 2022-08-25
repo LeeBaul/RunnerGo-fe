@@ -16,7 +16,7 @@ const ProjectMember = (props) => {
 
     const removeMember = (member_id) => {
         const params = {
-            team_id: window.team_id,
+            team_id: sessionStorage.getItem('team_id'),
             member_id,
         }
         fetchRemoveMember(params)
@@ -38,7 +38,7 @@ const ProjectMember = (props) => {
 
     const fetchData = () => {
         const query = {
-            team_id: window.team_id
+            team_id: sessionStorage.getItem('team_id')
         }
         fetchTeamMemberList(query)
             .pipe(

@@ -20,7 +20,7 @@ const RecentReport = () => {
         const query = {
             page: 1,
             size: 10,
-            team_id: window.team_id,
+            team_id: sessionStorage.getItem('team_id'),
             keyword: '',
             start_time_sec: '',
             end_time_sec: '',

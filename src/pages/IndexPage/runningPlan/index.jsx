@@ -18,7 +18,7 @@ const RunningPlan = () => {
         let timer = null;
         const loopFetch = () => {
             const params = {
-                team_id: window.team_id,
+                team_id: sessionStorage.getItem('team_id'),
                 page: 1,
                 size: 5
             };

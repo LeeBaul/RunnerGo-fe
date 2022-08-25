@@ -19,6 +19,7 @@ import {
 import { createShareRequest, fetchUserShareList, fetchUserShareSimpleList } from '@services/share';
 import { pushTask } from '@asyncTasks/index';
 import { chunk, cloneDeep, isArray, isString, isUndefined } from 'lodash';
+import { getUserConfig$ } from '../user';
 
 // 创建本地分享信息
 const createLocalShareInfo = async (shareInfo) => {

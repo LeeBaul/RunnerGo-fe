@@ -29,9 +29,9 @@ const HeaderRight = () => {
 
 
     useEffect(() => {
-        global$.next({
-            action: 'INIT_APPLICATION',
-        });
+        // global$.next({
+        //     action: 'INIT_APPLICATION',
+        // });
         // console.log(teamMember, '+++++++++++++++');
         // setMemberList()
         // const query = {
