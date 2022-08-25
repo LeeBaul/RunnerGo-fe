@@ -59,7 +59,7 @@ const Expects = (props) => {
     //   list.push(cloneDeep(EXPECT_ERROR));
     // }
     // return list;
-    console.log('responseExpectList', list);
+    // console.log('responseExpectList', list);
 
     return list;
   }, [data?.response, Object.keys(data?.response).length]);

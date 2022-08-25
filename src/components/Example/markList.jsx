@@ -89,7 +89,6 @@ const MarkList = (props) => {
                   handleChange(rowData, rowIndex, { description: desc });
                 }
               }
-              console.log('失去焦点');
             }}
           />
         );

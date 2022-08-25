@@ -29,7 +29,7 @@ const ApiTabs = (props) => {
         contentRender = () => undefined,
     } = props;
 
-    console.log(Bus);
+    // console.log(Bus);
 
     const [activeId, setActiveId] = useState(defaultTabId);
     const mergedActiveId = 'defaultTabId' in props ? defaultTabId : activeId;

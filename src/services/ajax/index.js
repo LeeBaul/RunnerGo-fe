@@ -32,15 +32,18 @@ export const rxAjax = (
     params,
     query
 ) => {
+    let ignoreUrl = ['/management/api/v1/auth/login'];
     let request = ajax({
         method,
         url: `${RD_BASE_URL}${url}`,
-        headers: {
+        headers: ignoreUrl.includes(url) ? {
             // ...defaultHeaders,
             // token: getCookie('token') || 'NOLOGIN',
-            Authorization: getCookie('token') || 'NOLOGIN',
+            // Authorization: getCookie('token') || '',
             // clientid: sessionStorage.getItem('clientId') || 'NOLOGIN',
             // contentType: ContentType[contentType],
+        } : {
+            Authorization: getCookie('token'),
         },
         body: params,
         queryParams: query,
@@ -80,7 +83,7 @@ export const rxAjax = (
                         isLogin() && Message('error', resp.response?.msg);
                         isLogin() && Bus.$emit('openModal', 'LoginModal');
                     }
-                    console.log('是否登陆', isLogin(), resp.response.code);
+                    // console.log('是否登陆', isLogin(), resp.response.code);
 
                     // 判断登陆状态
                     if (isLogin()) {
@@ -114,7 +117,7 @@ export const rxAjax = (
                 }
                 // 冲突逻辑处理
                 if (resp?.response.code === 10100) {
-                    console.log('error, 冲突啦');
+                    // console.log('error, 冲突啦');
                     const responseUrl = resp.request.url || '';
                     const server_json = resp?.response?.data?.conflict?.server || {};
                     const local_json = JSON.parse(resp?.request?.body);

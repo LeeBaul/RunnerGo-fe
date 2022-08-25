@@ -5,7 +5,6 @@ import { isUndefined } from 'lodash';
 const saveTest = async (taskInfo) => {
     const testInfo = await CombinedProcessTest.get(taskInfo.payload);
     if (isUndefined(testInfo)) {
-        console.log('数据不存在');
         return Promise.resolve();
     }
     return new Promise((resove, reject) => {
@@ -16,7 +15,6 @@ const saveTest = async (taskInfo) => {
         }).subscribe({
             next: async (resp) => {
                 if (resp?.code === 10000) {
-                    console.log('保存成功');
                     resove(resp);
                 } else {
                     reject();

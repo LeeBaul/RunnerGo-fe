@@ -9,15 +9,19 @@ import {
     CaretRight as SvgRun,
 
 } from 'adesign-react/icons';
+import { useNavigate } from 'react-router-dom';
 
 const PlanList = () => {
+
+    const navigate = useNavigate();
+
     const HandleContent = (props) => {
         const { status } = props;
         return (
             <div className='handle-content'>
                 {status === 'running' ? <Button className='stop-btn' preFix={<SvgRun />}>停止</Button> :
                     <Button className='run-btn' preFix={<SvgRun />}>开始</Button>}
-                <SvgEye />
+                <SvgEye onClick={() => navigate('/plan/detail')} />
                 <SvgCopy />
                 <SvgDelete />
             </div>

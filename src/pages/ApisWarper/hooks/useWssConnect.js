@@ -9,7 +9,7 @@ const useWssConnect = () => {
     const socketConnect = async (socket) => {
         const client = new scoketClient('ws', socket); // 建立连接
         client.onconnect(() => {
-            console.log('连接成功');
+            // console.log('连接成功');
             dispatch({
                 type: 'opens/updateWebsocket',
                 id: socket.target_id,
@@ -17,7 +17,7 @@ const useWssConnect = () => {
             });
         });
         client.onclose(() => {
-            console.log('关闭连接');
+            // console.log('关闭连接');
             dispatch({
                 type: 'opens/updateWebsocket',
                 id: socket.target_id,
@@ -25,7 +25,7 @@ const useWssConnect = () => {
             });
         });
         client.onerror(() => {
-            console.log('异常，关闭连接');
+            // console.log('异常，关闭连接');
             dispatch({
                 type: 'opens/updateWebsocket',
                 id: socket.target_id,

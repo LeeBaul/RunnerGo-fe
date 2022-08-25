@@ -159,8 +159,8 @@ const useOpens = () => {
 
     const addOpensByObj = async (Obj, selected = false, callback) => {
         const tempOpenApis = cloneDeep(open_apis);
-        console.log(Obj);
-        console.log(open_apis);
+        // console.log(Obj);
+        // console.log(open_apis);
         tempOpenApis[Obj.target_id] = Obj;
         // await Opens.put(Obj, Obj.target_id).then(() => {
             dispatch({
@@ -175,7 +175,7 @@ const useOpens = () => {
             apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
                 open_navs: openNavs,
             });
-            console.log(apGlobalConfigStore);
+            // console.log(apGlobalConfigStore);
         // });
     };
 
@@ -392,7 +392,7 @@ const useOpens = () => {
     };
 
     const addOpenItem = async (data) => {
-        console.log('添加addOpenItem');
+        // console.log('添加addOpenItem');
 
         const { type, id, pid } = data;
         let newApi = '';
@@ -558,7 +558,7 @@ const useOpens = () => {
                             },
                         });
 
-                        console.log(resp);
+                        // console.log(resp);
                     } else {
                         // 添加异步任务
                         pushTask(

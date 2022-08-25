@@ -5,14 +5,12 @@ import { isUndefined } from 'lodash';
 const saveReport = async (taskInfo) => {
     const reportInfo = await TestReports.get(taskInfo.payload);
     if (isUndefined(reportInfo)) {
-        console.log('数据不存在');
         return Promise.resolve();
     }
     return new Promise((resove, reject) => {
         saveProcessReports({ ...reportInfo, is_socket: 1 }).subscribe({
             next: async (resp) => {
                 if (resp?.code === 10000) {
-                    console.log('保存成功');
                     resove(resp);
                 } else {
                     reject();

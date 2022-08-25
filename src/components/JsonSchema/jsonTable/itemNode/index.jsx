@@ -26,7 +26,6 @@ const ItemNode = (props) => {
   const [expand, setExpand] = useState(false);
 
   const nodeType = getItemType(value);
-  // console.log(nodeKey, '-------', nodeType);
 
   const refKey = useRef(null);
   useEffect(() => {

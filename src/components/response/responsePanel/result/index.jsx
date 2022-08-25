@@ -130,7 +130,7 @@ const RealTimeResult = (props) => {
               <div
                 className="icon-box"
                 onClick={() => {
-                  console.log(response);
+                  // console.log(response);
                   if (response?.fitForShow == 'Monaco') {
                     copyStringToClipboard(response.rawBody, true);
                   } else {

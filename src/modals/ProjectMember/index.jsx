@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Table } from 'adesign-react';
+import { Modal, Button, Table, Message } from 'adesign-react';
 import cn from 'classnames';
 import { ProjectMemberModal, HeaderLeftModal } from './style';
 import avatar from '@assets/logo/avatar.png';
@@ -14,27 +14,36 @@ const ProjectMember = (props) => {
     const [data, setData] = useState([]);
     const [showInvite, setShowInvite] = useState(false);
 
-    const removeMember = (team_id, member_id) => {
+    const removeMember = (member_id) => {
         const params = {
-            team_id,
+            team_id: window.team_id,
             member_id,
         }
         fetchRemoveMember(params)
-        .pipe(
-            tap((res) => {
-                console.log(res);
-            })
-        )
-        .subscribe()
-    }
-    useEffect(() => {
+            .pipe(
+                tap((res) => {
+                    // console.log(res);
+                    const { data, code } = res;
+
+                    if (code === 0) {
+                        Message('success', '移除成功!');
+                        fetchData();
+                    } else {
+                        Message('error', '移除失败!');
+                    }
+                })
+            )
+            .subscribe()
+    };
+
+    const fetchData = () => {
         const query = {
-            team_id: 10
+            team_id: window.team_id
         }
         fetchTeamMemberList(query)
             .pipe(
                 tap((res) => {
-                    console.log(res);
+                    // console.log(res);
                     const { code, data: { members } } = res;
                     if (code === 0) {
                         let dataList = [];
@@ -46,11 +55,11 @@ const ProjectMember = (props) => {
                                 nickname
                             }
                             return {
-                                member: <MemberInfo userInfo={userInfo}  />,
+                                member: <MemberInfo userInfo={userInfo} />,
                                 joinTime: dayjs(join_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                                 // invitedBy: '七七',
                                 stationType: '读写工位',
-                                handle: <p style={{cursor: 'pointer'}} onClick={() => removeMember(item.user_id)}>移除成员</p>,
+                                handle: <p style={{ cursor: 'pointer' }} onClick={() => removeMember(item.user_id)}>移除成员</p>,
                             }
                         });
                         setData(dataList);
@@ -58,6 +67,9 @@ const ProjectMember = (props) => {
                 })
             )
             .subscribe();
+    }
+    useEffect(() => {
+        fetchData();
     }, [])
     const columns = [
         {
@@ -110,7 +122,7 @@ const ProjectMember = (props) => {
 
     return (
         <div>
-            { showInvite && <InvitationModal onCancel={() => setShowInvite(false)} /> }
+            {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
             <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} onCancel={onCancel} >
                 <Table columns={columns} data={data} />
                 {/* <div className='title'>

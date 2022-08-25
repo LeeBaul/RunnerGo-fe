@@ -16,7 +16,6 @@ const pullTeamList = () => {
                         uuid,
                         id: `${teamInfo.team_id}/${uuid}`,
                     }));
-                    console.log('删除原有数据');
                     // 删除原有数据
                     UserTeams.where('uuid').equals(uuid).delete();
                     // 插入现有数据

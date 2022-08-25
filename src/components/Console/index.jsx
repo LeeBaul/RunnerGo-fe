@@ -102,7 +102,6 @@ const Console = (props) => {
     };
 
     const RenderDeep = (cons) => {
-        // console.log('consss', cons);
         const isObj = isObject(cons);
         return (
             <div className="level-item">

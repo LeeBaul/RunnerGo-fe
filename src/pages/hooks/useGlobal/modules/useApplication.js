@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { of } from 'rxjs';
 import { tap, filter, concatMap, map, switchMap, mergeMap } from 'rxjs/operators';
-import { getUserConfig$, getProjectUserList$ } from '@rxUtils/user';
+import { getUserConfig$, getProjectUserList$, getIndexPage$, getRunningPlan$ } from '@rxUtils/user';
 import { getUserTeamList$ } from '@rxUtils/team';
 import { getUserProjectList$, getMultiProjectDetails$ } from '@rxUtils/project';
 import { uploadTasks } from '@rxUtils/task';
@@ -14,18 +14,22 @@ import { getReportList$ } from '@rxUtils/runner/testReports';
 import { getLocalTargets } from '@busLogics/projects';
 import { useEventCallback } from 'rxjs-hooks';
 import { getLocalEnvsDatas } from '@rxUtils/env';
-import { isArray, isPlainObject, cloneDeep } from 'lodash';
+import { isArray, isPlainObject, cloneDeep, concat } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { webSocket } from '@utils/websocket/websocket';
 import WebSocket2 from '@utils/websocket/WebSocket2';
 import { LIVE_SOCKET_URL } from '@config/server';
 import { isElectron } from '@utils';
 import { APP_VERSION } from '@config/base';
+import { fetchTeamMemberList } from '@services/user';
+import Bus, { useEventBus } from '@utils/eventBus';
+
 import { global$ } from '../global';
 
 const useProject = () => {
     const dispatch = useDispatch();
     const userInfo = useSelector((store) => store.user.userInfo);
+    // const userData = useSelector((store) => store.dashboard.userData);
     // 项目初始化完成
     const handleInitProjectFinish = async (project_id) => {
         const apiDatas = await getLocalTargets(project_id);
@@ -50,7 +54,7 @@ const useProject = () => {
 
     // 展示团队列表
     const handleInitTeams = ({ data: { teams } }) => {
-        console.log('展示团队列表', teams);
+        // console.log('展示团队列表', teams);
         const teamData = {};
         teams.length && teams.forEach((data) => {
             teamData[data.team_id] = data;
@@ -75,6 +79,61 @@ const useProject = () => {
     const [getSingleTestList] = useEventCallback(getSingleTestList$);
     const [getCombinedTestList] = useEventCallback(getCombinedTestList$);
     const [getReportList] = useEventCallback(getReportList$);
+
+    // 展示首页基本信息
+    const handleInitIndex = (res) => {
+        // console.log('展示首页基本信息', res);
+        const { data, code } = res;
+        if (code === 0) {
+            const { api_num, plan_num, report_num, scene_num, user, operations } = data;
+            const userData = {
+                api_num,
+                plan_num,
+                report_num,
+                scene_num,
+            };
+            // console.log(0);
+            dispatch({
+                type: 'dashboard/updateUserData',
+                payload: userData
+            });
+            // console.log(1);
+
+            const newInfo = cloneDeep(userInfo);
+            newInfo.email = user.email;
+            newInfo.nickname = user.nickname;
+            newInfo.avatar = user.avatar;
+            newInfo.user_id = user.user_id;
+            newInfo.role_id = user.role_id;
+
+            dispatch({
+                type: 'user/updateUserInfo',
+                payload: newInfo
+            })
+
+            // console.log(2);
+
+
+            dispatch({
+                type: 'teams/updateLogList',
+                payload: operations,
+            })
+
+            // console.log(3);
+
+            // console.log(userInfo, user, newInfo);
+        }
+    }
+
+    // 展示运行中的计划
+    const handleInitRunningPlan = ({ data }) => {
+        // console.log('展示运行中的计划', data);
+        const { plans } = data;
+        dispatch({
+            type: 'plan/updatePlanData',
+            payload: plans
+        })
+    }
 
     // 展示用户配置信息
     const handleInitUserConfig = ({ data }) => {
@@ -144,35 +203,39 @@ const useProject = () => {
         return getUserConfig$(uuid).pipe(
             tap(handleInitUserConfig),
             concatMap((userConfig) => {
-                console.log('用户配置信息获取成功：', userConfig);
+                // console.log('用户配置信息获取成功：', userConfig);
                 // 初始化主题色
                 ininTheme(userConfig);
-                const current_project_id = userConfig?.workspace?.CURRENT_PROJECT_ID || '-1';
-                return of(current_project_id).pipe(
+                const team_id = window.team_id;
+                return of(team_id).pipe(
                     // step1.加载团队列表
                     concatMap(() => getUserTeamList$(uuid).pipe(tap(handleInitTeams))),
                     // step2. 执行异步上传任务
-                    concatMap(() => uploadTasks(current_project_id)),
+                    concatMap(() => getIndexPage$().pipe(tap(handleInitIndex))),
+                    concatMap(() => getRunningPlan$().pipe(tap(handleInitRunningPlan))),
+                    // concatMap(() => uploadTasks(current_project_id)),
                     concatMap(() =>
+                        Bus.$emit('getTeamMemberList'),
                         // step3. 加载项目简要信息列表
-                        getUserProjectList$(uuid, current_project_id).pipe(
-                            tap(handleInitProjects),
-                            map((projects) => (isArray(projects) ? projects.map((d) => d.project_id) : [])),
-                            // step3. 加载项目完整信息,并更新本地全局参数/环境变量等信息
-                            mergeMap((project_ids) => getMultiProjectDetails$(uuid, project_ids))
-                        )
+                        // getUserProjectList$(uuid, current_project_id).pipe(
+                        //     tap(handleInitProjects),
+                        //     map((projects) => (isArray(projects) ? projects.map((d) => d.project_id) : [])),
+                        //     // step3. 加载项目完整信息,并更新本地全局参数/环境变量等信息
+                        //     mergeMap((project_ids) => getMultiProjectDetails$(uuid, project_ids))
+                        // )
+                        
                     ),
                     switchMap(() =>
                         getUserTargetList$(current_project_id).pipe(
                             tap((data) => {
-                                console.log('左侧目录信息获取成功：', data);
+                                // console.log('左侧目录信息获取成功：', data);
                             })
                         )
                     ),
                     // 获取项目下用户信息列表
                     concatMap(() => getProjectUserList$(current_project_id)),
                     tap((res) => {
-                        console.log('当前用户信息列表：', res);
+                        // console.log('当前用户信息列表：', res);
                     }),
                     // 加载分享列表
                     switchMap(() =>
@@ -201,6 +264,7 @@ const useProject = () => {
         );
     };
 
+
     // 初始化用户统计长连接
     const liveSocketInit = () => {
         const webSocket2 = new WebSocket2();
@@ -216,19 +280,56 @@ const useProject = () => {
         return webSocket2;
     };
 
+    // 获取当前团队成员列表
+    const getTeamMemberList = () => {
+        // console.log('获取当前团队成员列表', window.team_id);
+        const query = {
+            team_id: window.team_id,
+        }
+        fetchTeamMemberList(query)
+        .pipe(
+            tap((res) => {
+                // console.log(res);
+                const { code, data: { members } } = res;
+
+                if (code === 0) {
+                    dispatch({
+                        type: 'teams/updateTeamMember',
+                        payload: members
+                    })
+                    // console.log('////////////////', members);
+                }
+            })
+        )
+        .subscribe();
+    }
+
+    useEventBus('getTeamMemberList', getTeamMemberList);
+
+
     useEffect(() => {
         // 初始化用户统计长连接
         const webSocket2 = liveSocketInit();
+
         // 项目初始化
         global$
             .pipe(
                 filter((d) => d?.action === 'INIT_APPLICATION'),
                 tap(() => {
-                    console.log('应用程序初始化-----start=============');
+                    // console.log('应用程序初始化-----start=============');
                 }),
                 switchMap(handleInitApplication)
             )
             .subscribe();
+
+        // global$
+        //     .pipe(
+        //         filter((d) => d.action === 'GET_MEMBERLIST'),
+        //         tap(() => {
+        //             console.log('GET_MEMBERLIST');
+        //         })
+        //     )
+        //     .subscribe();
 
         return () => {
             webSocket2.close();

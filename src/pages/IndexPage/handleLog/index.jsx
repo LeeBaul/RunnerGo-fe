@@ -10,7 +10,7 @@ const HandleLog = (props) => {
     const { logList } = props;
     const [showLog, setShowLog] = useState(false);
 
-    console.log(logList);
+    // console.log(logList);
 
     return (
         <div className='handle-log'>
@@ -26,7 +26,7 @@ const HandleLog = (props) => {
             </div>
             <div className='log-bottom'>
                 {
-                    logList && logList.map((item, index) => (
+                    logList.length > 0 ? logList.map((item, index) => (
                         <div className='log-item' key={index}>
                             <div className='log-item-left'>
                                 <img src={item.avatarUrl || avatar} alt="" />
@@ -40,7 +40,7 @@ const HandleLog = (props) => {
                                 {dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss')}
                             </div>
                         </div>
-                    ))
+                    )) : <p className='empty'>还没有操作日志</p>
                 }
             </div>
             { showLog &&  <TeamworkLogs onCancel={() => setShowLog(false)} />}

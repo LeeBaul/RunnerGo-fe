@@ -6,7 +6,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 const Plan = () => {
 
-    const contentRender = () => {
+    const ContentRender = () => {
         return (
             <Routes>
                 <Route path='list' element={<PlanList />}></Route>
@@ -18,7 +18,7 @@ const Plan = () => {
 
     return (
         <>
-        { contentRender() }
+        { <ContentRender /> }
         </>
     )
 };

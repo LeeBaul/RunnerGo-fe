@@ -19,10 +19,12 @@ const downloadCollections$ = (project_id, serverList) => {
         switchMap((targetIds) => of(...targetIds)),
         map((d) => ({ project_id, target_ids: d })),
         concatMap(multiDownloadCollection),
-        tap((d) => console.log(d, '左侧目录数据拉取中')),
+        tap((d) => {
+            // console.log(d, '左侧目录数据拉取中')
+        }),
         reduce((a, b) => a + 1, 0),
         tap((d) => {
-            console.log(`左侧目录数据加载完成，加载次数：${d}`);
+            // console.log(`左侧目录数据加载完成，加载次数：${d}`);
         })
     );
 };

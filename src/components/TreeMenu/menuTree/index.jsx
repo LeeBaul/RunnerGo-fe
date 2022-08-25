@@ -31,7 +31,7 @@ const MenuTrees = (props, treeRef) => {
         getSelfNodeAndChildKeys,
         selectedNewTreeData,
     } = props;
-    console.log(filteredTreeList, filteredTreeData);
+    // console.log(filteredTreeList, filteredTreeData);
     const treeData = useSelector((d) => d.apis?.apiDatas);
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);

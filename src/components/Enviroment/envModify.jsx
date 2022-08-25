@@ -62,7 +62,6 @@ const EnvModifyModal = (props) => {
       key: k,
       value: globalVars[k],
     }));
-    console.log(varsList);
     setGlobalVarsList(varsList);
   }, [globalVars]);
 

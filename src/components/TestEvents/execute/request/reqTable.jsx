@@ -7,7 +7,7 @@ const ReqTable = (props) => {
   const headerList = [];
   const reqHeader = data?.headers || {};
   for (const key in reqHeader) {
-    console.log(key);
+    // console.log(key);
     if (typeof reqHeader[key] === 'object') {
       for (const it in reqHeader[key]) {
         headerList.push({ key, value: reqHeader[key][it] });

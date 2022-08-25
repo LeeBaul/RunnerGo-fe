@@ -12,14 +12,11 @@ const DropContent = (props) => {
   const { CURRENT_PROJECT_ID } = useSelector((store) => store?.workspace);
   const { AI_DESCRIPTIONS_SWITCH } = useSelector((store) => store?.user?.config);
 
-  console.log('AI_DESCRIPTIONS_SWITCH', AI_DESCRIPTIONS_SWITCH);
-
   const init = async () => {
     const currentProjectInfo = await UserProjects.get(
       `${CURRENT_PROJECT_ID}/${localStorage.getItem('uuid')}`
     );
     const ai_desc = await AIDesc.get('ai_desc');
-    console.log(ai_desc);
 
     const { details } = currentProjectInfo;
     let descList = [];

@@ -330,7 +330,7 @@ const SendEmail = (props) => {
         });
       return data;
     });
-    console.log(teampAddList);
+    // console.log(teampAddList);
     if (!ifSelectAll) {
       teampAddList = [...d, ...teampAddList];
     } else {

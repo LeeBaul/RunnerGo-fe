@@ -50,7 +50,7 @@ const useEnvs = () => {
             .pipe(
                 filter((d) => d?.action === 'SAVE_ENV'),
                 tap(() => {
-                    console.log('保存环境----start');
+                    // console.log('保存环境----start');
                 }),
                 map((d) => d?.payload),
                 tap((d) => saveEnv(d)),

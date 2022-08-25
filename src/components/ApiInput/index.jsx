@@ -25,7 +25,6 @@ const ApiInput = (props) => {
           (lastChar === '{' && secondLastChar === '{' && thirdLastChar !== '{'))
       ) {
         const position = e.target.getBoundingClientRect();
-        console.log(position);
         // const p = getInputPositon(e.target);
         setEnvVisible(true);
         setEnvObj({
@@ -83,7 +82,6 @@ const ApiInput = (props) => {
             }, 100);
           }}
           onChange={(val) => {
-            console.log(val);
             onChange(val);
           }}
         ></EnvVars>

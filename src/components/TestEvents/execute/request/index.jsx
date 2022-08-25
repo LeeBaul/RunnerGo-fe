@@ -15,7 +15,7 @@ const { Tabs, TabPan } = TabComponent;
 
 const Request = (props) => {
   const { value } = props;
-  console.log(value);
+  // console.log(value);
 
   const [activeId, setActiveId] = useState('1');
 

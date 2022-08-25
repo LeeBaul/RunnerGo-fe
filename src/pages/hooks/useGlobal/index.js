@@ -30,9 +30,9 @@ const useGlobal = (props) => {
         const token = getCookie('token');
         const uuid = localStorage.getItem('uuid');
         // 项目初始化
-        global$.next({
-            action: 'INIT_APPLICATION',
-        });
+        // global$.next({
+        //     action: 'INIT_APPLICATION',
+        // });
     }, []);
 };
 

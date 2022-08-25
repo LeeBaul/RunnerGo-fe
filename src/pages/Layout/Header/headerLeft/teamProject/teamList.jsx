@@ -53,12 +53,12 @@ const TeamList = (props) => {
           const { code, data } = res;
           if (code === 0) {
             const { teams } = data;
-            console.log(teams, 6666666666);
+            // console.log(teams, 6666666666);
           
             if (isArray(teams)) {
               setTeamList(teams);
               const teamData = {};
-              console.log(teams, 6666666666);
+              // console.log(teams, 6666666666);
               teams.forEach((data) => {
                 teamData[data.team_id] = data;
               });
@@ -87,7 +87,7 @@ const TeamList = (props) => {
               <SvgTeam className="t-icon" />
               <span className="t-title">{team.name}</span>
               <span className="counts">
-                {filterdProjectList?.filter((d) => d.team_id === team.team_id)?.length}
+                {team.cnt}
               </span>
             </TeamHeader>
           }

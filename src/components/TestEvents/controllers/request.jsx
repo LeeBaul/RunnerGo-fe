@@ -5,7 +5,7 @@ const RequestCtrl = (props) => {
   const { value, onChange } = props;
 
   const handleChange = (key, value) => {
-    console.log(key, value, '999999999');
+    // console.log(key, value, '999999999');
   };
 
   return (

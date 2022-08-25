@@ -1,7 +1,7 @@
 const NAMESPACE = 'plan';
 
 const initialState = {
-  planData: null, // 运行中的计划
+  planData: [], // 运行中的计划
 };
 
 // action名称

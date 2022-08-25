@@ -38,7 +38,7 @@ const heartCheck = {
     self.serverTimeoutObj = setTimeout(function () {
       // 如果超过一定时间还没重置，说明后端主动断开了
       if (WEB_SOCKET != null) {
-        console.log('服务器30秒没有响应，关闭连接');
+        // console.log('服务器30秒没有响应，关闭连接');
         WEB_SOCKET.close();
       }
     }, self.pongTime);
@@ -80,7 +80,7 @@ webSocket.socketInit = () =>
             `${RD_WEBSOCKET_URL}?userToken=${identity}&terminal=${isElectron() ? 'client' : 'web'}`
           );
           WEB_SOCKET.onopen = function (evt) {
-            console.log('连接成功，发送ping');
+            // console.log('连接成功，发送ping');
             WEB_SOCKET.send('PING');
             heartCheck.PingStart();
             heartCheck.reset().PongStart(); // 打开心跳检测
@@ -88,7 +88,7 @@ webSocket.socketInit = () =>
           };
           WEB_SOCKET.onerror = function (err) {
             if (WEB_SOCKET != null) {
-              console.log('异常，关闭连接', err);
+              // console.log('异常，关闭连接', err);
               WEB_SOCKET.close();
             } else {
               webSocket.reconnect(); // 重新连接
@@ -112,7 +112,7 @@ webSocket.socketInit = () =>
               // 连接达上限
               // 参入的数据不是对象 直接返回store
               if (data.code === 2003) {
-                console.log('用户超过最大连接数，将被顶掉');
+                // console.log('用户超过最大连接数，将被顶掉');
                 WEB_SOCKET.close();
                 heartCheck.lockReconnect = true;
               } else if (data.code === 2001) {

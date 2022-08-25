@@ -3,25 +3,25 @@ import store from '../../../../redux/store';
 // 环境变量
 export const environment = {
     has(variableName) {
-        console.log('environment has ', variableName);
+        // console.log('environment has ', variableName);
     },
     get(variableName) {
-        console.log('environment get ', variableName);
+        // console.log('environment get ', variableName);
     },
     set(variableName, variableValue) {
-        console.log('environment set ', variableName, variableValue);
+        // console.log('environment set ', variableName, variableValue);
     },
     replaceIn(variableName, variableValue) {
-        console.log('environment set ', variableName, variableValue);
+        // console.log('environment set ', variableName, variableValue);
     },
     toObject() {
-        console.log('environment set ', {});
+        // console.log('environment set ', {});
     },
     unset(variableName) {
-        console.log('environment unset ', variableName);
+        // console.log('environment unset ', variableName);
     },
     clear() {
-        console.log('environment clear ');
+        // console.log('environment clear ');
     },
 };
 

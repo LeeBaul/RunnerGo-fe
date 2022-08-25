@@ -15,7 +15,7 @@ import ReactFlow, {
 import { nodes as initialNodes, edges as initialEdges } from './mock';
 
 const onLoad = (reactFlowInstance) => {
-    console.log('flow loaded: ', reactFlowInstance);
+    // console.log('flow loaded: ', reactFlowInstance);
     reactFlowInstance.fitView();
 };
 
@@ -51,10 +51,10 @@ const SceneBox = () => {
             // monitor.didDrop()    // 当前容器能否放置拖拽对象
 
             const droptarget = monitor.getDropResult();
-            console.log(droptarget);
+            // console.log(droptarget);
             const top = refBox.current.offsetTop;
             const left = refBox.current.offsetLeft;
-            console.log(top, left);
+            // console.log(top, left);
             // refBox.current.style.top = '100px';
             refBox.current.style.top = (top + droptarget.top) + 'px';
             refBox.current.style.left = (left + droptarget.left) + 'px';
@@ -66,13 +66,13 @@ const SceneBox = () => {
     });
 
     const handleHover = (item, monitor) => {
-        console.log(item, monitor);
-        console.log(refBox.current.getBoundingClientRect());
-        console.log(refBox.current.offsetTop);
+        // console.log(item, monitor);
+        // console.log(refBox.current.getBoundingClientRect());
+        // console.log(refBox.current.offsetTop);
         // refBox.current.offsetTop = 200;
         // refBox.current.style.top = '-10px';
         const clientOffset = monitor.getClientOffset();
-        console.log(clientOffset);
+        // console.log(clientOffset);
     }
 
     const [{ canDrop, isOver }, drop] = useDrop({

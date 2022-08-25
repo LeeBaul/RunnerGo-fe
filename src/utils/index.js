@@ -152,9 +152,9 @@ export const getCookie = IATools.getCookie;
 
 // 保存本地localData数据 token....
 export const saveLocalData = (data) => {
-    console.log(data);
+    // console.log(data);
     const storage = window.localStorage;
-    setCookie('token', data?.token || 'NOLOGIN');
+    setCookie('token', data.token);
     storage.identity = data?.identity || '-1';
     storage.uuid = data?.user?.uuid || '-1';
 };
@@ -394,9 +394,9 @@ export const jsonCompare = (server_json = {}, local_json = {}, type = 'api') => 
             let newList = jsonpath.query(_clone_local_json, k)[0];
             if (newList.length > 0) {
                 newList = newList.filter((ite) => ite.key !== '');
-                console.log(newList);
+                // console.log(newList);
                 jsonpath.apply(_clone_local_json, k, () => newList);
-                console.log(jsonpath.query(_clone_local_json, k));
+                // console.log(jsonpath.query(_clone_local_json, k));
             }
         }
     });
@@ -586,7 +586,7 @@ export const completionWSProtocol = (data) => {
  * 下载文件
  */
 export const download = (data, name, type) => {
-    console.log('下载内容', data, Object.prototype.toString.call(data));
+    // console.log('下载内容', data, Object.prototype.toString.call(data));
 
     const FileSaver = require('file-saver');
     if (!data) {
@@ -1208,7 +1208,7 @@ export const openUrl = (url) => {
         const { shell } = window?.electron || {};
         const token = getCookie('token');
         // BASE_URL/api/uc?url=&token=
-        console.log(`${FE_BASEURL}/api/uc?hash_token=${token}&reffer=${encodeURI(url)}`);
+        // console.log(`${FE_BASEURL}/api/uc?hash_token=${token}&reffer=${encodeURI(url)}`);
         const _res = shell.openExternal(
             `${FE_BASEURL}/api/uc?hash_token=${token}&reffer=${encodeURI(url)}`
         );

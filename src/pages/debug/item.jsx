@@ -19,7 +19,7 @@ const NodeItem = (props) => {
   }
 
 
-  console.log(dataKey,'----',value);
+  // console.log(dataKey,'----',value);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>

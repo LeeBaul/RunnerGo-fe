@@ -13,6 +13,7 @@ import desktopProxyReducer from './desktopProxy';
 import conflictReducer from './conflict';
 import runnerReducer from './runner';
 import plansReducer from './plan';
+import dashBoardReducer from './dashboard';
 
 const reducers = combineReducers({
     apis: apisReducer,
@@ -28,6 +29,7 @@ const reducers = combineReducers({
     console: consoleReducer,
     runner: runnerReducer,
     plan: plansReducer,
+    dashboard: dashBoardReducer,
 });
 
 export default reducers;

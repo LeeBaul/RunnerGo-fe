@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { RoutePages } from './routes';
@@ -18,6 +18,9 @@ const App = () => {
     const { SYSCOMPACTVIEW } = useSelector((store) => store.user.config);
 
     const location = useLocation();
+    const [showLayout, setLayout] = useState(false);
+
+    const ignorePage = ['/login', '/register', '/find']
 
     useEffect(() => {
         // const token = getCookie('token');
@@ -26,7 +29,13 @@ const App = () => {
         // if (!token || isExpire) {
         //     window.location.href = '/login';
         // }
-        
+        // console.log(location);
+        if (!ignorePage.includes(location.pathname)) {
+            setLayout(true)
+        } else if (showLayout) {
+            setLayout(false);
+            window.team_id = undefined;
+        }
     }, [location.pathname])
 
     useGlobal(null);
@@ -35,9 +44,9 @@ const App = () => {
     
     return (
         <>
-            { !(SYSCOMPACTVIEW > 0) && <Header /> }
+            { showLayout && <Header /> }
             <div className='section-page'>
-                { !(SYSCOMPACTVIEW > 0) && <LeftToolbar /> }
+                { showLayout && <LeftToolbar /> }
                 <div className='main-page'>
                     <Routes>
                         {RoutePages.map((d) => (

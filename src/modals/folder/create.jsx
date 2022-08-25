@@ -54,7 +54,7 @@ const CreateFolder = (props) => {
     const [folderName, setFolderName] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
     const [parent_id, setParent_id] = useState('0');
-    console.log(parent_id, "parent_id");
+    // console.log(parent_id, "parent_id");
 
     useEffect(() => {
         const init = () => {
@@ -169,7 +169,7 @@ const CreateFolder = (props) => {
                                     handleChange(rowData, rowIndex, { description: desc });
                                 }
                             }
-                            console.log('失去焦点');
+                            // console.log('失去焦点');
                         }}
                     />
                 );

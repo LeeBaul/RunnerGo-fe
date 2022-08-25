@@ -5,7 +5,6 @@ import isUndefined from 'lodash/isUndefined';
 const saveShareInfo = async (taskInfo) => {
     const shareInfo = await ShareList.get(taskInfo.payload);
     if (isUndefined(shareInfo)) {
-        console.log('数据不存在');
         return Promise.resolve();
     }
     return new Promise((resove, reject) => {
@@ -18,7 +17,6 @@ const saveShareInfo = async (taskInfo) => {
                         is_push: 1,
                     };
                     await ShareList.update(shareInfo.issue_id, newShareInfo);
-                    console.log('保存成功');
                     resove(resp);
                 } else {
                     reject();
@@ -36,7 +34,6 @@ const deleteShareInfo = async (taskInfo) => {
         deleteShareDataRequest(taskInfo.payload).subscribe({
             next: async (resp) => {
                 if (resp?.code === 10000) {
-                    console.log('删除成功');
                     await ShareList.delete(taskInfo?.payload?.issue_id);
                     resove(resp);
                 } else {

@@ -187,7 +187,7 @@ export const getLocalOpensData = async (test_id) => {
     let opensInfo = await SingleOpens.get(test_id);
     if (isUndefined(opensInfo) || opensInfo === null) {
         // opensInfo = await SingleProcessTest.get(test_id);
-        console.log(opensInfo);
+        // console.log(opensInfo);
         await SingleOpens.put(opensInfo);
     }
 
@@ -214,7 +214,7 @@ export const updateLocalSingleTestSort = async (target_list) => {
 export const updateSingleTestSort$ = (params) => {
     const updateSingleTestSortError$ = of(params).pipe(
         tap(() => {
-            console.log('updateSingleTestSort error-----');
+            // console.log('updateSingleTestSort error-----');
         }),
         concatMap(updateLocalSingleTestSort.bind(null, params.target_list)),
         tap(() => {

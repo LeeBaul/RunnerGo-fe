@@ -128,7 +128,7 @@ const WssConsole = (props) => {
     );
   };
   const renderMultiLevelTitle = (item) => {
-    console.log(item, '1232132131');
+    // console.log(item, '1232132131');
     switch (item.action) {
       case 'connect':
         return (

@@ -119,7 +119,7 @@ const useProject = () => {
             // 获取项目下用户信息列表
             concatMap(() => getProjectUserList$(project_id)),
             tap((res) => {
-                console.log('当前用户信息列表：', res);
+                // console.log('当前用户信息列表：', res);
             }),
             // 加载分享列表
             switchMap(() =>
@@ -224,7 +224,7 @@ const useProject = () => {
             .pipe(
                 filter((d) => d?.action === 'SWITCH_PROJECT'),
                 tap(() => {
-                    console.log('切换项目----start==========');
+                    // console.log('切换项目----start==========');
                 }),
                 map((d) => d?.payload),
                 switchMap(handleSwitchProject),

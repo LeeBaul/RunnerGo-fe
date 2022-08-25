@@ -12,7 +12,6 @@ is_force：是否强制保存，忽略版本检查
 isAutoRun： 添加任务后是否自动执行任务1执行 -1不执行
 */
 export const pushTask = (taskInfo, isAutoRun = 1, is_force = -1) => {
-    console.log('push task', taskInfo);
 
     const { task_id = '' } = taskInfo;
 
@@ -28,7 +27,6 @@ export const pushTask = (taskInfo, isAutoRun = 1, is_force = -1) => {
     };
     task.sort = dayjs().unix() * (4 - MODEL_LEVEL[task.model]) * (4 - ACTION_LEVEL[task.action]);
     if (isUndefined(MODEL_LEVEL[task.model]) || isUndefined(ACTION_LEVEL[task.action])) {
-        console.log('任务优先级未定义');
         return;
     }
 

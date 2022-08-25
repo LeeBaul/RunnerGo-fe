@@ -1,32 +1,26 @@
 import React from 'react';
 import './index.less';
-import ReportHeader from './reportHeader';
-import ReportExecutor from './reportExecutor';
-import ReportDetail from './reportDetail';
-import { Tabs as TabList } from 'adesign-react';
-import { TabStyle } from './style';
+import ReportList from './reportList';
+import ReportContent from './reportContent';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-const { Tabs, TabPan } = TabList;
 
 const Report = () => {
 
-    const defaultList = [
-        { id: '1', title: '新建标题1', content: <ReportDetail /> },
-        { id: '2', title: '新建标题2', content: '新建内容2' },
-        { id: '3', title: '新建标题3', content: '新建内容3' },
-    ];
+    const ContentRender = () => {
+        return (
+            <Routes>
+                <Route path='list' element={<ReportList />}></Route>
+                <Route path='detail' element={<ReportContent />}></Route>
+                <Route path='/*' element={<Navigate to="/report/list" />}></Route>
+            </Routes>
+        )
+    }
+
     return (
-        <div className='report'>
-            <ReportHeader />
-            <ReportExecutor />
-            <Tabs type="card" className={TabStyle} defaultActiveId="1">
-                {defaultList.map((d) => (
-                    <TabPan key={d.id} id={d.id} title={d.title}>
-                        {d.content}
-                    </TabPan>
-                ))}
-            </Tabs>
-        </div>
+        <>
+            <ContentRender />
+        </>
     )
 };
 

@@ -211,7 +211,7 @@ const addCreateShareTask = (shareInfo) => {
 export const createShareInfo = (shareInfo) => {
     const createShareError$ = of(shareInfo).pipe(
         tap(() => {
-            console.log('create share error-----');
+            // console.log('create share error-----');
         }),
         concatMap(createLocalShareInfo),
         tap(() => addCreateShareTask(shareInfo)),
@@ -246,7 +246,7 @@ const deleteLocalData = async (issue_id) => {
         //     status: 0,
         // });
         //  await ShareList.delete(issue_id);
-        console.log('local-delete ok');
+        // console.log('local-delete ok');
     }
     return enableDelete;
 };
@@ -260,7 +260,7 @@ const pushTaskForDeleteShare = ({ issue_id, project_id, shareName }) => {
         project_id,
         task_id: issue_id,
     });
-    console.log('push async task delete');
+    // console.log('push async task delete');
 };
 
 // 删除本地分享

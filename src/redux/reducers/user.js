@@ -26,7 +26,7 @@ export const userReducer = (state = initialState, action) => {
         case `${NAMESPACE}/${actionTypes.updateConfig}`:
             return { ...state, config: action.payload };
         case `${NAMESPACE}/${actionTypes.updateUserInfo}`:
-            console.log('redux/user', action);
+            // console.log('redux/user', action);
             return { ...state, userInfo: action.payload };
         default:
             return state;

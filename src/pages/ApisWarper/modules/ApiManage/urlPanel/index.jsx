@@ -59,7 +59,7 @@ const ApiURLPanel = (props) => {
                                 className="drop-item"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    console.log('发送并保存响应');
+                                    // console.log('发送并保存响应');
                                     apiSend(data, true);
                                     isFunction(refDropdown?.current?.setPopupVisible) &&
                                         refDropdown.current.setPopupVisible(false);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode.react';
 import cn from 'classnames';
 import { from } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
+import { tap, filter, map, concatMap } from 'rxjs/operators';
 import { Input, Button, CheckBox, Message } from 'adesign-react';
 import WxiconSvg from '@assets/login/wxicon.svg';
 import logoImg from '@assets/logo/qrlogo.png';
@@ -40,6 +40,7 @@ const LoginBox = (props) => {
   const [captchaObj, setCaptchaObj] = useState(null);
   // 获取用户全局配置
   const config = useSelector((store) => store.user.config);
+  const dispatch = useDispatch();
   // 获取极验内容
   const getVcodeUrl = async () => {
     const { result, captcha } = await getVcodefun();
@@ -48,6 +49,7 @@ const LoginBox = (props) => {
   };
 
   useEffect(() => {
+    // console.log(window.team_id);
     if (panelType === 'email') {
       getVcodeUrl();
       clearInterval(wxCodeTimer);
@@ -87,9 +89,9 @@ const LoginBox = (props) => {
                     onCancel();
                   }),
                   tap(() => {
-                    global$.next({
-                      action: 'INIT_APPLICATION',
-                    });
+                    // global$.next({
+                    //   action: 'INIT_APPLICATION',
+                    // });
                   })
                 )
                 .subscribe();
@@ -152,7 +154,7 @@ const LoginBox = (props) => {
     })
       .pipe(
         tap((resp) => {
-          console.log(resp);
+          // console.log(resp);
           if (resp.code !== 10000) {
             captchaObj && captchaObj?.destroy();
             getVcodeUrl();
@@ -163,19 +165,18 @@ const LoginBox = (props) => {
         // filter((resp) => resp.code === 10000),
         map((resp) => resp.data),
         tap((userData) => {
-          console.log(userData);
+          // console.log(userData);
           saveLocalData(userData);
           localStorage.setItem('expire_time_sec', userData.expire_time_sec * 1000);
           Message('success', '登录成功!');
-          navigate('/index');
+
           const newConfig = cloneDeep(config);
           newConfig.SYSCOMPACTVIEW = -1;
           dispatch({
             type: 'user/updateConfig',
             payload: newConfig
-          })
-          
-          
+          });
+                  
           // 关闭弹窗
           // onCancel();
         }),
@@ -183,6 +184,9 @@ const LoginBox = (props) => {
           global$.next({
             action: 'INIT_APPLICATION',
           });
+        }),
+        tap(() => {
+          navigate('/index');
         })
       )
       .subscribe();
@@ -214,7 +218,7 @@ const LoginBox = (props) => {
           <div
             className={cn({ 'tabs-item': true, active: panelType === 'wxCode' })}
             onClick={() => {
-              console.log(123123123);
+              // console.log(123123123);
               setPanelType('wxCode');
             }}
           >

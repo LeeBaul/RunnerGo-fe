@@ -24,8 +24,6 @@ const useEnvs = (props) => {
   const saveEnvs = async (saveObj  ) => {
     const { envData, envList, env_id, callback = null } = saveObj;
 
-    console.log(envData, envList);
-
     const newlistDatas = {};
     envList.forEach((envItem) => {
       const { key, ...restData } = envItem;

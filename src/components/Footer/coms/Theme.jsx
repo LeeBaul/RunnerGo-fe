@@ -10,7 +10,6 @@ const Help = () => {
   const { config } = useSelector((d) => d?.user);
   const dispatch = useDispatch();
 
-  console.log(config, 'configggg');
 
   const themeList = [
     {
@@ -49,7 +48,6 @@ const Help = () => {
       linkThemeName = 'default';
     }
     const url = `/skins/${linkThemeName}.css`;
-    console.log(linkThemeName);
     document.querySelector(`link[name="apt-template-link"]`).setAttribute('href', url);
     Bus.$emit('saveUserConfig');
   };

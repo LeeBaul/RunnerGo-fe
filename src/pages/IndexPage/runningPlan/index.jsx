@@ -8,17 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const RunningPlan = () => {
     const navigate = useNavigate();
-    const [planList, setPlanList] = useState([]);
+    const planData = useSelector((store) => store.plan.planData);
+    const [planList, setPlanList] = useState(planData);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const params = {
-            team_id: 13,
-            page: 1,
-            size: 5
-        };
+ 
         let timer = null;
         const loopFetch = () => {
+            const params = {
+                team_id: window.team_id,
+                page: 1,
+                size: 5
+            };
             fetchRunningPlan(params)
                 .pipe(
                     tap((res) => {
@@ -37,7 +40,6 @@ const RunningPlan = () => {
                     })
                 ).subscribe();
         };
-        loopFetch();
         timer = setInterval(() => {
             loopFetch();
         },  5000);
@@ -60,7 +62,7 @@ const RunningPlan = () => {
             </div>
             <div className='running-bottom'>
                 {
-                    planList.map((item, index) => (
+                    planList.length ?  planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
                             <p>运行中</p>
                             <div className='progress'>
@@ -78,6 +80,7 @@ const RunningPlan = () => {
                             <p>查看详情</p>
                         </div>
                     ))
+                    : <p className='empty'>还没有运行中</p>
                 }
             </div>
         </div>

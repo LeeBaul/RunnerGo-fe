@@ -22,9 +22,9 @@ const TeamProject = () => {
 
     const currentTeamName = useMemo(() => {
         // let teamName = '离线团队';
-        console.log(userTeams, 'userTeams');
+        // console.log(userTeams, 'userTeams');
         let team_id = window.team_id;
-        let teamName = userTeams ?  userTeams[team_id].name : '离线团队';
+        let teamName = userTeams[team_id] ?  userTeams[team_id].name : '离线团队';
         // if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
         //     teamName = userTeams?.[currentTeamId]?.name;
         // }
@@ -56,7 +56,7 @@ const TeamProject = () => {
                 content={
                     <DropdownContainer>
                         <div className="header">
-                            <span>团队/项目</span>
+                            <span>团队</span>
                             {/* <a href={USER_PROJECT_URL} target="_blank" rel="noreferrer">
                                 <Button
                                     preFix={<SvgStartupteam width="16" height="16" className="perfix" />}

@@ -22,6 +22,7 @@ import PaymentModal from './Payment/modal';
 import PayAddSuccessModal from './PayAddSuccessModal';
 
 import { fetchInviteMember } from '@services/user';
+import Bus from '@utils/eventBus';
 import { tap } from 'rxjs';
 
 const Option = Select.Option;
@@ -30,7 +31,7 @@ const InvitationModal = (props) => {
   const team_id = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
   const userInfo = useSelector((store) => store.user.userInfo);
 
-  console.log(userInfo, 'userInfo++++');
+  // console.log(userInfo, 'userInfo++++');
 
   const { projectInfoAll, onCancel } = props;
 
@@ -336,7 +337,7 @@ const InvitationModal = (props) => {
         });
       return data;
     });
-    console.log(teampAddList);
+    // console.log(teampAddList);
     if (!ifSelectAll) {
       teampAddList = [...d, ...teampAddList];
     } else {
@@ -381,6 +382,8 @@ const InvitationModal = (props) => {
       
         if (code === 0) {
           Message('success', '邀请成功!');
+          Bus.$emit('getTeamMemberList');
+          setAddList([]);
         } else {
           Message('error', '邀请失败!');
         }

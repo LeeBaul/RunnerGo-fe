@@ -151,7 +151,7 @@ const RegisterBox = (props) => {
         })
             .pipe(
                 tap((resp) => {
-                    console.log(resp);
+                    // console.log(resp);
                     const { data: { token, expire_time_sec }, code } = resp;
                     if (code === 0) {
                         localStorage.setItem('token', token);
@@ -170,7 +170,7 @@ const RegisterBox = (props) => {
                 filter((resp) => resp.code === 10000),
                 map((resp) => resp.data),
                 tap((userData) => {
-                    console.log(userData);
+                    // console.log(userData);
                     saveLocalData(userData);
                     // 关闭弹窗
                     onCancel();

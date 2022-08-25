@@ -4,7 +4,7 @@ import { isLogin } from '@utils/common';
 import { v4 as uuidV4 } from 'uuid';
 // import { User, UserList } from '@indexedDB/user';
 import { fetchUserConfig, fetchProjectUserListRequest } from '@services/user';
-import { fetchDashBoardInfo } from '@services/dashboard';
+import { fetchDashBoardInfo, fetchRunningPlan } from '@services/dashboard';
 import isUndefined from 'lodash/isUndefined';
 import { USER_CONFIG } from '@constants/userConfig';
 // import { IUser } from '@models/user/user';
@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // 获取用户配置信息 若获取不到，则创建用户默认配置
 const getLocalUserConfig = async (uuid, a) => {
-    console.log('error!!!!!!!', a)
+    // console.log('error!!!!!!!', a)
     // let userConfig = await User.get(uuid);
     const defaultProjectId = uuidV4();
 
@@ -39,7 +39,7 @@ const getLocalUserConfig = async (uuid, a) => {
 const updateUserLocalConfig = async (settings) => {
     const userInfo = useSelector((store) => store.user.userInfo);
     const dispatch = useDispatch();
-    console.log('userConfig!!!', settings);
+    // console.log('userConfig!!!', settings);
     const newInfo = cloneDeep(userInfo);
     newInfo.team_id = settings.current_team_id;
 
@@ -88,12 +88,12 @@ const updateUserLocalConfig = async (settings) => {
 
 // 获取用户配置信息
 export const getUserConfig$ = (uuid) => {
-    console.log(123123123, isLogin());
+    // console.log(123123123, isLogin());
     // return iif(
         // isLogin(),
     return from(fetchUserConfig()).pipe(
             tap((res) => {
-                console.log(res, '----------');
+                // console.log(res, '----------');
                 if (res?.code === 0) {
                     return updateUserLocalConfig(res.data);
                 }
@@ -105,6 +105,31 @@ export const getUserConfig$ = (uuid) => {
         // of('').pipe(mergeMap(() => getLocalUserConfig(uuid)))
     // );
 };
+
+// 获取首页基本信息
+export const getIndexPage$ = () => {
+    return from(fetchDashBoardInfo({
+        team_id: window.team_id
+    })).pipe(
+        tap((res) => {
+            return res;
+        })
+    )
+}
+
+// 获取运行中的计划
+export const getRunningPlan$ = () => {
+    const params = {
+        team_id: window.team_id,
+        page: 1,
+        size: 5
+    }
+    return from(fetchRunningPlan(params)).pipe(
+        tap(res => {
+            return res;
+        })
+    )
+}
 
 // 更新本地用户列表信息
 export const updateProjectUserList = async (userList) => {

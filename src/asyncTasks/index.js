@@ -28,7 +28,6 @@ const restoreAwaitTask = async () => {
 };
 
 export const taskInit = async () => {
-    console.log('task init');
     if (ASYNC_TIMER.auto_await2now_interval) {
         clearInterval(ASYNC_TIMER.auto_await2now_interval);
     }

@@ -31,7 +31,6 @@ const ObjectItem = (props) => {
     });
     if (!isEqual) {
       setItemKeys([...tempKeys]);
-      // console.log(tempKeys, '11111');
     }
   }, [nodeValue?.properties]);
 

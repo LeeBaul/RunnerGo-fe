@@ -43,7 +43,7 @@ export const getUserTeamList$ = (uuid) => {
         isLogin,
         fetchTeamList().pipe(
             tap((res) => {
-                console.log(res, 'teammmmmmmmmmmmm');
+                // console.log(res, 'teammmmmmmmmmmmm');
                 return res;
                 // if (res.code === 0) {
                 //     return from(updateLocalTeamList(uuid, res.data)).pipe(

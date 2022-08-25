@@ -196,7 +196,7 @@ export const updateLocalCombinedTestSort = async (target_list) => {
 export const updateCombinedTestSort$ = (params) => {
     const updateCombinedTestSortError$ = of(params).pipe(
         tap(() => {
-            console.log('update Combined Test Sort error-----');
+            // console.log('update Combined Test Sort error-----');
         }),
         concatMap(updateLocalCombinedTestSort.bind(null, params.target_list)),
         tap(() => {

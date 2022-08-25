@@ -37,7 +37,7 @@ const TeamworkLogs = (props) => {
     };
 
     const query = {
-      team_id: 9,
+      team_id: window.team_id,
       page: 1,
       size: 20
     }
@@ -77,7 +77,7 @@ const TeamworkLogs = (props) => {
                 }
               }
             });
-            console.log(list);
+            // console.log(list);
             setList(list);
           }
         })
@@ -115,7 +115,7 @@ const TeamworkLogs = (props) => {
         newArr[index].data.push(it);
       }
     });
-    console.log(newArr);
+    // console.log(newArr);
     return newArr;
   };
 

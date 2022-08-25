@@ -9,16 +9,18 @@ import {
 import { fetchReportList } from '@services/report';
 import { tap } from 'rxjs';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 const RecentReport = () => {
 
     const [reportList, setReportList] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const query = {
             page: 1,
             size: 10,
-            team_id: 9,
+            team_id: window.team_id,
             keyword: '',
             start_time_sec: '',
             end_time_sec: '',
@@ -52,7 +54,7 @@ const RecentReport = () => {
     const HandleContent = () => {
         return (
             <div className='handle-content'>
-                <SvgEye />
+                <SvgEye onClick={() => navigate('/report/detail')} />
                 <SvgExport />
                 <SvgDelete className='delete' />
             </div>
@@ -97,7 +99,7 @@ const RecentReport = () => {
         <div className='recent-report'>
             <p className='title'>近期测试报告</p>
             <div className='report-search'></div>
-            <Table className="report-table" showBorder columns={columns} data={reportList} />
+            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<p className='empty'>还没有数据</p>} />
         </div>
     )
 };
