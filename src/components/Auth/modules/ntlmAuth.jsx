@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'adesign-react';
-import { ntlmPlacrholder } from '@constants/Auth';
+import { ntlmPlacrholder } from '@constants/auth';
 import AuthInput from '../authInput';
 
 const NtlmAuth = (props) => {

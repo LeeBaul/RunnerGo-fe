@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'adesign-react';
-import { edgegridPlaceholder } from '@constants/Auth';
+import { edgegridPlaceholder } from '@constants/auth';
 import AuthInput from '../authInput';
 
 const EdgeridAuth = (props) => {

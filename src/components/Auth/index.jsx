@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Select } from 'adesign-react';
-import { AUTH, defaultAuth } from '@constants/Auth';
+import { AUTH, defaultAuth } from '@constants/auth';
 import OAuth1 from './modules/OAuth1';
 import { AuthWrapper } from './style';
 import KvAuth from './modules/kvAuth';

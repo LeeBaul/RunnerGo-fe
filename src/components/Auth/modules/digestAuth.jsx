@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Select } from 'adesign-react';
-import { digestPlaceholder, digestAlgorithmOptions } from '@constants/Auth';
+import { digestPlaceholder, digestAlgorithmOptions } from '@constants/auth';
 import AuthInput from '../authInput';
 
 const Option = Select.Option;

@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Input } from 'adesign-react';
-import { awsPlaceholder } from '@constants/Auth';
+import { awsPlaceholder } from '@constants/auth';
 import AuthInput from '../authInput';
 
 const AWSAuth = (props) => {

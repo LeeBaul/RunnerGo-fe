@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Select } from 'adesign-react';
-import { hawkPlaceholder, hawkAlgotithOptions } from '@constants/Auth';
+import { hawkPlaceholder, hawkAlgotithOptions } from '@constants/auth';
 import AuthInput from '../authInput';
 
 const Option = Select.Option;

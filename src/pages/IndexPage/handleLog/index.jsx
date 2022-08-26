@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './index.less';
 import { Apis as SvgApis, Right as SvgRight } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
-import HandleTag from '@components/HandleTag';
+// import HandleTag from '@components/HandleTag';
 import TeamworkLogs from '@modals/TeamworkLogs';
 import dayjs from 'dayjs';
 

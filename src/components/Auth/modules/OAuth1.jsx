@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Select, Input, CheckBox } from 'adesign-react';
 import { Down as DownSvg, Right as RightSvg } from 'adesign-react/icons';
-import { OAuth1MethodsOptions } from '@constants/Auth';
+import { OAuth1MethodsOptions } from '@constants/auth';
 
 const Option = Select.Option;
 const Textarea = Input.Textarea;
