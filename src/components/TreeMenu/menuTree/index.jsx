@@ -22,6 +22,15 @@ import Example from './example';
 import MenuStatus from './menuStatus';
 import './index.less';
 
+const NodeType = {
+    api: SvgApis,
+    doc: SvgDoc,
+    websocket: SvgWebSocket,
+    folder: SvgFolder,
+    grpc: GrpcSvg,
+};
+
+
 const MenuTrees = (props, treeRef) => {
     const {
         selectedKeys,
@@ -31,7 +40,7 @@ const MenuTrees = (props, treeRef) => {
         getSelfNodeAndChildKeys,
         selectedNewTreeData,
     } = props;
-    // console.log(filteredTreeList, filteredTreeData);
+    console.log(filteredTreeList, filteredTreeData, '66666666666666');
     const treeData = useSelector((d) => d.apis?.apiDatas);
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
@@ -150,6 +159,7 @@ const MenuTrees = (props, treeRef) => {
     };
 
     const renderTreeNode = (nodeItem, { indent, nodeTitle }) => {
+        console.log(nodeItem, 'nodeItem');
         return (
             <MenuTreeNode>
                 <DragNode
@@ -223,6 +233,7 @@ const MenuTrees = (props, treeRef) => {
         setSelectedKeys(newList);
     };
 
+
     return (
         <DndProvider backend={HTML5Backend}>
             <Tree
@@ -234,7 +245,7 @@ const MenuTrees = (props, treeRef) => {
                 defaultExpandKeys={defaultExpandKeys}
                 onExpandKeysChange={handleExpandsChange}
                 onMultiSelect={handleMultiSelect}
-                onOutSideClick={setSelectedKeys ? setSelectedKeys.bind(null, []) : () => {}}
+                onOutSideClick={setSelectedKeys ? setSelectedKeys.bind(null, []) : () => { }}
                 nodeSort={(pre, after) => pre.sort - after.sort}
                 selectedKeys={selectedKeys}
                 className="menu-tree"
@@ -247,34 +258,34 @@ const MenuTrees = (props, treeRef) => {
                 enableVirtualList
                 dataList={filteredTreeList}
                 render={renderTreeNode}
-                onNodeClick={(val) => {
-                    if (val?.target_type == 'folder') {
-                        User.get(uuid || '-1')
-                            .then((user) => {
-                                if (isPlainObject(user.config) && user.config?.FOLDER_CLICK_SETTING > 0) {
-                                    if (!isString(val?.target_id)) return;
-                                    // 目录展开
-                                    let newKeys = [];
-                                    if (defaultExpandKeys.includes(val.target_id)) {
-                                        newKeys = defaultExpandKeys.filter((i) => i !== val.target_id);
-                                    } else {
-                                        newKeys = [...defaultExpandKeys, val.target_id];
-                                    }
+                // onNodeClick={(val) => {
+                //     if (val?.target_type == 'folder') {
+                //         User.get(uuid || '-1')
+                //             .then((user) => {
+                //                 if (isPlainObject(user.config) && user.config?.FOLDER_CLICK_SETTING > 0) {
+                //                     if (!isString(val?.target_id)) return;
+                //                     // 目录展开
+                //                     let newKeys = [];
+                //                     if (defaultExpandKeys.includes(val.target_id)) {
+                //                         newKeys = defaultExpandKeys.filter((i) => i !== val.target_id);
+                //                     } else {
+                //                         newKeys = [...defaultExpandKeys, val.target_id];
+                //                     }
 
-                                    setDefaultExpandKeys(newKeys);
-                                    setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.CURRENT_EXPAND_KEYS`, newKeys);
-                                } else {
-                                    Bus.$emit('addOpenItem', { id: val?.target_id });
-                                }
-                            })
-                            .catch(() => {
-                                Bus.$emit('addOpenItem', { id: val?.target_id });
-                            });
-                    } else {
-                        Bus.$emit('addOpenItem', { id: val?.target_id });
-                    }
-                }}
-                rootFilter={(item) => item.parent_id === '0'}
+                //                     setDefaultExpandKeys(newKeys);
+                //                     setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.CURRENT_EXPAND_KEYS`, newKeys);
+                //                 } else {
+                //                     Bus.$emit('addOpenItem', { id: val?.target_id });
+                //                 }
+                //             })
+                //             .catch(() => {
+                //                 Bus.$emit('addOpenItem', { id: val?.target_id });
+                //             });
+                //     } else {
+                //         Bus.$emit('addOpenItem', { id: val?.target_id });
+                //     }
+                // }}
+                rootFilter={(item) => item.parent_id === 0}
             />
         </DndProvider>
     );

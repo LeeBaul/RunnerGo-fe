@@ -473,16 +473,15 @@ const InvitationModal = (props) => {
                 <Input
                   value={inputValue}
                   placeholder="请输入被邀请人邮箱"
-                  inputStyle={{ width: '80%' }}
+                  // inputStyle={{ width: '80%' }}
                   onChange={(val) => setInputValue(val)}
                   maxLength={30}
-                  onPressEnter={() => changeTeamInvitation('add')}
+                  // onPressEnter={() => changeTeamInvitation('add')}
                 />
-                <Select  onChange={(key) => setSelectValue(key)}>
-                  {/* {renderOptions()} */}
+                {/* <Select  onChange={(key) => setSelectValue(key)}>
                   <Option value="admin">管理员</Option>
                   <Option value="common">普通用户</Option>
-                </Select>
+                </Select> */}
                 <Button
                   type="primary"
                   className="apipost-blue-btn"
@@ -500,7 +499,7 @@ const InvitationModal = (props) => {
                           value={item.email}
                           readonly
                           placeholder=""
-                          inputStyle={{ width: '90%' }}
+                          // inputStyle={{ width: '90%' }}
                         />
                         <div
                           className="api-close-btn"
@@ -521,14 +520,15 @@ const InvitationModal = (props) => {
                         value={item.power}
                         onChange={(key) => {
                           item.power = key;
-                          changeTeamInvitation('change', item);
+                          // changeTeamInvitation('change', item);
                         }}
                       >
-                        {renderOptions()}
-                        {/* <Option value="admin">超管</Option> */}
+                        {/* {renderOptions()} */}
+                        <Option value="admin">管理员</Option>
+                        <Option value="common">成员</Option>
                       </Select>
                     </span>
-                    {computeStation(item)}
+                    {/* {computeStation(item)} */}
                   </div>
                 ))}
               </div>
@@ -574,8 +574,9 @@ const InvitationModal = (props) => {
             <div className="team-inviation-footer-l">
               <span className="know-link-people">知道链接的人</span>
               <Select value={linkPower} onChange={(key) => setLinkPower(key)}>
-                {renderOptions()}
-                {/* <Option value="admin">超管</Option> */}
+                {/* {renderOptions()} */}
+                <Option value="admin">管理员</Option>
+                <Option value="common">成员</Option>
               </Select>
               <div
                 className="team-inviation-link"

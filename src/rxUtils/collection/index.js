@@ -1,6 +1,6 @@
 import { from, iif, of, tap, reduce } from 'rxjs';
 import { mergeMap, switchMap, concatMap, map, delay, catchError } from 'rxjs/operators';
-import { fetchTargetIdsRequest } from '@services/apis';
+import { fetchTargetIdsRequest, fetchApiList } from '@services/apis';
 // import { IBaseCollection } from '@models/collection';
 import { isLogin } from '@utils/common';
 import isArray from 'lodash/isArray';
@@ -75,4 +75,12 @@ export const getAllEffectCollections = async (project_id, target_Ids) => {
         digFindParent(target_id);
     }
     return Object.values(resultObj);
+};
+
+export const getApiList$ = (params) => {
+    return from(fetchApiList(params)).pipe(
+        tap(res => {
+            return res;
+        })
+    )
 };

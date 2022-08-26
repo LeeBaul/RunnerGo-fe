@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import { getPathExpressionObj } from '@constants/pathExpression';
 import Bus from '@utils/eventBus';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isObject } from 'lodash';
 import ApiManage from './modules/ApiManage';
 import GrpcManage from './modules/GrpcManage';
@@ -37,10 +37,18 @@ const renderElement = (data, temp_apis, websockets, onTargetChange) => {
 const Apis = (props) => {
     const { tabsList, activeId } = props;
     const opens = useSelector((store) => store.opens ? store.opens : {});
-    const { temp_apis, websockets } = opens;
+    const dispatch = useDispatch();
+    const { temp_apis, websockets, open_api_now } = opens;
 
     const onTargetChange = (id, type, value, extension) => {
         // 统一修改
+        if (open_api_now !== id) {
+            dispatch({
+                type: 'opens/updateOpenApiNow',
+                payload: id
+            })
+        };
+        console.log(id, type, value, extension, temp_apis, 111);
         Bus.$emit('updateTarget', {
             target_id: id,
             pathExpression: getPathExpressionObj(type, extension),

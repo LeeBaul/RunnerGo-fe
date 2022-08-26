@@ -6,7 +6,7 @@ import { getUserConfig$, getProjectUserList$, getIndexPage$, getRunningPlan$ } f
 import { getUserTeamList$ } from '@rxUtils/team';
 import { getUserProjectList$, getMultiProjectDetails$ } from '@rxUtils/project';
 import { uploadTasks } from '@rxUtils/task';
-import { getUserTargetList$ } from '@rxUtils/collection';
+import { getUserTargetList$, getApiList$ } from '@rxUtils/collection';
 import { getShareList } from '@rxUtils/share';
 import { getSingleTestList$ } from '@rxUtils/runner/singleTest';
 import { getCombinedTestList$ } from '@rxUtils/runner/combinedTest';
@@ -29,6 +29,7 @@ import { fetchDashBoardInfo, fetchRunningPlan } from '@services/dashboard';
 
 
 import { global$ } from '../global';
+import { Message } from 'adesign-react';
 
 const useProject = () => {
     const dispatch = useDispatch();
@@ -137,7 +138,9 @@ const useProject = () => {
         dispatch({
             type: 'plan/updatePlanData',
             payload: plans
-        })
+        });
+
+        Bus.$emit('getTeamMemberList')
     }
 
     // 展示用户配置信息
@@ -207,6 +210,12 @@ const useProject = () => {
             document.querySelector(`link[name="apt-template-link"]`).setAttribute('href', url);
         };
 
+        const apiListParams = {
+            page: 1,
+            size: 20,
+            team_id: sessionStorage.getItem('team_id'),
+        };
+
         return getUserConfig$(uuid).pipe(
             tap(handleInitUserConfig),
             concatMap((userConfig) => {
@@ -220,48 +229,49 @@ const useProject = () => {
                     // step2. 执行异步上传任务
                     concatMap(() => getIndexPage$().pipe(tap(handleInitIndex))),
                     concatMap(() => getRunningPlan$().pipe(tap(handleInitRunningPlan))),
+                    concatMap(() => getApiList$(apiListParams).pipe(tap(handleInitApiList))),
                     // concatMap(() => uploadTasks(current_project_id)),
-                    concatMap(() =>
-                        Bus.$emit('getTeamMemberList'),
-                        // step3. 加载项目简要信息列表
-                        // getUserProjectList$(uuid, current_project_id).pipe(
-                        //     tap(handleInitProjects),
-                        //     map((projects) => (isArray(projects) ? projects.map((d) => d.project_id) : [])),
-                        //     // step3. 加载项目完整信息,并更新本地全局参数/环境变量等信息
-                        //     mergeMap((project_ids) => getMultiProjectDetails$(uuid, project_ids))
-                        // )
+                    // concatMap(() =>
+                    //     Bus.$emit('getTeamMemberList'),
+                    //     // step3. 加载项目简要信息列表
+                    //     // getUserProjectList$(uuid, current_project_id).pipe(
+                    //     //     tap(handleInitProjects),
+                    //     //     map((projects) => (isArray(projects) ? projects.map((d) => d.project_id) : [])),
+                    //     //     // step3. 加载项目完整信息,并更新本地全局参数/环境变量等信息
+                    //     //     mergeMap((project_ids) => getMultiProjectDetails$(uuid, project_ids))
+                    //     // )
                         
-                    ),
-                    switchMap(() =>
-                        getUserTargetList$(current_project_id).pipe(
-                            tap((data) => {
-                                // console.log('左侧目录信息获取成功：', data);
-                            })
-                        )
-                    ),
+                    // ),
+                    // switchMap(() =>
+                    //     getUserTargetList$(current_project_id).pipe(
+                    //         tap((data) => {
+                    //             // console.log('左侧目录信息获取成功：', data);
+                    //         })
+                    //     )
+                    // ),
                     // 获取项目下用户信息列表
-                    concatMap(() => getProjectUserList$(current_project_id)),
-                    tap((res) => {
-                        // console.log('当前用户信息列表：', res);
-                    }),
+                    // concatMap(() => getProjectUserList$(current_project_id)),
+                    // tap((res) => {
+                    //     // console.log('当前用户信息列表：', res);
+                    // }),
                     // 加载分享列表
-                    switchMap(() =>
-                        getShareList(current_project_id).pipe(
-                            tap((shareList) => {
-                                global$.next({
-                                    action: 'RELOAD_SHARE_LIST',
-                                });
-                                // console.log('分享列表加载完成', shareList);
-                            })
-                        )
-                    ),
+                    // switchMap(() =>
+                    //     getShareList(current_project_id).pipe(
+                    //         tap((shareList) => {
+                    //             global$.next({
+                    //                 action: 'RELOAD_SHARE_LIST',
+                    //             });
+                    //             // console.log('分享列表加载完成', shareList);
+                    //         })
+                    //     )
+                    // ),
                     // 加载测试列表 包括测试报告
-                    switchMap(() => {
-                        getSingleTestList(current_project_id);
-                        getCombinedTestList(current_project_id);
-                        return of(getReportList(current_project_id));
-                    }),
-                    tap((d) => handleInitProjectFinish(current_project_id)),
+                    // switchMap(() => {
+                    //     getSingleTestList(current_project_id);
+                    //     getCombinedTestList(current_project_id);
+                    //     return of(getReportList(current_project_id));
+                    // }),
+                    // tap((d) => handleInitProjectFinish(current_project_id)),
                     tap(() => {
                         // 初始化连接协作socket
                         webSocket.socketInit();
@@ -360,6 +370,17 @@ const useProject = () => {
             }),
             catchError((err) => console.log(err))
         )
+    }
+    // 获取接口列表
+    const handleInitApiList = ({ data: { targets }, code }) => {
+        if (code === 0) {
+            dispatch({
+                type: 'apis/updateApiDatas',
+                payload: targets
+            })
+        } else {
+            Message('error', '接口列表获取失败!');
+        }
     }
 
     useEventBus('getTeamMemberList', getTeamMemberList);

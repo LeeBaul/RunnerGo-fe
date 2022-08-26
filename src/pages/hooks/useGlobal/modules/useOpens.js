@@ -127,33 +127,33 @@ const useOpens = () => {
             } else {
                 change_json[path] = updateData;
             }
-            const collectionTarget = await Collection.get(newTarget?.target_id);
-            if (!collectionTarget) {
+            // const collectionTarget = await Collection.get(newTarget?.target_id);
+            // if (!collectionTarget) {
                 newTarget.is_changed = 1;
-            } else {
-                const source_json = {};
-                const updateSourceData = collectionTarget[diffPaths[path]];
-                if (isObject(updateData)) {
-                    source_json[path] = targetParameter2Obj(updateSourceData);
-                } else {
-                    source_json[path] = updateSourceData;
-                }
-                // 开始比对
-                const delta_diffs = jsondiffpatch
-                    .create({
-                        objectHash: (obj) => obj._key || obj.key,
-                        propertyFilter: (name) => name !== 'value' && name !== 'is_checked',
-                        textDiff: {
-                            minLength: 600000,
-                        },
-                    })
-                    .diff(change_json, source_json);
-                if (delta_diffs) {
-                    newTarget.is_changed = 1;
-                } else {
-                    newTarget.is_changed = -1;
-                }
-            }
+            // } else {
+            //     const source_json = {};
+            //     const updateSourceData = collectionTarget[diffPaths[path]];
+            //     if (isObject(updateData)) {
+            //         source_json[path] = targetParameter2Obj(updateSourceData);
+            //     } else {
+            //         source_json[path] = updateSourceData;
+            //     }
+            //     // 开始比对
+            //     const delta_diffs = jsondiffpatch
+            //         .create({
+            //             objectHash: (obj) => obj._key || obj.key,
+            //             propertyFilter: (name) => name !== 'value' && name !== 'is_checked',
+            //             textDiff: {
+            //                 minLength: 600000,
+            //             },
+            //         })
+            //         .diff(change_json, source_json);
+            //     if (delta_diffs) {
+            //         newTarget.is_changed = 1;
+            //     } else {
+            //         newTarget.is_changed = -1;
+            //     }
+            // }
         }
     };
 
@@ -216,6 +216,7 @@ const useOpens = () => {
     };
 
     const updateTarget = async (data) => {
+        console.log(data, open_apis);
         const { target_id, pathExpression, value } = data;
         const tempOpenApis = open_apis;
         if (!tempOpenApis.hasOwnProperty(target_id)) {
@@ -234,6 +235,7 @@ const useOpens = () => {
                     reqUrl = `http://${reqUrl}`;
                 }
                 const urlObj = createUrl(reqUrl);
+                console.log(urlObj);
                 if (isArray(tempOpenApis[target_id]?.request?.query?.parameter)) {
                     // 提取query
                     const searchParams = GetUrlQueryToArray(urlObj?.search || '');
@@ -285,10 +287,10 @@ const useOpens = () => {
             }
             // 自动生成mockurl
             if (tempOpenApis[target_id].target_type === 'api') {
-                const userInfo = await User.get(localStorage.getItem('uuid') || '-1');
-                if (isPlainObject(userInfo?.config) && userInfo.config?.AUTO_GEN_MOCK_URL > 0) {
-                    set(tempOpenApis[target_id], 'mock_url', urlParseLax(value)?.pathname || '');
-                }
+                // const userInfo = await User.get(localStorage.getItem('uuid') || '-1');
+                // if (isPlainObject(userInfo?.config) && userInfo.config?.AUTO_GEN_MOCK_URL > 0) {
+                //     set(tempOpenApis[target_id], 'mock_url', urlParseLax(value)?.pathname || '');
+                // }
             }
             set(tempOpenApis[target_id], 'url', value);
         } else if (pathExpression === 'request.query.parameter') {
@@ -488,6 +490,7 @@ const useOpens = () => {
     };
 
     const saveTargetById = async (data, options = { is_socket: 1 }) => {
+        console.log(data, options);
         const { id, pid, callback } = data;
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);

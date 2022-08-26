@@ -7,6 +7,8 @@ const useListData = (props) => {
 
     const treeData = useSelector((store) => store?.apis?.apiDatas);
 
+    console.log(treeData, 'treeData');
+
     // 查找当前节点及全部上层对象
     const getParentItems = (
         sourObj,
@@ -26,6 +28,7 @@ const useListData = (props) => {
 
     // 被过滤后的目录菜单列表，平级结构，不带children，parent属性
     const filteredTreeList = React.useMemo(() => {
+        return treeData instanceof Array ? treeData : [];
         if (treeData === undefined) {
             return [];
         }
@@ -48,6 +51,7 @@ const useListData = (props) => {
                 }
             }
         });
+        console.log(newList, 'newList');
         const dataList = [];
         Object.entries(newList).forEach(([target_id, data]) => {
             dataList.push({
@@ -62,7 +66,8 @@ const useListData = (props) => {
     const filteredTreeData = React.useMemo(() => {
         const newTreeData = {};
         const dataList = cloneDeep(filteredTreeList);
-        dataList.forEach((item) => {
+        console.log('dataList', dataList);
+        dataList && dataList.forEach((item) => {
             if (!isUndefined(item.target_id)) {
                 newTreeData[item.target_id] = item;
             }

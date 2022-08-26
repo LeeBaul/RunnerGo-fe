@@ -6,6 +6,7 @@ const NAMESPACE = 'opens';
 const initialState = {
   // 顶部tabs 打开过的接口 key为id value为接口具体数据
   open_apis: {},
+  open_api_now: '',
   // api temp数据 （无须上传服务器）
   temp_apis: {},
   websockets: {}, // websocket连接池 key为id value为对象 status 为连接状态 client为连接操作对象 socketRes为接收到的结果
@@ -49,6 +50,7 @@ const actionTypes = {
   updateTempApisById: 'updateTempApisById',
   updateTempGrpcsById: 'updateTempGrpcsById',
   setApipostHeaders: 'setApipostHeaders',
+  updateOpenApiNow: 'updateOpenApiNow',
 }
 
 export const opensReducer = (state = initialState, action) => {
@@ -131,6 +133,11 @@ export const opensReducer = (state = initialState, action) => {
         ...state,
         apipostHeaders: action.payload,
       };
+    case `${NAMESPACE}/${actionTypes.updateOpenApiNow}`:
+      return {
+        ...state,
+        open_api_now: action.payload,
+      }
     default:
       return state;
   }

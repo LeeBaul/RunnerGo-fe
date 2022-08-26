@@ -22,7 +22,7 @@ const TreeMenu = (props) => {
 
     const listDataParam = useListData({ filterParams, selectedKeys });
 
-    // console.log(listDataParam);
+    console.log(listDataParam, 'listDataParam');
 
     const handleShowModal = (mtype, mProps) => {
         setModalProps(mProps);
