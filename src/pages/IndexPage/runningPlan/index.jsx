@@ -66,7 +66,7 @@ const RunningPlan = () => {
             </div>
             <div className='running-bottom'>
                 {
-                    planList ?  planList.map((item, index) => (
+                    planList.length > 0 ?  planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
                             <p>运行中</p>
                             <div className='progress'>
