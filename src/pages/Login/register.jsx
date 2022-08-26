@@ -35,7 +35,7 @@ const RegisterBox = (props) => {
     // 密码
     const [password, setPassword] = useState('');
     // 确认密码
-    const [repeatPassword, setRepeatPassword] = useState('');
+    const [repeat_password, setRepeatPassword] = useState('');
     // 昵称
     const [nickname, setNickname] = useState('');
     const [checked, setchecked] = useState('checked');
@@ -146,7 +146,7 @@ const RegisterBox = (props) => {
         fetchUserRegisterForEmailRequest({
             email,
             password,
-            repeatPassword,
+            repeat_password,
             nickname
         })
             .pipe(
@@ -243,7 +243,7 @@ const RegisterBox = (props) => {
                         <Input
                             type="password"
                             placeholder="请确认密码"
-                            value={repeatPassword}
+                            value={repeat_password}
                             onChange={(value) => {
                                 setRepeatPassword(value);
                             }}
