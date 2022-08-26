@@ -89,7 +89,7 @@ const updateUserLocalConfig = async (settings) => {
 };
 
 // 获取用户配置信息
-export const getUserConfig$ = (uuid) => {
+export const getUserConfig$ = () => {
     // console.log(123123123, isLogin());
     // return iif(
         // isLogin(),

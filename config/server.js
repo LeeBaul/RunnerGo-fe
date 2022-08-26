@@ -2,7 +2,7 @@
 const RD_BaseURL = {
     // development: '172.17.101.188:20123/',
     development: 'https://kpmanage.apipost.cn',
-    test: 'https://v7-test.apipost.cn/',
+    test: 'https://kpmanage.apipost.cn',
     production: 'https://v7-beta-api.apipost.cn/',
 };
 

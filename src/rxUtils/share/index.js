@@ -270,3 +270,9 @@ export const deleteShareData = ({ issue_id, project_id, shareName }) => {
         tap((isDeleted) => isDeleted && pushTaskForDeleteShare({ issue_id, project_id, shareName }))
     );
 };
+
+// export const initPage = () => {
+//     // 1. 获取用户基本配置
+//     //
+//     return getUserConfig$().
+// }
