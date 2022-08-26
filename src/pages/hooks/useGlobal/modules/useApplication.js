@@ -87,7 +87,7 @@ const useProject = () => {
 
     // 展示首页基本信息
     const handleInitIndex = (res) => {
-        // console.log('展示首页基本信息', res);
+        console.log('展示首页基本信息', res);
         const { data, code } = res;
         if (code === 0) {
             const { api_num, plan_num, report_num, scene_num, user, operations } = data;
@@ -132,7 +132,7 @@ const useProject = () => {
 
     // 展示运行中的计划
     const handleInitRunningPlan = ({ data }) => {
-        // console.log('展示运行中的计划', data);
+        console.log('展示运行中的计划', data);
         const { plans } = data;
         dispatch({
             type: 'plan/updatePlanData',
@@ -142,6 +142,7 @@ const useProject = () => {
 
     // 展示用户配置信息
     const handleInitUserConfig = ({ data }) => {
+        console.log(data);
         // sessionStorage.setItem('team_id', data.settings.current_team_id);
         // window.team_id = data.settings.current_team_id;
         // console.log('userConfig!!!', data, userInfo);
@@ -215,7 +216,7 @@ const useProject = () => {
                 const team_id = sessionStorage.getItem('team_id');
                 return of(team_id).pipe(
                     // step1.加载团队列表
-                    concatMap(() => getUserTeamList$(uuid).pipe(tap(handleInitTeams))),
+                    concatMap(() => getUserTeamList$().pipe(tap(handleInitTeams))),
                     // step2. 执行异步上传任务
                     concatMap(() => getIndexPage$().pipe(tap(handleInitIndex))),
                     concatMap(() => getRunningPlan$().pipe(tap(handleInitRunningPlan))),
@@ -288,7 +289,7 @@ const useProject = () => {
 
     // 获取当前团队成员列表
     const getTeamMemberList = () => {
-        // console.log('获取当前团队成员列表', window.team_id);
+        console.log('获取当前团队成员列表', sessionStorage.getItem('team_id'));
         const query = {
             team_id: sessionStorage.getItem('team_id'),
         }

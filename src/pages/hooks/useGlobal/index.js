@@ -11,10 +11,12 @@ import useWebsocket from './modules/useWebsocket';
 import useUser from './modules/useUser';
 import useApplication from './modules/useApplication';
 import { global$ } from './global';
+// import { useLocation } from 'react-router-dom';
 
 import { getCookie } from '../../../utils/cookie';
 
 const useGlobal = (props) => {
+
     useApplication();
     useUser();
     useProject();
@@ -28,11 +30,15 @@ const useGlobal = (props) => {
     useWebsocket();
     useEffect(() => {
         const token = getCookie('token');
-        const uuid = localStorage.getItem('uuid');
+        // const uuid = localStorage.getItem('uuid')
+        
         // 项目初始化
-        // global$.next({
-        //     action: 'INIT_APPLICATION',
-        // });
+        if (token) {
+            global$.next({
+                action: 'INIT_APPLICATION',
+            });
+        }
+
     }, []);
 };
 

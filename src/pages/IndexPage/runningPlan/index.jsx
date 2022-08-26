@@ -14,6 +14,10 @@ const RunningPlan = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        setPlanList(planData);
+    }, [planData]);
+
+    useEffect(() => {
  
         let timer = null;
         const loopFetch = () => {
@@ -62,7 +66,7 @@ const RunningPlan = () => {
             </div>
             <div className='running-bottom'>
                 {
-                    planList.length ?  planList.map((item, index) => (
+                    planList ?  planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
                             <p>运行中</p>
                             <div className='progress'>

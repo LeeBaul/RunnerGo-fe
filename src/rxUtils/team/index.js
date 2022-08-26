@@ -38,12 +38,18 @@ const getDefaultOfflineTeam = (uuid) => {
 };
 
 // 获取用户下团队列表
-export const getUserTeamList$ = (uuid) => {
+export const getUserTeamList$ = () => {
+    return from(fetchTeamList()).pipe(
+        tap((res) => {
+            console.log(res);
+            return res;
+        })
+    );
     return iif(
         isLogin,
         fetchTeamList().pipe(
             tap((res) => {
-                // console.log(res, 'teammmmmmmmmmmmm');
+                console.log(res, 'teammmmmmmmmmmmm');
                 return res;
                 // if (res.code === 0) {
                 //     return from(updateLocalTeamList(uuid, res.data)).pipe(
