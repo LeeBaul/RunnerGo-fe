@@ -14,6 +14,7 @@ import conflictReducer from './conflict';
 import runnerReducer from './runner';
 import plansReducer from './plan';
 import dashBoardReducer from './dashboard';
+import sceneReducer from './scene';
 
 const reducers = combineReducers({
     apis: apisReducer,
@@ -30,6 +31,7 @@ const reducers = combineReducers({
     runner: runnerReducer,
     plan: plansReducer,
     dashboard: dashBoardReducer,
+    scene: sceneReducer,
 });
 
 export default reducers;

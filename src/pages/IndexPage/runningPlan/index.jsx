@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 const RunningPlan = () => {
     const navigate = useNavigate();
     const planData = useSelector((store) => store.plan.planData);
-    const [planList, setPlanList] = useState(planData);
+    console.log(planData);
+    const [planList, setPlanList] = useState(planData instanceof Array ? planData : []);
 
     const dispatch = useDispatch();
 
@@ -66,7 +67,7 @@ const RunningPlan = () => {
             </div>
             <div className='running-bottom'>
                 {
-                    planList ?  planList.map((item, index) => (
+                    planList.length ?  planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
                             <p>运行中</p>
                             <div className='progress'>

@@ -59,6 +59,7 @@ export const opensReducer = (state = initialState, action) => {
   const tempWebsockets = cloneDeep(websockets);
   switch (action.type) {
     case `${NAMESPACE}/${actionTypes.coverOpenApis}`:
+      console.log('coverOpenApis', action.payload);
       return {
         ...state,
         open_apis: action.payload,

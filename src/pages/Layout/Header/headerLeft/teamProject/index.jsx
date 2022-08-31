@@ -23,15 +23,11 @@ const TeamProject = () => {
 
     const currentTeamName = useMemo(() => {
         // let teamName = '离线团队';
-        // console.log(userTeams, 'userTeams');
         let team_id = sessionStorage.getItem('team_id');
         let teamName = userTeams[team_id] ?  userTeams[team_id].name : '离线团队';
-        console.log(userTeams, currentTeamId);
         // if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
         //     teamName = userTeams?.[currentTeamId]?.name;
         // }
-        // console.log(userTeams);
-        // console.log(userTeams);
         return teamName;
     }, [userTeams, currentTeamId]);
 

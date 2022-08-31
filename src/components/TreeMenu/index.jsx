@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import FolderCreate from '@modals/folder/create';
 import { isUndefined } from 'lodash';
 import useListData from './menuTree/hooks/useListData';
+import useSceneData from './menuTree/hooks/useSceneData';
 
 import FilterBox from './filterBox';
 import ButtonBox from './buttonBox';
@@ -21,8 +22,9 @@ const TreeMenu = (props) => {
     const treeRef = useRef(null);
 
     const listDataParam = useListData({ filterParams, selectedKeys });
+    const sceneDataParam = useSceneData({ filterParams, selectedKeys })
 
-    console.log(listDataParam, 'listDataParam');
+    const dataParam = type === 'apis' ? listDataParam : sceneDataParam;
 
     const handleShowModal = (mtype, mProps) => {
         setModalProps(mProps);
@@ -30,17 +32,23 @@ const TreeMenu = (props) => {
     };
     return (
         <MenuWrapper>
-            { modalType === 'addFolder' && !isUndefined(modalProps) && (
-                <FolderCreate { ...modalProps } onCancel={setModalType.bind(null, '')} />
-            ) }
+            {modalType === 'addFolder' && !isUndefined(modalProps) && (
+                <FolderCreate {...modalProps} onCancel={setModalType.bind(null, '')} />
+            )}
             <div className='menus-header'>
-                <FilterBox type={type} />
-                { type === 'apis' ? <ButtonBox /> : <SceneBox /> }
+                <FilterBox 
+                    treeRef={treeRef}
+                    selectedKeys={selectedKeys}
+                    filterParams={filterParams}
+                    onChange={setFilterParams}
+                    type={type}
+                 />
+                {type === 'apis' ? <ButtonBox treeRef={treeRef} showModal={handleShowModal}  /> : <SceneBox />}
             </div>
             <MenuTrees
                 ref={treeRef}
                 showModal={handleShowModal}
-                {...listDataParam}
+                {...dataParam}
                 filterParams={filterParams}
                 selectedKeys={selectedKeys}
                 setSelectedKeys={setSelectedKeys}

@@ -8,7 +8,7 @@ export const nodes = [
     data: {
       label: (
         <>
-          Welcome to <strong>React Flow!</strong>
+          <div>Hello World!</div>
         </>
       ),
     },
@@ -73,6 +73,12 @@ export const nodes = [
     type: 'output',
     data: { label: 'Another output node' },
     position: { x: 400, y: 450 },
+  },
+  {
+    id: '8',
+    type: 'input',
+    data: { label: 'CreatorRay' },
+    position: { x: 30, y: 30 }
   },
 ];
 

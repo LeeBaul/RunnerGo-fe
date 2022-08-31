@@ -36,19 +36,23 @@ const getLocalUserConfig = async (uuid, a) => {
 };
 
 // 更新用户本地配置信息
-const updateUserLocalConfig = async (settings) => {
+const updateUserLocalConfig = async (data) => {
     // const team_id = useSelector((store) => store.user.team_id);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     // console.log('userConfig!!!', settings);
     // const newInfo = cloneDeep(userInfo);
     // newInfo.team_id = settings.current_team_id;
+    const { settings } = data;
     const team_id = settings.current_team_id;
+
     sessionStorage.setItem('team_id', team_id);
+    localStorage.setItem('settings', JSON.stringify(data))
+
     // console.log(123123123123);
-    dispatch({
-        type: 'user/updateTeamId',
-        payload: team_id
-    });
+    // dispatch({
+        // type: 'user/updateTeamId',
+        // payload: team_id
+    // });
 
 
     // const oldConfig = await User.get(uuid);
@@ -95,6 +99,7 @@ export const getUserConfig$ = () => {
         // isLogin(),
     return from(fetchUserConfig()).pipe(
             tap((res) => {
+                console.log(res);
                 // console.log(res, '----------');
                 if (res?.code === 0) {
                     return updateUserLocalConfig(res.data);
@@ -102,7 +107,7 @@ export const getUserConfig$ = () => {
                 return of('');
             }),
             // mergeMap(() => getLocalUserConfig(uuid, 1)),
-            catchError((err) => getLocalUserConfig(uuid, err))
+            catchError((err) => getLocalUserConfig(err))
         );
         // of('').pipe(mergeMap(() => getLocalUserConfig(uuid)))
     // );

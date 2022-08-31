@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Collapse as CollapseComponent } from 'adesign-react';
+import { Collapse as CollapseComponent, Message } from 'adesign-react';
 import { Team as SvgTeam } from 'adesign-react/icons';
 import { isArray } from 'lodash';
 import { getLatestTeamProjectList$, getLocalDataList$ } from '@rxUtils/project';
 import { TeamHeader } from './style';
 import ProjectList from './projectList';
-import { fetchTeamList } from '@services/user';
+import { fetchTeamList, fetchUpdateConfig } from '@services/user';
 import { tap } from 'rxjs';
 import { useDispatch } from 'react-redux';
+
+import { global$ } from '@hooks/useGlobal/global';
 
 const { Collapse, CollapseItem } = CollapseComponent;
 
@@ -73,10 +75,35 @@ const TeamList = (props) => {
       .subscribe();
   }, []);
 
+  const changeTeam = (team_id) => {
+    // 1. 进行config接口的update操作
+    // 3. 进行项目初始化
+    const settings = JSON.parse(localStorage.getItem('settings'));
+    settings.settings.current_team_id = team_id;
+    fetchUpdateConfig(settings).subscribe({
+      next: (res) => {
+        console.log(res);
+        const { code } = res;
+        if (code === 0) {
+          console.log(123123);
+          global$.next({
+            action: 'INIT_APPLICATION',
+          });
+        } else {
+          Message('error', '切换失败!');
+        }
+      },
+      err: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
   return (
     <Collapse
       defaultActiveKey={currentTeamId}
       style={{ border: 'none', overflow: 'auto', margin: '5px 0' }}
+      onChange={(id) => changeTeam(id)}
     >
       {filterdTeamList.map((team) => (
         <CollapseItem

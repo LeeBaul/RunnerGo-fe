@@ -26,7 +26,6 @@ const App = () => {
         const token = getCookie('token');
         const expire_time_sec = localStorage.getItem('expire_time_sec');
         const isExpire = new Date().getTime() > parseInt(expire_time_sec);
-        console.log(token, isExpire);
         // if (!token || isExpire) {
         //     window.location.href = '/login';
         // }

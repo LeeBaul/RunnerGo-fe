@@ -32,16 +32,22 @@ const CreateScene = (props) => {
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
         pre_script: '',
-        pre_script_switch: 1,
+        // pre_script_switch: 1,
         test: '',
-        test_switch: 1,
+        // test_switch: 1,
     });
 
     const [request, setRequest] = useState(
         folder?.request || {
-            header: [],
-            query: [],
-            body: [],
+            header: {
+                parameter: []
+            },
+            query: {
+                parameter: []
+            },
+            body: {
+                parameter: []
+            },
             auth: {
                 type: 'noauth',
                 kv: { key: '', value: '' },
@@ -55,31 +61,31 @@ const CreateScene = (props) => {
     const [tabActiveId, setTabActiveId] = useState('0');
     const [parent_id, setParent_id] = useState('0');
 
-    // useEffect(() => {
-    //     const init = () => {
-    //         if (isPlainObject(folder)) {
-    //             const { request, name, script: folderScript, parent_id } = folder;
-    //             parent_id && setParent_id(parent_id);
-    //             folderScript && setScript(folderScript);
-    //             name && setFolderName(name);
-    //             request && setRequest(request);
-    //         } else {
-    //             setRequest({
-    //                 header: [],
-    //                 query: [],
-    //                 body: [],
-    //                 auth: {
-    //                     type: 'noauth',
-    //                     kv: { key: '', value: '' },
-    //                     bearer: { key: '' },
-    //                     basic: { username: '', password: '' },
-    //                 },
-    //                 description: '',
-    //             });
-    //         }
-    //     };
-    //     init();
-    // }, [folder]);
+    useEffect(() => {
+        const init = () => {
+            if (isPlainObject(folder)) {
+                const { request, name, script: folderScript, parent_id } = folder;
+                parent_id && setParent_id(parent_id);
+                folderScript && setScript(folderScript);
+                name && setFolderName(name);
+                request && setRequest(request);
+            } else {
+                setRequest({
+                    header: [],
+                    query: [],
+                    body: [],
+                    auth: {
+                        type: 'noauth',
+                        kv: { key: '', value: '' },
+                        bearer: { key: '' },
+                        basic: { username: '', password: '' },
+                    },
+                    description: '',
+                });
+            }
+        };
+        init();
+    }, [folder]);
 
     const handleChange = (rowData, rowIndex, newVal) => {
         const requestKey = {
@@ -88,8 +94,8 @@ const CreateScene = (props) => {
             '2': 'body',
         };
         const type = requestKey[tabActiveId];
-        if (isArray(request[type])) {
-            const newList = [...request[type]];
+        if (isArray(request[type].parameter)) {
+            const newList = [...request[type].parameter];
             if (
                 newVal.hasOwnProperty('key') ||
                 newVal.hasOwnProperty('value') ||
@@ -103,7 +109,7 @@ const CreateScene = (props) => {
             };
             setRequest((lastState) => {
                 const newState = cloneDeep(lastState);
-                newState[type] = newList;
+                newState[type].parameter = newList;
                 return newState;
             });
         }
@@ -156,7 +162,7 @@ const CreateScene = (props) => {
                         placeholder='参数名'
                         value={text}
                         onChange={(newVal) => {
-                            handleChange(rowData, rowIndex, { description: newVal });
+                            handleChange(rowData, rowIndex, { key: newVal });
                         }}
                     />
                 );
@@ -174,7 +180,7 @@ const CreateScene = (props) => {
                         placeholder='参数值'
                         value={text}
                         onChange={(newVal) => {
-                            handleChange(rowData, rowIndex, { description: newVal });
+                            handleChange(rowData, rowIndex, { value: newVal });
                         }}
                     />
                 );
@@ -323,16 +329,52 @@ const CreateScene = (props) => {
             onCancel={onCancel}
             className={FolderModal}
             okText='保存'
+            onOk={() => {
+                console.log(request);
+                if (trim(folderName).length <= 0) {
+                    Message('error', '场景名称不能为空');
+                    return;
+                }
+                if (isPlainObject(folder)) {
+
+                } else {
+                    Bus.$emit(
+                        'addSceneItem',
+                        {
+                            type: 'folder',
+                            pid: parent_id || 0,
+                            param: {
+                                name: folderName,
+                                request,
+                                script,
+                            },
+                        },
+                        () => {
+                            onCancel();
+                            Message('success', '新建场景成功');
+                        }
+                    );
+                }
+            }}
         >
             <FolderWrapper>
                 <div className="article">
                     <div className="article-item">
                         <p>场景名称</p>
-                        <Input placeholder='请输入场景名称' />
+                        <Input value={folderName} placeholder='请输入场景名称' onChange={(val) => setFolderName(val)} />
                     </div>
                     <div className="article-item">
                         <p>场景描述</p>
-                        <Textarea placeholder='请输入场景描述' />
+                        <Textarea
+                            value={request.description || ''} 
+                            placeholder='请输入场景描述'
+                            onChange={(val) => {
+                                setRequest((lastState) => {
+                                    lastState.description = val;
+                                    return lastState;
+                                })
+                            }}
+                         />
                     </div>
                 </div>
 
@@ -362,7 +404,7 @@ const CreateScene = (props) => {
                             }}
                         ></Authen>
                     </TabPan>
-                    <TabPan id="4" title="分组共用预执行脚本">
+                    {/* <TabPan id="4" title="分组共用预执行脚本">
                         <span>
                             预执行脚本已开启{' '}
                             <Switch
@@ -416,7 +458,7 @@ const CreateScene = (props) => {
                                 });
                             }}
                         ></ScriptBox>
-                    </TabPan>
+                    </TabPan> */}
                 </Tabs>
             </FolderWrapper>
 

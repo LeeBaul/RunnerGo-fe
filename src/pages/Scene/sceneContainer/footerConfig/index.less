@@ -1,0 +1,105 @@
+.footer-config {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+
+    .add-controller {
+        margin-bottom: 20px;
+        display: flex;
+
+        .assert,
+        .wait,
+        .condition {
+            min-width: 88px;
+            height: 24px;
+            box-sizing: border-box;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            border-radius: 3px;
+            margin: 0 4px;
+
+            svg {
+                width: 16px;
+                height: 16px;
+                margin-right: 6px;
+            }
+
+            span {
+                white-space: nowrap;
+            }
+        }
+
+        .assert {
+            background: #FFEFEF;
+            border: 1px solid #AC0000;
+            color: #AC0000;
+
+            svg {
+                fill: #AC0000;
+            }
+        }
+
+        .wait {
+            background: #F6FFF2;
+            border: 1px solid #068D3C;
+            color: #068D3C;
+
+            svg {
+                fill: #068D3C;
+            }
+        }
+
+        .condition {
+            background: #FFE9DC;
+            border: 1px solid #D75207;
+            color: #D75207;
+
+            svg {
+                fill: #D75207;
+            }
+        }
+    }
+
+    .common-config {
+        width: 288px;
+        height: 41px;
+        padding: 8px 4px;
+        background: #27272B;
+        border: 1px solid #39393D;
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+        border-radius: 3px;
+        box-sizing: border-box;
+        display: flex;
+
+        .config-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: #fff;
+            cursor: pointer;
+
+            svg {
+                width: 16px;
+                height: 16px;
+                fill: #fff;
+                margin-right: 4px;
+            }
+        }
+
+        .line {
+            height: 20px;
+            width: 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    }
+
+}

@@ -93,7 +93,7 @@ const InvitationModal = (props) => {
           {
             key: uuidv4(),
             email: inputTempValue,
-            power: selectTempValue,
+            power: 'common',
             noAdd: projectListIndex > -1 && projectList[projectListIndex]?.is_readonly === 1,
           },
           ...teampAddList,
@@ -372,7 +372,7 @@ const InvitationModal = (props) => {
   };
   const onSubmit = () => {
     const params = {
-      team_id: sessionStorage.getItem('team_id'),
+      team_id: parseInt(sessionStorage.getItem('team_id')),
       member_email: addList.map(item => item.email)
     }
     fetchInviteMember(params)
@@ -518,9 +518,10 @@ const InvitationModal = (props) => {
                     <span style={{ padding: '0 16px' }}>
                       <Select
                         value={item.power}
+                        defaultValue="common"
                         onChange={(key) => {
                           item.power = key;
-                          // changeTeamInvitation('change', item);
+                          changeTeamInvitation('change', item);
                         }}
                       >
                         {/* {renderOptions()} */}
@@ -573,7 +574,7 @@ const InvitationModal = (props) => {
           <div className="team-inviation-footer">
             <div className="team-inviation-footer-l">
               <span className="know-link-people">知道链接的人</span>
-              <Select value={linkPower} onChange={(key) => setLinkPower(key)}>
+              <Select defaultValue="common" value={linkPower} onChange={(key) => setLinkPower(key)}>
                 {/* {renderOptions()} */}
                 <Option value="admin">管理员</Option>
                 <Option value="common">成员</Option>
@@ -602,14 +603,15 @@ const InvitationModal = (props) => {
               </div>
             </div>
             <div className="team-inviation-footer-r">
-              <span className="team-inviation-footer-need-buy-span">
+              {/* <span className="team-inviation-footer-need-buy-span">
                 {needBuyStation && needBuyStation > 0 ? (
                   <Subtract style={{ marginRight: '8px' }}></Subtract>
                 ) : null}
                 {needBuyStation && needBuyStation > 0 ? `需购买${needBuyStation}个读写工位` : null}
-              </span>
+              </span> */}
               <Button type="primary" onClick={onSubmit} className="apipost-blue-btn">
-                {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'}
+                {/* {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'} */}
+                添加协作人员
               </Button>
             </div>
           </div>

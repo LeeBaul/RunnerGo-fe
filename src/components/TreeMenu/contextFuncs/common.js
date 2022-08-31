@@ -4,9 +4,10 @@ import dayjs from 'dayjs';
 // import { Collection } from '@indexedDB/project';
 import { cloneDeep, isString } from 'lodash';
 import { global$ } from '@hooks/useGlobal/global';
-import { DelApiRequest } from '@services/apis';
+import { DelApiRequest, fetchDeleteApi } from '@services/apis';
 import { pushTask } from '@asyncTasks/index';
 import Bus from '@utils/eventBus';
+import { Message } from 'adesign-react';
 
 export const pasteData = () => { };
 
@@ -95,24 +96,26 @@ export const getCoverData = (
     return Object.values(tempData).filter((d) => isString(d?.target_type));
 };
 
-export const deleteMultiData = async (project_id, targetIds) => {
-    const deleteIds = Array.isArray(targetIds) ? targetIds : [targetIds];
+export const deleteMultiData = async (target_id) => {
+    const deleteIds = Array.isArray(target_id) ? target_id : [target_id];
 
     for (const targetId of deleteIds) {
-        Collection.update(targetId, {
-            status: -1,
-            update_dtime: dayjs().valueOf(),
-        });
+        // Collection.update(targetId, {
+        //     status: -1,
+        //     update_dtime: dayjs().valueOf(),
+        // });
         Bus.$emit('removeOpenItem', targetId);
     }
 
-    DelApiRequest({
-        project_id,
-        target_ids: deleteIds,
-        is_socket: 1,
+    fetchDeleteApi({
+        target_id: parseInt(target_id)
     }).subscribe({
         next(resp) {
-            if (resp?.code === 10000) {
+            const { code } = resp;
+            if (code === 0) {
+                Message('success', '删除成功!');
+            } else {
+                Message('error', '删除失败!');
             }
         },
         error(err) {
@@ -127,10 +130,16 @@ export const deleteMultiData = async (project_id, targetIds) => {
     });
 
     // todo
-    global$.next({
-        action: 'RELOAD_LOCAL_COLLECTIONS',
-        payload: project_id,
-    });
+    setTimeout(() => {
+        global$.next({
+            action: 'RELOAD_LOCAL_COLLECTIONS',
+            payload: {
+                page: 1,
+                size: 20,
+                team_id: sessionStorage.getItem('team_id')
+            },
+        });
+    }, 100)
 };
 
 export default {

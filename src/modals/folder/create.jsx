@@ -33,15 +33,21 @@ const CreateFolder = (props) => {
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
         pre_script: '',
-        pre_script_switch: 1,
+        // pre_script_switch: 1,
         test: '',
-        test_switch: 1,
+        // test_switch: 1,
     });
     const [request, setRequest] = useState(
         folder?.request || {
-            header: [],
-            query: [],
-            body: [],
+            header: {
+                parameter: []
+            },
+            query: {
+                parameter: []
+            },
+            body: {
+                parameter: []
+            },
             auth: {
                 type: 'noauth',
                 kv: { key: '', value: '' },
@@ -53,12 +59,13 @@ const CreateFolder = (props) => {
     );
     const [folderName, setFolderName] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
-    const [parent_id, setParent_id] = useState('0');
+    const [parent_id, setParent_id] = useState(0);
     // console.log(parent_id, "parent_id");
 
     useEffect(() => {
         const init = () => {
             if (isPlainObject(folder)) {
+                console.log(folder);
                 const { request, name, script: folderScript, parent_id } = folder;
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
@@ -83,14 +90,16 @@ const CreateFolder = (props) => {
     }, [folder]);
 
     const handleChange = (rowData, rowIndex, newVal) => {
+        console.log(rowData, rowIndex, newVal);
+        console.log(request);
         const requestKey = {
             '0': 'header',
             '1': 'query',
             '2': 'body',
         };
         const type = requestKey[tabActiveId];
-        if (isArray(request[type])) {
-            const newList = [...request[type]];
+        if (isArray(request[type].parameter)) {
+            const newList = [...request[type].parameter];
             if (
                 newVal.hasOwnProperty('key') ||
                 newVal.hasOwnProperty('value') ||
@@ -103,8 +112,10 @@ const CreateFolder = (props) => {
                 ...newVal,
             };
             setRequest((lastState) => {
+                console.log('lastState', lastState);
                 const newState = cloneDeep(lastState);
-                newState[type] = newList;
+                newState[type].parameter = newList
+                console.log('newState', newState);
                 return newState;
             });
         }
@@ -333,6 +344,8 @@ const CreateFolder = (props) => {
             className={FolderModal}
             okText="保存"
             onOk={() => {
+                console.log(folderName, request);
+                // return;
                 if (trim(folderName).length <= 0) {
                     Message('error', '目录名称不能为空');
                     return;
@@ -346,8 +359,9 @@ const CreateFolder = (props) => {
                                 name: folderName,
                                 request,
                                 script,
-                                parent_id: parent_id || '0',
+                                parent_id: parent_id || 0,
                             },
+                            oldValue: folder
                         },
                         () => {
                             onCancel();
@@ -436,7 +450,7 @@ const CreateFolder = (props) => {
                             }}
                         ></Authen>
                     </TabPan>
-                    <TabPan id="4" title="目录公用预执行脚本">
+                    {/* <TabPan id="4" title="目录公用预执行脚本">
                         <span>
                             预执行脚本已开启{' '}
                             <Switch
@@ -490,7 +504,7 @@ const CreateFolder = (props) => {
                                 });
                             }}
                         ></ScriptBox>
-                    </TabPan>
+                    </TabPan> */}
                 </Tabs>
             </FolderWrapper>
         </Modal>

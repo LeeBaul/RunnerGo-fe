@@ -4,6 +4,7 @@ import { Message } from 'adesign-react';
 import { isArray, isObject, isPlainObject, isString, isUndefined } from 'lodash';
 import Bus from '@utils/eventBus';
 import { getCoverData, getFullData, deleteMultiData } from './common';
+import { fetchFolderDetail } from '@services/apis';
 
 export const createApi = ({ params, props }) => {
     Bus.$emit('addOpenItem', { type: 'api', pid: params.target_id });
@@ -21,11 +22,22 @@ export const createGrpc = ({ props, params }) => {
 export const createChildFolder = ({ params, showModal, action }) => {
     Bus.$emit('addOpenItem', { type: 'folder', pid: params.target_id });
 };
-export const modifyFolder = async ({ props, params, action }) => {
-    const folder = await Collection.get(params.target_id);
-    if (!isUndefined(folder) && isPlainObject(folder)) {
-        props?.showModal('addFolder', { folder });
-    }
+export const modifyFolder = async (target_id, props) => {
+    console.log(props, target_id);
+    // const folder = await Collection.get(params.target_id);
+    // if (!isUndefined(folder) && isPlainObject(folder)) {
+    fetchFolderDetail({
+        team_id: sessionStorage.getItem('team_id'),
+        target_id
+    }).subscribe({
+        next(res) {
+            const { data: { folder } } = res;
+            props.showModal('addFolder', { folder });
+        }
+    })
+
+
+    // }
 };
 export const shareFolder = ({ props, params, showModal }) => {
     Bus.$emit('openModal', 'CreateShare', {
@@ -93,8 +105,8 @@ export const pasteToCurrent = ({ props, params }) => {
     });
 };
 export const pasteFolderToRoot = ({ props }) => { };
-export const deleteFolder = async ({ props, params }) => {
-    deleteMultiData(props.project_id, params.target_id);
+export const deleteFolder = async (target_id) => {
+    deleteMultiData(target_id);
 };
 
 export default {

@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { filter, switchMap, map, concatMap } from 'rxjs/operators';
 import { lastValueFrom } from 'rxjs';
+import { getApiList$ } from '@rxUtils/collection';
+import { getSceneList$ } from '@rxUtils/scene';
 import { getLocalTargets } from '@busLogics/projects';
 // import { Collection } from '@indexedDB/project';
 // import { User } from '@indexedDB/user';
@@ -9,8 +11,9 @@ import { v4 as uuidv4 } from 'uuid';
 import isObject from 'lodash/isObject';
 import Bus, { useEventBus } from '@utils/eventBus';
 import { getBaseCollection } from '@constants/baseCollection';
-import { SaveTargetRequest, addMultiTargetRequest } from '@services/apis';
-import { isArray, isPlainObject, isString, isUndefined, max } from 'lodash';
+import { SaveTargetRequest, addMultiTargetRequest, fetchHandleFolder } from '@services/apis';
+import { fetchCreateGroup, fetchCreateScene } from '@services/scene';
+import { cloneDeep, isArray, isPlainObject, isString, isUndefined, max } from 'lodash';
 import { pushTask } from '@asyncTasks/index';
 import dayjs from 'dayjs';
 import { global$ } from '../global';
@@ -84,29 +87,109 @@ const useCollection = () => {
         return target;
     };
 
+    const addSceneItem = async (data, callback) => {
+        const { type, pid, param } = data;
+        let newScene = getBaseCollection(type);
+        console.log(newScene);
+        if (!newScene) return;
+        newScene.parent_id = parseInt(pid);
+        if (isPlainObject(param)) {
+            newScene = { ...newScene, ...param };
+        }
+        newScene['team_id'] = parseInt(sessionStorage.getItem('team_id'));
+        delete newScene['target_id'];
+
+        console.log(newScene);
+        // return;
+        fetchCreateScene(newScene).subscribe({
+            next: async (resp) => {
+                console.log(resp);
+                const { code } = resp;
+                if (code === 0) {
+                    callback && callback();
+                    global$.next({
+                        action: 'RELOAD_LOCAL_SCENE',
+                    });
+                }
+            }
+        })
+    }
+
+    const addSceneGroupItem = async (data, callback) => {
+        console.log(data);
+        const { type, pid, param } = data;
+        let newSceneGroup = getBaseCollection(type);
+        console.log(newSceneGroup);
+        if (!newSceneGroup) return;
+        newSceneGroup.parent_id = parseInt(pid);
+        if (isPlainObject(param)) {
+            newSceneGroup = { ...newSceneGroup, ...param };
+        }
+        newSceneGroup['team_id'] = parseInt(sessionStorage.getItem('team_id'));
+        delete newSceneGroup['target_id'];
+
+        console.log(newSceneGroup);
+        // return;
+        fetchCreateGroup(newSceneGroup).subscribe({
+            next: async (resp) => {
+                console.log(resp);
+                const { code } = resp;
+                if (code === 0) {
+                    callback && callback();
+                    global$.next({
+                        action: 'RELOAD_LOCAL_SCENE',
+                    });
+                }
+            }
+        })
+
+        // setTimeout(() => {
+        //     // 刷新左侧目录列表
+        //     global$.next({
+        //         action: 'RELOAD_LOCAL_COLLECTIONS',
+        //     });
+        // }, 100);
+
+    }
+
     const addCollectionItem = async (data, callback) => {
+        console.log(data);
         const { type, pid, param } = data;
         let newCollection = getBaseCollection(type);
-        newCollection.project_id = CURRENT_PROJECT_ID || '-1';
+        console.log(newCollection);
+        // newCollection.project_id = CURRENT_PROJECT_ID || '-1';
         if (!newCollection) return;
         if (isString(pid) && pid.length > 0) {
-            newCollection.parent_id = pid;
+            newCollection.parent_id = parseInt(pid);
         }
         if (isPlainObject(param)) {
             newCollection = { ...newCollection, ...param };
         }
 
         // sort 排序
-        if (newCollection?.sort == -1) await targetReorder(newCollection);
+        // if (newCollection?.sort == -1) await targetReorder(newCollection);
 
         // 过滤key为空的值
-        filterEmptyKey(newCollection);
+        // filterEmptyKey(newCollection);
 
         // 添加本地库
-        await Collection.put(newCollection, newCollection?.target_id);
+        // await Collection.put(newCollection, newCollection?.target_id);
         // 上传服务器 失败走异步任务
-        SaveTargetRequest({ ...newCollection, is_socket: 1 }).subscribe({
+        newCollection['team_id'] = parseInt(sessionStorage.getItem('team_id'));
+        delete newCollection['target_id'];
+        console.log(newCollection);
+        // return;
+        fetchHandleFolder(newCollection).subscribe({
             next: async (resp) => {
+                console.log(resp);
+                const { code } = resp;
+                if (code === 0) {
+                    global$.next({
+                        action: 'RELOAD_LOCAL_COLLECTIONS',
+                    });
+                    callback && callback();
+                }
+                return;
                 if (resp?.code === 10000) {
                     // 成功保存
                 } else {
@@ -137,25 +220,30 @@ const useCollection = () => {
                 );
             },
         });
-        // 刷新左侧目录列表
-        global$.next({
-            action: 'RELOAD_LOCAL_COLLECTIONS',
-            payload: CURRENT_PROJECT_ID,
-        });
-        callback && callback();
+
     };
     const busUpdateCollectionById = async (req, callback) => {
-        const { id, data } = req;
-        const collection = await Collection.get(id);
-        if (collection && !isUndefined(collection)) {
-            await Collection.put({ ...collection, ...data }, id);
-            callback && callback();
-            // 刷新左侧目录列表
-            global$.next({
-                action: 'RELOAD_LOCAL_COLLECTIONS',
-                payload: CURRENT_PROJECT_ID,
-            });
-        }
+        const { id, data, oldValue } = req;
+        console.log(id, data, oldValue);
+ 
+        const collection = cloneDeep(oldValue);
+        const params = {
+            ...collection,
+            ...data
+        };
+        console.log(params);
+        fetchHandleFolder(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    callback && callback();
+                    // 刷新左侧目录列表
+                    global$.next({
+                        action: 'RELOAD_LOCAL_COLLECTIONS',
+                    });
+                }
+            }
+        })
     };
     // 删除目录区某个集合 通过id
     const deleteCollectionById = async (id) => {
@@ -246,12 +334,36 @@ const useCollection = () => {
             .pipe(
                 filter((d) => d.action === 'RELOAD_LOCAL_COLLECTIONS'),
                 map((d) => d.payload),
-                concatMap(getLocalTargets),
-                switchMap(async (apiDatas) => {
+                concatMap(getApiList$),
+                switchMap(async ({ data: { targets } }) => {
+                    const tempApiList = {};
+                    for (let i = 0; i < targets.length; i++) {
+                        tempApiList[targets[i].target_id] = targets[i];
+                    }
                     dispatch({
                         type: 'apis/updateApiDatas',
-                        payload: apiDatas,
+                        payload: tempApiList,
                     });
+                })
+            )
+            .subscribe();
+
+        global$
+            .pipe(
+                filter((d) => d.action === 'RELOAD_LOCAL_SCENE'),
+                map((d) => d.payload),
+                concatMap(getSceneList$),
+                switchMap(async ({ data: { targets } }) => {
+                    const tempSceneList = {};
+                    if (targets instanceof Array) {
+                        for (let i = 0; i < targets.length; i++) {
+                            tempSceneList[targets[i].target_id] = targets[i];
+                        }
+                    }
+                    dispatch({
+                        type: 'scene/updateSceneDatas',
+                        payload: tempSceneList
+                    })
                 })
             )
             .subscribe();
@@ -259,8 +371,11 @@ const useCollection = () => {
     useEventBus('bulkAddCollection', bulkAddCollection, []);
     useEffect(() => {
         Bus.$on('addCollectionItem', addCollectionItem);
+        Bus.$on('addSceneGroupItem', addSceneGroupItem);
+        Bus.$on('addSceneItem', addSceneItem);
         Bus.$on('busUpdateCollectionById', busUpdateCollectionById);
         Bus.$on('deleteCollectionById', deleteCollectionById);
+
         return () => {
             const offArr = ['addCollectionItem', 'busUpdateCollectionById', 'deleteCollectionById'];
             // 销毁订阅

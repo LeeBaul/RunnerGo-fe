@@ -60,7 +60,6 @@ const useProject = () => {
 
     // 展示团队列表
     const handleInitTeams = ({ data: { teams } }) => {
-        // console.log('展示团队列表', teams);
         const teamData = {};
         teams.length && teams.forEach((data) => {
             teamData[data.team_id] = data;
@@ -88,7 +87,6 @@ const useProject = () => {
 
     // 展示首页基本信息
     const handleInitIndex = (res) => {
-        console.log('展示首页基本信息', res);
         const { data, code } = res;
         if (code === 0) {
             const { api_num, plan_num, report_num, scene_num, user, operations } = data;
@@ -98,12 +96,10 @@ const useProject = () => {
                 report_num,
                 scene_num,
             };
-            // console.log(0);
             dispatch({
                 type: 'dashboard/updateUserData',
                 payload: userData
             });
-            // console.log(1);
 
             const newInfo = cloneDeep(userInfo);
             newInfo.email = user.email;
@@ -117,7 +113,6 @@ const useProject = () => {
                 payload: newInfo
             })
 
-            // console.log(2);
 
 
             dispatch({
@@ -125,15 +120,11 @@ const useProject = () => {
                 payload: operations,
             })
 
-            // console.log(3);
-
-            // console.log(userInfo, user, newInfo);
         }
     }
 
     // 展示运行中的计划
     const handleInitRunningPlan = ({ data }) => {
-        console.log('展示运行中的计划', data);
         const { plans } = data;
         dispatch({
             type: 'plan/updatePlanData',
@@ -144,19 +135,33 @@ const useProject = () => {
     }
 
     // 展示用户配置信息
-    const handleInitUserConfig = ({ data }) => {
-        console.log(data);
+    const handleInitUserConfig = ({ data: { settings } }) => {
+
+        // console.log(data);
+        // console.log(sessionStorage.getItem('team_id'));
+
+        // const dispatch = useDispatch();
+        // // console.log('userConfig!!!', settings);
+        // // const newInfo = cloneDeep(userInfo);
+        // // newInfo.team_id = settings.current_team_id;
+        // // console.log(settings);
+        // const team_id = settings.current_team_id;
+        // sessionStorage.setItem('team_id', team_id);
+    
+        // // console.log(123123123123);
+        // dispatch({
+        //     type: 'user/updateTeamId',
+        //     payload: team_id
+        // });
+
         // sessionStorage.setItem('team_id', data.settings.current_team_id);
         // window.team_id = data.settings.current_team_id;
-        // console.log('userConfig!!!', data, userInfo);
         // let newInfo = cloneDeep(userInfo);
         // newInfo.team_id = data.settings.current_team_id;
-        // console.log(newInfo);
         // dispatch({
         //     type: 'user/updateUserInfo',
         //     payload: newInfo
         // });
-        // console.log('userConfig', userConfig);
         // const {
         //     DEFAULT_PROJECT_ID = '-1',
         //     DEFAULT_TEAM_ID = '-1',
@@ -179,11 +184,13 @@ const useProject = () => {
 
     // 应用程序初始化 第一次打开应用程序
     const handleInitApplication = () => {
-        let uuid = localStorage.getItem('uuid');
-        if (uuid === null) {
-            uuid = '-1';
-            localStorage.setItem('uuid', '-1');
-        }
+        // let uuid = localStorage.getItem('uuid');
+        // if (uuid === null) {
+        //     uuid = '-1';
+        //     localStorage.setItem('uuid', '-1');
+        // }
+
+        console.log(1111);
 
         dispatch({
             type: 'apis/recoverApiDatas',
@@ -216,13 +223,13 @@ const useProject = () => {
             team_id: sessionStorage.getItem('team_id'),
         };
 
-        return getUserConfig$(uuid).pipe(
+        return getUserConfig$().pipe(
             tap(handleInitUserConfig),
             concatMap((userConfig) => {
-                // console.log('用户配置信息获取成功：', userConfig);
                 // 初始化主题色
                 ininTheme(userConfig);
                 const team_id = sessionStorage.getItem('team_id');
+                console.log(team_id);
                 return of(team_id).pipe(
                     // step1.加载团队列表
                     concatMap(() => getUserTeamList$().pipe(tap(handleInitTeams))),
@@ -230,6 +237,11 @@ const useProject = () => {
                     concatMap(() => getIndexPage$().pipe(tap(handleInitIndex))),
                     concatMap(() => getRunningPlan$().pipe(tap(handleInitRunningPlan))),
                     concatMap(() => getApiList$(apiListParams).pipe(tap(handleInitApiList))),
+                    tap(() => {
+                        global$.next({
+                            action: 'RELOAD_LOCAL_SCENE'
+                        })
+                    }),
                     // concatMap(() => uploadTasks(current_project_id)),
                     // concatMap(() =>
                     //     Bus.$emit('getTeamMemberList'),
@@ -240,7 +252,7 @@ const useProject = () => {
                     //     //     // step3. 加载项目完整信息,并更新本地全局参数/环境变量等信息
                     //     //     mergeMap((project_ids) => getMultiProjectDetails$(uuid, project_ids))
                     //     // )
-                        
+
                     // ),
                     // switchMap(() =>
                     //     getUserTargetList$(current_project_id).pipe(
@@ -299,26 +311,23 @@ const useProject = () => {
 
     // 获取当前团队成员列表
     const getTeamMemberList = () => {
-        console.log('获取当前团队成员列表', sessionStorage.getItem('team_id'));
         const query = {
             team_id: sessionStorage.getItem('team_id'),
         }
         fetchTeamMemberList(query)
-        .pipe(
-            tap((res) => {
-                // console.log(res);
-                const { code, data: { members } } = res;
+            .pipe(
+                tap((res) => {
+                    const { code, data: { members } } = res;
 
-                if (code === 0) {
-                    dispatch({
-                        type: 'teams/updateTeamMember',
-                        payload: members
-                    })
-                    // console.log('////////////////', members);
-                }
-            })
-        )
-        .subscribe();
+                    if (code === 0) {
+                        dispatch({
+                            type: 'teams/updateTeamMember',
+                            payload: members
+                        })
+                    }
+                })
+            )
+            .subscribe();
     }
     // 获取当前团队列表
     const getTeamList = () => {
@@ -355,10 +364,8 @@ const useProject = () => {
     };
     // 获取当前用户基本配置
     const getUserConfig = () => {
-        console.log(123123123);
         fetchUserConfig().pipe(
             tap((res) => {
-                console.log(res);
                 const { data: { settings } } = res;
                 const team_id = settings.current_team_id;
                 sessionStorage.setItem('team_id', team_id);
@@ -366,7 +373,7 @@ const useProject = () => {
                     type: 'user/updateTeamId',
                     payload: team_id
                 });
-            
+
             }),
             catchError((err) => console.log(err))
         )
@@ -374,12 +381,24 @@ const useProject = () => {
     // 获取接口列表
     const handleInitApiList = ({ data: { targets }, code }) => {
         if (code === 0) {
+            // dispatch({
+            //     type: 'apis/updateApiDatas',
+            //     payload: targets
+            // })
+            const tempApiList = {};
+            for (let i = 0; i < targets.length; i++) {
+                tempApiList[targets[i].target_id] = targets[i];
+            }
             dispatch({
                 type: 'apis/updateApiDatas',
-                payload: targets
+                payload: tempApiList
             })
+            // dispatch({
+            //     type: 'opens/coverOpenApis',
+            //     payload: tempApiList
+            // })
         } else {
-            Message('error', '接口列表获取失败!');
+            // Message('error', '接口列表获取失败!');
         }
     }
 
@@ -397,9 +416,16 @@ const useProject = () => {
             .pipe(
                 filter((d) => d?.action === 'INIT_APPLICATION'),
                 tap(() => {
-                    // console.log('应用程序初始化-----start=============');
+                    console.log('应用程序初始化-----start=============');
                 }),
                 switchMap(handleInitApplication)
+            )
+            .subscribe();
+
+        global$
+            .pipe(
+                filter((d) => d.action === 'GET_APILIST'),
+                concatMap(({ params }) => getApiList$(params).pipe(tap(handleInitApiList)))
             )
             .subscribe();
 

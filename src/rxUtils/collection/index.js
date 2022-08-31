@@ -78,7 +78,12 @@ export const getAllEffectCollections = async (project_id, target_Ids) => {
 };
 
 export const getApiList$ = (params) => {
-    return from(fetchApiList(params)).pipe(
+    const defaultParams = {
+        page: 1,
+        size: 100,
+        team_id: sessionStorage.getItem('team_id'),
+    }
+    return from(fetchApiList(params ? params : defaultParams)).pipe(
         tap(res => {
             return res;
         })

@@ -14,6 +14,14 @@ export const fetchHandleFolder = (
 export const fetchApiList = (
     query
 ) => ajax('get', '/management/api/v1/target/list', 'json', false, {}, query);
+// 批量获取接口详情
+export const fetchApiDetail = (
+    query
+) => ajax('get', '/management/api/v1/target/detail', 'json', false, {}, query);
+// 获取文件夹详情
+export const fetchFolderDetail = (
+    query
+) => ajax('get', '/management/api/v1/folder/detail', 'json', false, {}, query);
 // 彻底删除文件夹/接口
 export const fetchStrongDeleteApi = (
     params

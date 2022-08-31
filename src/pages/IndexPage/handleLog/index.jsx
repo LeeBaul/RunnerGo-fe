@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './index.less';
 import { Apis as SvgApis, Right as SvgRight } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
-// import HandleTag from '@components/HandleTag';
+import HandleTags from '@components/HandleTags';
 import TeamworkLogs from '@modals/TeamworkLogs';
 import dayjs from 'dayjs';
 
@@ -33,7 +33,7 @@ const HandleLog = (props) => {
                                 <p>{item.user_name}</p>
                             </div>
                             <div className='log-item-mid'>
-                                {/* <HandleTag type={item.type} /> */}
+                                <HandleTags type={item.category} />
                                 <p>{item.name}</p>
                             </div>
                             <div className='log-item-right'>

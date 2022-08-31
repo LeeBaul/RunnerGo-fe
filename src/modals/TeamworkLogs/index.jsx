@@ -5,6 +5,7 @@ import cn from 'classnames';
 import dayjs from 'dayjs';
 import { getSynergykLogs } from '@services/projects';
 import Collapse from '@components/Collapse';
+import HandleTags from '../../components/HandleTags';
 import { useSelector } from 'react-redux';
 import { actioinType } from './constant';
 import { TeamworkLosWrapper } from './style';
@@ -279,14 +280,7 @@ const TeamworkLogs = (props) => {
                           {logItem.user_status === -1 && <span className="logOff">已注销</span>}
                         </div>
                         <div className="action">
-                          <div
-                            className={cn({
-                              tag: true,
-                              [logItem?.message?.action]: logItem?.message?.tag === '',
-                            })}
-                          >
-                            {actionType(logItem)}
-                          </div>
+                          <HandleTags type={logItem.category} />
                           <Tooltip
                             ref={refTooltip}
                             placement="bottom"
@@ -304,7 +298,7 @@ const TeamworkLogs = (props) => {
                               </div>
                             }
                           >
-                            <div className="text-ellipsis">
+                            <div className="text-ellipsis" style={{marginLeft: '6px'}}>
                               {/* {logItem?.message?.action === 'lock' ||
                                 logItem?.message?.action === 'unlock'
                                 ? logItem?.message?.subject?.modify_subject.slice(

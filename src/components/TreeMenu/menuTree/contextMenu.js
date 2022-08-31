@@ -6,18 +6,19 @@ import { isArray, isString, isUndefined, isFunction } from 'lodash';
 import contextMenus from '../contextMenus';
 import contextFuncs from '../contextFuncs';
 
-const handleMenuItemClick = ({ module, action, params, props }) => {
+const handleMenuItemClick = ({ module, action, target_id, props}) => {
+    console.log(module, action, target_id, props);
     const funcModule = contextFuncs?.[module]?.[action];
     if (isFunction(funcModule) === false) {
         Message('error', '无效操作');
         return;
     }
-    funcModule({ params, props });
+    funcModule(target_id, props);
 };
 
 export const handleShowContextMenu = (props, e, params) => {
-    e.preventDefault();
-    e.stopPropagation();
+
+    const { target_id } = params;
 
     let module = '';
     if (isUndefined(params)) {
@@ -41,7 +42,7 @@ export const handleShowContextMenu = (props, e, params) => {
                     if (action === '') {
                         return;
                     }
-                    handleMenuItemClick.call(null, { module, action, params, props });
+                    handleMenuItemClick.call(null, { module, action, target_id, props });
                     contextMenuRef?.current?.hideMenu();
                 }}
                 style={{ width: 170 }}

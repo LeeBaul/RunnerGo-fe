@@ -15,23 +15,27 @@ const Apis = (props) => {
     const openApis = useSelector((store) => store?.opens?.open_apis);
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
 
+
     // 切换tabItem
     const handleTabChange = (target_id) => {
         Bus.$emit('updateTargetId', target_id);
     };
 
+    console.log(openApis, CURRENT_TARGET_ID);
+
 
     // 被打开的api数据列表
     const apiDataList = isObject(openApis)
         ? Object.values(openApis).map((item) => {
+            console.log(item);
             return {
                 id: item?.target_id,
                 title: item?.name,
                 type: item?.target_type,
                 method: item?.method,
-                createTime: item?.create_dtime,
-                lastUpdate: item?.update_dtime,
-                ifChanged: item?.is_changed,
+                createTime: typeof item.target_id === 'number' ? item.created_time_sec : item.create_dtime ,
+                lastUpdate: typeof item.target_id === 'number' ? item.updated_time_sec : item.update_dtime,
+                ifChanged: typeof item.target_id === 'number' ? -1 : 1,
                 data: item,
                 unSave: true,
             };

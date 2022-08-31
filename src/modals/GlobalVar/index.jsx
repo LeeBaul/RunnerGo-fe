@@ -8,7 +8,7 @@ const GlobalVar = (props) => {
     const { onCancel } = props;
     const columns = [
         {
-            title: '函数名',
+            title: '变量名',
             dataIndex: 'name',
             width: 211
         },

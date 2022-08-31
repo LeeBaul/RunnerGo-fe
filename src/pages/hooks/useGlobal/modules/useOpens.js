@@ -31,15 +31,16 @@ import {
 } from '@utils';
 import * as jsondiffpatch from 'jsondiffpatch';
 import { urlParseLax } from '@utils/common';
-import { from, lastValueFrom } from 'rxjs';
+import { from, lastValueFrom, tap, map, concatMap } from 'rxjs';
 import { CONFILCTURL } from '@constants/confilct';
-import { SaveTargetRequest, saveApiBakRequest } from '@services/apis';
+import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail } from '@services/apis';
 import { getBaseCollection } from '@constants/baseCollection';
 
 // 新建接口
 const useOpens = () => {
     const dispatch = useDispatch();
-    const { open_apis } = useSelector((store) => store?.opens);
+    const { open_apis, open_api_now } = useSelector((store) => store?.opens);
+    const apiDatas = useSelector((store) => store.apis.apiDatas);
     const { desktop_proxy } = useSelector((store) => store?.desktopProxy);
     const workspace = useSelector((store) => store?.workspace);
     const { CURRENT_PROJECT_ID, CURRENT_TARGET_ID } = workspace;
@@ -129,7 +130,7 @@ const useOpens = () => {
             }
             // const collectionTarget = await Collection.get(newTarget?.target_id);
             // if (!collectionTarget) {
-                newTarget.is_changed = 1;
+            newTarget.is_changed = 1;
             // } else {
             //     const source_json = {};
             //     const updateSourceData = collectionTarget[diffPaths[path]];
@@ -159,64 +160,71 @@ const useOpens = () => {
 
     const addOpensByObj = async (Obj, selected = false, callback) => {
         const tempOpenApis = cloneDeep(open_apis);
-        // console.log(Obj);
-        // console.log(open_apis);
+        console.log('Obj', Obj);
         tempOpenApis[Obj.target_id] = Obj;
+
         // await Opens.put(Obj, Obj.target_id).then(() => {
-            dispatch({
-                type: 'opens/coverOpenApis',
-                payload: tempOpenApis,
-            });
-            selected && Bus.$emit('updateTargetId', Obj.target_id);
-            callback && callback();
-            const openNavs =
-                apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
-            openNavs.push(Obj.target_id);
-            apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
-                open_navs: openNavs,
-            });
-            // console.log(apGlobalConfigStore);
+        dispatch({
+            type: 'opens/coverOpenApis',
+            payload: tempOpenApis,
+        });
+        selected && Bus.$emit('updateTargetId', Obj.target_id);
+        callback && callback();
+        const openNavs =
+            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        openNavs.push(Obj.target_id);
+        apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
+            open_navs: openNavs,
+        });
         // });
     };
 
     const updateOpensById = async (req) => {
         const { id, data } = req;
-        // const opensApi = await Opens.get(id);
-        // TODO 修改本地库
-        // if (open_apis.hasOwnProperty(id) && isObject(open_apis[id]) && isObject(opensApi)) {
-        //     let target_temp = cloneDeep(open_apis[id]);
-        //     target_temp = { ...target_temp, ...data };
-        //     await Opens.put(target_temp, target_temp.target_id);
-        //     dispatch({
-        //         type: 'opens/coverOpenApis',
-        //         payload: { ...open_apis, [id]: target_temp },
-        //     });
-        // }
-    };
 
-    const updateCollectionById = async (req) => {
-        const { id, data, notFindIdNew } = req;
-        let target = await Collection.get(id);
-        if (target && isObject(target)) {
-            target = { ...target, ...data };
-            await Collection.put(target, target.target_id);
-            // 刷新左侧目录列表
-            global$.next({
-                action: 'RELOAD_LOCAL_COLLECTIONS',
-                payload: CURRENT_PROJECT_ID,
-            });
-        } else if (notFindIdNew) {
-            await Collection.put(data, data?.target_id);
-            // 刷新左侧目录列表
-            global$.next({
-                action: 'RELOAD_LOCAL_COLLECTIONS',
-                payload: CURRENT_PROJECT_ID,
+        // TODO 修改本地库
+        if (open_apis.hasOwnProperty(id) && isObject(open_apis[id])) {
+            let target_temp = cloneDeep(open_apis[id]);
+            target_temp = { ...target_temp, ...data };
+            // await Opens.put(target_temp, target_temp.target_id);
+            dispatch({
+                type: 'opens/coverOpenApis',
+                payload: { ...open_apis, [id]: target_temp },
             });
         }
     };
 
+    const updateCollectionById = async () => {
+        const params = {
+            page: 1,
+            size: 20,
+            team_id: sessionStorage.getItem('team_id'),
+        }
+        global$.next({
+            action: 'RELOAD_LOCAL_COLLECTIONS',
+            payload: params,
+        });
+        // const { id, data, notFindIdNew } = req;
+        // let target = await Collection.get(id);
+        // if (target && isObject(target)) {
+        //     target = { ...target, ...data };
+        //     await Collection.put(target, target.target_id);
+        //     // 刷新左侧目录列表
+        //     global$.next({
+        //         action: 'RELOAD_LOCAL_COLLECTIONS',
+        //         payload: CURRENT_PROJECT_ID,
+        //     });
+        // } else if (notFindIdNew) {
+        //     await Collection.put(data, data?.target_id);
+        //     // 刷新左侧目录列表
+        //     global$.next({
+        //         action: 'RELOAD_LOCAL_COLLECTIONS',
+        //         payload: CURRENT_PROJECT_ID,
+        //     });
+        // }
+    };
+
     const updateTarget = async (data) => {
-        console.log(data, open_apis);
         const { target_id, pathExpression, value } = data;
         const tempOpenApis = open_apis;
         if (!tempOpenApis.hasOwnProperty(target_id)) {
@@ -235,7 +243,6 @@ const useOpens = () => {
                     reqUrl = `http://${reqUrl}`;
                 }
                 const urlObj = createUrl(reqUrl);
-                console.log(urlObj);
                 if (isArray(tempOpenApis[target_id]?.request?.query?.parameter)) {
                     // 提取query
                     const searchParams = GetUrlQueryToArray(urlObj?.search || '');
@@ -394,22 +401,51 @@ const useOpens = () => {
     };
 
     const addOpenItem = async (data) => {
-        // console.log('添加addOpenItem');
 
         const { type, id, pid } = data;
         let newApi = '';
         if (id) {
-            if (open_apis.hasOwnProperty(id)) {
-                Bus.$emit('updateTargetId', id);
-                return;
+            Bus.$emit('updateTargetId', id);
+            if (!open_apis.hasOwnProperty(id)) {
+                const query = {
+                    team_id: sessionStorage.getItem('team_id'),
+                    target_ids: [id]
+                };
+
+                fetchApiDetail(query).subscribe({
+                    next: (res) => {
+                        const { code, data: { targets } } = res;
+                        if (code === 0) {
+                            const tempApis = cloneDeep(open_apis);
+                            tempApis[id] = targets[0];
+
+                            dispatch({
+                                type: 'opens/coverOpenApis',
+                                payload: tempApis,
+                            })
+
+                            Bus.$emit('updateTargetId', tempApis[id].target_id);
+                            const openNavs =
+                                apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+                            openNavs.push(tempApis[id].target_id);
+                            apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
+                                open_navs: openNavs,
+                            });
+                        }
+                    },
+                    err: (err) => {
+                        console.log(err);
+                    }
+                })
+;
             }
             // await Collection.get(id).then((res) => {
             //     newApi = completionTarget(res);
             // });
         } else {
-            // console.log(type);
+            console.log(1111111111);
             newApi = getBaseCollection(type);
-            newApi.project_id = CURRENT_PROJECT_ID || '-1';
+            // newApi.project_id = CURRENT_PROJECT_ID || '-1';
             newApi.is_changed = 1;
             // const userInfo = await User.get(localStorage.getItem('uuid') || '-1');
             if (type === 'api') {
@@ -427,17 +463,19 @@ const useOpens = () => {
             newApi.parent_id = pid;
         }
 
+        console.log('newApi', newApi);
+
         addOpensByObj(newApi, true);
     };
 
     const updateTargetId = async (id) => {
-        const uuid = localStorage.getItem('uuid');
+        // const uuid = localStorage.getItem('uuid');
         // User.update(uuid, { 'workspace.CURRENT_TARGET_ID': id }).then(() => {
-            apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { CURRENT_TARGET_ID: id });
-            dispatch({
-                type: 'workspace/updateWorkspaceState',
-                payload: { CURRENT_TARGET_ID: id },
-            });
+        // apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { CURRENT_TARGET_ID: id });
+        dispatch({
+            type: 'workspace/updateWorkspaceState',
+            payload: { CURRENT_TARGET_ID: id },
+        });
         // });
     };
 
@@ -455,52 +493,51 @@ const useOpens = () => {
     const removeOpenItem = async (id) => {
         // 判断是否为socket 关闭连接
         // const target = await Opens.get(id);
-        if (target?.target_type === 'websocket') {
-            // 关闭socket连接
-            if (desktop_proxy && desktop_proxy?.connected) {
-                desktop_proxy.emit('websocket', {
-                    action: 'disconnect',
-                    target,
-                });
-            }
-        }
-        // await Opens.delete(id).then(() => {
-        //     dispatch({
-        //         type: 'opens/removeApiById',
-        //         payload: { target_id: id },
-        //     });
-
-        //     const openNavs =
-        //         apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
-        //     const index_1 = openNavs.indexOf(id);
-        //     if (id === CURRENT_TARGET_ID) {
-        //         let newId = '';
-        //         if (index_1 > 0) {
-        //             newId = openNavs[index_1 - 1];
-        //         } else {
-        //             newId = openNavs[index_1 + 1];
-        //         }
-        //         // 更新当前id
-        //         newId && updateTargetId(newId);
+        // if (target?.target_type === 'websocket') {
+        //     // 关闭socket连接
+        //     if (desktop_proxy && desktop_proxy?.connected) {
+        //         desktop_proxy.emit('websocket', {
+        //             action: 'disconnect',
+        //             target,
+        //         });
         //     }
+        // }
+        // await Opens.delete(id).then(() => {
+        dispatch({
+            type: 'opens/removeApiById',
+            payload: { target_id: id },
+        });
 
-        //     index_1 > -1 && openNavs.splice(index_1, 1);
-        //     apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { open_navs: openNavs });
+        const openNavs =
+            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        const index_1 = openNavs.indexOf(id);
+        if (id === CURRENT_TARGET_ID) {
+            let newId = '';
+            if (index_1 > 0) {
+                newId = openNavs[index_1 - 1];
+            } else {
+                newId = openNavs[index_1 + 1];
+            }
+            // 更新当前id
+            newId && updateTargetId(newId);
+        }
+
+        index_1 > -1 && openNavs.splice(index_1, 1);
+        apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { open_navs: openNavs });
         // });
     };
 
     const saveTargetById = async (data, options = { is_socket: 1 }) => {
-        console.log(data, options);
         const { id, pid, callback } = data;
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
         const tempTarget = tempOpenApis[target_id];
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
-            tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
-            tempTarget.update_dtime = ~~(new Date().getTime() / 1000);
+            // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
+            // tempTarget.update_dtime = ~~(new Date().getTime() / 1000);
             tempTarget.is_changed = -1;
-            tempTarget.modifier_id = localStorage.getItem('uuid');
+            // tempTarget.modifier_id = localStorage.getItem('uuid');
             switch (tempTarget?.target_type) {
                 case 'api':
                     if (tempTarget.name === '') tempTarget.name = '新建接口';
@@ -515,80 +552,107 @@ const useOpens = () => {
                 default:
                     break;
             }
+
+
+            // return;
             // sort 排序
-            if (tempTarget?.sort == -1) await targetReorder(tempTarget);
+            // if (tempTarget?.sort == -1) await targetReorder(tempTarget);
 
             // 过滤key为空的数据
-            filterEmptyKey(tempTarget);
+            // filterEmptyKey(tempTarget);
 
             // 添加最新保存记录
-            Recently_Save.put(tempTarget);
+            // Recently_Save.put(tempTarget);
 
             if (options?.is_archive > 0) {
                 tempTarget.is_example = 1;
             }
 
-            // 更新collection
-            await updateCollectionById({
-                id: tempTarget?.target_id,
-                data: tempTarget,
-                notFindIdNew: true,
-            });
+
+            // await updateCollectionById({
+            //     id: tempTarget?.target_id,
+            //     data: tempTarget,
+            //     notFindIdNew: true,
+            // });
             // 更新opens
             await updateOpensById({
                 id: tempTarget?.target_id,
                 data: tempTarget,
             });
-            // 执行接口 失败添加异步任务
-            if (tempTarget?.target_type) {
-                try {
-                    const resp = await lastValueFrom(SaveTargetRequest({ ...tempTarget, ...options }));
-                    if (resp?.code === 10000) {
-                        // 更新本地数据库版本
-                        await updateCollectionById({
-                            id: tempTarget?.target_id,
-                            data: {
-                                ...tempTarget,
-                                version: resp?.data?.version,
-                            },
-                            notFindIdNew: true,
-                        });
-                        await updateOpensById({
-                            id: tempTarget?.target_id,
-                            data: {
-                                ...tempTarget,
-                                version: resp?.data?.version,
-                            },
-                        });
 
-                        // console.log(resp);
-                    } else {
-                        // 添加异步任务
-                        pushTask(
-                            {
-                                task_id: tempTarget.target_id,
-                                action: 'SAVE',
-                                model: tempTarget?.target_type.toUpperCase(),
-                                payload: tempTarget.target_id,
-                                project_id: CURRENT_PROJECT_ID,
-                            },
-                            -1
-                        );
-                    }
-                } catch (error) {
-                    // 添加异步任务
-                    pushTask(
-                        {
-                            task_id: tempTarget.target_id,
-                            action: 'SAVE',
-                            model: tempTarget?.target_type.toUpperCase(),
-                            payload: tempTarget.target_id,
-                            project_id: CURRENT_PROJECT_ID,
-                        },
-                        -1
-                    );
-                }
+            // TODO:
+            if (typeof tempTarget.target_id === 'string') {
+                delete tempTarget['target_id'];
+                tempTarget.parent_id = parseInt(tempTarget.parent_id);
+                tempTarget.team_id = parseInt(sessionStorage.getItem('team_id'));
             }
+
+
+            fetchHandleApi(tempTarget)
+                .pipe(
+                    tap(async (res) => {
+                        const { code } = res;
+                        if (code === 0) {
+                            Message('success', '保存成功!');
+                            // 更新collection
+                            await updateCollectionById();
+                        } else {
+                            Message('error', '保存失败!');
+                        }
+                    })
+                )
+                .subscribe();
+
+            // 执行接口 失败添加异步任务
+            // if (tempTarget?.target_type) {
+            //     try {
+            //         const resp = await lastValueFrom(SaveTargetRequest({ ...tempTarget, ...options }));
+            //         if (resp?.code === 10000) {
+            //             // 更新本地数据库版本
+            //             await updateCollectionById({
+            //                 id: tempTarget?.target_id,
+            //                 data: {
+            //                     ...tempTarget,
+            //                     version: resp?.data?.version,
+            //                 },
+            //                 notFindIdNew: true,
+            //             });
+            //             await updateOpensById({
+            //                 id: tempTarget?.target_id,
+            //                 data: {
+            //                     ...tempTarget,
+            //                     version: resp?.data?.version,
+            //                 },
+            //             });
+
+            //             // console.log(resp);
+            //         } else {
+            //             // 添加异步任务
+            //             pushTask(
+            //                 {
+            //                     task_id: tempTarget.target_id,
+            //                     action: 'SAVE',
+            //                     model: tempTarget?.target_type.toUpperCase(),
+            //                     payload: tempTarget.target_id,
+            //                     project_id: CURRENT_PROJECT_ID,
+            //                 },
+            //                 -1
+            //             );
+            //         }
+            //     } catch (error) {
+            //         // 添加异步任务
+            //         pushTask(
+            //             {
+            //                 task_id: tempTarget.target_id,
+            //                 action: 'SAVE',
+            //                 model: tempTarget?.target_type.toUpperCase(),
+            //                 payload: tempTarget.target_id,
+            //                 project_id: CURRENT_PROJECT_ID,
+            //             },
+            //             -1
+            //         );
+            //     }
+            // }
 
             callback && callback();
         }
@@ -781,6 +845,35 @@ const useOpens = () => {
         });
     };
 
+    const dragUpdateTarget = ({ ids, targetList }) => {
+        const query = {
+            team_id: sessionStorage.getItem('team_id'),
+            target_ids: ids
+        };
+        const targetDatas = {};
+        targetList.forEach(item => {
+            targetDatas[item.target_id] = item;
+        })
+        fetchApiDetail(query).pipe(
+            tap((res) => {
+                const { code, data: { targets } } = res;
+                if (code === 0) {
+                    targets.forEach(item => {
+                        let newItem = {
+                            ...item,
+                            parent_id: targetDatas[item.target_id].parent_id,
+                            sort: targetDatas[item.target_id].sort
+                        }
+                        fetchHandleApi(newItem).subscribe();
+                    });
+                    return targets;
+                }
+            }),
+
+        )
+            .subscribe();
+    }
+
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id
     useEventBus('addOpenItem', addOpenItem, [CURRENT_PROJECT_ID, open_apis]);
 
@@ -826,6 +919,9 @@ const useOpens = () => {
 
     // 重新加载标签页
     useEventBus('reloadOpens', reloadOpens, [CURRENT_PROJECT_ID]);
+
+    //
+    useEventBus('dragUpdateTarget', dragUpdateTarget);
 
     // 初始化tabs
     useEffect(() => {
