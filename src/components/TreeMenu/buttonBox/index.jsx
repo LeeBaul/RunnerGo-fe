@@ -15,7 +15,9 @@ import Bus from '@utils/eventBus';
 import { DropWrapper } from './style';
 import FolderCreate from '@modals/folder/create';
 
-const ButtonBox = () => {
+const ButtonBox = (props) => {
+
+    const { treeRef, showModal } = props;
 
     const [isExpandAll, setIsExpandAll] = useState(false);
     const [showFolder, setShowFolder] = useState(false);
@@ -23,9 +25,10 @@ const ButtonBox = () => {
     const handleExpandAll = () => {
         const newExpandStatus = !isExpandAll;
         setIsExpandAll(newExpandStatus);
-        // treeRef.current?.handleExpandItem(newExpandStatus);
+        console.log(treeRef.current);
+        treeRef.current?.handleExpandItem(newExpandStatus);
         // setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.IS_EXPAND_ALL`, newExpandStatus ? 1 : -1);
-      };
+    };
 
     return (
         <>
@@ -33,7 +36,9 @@ const ButtonBox = () => {
                 <div className="project-title">默认项目</div>
                 <div className="button-list">
                     <Tooltip content="新建接口" placement="top">
-                        <Button size="mini">
+                        <Button size="mini" onClick={() => {
+                            Bus.$emit('addOpenItem', { type: 'api' })
+                        }}>
                             <SvgNewApis width="18px" height="18px" />
                         </Button>
                     </Tooltip>

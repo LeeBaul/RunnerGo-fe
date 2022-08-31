@@ -35,7 +35,7 @@ export const fetchUserConfig = (
 // 修改用户配置
 export const fetchUpdateConfig = (
   params
-) => ajax('post', '/management/api/v1/auth/set_user_settings', 'json', false, params);
+) => ajax('post', '/management/api/v1/setting/set', 'json', false, params);
 
 
 // 获取微信二维码

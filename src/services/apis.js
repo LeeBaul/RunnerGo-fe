@@ -1,6 +1,46 @@
 // import { IBaseResponse } from '@dto/baseResponse';
 // import ajax from './axios';
 import ajax, { RxAjaxObservable } from './ajax';
+
+// 创建/修改接口
+export const fetchHandleApi = (
+    params
+) => ajax('post', '/management/api/v1/target/save', 'json', false, params);
+// 创建/修改文件夹
+export const fetchHandleFolder = (
+    params
+) => ajax('post', '/management/api/v1/folder/save', 'json', false, params);
+// 获取文件夹/接口列表
+export const fetchApiList = (
+    query
+) => ajax('get', '/management/api/v1/target/list', 'json', false, {}, query);
+// 批量获取接口详情
+export const fetchApiDetail = (
+    query
+) => ajax('get', '/management/api/v1/target/detail', 'json', false, {}, query);
+// 获取文件夹详情
+export const fetchFolderDetail = (
+    query
+) => ajax('get', '/management/api/v1/folder/detail', 'json', false, {}, query);
+// 彻底删除文件夹/接口
+export const fetchStrongDeleteApi = (
+    params
+) => ajax('post', '/management/api/v1/target/delete', 'json', false, params);
+// 删除文件夹/接口
+export const fetchDeleteApi = (
+    params
+) => ajax('post', '/management/api/v1/target/trash', 'json', false, params);
+// 恢复文件夹/接口
+export const fetchRecallApi = (
+    params
+) => ajax('post', '/management/api/v1/target/recall', 'json', false, params);
+// 获取回收站接口/文件夹列表
+export const fetchRecycleList = (
+    query
+) => ajax('get', '/management/api/v1/target/trash_list', 'json', false, {}, query);
+
+
+
 // 获取用户目录简要信息列表
 export const fetchTargetIdsRequest = (
     params

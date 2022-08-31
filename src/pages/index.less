@@ -438,10 +438,15 @@ svg {
 }
 
 .apipost-select-popup {
+    z-index: 9999;
     box-sizing: border-box;
+    // TODO:
     background-color: var(--background-color-secondary);
+    // background-color: #262626;
+    // background-color: #fff;
     border-radius: var(--border-radius-default);
     border: 1px solid var(--border-color-default);
+    // border: 1px solid #fff;
     box-shadow: inset 0 -1px 0 var(--border-color-strong);
     padding: 8px 0;
     max-height: 360px;
@@ -450,7 +455,11 @@ svg {
 
     .select-option {
         background-color: var(--background-color-secondary);
+        // background-color: #fff;
+        // background-color: #262626;
+
         cursor: default;
+        // color: #a6a6a6;
         -webkit-user-select: none;
         user-select: none;
         font-size: var(--size-12px);
@@ -462,8 +471,10 @@ svg {
         }
 
         &.selected {
-            color: var(--content-color-primary);
-            background: var(--highlight-background-color-tertiary);
+            // color: var(--content-color-primary);
+            color: #fff;
+            // background: var(--highlight-background-color-tertiary);
+            background: #3b3b3b;
 
             svg {
                 fill: var(--content-color-primary)
@@ -471,8 +482,10 @@ svg {
         }
 
         &:hover {
-            color: var(--content-color-primary);
-            background-color: var(--highlight-background-color-secondary) !important;
+            // color: var(--content-color-primary);
+            color: #fff;
+            // background-color: var(--highlight-background-color-secondary) !important;
+            background-color: #3b3b3b !important;
 
             svg {
                 fill: var(--content-color-primary)
@@ -810,7 +823,8 @@ svg {
     .newTarget {
         flex: 1;
         display: flex;
-        align-items: end;
+        // align-items: end;
+        align-items: center;
         justify-content: center;
 
         .apipost-btn {

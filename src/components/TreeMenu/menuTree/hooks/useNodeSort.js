@@ -26,6 +26,7 @@ const useNodeSort = (props) => {
     const getParentKeys = (nodeItem) => {
         const results = [];
         const digAll = (node) => {
+            // console.log(node);
             const parent = treeData[node.parent_id];
             if (typeof parent !== 'undefined') {
                 digAll(parent);
@@ -48,8 +49,13 @@ const useNodeSort = (props) => {
         targetKey,
         mode
     ) => {
+        console.log(treeData, sourceKey, targetKey, mode);
         const sourceData = treeData[sourceKey];
+        // const sourceData = treeData.filter(item => item.target_id === sourceKey)[0];
         const targetData = treeData[targetKey];
+        // const targetData = treeData.filter(item => item.target_id === targetKey)[0];
+
+        console.log(targetData);
         let parent_id = '-1';
 
         let targetList = getChildList(targetData?.parent_id);
@@ -87,7 +93,7 @@ const useNodeSort = (props) => {
             parent_id = targetKey;
             let tlist = getChildList(targetKey);
             tlist = tlist.filter((item) => item.target_id !== sourceKey);
-            const tData = { ...sourceData, parent_id: targetKey };
+            const tData = { ...sourceData, parent_id: parseInt(targetKey) };
             tlist.splice(0, 0, tData);
             targetList = tlist;
         }
@@ -115,6 +121,7 @@ const useNodeSort = (props) => {
                 tap(() => {
                     // 更新redux
                     const newDatas = cloneDeep(apiDatas);
+                    console.log('targetList', targetList);
                     targetList.forEach((item) => {
                         newDatas[item.target_id] = {
                             ...newDatas[item.target_id],
@@ -131,35 +138,55 @@ const useNodeSort = (props) => {
                         type: 'apis/updateApiDatas',
                         payload: { ...newDatas },
                     });
-                }),
-                switchMap(() => Collection.bulkGet(targetList.map((item) => item.target_id))),
-                filter((dataList) => isArray(dataList)),
-                map((data) => {
-                    const targetDatas = {};
-                    targetList.forEach((item) => {
-                        targetDatas[item.target_id] = item;
-                    });
-                    return data.map((item) => ({
-                        ...item,
-                        parent_id: targetDatas[item.target_id].parent_id,
-                        sort: targetDatas[item.target_id].sort,
-                    }));
-                }),
-                tap((dataList) => {
-                    // 更新数据库
-                    Collection.bulkPut(dataList);
-                }),
 
-                tap(() => {
-                    // 添加异步任务
-                    pushTask({
-                        task_id: `${project_id}/${parent_id}`,
-                        action: 'SORT',
-                        model: 'API',
-                        payload: result,
-                        project_id,
-                    });
+                }),
+                switchMap(() => {
+                    const ids = [];
+                    for (let i = 0; i < targetList.length; i++) {
+                        ids.push(targetList[i].target_id);
+                    }
+                    
+                    Bus.$emit('dragUpdateTarget', {
+                        ids,
+                        targetList
+                    })
                 })
+                // switchMap(() => {
+                //     targetList.forEach(item => {
+                //         Bus.$emit('saveTargetById', {
+                //             id: item.target_id
+                //         })
+                //     })
+                // })
+                // switchMap(() => Collection.bulkGet(targetList.map((item) => item.target_id))),
+                // filter((dataList) => isArray(dataList)),
+                // map((data) => {
+                //     console.log(data);
+                //     const targetDatas = {};
+                //     targetList.forEach((item) => {
+                //         targetDatas[item.target_id] = item;
+                //     });
+                //     return data.map((item) => ({
+                //         ...item,
+                //         parent_id: targetDatas[item.target_id].parent_id,
+                //         sort: targetDatas[item.target_id].sort,
+                //     }));
+                // }),
+                // tap((dataList) => {
+                //     // 更新数据库
+                //     Collection.bulkPut(dataList);
+                // }),
+
+                // tap(() => {
+                //     // 添加异步任务
+                //     pushTask({
+                //         task_id: `${project_id}/${parent_id}`,
+                //         action: 'SORT',
+                //         model: 'API',
+                //         payload: result,
+                //         project_id,
+                //     });
+                // })
             )
             .subscribe();
     };

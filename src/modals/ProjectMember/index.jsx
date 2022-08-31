@@ -8,6 +8,7 @@ import { fetchTeamMemberList, fetchRemoveMember } from '@services/user';
 import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import InvitationModal from '../ProjectInvitation';
+import Bus from '@utils/eventBus';
 
 const ProjectMember = (props) => {
     const { onCancel } = props;
@@ -16,7 +17,7 @@ const ProjectMember = (props) => {
 
     const removeMember = (member_id) => {
         const params = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: parseInt(sessionStorage.getItem('team_id')),
             member_id,
         }
         fetchRemoveMember(params)
@@ -28,6 +29,7 @@ const ProjectMember = (props) => {
                     if (code === 0) {
                         Message('success', '移除成功!');
                         fetchData();
+                        Bus.$emit('getTeamMemberList');
                     } else {
                         Message('error', '移除失败!');
                     }
@@ -87,8 +89,8 @@ const ProjectMember = (props) => {
             dataIndex: 'invitedBy',
         },
         {
-            title: '工位属性',
-            dataIndex: 'stationType',
+            title: '人员权限',
+            dataIndex: 'power',
         },
         {
             title: '操作',

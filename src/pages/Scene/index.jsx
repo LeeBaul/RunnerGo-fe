@@ -12,6 +12,7 @@ import SceneContainer from './sceneContainer';
 const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
+
     return (
         <ScalePanel
             realTimeRender

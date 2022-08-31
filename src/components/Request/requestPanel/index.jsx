@@ -46,32 +46,6 @@ const RequestPanel = (props) => {
       title: '认证',
       content: <Authen value={data?.auth || {}} onChange={onChange}></Authen>,
     },
-    {
-      id: '5',
-      title: '预执行脚本',
-      content: (
-        <ScriptBox
-          scriptType="pre"
-          value={data?.event?.pre_script || ''}
-          onChange={(val) => {
-            onChange('scriptPre', val);
-          }}
-        ></ScriptBox>
-      ),
-    },
-    {
-      id: '6',
-      title: '后执行脚本',
-      content: (
-        <ScriptBox
-          scriptType="after"
-          value={data?.event?.test || ''}
-          onChange={(val) => {
-            onChange('scriptTest', val);
-          }}
-        ></ScriptBox>
-      ),
-    },
   ];
   return (
     <RequestWrapper>

@@ -22,6 +22,17 @@ import Example from './example';
 import MenuStatus from './menuStatus';
 import './index.less';
 
+const NodeType = {
+    api: SvgApis,
+    scene: SvgApis,
+    doc: SvgDoc,
+    websocket: SvgWebSocket,
+    folder: SvgFolder,
+    grpc: GrpcSvg,
+    group: SvgFolder,
+};
+
+
 const MenuTrees = (props, treeRef) => {
     const {
         selectedKeys,
@@ -31,7 +42,6 @@ const MenuTrees = (props, treeRef) => {
         getSelfNodeAndChildKeys,
         selectedNewTreeData,
     } = props;
-    // console.log(filteredTreeList, filteredTreeData);
     const treeData = useSelector((d) => d.apis?.apiDatas);
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
@@ -150,6 +160,7 @@ const MenuTrees = (props, treeRef) => {
     };
 
     const renderTreeNode = (nodeItem, { indent, nodeTitle }) => {
+        // console.log(nodeItem, 'nodeItem');
         return (
             <MenuTreeNode>
                 <DragNode
@@ -223,6 +234,7 @@ const MenuTrees = (props, treeRef) => {
         setSelectedKeys(newList);
     };
 
+
     return (
         <DndProvider backend={HTML5Backend}>
             <Tree
@@ -234,7 +246,7 @@ const MenuTrees = (props, treeRef) => {
                 defaultExpandKeys={defaultExpandKeys}
                 onExpandKeysChange={handleExpandsChange}
                 onMultiSelect={handleMultiSelect}
-                onOutSideClick={setSelectedKeys ? setSelectedKeys.bind(null, []) : () => {}}
+                onOutSideClick={setSelectedKeys ? setSelectedKeys.bind(null, []) : () => { }}
                 nodeSort={(pre, after) => pre.sort - after.sort}
                 selectedKeys={selectedKeys}
                 className="menu-tree"
@@ -271,10 +283,10 @@ const MenuTrees = (props, treeRef) => {
                                 Bus.$emit('addOpenItem', { id: val?.target_id });
                             });
                     } else {
-                        Bus.$emit('addOpenItem', { id: val?.target_id });
+                        Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
                     }
                 }}
-                rootFilter={(item) => item.parent_id === '0'}
+                rootFilter={(item) => item.parent_id === 0}
             />
         </DndProvider>
     );

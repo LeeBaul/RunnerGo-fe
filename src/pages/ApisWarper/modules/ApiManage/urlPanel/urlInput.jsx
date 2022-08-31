@@ -50,6 +50,7 @@ const UrlInput = (props) => {
                 placeholder={placeholder}
                 readonly={readonly}
                 onChange={(val, e) => {
+                    console.log(val, e);
                     inputChange(val, e);
                 }}
                 onBlur={onBlur}

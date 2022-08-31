@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { fetchRunningPlan } from '@services/dashboard';
 import { tap } from 'rxjs';
 import { useDispatch, useSelector } from 'react-redux';
+import { isArray } from 'lodash';
 
 const RunningPlan = () => {
     const navigate = useNavigate();
     const planData = useSelector((store) => store.plan.planData);
-    const [planList, setPlanList] = useState(planData);
+    console.log(planData);
+    const [planList, setPlanList] = useState(isArray(planData) ? planData : []);
 
     const dispatch = useDispatch();
 
@@ -66,7 +68,7 @@ const RunningPlan = () => {
             </div>
             <div className='running-bottom'>
                 {
-                    planList.length > 0 ?  planList.map((item, index) => (
+                    planList.length ?  planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
                             <p>运行中</p>
                             <div className='progress'>

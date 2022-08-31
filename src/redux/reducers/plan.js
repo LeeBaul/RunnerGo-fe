@@ -12,7 +12,6 @@ const actionTypes = {
 export const plansReducer = (state = initialState, action) => {
   switch (action.type) {
     case `${NAMESPACE}/${actionTypes.updatePlanData}`:
-      console.log('redux/plan', action);
       return {
         ...state,
         planData: action.payload,

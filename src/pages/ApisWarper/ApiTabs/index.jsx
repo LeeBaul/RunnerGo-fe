@@ -29,10 +29,10 @@ const ApiTabs = (props) => {
         contentRender = () => undefined,
     } = props;
 
-    // console.log(Bus);
 
     const [activeId, setActiveId] = useState(defaultTabId);
     const mergedActiveId = 'defaultTabId' in props ? defaultTabId : activeId;
+    console.log(apiList);
     const activeIndex = useMemo(() => {
         let newIndex = -1;
         apiList.forEach((item, index) => {
@@ -155,7 +155,7 @@ const ApiTabs = (props) => {
                     <h3>新建 WebSocket 接口</h3>
                 </Button>
             </div>
-            <div className="importProject">
+            {/* <div className="importProject">
                 <Button
                     type="primary"
                     className="apipost-blue-btn"
@@ -165,7 +165,7 @@ const ApiTabs = (props) => {
                 >
                     快速导入项目
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 
@@ -189,7 +189,7 @@ const ApiTabs = (props) => {
                     <TabPan key={item.id} id={item.id} {...item} removable></TabPan>
                 ))}
             </Tabs>
-            <FooterToolbar />
+            {/* <FooterToolbar /> */}
         </>
     );
 };

@@ -16,6 +16,24 @@
             width: 100%;
             padding: 16px !important;
 
+
+            .common-flex {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 10px;
+
+                span {
+                    white-space: nowrap;
+                }
+
+                .apipost-input-inner-wrapper {
+                    // width: 124px;
+                    height: 24px;
+                    margin-left: 4px;
+                }
+            }
+
             .api-weight {
                 display: flex;
                 align-items: center;
@@ -34,37 +52,11 @@
                 }
             }
 
-            .collapse-header {
-                .collapse-arrow {
-                    display: none;
-                }
-            }
-            .api-mode {
+            .apipost-select {
+                border: none;
                 width: 100%;
+                margin-top: 10px;
                 background-color: #27272B;
-
-                .mode-header {
-                    display: flex;
-                    align-items: center;
-                    width: 100%;
-                    justify-content: space-between;
-
-                    svg {
-                        width: 16px;
-                        height: 16px;
-                        fill: #fff;
-                        margin-right: 4px;
-                    }
-                }
-
-                .collapse-body {
-                    padding: 0 !important;
-                }
-
-                .api-mode-time {
-                    width: 100%;
-                    background-color: #27272B;
-                }
             }
         }
     }
@@ -97,5 +89,30 @@
                 cursor: pointer;
             }
         }
+    }
+
+                
+
+}
+
+.diybox {
+    display: flex;
+
+    .add {
+        width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background: #409eff;
+        color: #fff;
+        font-size: 12px;
+    }
+
+    .input {
+        flex: 1;
+        min-width: 0;
+        outline: none;
+        border: 1px solid #dcdfe6;
     }
 }

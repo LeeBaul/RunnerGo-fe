@@ -39,12 +39,7 @@ const getDefaultOfflineTeam = (uuid) => {
 
 // 获取用户下团队列表
 export const getUserTeamList$ = () => {
-    return from(fetchTeamList()).pipe(
-        tap((res) => {
-            console.log(res);
-            return res;
-        })
-    );
+    return from(fetchTeamList());
     return iif(
         isLogin,
         fetchTeamList().pipe(

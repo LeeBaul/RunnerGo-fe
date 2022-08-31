@@ -26,6 +26,7 @@ const useListData = (props) => {
 
     // 被过滤后的目录菜单列表，平级结构，不带children，parent属性
     const filteredTreeList = React.useMemo(() => {
+        // return treeData instanceof Array ? treeData : [];
         if (treeData === undefined) {
             return [];
         }
@@ -62,7 +63,7 @@ const useListData = (props) => {
     const filteredTreeData = React.useMemo(() => {
         const newTreeData = {};
         const dataList = cloneDeep(filteredTreeList);
-        dataList.forEach((item) => {
+        dataList && dataList.forEach((item) => {
             if (!isUndefined(item.target_id)) {
                 newTreeData[item.target_id] = item;
             }

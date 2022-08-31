@@ -5,6 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SceneBox from './sceneBox';
 import ApiManage from '@pages/ApisWarper/modules/ApiManage';
+import FooterConfig from './footerConfig';
 
 const SceneContainer = () => {
     const [showDrawer, setDrawer] = useState(false);
@@ -21,9 +22,9 @@ const SceneContainer = () => {
 
     return (
         <div className='scene-container'>
-            <DndProvider backend={HTML5Backend}>
+            {/* <DndProvider backend={HTML5Backend}> */}
                 <SceneBox />
-            </DndProvider>
+            {/* </DndProvider> */}
             <Drawer
                 visible={showDrawer}
                 title={<DrawerHeader />}
@@ -32,6 +33,7 @@ const SceneContainer = () => {
             >
                 <ApiManage showInfo={false} />
             </Drawer>
+            <FooterConfig />
             SceneContainer
         </div>
     )

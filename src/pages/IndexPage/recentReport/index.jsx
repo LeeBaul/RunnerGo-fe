@@ -16,6 +16,15 @@ const RecentReport = () => {
     const [reportList, setReportList] = useState([]);
     const navigate = useNavigate();
 
+    const modeList = {
+        '1': '并发模式',
+        '2': '阶梯模式',
+        '3': '错误率模式',
+        '4': '响应时间模式',
+        '5': '每秒请求数模式',
+        '6': '每秒事务数模式'
+    };
+
     useEffect(() => {
         const query = {
             page: 1,
@@ -36,11 +45,11 @@ const RecentReport = () => {
                         return {
                             report_id,
                             name,
-                            mode,
+                            mode: modeList[mode],
                             run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                             last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                             run_user_name,
-                            status,
+                            status: status === 1 ? <p style={{color: '#3CC071'}}>运行中</p> : <p>未开始</p>,
                             operation: <HandleContent />
                         }
                     });

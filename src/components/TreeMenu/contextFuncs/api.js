@@ -26,8 +26,8 @@ export const copyApi = async ({ props, params, showModal }) => {
 
 export const cutApi = ({ props, params, showModal }) => { };
 
-export const deleteApi = ({ props, params }) => {
-    deleteMultiData(props.project_id, params.target_id);
+export const deleteApi = (target_id) => {
+    deleteMultiData(target_id);
 };
 
 export default {

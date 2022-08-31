@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 // import { User } from '@indexedDB/user';
 
 const createTarget = (type, baseCollection) => {
+  console.log(type, baseCollection);
   switch (type) {
     case 'api':
       const api = {
@@ -148,9 +149,9 @@ const createTarget = (type, baseCollection) => {
         ...baseCollection,
         script: {
           pre_script: '',
-          pre_script_switch: 1,
+          // pre_script_switch: 1,
           test: '',
-          test_switch: 1,
+          // test_switch: 1,
         },
         request: {
           header: [],
@@ -169,69 +170,69 @@ const createTarget = (type, baseCollection) => {
               username: '',
               password: '',
             },
-            digest: {
-              username: '',
-              password: '',
-              realm: '',
-              nonce: '',
-              algorithm: '',
-              qop: '',
-              nc: '',
-              cnonce: '',
-              opaque: '',
-            },
-            hawk: {
-              authId: '',
-              authKey: '',
-              algorithm: '',
-              user: '',
-              nonce: '',
-              extraData: '',
-              app: '',
-              delegation: '',
-              timestamp: '',
-              includePayloadHash: -1,
-            },
-            awsv4: {
-              accessKey: '',
-              secretKey: '',
-              region: '',
-              service: '',
-              sessionToken: '',
-              addAuthDataToQuery: -1,
-            },
-            ntlm: {
-              username: '',
-              password: '',
-              domain: '',
-              workstation: '',
-              disableRetryRequest: 1,
-            },
-            edgegrid: {
-              accessToken: '',
-              clientToken: '',
-              clientSecret: '',
-              nonce: '',
-              timestamp: '',
-              baseURi: '',
-              headersToSign: '',
-            },
-            oauth1: {
-              consumerKey: '',
-              consumerSecret: '',
-              signatureMethod: '',
-              addEmptyParamsToSign: -1,
-              includeBodyHash: -1,
-              addParamsToHeader: -1,
-              realm: '',
-              version: '1.0',
-              nonce: '',
-              timestamp: '',
-              verifier: '',
-              callback: '',
-              tokenSecret: '',
-              token: '',
-            },
+            // digest: {
+            //   username: '',
+            //   password: '',
+            //   realm: '',
+            //   nonce: '',
+            //   algorithm: '',
+            //   qop: '',
+            //   nc: '',
+            //   cnonce: '',
+            //   opaque: '',
+            // },
+            // hawk: {
+            //   authId: '',
+            //   authKey: '',
+            //   algorithm: '',
+            //   user: '',
+            //   nonce: '',
+            //   extraData: '',
+            //   app: '',
+            //   delegation: '',
+            //   timestamp: '',
+            //   includePayloadHash: -1,
+            // },
+            // awsv4: {
+            //   accessKey: '',
+            //   secretKey: '',
+            //   region: '',
+            //   service: '',
+            //   sessionToken: '',
+            //   addAuthDataToQuery: -1,
+            // },
+            // ntlm: {
+            //   username: '',
+            //   password: '',
+            //   domain: '',
+            //   workstation: '',
+            //   disableRetryRequest: 1,
+            // },
+            // edgegrid: {
+            //   accessToken: '',
+            //   clientToken: '',
+            //   clientSecret: '',
+            //   nonce: '',
+            //   timestamp: '',
+            //   baseURi: '',
+            //   headersToSign: '',
+            // },
+            // oauth1: {
+            //   consumerKey: '',
+            //   consumerSecret: '',
+            //   signatureMethod: '',
+            //   addEmptyParamsToSign: -1,
+            //   includeBodyHash: -1,
+            //   addParamsToHeader: -1,
+            //   realm: '',
+            //   version: '1.0',
+            //   nonce: '',
+            //   timestamp: '',
+            //   verifier: '',
+            //   callback: '',
+            //   tokenSecret: '',
+            //   token: '',
+            // },
           },
           url: '',
           body: {
@@ -242,6 +243,7 @@ const createTarget = (type, baseCollection) => {
           },
         },
       };
+      console.log(folder);
       return folder;
       break;
     case 'websocket':
@@ -292,7 +294,7 @@ const createTarget = (type, baseCollection) => {
 export const getBaseCollection = (type) => {
   const baseCollection = {
     parent_id: '0',
-    project_id: '-1',
+    // project_id: '-1',
     target_id: uuidv4(),
     target_type: type,
     name:
@@ -309,12 +311,12 @@ export const getBaseCollection = (type) => {
         : '新建未知',
     sort: -1,
     version: 1,
-    mark: 'developing',
-    update_day: new Date(new Date().toLocaleDateString()).getTime() / 1000, // 更新当日0点时间戳
+    // mark: 'developing',
+    // update_day: new Date(new Date().toLocaleDateString()).getTime() / 1000, // 更新当日0点时间戳
     update_dtime: ~~(new Date().getTime() / 1000), // 更新当前时间戳
     create_dtime: ~~(new Date().getTime() / 1000), // 创建时间戳
     status: 1, // 1.正常 -1删除 -2    -99彻底删除
-    modifier_id: localStorage.getItem('uuid') || '-1',
+    // modifier_id: localStorage.getItem('uuid') || '-1',
   };
   return createTarget(type, baseCollection);
 };
