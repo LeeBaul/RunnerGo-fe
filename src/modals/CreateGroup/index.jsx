@@ -27,7 +27,9 @@ const Option = Select.Option;
 const Textarea = Input.Textarea;
 
 const CreateGroup = (props) => {
-    const { onCancel, folder } = props;
+    const { onCancel, group } = props;
+
+    console.log(group);
 
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
@@ -38,7 +40,7 @@ const CreateGroup = (props) => {
     });
 
     const [request, setRequest] = useState(
-        folder?.request || {
+        group?.request || {
             header: {
                 parameter: []
             },
@@ -57,17 +59,18 @@ const CreateGroup = (props) => {
             description: '',
         }
     );
-    const [folderName, setFolderName] = useState('');
+    const [groupName, setGroupName] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
-    const [parent_id, setParent_id] = useState('0');
+    const [parent_id, setParent_id] = useState(0);
 
     useEffect(() => {
         const init = () => {
-            if (isPlainObject(folder)) {
-                const { request, name, script: folderScript, parent_id } = folder;
+            if (isPlainObject(group)) {
+                const { request, name, script: folderScript, parent_id } = group;
+                // console.log(parent_id)
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
-                name && setFolderName(name);
+                name && setGroupName(name);
                 request && setRequest(request);
             } else {
                 setRequest({
@@ -85,7 +88,7 @@ const CreateGroup = (props) => {
             }
         };
         init();
-    }, [folder]);
+    }, [group]);
 
     const handleChange = (rowData, rowIndex, newVal) => {
         const requestKey = {
@@ -293,9 +296,9 @@ const CreateGroup = (props) => {
     };
 
     const folderSelect = () => {
-        if (isPlainObject(folder)) {
+        if (isPlainObject(group)) {
             const res = [];
-            res.push(folder);
+            res.push(group);
             findSon(res, apiFolders, folder?.target_id);
             const resObj = {};
             res.forEach((item) => {
@@ -325,19 +328,35 @@ const CreateGroup = (props) => {
 
     return (
         <Modal
-            title='新建分组'
+            title={isPlainObject(group) ? '编辑分组' : '新建分组'}
             visible={true}
             onCancel={onCancel}
             className={FolderModal}
             okText='保存'
             onOk={() => {
                 console.log(request);
-                if (trim(folderName).length <= 0) {
+                if (trim(groupName).length <= 0) {
                     Message('error', '分组名称不能为空');
                     return;
                 }
-                if (isPlainObject(folder)) {
-
+                if (isPlainObject(group)) {
+                    Bus.$emit(
+                        'updateSceneGroup',
+                        {
+                            id: group.target_id,
+                            data: {
+                                name: groupName,
+                                request,
+                                script,
+                                parent_id,
+                            },
+                            oldValue: group
+                        },
+                        () => {
+                            onCancel();
+                            Message('success', '保存成功');
+                        }
+                    );
                 } else {
                     Bus.$emit(
                         'addSceneGroupItem',
@@ -345,7 +364,7 @@ const CreateGroup = (props) => {
                             type: 'folder',
                             pid: parent_id || 0,
                             param: {
-                                name: folderName,
+                                name: groupName,
                                 request,
                                 script,
                             },
@@ -362,7 +381,7 @@ const CreateGroup = (props) => {
                 <div className="article">
                     <div className="article-item">
                         <p>分组名称</p>
-                        <Input value={folderName} placeholder='请输入分组名称' onChange={(val) => setFolderName(val)} />
+                        <Input value={groupName} placeholder='请输入分组名称' onChange={(val) => setGroupName(val)} />
                     </div>
                     <div className="article-item">
                         <p>分组描述</p>
@@ -379,7 +398,7 @@ const CreateGroup = (props) => {
                     </div>
                 </div>
 
-                <Tabs
+                {/* <Tabs
                     defaultActiveId={tabActiveId}
                     onChange={(val) => {
                         setTabActiveId(val || '0');
@@ -405,62 +424,7 @@ const CreateGroup = (props) => {
                             }}
                         ></Authen>
                     </TabPan>
-                    {/* <TabPan id="4" title="分组共用预执行脚本">
-                        <span>
-                            预执行脚本已开启{' '}
-                            <Switch
-                                size="small"
-                                checked={script?.pre_script_switch > 0}
-                                onChange={(e) => {
-                                    setScript((lastState) => {
-                                        const newState = cloneDeep(lastState);
-                                        newState.pre_script_switch = e ? 1 : -1;
-                                        return newState;
-                                    });
-                                }}
-                            />
-                        </span>
-                        <ScriptBox
-                            scriptType="pre"
-                            value={script?.pre_script || ''}
-                            onChange={(val) => {
-                                setScript((lastState) => {
-                                    const newState = cloneDeep(lastState);
-                                    newState.pre_script = val;
-                                    return newState;
-                                });
-                            }}
-                        ></ScriptBox>
-                    </TabPan>
-                    <TabPan id="5" title="分组共用后执行脚本">
-                        <span>
-                            后执行脚本已开启{' '}
-                            <Switch
-                                size="small"
-                                checked={script?.test_switch > 0}
-                                onChange={(e) => {
-                                    setScript((lastState) => {
-                                        const newState = cloneDeep(lastState);
-                                        newState.test_switch = e ? 1 : -1;
-                                        return newState;
-                                    });
-                                }}
-                            />
-                        </span>
-
-                        <ScriptBox
-                            value={script?.test || ''}
-                            scriptType="after"
-                            onChange={(val) => {
-                                setScript((lastState) => {
-                                    const newState = cloneDeep(lastState);
-                                    newState.test = val;
-                                    return newState;
-                                });
-                            }}
-                        ></ScriptBox>
-                    </TabPan> */}
-                </Tabs>
+                </Tabs> */}
             </FolderWrapper>
 
         </Modal>

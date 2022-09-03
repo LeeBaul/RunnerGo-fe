@@ -27,7 +27,7 @@ const Option = Select.Option;
 const Textarea = Input.Textarea;
 
 const CreateScene = (props) => {
-    const { onCancel, folder } = props;
+    const { onCancel, scene } = props;
 
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
@@ -38,7 +38,7 @@ const CreateScene = (props) => {
     });
 
     const [request, setRequest] = useState(
-        folder?.request || {
+        scene?.request || {
             header: {
                 parameter: []
             },
@@ -57,17 +57,17 @@ const CreateScene = (props) => {
             description: '',
         }
     );
-    const [folderName, setFolderName] = useState('');
+    const [sceneName, setSceneName] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
-    const [parent_id, setParent_id] = useState('0');
+    const [parent_id, setParent_id] = useState(0);
 
     useEffect(() => {
         const init = () => {
-            if (isPlainObject(folder)) {
-                const { request, name, script: folderScript, parent_id } = folder;
+            if (isPlainObject(scene)) {
+                const { request, name, script: folderScript, parent_id } = scene;
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
-                name && setFolderName(name);
+                name && setSceneName(name);
                 request && setRequest(request);
             } else {
                 setRequest({
@@ -85,7 +85,7 @@ const CreateScene = (props) => {
             }
         };
         init();
-    }, [folder]);
+    }, [scene]);
 
     const handleChange = (rowData, rowIndex, newVal) => {
         const requestKey = {
@@ -292,13 +292,13 @@ const CreateScene = (props) => {
     };
 
     const folderSelect = () => {
-        if (isPlainObject(folder)) {
+        if (isPlainObject(scene)) {
             const res = [];
-            res.push(folder);
-            findSon(res, apiFolders, folder?.target_id);
+            res.push(scene);
+            findSon(res, apiFolders, scene.target_id);
             const resObj = {};
             res.forEach((item) => {
-                resObj[item?.target_id] = item;
+                resObj[item.target_id] = item;
             });
             const newFolders = apiFolders.filter((item) => !resObj.hasOwnProperty(item?.target_id));
             return (
@@ -324,19 +324,35 @@ const CreateScene = (props) => {
 
     return (
         <Modal
-            title='新建场景'
+            title={isPlainObject(scene) ? '编辑场景' : '新建场景'}
             visible={true}
             onCancel={onCancel}
             className={FolderModal}
             okText='保存'
             onOk={() => {
                 console.log(request);
-                if (trim(folderName).length <= 0) {
+                if (trim(sceneName).length <= 0) {
                     Message('error', '场景名称不能为空');
                     return;
                 }
-                if (isPlainObject(folder)) {
-
+                if (isPlainObject(scene)) {
+                    Bus.$emit(
+                        'updateSceneItem',
+                        {
+                            id: scene.target_id,
+                            data: {
+                                name: sceneName,
+                                request,
+                                script,
+                                parent_id,
+                            },
+                            oldValue: scene
+                        },
+                        () => {
+                            onCancel();
+                            Message('success', '保存成功');
+                        }
+                    );
                 } else {
                     Bus.$emit(
                         'addSceneItem',
@@ -344,7 +360,7 @@ const CreateScene = (props) => {
                             type: 'folder',
                             pid: parent_id || 0,
                             param: {
-                                name: folderName,
+                                name: sceneName,
                                 request,
                                 script,
                             },
@@ -361,7 +377,7 @@ const CreateScene = (props) => {
                 <div className="article">
                     <div className="article-item">
                         <p>场景名称</p>
-                        <Input value={folderName} placeholder='请输入场景名称' onChange={(val) => setFolderName(val)} />
+                        <Input value={sceneName} placeholder='请输入场景名称' onChange={(val) => setSceneName(val)} />
                     </div>
                     <div className="article-item">
                         <p>场景描述</p>
@@ -378,7 +394,7 @@ const CreateScene = (props) => {
                     </div>
                 </div>
 
-                <Tabs
+                {/* <Tabs
                     defaultActiveId={tabActiveId}
                     onChange={(val) => {
                         setTabActiveId(val || '0');
@@ -404,62 +420,7 @@ const CreateScene = (props) => {
                             }}
                         ></Authen>
                     </TabPan>
-                    {/* <TabPan id="4" title="分组共用预执行脚本">
-                        <span>
-                            预执行脚本已开启{' '}
-                            <Switch
-                                size="small"
-                                checked={script?.pre_script_switch > 0}
-                                onChange={(e) => {
-                                    setScript((lastState) => {
-                                        const newState = cloneDeep(lastState);
-                                        newState.pre_script_switch = e ? 1 : -1;
-                                        return newState;
-                                    });
-                                }}
-                            />
-                        </span>
-                        <ScriptBox
-                            scriptType="pre"
-                            value={script?.pre_script || ''}
-                            onChange={(val) => {
-                                setScript((lastState) => {
-                                    const newState = cloneDeep(lastState);
-                                    newState.pre_script = val;
-                                    return newState;
-                                });
-                            }}
-                        ></ScriptBox>
-                    </TabPan>
-                    <TabPan id="5" title="分组共用后执行脚本">
-                        <span>
-                            后执行脚本已开启{' '}
-                            <Switch
-                                size="small"
-                                checked={script?.test_switch > 0}
-                                onChange={(e) => {
-                                    setScript((lastState) => {
-                                        const newState = cloneDeep(lastState);
-                                        newState.test_switch = e ? 1 : -1;
-                                        return newState;
-                                    });
-                                }}
-                            />
-                        </span>
-
-                        <ScriptBox
-                            value={script?.test || ''}
-                            scriptType="after"
-                            onChange={(val) => {
-                                setScript((lastState) => {
-                                    const newState = cloneDeep(lastState);
-                                    newState.test = val;
-                                    return newState;
-                                });
-                            }}
-                        ></ScriptBox>
-                    </TabPan> */}
-                </Tabs>
+                </Tabs> */}
             </FolderWrapper>
 
         </Modal>

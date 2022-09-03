@@ -1231,6 +1231,86 @@ export const completionTarget = (target) => {
     return mergeWith(templateData, target, customizer);
 };
 
+// 格式化场景管理中的数据
+export const formatSceneData = (nodes, edges) => {
+    const idArray = [];
+    const sourceArray = [];
+    const targetArray = [];
+    const firstNodeArray = [];
+    const lastNodeArray = [];
+
+    for (let i of nodes) {
+        idArray.push(i.id);
+    }
+
+    for (let i of edges) {
+        targetArray.push(i.target);
+        sourceArray.push(i.source);
+    }
+
+    for (let i of idArray) {
+        if (targetArray.indexOf(i) === -1) {
+            firstNodeArray.push(i);
+        }
+        if (sourceArray.indexOf(i) === -1) {
+            lastNodeArray.push(i)
+        }
+    }
+
+    let data = [];
+
+    const getNode = (id, nodes) => {
+        for (let i = 0; i < nodes.length; i++) {
+            if (nodes[i].id === id) {
+                return nodes[i];
+            }
+        }
+    }
+
+    for (let i of firstNodeArray) {
+        data.push([getNode(i, nodes)]);
+    }
+
+    const getTarget = (id, edges) => {
+        let targets = [];
+
+        edges.forEach(item => {
+            if (item.source === id) {
+                if (lastNodeArray.includes(item.target)) {
+                    targets.push(getNode(item.target, nodes));
+                } else {
+                    targets.push([getNode(item.target, nodes)]);
+                }
+            }
+        })
+        if (targets.length === 1) {
+            targets = lastNodeArray.includes(targets[0]) ? targets[0] : targets;
+        }
+        return targets;
+    }
+
+
+
+    const loopGetChild = (data) => {
+        data.forEach(item => {
+            if (Array.isArray(item)) {
+                let res = getTarget(item[0].id, edges);
+                if (Array.isArray(res)) {
+                    item.push(loopGetChild(res));
+                } else {
+                    item.push(res);
+                }
+            }
+        })
+
+        return data;
+    }
+
+    loopGetChild(data);
+
+    return data;
+}
+
 export default {
     copyStringToClipboard, // 复制字符串
     getClipboardText, // 获取剪贴板中文本内容

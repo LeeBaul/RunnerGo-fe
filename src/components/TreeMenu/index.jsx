@@ -1,8 +1,11 @@
 import React, { useState, useRef } from 'react';
 import FolderCreate from '@modals/folder/create';
+import CreateGroup from '@modals/CreateGroup';
+import CreateScene from '@modals/CreateScene';
 import { isUndefined } from 'lodash';
 import useListData from './menuTree/hooks/useListData';
 import useSceneData from './menuTree/hooks/useSceneData';
+
 
 import FilterBox from './filterBox';
 import ButtonBox from './buttonBox';
@@ -35,6 +38,12 @@ const TreeMenu = (props) => {
             {modalType === 'addFolder' && !isUndefined(modalProps) && (
                 <FolderCreate {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
+            {modalType === 'addGroup' && (
+                <CreateGroup {...modalProps} onCancel={setModalType.bind(null, '')} />
+            )}
+            {modalType === 'addScene' && (
+                <CreateScene {...modalProps} onCancel={setModalType.bind(null, '')} />
+            )}
             <div className='menus-header'>
                 <FilterBox 
                     treeRef={treeRef}
@@ -52,6 +61,7 @@ const TreeMenu = (props) => {
                 filterParams={filterParams}
                 selectedKeys={selectedKeys}
                 setSelectedKeys={setSelectedKeys}
+                type={type}
             />
             <RecycleBin />
         </MenuWrapper>

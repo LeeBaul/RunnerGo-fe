@@ -8,7 +8,9 @@ import contextFuncs from '../contextFuncs';
 
 const handleMenuItemClick = ({ module, action, target_id, props}) => {
     console.log(module, action, target_id, props);
-    const funcModule = contextFuncs?.[module]?.[action];
+    console.log(contextFuncs, contextFuncs[module])
+    const funcModule = contextFuncs[module][action];
+    // console.log(contextFuncs, contextFuncs[module], contextFuncs[module].);
     if (isFunction(funcModule) === false) {
         Message('error', '无效操作');
         return;
@@ -17,6 +19,7 @@ const handleMenuItemClick = ({ module, action, target_id, props}) => {
 };
 
 export const handleShowContextMenu = (props, e, params) => {
+    console.log(props, e, params);
 
     const { target_id } = params;
 
@@ -28,12 +31,15 @@ export const handleShowContextMenu = (props, e, params) => {
     } else {
         module = params.target_type;
     }
+    console.log(module);
+    console.log(contextMenus[module])
 
     if (!isString(module) || !isArray(contextMenus?.[module])) {
         return;
     }
     const contextMenuRef = React.createRef(null);
     const menuList = contextMenus?.[module];
+    console.log(menuList);
 
     const HoverMenu = (
         <div>

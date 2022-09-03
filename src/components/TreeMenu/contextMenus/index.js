@@ -6,6 +6,8 @@ import multi from './multi';
 import root from './root';
 import websocket from './websocket';
 import grpc from './grpc';
+import group from './group';
+import scene from './scene';
 
 export default {
     api,
@@ -16,4 +18,6 @@ export default {
     root,
     websocket,
     grpc,
+    group,
+    scene,
 };

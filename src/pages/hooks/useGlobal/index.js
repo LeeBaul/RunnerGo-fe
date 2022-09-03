@@ -10,6 +10,7 @@ import useDescription from './modules/useDescription';
 import useWebsocket from './modules/useWebsocket';
 import useUser from './modules/useUser';
 import useApplication from './modules/useApplication';
+import useScene from './modules/useScene';
 import { global$ } from './global';
 // import { useLocation } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ const useGlobal = (props) => {
     useDesktopProxy();
     useDescription();
     useWebsocket();
+    useScene(),
     useEffect(() => {
         const token = getCookie('token');
         // const uuid = localStorage.getItem('uuid')

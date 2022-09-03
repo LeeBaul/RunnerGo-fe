@@ -24,3 +24,18 @@ export const fetchSceneFlow = (
 export const fetchCreateSceneFlow = (
     params
 ) => ajax('post', '/management/api/v1/scene/flow/save', 'json', false, params);
+
+// 获取场景详情
+export const fetchSceneDetail = (
+    query
+) => ajax('get', '/management/api/v1/scene/detail', 'json', false, {}, query);
+
+// 获取分组详情
+export const fetchGroupDetail = (
+    query
+) => ajax('get', '/management/api/v1/group/detail', 'json', false, {}, query);
+
+// 获取场景流程详情
+export const fetchSceneFlowDetail = (
+    query
+) => ajax('get', '/management/api/v1/scene/flow/get', 'json', false, {}, query);

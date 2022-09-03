@@ -7,6 +7,8 @@ const useSceneData = (props) => {
 
     const treeData = useSelector((store) => store.scene.sceneDatas);
 
+    console.log(treeData);
+
     // 查找当前节点及全部上层对象
     const getParentItems = (
         sourObj,

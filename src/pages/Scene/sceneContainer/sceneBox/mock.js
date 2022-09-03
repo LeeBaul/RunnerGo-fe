@@ -1,16 +1,16 @@
 import React from 'react';
 import { MarkerType } from 'react-flow-renderer';
+import Box from './box';
 
 export const nodes = [
   {
     id: '1',
-    type: 'input',
+    type: 'list',
     data: {
-      label: (
-        <>
-          <div>Hello World!</div>
-        </>
-      ),
+      // label: <Box />
+        // <>
+        //   <Box />
+        // </>
     },
     position: { x: 250, y: 0 },
   },

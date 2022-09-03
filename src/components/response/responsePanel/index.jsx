@@ -71,6 +71,16 @@ const ResPonsePanel = (props) => {
       ),
       content: <CookiesTable data={tempData?.response || {}}></CookiesTable>,
     },
+    {
+      id: '5',
+      title: '断言结果',
+      content: <>123123</>
+    },
+    {
+      id: '6',
+      title: '正则结果',
+      content: <>123123123</>
+    }
     // { id: '6', title: '失败响应示例', content: <Example></Example> },
   ];
 

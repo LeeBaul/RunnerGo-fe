@@ -25,6 +25,11 @@ const RecentReport = () => {
         '6': '每秒事务数模式'
     };
 
+    const taskLit = {
+        '0': '普通任务',
+        '1': '定时任务',
+    };
+
     useEffect(() => {
         const query = {
             page: 1,
@@ -41,11 +46,12 @@ const RecentReport = () => {
                 if (code === 0) {
                     const { reports } = data;
                     const list = reports.map((item, index) => {
-                        const { report_id, name, mode, run_time_sec, last_time_sec, run_user_name, status } = item;
+                        const { report_id, name, task_type, mode, run_time_sec, last_time_sec, run_user_name, status } = item;
                         return {
                             report_id,
                             name,
                             mode: modeList[mode],
+                            task_type: taskLit[task_type],
                             run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                             last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                             run_user_name,
@@ -71,12 +77,20 @@ const RecentReport = () => {
     };
     const columns = [
         {
-            title: '序列号',
+            title: '测试报告ID',
             dataIndex: 'report_id',
         },
         {
             title: '计划名称',
             dataIndex: 'name',
+        },
+        {
+            title: '场景名称',
+            dataIndex: 'scene_name',
+        },
+        {
+            title: '任务模式',
+            dataIndex: 'task_type',
         },
         {
             title: '压测模式',

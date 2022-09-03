@@ -8,10 +8,14 @@ import { pushTask } from '@asyncTasks/index';
 import Bus from '@utils/eventBus';
 
 const useNodeSort = (props) => {
-    const { treeData } = props;
+    const { treeData, type } = props;
+
+    console.log(treeData);
 
     const dispatch = useDispatch();
+    const sceneDatas = useSelector((store) => store.scene.sceneDatas);
     const apiDatas = useSelector((store) => store?.apis?.apiDatas);
+    const data = type === 'apis' ? apiDatas : sceneDatas;
     const project_id = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
 
     const flattenNodes = [];
@@ -62,13 +66,16 @@ const useNodeSort = (props) => {
 
         // 禁止父节点拖动到子节点
         const targetParentKeys = getParentKeys(targetData);
+        console.log(targetParentKeys, sourceKey, targetKey);
         if (targetParentKeys.includes(sourceKey) || sourceKey === targetKey) {
             return;
         }
+        console.log(1);
         // 不是目录禁止拖进去
-        if (mode === 'inside' && targetData?.target_type !== 'folder') {
+        if (mode === 'inside' && (targetData?.target_type !== 'folder' && targetData.target_type !== 'group')) {
             return;
         }
+        console.log(2);
 
         // 插到上面还是插到下面
         if (mode === 'top' || mode === 'bottom') {
@@ -119,37 +126,55 @@ const useNodeSort = (props) => {
         of('')
             .pipe(
                 tap(() => {
+                    console.log(123123123123);
                     // 更新redux
-                    const newDatas = cloneDeep(apiDatas);
-                    console.log('targetList', targetList);
-                    targetList.forEach((item) => {
-                        newDatas[item.target_id] = {
-                            ...newDatas[item.target_id],
-                            sort: item.sort,
-                            parent_id,
-                        };
+                    const newDatas = cloneDeep(data);
+                    if (type === 'apis') {
 
-                        Bus.$emit('updateOpensById', {
-                            id: item.target_id,
-                            data: { sort: item.sort, parent_id },
+                        console.log('targetList', targetList);
+                        targetList.forEach((item) => {
+                            newDatas[item.target_id] = {
+                                ...newDatas[item.target_id],
+                                sort: item.sort,
+                                parent_id,
+                            };
+
+                            Bus.$emit('updateOpensById', {
+                                id: item.target_id,
+                                data: { sort: item.sort, parent_id },
+                            });
                         });
-                    });
-                    dispatch({
-                        type: 'apis/updateApiDatas',
-                        payload: { ...newDatas },
-                    });
+                        dispatch({
+                            type: 'apis/updateApiDatas',
+                            payload: { ...newDatas },
+                        });
+                    } else {
+                        // dispatch({
+                        //     type: 'apis/updateSceneDatas',
+                        //     payload: { ...newDatas },
+                        // });
+                    }
 
                 }),
                 switchMap(() => {
+                    console.log(456456456);
                     const ids = [];
                     for (let i = 0; i < targetList.length; i++) {
                         ids.push(targetList[i].target_id);
                     }
-                    
-                    Bus.$emit('dragUpdateTarget', {
-                        ids,
-                        targetList
-                    })
+
+                    if (type === 'apis') {
+                        Bus.$emit('dragUpdateTarget', {
+                            ids,
+                            targetList
+                        })
+                    } else {
+                        console.log(789789789);
+                        Bus.$emit('dragUpdateScene', {
+                            ids,
+                            targetList
+                        })
+                    }
                 })
                 // switchMap(() => {
                 //     targetList.forEach(item => {

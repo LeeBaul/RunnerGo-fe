@@ -41,8 +41,11 @@ const MenuTrees = (props, treeRef) => {
         filteredTreeData,
         getSelfNodeAndChildKeys,
         selectedNewTreeData,
+        type
     } = props;
-    const treeData = useSelector((d) => d.apis?.apiDatas);
+    const apiData = useSelector((d) => d.apis.apiDatas);
+    const sceneData = useSelector((d) => d.scene.sceneDatas);
+    const treeData = type === 'apis' ? apiData : sceneData;
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
     const [defaultExpandKeys, setDefaultExpandKeys] = useState([]);
@@ -135,7 +138,7 @@ const MenuTrees = (props, treeRef) => {
         statusListInit();
     }, [CURRENT_PROJECT_ID]);
 
-    const { handleNodeDragEnd } = useNodeSort({ treeData });
+    const { handleNodeDragEnd } = useNodeSort({ treeData, type });
 
     const renderIcon = (icon) => {
         const NodeIcon = NodeType?.[icon];
@@ -182,6 +185,8 @@ const MenuTrees = (props, treeRef) => {
                             className="btn-more"
                             size="mini"
                             onClick={(e) => {
+                                console.log(e);
+                                console.log(nodeItem);
                                 handleShowContextMenu(
                                     { ...props, project_id: CURRENT_PROJECT_ID },
                                     e,
@@ -260,6 +265,7 @@ const MenuTrees = (props, treeRef) => {
                 dataList={filteredTreeList}
                 render={renderTreeNode}
                 onNodeClick={(val) => {
+                    console.log(val);
                     if (val?.target_type == 'folder') {
                         User.get(uuid || '-1')
                             .then((user) => {
@@ -283,7 +289,11 @@ const MenuTrees = (props, treeRef) => {
                                 Bus.$emit('addOpenItem', { id: val?.target_id });
                             });
                     } else {
-                        Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
+                        if (type === 'apis') {
+                            Bus.$emit('addOpenItem', { id: parseInt(val.target_id) }); 
+                        } else {
+                            Bus.$emit('addOpenScene', val, sceneData)
+                        }
                     }
                 }}
                 rootFilter={(item) => item.parent_id === 0}

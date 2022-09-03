@@ -61,7 +61,6 @@ const TaskConfig = () => {
                     <Radio.Group value="A">
                         <Radio value="A">普通任务</Radio>
                         <Radio value="B">定时任务</Radio>
-                        <Radio value="C">cicd任务</Radio>
                     </Radio.Group>
                 </div>
                 <div className='item'>

@@ -5,38 +5,6 @@ export const FOLDER_MENUS = [
         type: 'create',
         title: '新建',
         action: '',
-        children: [
-            {
-                type: 'createApi',
-                title: '新建接口',
-                action: 'createApi',
-            },
-            {
-                type: 'createText',
-                title: '新建文本',
-                action: 'createText',
-            },
-            {
-                type: 'createChildFolder',
-                title: '新建子目录',
-                action: 'createChildFolder',
-            },
-            {
-                type: 'createWebsocket',
-                title: '新建websocket',
-                action: 'createWebsocket',
-                tips: (
-                    <Beta
-                        style={{ marginLeft: '4px', width: 20, height: 14, verticalAlign: 'text-bottom' }}
-                    />
-                ),
-            },
-            {
-                type: 'createGrpc',
-                title: '新建Grpc',
-                action: 'createGrpc',
-            },
-        ],
     },
     {
         type: 'pasteToCurrent',
@@ -68,3 +36,5 @@ export const FOLDER_MENUS = [
 ];
 
 export default FOLDER_MENUS;
+
+

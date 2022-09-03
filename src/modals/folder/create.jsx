@@ -424,7 +424,7 @@ const CreateFolder = (props) => {
                     </div>
                 </div>
 
-                <Tabs
+                {/* <Tabs
                     defaultActiveId={tabActiveId}
                     onChange={(val) => {
                         setTabActiveId(val || '0');
@@ -450,62 +450,7 @@ const CreateFolder = (props) => {
                             }}
                         ></Authen>
                     </TabPan>
-                    {/* <TabPan id="4" title="目录公用预执行脚本">
-                        <span>
-                            预执行脚本已开启{' '}
-                            <Switch
-                                size="small"
-                                checked={script?.pre_script_switch > 0}
-                                onChange={(e) => {
-                                    setScript((lastState) => {
-                                        const newState = cloneDeep(lastState);
-                                        newState.pre_script_switch = e ? 1 : -1;
-                                        return newState;
-                                    });
-                                }}
-                            />
-                        </span>
-                        <ScriptBox
-                            scriptType="pre"
-                            value={script?.pre_script || ''}
-                            onChange={(val) => {
-                                setScript((lastState) => {
-                                    const newState = cloneDeep(lastState);
-                                    newState.pre_script = val;
-                                    return newState;
-                                });
-                            }}
-                        ></ScriptBox>
-                    </TabPan>
-                    <TabPan id="5" title="目录公用后执行脚本">
-                        <span>
-                            后执行脚本已开启{' '}
-                            <Switch
-                                size="small"
-                                checked={script?.test_switch > 0}
-                                onChange={(e) => {
-                                    setScript((lastState) => {
-                                        const newState = cloneDeep(lastState);
-                                        newState.test_switch = e ? 1 : -1;
-                                        return newState;
-                                    });
-                                }}
-                            />
-                        </span>
-
-                        <ScriptBox
-                            value={script?.test || ''}
-                            scriptType="after"
-                            onChange={(val) => {
-                                setScript((lastState) => {
-                                    const newState = cloneDeep(lastState);
-                                    newState.test = val;
-                                    return newState;
-                                });
-                            }}
-                        ></ScriptBox>
-                    </TabPan> */}
-                </Tabs>
+                </Tabs> */}
             </FolderWrapper>
         </Modal>
     );

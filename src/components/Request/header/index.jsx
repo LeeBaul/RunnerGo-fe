@@ -244,12 +244,13 @@ const Header = (props) => {
     if (!hasStatic) {
       return [...parameter, { ...newDataItem }];
     }
+    console.log(...parameter);
     return [...parameter];
   };
   return (
     <div className="apipost-req-wrapper">
       <div>
-        <Importexport data={[...parameter]} type="header" onChange={onChange} />
+        {/* <Importexport data={[...parameter]} type="header" onChange={onChange} />
       </div>
       <div className="system-header">
         <div>
@@ -261,7 +262,7 @@ const Header = (props) => {
           >
             系统header {showSysHeader ? <DownSvg /> : <RightSvg />}
           </span>
-        </div>
+        </div> */}
         {showSysHeader && (
           <div style={{ margin: '8px 0 0 0' }}>
             <Table showBorder hasPadding={false} columns={systemColumns} data={apipostHeaders} />

@@ -1,0 +1,96 @@
+.controller-wait {
+    max-width: 220px;
+    border-radius: 3px;
+    background: #27272B;
+
+    border: 1px solid #39393D;
+    box-sizing: border-box;
+
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 10px 8px;
+
+        .type {
+            min-width: 80px;
+            min-height: 24px;
+            padding: 0 10px;
+            line-height: 24px;
+
+            background: #FAFFF9;
+            border: 1px solid #068D3C;
+            border-radius: 3px;
+
+            color: #068D3C;
+        }
+
+        .header-right {
+            min-width: 65px;
+
+            .apipost-switch default {
+                background: #27272B;
+            }
+
+            svg {
+                width: 16px;
+                height: 16px;
+                fill: #fff;
+                margin-left: 8px;
+            }
+        }
+
+
+    }
+
+    &-main {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+
+        .item {
+            display: flex;
+            align-items: center;
+
+            p {
+                margin-left: 8px;
+            }
+
+            .apipost-input-number {
+                height: 24px;
+                background: #222226;
+
+                .apipost-input-number-step {
+                    width: 16px;
+                    height: 16px;
+                    background: rgba(255, 255, 255, 0.08);
+                    border-radius: 3px;
+
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        // background: rgba(255, 255, 255, 0.08);
+                        fill: #fff !important;
+                        border-radius: 3px;
+                        // rect {
+                        //     fill: #000 !important;
+                        // }
+                        // line {
+                        //     fill: #fff !important;
+                        // }
+                    }
+                }
+
+                .apipost-input-inner-wrapper {
+                    height: 24px;
+                }
+            }
+
+        }
+    }
+}
+
+.my_handle {
+    width: 10px;
+    height: 10px;
+}

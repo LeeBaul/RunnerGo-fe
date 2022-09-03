@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'adesign-react';
 import './index.less';
 import ReportListHeader from './reportListHeader';
@@ -10,19 +10,61 @@ import {
 
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
+import { fetchReportList } from '@services/report'
 
 const ReportList = () => {
     const navigate = useNavigate();
+    const [reportList, setReportList] = useState([]);
+
+    const modeList = {
+        '1': '并发模式',
+        '2': '阶梯模式',
+        '3': '错误率模式',
+        '4': '响应时间模式',
+        '5': '每秒请求数模式',
+        '6': '每秒事务数模式',
+    };
+
+    const taskList = {
+        '0': '普通任务',
+        '1': '定时任务',
+    };
 
     const HandleContent = () => {
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate('/report/detail')} />
+                <SvgEye onClick={() => navigate('/report/det    ail')} />
                 <SvgCopy />
                 <SvgDelete />
             </div>
         )
-    }
+    };
+
+    useEffect(() => {
+        const query = {
+            page: 1,
+            size: 10,
+            team_id: sessionStorage.getItem('team_id'),
+            keyword: '',
+            start_time_sec: '',
+            end_time_sec: '',
+        };
+        fetchReportList(query).subscribe({
+            next: (res) => {
+                console.log(res);
+                const { data: { reports } } = res;
+                const list = reports.map(item => {
+                    return {
+                        ...item,
+                        mode: modeList[item.mode],
+                        task_type: taskList[item.task_type],
+                        handle: <HandleContent />
+                    }
+                });
+                setReportList(list);
+            }
+        })
+    }, [])
 
     const data = [
         {
@@ -77,40 +119,40 @@ const ReportList = () => {
 
     const columns = [
         {
-            title: '任务ID',
-            dataIndex: 'id',
+            title: '测试报告ID',
+            dataIndex: 'report_id',
         },
         {
             title: '计划名称',
             dataIndex: 'name',
         },
         {
-            title: '任务类型',
-            dataIndex: 'type',
+            title: '场景名称',
+            dataIndex: 'scene_name',
+        },
+        {
+            title: '任务模式',
+            dataIndex: 'task_type',
         },
         {
             title: '压测模式',
             dataIndex: 'mode',
         },
         {
-            title: '创建时间',
-            dataIndex: 'createTime',
+            title: '开始时间',
+            dataIndex: 'run_time_sec',
         },
         {
-            title: '最后修改时间',
-            dataIndex: 'lastUpdateTime',
+            title: '结束时间',
+            dataIndex: 'last_time_sec',
+        },
+        {
+            title: '执行者',
+            dataIndex: 'run_user_name',
         },
         {
             title: '状态',
             dataIndex: 'status',
-        },
-        {
-            title: '操作者',
-            dataIndex: 'handler',
-        },
-        {
-            title: '备注',
-            dataIndex: 'remark',
         },
         {
             title: '操作',
@@ -123,7 +165,7 @@ const ReportList = () => {
     return (
         <div className='report'>
             <ReportListHeader />
-            <Table className="report-table" showBorder columns={columns} data={data} />,
+            <Table className="report-table" showBorder columns={columns} data={reportList} />,
         </div>
     )
 };

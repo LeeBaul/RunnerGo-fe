@@ -6,6 +6,8 @@ import { isArray, isObject } from 'lodash';
 import Header from '@components/Request/header';
 import Query from '@components/Request/query';
 import Body from '@components/Request/body';
+import Assert from '@components/Request/assert';
+import Regular from '@components/Request/regular';
 import { RequestWrapper } from './style';
 
 const { Tabs, TabPan } = TabComponent;
@@ -46,6 +48,16 @@ const RequestPanel = (props) => {
       title: '认证',
       content: <Authen value={data?.auth || {}} onChange={onChange}></Authen>,
     },
+    {
+      id: '5',
+      title: '断言',
+      content: <Assert parameter={isArray(data?.assert?.parameter) ? data.assert.parameter : []} onChange={onChange}></Assert>,
+    },
+    {
+      id: '6',
+      title: '正则表达式',
+      content: <Regular parameter={isArray(data?.regular?.parameter) ? data.regular.parameter : []} onChange={onChange}></Regular>,
+    }
   ];
   return (
     <RequestWrapper>

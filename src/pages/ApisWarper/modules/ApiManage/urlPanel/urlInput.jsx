@@ -38,6 +38,7 @@ const UrlInput = (props) => {
         } else if (envVisible) {
             setEnvVisible(false);
         }
+        console.log(str);
         onChange(str);
     };
 
