@@ -24,7 +24,7 @@ loader.config({
 // 给代码编辑加自定义提示
 loader.init().then((monaco) => {
   monaco.languages.registerCompletionItemProvider('javascript', {
-    provideCompletionItems(model, position) {
+    provideCompletionItems (model, position) {
       // find out if we are completing a property in the 'dependencies' object.
       const textUntilPosition = model.getValueInRange({
         startLineNumber: 1,
@@ -92,7 +92,7 @@ const MonacoEditor = (props) => {
   //   const paths = window?.path;
   //   fileurl = paths.join(window.__dirname, './public/assets/monaco-editor/vs');
   // }
-  // loader.config({ paths: { vs: fileurl } });
+  loader.config({ paths: { vs: fileurl } });
 
   const JeditorDidMount = (editorJ) => {
     seteditor(editorJ);
@@ -100,42 +100,42 @@ const MonacoEditor = (props) => {
       validate: false,
     });
   };
-  // const mEditor = useMemo(() => {
-  return (
-    <Editor
-      height={Height}
-      ref={ref}
-      language={language}
-      value={typeof value === 'string' ? value : value?.toString()}
-      onMount={(e) => {
-        JeditorDidMount(e);
-        editorDidMount && editorDidMount(e);
-      }}
-      onChange={(val) => {
-        if (onChange && MONOCAINIT) {
-          onChange(val);
-        }
-      }}
-      theme={editotThem}
-      options={{
-        ...options,
-        // TODO 编辑器字号跟随系统
-        fontSize: ftSize,
-        // lineHeight: ftSize,
-        hover: {
-          enabled: false,
-        },
-        onemptied: () => null,
-        minimap: { enabled: false },
-        links: false,
-        wordWrap: 'on',
-        wrappingIndent: 'same',
-        lineNumbers,
-      }}
-    />
-  );
-  // }, [value, language, Height, editotThem, SYSTHEMCOLOR, SYSSCALE, MONOCAINIT, ftSize]);
-  // return <>{mEditor}</>;
+  const mEditor = useMemo(() => {
+    return (
+      <Editor
+        height={Height}
+        ref={ref}
+        language={language}
+        value={typeof value === 'string' ? value : value?.toString()}
+        onMount={(e) => {
+          JeditorDidMount(e);
+          editorDidMount && editorDidMount(e);
+        }}
+        onChange={(val) => {
+          if (onChange && MONOCAINIT) {
+            onChange(val);
+          }
+        }}
+        theme={editotThem}
+        options={{
+          ...options,
+          // TODO 编辑器字号跟随系统
+          fontSize: ftSize,
+          // lineHeight: ftSize,
+          hover: {
+            enabled: false,
+          },
+          onemptied: () => null,
+          minimap: { enabled: false },
+          links: false,
+          wordWrap: 'on',
+          wrappingIndent: 'same',
+          lineNumbers,
+        }}
+      />
+    );
+  }, [value, language, Height, editotThem, SYSTHEMCOLOR, SYSSCALE, MONOCAINIT, ftSize]);
+  return <>{mEditor}</>;
 };
 
 export default MonacoEditor;

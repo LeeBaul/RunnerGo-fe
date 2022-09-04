@@ -42,6 +42,7 @@ const Apis = (props) => {
 
     const onTargetChange = (id, type, value, extension) => {
         // 统一修改
+        console.log(id, type, value, extension);
         if (open_api_now !== id) {
             dispatch({
                 type: 'opens/updateOpenApiNow',

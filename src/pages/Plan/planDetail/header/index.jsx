@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.less';
-import { Button } from 'adesign-react';
-import { 
+import { Button, Modal } from 'adesign-react';
+import {
     Left as SvgLeft,
     Save as SvgSave
- } from 'adesign-react/icons';
+} from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
 import { useNavigate } from 'react-router-dom';
+import TaskConfig from '../taskConfig';
 
 const DetailHeader = () => {
     const navigate = useNavigate();
+    const [preSet, setPreSet] = useState(false);
     return (
         <div className='detail-header'>
+            {
+                preSet && (
+                    <Modal title='预设配置' okText='保存' onOk visible onCancel={() => setPreSet(false)}>
+                        <TaskConfig from="preset" />
+                    </Modal>
+                )
+            }
             <div className='detail-header-left'>
                 <SvgLeft onClick={() => navigate('/plan/list')} />
                 <div className='detail'>
@@ -35,6 +44,7 @@ const DetailHeader = () => {
                 </div>
             </div>
             <div className='detail-header-right'>
+                <Button className='notice' onClick={() => setPreSet(true)}>预设配置</Button>
                 <Button className='notice' preFix={<SvgSave width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
                 <Button className='save' preFix={<SvgSave width="16" height="16" />}>保存</Button>
                 <Button className='run' preFix={<SvgSave width="16" height="16" />}>开始运行</Button>

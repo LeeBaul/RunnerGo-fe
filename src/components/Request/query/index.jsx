@@ -296,10 +296,10 @@ const Query = (props) => {
   return (
     <div className="apipost-req-wrapper">
       <div>
-        <Importexport data={[...parameter]} type="query" onChange={onChange} />
+        {/* <Importexport data={[...parameter]} type="query" onChange={onChange} /> */}
       </div>
       <Table hasPadding={false} showBorder columns={columns} data={tableDataList()} />
-      <div className="system-header" style={{ marginTop: 16 }}>
+      {/* <div className="system-header" style={{ marginTop: 16 }}>
         <div>
           <span
             className="title"
@@ -315,7 +315,7 @@ const Query = (props) => {
             <Table showBorder hasPadding={false} columns={resfulColumn} data={resful} />
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

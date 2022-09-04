@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.less';
 import { Input, Button } from 'adesign-react';
 import {
@@ -6,11 +6,16 @@ import {
     Add as SvgAdd
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
+import CreatePlan from '@modals/CreatePlan';
 
 const PlanHeader = () => {
+    const [showPlan, setShowPlan] = useState(false);
     const navigate = useNavigate();
     return (
         <div className='plan-header'>
+            {
+                showPlan && <CreatePlan onCancel={() => setShowPlan(false)} />
+            }
             <div className='plan-header-left'>
                 <Input
                     className="textBox"
@@ -19,7 +24,7 @@ const PlanHeader = () => {
                 />
             </div>
             <div className='plan-header-right'>
-                <Button className='createBtn' preFix={<SvgAdd />} onClick={() => navigate('/plan/detail')}>新建计划</Button>
+                <Button className='createBtn' preFix={<SvgAdd />} onClick={() => setShowPlan(true)}>新建计划</Button>
             </div>
         </div>
     )

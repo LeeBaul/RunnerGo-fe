@@ -98,19 +98,22 @@ const SceneBox = () => {
     }, [type_now]);
 
     useEffect(() => {
-        dispatch({
-            type: 'scene/updateNodes',
-            payload: nodes,
-        });
-        dispatch({
-            type: 'scene/updateEdges',
-            payload: edges,
-        })
-        console.log(123123123123123, nodes, edges);
+        if (nodes.length > 0 || edges.length > 0) {
+            dispatch({
+                type: 'scene/updateNodes',
+                payload: nodes,
+            });
+            dispatch({
+                type: 'scene/updateEdges',
+                payload: edges,
+            })
+            console.log(123123123123123, nodes, edges);
+        }
     }, [nodes, edges]);
 
     useEffect(() => {
-        import_node.forEach(item => {
+
+        import_node && import_node.forEach(item => {
             const id = v4();
             const new_node = {
                 id,

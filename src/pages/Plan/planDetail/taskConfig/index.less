@@ -1,82 +1,111 @@
 .task-config {
-    padding: 16px;
-    width: 630px;
-    // height: 533px;
-    color: #fff;
-    background: #222226;
-    border-radius: 0px 5px 5px 0px;
-    &-header {
-        p {
-            font-size: 14px;
-        }
+  padding: 16px;
+  min-width: 630px;
+  // height: 533px;
+  color: #fff;
+  background: #222226;
+  border-radius: 0px 5px 5px 0px;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+    p {
+      font-size: 14px;
+      font-weight: 600;
     }
-    &-container {
-        display: flex;
-        flex-direction: column;
-        margin-top: 35px;
+  }
+  &-container {
+    display: flex;
+    flex-direction: column;
 
-        .item {
+    .item {
+      display: flex;
+      align-items: center;
+
+      p {
+        white-space: nowrap;
+      }
+    }
+
+    .apipost-table {
+      margin-top: 32px;
+    }
+
+    .other-config {
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid #39393d;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      // height: 94px;
+      align-items: baseline;
+
+      .mode-config-title {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      &-item {
+        margin-top: 15px;
+        .apipost-radio-group {
+          display: flex;
+          flex-wrap: wrap;
+
+          .apipost-radio-wrapper {
+            width: 45%;
+
+            .apipost-radio-children {
+              display: flex;
+              align-items: center;
+
+              .label {
+                white-space: nowrap;
+              }
+
+              .apipost-input-inner-wrapper {
+                margin-left: 10px;
+              }
+            }
+          }
+        }
+
+        .other-config-detail {
+          display: flex;
+          flex-direction: column;
+
+          .config-detail-item {
             display: flex;
             align-items: center;
-            margin-top: 34px;
-
-            p {
-                white-space: nowrap;
+            margin-top: 15px;
+            span {
+              white-space: nowrap;
+              // width: 80px;
             }
-        }
-
-        .apipost-table {
-            margin-top: 32px;
-        }
-
-        .other-config {
-            box-sizing: border-box;
-            padding: 10px;
-            border: 1px solid #39393D;
-            border-radius: 5px;
-            display: flex;
-            height: 94px;
-            align-items: baseline;
-
-            &-item {
-
-                .apipost-radio-group {
-                    display: flex;
-                    flex-wrap: wrap;
-
-                    .apipost-radio-wrapper {
-                        width: 45%;
-
-                    
-                        .apipost-radio-children {
-                            display: flex;
-                            align-items: center;
-
-                            .label {
-                                white-space: nowrap;
-                            }
-
-                            .apipost-input-inner-wrapper {
-                                margin-left: 10px;
-                            }
-                        }
-                    }
-                }
+            .apipost-input-inner-wrapper {
+              width: 180px;
+              margin-left: 20px;
+              margin-right: 5px;
             }
+          }
         }
-
-        .apipost-table-th {
-            background-color: #27272B;
-        }
-        .apipost-table-td {
-            color: #fff;
-            height: 30px;
-        }
-        .apipost-radio-group, .apipost-switch {
-            margin-left: 4px;
-        }
-        .apipost-radio-wrapper {
-            // margin-top: 18px;
-        }
+      }
     }
+
+    .apipost-table-th {
+      background-color: #27272b;
+    }
+    .apipost-table-td {
+      color: #fff;
+      height: 30px;
+    }
+    .apipost-radio-group,
+    .apipost-switch {
+      margin-left: 4px;
+    }
+    .apipost-radio-wrapper {
+      // margin-top: 18px;
+    }
+  }
 }
