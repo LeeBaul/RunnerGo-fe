@@ -338,8 +338,8 @@ const CreatePlan = (props) => {
             okText='保存'
             onOk={() => {
                 console.log(request);
-                if (trim(groupName).length <= 0) {
-                    Message('error', '分组名称不能为空');
+                if (trim(planName).length <= 0) {
+                    Message('error', '计划名称不能为空');
                     return;
                 }
                 if (isPlainObject(group)) {
@@ -362,19 +362,18 @@ const CreatePlan = (props) => {
                     );
                 } else {
                     Bus.$emit(
-                        'addSceneGroupItem',
+                        'createPlan',
                         {
-                            type: 'folder',
-                            pid: parent_id || 0,
-                            param: {
-                                name: groupName,
-                                request,
-                                script,
-                            },
+                            name: planName,
+                            remark: planDesc,
                         },
-                        () => {
-                            onCancel();
-                            Message('success', '新建分组成功');
+                        (code) => {
+                            if (code === 0) {
+                                onCancel();
+                                Message('success', '新建分组成功');
+                            } else {
+                                Message('error', '新建分组失败');
+                            }
                         }
                     );
                 }

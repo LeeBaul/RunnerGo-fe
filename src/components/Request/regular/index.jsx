@@ -28,23 +28,34 @@ const Regular = (props) => {
         }
     };
 
+    const handleChange = (rowData, rowIndex, newVal) => {
+        console.log('parameter', parameter);
+        const newList = [...parameter];
+        newList[rowIndex] = {
+            ...rowData,
+            ...newVal,
+        };
+        onChange('regex', [...newList]);
+    }
+
+
     const columns = [
         {
             title: '变量名',
-            dataIndex: 'name',
+            dataIndex: 'var',
             render: (text, rowData, rowIndex) => (
                 <ApiInput
                     size="mini"
                     value={text}
                     onChange={(newVal) => {
-                        onChange(rowData, rowIndex, { key: newVal });
+                        handleChange(rowData, rowIndex, { var: newVal });
                     }}
                 />
             ),
         },
         {
             title: '表达式',
-            dataIndex: 'value',
+            dataIndex: 'express',
             enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
@@ -52,7 +63,7 @@ const Regular = (props) => {
                         size="mini"
                         value={text}
                         onChange={(newVal) => {
-                            onChange(rowData, rowIndex, { value: newVal });
+                            handleChange(rowData, rowIndex, { express: newVal });
                         }}
                     />
                 );
@@ -60,7 +71,7 @@ const Regular = (props) => {
         },
         {
             title: '描述',
-            dataIndex: 'description',
+            dataIndex: 'val',
             enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
@@ -68,7 +79,7 @@ const Regular = (props) => {
                         size="mini"
                         value={text}
                         onChange={(newVal) => {
-                            onChange(rowData, rowIndex, { description: newVal });
+                            handleChange(rowData, rowIndex, { val: newVal });
                         }}
                     />
                 );
@@ -90,7 +101,7 @@ const Regular = (props) => {
     ];
 
     const tableDataList = () => {
-        return [...parameter, { name: '', value: '', description: ''}]
+        return [...parameter, { var: '', express: '', val: ''}]
     };
 
     return (

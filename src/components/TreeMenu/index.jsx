@@ -5,6 +5,7 @@ import CreateScene from '@modals/CreateScene';
 import { isUndefined } from 'lodash';
 import useListData from './menuTree/hooks/useListData';
 import useSceneData from './menuTree/hooks/useSceneData';
+import usePlanData from './menuTree/hooks/usePlanData';
 
 
 import FilterBox from './filterBox';
@@ -16,7 +17,7 @@ import RecycleBin from './recycleBin';
 import { MenuWrapper } from './style';
 
 const TreeMenu = (props) => {
-    const { type = 'apis' } = props;
+    const { type = 'apis', plan_id } = props;
     const [filterParams, setFilterParams] = useState({ key: '', status: 'all' }); // 接口过滤参数
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [modalType, setModalType] = useState('');
@@ -25,9 +26,17 @@ const TreeMenu = (props) => {
     const treeRef = useRef(null);
 
     const listDataParam = useListData({ filterParams, selectedKeys });
-    const sceneDataParam = useSceneData({ filterParams, selectedKeys })
+    const sceneDataParam = useSceneData({ filterParams, selectedKeys });
+    const planDataParam = usePlanData({ filterParams, selectedKeys });
 
-    const dataParam = type === 'apis' ? listDataParam : sceneDataParam;
+    const dataList = {
+        'apis': listDataParam,
+        'scene': sceneDataParam,
+        'plan': planDataParam,
+    };
+
+
+    const dataParam = dataList[type];
 
     const handleShowModal = (mtype, mProps) => {
         setModalProps(mProps);
@@ -39,10 +48,10 @@ const TreeMenu = (props) => {
                 <FolderCreate {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
             {modalType === 'addGroup' && (
-                <CreateGroup {...modalProps} onCancel={setModalType.bind(null, '')} />
+                <CreateGroup from={type} plan_id={plan_id} {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
             {modalType === 'addScene' && (
-                <CreateScene {...modalProps} onCancel={setModalType.bind(null, '')} />
+                <CreateScene from={type} plan_id={plan_id} {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
             <div className='menus-header'>
                 <FilterBox 
@@ -52,7 +61,7 @@ const TreeMenu = (props) => {
                     onChange={setFilterParams}
                     type={type}
                  />
-                {type === 'apis' ? <ButtonBox treeRef={treeRef} showModal={handleShowModal}  /> : <SceneBox />}
+                {type === 'apis' ? <ButtonBox treeRef={treeRef} showModal={handleShowModal}  /> : <SceneBox from={type} plan_id={plan_id} />}
             </div>
             <MenuTrees
                 ref={treeRef}

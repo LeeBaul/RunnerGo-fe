@@ -10,7 +10,7 @@ const Plan = () => {
         return (
             <Routes>
                 <Route path='list' element={<PlanList />}></Route>
-                <Route path='detail' element={<PlanDetail />}> </Route>
+                <Route path='detail/:id' element={<PlanDetail />}> </Route>
                 <Route path='/*' element={<Navigate to="/plan/list" />}></Route>
             </Routes>
         )

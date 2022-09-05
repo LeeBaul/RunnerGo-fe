@@ -11,6 +11,7 @@ import useWebsocket from './modules/useWebsocket';
 import useUser from './modules/useUser';
 import useApplication from './modules/useApplication';
 import useScene from './modules/useScene';
+import usePlan from './modules/usePlan';
 import { global$ } from './global';
 // import { useLocation } from 'react-router-dom';
 
@@ -30,6 +31,7 @@ const useGlobal = (props) => {
     useDescription();
     useWebsocket();
     useScene(),
+    usePlan(),
     useEffect(() => {
         const token = getCookie('token');
         // const uuid = localStorage.getItem('uuid')

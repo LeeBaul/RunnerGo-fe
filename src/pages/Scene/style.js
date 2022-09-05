@@ -18,6 +18,12 @@ export const ApisWrapper = css`
     flex-direction: column;
     position: relative;
   }
+  .right-apis > .scale-item-content > .empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 export const ApiManageWrapper = css`

@@ -169,7 +169,7 @@ const useNodeSort = (props) => {
                             targetList
                         })
                     } else {
-                        console.log(789789789);
+                        console.log(789789789, ids);
                         Bus.$emit('dragUpdateScene', {
                             ids,
                             targetList

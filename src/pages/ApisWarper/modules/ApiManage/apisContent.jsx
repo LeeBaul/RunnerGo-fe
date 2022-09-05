@@ -136,7 +136,7 @@ const ApisContent = (props) => {
                             请求区
                         </div>
                     ) : (
-                        <ResquestPanel data={data?.request || {}} onChange={onChange} />
+                        <ResquestPanel data={data || {}} onChange={onChange} />
                     )}
                 </ScaleItem>
                 <ScaleItem enableScale={false} minWidth={40} minHeight={40}>

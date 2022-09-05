@@ -13,12 +13,20 @@
         .apipost-table-td {
             color: #fff;
             height: 30px;
+
+            .apipost-table-cell {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
         }
 
         .handle-content {
             display: flex;
 
-            .run-btn, .stop-btn {
+            .run-btn,
+            .stop-btn {
                 width: 60px;
                 height: 18px;
                 border-radius: 3px;

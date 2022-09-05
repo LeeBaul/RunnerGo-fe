@@ -16,13 +16,15 @@ const Option = Select.Option;
 const RequestPanel = (props) => {
   const { data, onChange } = props;
 
+  console.log('RequestPanel', data);
+
   const defaultList = [
     {
       id: '1',
       title: 'Header',
       content: (
         <Header
-          parameter={isArray(data?.header?.parameter) ? data.header.parameter : []}
+          parameter={isArray(data?.request?.header?.parameter) ? data.request.header.parameter : []}
           onChange={onChange}
         />
       ),
@@ -32,8 +34,8 @@ const RequestPanel = (props) => {
       title: 'Query',
       content: (
         <Query
-          resful={isArray(data?.resful?.parameter) ? data.resful.parameter : []}
-          parameter={isArray(data?.query?.parameter) ? data.query.parameter : []}
+          resful={isArray(data?.request.resful?.parameter) ? data?.request.resful.parameter : []}
+          parameter={isArray(data?.request.query?.parameter) ? data?.request.query.parameter : []}
           onChange={onChange}
         />
       ),
@@ -41,22 +43,22 @@ const RequestPanel = (props) => {
     {
       id: '3',
       title: 'Body',
-      content: <Body value={isObject(data?.body) ? data.body : {}} onChange={onChange} />,
+      content: <Body value={isObject(data?.request?.body) ? data?.request.body : {}} onChange={onChange} />,
     },
     {
       id: '4',
       title: '认证',
-      content: <Authen value={data?.auth || {}} onChange={onChange}></Authen>,
+      content: <Authen value={data?.request?.auth || {}} onChange={onChange}></Authen>,
     },
     {
       id: '5',
       title: '断言',
-      content: <Assert parameter={isArray(data?.assert?.parameter) ? data.assert.parameter : []} onChange={onChange}></Assert>,
+      content: <Assert parameter={isArray(data?.assert) ? data.assert : []} onChange={onChange}></Assert>,
     },
     {
       id: '6',
       title: '正则表达式',
-      content: <Regular parameter={isArray(data?.regular?.parameter) ? data.regular.parameter : []} onChange={onChange}></Regular>,
+      content: <Regular parameter={isArray(data?.regex) ? data.regex : []} onChange={onChange}></Regular>,
     }
   ];
   return (

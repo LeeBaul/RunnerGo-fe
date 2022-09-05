@@ -5,7 +5,7 @@ import Bus from '@utils/eventBus';
 import { useDispatch } from 'react-redux';
 
 const FooterConfig = (props) => {
-    const { onChange } = props;
+    const { onChange, from = 'scene' } = props;
     const [showControl, setShowControl] = useState(false);
     const dispatch = useDispatch();
     return (
@@ -51,6 +51,17 @@ const FooterConfig = (props) => {
                     <SvgApis />
                     <span>导入接口</span>
                 </div>
+                {
+                    from === 'plan' && (
+                        <>
+                            <span className='line'></span>
+                            <div className='config-item' onClick={() => onChange(true)}>
+                                <SvgApis />
+                                <span>导入场景</span>
+                            </div>
+                        </>
+                    )
+                }
             </div>
         </div>
     )

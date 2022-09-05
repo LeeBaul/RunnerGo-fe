@@ -3,7 +3,8 @@ import Bus, { useEventBus } from '@utils/eventBus';
 import { cloneDeep, isArray, set } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { tap } from 'rxjs';
-import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail } from '@services/scene';
+import { fetchDeleteApi } from '@services/apis';
+import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre } from '@services/scene';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail } from '@services/apis';
@@ -14,7 +15,7 @@ const useScene = () => {
     const dispatch = useDispatch();
     // const nodes = useSelector((store) => store.scene.nodes);
     // const edges = useSelector((store) => store.scene.edges);
-    const { id_apis, api_now } = useSelector((store) => store.scene);
+    const { id_apis, api_now, open_scene } = useSelector((store) => store.scene);
     // console.log(id_apis);
     const createApiNode = () => {
         const new_node = {
@@ -39,7 +40,7 @@ const useScene = () => {
     };
 
     const updateSceneGroup = (req, callback) => {
-        const { id, data, oldValue } = req;
+        const { id, data, oldValue, from, plan_id } = req;
         console.log(req);
 
         const group = cloneDeep(oldValue);
@@ -62,7 +63,7 @@ const useScene = () => {
     };
 
     const updateSceneItem = (req, callback) => {
-        const { id, data, oldValue } = req;
+        const { id, data, oldValue, from, plan_id } = req;
         console.log(req);
 
         const scene = cloneDeep(oldValue);
@@ -105,9 +106,11 @@ const useScene = () => {
                         }
                         fetchCreateScene(newItem).subscribe();
                     });
-                    global$.next({
-                        action: 'RELOAD_LOCAL_SCENE',
-                    });
+                    setTimeout(() => {
+                        global$.next({
+                            action: 'RELOAD_LOCAL_SCENE',
+                        });
+                    }, 100);
                     // return targets;
                 }
             }),
@@ -116,7 +119,7 @@ const useScene = () => {
             .subscribe();
     }
 
-    const saveScene = (nodes, edges, id_apis, node_config, callback) => {
+    const saveScene = (nodes, edges, id_apis, node_config, open_scene, callback) => {
         const get_pre = (id, edges) => {
             const pre_list = [];
             edges.forEach(item => {
@@ -158,7 +161,9 @@ const useScene = () => {
                 }
             }
         });
+        console.log(open_scene);
         const params = {
+            scene_id: parseInt(open_scene.target_id),
             team_id: parseInt(sessionStorage.getItem('team_id')),
             version: 1,
             nodes: _nodes,
@@ -417,6 +422,35 @@ const useScene = () => {
 
     const addOpenScene = (id, data) => {
         console.log(id, data);
+        const { target_id } = id;
+        const query = {
+            team_id: sessionStorage.getItem('team_id'),
+            scene_id: target_id,
+        };
+        fetchSceneFlowDetail(query).subscribe({
+            next: (res) => {
+                const { data } = res;
+
+                dispatch({
+                    type: 'scene/updateOpenScene',
+                    payload: data || { target_id, },
+                })
+            }
+        })
+    }
+
+    const deleteScene = (id, callback) => {
+        const params = {
+            target_id: parseInt(id),
+        };
+        fetchDeleteApi(params).subscribe({
+            next: (res) => {
+                global$.next({
+                    action: 'RELOAD_LOCAL_SCENE',
+                });
+                callback && callback(res.code);
+            }
+        })
     }
 
     useEventBus('createApiNode', createApiNode);
@@ -431,6 +465,7 @@ const useScene = () => {
     useEventBus('addNewSceneControl', addNewSceneControl);
     useEventBus('importApiList', importApiList);
     useEventBus('addOpenScene', addOpenScene);
+    useEventBus('deleteScene', deleteScene);
 };
 
 export default useScene;

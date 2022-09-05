@@ -27,7 +27,7 @@ const Option = Select.Option;
 const Textarea = Input.Textarea;
 
 const CreateGroup = (props) => {
-    const { onCancel, group } = props;
+    const { onCancel, group, from, plan_id } = props;
 
     console.log(group);
 
@@ -60,6 +60,7 @@ const CreateGroup = (props) => {
         }
     );
     const [groupName, setGroupName] = useState('');
+    const [description, setDescription] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
     const [parent_id, setParent_id] = useState(0);
 
@@ -346,11 +347,14 @@ const CreateGroup = (props) => {
                             id: group.target_id,
                             data: {
                                 name: groupName,
+                                description,
                                 request,
                                 script,
                                 parent_id,
                             },
-                            oldValue: group
+                            oldValue: group,
+                            from,
+                            plan_id
                         },
                         () => {
                             onCancel();
@@ -365,9 +369,12 @@ const CreateGroup = (props) => {
                             pid: parent_id || 0,
                             param: {
                                 name: groupName,
+                                description,
                                 request,
                                 script,
                             },
+                            from,
+                            plan_id,
                         },
                         () => {
                             onCancel();
@@ -386,13 +393,10 @@ const CreateGroup = (props) => {
                     <div className="article-item">
                         <p>分组描述</p>
                         <Textarea 
-                            value={request.description || ''} 
+                            value={description || ''} 
                             placeholder='请输入分组描述' 
                             onChange={(val) => {
-                                setRequest((lastState) => {
-                                    lastState.description = val;
-                                    return lastState;
-                                })
+                                setRequest(val);
                             }}
                         />
                     </div>

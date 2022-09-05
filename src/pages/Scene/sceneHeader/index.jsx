@@ -15,7 +15,7 @@ const SceneHeader = (props) => {
     const [showCreateApi, setCreateApi] = useState(false);
     const dispatch = useDispatch();
     // const saveScene = useSelector((store) => store.scene.saveScene);
-    const { nodes, edges, id_apis, node_config } = useSelector((store) => store.scene);
+    const { nodes, edges, id_apis, node_config, open_scene } = useSelector((store) => store.scene);
     console.log(nodes, edges, id_apis, node_config);
     return (
         <div className='scene-header'>
@@ -26,7 +26,7 @@ const SceneHeader = (props) => {
                     <span>场景设置</span>
                 </div>
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => {
-                    Bus.$emit('saveScene', nodes, edges, id_apis, node_config, () => {
+                    Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene, () => {
                         Message('success', '保存成功!');
                     });
                 }}>保存</Button>

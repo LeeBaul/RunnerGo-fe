@@ -226,12 +226,14 @@ const useOpens = () => {
 
     const updateTarget = async (data) => {
         const { target_id, pathExpression, value } = data;
+        console.log('updateTarget', data);
         const tempOpenApis = open_apis;
         if (!tempOpenApis.hasOwnProperty(target_id)) {
             return;
         }
         // TODO 修改本地库
         set(tempOpenApis[target_id], pathExpression, value);
+        console.log(tempOpenApis[target_id]);
         // url兼容处理
         if (pathExpression === 'request.url') {
             let reqUrl = value;

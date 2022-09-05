@@ -2,7 +2,7 @@ const NAMESPACE = 'scene';
 
 const initialState = {
   sceneDatas: {}, // 场景管理菜单列表
-  open_scene: {}, // 打开的场景
+  open_scene: null, // 打开的场景
   isLoading: false, // 目录列表是否正在加载中,
   nodes: [], // 节点
   edges: [], // 线,
@@ -30,6 +30,7 @@ const actionTypes = {
   updateApiNow: 'updateApiNow',
   updateNodeConfig: 'updateNodeConfig',
   updateImportNode: 'updateImportNode',
+  updateOpenScene: 'updateOpenScene',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -98,6 +99,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         import_node: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateOpenScene}`:
+      return {
+        ...state,
+        open_scene: action.payload,
       }
     default:
       return state;

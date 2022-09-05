@@ -58,6 +58,7 @@ const CreateFolder = (props) => {
         }
     );
     const [folderName, setFolderName] = useState('');
+    const [description, setDescription] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
     const [parent_id, setParent_id] = useState(0);
     // console.log(parent_id, "parent_id");
@@ -357,6 +358,7 @@ const CreateFolder = (props) => {
                             id: folder.target_id,
                             data: {
                                 name: folderName,
+                                description,
                                 request,
                                 script,
                                 parent_id: parent_id || 0,
@@ -376,6 +378,7 @@ const CreateFolder = (props) => {
                             pid: parent_id || '0',
                             param: {
                                 name: folderName,
+                                description,
                                 request,
                                 script,
                             },
@@ -411,12 +414,9 @@ const CreateFolder = (props) => {
                         <div className="content">
                             <Textarea
                                 placeholder="请输入目录描述"
-                                value={request?.description || ''}
+                                value={ description || ''}
                                 onChange={(val) => {
-                                    setRequest((lastState) => {
-                                        lastState.description = val;
-                                        return lastState;
-                                    });
+                                    setDescription(val);
                                 }}
                                 autoSize={false}
                             />

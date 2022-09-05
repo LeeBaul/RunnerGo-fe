@@ -13,6 +13,8 @@ const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
 
+    const open_scene = useSelector((store) => store.scene.open_scene);
+
     return (
         <ScalePanel
             realTimeRender
@@ -23,8 +25,12 @@ const Scene = () => {
                 <TreeMenu type='scene' />
             </ScaleItem>
             <ScaleItem className="right-apis" enableScale={false}>
-                <SceneHeader from='scene' />
-                <SceneContainer />
+                {
+                    open_scene ? <>
+                        <SceneHeader from='scene' />
+                        <SceneContainer />
+                    </> : <p className='empty'>没有数据</p>
+                }
             </ScaleItem>
         </ScalePanel>
     )

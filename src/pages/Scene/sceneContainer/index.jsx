@@ -12,7 +12,8 @@ import Bus from '@utils/eventBus';
 import { useSelector, useDispatch } from 'react-redux';
 import ApiPicker from './apiPicker';
 
-const SceneContainer = () => {
+const SceneContainer = (props) => {
+    const { from } = props;
     const apiConfig = useSelector((store) => store.scene.showApiConfig);
     const id_apis = useSelector((store) => store.scene.id_apis);
     const api_now = useSelector((store) => store.scene.api_now);
@@ -111,7 +112,7 @@ const SceneContainer = () => {
                     <ApiManage apiInfo={api_now} showInfo={false} onChange={(type, val) => onTargetChange(type, val)} />
                 </Drawer>
             </div>
-            <FooterConfig onChange={(e) => setApiPicker(e)} />
+            <FooterConfig from={from} onChange={(e) => setApiPicker(e)} />
         </div>
     )
 };

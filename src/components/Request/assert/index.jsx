@@ -19,6 +19,7 @@ const { Option } = Select;
 
 const Assert = (props) => {
     const { parameter, onChange } = props;
+    console.log(parameter, '================');
 
     const handleTableDelete = (index) => {
         const newList = [...parameter];
@@ -26,28 +27,40 @@ const Assert = (props) => {
           newList.splice(index, 1);
           onChange('assert', [...newList]);
         }
-      };
+    };
+
+    const handleChange = (rowData, rowIndex, newVal) => {
+        console.log('parameter', parameter);
+        const newList = [...parameter];
+        newList[rowIndex] = {
+            ...rowData,
+            ...newVal,
+        };
+        onChange('assert', [...newList]);
+    }
 
     const columns = [
         {
             title: '',
             width: 40,
-            dataIndex: 'type',
+            dataIndex: 'response_type',
             render: (text, rowData, rowIndex) => (
                 <Select
+                    value={rowData.response_type || null}
                     onChange={(e) => {
-                        onChange(rowData, rowIndex, { type: e });
+                        console.log(rowData, rowIndex, { response_type: e }, 666666);
+                        handleChange(rowData, rowIndex, { response_type: e });
                     }}
                 >
-                    <Option value="res_header">响应头</Option>
-                    <Option value="res_body">响应体</Option>
-                    <Option value="res_code">响应码</Option>
+                    <Option value={1}>响应头</Option>
+                    <Option value={2}>响应体</Option>
+                    <Option value={3}>响应码</Option>
                 </Select>
             ),
         },
         {
             title: '字段',
-            dataIndex: 'key',
+            dataIndex: 'var',
             enableResize: true,
             width: 100,
             render: (text, rowData, rowIndex) => {
@@ -56,7 +69,7 @@ const Assert = (props) => {
                         size="mini"
                         value={text}
                         onChange={(newVal) => {
-                            onChange(rowData, rowIndex, { key: newVal });
+                            handleChange(rowData, rowIndex, { var: newVal });
                         }}
                     />
                 );
@@ -70,7 +83,8 @@ const Assert = (props) => {
             render: (text, rowData, rowIndex) => {
                 return (
                     <Select
-                        onChange={(e) => onChange(rowData, rowIndex, { compare: e })}
+                        value={rowData.compare || null}
+                        onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
                             COMPARE_IF_TYPE.map(item => <Option value={item.type}>{item.title}</Option>)
@@ -81,7 +95,7 @@ const Assert = (props) => {
         },
         {
             title: '值',
-            dataIndex: 'value',
+            dataIndex: 'val',
             width: 55,
             render: (text, rowData, rowIndex) => {
                 return (
@@ -89,7 +103,7 @@ const Assert = (props) => {
                         size="mini"
                         value={text}
                         onChange={(newVal) => {
-                            handleChange(rowData, rowIndex, { value: newVal });
+                            handleChange(rowData, rowIndex, { val: newVal });
                         }}
                     />
                 );
@@ -111,7 +125,7 @@ const Assert = (props) => {
     ];
 
     const tableDataList = () => {
-        return [...parameter, { type: '', key: '', compare: '', value: '' }]
+        return [...parameter, { response_type: '', var: '', compare: '', val: '' }]
     };
 
     return (

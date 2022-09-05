@@ -27,7 +27,9 @@ const Option = Select.Option;
 const Textarea = Input.Textarea;
 
 const CreateScene = (props) => {
-    const { onCancel, scene } = props;
+    const { onCancel, scene, from, plan_id } = props;
+
+    console.log('CreateScene', scene, from, plan_id);
 
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
@@ -58,6 +60,7 @@ const CreateScene = (props) => {
         }
     );
     const [sceneName, setSceneName] = useState('');
+    const [description, setDescription] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
     const [parent_id, setParent_id] = useState(0);
 
@@ -342,10 +345,13 @@ const CreateScene = (props) => {
                             id: scene.target_id,
                             data: {
                                 name: sceneName,
+                                description,
                                 request,
                                 script,
                                 parent_id,
                             },
+                            from,
+                            plan_id,
                             oldValue: scene
                         },
                         () => {
@@ -357,17 +363,24 @@ const CreateScene = (props) => {
                     Bus.$emit(
                         'addSceneItem',
                         {
-                            type: 'folder',
+                            type: 'scene',
                             pid: parent_id || 0,
                             param: {
                                 name: sceneName,
+                                description,
                                 request,
                                 script,
                             },
+                            from,
+                            plan_id,
                         },
-                        () => {
+                        (code) => {
                             onCancel();
-                            Message('success', '新建场景成功');
+                            if (code === 0) {
+                                Message('success', '新建场景成功');
+                            } else {
+                                Message('fail', '新建场景失败');
+                            }
                         }
                     );
                 }
@@ -382,13 +395,10 @@ const CreateScene = (props) => {
                     <div className="article-item">
                         <p>场景描述</p>
                         <Textarea
-                            value={request.description || ''} 
+                            value={description || ''} 
                             placeholder='请输入场景描述'
                             onChange={(val) => {
-                                setRequest((lastState) => {
-                                    lastState.description = val;
-                                    return lastState;
-                                })
+                                setRequest(val);
                             }}
                          />
                     </div>

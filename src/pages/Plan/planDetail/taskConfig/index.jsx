@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Radio, Switch, Table, Input, Button } from 'adesign-react';
+import { fetchPreConfig } from '@services/plan';
 import './index.less';
 
 const TaskConfig = (props) => {
-    const { from } = props;
+    const { from, onChange } = props;
     const column = [
         {
             title: '机器IP',
@@ -43,6 +44,56 @@ const TaskConfig = (props) => {
         }
     ];
 
+    const [initData, setInitData] = useState({});
+
+    const init = (preinstall = initData) => {
+        const {
+            mode, 
+            cron_expr,
+            mode_conf: { 
+                concurrency,
+                duration, 
+                max_concurrency, 
+                reheat_time, 
+                round_num, 
+                start_concurrency, 
+                step, 
+                step_run_time, 
+                threshold_value
+             },
+            task_type
+        } = preinstall;
+        mode && setMode(mode);
+        cron_expr && setCronExpr(cron_expr);
+        concurrency && setConcurrency(concurrency);
+        duration && setDuration(duration);
+        max_concurrency && setMaxConcurrency(max_concurrency);
+        reheat_time && setReheatTime(reheat_time);
+        round_num && setRoundNum(round_num);
+        start_concurrency && setStartConcurrency(start_concurrency);
+        step && setStep(step);
+        step_run_time && setStepRunTime(step_run_time);
+        task_type && setTaskType(task_type);
+    }
+
+    useEffect(() => {
+        const query = {
+            team_id: sessionStorage.getItem('team_id'),
+        };
+        fetchPreConfig(query).subscribe({
+            next: (res) => {
+                const { data: { preinstall } } = res;
+                if (from === 'preset') {
+                    init(preinstall);
+                } else {
+                    setInitData(preinstall);
+                }
+            }
+        })
+    }, []);
+
+
+
     const modeList = ['并发模式', '阶梯模式', '错误率模式', '响应时间模式', '每秒请求数模式'];
     // 模式
     const [mode, setMode] = useState(1);
@@ -50,13 +101,24 @@ const TaskConfig = (props) => {
     const [task_type, setTaskType] = useState(1);
     const [default_mode, setDefaultMode] = useState("duration");
     // 持续时长
-    const [duration, setDuration] = useState('');
+    const [duration, setDuration] = useState(0);
     // 轮次
-    const [round_num, setRoundNum] = useState('');
+    const [round_num, setRoundNum] = useState(0);
     // 并发数
-    const [concurrency, setConcurrency] = useState('');
+    const [concurrency, setConcurrency] = useState(0);
+    // 起始并发数
+    const [start_concurrency, setStartConcurrency] = useState(0);
+    // 并发数步长
+    const [step, setStep] = useState(0);
+    // 步长执行时间
+    const [step_run_time, setStepRunTime] = useState(0);
+    // 最大并发数
+    const [max_concurrency, setMaxConcurrency] = useState(0);
     // 预热时长
-    const [reheat_time, setReheatTime] = useState('');
+    const [reheat_time, setReheatTime] = useState(0);
+
+    // cron表达式
+    const [cron_expr, setCronExpr] = useState('');
 
     // 并发模式
     const ConcurrentMode = () => {
@@ -65,21 +127,33 @@ const TaskConfig = (props) => {
                 <Radio.Group value={default_mode} onChange={(e) => setDefaultMode(e)}>
                     <Radio value="duration">
                         <span className='label'>持续时长: </span>
-                        <Input size="mini" value={duration} onChange={(e) => setDuration(e)} disabled={default_mode === 'round_num'} /> s
+                        <Input size="mini" value={duration} onChange={(e) => {
+                            setDuration(parseInt(e));
+                            from === 'preset' && onChange('duration', parseInt(e));
+                        }} disabled={default_mode === 'round_num'} /> s
                     </Radio>
                     <Radio value="round_num">
                         <span className='label'>轮次: </span>
-                        <Input size="mini" value={round_num} onChange={(e) => setRoundNum(e)} disabled={default_mode === 'duration'} /> 次
+                        <Input size="mini" value={round_num} onChange={(e) => {
+                            setRoundNum(parseInt(e));
+                            from === 'preset' && onChange('round_num', parseInt(e));
+                        }} disabled={default_mode === 'duration'} /> 次
                     </Radio>
                 </Radio.Group>
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
                         <span>并发数: </span>
-                        <Input size="mini" value={concurrency} onChange={(e) => setConcurrency(e)} />
+                        <Input size="mini" value={concurrency} onChange={(e) => {
+                            setConcurrency(parseInt(e));
+                            from === 'preset' && onChange('concurrency', parseInt(e));
+                        }} />
                     </div>
                     <div className='config-detail-item'>
                         <span>预热: </span>
-                        <Input size="mini" value={reheat_time} onChange={(e) => setReheatTime(e)} />s
+                        <Input size="mini" value={reheat_time} onChange={(e) => {
+                            setReheatTime(parseInt(e));
+                            from === 'preset' && onChange('reheat_time', parseInt(e));
+                        }} />s
                     </div>
                 </div>
             </div>
@@ -93,23 +167,38 @@ const TaskConfig = (props) => {
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
                         <span>起始并发数: </span>
-                        <Input size="mini" value={concurrency} onChange={(e) => setConcurrency(e)} />
+                        <Input size="mini" value={start_concurrency} onChange={(e) => {
+                            setStartConcurrency(parseInt(e));
+                            from === 'preset' && onChange('start_concurrency', parseInt(e));
+                        }} />
                     </div>
                     <div className='config-detail-item'>
                         <span>并发数步长: </span>
-                        <Input size="mini" value={reheat_time} onChange={(e) => setReheatTime(e)} />
+                        <Input size="mini" value={step} onChange={(e) => {
+                            setStep(parseInt(e));
+                            from === 'preset' && onChange('step', parseInt(e));
+                        }} />
                     </div>
                     <div className='config-detail-item'>
                         <span>步长执行时长: </span>
-                        <Input size="mini" value={reheat_time} onChange={(e) => setReheatTime(e)} />s
+                        <Input size="mini" value={step_run_time} onChange={(e) => {
+                            setStepRunTime(parseInt(e));
+                            from === 'preset' && onChange('step_run_time', parseInt(e));
+                        }} />s
                     </div>
                     <div className='config-detail-item'>
                         <span>最大并发数: </span>
-                        <Input size="mini" value={reheat_time} onChange={(e) => setReheatTime(e)} />次
+                        <Input size="mini" value={max_concurrency} onChange={(e) => {
+                            setMaxConcurrency(parseInt(e));
+                            from === 'preset' && onChange('max_concurrency', parseInt(e));
+                        }} />次
                     </div>
                     <div className='config-detail-item'>
                         <span>稳定持续时长: </span>
-                        <Input size="mini" value={reheat_time} onChange={(e) => setReheatTime(e)} />s
+                        <Input size="mini" value={duration} onChange={(e) => {
+                            setDuration(parseInt(e));
+                            from === 'preset' && onChange('duration', parseInt(e));
+                        }} />s
                     </div>
                 </div>
             </div>
@@ -128,7 +217,7 @@ const TaskConfig = (props) => {
             {
                 from !== 'preset' && <div className='task-config-header'>
                     <p>任务配置</p>
-                    <Button>导入预设配置</Button>
+                    <Button onClick={() => init(initData)}>导入预设配置</Button>
                 </div>
             }
             <div className='task-config-container'>
@@ -141,7 +230,10 @@ const TaskConfig = (props) => {
                 </div> */}
                 <div className='item' style={{ marginBottom: '30px' }}>
                     <p>任务类型: </p>
-                    <Radio.Group value={task_type} onChange={(e) => setTaskType(e)}>
+                    <Radio.Group value={task_type} onChange={(e) => {
+                        setTaskType(e);
+                        from === 'preset' && onChange('task_type', e);
+                    }}>
                         <Radio value={1}>普通任务</Radio>
                         <Radio value={2}>定时任务</Radio>
                     </Radio.Group>
@@ -149,7 +241,10 @@ const TaskConfig = (props) => {
                 {
                     task_type === 2 && <div className='item'>
                         <p style={{ marginRight: '5px' }}>填写cron表达式: </p>
-                        <Input placeholder="每隔5秒执行一次: */5 * * * * ?" />
+                        <Input value={cron_expr} onChange={(e) => {
+                            setCronExpr(e);
+                            from === 'preset' && onChange('cron_expr', e);
+                        }} placeholder="每隔5秒执行一次: */5 * * * * ?" />
                     </div>
                 }
                 {/* <div className='item'>
@@ -159,7 +254,10 @@ const TaskConfig = (props) => {
                 <Table showBorder columns={column} data={data} /> */}
                 <div className='item'>
                     <p style={{ marginBottom: 'auto', marginTop: '5px' }}>压测模式: </p>
-                    <Radio.Group value={mode} onChange={(e) => setMode(e)} >
+                    <Radio.Group value={mode} onChange={(e) => {
+                        setMode(e);
+                        from === 'preset' && onChange('mode', e);
+                    }} >
                         {modeList.map((item, index) => (<Radio value={index + 1} style={{ marginBottom: '16px' }}>{item}</Radio>))}
                     </Radio.Group>
                 </div>

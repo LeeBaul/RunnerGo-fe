@@ -5,6 +5,8 @@ export const getPathExpressionObj = (type, extension) => {
     url: 'request.url', //  修改接口url
     mark: 'mark', // 修改接口状态
     method: 'method', // 修改接口请求方式
+    assert: 'assert', // 接口断言
+    regex: 'regex', // 正则表达式
     header: 'request.header.parameter', // 修改接口请求头
     query: 'request.query.parameter', // 修改接口query参数
     resful: 'request.resful.parameter', // 修改路径变量

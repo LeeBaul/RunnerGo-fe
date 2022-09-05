@@ -43,6 +43,8 @@ const SceneBox = () => {
     const node_config = useSelector((store) => store.scene.node_config);
     const import_node = useSelector((store) => store.scene.import_node);
 
+    const open_scene = useSelector((store) => store.scene.open_scene);
+
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
@@ -129,7 +131,15 @@ const SceneBox = () => {
 
             setNodes((nds) => nds.concat(new_node));
         })
-    }, [import_node])
+    }, [import_node]);
+
+    useEffect(() => {
+       if (Object.entries(open_scene || {}).length > 0) {
+            const { nodes, edges } = open_scene;
+            setNodes(nodes || []);
+            setEdges(edges || []);
+       }
+    }, [open_scene])
 
 
     return (

@@ -88,7 +88,7 @@ const useCollection = () => {
     };
 
     const addSceneItem = async (data, callback) => {
-        const { type, pid, param } = data;
+        const { type, pid, param, from, plan_id } = data;
         let newScene = getBaseCollection(type);
         console.log(newScene);
         if (!newScene) return;
@@ -100,24 +100,33 @@ const useCollection = () => {
         delete newScene['target_id'];
 
         console.log(newScene);
+        newScene.source = from === 'scene' ? 1 : 2;
+        plan_id && (newScene.plan_id = parseInt(plan_id));
         // return;
         fetchCreateScene(newScene).subscribe({
             next: async (resp) => {
                 console.log(resp);
                 const { code } = resp;
                 if (code === 0) {
-                    callback && callback();
-                    global$.next({
-                        action: 'RELOAD_LOCAL_SCENE',
-                    });
+                    if (from === 'scene') {
+                        global$.next({
+                            action: 'RELOAD_LOCAL_SCENE',
+                        });
+                    } else {
+                        global$.next({
+                            action: 'RELOAD_LOCAL_PLAN',
+                            id: plan_id,
+                        });
+                    }
                 }
+                callback && callback(code);
             }
         })
     }
 
     const addSceneGroupItem = async (data, callback) => {
         console.log(data);
-        const { type, pid, param } = data;
+        const { type, pid, param, from, plan_id } = data;
         let newSceneGroup = getBaseCollection(type);
         console.log(newSceneGroup);
         if (!newSceneGroup) return;
@@ -128,6 +137,8 @@ const useCollection = () => {
         newSceneGroup['team_id'] = parseInt(sessionStorage.getItem('team_id'));
         delete newSceneGroup['target_id'];
 
+        newSceneGroup.source = from === 'scene' ? 1 : 2;
+        plan_id && (newSceneGroup.plan_id = parseInt(plan_id));
         console.log(newSceneGroup);
         // return;
         fetchCreateGroup(newSceneGroup).subscribe({
@@ -136,9 +147,16 @@ const useCollection = () => {
                 const { code } = resp;
                 if (code === 0) {
                     callback && callback();
-                    global$.next({
-                        action: 'RELOAD_LOCAL_SCENE',
-                    });
+                    if (from === 'scene') {
+                        global$.next({
+                            action: 'RELOAD_LOCAL_SCENE',
+                        });
+                    } else {
+                        global$.next({
+                            action: 'RELOAD_LOCAL_PLAN',
+                            id: plan_id,
+                        });
+                    }
                 }
             }
         })
@@ -352,7 +370,7 @@ const useCollection = () => {
             .pipe(
                 filter((d) => d.action === 'RELOAD_LOCAL_SCENE'),
                 map((d) => d.payload),
-                concatMap(getSceneList$),
+                concatMap((e) => getSceneList$(e, 'scene')),
                 switchMap(async ({ data: { targets } }) => {
                     const tempSceneList = {};
                     if (targets instanceof Array) {

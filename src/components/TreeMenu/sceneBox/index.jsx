@@ -4,7 +4,8 @@ import { Apis as SvgApis } from 'adesign-react/icons';
 import CreateGroup from '@modals/CreateGroup';
 import CreateScene from '@modals/CreateScene';
 
-const SceneBox = () => {
+const SceneBox = (props) => {
+    const { from, plan_id } = props;
     const [showCreateGroup, setCreateGroup] = useState(false);
     const [showCreateScene, setCreateScene] = useState(false);
 
@@ -20,8 +21,8 @@ const SceneBox = () => {
                 <p>新建场景</p>
             </div>
 
-            { showCreateGroup && <CreateGroup onCancel={() => setCreateGroup(false)} /> }
-            { showCreateScene && <CreateScene onCancel={() => setCreateScene(false)} /> }
+            { showCreateGroup && <CreateGroup from={from} plan_id={plan_id} onCancel={() => setCreateGroup(false)} /> }
+            { showCreateScene && <CreateScene from={from} plan_id={plan_id} onCancel={() => setCreateScene(false)} /> }
         </div>
     )
 };

@@ -31,8 +31,9 @@ export const modifyFolder = async (target_id, props) => {
         target_id
     }).subscribe({
         next(res) {
-            const { data: { scene } } = res;
-            props.showModal('addScene', { scene });
+            console.log('获取场景详情', res);
+            const { data: { scenes } } = res;
+            props.showModal('addScene', { scene: scenes[0] });
         }
     })
 
@@ -106,7 +107,15 @@ export const pasteToCurrent = ({ props, params }) => {
 };
 export const pasteFolderToRoot = ({ props }) => { };
 export const deleteFolder = async (target_id) => {
-    deleteMultiData(target_id);
+    console.log(target_id);
+    // deleteMultiData(target_id);
+    Bus.$emit('deleteScene', target_id, (code) => {
+        if (code === 0) {
+            Message('success', '删除成功!');
+        } else {
+            Message('error', '删除失败!');
+        }
+    })
 };
 
 export default {

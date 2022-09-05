@@ -128,6 +128,8 @@ const createTarget = (type, baseCollection) => {
             expect: {},
           },
         },
+        assert: [],
+        regex: [],
         is_check_result: 1, // 是否开启校验返回结果 开关
         check_result_expectId: '', // 校验期望id
         is_example: -1,
@@ -285,7 +287,109 @@ const createTarget = (type, baseCollection) => {
       };
       return grpc;
       break;
-    default:
+    
+    case 'scene':
+      const scene = {
+        ...baseCollection,
+        script: {
+          pre_script: '',
+          // pre_script_switch: 1,
+          test: '',
+          // test_switch: 1,
+        },
+        request: {
+          header: [],
+          query: [],
+          description: '',
+          auth: {
+            type: 'noauth', // 认证类型  noauth无需认证 kv私密键值对 bearer认证 basic认证
+            kv: {
+              key: '',
+              value: '',
+            },
+            bearer: {
+              key: '',
+            },
+            basic: {
+              username: '',
+              password: '',
+            },
+            // digest: {
+            //   username: '',
+            //   password: '',
+            //   realm: '',
+            //   nonce: '',
+            //   algorithm: '',
+            //   qop: '',
+            //   nc: '',
+            //   cnonce: '',
+            //   opaque: '',
+            // },
+            // hawk: {
+            //   authId: '',
+            //   authKey: '',
+            //   algorithm: '',
+            //   user: '',
+            //   nonce: '',
+            //   extraData: '',
+            //   app: '',
+            //   delegation: '',
+            //   timestamp: '',
+            //   includePayloadHash: -1,
+            // },
+            // awsv4: {
+            //   accessKey: '',
+            //   secretKey: '',
+            //   region: '',
+            //   service: '',
+            //   sessionToken: '',
+            //   addAuthDataToQuery: -1,
+            // },
+            // ntlm: {
+            //   username: '',
+            //   password: '',
+            //   domain: '',
+            //   workstation: '',
+            //   disableRetryRequest: 1,
+            // },
+            // edgegrid: {
+            //   accessToken: '',
+            //   clientToken: '',
+            //   clientSecret: '',
+            //   nonce: '',
+            //   timestamp: '',
+            //   baseURi: '',
+            //   headersToSign: '',
+            // },
+            // oauth1: {
+            //   consumerKey: '',
+            //   consumerSecret: '',
+            //   signatureMethod: '',
+            //   addEmptyParamsToSign: -1,
+            //   includeBodyHash: -1,
+            //   addParamsToHeader: -1,
+            //   realm: '',
+            //   version: '1.0',
+            //   nonce: '',
+            //   timestamp: '',
+            //   verifier: '',
+            //   callback: '',
+            //   tokenSecret: '',
+            //   token: '',
+            // },
+          },
+          url: '',
+          body: {
+            mode: 'none', // body 参数类型 none/form-data / urlencoded / json /xml /plain/html
+            parameter: [],
+            raw: '', // body参数类型为  json /xml /plain/html时的实际参数
+            raw_para: [],
+          },
+        },
+      };
+      console.log(scene);
+      return scene;
+      default:
       return baseCollection;
       break;
   }
