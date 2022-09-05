@@ -17,7 +17,7 @@ import RecycleBin from './recycleBin';
 import { MenuWrapper } from './style';
 
 const TreeMenu = (props) => {
-    const { type = 'apis', plan_id } = props;
+    const { type = 'apis', plan_id, getSceneName } = props;
     const [filterParams, setFilterParams] = useState({ key: '', status: 'all' }); // 接口过滤参数
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [modalType, setModalType] = useState('');
@@ -54,14 +54,14 @@ const TreeMenu = (props) => {
                 <CreateScene from={type} plan_id={plan_id} {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
             <div className='menus-header'>
-                <FilterBox 
+                <FilterBox
                     treeRef={treeRef}
                     selectedKeys={selectedKeys}
                     filterParams={filterParams}
                     onChange={setFilterParams}
                     type={type}
-                 />
-                {type === 'apis' ? <ButtonBox treeRef={treeRef} showModal={handleShowModal}  /> : <SceneBox from={type} plan_id={plan_id} />}
+                />
+                {type === 'apis' ? <ButtonBox treeRef={treeRef} showModal={handleShowModal} /> : <SceneBox from={type} plan_id={plan_id} />}
             </div>
             <MenuTrees
                 ref={treeRef}
@@ -71,6 +71,7 @@ const TreeMenu = (props) => {
                 selectedKeys={selectedKeys}
                 setSelectedKeys={setSelectedKeys}
                 type={type}
+                getSceneName={getSceneName}
             />
             <RecycleBin />
         </MenuWrapper>

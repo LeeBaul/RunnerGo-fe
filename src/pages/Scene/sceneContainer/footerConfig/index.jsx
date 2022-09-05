@@ -21,22 +21,36 @@ const FooterConfig = (props) => {
                     <span>等待控制器</span>
                 </div>
                 <div className='condition' onClick={() => {
-                    dispatch({
+                    if (from ==='scene') {
+                      dispatch({
                         type: 'scene/updateType',
                         payload: ['add', 'condition_controller']
-                    })
+                      })
+                    } else {
+                      dispatch({
+                        type: 'plan/updateType',
+                        payload: ['add', 'condition_controller']
+                      })
+                    }
                 }}>
                     <SvgAdd />
                     <span>条件控制器</span>
                 </div>
             </div>
             }
-            <div className='common-config'>
+            <div className='common-config' style={{ width: from === 'plan' ? '360px' : '288px' }}>
                 <div className='config-item' onClick={() => {
-                    dispatch({
+                    if (from === 'scene') {
+                        dispatch({
                         type: 'scene/updateType',
                         payload: ['add', 'api']
-                    })
+                      })
+                    } else {
+                        dispatch({
+                            type: 'plan/updateType',
+                            payload: ['add', 'api']
+                        })
+                    }
                 }}>
                     <SvgApis />
                     <span>新建接口</span>

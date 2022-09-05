@@ -99,7 +99,7 @@ const SceneContainer = (props) => {
         <div className='scene-container'>
             {showApiPicker && <ApiPicker onCancel={() => setApiPicker(false)} />}
             {/* <DndProvider backend={HTML5Backend}> */}
-            <SceneBox />
+            <SceneBox from={from} />
             {/* </DndProvider> */}
             <div className='api-config-drawer'>
                 <Drawer

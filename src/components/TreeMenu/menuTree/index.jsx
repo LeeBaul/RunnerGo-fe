@@ -41,10 +41,12 @@ const MenuTrees = (props, treeRef) => {
         filteredTreeData,
         getSelfNodeAndChildKeys,
         selectedNewTreeData,
-        type
+        type,
+        getSceneName
     } = props;
     const apiData = useSelector((d) => d.apis.apiDatas);
     const sceneData = useSelector((d) => d.scene.sceneDatas);
+    const planData = useSelector((d) => d.plan.planMenu);
     const treeData = type === 'apis' ? apiData : sceneData;
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
@@ -266,6 +268,7 @@ const MenuTrees = (props, treeRef) => {
                 render={renderTreeNode}
                 onNodeClick={(val) => {
                     console.log(val);
+                    getSceneName(val.name);
                     if (val?.target_type == 'folder') {
                         User.get(uuid || '-1')
                             .then((user) => {
@@ -290,9 +293,11 @@ const MenuTrees = (props, treeRef) => {
                             });
                     } else {
                         if (type === 'apis') {
-                            Bus.$emit('addOpenItem', { id: parseInt(val.target_id) }); 
-                        } else {
+                            Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
+                        } else if (type === 'scene') {
                             Bus.$emit('addOpenScene', val, sceneData)
+                        } else if (type === 'plan') {
+                            Bus.$emit('addOpenPlanScene', val, planData);
                         }
                     }
                 }}

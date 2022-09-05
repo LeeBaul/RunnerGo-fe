@@ -163,7 +163,7 @@ const useScene = () => {
         });
         console.log(open_scene);
         const params = {
-            scene_id: parseInt(open_scene.target_id),
+            scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
             team_id: parseInt(sessionStorage.getItem('team_id')),
             version: 1,
             nodes: _nodes,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Scale } from 'adesign-react';
 import { useSelector } from 'react-redux';
 import { isObject } from 'lodash';
@@ -17,9 +17,12 @@ const { ScalePanel, ScaleItem } = Scale;
 const PlanDetail = () => {
 
     const { id } = useParams();
+    const [sceneName, setSceneName] = useState('');
+    const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
     console.log(id);
-    
+
     useEffect(() => {
+        console.log('RELOAD_LOCAL_PLAN');
         global$.next({
             action: 'RELOAD_LOCAL_PLAN',
             id,
@@ -35,11 +38,15 @@ const PlanDetail = () => {
                 defaultLayouts={{ 0: { width: 250 }, 1: { width: 905, flex: 1 }, 2: { width: 630 } }}
             >
                 <ScaleItem className="left-menus" minWidth={250} maxWidth={350}>
-                    <TreeMenu type='plan' plan_id={id} />
+                    <TreeMenu type='plan' plan_id={id} getSceneName={(e) => setSceneName(e)} />
                 </ScaleItem>
                 <ScaleItem className="right-apis" enableScale={true}>
-                    <SceneHeader from='plan' />
-                    <SceneContainer from='plan' />
+                    {
+                        Object.entries(open_plan_scene).length > 0 ? <>
+                            <SceneHeader from='plan' sceneName={sceneName} />
+                            <SceneContainer from='plan' />
+                        </> : <p className='empty'>还没有数据</p>
+                    }
                 </ScaleItem>
                 <ScaleItem enableScale={true}>
                     <TaskConfig />

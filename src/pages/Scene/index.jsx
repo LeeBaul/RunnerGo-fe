@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Scale } from 'adesign-react';
 import { useSelector } from 'react-redux';
 import { isObject } from 'lodash';
@@ -13,6 +13,7 @@ const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
 
+    const [sceneName, setSceneName] = useState('');
     const open_scene = useSelector((store) => store.scene.open_scene);
 
     return (
@@ -22,13 +23,16 @@ const Scene = () => {
             defaultLayouts={{ 0: { width: 270 }, 1: { flex: 1, width: 0 } }}
         >
             <ScaleItem className="left-menus" minWidth={250} maxWidth={350}>
-                <TreeMenu type='scene' />
+                <TreeMenu getSceneName={(name) => {
+                    setSceneName(name);
+                    console.log(name);
+                }} type='scene' />
             </ScaleItem>
             <ScaleItem className="right-apis" enableScale={false}>
                 {
                     open_scene ? <>
-                        <SceneHeader from='scene' />
-                        <SceneContainer />
+                        <SceneHeader from='scene' sceneName={sceneName} />
+                        <SceneContainer from = 'scene' />
                     </> : <p className='empty'>没有数据</p>
                 }
             </ScaleItem>

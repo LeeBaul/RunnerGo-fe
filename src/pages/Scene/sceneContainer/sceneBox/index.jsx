@@ -31,19 +31,33 @@ const onLoad = (reactFlowInstance) => {
 
 const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
 
-const SceneBox = () => {
+const SceneBox = (props) => {
+    const { from } = props;
+    console.log('0+++', from);
 
     const refBox = useRef();
     const refContainer = useRef();
     const dispatch = useDispatch();
 
-    const type_now = useSelector((store) => store.scene.type);
+    const type_now_scene = useSelector((store) => store.scene.type);
     const saveScene = useSelector((store) => store.scene.saveScene);
-    const id_apis = useSelector((store) => store.scene.id_apis);
-    const node_config = useSelector((store) => store.scene.node_config);
+    const id_apis_scene = useSelector((store) => store.scene.id_apis);
+    const node_config_scene = useSelector((store) => store.scene.node_config);
     const import_node = useSelector((store) => store.scene.import_node);
 
+    const type_now_plan = useSelector((store) => store.plan.type);
+    const id_apis_plan = useSelector((store) => store.plan.id_apis);
+    const node_config_plan = useSelector((store) => store.plan.node_config);
+
     const open_scene = useSelector((store) => store.scene.open_scene);
+    const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
+    console.log('1+++', open_scene);
+    console.log('2+++', open_plan_scene);
+
+    const open_data = from === 'scene' ? open_scene : open_plan_scene;
+    const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
+    const node_config = from === 'scene' ? node_config_scene : node_config_plan;
+    const type_now = from === 'scene' ? type_now_scene : type_now_plan;
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -66,8 +80,12 @@ const SceneBox = () => {
             }
             console.log(id_apis, ']]]]]]]]]')
 
-            Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config);
-
+            if (from === 'scene') {
+                Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config);
+            } else {
+                Bus.$emit('addNewPlanApi', new_node.id, id_apis, node_config);
+            }
+            console.log('new_node', new_node);
             setNodes((nds) => nds.concat(new_node));
             console.log(nodes);
         } else if (action === 'add' && type === 'condition_controller') {
@@ -101,14 +119,25 @@ const SceneBox = () => {
 
     useEffect(() => {
         if (nodes.length > 0 || edges.length > 0) {
-            dispatch({
-                type: 'scene/updateNodes',
-                payload: nodes,
-            });
-            dispatch({
-                type: 'scene/updateEdges',
-                payload: edges,
-            })
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateNodes',
+                    payload: nodes,
+                });
+                dispatch({
+                    type: 'scene/updateEdges',
+                    payload: edges,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateNodes',
+                    payload: nodes,
+                });
+                dispatch({
+                    type: 'plan/updateEdges',
+                    payload: edges,
+                })
+            }
             console.log(123123123123123, nodes, edges);
         }
     }, [nodes, edges]);
@@ -134,12 +163,13 @@ const SceneBox = () => {
     }, [import_node]);
 
     useEffect(() => {
-       if (Object.entries(open_scene || {}).length > 0) {
-            const { nodes, edges } = open_scene;
+       if (Object.entries((open_data) || {}).length > 0) {
+            console.log(open_data);
+            const { nodes, edges } = open_data;
             setNodes(nodes || []);
             setEdges(edges || []);
        }
-    }, [open_scene])
+    }, [open_data])
 
 
     return (
