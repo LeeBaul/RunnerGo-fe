@@ -25,7 +25,7 @@ const PlanHeader = () => {
                     beforeFix={<SvgSearch />}
                     placeholder="搜索计划名称/执行者"
                 />
-                <Button>搜索</Button>
+                <Button className='searchBtn'>搜索</Button>
             </div>
             <div className='plan-header-right'>
                 <Button className='createBtn' preFix={<SvgAdd />} onClick={() => setShowPlan(true)}>新建计划</Button>
