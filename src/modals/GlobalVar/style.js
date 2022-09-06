@@ -6,7 +6,7 @@ export const GlobalVarModal = css`
         height: 730px;
     }
     .apipost-modal-header {
-        padding: 32px 32px 24px 32px;
+        ${'' /* padding: 32px 32px 24px 32px; */}
     }
     .apipost-table-th {
         background-color: #39393D;
@@ -18,6 +18,17 @@ export const GlobalVarModal = css`
     .container-title {
         font-size: 16px;
         margin: 24px 0;
+    }
+    .apipost-table-cell {
+        overflow:hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .delete-svg {
+        width: 16px;
+        height: 16px;
+        fill: #f00;
+        cursor: pointer;
     }
 `;
 

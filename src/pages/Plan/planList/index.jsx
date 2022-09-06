@@ -10,7 +10,7 @@ import {
 
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch  } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlanList } from '@services/plan';
 import dayjs from 'dayjs';
 import Bus from '@utils/eventBus';
@@ -19,7 +19,8 @@ const PlanList = () => {
 
     const navigate = useNavigate();
     const [planList, setPlanList] = useState([]);
-    const dispatch  = useDispatch();
+    const [keyword, setKeyword] = useState('');
+    const dispatch = useDispatch();
     const refreshList = useSelector((store) => store.plan.refreshList);
 
     const taskList = {
@@ -75,7 +76,7 @@ const PlanList = () => {
             page: 1,
             size: 20,
             team_id: sessionStorage.getItem('team_id'),
-            keyword: '',
+            keyword,
             start_time_sec: '',
             end_time_sec: '',
         };
@@ -97,7 +98,7 @@ const PlanList = () => {
                 plans && setPlanList(planList);
             }
         })
-    },[refreshList])
+    }, [refreshList, keyword])
 
 
     const columns = [
@@ -125,7 +126,7 @@ const PlanList = () => {
         {
             title: '最后修改时间',
             width: 220,
-            dataIndex: 'created_user_name',
+            dataIndex: 'updated_time_sec',
         },
         {
             title: '状态',
@@ -133,7 +134,7 @@ const PlanList = () => {
         },
         {
             title: '操作者',
-            dataIndex: 'run_user_name',
+            dataIndex: 'created_user_name',
         },
         {
             title: '备注',
@@ -149,7 +150,7 @@ const PlanList = () => {
 
     return (
         <div className='plan'>
-            <PlanHeader />
+            <PlanHeader onChange={(e) => setKeyword(e)} />
             <Table className="plan-table" showBorder columns={columns} data={planList} />,
         </div>
     )

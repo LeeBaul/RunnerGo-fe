@@ -14,3 +14,18 @@ export const fetchRunningPlan = (
 export const fetchOperationLog = (
     query
 ) => ajax('get', '/management/api/v1/operation/list', 'json', false, {}, query);
+
+// 获取全局变量
+export const fetchGlobalVar = (
+    query
+) => ajax('get', '/management/api/v1/variable/list', 'json', false, {}, query);
+
+// 创建/修改全局变量
+export const fetchCreateVar = (
+    params
+) => ajax('post', '/management/api/v1/variable/save', 'json', false, params);
+
+// 删除全局变量
+export const fetchDeleteVar = (
+    params
+) => ajax('post', '/management/api/v1/variable/delete', 'json', false, params);

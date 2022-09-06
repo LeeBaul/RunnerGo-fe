@@ -8,7 +8,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import CreatePlan from '@modals/CreatePlan';
 
-const PlanHeader = () => {
+const PlanHeader = (props) => {
+    const { onChange } = props;
     const [showPlan, setShowPlan] = useState(false);
     const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const PlanHeader = () => {
                     beforeFix={<SvgSearch />}
                     placeholder="搜索计划名称/执行者"
                 />
-                <Button className='searchBtn'>搜索</Button>
+                <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button>
             </div>
             <div className='plan-header-right'>
                 <Button className='createBtn' preFix={<SvgAdd />} onClick={() => setShowPlan(true)}>新建计划</Button>
