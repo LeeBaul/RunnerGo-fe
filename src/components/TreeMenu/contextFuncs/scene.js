@@ -36,9 +36,11 @@ export const modifyFolder = async (target_id, props) => {
             props.showModal('addScene', { scene: scenes[0] });
         }
     })
-
-
     // }
+};
+export const cloneScene = async (target_id, props) => {
+    console.log(target_id, props);
+    Bus.$emit('cloneScene', target_id);
 };
 export const shareFolder = ({ props, params, showModal }) => {
     Bus.$emit('openModal', 'CreateShare', {
@@ -129,4 +131,5 @@ export default {
     pasteToCurrent,
     deleteFolder,
     createGrpc,
+    cloneScene,
 };

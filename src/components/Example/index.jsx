@@ -37,11 +37,11 @@ const Example = (props, forwardsRef) => {
   const extractData = async () => {
     const val = raw || '';
 
-    const currentProjectInfo = await UserProjects.get(
-      `${CURRENT_PROJECT_ID}/${localStorage.getItem('uuid')}`
-    );
+    // const currentProjectInfo = await UserProjects.get(
+    //   `${CURRENT_PROJECT_ID}/${localStorage.getItem('uuid')}`
+    // );
 
-    const { details } = currentProjectInfo;
+    // const { details } = currentProjectInfo;
     let descList = [];
     // 获取当前项目参数描述
     if (isArray(details?.globalDescriptionVars)) {

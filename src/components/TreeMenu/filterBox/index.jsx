@@ -46,7 +46,7 @@ const FilterBox = (props) => {
                 //         // onChange={handleFilterStatus}
                 //     />
                 // }
-                placeholder="搜索目录或接口"
+                placeholder={type === 'apis' ? '搜索目录或接口' : '搜索分组或场景'}
             />
             {
                 (type === 'apis') &&

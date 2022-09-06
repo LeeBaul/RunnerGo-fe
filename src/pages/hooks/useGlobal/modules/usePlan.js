@@ -3,7 +3,7 @@ import Bus, { useEventBus } from '@utils/eventBus';
 import { cloneDeep, isArray, set } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { tap, filter, map, concatMap, switchMap } from 'rxjs';
-import { fetchSceneFlowDetail } from '@services/scene';
+import { fetchSceneFlowDetail, fetchCreateSceneFlow  } from '@services/scene';
 import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
@@ -133,7 +133,7 @@ const usePlan = () => {
         })
     };
 
-    const saveScenePlan = (nodes, edges, id_apis, node_config, open_scene, callback) => {
+    const saveScenePlan = (nodes, edges, id_apis, node_config, open_scene, id, callback) => {
         const get_pre = (id, edges) => {
             const pre_list = [];
             edges.forEach(item => {
@@ -183,6 +183,8 @@ const usePlan = () => {
             version: 1,
             nodes: _nodes,
             edges,
+            source: 2,
+            plan_id: id,
             // multi_level_nodes: JSON.stringify(formatSceneData(nodes, edges))
             // songsong: formatSceneData(nodes, edges),
         };
@@ -197,6 +199,48 @@ const usePlan = () => {
                 }
             }
         })
+    };
+
+    const copyPlan = (data, callback) => {
+        const { name, remark } = data;
+        // 1. 创建计划
+        // 2. 查询原计划的菜单列表
+        // 3. 遍历查询每个分组/场景详情
+        // 4. 遍历创建每个分组/场景
+        // 5. 遍历查询每个场景流程详情
+        // 6. 遍历创建每个场景流程详情
+        // 7. 创建任务配置
+
+        const params = {
+            name,
+            remark,
+            team_id: parseInt(sessionStorage.getItem('team_id')),
+        };
+        fetchCreatePlan(params).pipe(
+            concatMap((res) => {
+                const { data: { plan_id } } = res;
+                const query = {
+                    page: 1,
+                    size: 100,
+                    team_id: sessionStorage.getItem('team_id'),
+                    source: 2,
+                    plan_id,
+                };
+
+                return getSceneList$(query, 'plan');
+            }),
+            concatMap((res) => {
+                const { data: { targets } } = res;
+                targets.forEach(item => {
+                    const _item = cloneDeep(item);
+                    delete _item['target_id'];
+                    delete _item['created_user_id'];
+                    delete _item['recent_user_id'];
+
+
+                })
+            })
+        ).subscribe();
     }
 
     useEffect(() => {
@@ -236,6 +280,7 @@ const usePlan = () => {
     useEventBus('addOpenPlanScene', addOpenPlanScene);
     useEventBus('addNewPlanApi', addNewPlanApi);
     useEventBus('saveScenePlan', saveScenePlan);
+    useEventBus('copyPlan', copyPlan);
 };
 
 export default usePlan;

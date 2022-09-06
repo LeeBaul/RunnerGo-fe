@@ -34,11 +34,11 @@ const SceneContainer = (props) => {
     const closeApiConfig = () => {
         Bus.$emit('saveSceneApi', api_now, id_apis, () => {
             console.log(123);
-            setDrawer(false)
-            // dispatch({
-            //     type: 'scene/updateApiConfig',
-            //     payload: false
-            // })
+            // setDrawer(false)
+            dispatch({
+                type: 'scene/updateApiConfig',
+                payload: false
+            })
         });
         // if (api_now.is_changed) {
         //     Modal.confirm({

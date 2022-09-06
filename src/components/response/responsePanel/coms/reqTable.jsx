@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'adesign-react';
+import { combineLatest } from 'rxjs';
 
 const ReqTable = (props) => {
   const { data } = props;
   const headerList = [];
-  const reqHeader = data?.request_headers || {};
+  const reqHeader = data?.header || {};
+  console.log(reqHeader);
   for (const key in reqHeader) {
     if (typeof reqHeader[key] === 'object') {
       for (const it in reqHeader[key]) {
@@ -38,7 +40,8 @@ const ReqTable = (props) => {
 
   return (
     <>
-      <Table showHeader={false} showBorder columns={columns} data={list} />
+      {/* <Table showHeader={false} showBorder columns={columns} data={list} /> */}
+      { reqHeader }
     </>
   );
 };

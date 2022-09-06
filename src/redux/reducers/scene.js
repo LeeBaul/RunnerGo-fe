@@ -14,6 +14,10 @@ const initialState = {
   node_config: {}, // id和api/控制器基本配置的映射关系
 
   import_node: [], // 导入项目时添加节点
+
+  delete_node: '', // 要删除的节点id
+
+  clone_node: [], // 复制的节点
 };
 
 // action名称
@@ -31,6 +35,8 @@ const actionTypes = {
   updateNodeConfig: 'updateNodeConfig',
   updateImportNode: 'updateImportNode',
   updateOpenScene: 'updateOpenScene',
+  updateDeleteNode: 'updateDeleteNode',
+  updateCloneNode: 'updateCloneNode',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -53,7 +59,7 @@ export const sceneReducer = (state = initialState, action) => {
         isLoading: action.payload,
       };
     case `${NAMESPACE}/${actionTypes.updateNodes}`:
-      console.log(action.payload);
+      console.log('redux/scene/updateNodes', action.payload);
       return {
         ...state,
         nodes: action.payload,
@@ -104,6 +110,16 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         open_scene: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateDeleteNode}`:
+      return {
+        ...state,
+        delete_node: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateCloneNode}`:
+      return {
+        ...state,
+        clone_node: action.payload,
       }
     default:
       return state;

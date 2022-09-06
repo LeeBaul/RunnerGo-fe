@@ -87,7 +87,7 @@ const DetailHeader = () => {
                     </div>
                     <div className='detail-bottom'>
                         <div className='item'>
-                            <p>创建人：</p>
+                            <p>创建人：{ planDetail.created_user_name }</p>
                             <img src={avatar} />
                             <p style={{ marginLeft: '4px' }}></p>
                         </div>

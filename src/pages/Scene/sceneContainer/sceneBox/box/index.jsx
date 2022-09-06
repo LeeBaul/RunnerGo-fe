@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './index.less';
 import {
     Apis as SvgApi,
@@ -38,8 +38,10 @@ const Box = (props) => {
     const dispatch = useDispatch();
     const refInput = useRef(null);
     const refDropdown = useRef(null);
+    const nodes = useSelector((store) => store.scene.nodes);
     const id_apis = useSelector((store) => store.scene.id_apis);
     const node_config = useSelector((store) => store.scene.node_config);
+    const open_scene = useSelector((store) => store.scene.open_scene);
     const [showApi, setShowApi] = useState(true);
     const [showMode, setShowMode] = useState(false);
     const [showModeTime, setShowModeTime] = useState(false);
@@ -61,11 +63,36 @@ const Box = (props) => {
     // 响应时间占比
     const [percent_age, setPercent] = useState(0);
 
+    useEffect(() => {
+        const my_config = node_config[id];
+        if (my_config) {
+            const { weight, error_threshold, response_threshold, request_threshold, percent_age } = my_config;
+            weight && setWeight(weight);
+            error_threshold && setError(error_threshold);
+            response_threshold && setRes(response_threshold);
+            request_threshold && setReq(request_threshold);
+            percent_age && setPercent(percent_age);
+        }
+    }, [node_config]);
+
     const DropContent = () => {
         return (
             <div className='drop-content'>
-                <p onClick={() => changeApiConfig()}>编辑接口</p>
-                <p>删除接口</p>
+                <p onClick={() => {
+                    changeApiConfig();
+                    refDropdown.current.setPopupVisible(false);
+                }}>编辑接口</p>
+                <p onClick={() => {
+                    dispatch({
+                        type: 'scene/updateDeleteNode',
+                        payload: id,
+                    });
+                    refDropdown.current.setPopupVisible(false);
+                }}>删除接口</p>
+                <p onClick={() => {
+                    Bus.$emit('cloneNode', id, nodes, node_config, id_apis, open_scene);
+                    refDropdown.current.setPopupVisible(false);
+                }}>复制接口</p>
             </div>
         )
     };
@@ -83,14 +110,15 @@ const Box = (props) => {
                         {showApi ? <SvgDown /> : <SvgRight />}
                     </p>
                     <Dropdown
+                        ref={refDropdown}
                         content={
                             <div>
                                 <DropContent />
                             </div>
                         }
-                        // style={{ zIndex: 1050 }}
+                    // style={{ zIndex: 1050 }}
                     >
-                       <div><SvgMore className='more-svg' /></div>
+                        <div><SvgMore className='more-svg' /></div>
                     </Dropdown>
                 </div>
             </div>

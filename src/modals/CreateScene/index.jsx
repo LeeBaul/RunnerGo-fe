@@ -67,10 +67,11 @@ const CreateScene = (props) => {
     useEffect(() => {
         const init = () => {
             if (isPlainObject(scene)) {
-                const { request, name, script: folderScript, parent_id } = scene;
+                const { request, name, script: folderScript, parent_id, description } = scene;
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
                 name && setSceneName(name);
+                description && setDescription(description);
                 request && setRequest(request);
             } else {
                 setRequest({
@@ -398,7 +399,7 @@ const CreateScene = (props) => {
                             value={description || ''} 
                             placeholder='请输入场景描述'
                             onChange={(val) => {
-                                setRequest(val);
+                                setDescription(val);
                             }}
                          />
                     </div>

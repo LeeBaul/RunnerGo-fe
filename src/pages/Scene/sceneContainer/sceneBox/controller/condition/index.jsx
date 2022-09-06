@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { Switch, Input, Select } from 'adesign-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Switch, Input, Select, Dropdown } from 'adesign-react';
 import { More as SvgMore } from 'adesign-react/icons';
 import './index.less';
 import { Handle } from 'react-flow-renderer';
 import { COMPARE_IF_TYPE } from '@constants/compare';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
 
 const { Option } = Select;
 
 const ConditionController = (props) => {
     const { data: { id } } = props;
+    const refDropdown = useRef(null);
+    const dispatch = useDispatch();
     const node_config = useSelector((store) => store.scene.node_config);
     // 变量
     const [_var, setVar] = useState('');
@@ -21,7 +23,35 @@ const ConditionController = (props) => {
     // 备注
     const [remark, setRemark] = useState('');
 
+    useEffect(() => {
+        const my_config = node_config[id];
+        console.log(my_config, 'myconfigggggggggggggggggggggggggggg');
+        if (my_config) {
+            const { var: _var, compare, val, remark } = my_config;
+            _var && setVar(_var);
+            compare && setCompare(compare);
+            console.log(_var, val);
+            val && setVal(val);
+            remark && setRemark(remark);
+        }
+    }, [node_config]);
+
+    const DropContent = () => {
+        return (
+            <div className='drop-content'>
+                <p onClick={() => {
+                    dispatch({
+                        type: 'scene/updateDeleteNode',
+                        payload: id,
+                    });
+                    refDropdown.current.setPopupVisible(false);
+                }}>删除控制器</p>
+            </div>
+        )
+    };
+
     const onTargetChange = (type, value) => {
+        console.log(type, value);
         Bus.$emit('updateNodeConfig', type, value, id, node_config);
     }
 
@@ -41,8 +71,19 @@ const ConditionController = (props) => {
                         条件控制器
                     </div>
                     <div className='header-right'>
-                        <Switch defaultChecked />
-                        <SvgMore />
+                        {/* <Switch defaultChecked /> */}
+                        {/* <SvgMore /> */}
+                        <Dropdown
+                            ref={refDropdown}
+                            content={
+                                <div>
+                                    <DropContent />
+                                </div>
+                            }
+                        // style={{ zIndex: 1050 }}
+                        >
+                            <div><SvgMore className='more-svg' /></div>
+                        </Dropdown>
                     </div>
                 </div>
                 <div className='controller-condition-main'>
@@ -55,6 +96,7 @@ const ConditionController = (props) => {
                     </div>
                     <div className='item'>
                         <Select
+                            value={compare}
                             onChange={(e) => {
                                 onTargetChange('compare', e);
                                 setCompare(e);

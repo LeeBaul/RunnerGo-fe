@@ -387,9 +387,10 @@ const Body = (props) => {
           <div style={{ flex: 1 }}></div>
           {!['none', 'urlencoded', 'form-data'].includes(value?.mode || MODE.none) && (
             <div className="api-example-header" style={{ userSelect: 'none' }}>
-              {readonly != 1 && (
+              {/* {readonly != 1 && (
                 <Button
                   onClick={() => {
+                    console.log(refRequest.current);
                     if (isFunction(refRequest?.current?.extractData))
                       refRequest.current.extractData();
                   }}
@@ -397,7 +398,7 @@ const Body = (props) => {
                   <ExportSvg width={16} />
                   <>提取字段和描述</>
                 </Button>
-              )}
+              )} */}
               <Button
                 onClick={() => {
                   if (isFunction(refRequest?.current?.butifyFormatJson))

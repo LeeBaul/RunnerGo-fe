@@ -12,6 +12,10 @@ const initialState = {
   type: [],
   nodes: [],
   edges: [],
+  delete_node: '',
+
+  clone_node: [],
+  import_node: [],
 };
 
 // action名称
@@ -26,6 +30,9 @@ const actionTypes = {
   updateType: 'updateType',
   updateNodes: 'updateNodes',
   updateEdges: 'updateEdges',
+  updateImportNode: 'updateImportNode',
+  updateDeleteNode: 'updateDeleteNode',
+  updateCloneNode: 'updateCloneNode',
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -80,6 +87,21 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         edges: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateImportNode}`:
+      return {
+        ...state,
+        import_node: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateDeleteNode}`:
+      return {
+        ...state,
+        delete_node: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateCloneNode}`:
+      return {
+        ...state,
+        clone_node: action.payload,
       }
     default:
       return state;

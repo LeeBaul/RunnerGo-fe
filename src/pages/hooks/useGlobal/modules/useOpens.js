@@ -417,9 +417,13 @@ const useOpens = () => {
                 fetchApiDetail(query).subscribe({
                     next: (res) => {
                         const { code, data: { targets } } = res;
+                        console.log('targetsssssssssssssss', targets);
                         if (code === 0) {
                             const tempApis = cloneDeep(open_apis);
+                            targets[0].is_changed = -1;
                             tempApis[id] = targets[0];
+
+                            console.log('tempApisssssss', tempApis);
 
                             dispatch({
                                 type: 'opens/coverOpenApis',
@@ -439,7 +443,7 @@ const useOpens = () => {
                         console.log(err);
                     }
                 })
-;
+                    ;
             }
             // await Collection.get(id).then((res) => {
             //     newApi = completionTarget(res);
@@ -459,6 +463,8 @@ const useOpens = () => {
                 newApi.request.body.mode = 'none';
             }
         }
+
+        console.log('-----------', newApi);
         if (!newApi) return;
 
         if (isString(pid) && pid.length > 0) {

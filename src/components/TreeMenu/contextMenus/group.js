@@ -5,6 +5,11 @@ export const GROUP_MENUS = [
         action: 'modifyFolder',
     },
     {
+        type: 'cloneGroup',
+        title: '克隆分组',
+        action: 'cloneGroup',
+    },
+    {
         type: 'deleteFolder',
         title: '删除分组',
         action: 'deleteFolder',

@@ -18,7 +18,18 @@ import DiyExample from './diyExample';
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const ResPonsePanel = (props) => {
-  const { data, tempData, onChange, direction } = props;
+  let { data, tempData, onChange, direction } = props;
+  tempData = {
+    "request": {
+        "header": "POST /api/demo/login HTTP/1.1\r\nUser-Agent: kp-runner\r\nHost: 59.110.10.84:30008\r\nContent-Type: application/json\r\nContent-Length: 44\r\n\r\n",
+        "body": "{\"mobile\": \"15372876094\",\"ver_code\": \"1234\"}"
+    },
+    "response": {
+        "header": "HTTP/1.1 200 OK\r\nDate: Wed, 31 Aug 2022 07:59:20 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 230\r\n\r\n",
+        "body": "{\"code\":10000,\"data\":{\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIxNTM3Mjg3NjA5NCIsInZlcl9jb2RlIjoiMTIzNCIsImV4cCI6MTY2MTk0MzU2MSwiaXNzIjoicHJvOTExIn0.BpQO-W4LBrG73XWezBBMbNUYBQew0Dkvj2pCro0sb8k\"},\"msg\":\"success\"}"
+    },
+    "assertion": null
+};
   const { APIS_TAB_DIRECTION } = useSelector((d) => d?.user?.config);
   const dispatch = useDispatch();
   const [diyVisible, setDiyVisible] = useState(false);
@@ -46,7 +57,7 @@ const ResPonsePanel = (props) => {
       title: (
         <>
           请求头
-          {numberDom(tempData?.request?.request_headers)}
+          {numberDom(tempData?.request?.header)}
         </>
       ),
       content: <ReqTable data={tempData?.request || {}}></ReqTable>,
@@ -56,7 +67,7 @@ const ResPonsePanel = (props) => {
       title: (
         <>
           响应头
-          {numberDom(tempData?.response?.headers)}
+          {numberDom(tempData?.response?.header)}
         </>
       ),
       content: <ResTable data={tempData?.response || {}}></ResTable>,
@@ -124,7 +135,7 @@ const ResPonsePanel = (props) => {
           ) : (
             headerTabItems
           )}
-          <ResponseStatus
+          {/* <ResponseStatus
             response={data?.response || {}}
             onChange={onChange}
             tempData={tempData}
@@ -135,7 +146,7 @@ const ResPonsePanel = (props) => {
               setDiyExampleKey(val);
               setDiyVisible(true);
             }}
-          ></ResponseStatus>
+          ></ResponseStatus> */}
         </div>
       </>
     );

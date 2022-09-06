@@ -4,7 +4,8 @@ import { Table } from 'adesign-react';
 const ResTable = (props) => {
   const { data } = props;
   const headerList = [];
-  const resHeader = data?.headers || {};
+  const resHeader = data?.header || {};
+  console.log(resHeader);
   for (const key in resHeader) {
     if (typeof resHeader[key] === 'object') {
       for (const it in resHeader[key]) {
@@ -36,7 +37,8 @@ const ResTable = (props) => {
 
   return (
     <>
-      <Table showHeader={false} showBorder columns={columns} data={list} />
+      {/* <Table showHeader={false} showBorder columns={columns} data={list} /> */}
+      { resHeader }
     </>
   );
 };

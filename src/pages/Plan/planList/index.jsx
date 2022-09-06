@@ -54,7 +54,9 @@ const PlanList = () => {
                     })
                     navigate(`/plan/detail/${data.plan_id}`);
                 }} />
-                <SvgCopy />
+                <SvgCopy onClick={() => {
+                    // Bus.$emit('copyPlan', data);
+                }} />
                 <SvgDelete style={{ fill: '#f00' }} onClick={() => {
                     Bus.$emit('deletePlan', data.plan_id, (code) => {
                         if (code === 0) {
@@ -123,7 +125,7 @@ const PlanList = () => {
         {
             title: '最后修改时间',
             width: 220,
-            dataIndex: 'updated_time_sec',
+            dataIndex: 'created_user_name',
         },
         {
             title: '状态',

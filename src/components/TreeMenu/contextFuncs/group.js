@@ -35,10 +35,12 @@ export const modifyFolder = async (target_id, props) => {
             props.showModal('addGroup', { group });
         }
     })
-
-
     // }
 };
+export const cloneGroup = async (target_id, props) => {
+
+};
+
 export const shareFolder = ({ props, params, showModal }) => {
     Bus.$emit('openModal', 'CreateShare', {
         defaultShareName: params.name,

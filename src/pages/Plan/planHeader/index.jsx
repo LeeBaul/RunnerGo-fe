@@ -10,6 +10,7 @@ import CreatePlan from '@modals/CreatePlan';
 
 const PlanHeader = () => {
     const [showPlan, setShowPlan] = useState(false);
+    const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
     return (
         <div className='plan-header'>
@@ -19,9 +20,12 @@ const PlanHeader = () => {
             <div className='plan-header-left'>
                 <Input
                     className="textBox"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e)}
                     beforeFix={<SvgSearch />}
                     placeholder="搜索计划名称/执行者"
                 />
+                <Button>搜索</Button>
             </div>
             <div className='plan-header-right'>
                 <Button className='createBtn' preFix={<SvgAdd />} onClick={() => setShowPlan(true)}>新建计划</Button>

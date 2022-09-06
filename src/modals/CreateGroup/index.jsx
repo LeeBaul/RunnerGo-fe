@@ -67,11 +67,12 @@ const CreateGroup = (props) => {
     useEffect(() => {
         const init = () => {
             if (isPlainObject(group)) {
-                const { request, name, script: folderScript, parent_id } = group;
+                const { request, name, script: folderScript, parent_id, description } = group;
                 // console.log(parent_id)
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
                 name && setGroupName(name);
+                description && setDescription(description);
                 request && setRequest(request);
             } else {
                 setRequest({
@@ -396,7 +397,7 @@ const CreateGroup = (props) => {
                             value={description || ''} 
                             placeholder='请输入分组描述' 
                             onChange={(val) => {
-                                setRequest(val);
+                                setDescription(val);
                             }}
                         />
                     </div>

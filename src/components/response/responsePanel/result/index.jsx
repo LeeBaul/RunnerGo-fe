@@ -12,9 +12,21 @@ import { ResultTabs } from './style';
 
 const { Tabs, TabPan } = TabComponent;
 
+const json = {
+  "request": {
+      "header": "POST /api/demo/login HTTP/1.1\r\nUser-Agent: kp-runner\r\nHost: 59.110.10.84:30008\r\nContent-Type: application/json\r\nContent-Length: 44\r\n\r\n",
+      "body": "{\"mobile\": \"15372876094\",\"ver_code\": \"1234\"}"
+  },
+  "response": {
+      "header": "HTTP/1.1 200 OK\r\nDate: Wed, 31 Aug 2022 07:59:20 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 230\r\n\r\n",
+      "body": "{\"code\":10000,\"data\":{\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIxNTM3Mjg3NjA5NCIsInZlcl9jb2RlIjoiMTIzNCIsImV4cCI6MTY2MTk0MzU2MSwiaXNzIjoicHJvOTExIn0.BpQO-W4LBrG73XWezBBMbNUYBQew0Dkvj2pCro0sb8k\"},\"msg\":\"success\"}"
+  },
+  "assertion": null
+};
+
 const RealTimeResult = (props) => {
   const { tempData, target, onChange } = props;
-  const { response, assert } = tempData || {};
+  const { response, assert } = json || {};
   const searchRef = useRef(null);
   const [valid, setValid] = useState('init');
 
@@ -25,7 +37,8 @@ const RealTimeResult = (props) => {
       content: (
         <Beautify
           mode={isString(response?.resMime?.ext) ? response?.resMime?.ext : ''}
-          value={response?.fitForShow == 'Monaco' ? response?.rawBody : ''}
+          // value={response?.fitForShow == 'Monaco' ? response?.rawBody : ''}
+          value={response.body}
           currentRef={searchRef}
         ></Beautify>
       ),
@@ -34,47 +47,48 @@ const RealTimeResult = (props) => {
       title: '原生',
       id: '2',
       content: (
-        <div className="rawhtml">{response?.fitForShow == 'Monaco' ? response?.rawBody : ''}</div>
+        // <div className="rawhtml">{response?.fitForShow == 'Monaco' ? response?.rawBody : ''}</div>
+        <div className="rawhtml">{response.body}</div>
       ),
     },
-    {
-      title: '预览',
-      id: '3',
-      content: <Preview data={response}></Preview>,
-    },
-    {
-      title: (
-        <>
-          断言与校验
-          <span
-            className={
-              valid !== 'error' &&
-              (!isArray(assert) ||
-                assert.length <= 0 ||
-                assert.filter((i) => i?.status !== 'success').length <= 0)
-                ? 'success'
-                : 'error'
-            }
-          ></span>
-        </>
-      ),
-      id: '4',
-      content: (
-        <Assert
-          valid={valid}
-          setValid={setValid}
-          assert={assert}
-          data={target}
-          onChange={onChange}
-          tempData={tempData}
-        ></Assert>
-      ),
-    },
-    {
-      title: '可视化',
-      id: '5',
-      content: <Visualizing tempData={tempData}></Visualizing>,
-    },
+    // {
+    //   title: '预览',
+    //   id: '3',
+    //   content: <Preview data={response}></Preview>,
+    // },
+    // {
+    //   title: (
+    //     <>
+    //       断言与校验
+    //       <span
+    //         className={
+    //           valid !== 'error' &&
+    //           (!isArray(assert) ||
+    //             assert.length <= 0 ||
+    //             assert.filter((i) => i?.status !== 'success').length <= 0)
+    //             ? 'success'
+    //             : 'error'
+    //         }
+    //       ></span>
+    //     </>
+    //   ),
+    //   id: '4',
+    //   content: (
+    //     <Assert
+    //       valid={valid}
+    //       setValid={setValid}
+    //       assert={assert}
+    //       data={target}
+    //       onChange={onChange}
+    //       tempData={tempData}
+    //     ></Assert>
+    //   ),
+    // },
+    // {
+    //   title: '可视化',
+    //   id: '5',
+    //   content: <Visualizing tempData={tempData}></Visualizing>,
+    // },
   ];
 
   const [activeId, setActiveId] = useState('1');
@@ -98,17 +112,17 @@ const RealTimeResult = (props) => {
           break;
       }
     }
-    User.get(localStorage.getItem('uuid') || '-1').then((user) => {
-      if (isPlainObject(user.config)) {
-        if (
-          user.config?.AUTO_BEAUTIFY_RESPONSE_RESULT > 0 &&
-          isPlainObject(response) &&
-          response?.fitForShow === 'Monaco'
-        ) {
-          setActiveId('1');
-        }
-      }
-    });
+    // User.get(localStorage.getItem('uuid') || '-1').then((user) => {
+    //   if (isPlainObject(user.config)) {
+    //     if (
+    //       user.config?.AUTO_BEAUTIFY_RESPONSE_RESULT > 0 &&
+    //       isPlainObject(response) &&
+    //       response?.fitForShow === 'Monaco'
+    //     ) {
+    //       setActiveId('1');
+    //     }
+    //   }
+    // });
   }, [response]);
 
   const handleTabChange = (newActiveId) => {
@@ -131,11 +145,11 @@ const RealTimeResult = (props) => {
                 className="icon-box"
                 onClick={() => {
                   // console.log(response);
-                  if (response?.fitForShow == 'Monaco') {
-                    copyStringToClipboard(response.rawBody, true);
-                  } else {
-                    Message('error', '当前格式不支持复制');
-                  }
+                  // if (response?.fitForShow == 'Monaco') {
+                    copyStringToClipboard(response.body, true);
+                  // } else {
+                    // Message('error', '当前格式不支持复制');
+                  // }
                 }}
               >
                 <CopySvg />
@@ -152,7 +166,7 @@ const RealTimeResult = (props) => {
                 </div>
               )}
             </div>
-            <div
+            {/* <div
               className="head-extra-right"
               onClick={() => {
                 openUrl(
@@ -161,7 +175,7 @@ const RealTimeResult = (props) => {
               }}
             >
               绑定响应结果到变量？
-            </div>
+            </div> */}
           </div>
         </div>
       </>

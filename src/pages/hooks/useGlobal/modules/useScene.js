@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import Bus, { useEventBus } from '@utils/eventBus';
 import { cloneDeep, isArray, set } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { tap } from 'rxjs';
+import { concatMap, map, tap, from } from 'rxjs';
 import { fetchDeleteApi } from '@services/apis';
 import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre } from '@services/scene';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail } from '@services/apis';
+import { v4 } from 'uuid';
 
 import { global$ } from '../global';
 
@@ -120,6 +121,7 @@ const useScene = () => {
     }
 
     const saveScene = (nodes, edges, id_apis, node_config, open_scene, callback) => {
+        console.log('saveScene_nodes', nodes);
         const get_pre = (id, edges) => {
             const pre_list = [];
             edges.forEach(item => {
@@ -161,6 +163,7 @@ const useScene = () => {
                 }
             }
         });
+        console.log('saveScene__nodes', _nodes);
         console.log(open_scene);
         const params = {
             scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
@@ -168,6 +171,7 @@ const useScene = () => {
             version: 1,
             nodes: _nodes,
             edges,
+            source: 1,
             // multi_level_nodes: JSON.stringify(formatSceneData(nodes, edges))
             // songsong: formatSceneData(nodes, edges),
         };
@@ -189,11 +193,11 @@ const useScene = () => {
     }
 
     const addNewSceneControl = (id, node_config = {}) => {
-        console.log(998998)
+        console.log(998998, id, node_config);
         const new_nodes = cloneDeep(node_config);
         new_nodes[id] = {};
 
-        console.log('addNewSceneControl', node_config);
+        console.log('addNewSceneControl', new_nodes);
 
         dispatch({
             type: 'scene/updateNodeConfig',
@@ -201,83 +205,96 @@ const useScene = () => {
         })
     }
 
-    const addNewSceneApi = (id, id_apis = {}, node_config = {}, api = {}) => {
-        console.log(id, id_apis);
+    const addNewSceneApi = (id, id_apis = {}, node_config = {}, api = {}, config = {}) => {
+        console.log(id, id_apis, node_config, api, config, '///////////////////////////');
 
-        let newApi = cloneDeep(api);
+        let _id = isArray(id) ? id : [id];
+        let _api = isArray(api) ? api : [api];
+        let _config = isArray(config) ? config : [config];
+        let length = _config.length;
+        let new_apis = cloneDeep(id_apis);
+        let new_nodes = cloneDeep(node_config);
 
-        console.log('newApi', api, newApi, Object.entries(api));
+        for (let i = 0; i < _api.length; i++) {
+            let newApi = cloneDeep(_api[i]);
 
-        if (Object.entries(api).length === 0) {
-            newApi = getBaseCollection('api');
-            newApi.method = 'POST';
-            newApi.request.body.mode = 'none';
-            newApi.is_changed = false;
+            // console.log('newApi', api, newApi, Object.entries(_api[i]));
 
-            delete newApi['target_id'];
-            delete newApi['parent_id'];
-        } else {
+            if (Object.entries(_api[i]).length === 0) {
+                newApi = getBaseCollection('api');
+                newApi.method = 'POST';
+                newApi.request.body.mode = 'none';
+                newApi.is_changed = false;
+
+                delete newApi['target_id'];
+                delete newApi['parent_id'];
+            } else {
+
+            }
+
+            new_apis[_id[i]] = newApi;
+
+            console.log(new_apis);
+
+            dispatch({
+                type: 'scene/updateIdApis',
+                payload: new_apis,
+            })
+        }
+
+        for (let i = 0; i < _config.length; i++) {
+
+            new_nodes[_id[i]] = _config[i];
+
+            dispatch({
+                type: 'scene/updateNodeConfig',
+                payload: new_nodes,
+            })
 
         }
 
-        let new_apis = cloneDeep(id_apis);
-        new_apis[id] = newApi;
-
-        console.log(new_apis);
-
-        dispatch({
-            type: 'scene/updateIdApis',
-            payload: new_apis,
-        })
-
-        let new_nodes = cloneDeep(node_config);
-
-        new_nodes[id] = {};
-
-        dispatch({
-            type: 'scene/updateNodeConfig',
-            payload: new_nodes,
-        })
-
+        console.log(new_nodes, '/////////////////////////8858')
     }
 
     const updateNodeConfig = (type, value, id, node_config) => {
+        console.log(type, value, id, node_config);
         const _node_config = cloneDeep(node_config);
         console.log(_node_config[id], 6666);
-        switch (type) {
-            case 'weight':
-                _node_config[id].weight = value;
-                break;
-            case 'error_threshold':
-                _node_config[id].error_threshold = value;
-                break;
-            case 'response_threshold':
-                _node_config[id].response_threshold = value;
-                break;
-            case 'request_threshold':
-                _node_config[id].request_threshold = value;
-                break;
-            case 'percent_age':
-                _node_config[id].percent_age = value;
-                break;
-            case 'wait_ms':
-                _node_config[id].wait_ms = value;
-                break;
-            case 'var':
-                _node_config[id].var = value;
-                break;
-            case 'compare':
-                _node_config[id].compare = value;
-                break;
-            case 'val':
-                _node_config[id].val = value;
-                break;
-            case 'remark':
-                _node_config[id].val = value;
-                break;
-            default:
-                break;
-        }
+        _node_config[id][type] = value;
+        // switch (type) {
+        //     case 'weight':
+        //         _node_config[id].weight = value;
+        //         break;
+        //     case 'error_threshold':
+        //         _node_config[id].error_threshold = value;
+        //         break;
+        //     case 'response_threshold':
+        //         _node_config[id].response_threshold = value;
+        //         break;
+        //     case 'request_threshold':
+        //         _node_config[id].request_threshold = value;
+        //         break;
+        //     case 'percent_age':
+        //         _node_config[id].percent_age = value;
+        //         break;
+        //     case 'wait_ms':
+        //         _node_config[id].wait_ms = value;
+        //         break;
+        //     case 'var':
+        //         _node_config[id].var = value;
+        //         break;
+        //     case 'compare':
+        //         _node_config[id].compare = value;
+        //         break;
+        //     case 'val':
+        //         _node_config[id].val = value;
+        //         break;
+        //     case 'remark':
+        //         _node_config[id].remark = value;
+        //         break;
+        //     default:
+        //         break;
+        // }
         dispatch({
             type: 'scene/updateNodeConfig',
             payload: _node_config
@@ -420,8 +437,8 @@ const useScene = () => {
         })
     }
 
-    const addOpenScene = (id, data) => {
-        console.log(id, data);
+    const addOpenScene = (id, id_apis, node_config) => {
+        console.log('addOpenScene', id);
         const { target_id } = id;
         const query = {
             team_id: sessionStorage.getItem('team_id'),
@@ -430,6 +447,53 @@ const useScene = () => {
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
+                console.log('获取场景流程详情', data);
+                if (data && data.nodes.length > 0) {
+                    const { nodes } = data;
+                    const idList = [];
+                    const apiList = [];
+                    const configList = [];
+                    nodes.forEach(item => {
+                        const {
+                            id,
+                            // api配置
+                            api,
+                            // node其他配置
+                            // api
+                            weight,
+                            mode,
+                            error_threshold,
+                            response_threshold,
+                            request_threshold,
+                            percent_age,
+                            // 等待控制器
+                            wait_ms,
+                            // 条件控制器
+                            var: _var,
+                            compare,
+                            val,
+                            remark,
+                        } = item;
+                        const config = {
+                            weight,
+                            mode,
+                            error_threshold,
+                            response_threshold,
+                            request_threshold,
+                            percent_age,
+                            wait_ms,
+                            var: _var,
+                            compare,
+                            val,
+                            remark
+                        };
+                        api && apiList.push(api);
+                        configList.push(config);
+                        idList.push(id);
+
+                    });
+                    Bus.$emit('addNewSceneApi', idList, id_apis, node_config, apiList, configList);
+                }
 
                 dispatch({
                     type: 'scene/updateOpenScene',
@@ -453,6 +517,111 @@ const useScene = () => {
         })
     }
 
+    const cloneScene = (id) => {
+        const query = {
+            team_id: sessionStorage.getItem('team_id'),
+            target_id: id,
+        }
+        fetchSceneDetail(query).pipe(
+            map((d) => d),
+            tap((res) => {
+                console.log(res);
+                const { data: { scenes } } = res;
+                const new_scene = scenes[0];
+                const clone_id = new_scene.target_id;
+                delete new_scene.target_id;
+                new_scene.name = `${new_scene.name} 副本`;
+                Bus.$emit('addSceneItem', {
+                    type: 'scene',
+                    pid: 0,
+                    param: new_scene,
+                    from: 'scene',
+                    clone: true,
+                    clone_id,
+                })
+                // return from(fetchCreateScene(new_scene));
+            }),
+            // tap((res) => {
+            //     console.log(res);
+            // })
+        ).subscribe();
+    }
+
+    const cloneSceneFlow = (id, clone_id) => {
+        const query = {
+            team_id: sessionStorage.getItem('team_id'),
+            scene_id: clone_id,
+        };
+
+        fetchSceneFlowDetail(query).pipe(
+            concatMap((res) => {
+                console.log(res);
+                const { data } = res;
+
+                const clone_flow = cloneDeep(data);
+                delete clone_flow['scene_id'];
+                clone_flow.scene_id = parseInt(id);
+
+                return from(fetchCreateSceneFlow(clone_flow))
+            }),
+            tap(res => {
+                console.log(res);
+            })
+        ).subscribe();
+    };
+
+    const cloneNode = (id, nodes, node_config, id_apis, open_scene) => {
+        // API
+        // 1. nodes 2. api
+        console.log(1, id, 2, nodes, 3, node_config, 4, id_apis);
+
+        const _clone_api = id_apis[id];
+        const _clone_config = node_config[id];
+
+        const from_node = nodes.filter(item => item.id === id)[0];
+        const _from_node = cloneDeep(from_node);
+
+        const _id = v4();
+
+        _from_node.id = _id;
+        _from_node.data.id = _id;
+        _from_node.position = {
+            x: from_node.position.x + 100,
+            y: from_node.position.y + 100,
+        };
+
+        console.log('_from_node', _from_node);
+
+        id_apis[_id] = _clone_api;
+        node_config[_id] = _clone_config;
+        nodes.push(_from_node);
+
+        console.log('id_apis', id_apis);
+        console.log('node_config', node_config);
+        console.log('nodes', nodes);
+
+
+        dispatch({
+            type: 'scene/updateIdApis',
+            payload: id_apis,
+        });
+
+        dispatch({
+            type: 'scene/updateNodeConfig',
+            payload: node_config,
+        })
+
+        dispatch({
+            type: 'scene/updateNodes',
+            payload: nodes,
+        })
+
+        dispatch({
+            type: 'scene/updateCloneNode',
+            payload: _from_node,
+        })
+    }
+
     useEventBus('createApiNode', createApiNode);
     useEventBus('updateSceneGroup', updateSceneGroup);
     useEventBus('updateSceneItem', updateSceneItem);
@@ -466,6 +635,9 @@ const useScene = () => {
     useEventBus('importApiList', importApiList);
     useEventBus('addOpenScene', addOpenScene);
     useEventBus('deleteScene', deleteScene);
+    useEventBus('cloneScene', cloneScene);
+    useEventBus('cloneSceneFlow', cloneSceneFlow);
+    useEventBus('cloneNode', cloneNode);
 };
 
 export default useScene;

@@ -39,15 +39,19 @@ const SceneBox = (props) => {
     const refContainer = useRef();
     const dispatch = useDispatch();
 
-    const type_now_scene = useSelector((store) => store.scene.type);
+    const type_now_scene = useSelector((store) => store.scene.type); 3
     const saveScene = useSelector((store) => store.scene.saveScene);
     const id_apis_scene = useSelector((store) => store.scene.id_apis);
     const node_config_scene = useSelector((store) => store.scene.node_config);
     const import_node = useSelector((store) => store.scene.import_node);
+    const delete_node_scene = useSelector((store) => store.scene.delete_node);
+    const clone_node_scene = useSelector((store) => store.scene.clone_node);
 
     const type_now_plan = useSelector((store) => store.plan.type);
     const id_apis_plan = useSelector((store) => store.plan.id_apis);
     const node_config_plan = useSelector((store) => store.plan.node_config);
+    const delete_node_plan = useSelector((store) => store.plan.delete_node);
+    const clone_node_plan = useSelector((store) => store.plan.clone_node);
 
     const open_scene = useSelector((store) => store.scene.open_scene);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
@@ -58,6 +62,8 @@ const SceneBox = (props) => {
     const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
     const node_config = from === 'scene' ? node_config_scene : node_config_plan;
     const type_now = from === 'scene' ? type_now_scene : type_now_plan;
+    const delete_node = from === 'scene' ? delete_node_scene : delete_node_plan;
+    const clone_node = from === 'scene' ? clone_node_scene : clone_node_plan;
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -163,13 +169,82 @@ const SceneBox = (props) => {
     }, [import_node]);
 
     useEffect(() => {
-       if (Object.entries((open_data) || {}).length > 0) {
+        if (Object.entries((open_data) || {}).length > 0) {
             console.log(open_data);
             const { nodes, edges } = open_data;
-            setNodes(nodes || []);
+            // 1. 对nodes进行赋值, 渲染视图
+            // 2. 对id_apis进行赋值, 建立id和api的映射关系
+            // 3. 对node_config进行赋值, 建立id和config的映射关系
+            const old_nodes = nodes && nodes.map(item => {
+                const {
+                    // node基本配置
+                    data, 
+                    dragging, 
+                    height, 
+                    id, 
+                    is_check, 
+                    position, 
+                    positionAbsolute, 
+                    selected, 
+                    type, 
+                    width,
+                } = item;
+                return {
+                    data,
+                    dragging,
+                    height,
+                    id,
+                    is_check,
+                    position,
+                    positionAbsolute,
+                    selected,
+                    type,
+                    width,
+                };
+            });
+            // edges && (edges[0].animated = true);
+            setNodes(old_nodes || []);
             setEdges(edges || []);
-       }
-    }, [open_data])
+        }
+    }, [open_data]);
+
+    useEffect(() => {
+        console.log(nodes, delete_node);
+        if (delete_node.length > 0) {
+            const node_index = nodes.findIndex(item => item.id === delete_node);
+            const edge_index = edges.map((item, index) => {
+                if (item.source === delete_node || item.target === delete_node) {
+                    return index;
+                }
+            });
+            const _nodes = cloneDeep(nodes);
+            const _edges = cloneDeep(edges);
+            _nodes.splice(node_index, 1);
+            setNodes(_nodes);
+            edge_index.forEach(item => {
+                typeof item === 'number' && _edges.splice(item, 1);
+            })
+            setEdges(_edges);
+        }
+
+    }, [delete_node]);
+
+    useEffect(() => {
+        if (Object.entries(clone_node).length > 0) {
+            const _nodes = cloneDeep(nodes);
+            _nodes.splice(_nodes.length - 1, 1);
+            console.log('clone_node_______________________', _nodes);
+            const index = _nodes.findIndex(item => item.id === clone_node.id);
+            console.log('indexindexindex', index);
+
+            if (index === -1) {
+                _nodes.push(clone_node);
+                setNodes(_nodes);
+                // setNodes((nds) => nds.concat(clone_node));
+            }
+            // setNodes(nodes);
+        }
+    }, [clone_node]);
 
 
     return (

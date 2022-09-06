@@ -88,7 +88,8 @@ const useCollection = () => {
     };
 
     const addSceneItem = async (data, callback) => {
-        const { type, pid, param, from, plan_id } = data;
+        const { type, pid, param, from, plan_id, clone, clone_id } = data;
+        console.log('param', param);
         let newScene = getBaseCollection(type);
         console.log(newScene);
         if (!newScene) return;
@@ -108,6 +109,9 @@ const useCollection = () => {
                 console.log(resp);
                 const { code } = resp;
                 if (code === 0) {
+                    if (clone) {
+                        Bus.$emit('cloneSceneFlow', resp.data.target_id, clone_id);
+                    }
                     if (from === 'scene') {
                         global$.next({
                             action: 'RELOAD_LOCAL_SCENE',
