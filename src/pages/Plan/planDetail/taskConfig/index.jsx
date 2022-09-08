@@ -78,7 +78,7 @@ const TaskConfig = (props) => {
 
     useEffect(() => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
         };
         fetchPreConfig(query).subscribe({
             next: (res) => {

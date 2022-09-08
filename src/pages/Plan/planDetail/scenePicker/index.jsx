@@ -15,6 +15,7 @@ import {
 import Bus from '@utils/eventBus';
 import useListData from './hooks/useListData';
 import { ApiTreePanel, BtnAddApiItem, ApiPickerStyle } from './style';
+import { useParams } from 'react-router-dom';
 import './index.less';
 
 const NodeType = {
@@ -24,13 +25,14 @@ const NodeType = {
   folder: SvgFolder,
 };
 
-const ApiPicker = (props) => {
+const ScenePicker = (props) => {
   const { onCancel, onAddApiItems } = props;
 
   const refTree = useRef(null);
-  const apiDatas = useSelector((store) => store?.apis?.apiDatas);
+  const sceneDatas = useSelector((store) => store?.scene?.sceneDatas);
+  const { id } = useParams();
 
-  console.log(apiDatas);
+  console.log(sceneDatas);
 
   const [checkAll, setCheckAll] = useState('unCheck');
   const [checkedApiKeys, setCheckedApiKeys] = useState([]);
@@ -51,9 +53,9 @@ const ApiPicker = (props) => {
 
   console.log('filteredTreeList', filteredTreeList);
 
-  const getApiDataItems = async (apiDatas, ckdkeys) => {
+  const getApiDataItems = async (sceneDatas, ckdkeys) => {
     // step1.深克隆，防止串数据
-    const treeData = cloneDeep(apiDatas);
+    const treeData = cloneDeep(sceneDatas);
 
     // step2.转树形结构
     const rootData = [];
@@ -82,10 +84,10 @@ const ApiPicker = (props) => {
     const digTree = (nodeList) => {
       const sortedList = sortBy(nodeList, ['sort']);
       for (const nodeItem of sortedList) {
-        if (checkedData[nodeItem.target_id] === true && ['api'].includes(nodeItem.target_type)) {
+        if (checkedData[nodeItem.target_id] === true && ['scene'].includes(nodeItem.target_type)) {
           apiIds.push(nodeItem.target_id);
         }
-        if (nodeItem.target_type === 'folder') {
+        if (nodeItem.target_type === 'group') {
           digTree(nodeItem.children);
         }
       }
@@ -101,8 +103,9 @@ const ApiPicker = (props) => {
 
   const handleAddApiItems = async () => {
 
-    const dataList = await getApiDataItems(apiDatas, checkedApiKeys);
-    Bus.$emit('importApiList', dataList);
+    const dataList = await getApiDataItems(sceneDatas, checkedApiKeys);
+    // console.log(dataList);
+    Bus.$emit('importSceneList', dataList, id);
 
     onCancel();
   };
@@ -158,14 +161,14 @@ const ApiPicker = (props) => {
   return (
     <Drawer
       visible
-      title="API添加器"
+      title="场景添加器"
       className='api-config-drawer'
       onCancel={onCancel}
       mask={false}
       footer={
         <BtnAddApiItem>
           <Button onClick={handleAddApiItems} className="apipost-blue-btn" type="primary">
-            添加接口
+            添加场景
           </Button>
         </BtnAddApiItem>
       }
@@ -213,4 +216,4 @@ const ApiPicker = (props) => {
   );
 };
 
-export default ApiPicker;
+export default ScenePicker;

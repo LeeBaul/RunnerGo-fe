@@ -9,6 +9,7 @@ import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail } from '@services/apis';
 import { v4 } from 'uuid';
+import QueryString from 'qs';
 
 import { global$ } from '../global';
 
@@ -88,8 +89,9 @@ const useScene = () => {
 
     const dragUpdateScene = ({ ids, targetList }) => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
-            target_id: ids
+            team_id: localStorage.getItem('team_id'),
+            target_id: ids,
+            // source: 1,
         };
         const targetDatas = {};
         targetList.forEach(item => {
@@ -167,7 +169,7 @@ const useScene = () => {
         console.log(open_scene);
         const params = {
             scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
-            team_id: parseInt(sessionStorage.getItem('team_id')),
+            team_id: parseInt(localStorage.getItem('team_id')),
             version: 1,
             nodes: _nodes,
             edges,
@@ -421,10 +423,10 @@ const useScene = () => {
 
     const importApiList = (ids) => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             target_ids: ids,
         };
-        fetchApiDetail(query).subscribe({
+        fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
             next: (res) => {
                 const { code, data: { targets } } = res;
                 // 1. 添加nodes节点
@@ -441,7 +443,7 @@ const useScene = () => {
         console.log('addOpenScene', id);
         const { target_id } = id;
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             scene_id: target_id,
         };
         fetchSceneFlowDetail(query).subscribe({
@@ -519,7 +521,7 @@ const useScene = () => {
 
     const cloneScene = (id) => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             target_id: id,
         }
         fetchSceneDetail(query).pipe(
@@ -549,7 +551,7 @@ const useScene = () => {
 
     const cloneSceneFlow = (id, clone_id) => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             scene_id: clone_id,
         };
 
@@ -589,6 +591,8 @@ const useScene = () => {
             x: from_node.position.x + 100,
             y: from_node.position.y + 100,
         };
+        _from_node.dragging = false;
+        _from_node.selected = false;
 
         console.log('_from_node', _from_node);
 

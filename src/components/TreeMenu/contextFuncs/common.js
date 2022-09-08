@@ -136,7 +136,7 @@ export const deleteMultiData = async (target_id) => {
             payload: {
                 page: 1,
                 size: 20,
-                team_id: sessionStorage.getItem('team_id')
+                team_id: localStorage.getItem('team_id')
             },
         });
     }, 100)

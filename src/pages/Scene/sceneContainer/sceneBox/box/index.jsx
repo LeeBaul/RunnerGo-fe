@@ -33,6 +33,20 @@ const nodeLeftTopStyle = {
     top: 60,
 };
 
+// 点
+// 1. 普通, 未涉及任何操作
+// 2. 运行中, 正在跑这个接口
+// 3. 成功, 接口跑通过
+// 4. 失败, 接口跑失败
+// 5. 未进行, 此节点的依赖节点跑失败, 未运行到这里
+
+// 线
+// 1. 普通, 为涉及任何操作
+// 2. 运行中, 蓝色的流动的带箭头的线
+// 3. 成功, 此线的前节点跑成功
+// 4. 失败, 此线的千节点跑失败
+
+
 const Box = (props) => {
     const { data: { showOne, id } } = props;
     const dispatch = useDispatch();
@@ -104,6 +118,7 @@ const Box = (props) => {
                 <div className='box-item-left'>
                     <SvgApi />
                     <span>{id_apis[id] ? id_apis[id]?.name : '新建接口'}</span>
+                    <SvgApi className='success' />
                 </div>
                 <div className='box-item-right'>
                     <p className='drop-down' onClick={() => setShowApi(!showApi)}>
@@ -260,6 +275,7 @@ const Box = (props) => {
                         <Input size="mini" value={weight} onChange={(e) => {
                             setWeight(parseInt(e));
                             onTargetChange('weight', parseInt(e));
+                            console.log(nodes);
                         }} placeholder="数值" />
                     </div>
                     <Select

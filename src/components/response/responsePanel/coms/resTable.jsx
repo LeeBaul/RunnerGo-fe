@@ -4,7 +4,7 @@ import { Table } from 'adesign-react';
 const ResTable = (props) => {
   const { data } = props;
   const headerList = [];
-  const resHeader = data?.header || {};
+  const resHeader = data?.response_header || '';
   console.log(resHeader);
   for (const key in resHeader) {
     if (typeof resHeader[key] === 'object') {

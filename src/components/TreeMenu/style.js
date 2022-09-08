@@ -10,7 +10,7 @@ export const MenuWrapper = styled.div`
   display: flex;
   flex-direction: column;
   .menus-header {
-    margin: 0 8px 0 8px;
+    // margin: 0 8px 0 8px;
     border-bottom: 1px solid var(--background-color-3);
     height: 92px;
     .apistatus {

@@ -220,7 +220,7 @@ const useProject = () => {
         const apiListParams = {
             page: 1,
             size: 20,
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
         };
 
         return getUserConfig$().pipe(
@@ -228,7 +228,7 @@ const useProject = () => {
             concatMap((userConfig) => {
                 // 初始化主题色
                 ininTheme(userConfig);
-                const team_id = sessionStorage.getItem('team_id');
+                const team_id = localStorage.getItem('team_id');
                 console.log(team_id);
                 return of(team_id).pipe(
                     // step1.加载团队列表
@@ -312,7 +312,7 @@ const useProject = () => {
     // 获取当前团队成员列表
     const getTeamMemberList = () => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
         }
         fetchTeamMemberList(query)
             .pipe(
@@ -348,7 +348,7 @@ const useProject = () => {
     // 获取当前运行中的计划
     const getRunningPlan = () => {
         const params = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             page: 1,
             size: 5
         };
@@ -368,7 +368,7 @@ const useProject = () => {
             tap((res) => {
                 const { data: { settings } } = res;
                 const team_id = settings.current_team_id;
-                sessionStorage.setItem('team_id', team_id);
+                localStorage.setItem('team_id', team_id);
                 dispatch({
                     type: 'user/updateTeamId',
                     payload: team_id

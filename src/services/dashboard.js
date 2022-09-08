@@ -29,3 +29,8 @@ export const fetchCreateVar = (
 export const fetchDeleteVar = (
     params
 ) => ajax('post', '/management/api/v1/variable/delete', 'json', false, params);
+
+// 同步全局变量
+export const fetchSaveVar = (
+    params
+) => ajax('post', '/management/api/v1/variable/sync', 'json', false, params);

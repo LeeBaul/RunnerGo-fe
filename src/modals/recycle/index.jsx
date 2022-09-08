@@ -25,7 +25,7 @@ const Recycle = (props) => {
     const query = {
       page: 1,
       size: 10,
-      team_id: sessionStorage.getItem('team_id'),
+      team_id: localStorage.getItem('team_id'),
     };
     fetchRecycleList(query)
     .pipe(

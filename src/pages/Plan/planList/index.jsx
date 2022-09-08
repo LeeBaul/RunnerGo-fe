@@ -75,7 +75,7 @@ const PlanList = () => {
         const query = {
             page: 1,
             size: 20,
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             keyword,
             start_time_sec: '',
             end_time_sec: '',
@@ -84,14 +84,14 @@ const PlanList = () => {
             next: (res) => {
                 const { data: { plans } } = res;
                 const planList = plans.map(item => {
-                    const { task_type, mode, status } = item;
+                    const { task_type, mode, status, created_time_sec, updated_time_sec } = item;
                     return {
                         ...item,
                         task_type: taskList[task_type],
                         mode: modeList[mode],
                         status: statusList[status],
-                        created_time_sec: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
-                        updated_time_sec: dayjs(item.updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                        created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                        updated_time_sec: dayjs(updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                         handle: <HandleContent data={item} status='running' />
                     }
                 })
@@ -151,7 +151,7 @@ const PlanList = () => {
     return (
         <div className='plan'>
             <PlanHeader onChange={(e) => setKeyword(e)} />
-            <Table className="plan-table" showBorder columns={columns} data={planList} />,
+            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<p className='empty'>还没有数据</p>} />,
         </div>
     )
 };

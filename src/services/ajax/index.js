@@ -11,6 +11,7 @@ import { ContentType } from '@constants/ajax';
 import { fetchTokenRefresh } from '../user';
 import { tap } from 'rxjs';
 
+
 // const path = isElectron() ? APP_VERSION : 'api';
 const ignoreCodeArr = [11001, 11007, 11006, 11023, 10080, 11090, 11095];
 const defaultHeaders = {

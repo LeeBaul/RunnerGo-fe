@@ -11,11 +11,13 @@ import CreateApi from '@modals/CreateApi';
 import SceneConfig from '@modals/SceneConfig';
 import Bus from '@utils/eventBus';
 import { useParams } from 'react-router-dom';
+import { cloneDeep } from 'lodash';
+import { MarkerType } from 'react-flow-renderer';
 
 const SceneHeader = (props) => {
-    const { from, sceneName } = props;
+    const { from } = props;
     const [showSceneConfig, setSceneConfig] = useState(false);
-    console.log(sceneName);
+    // console.log(sceneName);
     const dispatch = useDispatch();
     const { id } = useParams();
     // const saveScene = useSelector((store) => store.scene.saveScene);
@@ -38,10 +40,29 @@ const SceneHeader = (props) => {
     const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
     const node_config = from === 'scene' ? node_config_scene : node_config_plan;
     const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
+
+    const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     console.log(nodes, edges, id_apis, node_config);
+
+    const runScene = () => {
+        console.log(nodes, edges);
+        const _edges = cloneDeep(edges);
+        _edges[0].animated = true;
+        _edges[0].style = {
+            stroke: 'blue',
+        };
+        _edges[0].markerEnd = {
+            type: MarkerType.ArrowClosed,
+        };
+
+        dispatch({
+            type: 'scene/updateChangeEdge',
+            payload: _edges[0]
+        })
+    }
     return (
         <div className='scene-header'>
-            <div className='scene-header-left'>{sceneName}</div>
+            <div className='scene-header-left'>{open_scene_name}</div>
             <div className='scene-header-right'>
                 <div className='config' onClick={() => setSceneConfig(true)}>
                     <SvgSetting />
@@ -58,7 +79,7 @@ const SceneHeader = (props) => {
                       });
                     }
                 }}>保存</Button>
-                {from === 'scene' && <Button className='runBtn' preFix={<SvgCaretRight />}>开始运行</Button>}
+                {from === 'scene' && <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>}
             </div>
             {showSceneConfig && <SceneConfig onCancel={() => setSceneConfig(false)} />}
         </div>

@@ -26,14 +26,14 @@ const ApiInfoPanel = (props) => {
         if (typeof apiData.target_id === 'string') {
             delete apiData['target_id'];
             apiData.parent_id = parseInt(apiData.parent_id);
-            apiData.team_id = parseInt(sessionStorage.getItem('team_id'));
+            apiData.team_id = parseInt(localStorage.getItem('team_id'));
         }
 
         apiData.is_changed = -1;
         fetchHandleApi(apiData)
             .pipe(
                 tap((res) => {
-                    const { code } = res;
+                    const { target_id, code } = res;
                     if (code === 0) {
                         Message('success', '保存成功!');
                         const tempApiData = cloneDeep(open_apis);
@@ -48,7 +48,7 @@ const ApiInfoPanel = (props) => {
                             params: {
                                 page: 1,
                                 size: 20,
-                                team_id: sessionStorage.getItem('team_id'),
+                                team_id: localStorage.getItem('team_id'),
                             }
                         });
                     } else {

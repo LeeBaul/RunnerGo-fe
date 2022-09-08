@@ -64,6 +64,7 @@ const SceneBox = (props) => {
     const type_now = from === 'scene' ? type_now_scene : type_now_plan;
     const delete_node = from === 'scene' ? delete_node_scene : delete_node_plan;
     const clone_node = from === 'scene' ? clone_node_scene : clone_node_plan;
+    const update_edge = useSelector((store) => store.scene.update_edge);
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -82,7 +83,8 @@ const SceneBox = (props) => {
                 data: {
                     id,
                 },
-                position: { x: 50, y: 50 }
+                position: { x: 50, y: 50 },
+                dragHandle: '.box-item',
             }
             console.log(id_apis, ']]]]]]]]]')
 
@@ -220,11 +222,33 @@ const SceneBox = (props) => {
             const _nodes = cloneDeep(nodes);
             const _edges = cloneDeep(edges);
             _nodes.splice(node_index, 1);
+            console.log(_nodes);
             setNodes(_nodes);
             edge_index.forEach(item => {
                 typeof item === 'number' && _edges.splice(item, 1);
             })
             setEdges(_edges);
+            if (_nodes.length === 0) {
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateNodes',
+                        payload: _nodes,
+                    });
+                    dispatch({
+                        type: 'scene/updateEdges',
+                        payload: _edges,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateNodes',
+                        payload: _nodes,
+                    });
+                    dispatch({
+                        type: 'plan/updateEdges',
+                        payload: _edges,
+                    })
+                }
+            }
         }
 
     }, [delete_node]);
@@ -245,6 +269,16 @@ const SceneBox = (props) => {
             // setNodes(nodes);
         }
     }, [clone_node]);
+
+    useEffect(() => {
+        if (Object.entries(update_edge).length > 0) {
+            const _edges = cloneDeep(edges);
+            const index = _edges.findIndex(item => item.id === update_edge.id);
+            _edges[index] = update_edge;
+            console.log(_edges[index], '*****************************');
+            setEdges(_edges);
+        }
+    }, [update_edge])
 
 
     return (

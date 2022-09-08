@@ -2,18 +2,25 @@
     display: flex;
     // justify-content: center;
     align-items: center;
+    justify-content: center;
     margin-top: 16px;
     &-item {
         display: flex;
-        width: 82px;
+        // width: 82px;
         height: 30px;
         align-items: center;
+        justify-content: center;
+        // flex: 1;
         cursor: pointer;
         svg {
             // width: 16px;
             // height: 16px;
             fill: var(--content-color-secondary);
             margin-right: 4px;
+        }
+
+        p {
+            font-size: 12px !important;
         }
     }
     &-item:hover {
@@ -24,7 +31,7 @@
         }
     }
     .line {
-        margin: 0 14px;
+        margin: 0 4px;
         height: 18px;
         width: 1px;
         background-color: #39393D;

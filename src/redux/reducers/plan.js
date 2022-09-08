@@ -1,7 +1,7 @@
 const NAMESPACE = 'plan';
 
 const initialState = {
-  planData: [], // 运行中的计划
+  planData: null, // 运行中的计划
   refreshList: false, // 刷新计划列表
   open_plan: {}, // 打开的计划
   open_plan_scene: {}, // 计划中打开的场景

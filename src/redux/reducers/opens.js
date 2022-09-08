@@ -38,6 +38,8 @@ const initialState = {
       is_checked: 1,
     },
   ], // apipost 默认请求头
+
+  open_res: {}, // 响应结果
 };
 
 // action名称
@@ -51,6 +53,7 @@ const actionTypes = {
   updateTempGrpcsById: 'updateTempGrpcsById',
   setApipostHeaders: 'setApipostHeaders',
   updateOpenApiNow: 'updateOpenApiNow',
+  updateOpenRes: 'updateOpenRes',
 }
 
 export const opensReducer = (state = initialState, action) => {
@@ -138,6 +141,11 @@ export const opensReducer = (state = initialState, action) => {
       return {
         ...state,
         open_api_now: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateOpenRes}`:
+      return {
+        ...state,
+        open_res: action.payload,
       }
     default:
       return state;

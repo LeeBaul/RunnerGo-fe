@@ -14,11 +14,16 @@ import ResponseStatus from './responseStatus';
 import NotResponse from './notResponse';
 import { responseTabs, ResponseErrorWrapper, ResponseSendWrapper } from './style';
 import DiyExample from './diyExample';
+import ResAssert from './assert';
+import ResRegex from './regex';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const ResPonsePanel = (props) => {
   let { data, tempData, onChange, direction } = props;
+  const open_res = useSelector((store) => store.opens.open_res);
+  const open_api_now = useSelector((store) => store.opens.open_api_now);
+  console.log(open_res[open_api_now]);
   tempData = {
     "request": {
         "header": "POST /api/demo/login HTTP/1.1\r\nUser-Agent: kp-runner\r\nHost: 59.110.10.84:30008\r\nContent-Type: application/json\r\nContent-Length: 44\r\n\r\n",
@@ -49,7 +54,7 @@ const ResPonsePanel = (props) => {
       id: '1',
       title: '实时响应',
       content: (
-        <RealTimeResult target={data} tempData={tempData} onChange={onChange}></RealTimeResult>
+        <RealTimeResult target={data} tempData={open_res[open_api_now] || {}} onChange={onChange}></RealTimeResult>
       ),
     },
     {
@@ -57,40 +62,30 @@ const ResPonsePanel = (props) => {
       title: (
         <>
           请求头
-          {numberDom(tempData?.request?.header)}
+          {/* {numberDom(tempData?.request?.header)} */}
         </>
       ),
-      content: <ReqTable data={tempData?.request || {}}></ReqTable>,
+      content: <ReqTable data={open_res[open_api_now] || {}}></ReqTable>,
     },
     {
       id: '3',
       title: (
         <>
           响应头
-          {numberDom(tempData?.response?.header)}
+          {/* {numberDom(tempData?.response?.header)} */}
         </>
       ),
-      content: <ResTable data={tempData?.response || {}}></ResTable>,
+      content: <ResTable data={open_res[open_api_now] || {}}></ResTable>,
     },
     {
       id: '4',
-      title: (
-        <>
-          Cookies
-          {numberDom(tempData?.response?.resCookies)}
-        </>
-      ),
-      content: <CookiesTable data={tempData?.response || {}}></CookiesTable>,
+      title: '断言结果',
+      content: <ResAssert data={open_res[open_api_now] || {}}></ResAssert>
     },
     {
       id: '5',
-      title: '断言结果',
-      content: <>123123</>
-    },
-    {
-      id: '6',
       title: '正则结果',
-      content: <>123123123</>
+      content: <ResRegex data={open_res[open_api_now] || {}}></ResRegex>
     }
     // { id: '6', title: '失败响应示例', content: <Example></Example> },
   ];
@@ -253,7 +248,7 @@ const ResPonsePanel = (props) => {
             title={d.title}
             // disabled={}
           >
-            <>{tempData.hasOwnProperty('response') ? d.content : <NotResponse />}</>
+            <>{ open_res[open_api_now] ? d.content : <NotResponse />}</>
           </TabPan>
         ))}
       </Tabs>

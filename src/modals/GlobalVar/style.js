@@ -4,6 +4,10 @@ export const GlobalVarModal = css`
     .apipost-modal-container {
         width: 800px;
         height: 730px;
+        max-height: 80%;
+    }
+    .apipost-table {
+        margin-bottom: 30px;
     }
     .apipost-modal-header {
         ${'' /* padding: 32px 32px 24px 32px; */}

@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 export const GlobalVarModal = css`
     .apipost-modal-container {
         width: 800px;
-        height: 730px;
+        min-height: 730px;
     }
     .apipost-modal-header {
         ${'' /* padding: 32px 32px 24px 32px; */}
@@ -46,6 +46,40 @@ export const GlobalVarModal = css`
         width: 16px;
         height: 16px;
         fill: #f00;
+    }
+    .file-list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 20px;
+    }
+    .file-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 5px;
+        height: 30px;
+        border: 2px solid rgb(57, 57, 61);
+    }
+    .file-list-item-left {
+        cursor: pointer;
+    }
+    .file-list-item-right {
+        display: flex;
+        align-items: center;
+        border-left: 2px solid rgb(57, 57, 61);
+    }
+    .file-list-item-right > p {
+        margin: 0 10px;
+        cursor: pointer;
+    }
+    .file-list-item-right > .delete {
+        color: #f00;
+    }
+    .apipost-modal-footer > div > .apipost-btn {
+        margin: 0 20px;
     }
 `;
 

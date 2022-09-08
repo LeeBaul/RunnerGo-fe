@@ -12,19 +12,20 @@ const RunningPlan = () => {
     const planData = useSelector((store) => store.plan.planData);
     console.log(planData);
     const [planList, setPlanList] = useState(isArray(planData) ? planData : []);
+    console.log(planList);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setPlanList(planData);
+        setPlanList(planData || []);
     }, [planData]);
 
     useEffect(() => {
- 
+
         let timer = null;
         const loopFetch = () => {
             const params = {
-                team_id: sessionStorage.getItem('team_id'),
+                team_id: localStorage.getItem('team_id'),
                 page: 1,
                 size: 5
             };
@@ -48,7 +49,7 @@ const RunningPlan = () => {
         };
         timer = setInterval(() => {
             loopFetch();
-        },  5000);
+        }, 5000);
 
         return () => {
             clearInterval(timer);
@@ -68,7 +69,8 @@ const RunningPlan = () => {
             </div>
             <div className='running-bottom'>
                 {
-                    planList.length ?  planList.map((item, index) => (
+
+                    planList.length ? planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
                             <p>运行中</p>
                             <div className='progress'>
@@ -86,7 +88,7 @@ const RunningPlan = () => {
                             <p>查看详情</p>
                         </div>
                     ))
-                    : <p className='empty'>还没有运行中</p>
+                        : <p className='empty'>还没有运行中</p>
                 }
             </div>
         </div>

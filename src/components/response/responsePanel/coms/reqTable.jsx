@@ -5,7 +5,7 @@ import { combineLatest } from 'rxjs';
 const ReqTable = (props) => {
   const { data } = props;
   const headerList = [];
-  const reqHeader = data?.header || {};
+  const reqHeader = data?.request_header || '';
   console.log(reqHeader);
   for (const key in reqHeader) {
     if (typeof reqHeader[key] === 'object') {

@@ -61,21 +61,21 @@ const FooterConfig = (props) => {
                     <span>添加控制器</span>
                 </div>
                 <span className='line'></span>
-                <div className='config-item' onClick={() => onChange(true)}>
+                <div className='config-item' onClick={() => onChange('api', true)}>
                     <SvgApis />
                     <span>导入接口</span>
                 </div>
-                {
+                {/* {
                     from === 'plan' && (
                         <>
                             <span className='line'></span>
-                            <div className='config-item' onClick={() => onChange(true)}>
+                            <div className='config-item' onClick={() => onChange('scene', true)}>
                                 <SvgApis />
                                 <span>导入场景</span>
                             </div>
                         </>
                     )
-                }
+                } */}
             </div>
         </div>
     )

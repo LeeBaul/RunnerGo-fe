@@ -3,6 +3,7 @@ const NAMESPACE = 'scene';
 const initialState = {
   sceneDatas: {}, // 场景管理菜单列表
   open_scene: null, // 打开的场景
+  open_scene_name: '', // 打开的场景的名字
   isLoading: false, // 目录列表是否正在加载中,
   nodes: [], // 节点
   edges: [], // 线,
@@ -18,6 +19,9 @@ const initialState = {
   delete_node: '', // 要删除的节点id
 
   clone_node: [], // 复制的节点
+
+  update_edge: {}, // 要改变的线
+  update_node: {}, // 要改变的点
 };
 
 // action名称
@@ -37,6 +41,9 @@ const actionTypes = {
   updateOpenScene: 'updateOpenScene',
   updateDeleteNode: 'updateDeleteNode',
   updateCloneNode: 'updateCloneNode',
+  updateOpenName: 'updateOpenName',
+  updateChangeEdge: 'updateChangeEdge',
+  updateChangeNode: 'updateChangeNode',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -120,6 +127,21 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         clone_node: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateOpenName}`:
+      return {
+        ...state,
+        open_scene_name: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateChangeEdge}`:
+      return {
+        ...state,
+        update_edge: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateChangeNode}`:
+      return {
+        ...state,
+        update_node: action.payload,
       }
     default:
       return state;

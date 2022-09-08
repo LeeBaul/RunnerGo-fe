@@ -26,7 +26,7 @@ const json = {
 
 const RealTimeResult = (props) => {
   const { tempData, target, onChange } = props;
-  const { response, assert } = json || {};
+  const { response_body } = tempData || {};
   const searchRef = useRef(null);
   const [valid, setValid] = useState('init');
 
@@ -36,9 +36,9 @@ const RealTimeResult = (props) => {
       id: '1',
       content: (
         <Beautify
-          mode={isString(response?.resMime?.ext) ? response?.resMime?.ext : ''}
+          // mode={isString(response?.resMime?.ext) ? response?.resMime?.ext : ''}
           // value={response?.fitForShow == 'Monaco' ? response?.rawBody : ''}
-          value={response.body}
+          value={response_body}
           currentRef={searchRef}
         ></Beautify>
       ),
@@ -48,7 +48,7 @@ const RealTimeResult = (props) => {
       id: '2',
       content: (
         // <div className="rawhtml">{response?.fitForShow == 'Monaco' ? response?.rawBody : ''}</div>
-        <div className="rawhtml">{response.body}</div>
+        <div className="rawhtml">{response_body}</div>
       ),
     },
     // {
@@ -94,24 +94,24 @@ const RealTimeResult = (props) => {
   const [activeId, setActiveId] = useState('1');
 
   useEffect(() => {
-    if (isString(response?.fitForShow) && activeId === '1') {
-      switch (response.fitForShow) {
-        case 'Monaco':
-          setActiveId('1');
-          break;
-        case 'Image':
-          setActiveId('3');
-          break;
-        case 'Pnf':
-          setActiveId('3');
-          break;
-        case 'Other':
-          setActiveId('3');
-          break;
-        default:
-          break;
-      }
-    }
+    // if (isString(response?.fitForShow) && activeId === '1') {
+    //   switch (response.fitForShow) {
+    //     case 'Monaco':
+    //       setActiveId('1');
+    //       break;
+    //     case 'Image':
+    //       setActiveId('3');
+    //       break;
+    //     case 'Pnf':
+    //       setActiveId('3');
+    //       break;
+    //     case 'Other':
+    //       setActiveId('3');
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
     // User.get(localStorage.getItem('uuid') || '-1').then((user) => {
     //   if (isPlainObject(user.config)) {
     //     if (
@@ -123,7 +123,7 @@ const RealTimeResult = (props) => {
     //     }
     //   }
     // });
-  }, [response]);
+  }, []);
 
   const handleTabChange = (newActiveId) => {
     setActiveId(newActiveId);
@@ -146,7 +146,7 @@ const RealTimeResult = (props) => {
                 onClick={() => {
                   // console.log(response);
                   // if (response?.fitForShow == 'Monaco') {
-                    copyStringToClipboard(response.body, true);
+                    copyStringToClipboard(response_body, true);
                   // } else {
                     // Message('error', '当前格式不支持复制');
                   // }

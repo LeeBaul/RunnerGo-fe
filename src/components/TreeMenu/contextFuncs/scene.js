@@ -27,7 +27,7 @@ export const modifyFolder = async (target_id, props) => {
     // const folder = await Collection.get(params.target_id);
     // if (!isUndefined(folder) && isPlainObject(folder)) {
     fetchSceneDetail({
-        team_id: sessionStorage.getItem('team_id'),
+        team_id: localStorage.getItem('team_id'),
         target_id
     }).subscribe({
         next(res) {

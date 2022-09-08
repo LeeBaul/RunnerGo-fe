@@ -38,6 +38,14 @@ export const fetchRecallApi = (
 export const fetchRecycleList = (
     query
 ) => ajax('get', '/management/api/v1/target/trash_list', 'json', false, {}, query);
+// 发送接口
+export const fetchSendApi = (
+    params
+) => ajax('post', '/management/api/v1/target/send', 'json', false, params);
+// 获取接口发送结果
+export const fetchGetResult = (
+    query
+) => ajax('get', '/management/api/v1/target/result', 'json', false, {}, query);
 
 
 

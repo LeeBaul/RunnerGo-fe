@@ -15,7 +15,13 @@ const useNodeSort = (props) => {
     const dispatch = useDispatch();
     const sceneDatas = useSelector((store) => store.scene.sceneDatas);
     const apiDatas = useSelector((store) => store?.apis?.apiDatas);
-    const data = type === 'apis' ? apiDatas : sceneDatas;
+    const planDatas = useSelector((store) => store.plan.planMenu);
+    const dataList = {
+        'apis': apiDatas,
+        'scene': sceneDatas,
+        'plan': planDatas,
+    };
+    const data = dataList[type];
     const project_id = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
 
     const flattenNodes = [];
@@ -28,8 +34,10 @@ const useNodeSort = (props) => {
 
     // 获取全部父级id列表
     const getParentKeys = (nodeItem) => {
+        console.log('nodeItem', nodeItem);
         const results = [];
         const digAll = (node) => {
+            console.log(node);
             // console.log(node);
             const parent = treeData[node.parent_id];
             if (typeof parent !== 'undefined') {
@@ -164,15 +172,22 @@ const useNodeSort = (props) => {
                     }
 
                     if (type === 'apis') {
+                        console.log(789789789, ids);
                         Bus.$emit('dragUpdateTarget', {
                             ids,
                             targetList
                         })
-                    } else {
+                    } else if (type === 'scene') {
                         console.log(789789789, ids);
                         Bus.$emit('dragUpdateScene', {
                             ids,
                             targetList
+                        })
+                    } else if (type === 'plan') {
+                        console.log(789789789, ids, targetList);
+                        Bus.$emit('dragUpdatePlan', {
+                            ids,
+                            targetList,
                         })
                     }
                 })

@@ -151,7 +151,7 @@ const LoginBox = (props) => {
     fetchUserLoginForEmailRequest({
       email,
       password,
-      // expiry_date: checked === 'checked' ? 30 : 0,
+      is_auto_login: checked === 'checked',
       // captcha: vcodeObj,
     })
       .pipe(
@@ -171,7 +171,7 @@ const LoginBox = (props) => {
         concatMap(({ data }) => {
           console.log(data);
           const team_id = data.settings.current_team_id;
-          sessionStorage.setItem('team_id', team_id);
+          localStorage.setItem('team_id', team_id);
           // console.log(123123123123);
           dispatch({
             type: 'user/updateTeamId',

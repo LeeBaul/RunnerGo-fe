@@ -97,7 +97,7 @@ const useCollection = () => {
         if (isPlainObject(param)) {
             newScene = { ...newScene, ...param };
         }
-        newScene['team_id'] = parseInt(sessionStorage.getItem('team_id'));
+        newScene['team_id'] = parseInt(localStorage.getItem('team_id'));
         delete newScene['target_id'];
 
         console.log(newScene);
@@ -138,7 +138,7 @@ const useCollection = () => {
         if (isPlainObject(param)) {
             newSceneGroup = { ...newSceneGroup, ...param };
         }
-        newSceneGroup['team_id'] = parseInt(sessionStorage.getItem('team_id'));
+        newSceneGroup['team_id'] = parseInt(localStorage.getItem('team_id'));
         delete newSceneGroup['target_id'];
 
         newSceneGroup.source = from === 'scene' ? 1 : 2;
@@ -197,7 +197,7 @@ const useCollection = () => {
         // 添加本地库
         // await Collection.put(newCollection, newCollection?.target_id);
         // 上传服务器 失败走异步任务
-        newCollection['team_id'] = parseInt(sessionStorage.getItem('team_id'));
+        newCollection['team_id'] = parseInt(localStorage.getItem('team_id'));
         delete newCollection['target_id'];
         console.log(newCollection);
         // return;

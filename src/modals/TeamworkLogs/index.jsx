@@ -32,15 +32,48 @@ const TeamworkLogs = (props) => {
   const refTooltip = useRef(null);
 
   useEffect(() => {
-    const listener1 = () => {
-      // console.log(refTooltip);
-      refTooltip?.current?.setPopupVisible(false);
-    };
+
+  }, []);
+
+  const handleJumpPage = () => {
+    setPage(tempPage);
+  };
+
+  // 按日期对数据进行处理
+  const sortArrByDate = function (arr) {
+    const newArr = [];
+    arr.forEach((it) => {
+      let index = -1;
+      // eslint-disable-next-line array-callback-return
+      const isHas = newArr.some((logItem, j) => {
+        if (it.time === logItem.time) {
+          index = j;
+          return true;
+        }
+      });
+      if (!isHas) {
+        newArr.push({
+          time: it.time,
+          data: [it],
+        });
+      } else {
+        newArr[index].data.push(it);
+      }
+    });
+    // console.log(newArr);
+    return newArr;
+  };
+
+  const getLogList = () => {
+    // const listener1 = () => {
+    //   // console.log(refTooltip);
+    //   refTooltip?.current?.setPopupVisible(false);
+    // };
 
     const query = {
-      team_id: sessionStorage.getItem('team_id'),
-      page: 1,
-      size: 20
+      team_id: localStorage.getItem('team_id'),
+      page,
+      size: pageSize
     }
 
     fetchOperationLog(query)
@@ -49,8 +82,12 @@ const TeamworkLogs = (props) => {
           const { code, data } = res;
 
           if (code === 0) {
-            const { operations } = data;
+            const { operations, total } = data;
             let list = [];
+            let max = Math.ceil(total / pageSize);
+            if (max === 0) max = 1;
+            setMaxPage(max);
+            console.log(max);
             operations.forEach(item => {
               const itemData = {
                 ...item,
@@ -85,60 +122,10 @@ const TeamworkLogs = (props) => {
       )
       .subscribe();
 
-    document.body.addEventListener('wheel', listener1);
-    return () => {
-      document.body.removeEventListener('wheel', listener1);
-    };
-  }, []);
-
-  const handleJumpPage = () => {
-    setPage(tempPage);
-  };
-
-  // 按日期对数据进行处理
-  const sortArrByDate = function (arr) {
-    const newArr = [];
-    arr.forEach((it) => {
-      let index = -1;
-      // eslint-disable-next-line array-callback-return
-      const isHas = newArr.some((logItem, j) => {
-        if (it.time === logItem.time) {
-          index = j;
-          return true;
-        }
-      });
-      if (!isHas) {
-        newArr.push({
-          time: it.time,
-          data: [it],
-        });
-      } else {
-        newArr[index].data.push(it);
-      }
-    });
-    // console.log(newArr);
-    return newArr;
-  };
-
-  const getLogList = () => {
-    getSynergykLogs({
-      project_id,
-      page,
-      page_size: pageSize,
-    }).subscribe({
-      next(resp) {
-        if (resp?.code === 10000) {
-          let max = Math.ceil(resp?.data.total / resp?.data.page_size);
-          if (max === 0) max = 1;
-          setMaxPage(max);
-          resp?.data?.data.forEach((it) => {
-            it.time = dayjs(it?.message?.subject?.modify_time * 1000).format('YYYY-MM-DD');
-          });
-          const newList = sortArrByDate(resp?.data?.data || []);
-          setList(newList);
-        }
-      },
-    });
+    // document.body.addEventListener('wheel', listener1);
+    // return () => {
+    //   document.body.removeEventListener('wheel', listener1);
+    // };
   };
 
   useEffect(() => {

@@ -45,7 +45,7 @@ const updateUserLocalConfig = async (data) => {
     const { settings } = data;
     const team_id = settings.current_team_id;
 
-    sessionStorage.setItem('team_id', team_id);
+    localStorage.setItem('team_id', team_id);
     localStorage.setItem('settings', JSON.stringify(data))
 
     // console.log(123123123123);
@@ -116,7 +116,7 @@ export const getUserConfig$ = () => {
 // 获取首页基本信息
 export const getIndexPage$ = () => {
     return from(fetchDashBoardInfo({
-        team_id: sessionStorage.getItem('team_id')
+        team_id: localStorage.getItem('team_id')
     })).pipe(
         tap((res) => {
             return res;
@@ -127,7 +127,7 @@ export const getIndexPage$ = () => {
 // 获取运行中的计划
 export const getRunningPlan$ = () => {
     const params = {
-        team_id: sessionStorage.getItem('team_id'),
+        team_id: localStorage.getItem('team_id'),
         page: 1,
         size: 5
     }

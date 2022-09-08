@@ -26,15 +26,15 @@ const RecentReport = () => {
     };
 
     const taskLit = {
-        '0': '普通任务',
-        '1': '定时任务',
+        '1': '普通任务',
+        '2': '定时任务',
     };
 
     useEffect(() => {
         const query = {
             page: 1,
             size: 10,
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             keyword: '',
             start_time_sec: '',
             end_time_sec: '',
@@ -46,11 +46,11 @@ const RecentReport = () => {
                 if (code === 0) {
                     const { reports } = data;
                     const list = reports.map((item, index) => {
-                        const { report_id, name, task_type, mode, run_time_sec, last_time_sec, run_user_name, status } = item;
+                        const { report_id, name, task_type, task_mode, run_time_sec, last_time_sec, run_user_name, status } = item;
                         return {
                             report_id,
                             name,
-                            mode: modeList[mode],
+                            task_mode: modeList[task_mode],
                             task_type: taskLit[task_type],
                             run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                             last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
@@ -94,15 +94,17 @@ const RecentReport = () => {
         },
         {
             title: '压测模式',
-            dataIndex: 'mode',
+            dataIndex: 'task_mode',
         },
         {
             title: '运行时间',
             dataIndex: 'run_time_sec',
+            width: 220,
         },
         {
             title: '最后修改时间',
-            dataIndex: 'last_time_sec'
+            dataIndex: 'last_time_sec',
+            width: 220,
         },
         {
             title: '执行者',

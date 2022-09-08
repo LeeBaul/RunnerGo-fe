@@ -10,11 +10,13 @@ import {
 
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
-import { fetchReportList } from '@services/report'
+import { fetchReportList, fetchDeleteReport } from '@services/report';
+import dayjs from 'dayjs';
 
 const ReportList = () => {
     const navigate = useNavigate();
     const [reportList, setReportList] = useState([]);
+    const [keyword, setKeyword] = useState('');
 
     const modeList = {
         '1': '并发模式',
@@ -26,26 +28,41 @@ const ReportList = () => {
     };
 
     const taskList = {
-        '0': '普通任务',
-        '1': '定时任务',
+        '1': '普通任务',
+        '2': '定时任务',
     };
 
-    const HandleContent = () => {
+    const statusList = {
+        '1': '未开始',
+        '2': <p style={{ color: '#3CC071' }}>进行中</p>,
+    }
+
+    const HandleContent = (props) => {
+        const { report_id } = props;
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate('/report/det    ail')} />
+                <SvgEye onClick={() => navigate('/report/detail')} />
                 <SvgCopy />
-                <SvgDelete />
+                <SvgDelete className='delete-svg' onClick={() => deleteReport(report_id)} />
             </div>
         )
     };
+
+    const deleteReport = (report_id) => {
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            report_id,
+        };
+
+        fetchDeleteReport(params).subscribe()
+    }
 
     useEffect(() => {
         const query = {
             page: 1,
             size: 10,
-            team_id: sessionStorage.getItem('team_id'),
-            keyword: '',
+            team_id: localStorage.getItem('team_id'),
+            keyword,
             start_time_sec: '',
             end_time_sec: '',
         };
@@ -54,17 +71,21 @@ const ReportList = () => {
                 console.log(res);
                 const { data: { reports } } = res;
                 const list = reports.map(item => {
+                    const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id } = item;
                     return {
                         ...item,
-                        mode: modeList[item.mode],
-                        task_type: taskList[item.task_type],
-                        handle: <HandleContent />
+                        task_mode: modeList[task_mode],
+                        status: statusList[status],
+                        task_type: taskList[task_type],
+                        run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                        last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                        handle: <HandleContent report_id={report_id} />
                     }
                 });
                 setReportList(list);
             }
         })
-    }, [])
+    }, [keyword])
 
     const data = [
         {
@@ -136,15 +157,17 @@ const ReportList = () => {
         },
         {
             title: '压测模式',
-            dataIndex: 'mode',
+            dataIndex: 'task_mode',
         },
         {
             title: '开始时间',
             dataIndex: 'run_time_sec',
+            width: 220,
         },
         {
             title: '结束时间',
             dataIndex: 'last_time_sec',
+            width: 220,
         },
         {
             title: '执行者',
@@ -164,8 +187,8 @@ const ReportList = () => {
 
     return (
         <div className='report'>
-            <ReportListHeader />
-            <Table className="report-table" showBorder columns={columns} data={reportList} />,
+            <ReportListHeader onChange={(e) => setKeyword(e)} />
+            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<p className='empty'>还没有数据</p>} />,
         </div>
     )
 };

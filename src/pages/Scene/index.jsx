@@ -12,8 +12,6 @@ import SceneContainer from './sceneContainer';
 const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
-
-    const [sceneName, setSceneName] = useState('');
     const open_scene = useSelector((store) => store.scene.open_scene);
 
     return (
@@ -23,19 +21,17 @@ const Scene = () => {
             defaultLayouts={{ 0: { width: 270 }, 1: { flex: 1, width: 0 } }}
         >
             <ScaleItem className="left-menus" minWidth={250} maxWidth={350}>
-                <TreeMenu getSceneName={(name) => {
-                    setSceneName(name);
-                    console.log(name);
-                }} type='scene' />
+                <TreeMenu type='scene' />
             </ScaleItem>
             <ScaleItem className="right-apis" enableScale={false}>
                 {
                     open_scene ? <>
-                        <SceneHeader from='scene' sceneName={sceneName} />
+                        <SceneHeader from='scene'/>
                         <SceneContainer from = 'scene' />
                     </> : <p className='empty'>没有数据</p>
                 }
             </ScaleItem>
+
         </ScalePanel>
     )
 };

@@ -3,7 +3,7 @@ import { Modal, Table, Input, Message } from 'adesign-react';
 import { Copy as SvgCopy, Delete as SvgDelete } from 'adesign-react/icons';
 import { GlobalVarModal, HeaderTitleStyle, VarNameStyle } from './style';
 import { copyStringToClipboard } from '@utils';
-import { fetchGlobalVar, fetchCreateVar } from '@services/dashboard';
+import { fetchGlobalVar, fetchCreateVar, fetchSaveVar } from '@services/dashboard';
 import { cloneDeep } from 'lodash';
 
 const GlobalVar = (props) => {
@@ -13,23 +13,18 @@ const GlobalVar = (props) => {
     const [_var, setVar] = useState('');
     const [val, setVal] = useState('');
     const [description, setDescription] = useState('');
+    const [checkName, setCheckName] = useState([]);
 
     useEffect(() => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             page: 1,
             size: 100,
         }
         fetchGlobalVar(query).subscribe({
             next: (res) => {
                 const { data: { variables } } = res;
-                const varList = variables.map(item => {
-                    return {
-                        ...item,
-                        handle: <SvgDelete className='delete-svg' />
-                    }
-                })
-                setList([...varList, { var: '', val: '', description: '', handle: <SvgDelete className='delete-svg' /> }]);
+                setList([...variables, { var: '', val: '', description: ''}]);
             }
         })
     }, []);
@@ -41,11 +36,19 @@ const GlobalVar = (props) => {
             ...newVal,
         };
         if (rowIndex === list.length - 1) {
-            setList([...newList, { var: '', val: '', description: '', handle: <SvgDelete className='delete-svg' /> }])
+            setList([...newList, { var: '', val: '', description: ''}])
         } else {
             setList([...newList]);
         }
     };
+
+    const deleteItem = (index) => {
+        const _list = [...list];
+
+        _list.splice(index, 1);
+
+        setList(_list);
+    }
 
     const columns = [
         {
@@ -54,12 +57,29 @@ const GlobalVar = (props) => {
             width: 211,
             render: (text, rowData, rowIndex) => {
                 return (
-                    <Input
-                        value={text}
-                        onChange={(newVal) => {
-                            handleChange(rowData, rowIndex, { var: newVal });
-                        }}
-                    />
+                    <div className={VarNameStyle}>
+                        <Input
+                            value={text}
+                            onBlur={(e) => {
+                                const _list = cloneDeep(list);
+                                console.log(_list, checkName);
+                                const names = _list.filter(item => item.var === checkName[1]);
+                                console.log(names);
+                                if (names.length > 1) {
+                                    const length = _list[checkName[0]].var.length;
+                                    _list[checkName[0]].var = _list[checkName[0]].var.substring(0, length - 1);
+                                    setList(_list);
+                                    Message('error', '变量名重复!');
+                                }
+                                console.log(e);
+                            }}
+                            onChange={(newVal) => {
+                                handleChange(rowData, rowIndex, { var: newVal });
+                                setCheckName([rowIndex, newVal]);
+                            }}
+                        />
+                        { rowIndex !== list.length - 1 && <SvgCopy onClick={() => copyStringToClipboard(list[rowIndex].var)} /> }
+                    </div>
                 )
             }
         },
@@ -93,22 +113,50 @@ const GlobalVar = (props) => {
         },
         {
             title: '',
-            dataIndex: 'handle',
             width: 40,
+            render: (text, rowData, rowIndex) => {
+                return <SvgDelete onClick={() => deleteItem(rowIndex)} className='delete-svg' />
+            }
         }
     ];
 
     const saveGlobalVar = () => {
         const _list = cloneDeep(list);
         _list.splice(_list.length - 1, 1);
-        _list.forEach(item => {
-            fetchCreateVar({
-                ...item,
-                team_id: parseInt(sessionStorage.getItem('team_id'))
-            }).subscribe();
+        console.log(_list);
+        const variables = _list.map(item => {
+            const { var: _var, val, description } = item;
+            return {
+                var: _var,
+                val,
+                description
+            };
+        });
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            variables
+        };
+        fetchSaveVar(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    Message('success', '保存成功!');
+                    onCancel();
+                }
+            },
+            err: (err) => {
+                Message('error', '保存失败!');
+            }
         })
-        Message('success', '保存成功!');
-        onCancel();
+
+        // _list.forEach(item => {
+        //     fetchCreateVar({
+        //         ...item,
+        //         team_id: parseInt(sessionStorage.getItem('team_id'))
+        //     }).subscribe();
+        // })
+        // Message('success', '保存成功!');
+        // onCancel();
     }
 
     const VarName = () => {

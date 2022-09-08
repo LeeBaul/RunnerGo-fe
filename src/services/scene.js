@@ -39,3 +39,28 @@ export const fetchGroupDetail = (
 export const fetchSceneFlowDetail = (
     query
 ) => ajax('get', '/management/api/v1/scene/flow/get', 'json', false, {}, query);
+
+// 批量获取场景流程
+export const fetchBatchFlowDetail = (
+    query
+) => ajax('get', '/management/api/v1/scene/flow/batch/get', 'json', false, {}, query);
+
+// 获取场景变量
+export const fetchSceneVar = (
+    query
+) => ajax('get', '/management/api/v1/variable/scene/list', 'json', false, {}, query);
+
+// 同步场景变量
+export const fetchChangeVar = (
+    params
+) => ajax('post', '/management/api/v1/variable/scene/sync', 'json', false, params);
+
+// 导入场景变量
+export const fetchImportVar = (
+    params
+) => ajax('post', '/management/api/v1/variable/scene/import', 'json', false, params);
+
+// 获取导入场景变量历史
+export const fetchImportList = (
+    query
+) => ajax('get', '/management/api/v1/variable/scene/import/list', 'json', false, {}, query);

@@ -10,7 +10,7 @@ import {
 import GrpcSvg from '@assets/grpc/grpc.svg';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Bus, { useEventBus } from '@utils/eventBus';
 import { cloneDeep, isArray, isPlainObject, isString, isUndefined } from 'lodash';
 import { setWorkspaceCurrent, getWorkspaceCurrent } from '@rxUtils/user/workspace';
@@ -44,6 +44,7 @@ const MenuTrees = (props, treeRef) => {
         type,
         getSceneName
     } = props;
+    const dispatch = useDispatch();
     const apiData = useSelector((d) => d.apis.apiDatas);
     const sceneData = useSelector((d) => d.scene.sceneDatas);
     const id_apis_scene = useSelector((d) => d.scene.id_apis);
@@ -52,7 +53,12 @@ const MenuTrees = (props, treeRef) => {
     const node_config_plan = useSelector((d) => d.plan.node_config);
 
     const planData = useSelector((d) => d.plan.planMenu);
-    const treeData = type === 'apis' ? apiData : sceneData;
+    const treeDataList = {
+        'apis': apiData,
+        'scene': sceneData,
+        'plan': planData
+    }
+    const treeData = treeDataList[type];
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
     const [defaultExpandKeys, setDefaultExpandKeys] = useState([]);
@@ -184,9 +190,9 @@ const MenuTrees = (props, treeRef) => {
                         {renderIcon(nodeItem.target_type)}
                         {renderPrefix(nodeItem)}
                         {nodeTitle}
-                        {nodeItem?.mark !== 'developing' && (
+                        {/* {nodeItem?.mark !== 'developing' && (
                             <MenuStatus value={nodeItem} markObj={markObj}></MenuStatus>
-                        )}
+                        )} */}
                         {nodeItem?.is_example > 0 && <Example value={nodeItem}></Example>}
                         <Button
                             className="btn-more"
@@ -273,31 +279,35 @@ const MenuTrees = (props, treeRef) => {
                 render={renderTreeNode}
                 onNodeClick={(val) => {
                     console.log(val);
-                    if (type !== 'apis') {
-                        getSceneName(val.name);
+                    if (type !== 'apis' && val.target_type !== 'group') {
+                        // getSceneName(val.name);
+                        dispatch({
+                            type: 'scene/updateOpenName',
+                            payload: val.name,
+                        })
                     }
-                    if (val?.target_type == 'folder') {
-                        User.get(uuid || '-1')
-                            .then((user) => {
-                                if (isPlainObject(user.config) && user.config?.FOLDER_CLICK_SETTING > 0) {
-                                    if (!isString(val?.target_id)) return;
-                                    // 目录展开
-                                    let newKeys = [];
-                                    if (defaultExpandKeys.includes(val.target_id)) {
-                                        newKeys = defaultExpandKeys.filter((i) => i !== val.target_id);
-                                    } else {
-                                        newKeys = [...defaultExpandKeys, val.target_id];
-                                    }
+                    if (val?.target_type == 'folder' || val.target_type === 'group') {
+                        // User.get(uuid || '-1')
+                        //     .then((user) => {
+                        //         if (isPlainObject(user.config) && user.config?.FOLDER_CLICK_SETTING > 0) {
+                        //             if (!isString(val?.target_id)) return;
+                        //             // 目录展开
+                        //             let newKeys = [];
+                        //             if (defaultExpandKeys.includes(val.target_id)) {
+                        //                 newKeys = defaultExpandKeys.filter((i) => i !== val.target_id);
+                        //             } else {
+                        //                 newKeys = [...defaultExpandKeys, val.target_id];
+                        //             }
 
-                                    setDefaultExpandKeys(newKeys);
-                                    setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.CURRENT_EXPAND_KEYS`, newKeys);
-                                } else {
-                                    Bus.$emit('addOpenItem', { id: val?.target_id });
-                                }
-                            })
-                            .catch(() => {
-                                Bus.$emit('addOpenItem', { id: val?.target_id });
-                            });
+                        //             setDefaultExpandKeys(newKeys);
+                        //             setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.CURRENT_EXPAND_KEYS`, newKeys);
+                        //         } else {
+                        //             Bus.$emit('addOpenItem', { id: val?.target_id });
+                        //         }
+                        //     })
+                        //     .catch(() => {
+                        //         Bus.$emit('addOpenItem', { id: val?.target_id });
+                        //     });
                     } else {
                         if (type === 'apis') {
                             Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });

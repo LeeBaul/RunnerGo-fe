@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ApiPicker from './apiPicker';
 
 const SceneContainer = (props) => {
-    const { from } = props;
+    const { from, onChange } = props;
     const apiConfig = useSelector((store) => store.scene.showApiConfig);
     const id_apis = useSelector((store) => store.scene.id_apis);
     const api_now = useSelector((store) => store.scene.api_now);
@@ -112,7 +112,13 @@ const SceneContainer = (props) => {
                     <ApiManage apiInfo={api_now} showInfo={false} onChange={(type, val) => onTargetChange(type, val)} />
                 </Drawer>
             </div>
-            <FooterConfig from={from} onChange={(e) => setApiPicker(e)} />
+            <FooterConfig from={from} onChange={(type, e) => {
+                if (from === 'scene') {
+                    setApiPicker(e)
+                } else {
+                    onChange(type, e);
+                }
+            }} />
         </div>
     )
 };

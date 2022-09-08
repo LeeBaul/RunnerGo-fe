@@ -2,13 +2,15 @@ import { useEffect } from 'react';
 import Bus, { useEventBus } from '@utils/eventBus';
 import { cloneDeep, isArray, set } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { tap, filter, map, concatMap, switchMap } from 'rxjs';
-import { fetchSceneFlowDetail, fetchCreateSceneFlow  } from '@services/scene';
+import { tap, filter, map, concatMap, switchMap, from } from 'rxjs';
+import { fetchSceneFlowDetail, fetchCreateSceneFlow, fetchSceneDetail, fetchCreateScene, fetchBatchFlowDetail  } from '@services/scene';
 import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail } from '@services/apis';
 import { getSceneList$ } from '@rxUtils/scene';
+import { getUserConfig$ } from '@rxUtils/user';
+import QueryString from 'qs';
 
 import { global$ } from '../global';
 
@@ -16,7 +18,7 @@ const usePlan = () => {
     const dispatch = useDispatch();
     const savePreConfig = ({ task_type, mode, cron_expr, mode_conf }, callback) => {
         const params = {
-            team_id: parseInt(sessionStorage.getItem('team_id')),
+            team_id: parseInt(localStorage.getItem('team_id')),
             task_type,
             mode,
             cron_expr,
@@ -34,7 +36,7 @@ const usePlan = () => {
 
     const createPlan = ({ name, remark }, callback) => {
         const params = {
-            team_id: parseInt(sessionStorage.getItem('team_id')),
+            team_id: parseInt(localStorage.getItem('team_id')),
             name,
             remark,
         };
@@ -58,7 +60,7 @@ const usePlan = () => {
     const deletePlan = (id, callback) => {
         console.log(id);
         const params = {
-            team_id: parseInt(sessionStorage.getItem('team_id')),
+            team_id: parseInt(localStorage.getItem('team_id')),
             plan_id: parseInt(id),
         };
         fetchDeletePlan(params).subscribe({
@@ -79,7 +81,7 @@ const usePlan = () => {
         console.log(id, data);
         const { target_id } = id;
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             scene_id: target_id,
         };
         fetchSceneFlowDetail(query).subscribe({
@@ -179,7 +181,7 @@ const usePlan = () => {
         console.log(open_scene);
         const params = {
             scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
-            team_id: parseInt(sessionStorage.getItem('team_id')),
+            team_id: parseInt(localStorage.getItem('team_id')),
             version: 1,
             nodes: _nodes,
             edges,
@@ -214,7 +216,7 @@ const usePlan = () => {
         const params = {
             name,
             remark,
-            team_id: parseInt(sessionStorage.getItem('team_id')),
+            team_id: parseInt(localStorage.getItem('team_id')),
         };
         fetchCreatePlan(params).pipe(
             concatMap((res) => {
@@ -222,7 +224,7 @@ const usePlan = () => {
                 const query = {
                     page: 1,
                     size: 100,
-                    team_id: sessionStorage.getItem('team_id'),
+                    team_id: localStorage.getItem('team_id'),
                     source: 2,
                     plan_id,
                 };
@@ -272,7 +274,107 @@ const usePlan = () => {
                 })
             )
             .subscribe();
-    }, [])
+    }, []);
+
+    const dragUpdatePlan = ({ ids, targetList }) => {
+        const query = {
+            team_id: localStorage.getItem('team_id'),
+            target_id: ids,
+            // source: 2,
+        };
+        const targetDatas = {};
+        targetList.forEach(item => {
+            targetDatas[item.target_id] = item;
+        })
+        fetchSceneDetail(query).pipe(
+            tap((res) => {
+                const { code, data: { scenes } } = res;
+                if (code === 0) {
+                    scenes.forEach(item => {
+                        let newItem = {
+                            ...item,
+                            parent_id: targetDatas[item.target_id].parent_id,
+                            sort: targetDatas[item.target_id].sort
+                        }
+                        fetchCreateScene(newItem).subscribe();
+                    });
+                    setTimeout(() => {
+                        global$.next({
+                            action: 'RELOAD_LOCAL_SCENE',
+                        });
+                    }, 100);
+                    // return targets;
+                }
+            }),
+
+        )
+            .subscribe();
+    };
+
+    const importSceneList = (ids, plan_id) => {
+        console.log(ids);
+        const query = {
+            team_id: localStorage.getItem('team_id'),
+            target_id: ids,
+        };
+        // 被拷贝的场景list
+        let _scenes = [];
+        // 被拷贝的场景流程list
+        let _flows = [];
+        // 1. 批量获取场景基本信息
+        // 2. 批量获取场景流程信息
+        // 3. 批量创建基本场景
+        // 4. 批量创建场景流程
+        fetchSceneDetail(QueryString.stringify(query, { indices: false })).pipe(
+            concatMap(res => {
+                const { data: { scenes } } = res;
+                _scenes = scenes;
+                const query = {
+                    team_id: localStorage.getItem('team_id'),
+                    scene_id: ids,
+                };
+                return from(fetchBatchFlowDetail(QueryString.stringify(query, { indices: false }))).pipe(
+                    tap(res => {
+                        const { data: { flows } } = res;
+                        _flows = flows;
+                        console.log('_flows', _flows);
+                        return res;
+                    })
+                )
+            }),
+            concatMap(res => {
+                console.log('resresresres',res);
+                _scenes.forEach(item => {
+                    const _target_id = item.target_id;
+                    const _scene = cloneDeep(item);
+                    delete _scene['target_id'];
+                    _scene.parent_id = 0;
+                    _scene.source = 2;
+                    _scene.plan_id = parseInt(plan_id);
+
+                    fetchCreateScene(_scene).pipe(
+                        tap(res => {
+                            const { data: { target_id } } = res;
+                            const flow_item = _flows.find(item => item.scene_id === _target_id);
+                            const new_flow = {
+                                ...flow_item,
+                                scene_id: target_id,
+                            };
+
+                            fetchCreateSceneFlow(new_flow).subscribe();
+                        })
+                    ).subscribe();
+                })
+                return getUserConfig$();
+            }),
+            concatMap(res => {
+                global$.next({
+                    action: 'RELOAD_LOCAL_PLAN',
+                    id: plan_id,
+                });
+            })
+        ).subscribe();
+    };
 
     useEventBus('savePreConfig', savePreConfig);
     useEventBus('createPlan', createPlan);
@@ -281,6 +383,8 @@ const usePlan = () => {
     useEventBus('addNewPlanApi', addNewPlanApi);
     useEventBus('saveScenePlan', saveScenePlan);
     useEventBus('copyPlan', copyPlan);
+    useEventBus('dragUpdatePlan', dragUpdatePlan);
+    useEventBus('importSceneList', importSceneList);
 };
 
 export default usePlan;

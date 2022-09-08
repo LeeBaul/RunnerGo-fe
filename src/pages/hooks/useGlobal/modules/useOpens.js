@@ -31,15 +31,15 @@ import {
 } from '@utils';
 import * as jsondiffpatch from 'jsondiffpatch';
 import { urlParseLax } from '@utils/common';
-import { from, lastValueFrom, tap, map, concatMap } from 'rxjs';
+import { from, lastValueFrom, tap, map, concatMap, of } from 'rxjs';
 import { CONFILCTURL } from '@constants/confilct';
-import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail } from '@services/apis';
+import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, fetchSendApi, fetchGetResult } from '@services/apis';
 import { getBaseCollection } from '@constants/baseCollection';
 
 // 新建接口
 const useOpens = () => {
     const dispatch = useDispatch();
-    const { open_apis, open_api_now } = useSelector((store) => store?.opens);
+    const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens);
     const apiDatas = useSelector((store) => store.apis.apiDatas);
     const { desktop_proxy } = useSelector((store) => store?.desktopProxy);
     const workspace = useSelector((store) => store?.workspace);
@@ -198,7 +198,7 @@ const useOpens = () => {
         const params = {
             page: 1,
             size: 20,
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
         }
         global$.next({
             action: 'RELOAD_LOCAL_COLLECTIONS',
@@ -243,8 +243,10 @@ const useOpens = () => {
                 // 自动拼接url http://
                 if (!isURL(reqUrl)) {
                     reqUrl = `http://${reqUrl}`;
+                    console.log('reqUrlreqUrlreqUrl', reqUrl);
                 }
                 const urlObj = createUrl(reqUrl);
+                console.log('urlObjurlObjurlObj', urlObj);
                 if (isArray(tempOpenApis[target_id]?.request?.query?.parameter)) {
                     // 提取query
                     const searchParams = GetUrlQueryToArray(urlObj?.search || '');
@@ -302,9 +304,11 @@ const useOpens = () => {
                 // }
             }
             set(tempOpenApis[target_id], 'url', value);
+            set(tempOpenApis[target_id], 'request.url', reqUrl);
+            // set(tempOpenApis[target_id], 'request.url', reqUrl);
         } else if (pathExpression === 'request.query.parameter') {
             let paramsStr = '';
-            const url = tempOpenApis[target_id]?.request?.url || '';
+            let url = tempOpenApis[target_id]?.request?.url || '';
             if (
                 isArray(tempOpenApis[target_id]?.request?.query?.parameter) &&
                 tempOpenApis[target_id]?.request?.query?.parameter.length > 0
@@ -408,9 +412,13 @@ const useOpens = () => {
         let newApi = '';
         if (id) {
             Bus.$emit('updateTargetId', id);
+            dispatch({
+                type: 'opens/updateOpenApiNow',
+                payload: id,
+            })
             if (!open_apis.hasOwnProperty(id)) {
                 const query = {
-                    team_id: sessionStorage.getItem('team_id'),
+                    team_id: localStorage.getItem('team_id'),
                     target_ids: [id]
                 };
 
@@ -592,7 +600,7 @@ const useOpens = () => {
             if (typeof tempTarget.target_id === 'string') {
                 delete tempTarget['target_id'];
                 tempTarget.parent_id = parseInt(tempTarget.parent_id);
-                tempTarget.team_id = parseInt(sessionStorage.getItem('team_id'));
+                tempTarget.team_id = parseInt(localStorage.getItem('team_id'));
             }
 
 
@@ -855,7 +863,7 @@ const useOpens = () => {
 
     const dragUpdateTarget = ({ ids, targetList }) => {
         const query = {
-            team_id: sessionStorage.getItem('team_id'),
+            team_id: localStorage.getItem('team_id'),
             target_ids: ids
         };
         const targetDatas = {};
@@ -880,6 +888,51 @@ const useOpens = () => {
 
         )
             .subscribe();
+    }
+
+    const sendApi = (id) => {
+        const params = {
+            target_id: parseInt(id),
+        };
+        const _open_res = cloneDeep(open_res);
+        _open_res[id] = {
+            ..._open_res[id],
+            status: 'running',
+        };
+        dispatch({
+            type: 'opens/updateOpenRes',
+            payload: _open_res
+        })
+        fetchSendApi(params).pipe(
+            tap(res => {
+                const { data: { ret_id } } = res;
+                const query = {
+                    ret_id,
+                };
+
+                let t = setInterval(() => {
+                    fetchGetResult(query).subscribe({
+                        next: (res) => {
+                            const { data } = res;
+                            if (data) {
+                                clearInterval(t);
+                                const _open_res = cloneDeep(open_res);
+                                _open_res[id] = {
+                                    ...data,
+                                    status: 'finish',
+                                };
+                                console.log(data);
+                                dispatch({
+                                    type: 'opens/updateOpenRes',
+                                    payload: _open_res
+                                })
+                            }
+                        }
+                    })
+                }, 1000);
+            })
+        )
+            .subscribe()
     }
 
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id
@@ -930,6 +983,8 @@ const useOpens = () => {
 
     //
     useEventBus('dragUpdateTarget', dragUpdateTarget);
+
+    useEventBus('sendApi', sendApi);
 
     // 初始化tabs
     useEffect(() => {
