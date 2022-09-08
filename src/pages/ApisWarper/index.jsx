@@ -33,7 +33,7 @@ const Apis = (props) => {
                 title: item?.name,
                 type: item?.target_type,
                 method: item?.method,
-                createTime: typeof item.target_id === 'number' ? item.created_time_sec : item.create_dtime ,
+                createTime: typeof item.target_id === 'number' ? item.created_time_sec : item.create_dtime,
                 lastUpdate: typeof item.target_id === 'number' ? item.updated_time_sec : item.update_dtime,
                 ifChanged: typeof item.target_id === 'number' ? -1 : (item.is_changed || -1),
                 data: item,
@@ -44,7 +44,8 @@ const Apis = (props) => {
 
     // 删除tabItem
     const handleRemoveTab = (id, newID) => {
-        id && Bus.$emit('removeOpenItem', id);
+        console.log('open_apis, 删除tabItem', openApis);
+        id && Bus.$emit('removeOpenItem', id, openApis);
         newID && Bus.$emit('updateTargetId', newID);
     };
 

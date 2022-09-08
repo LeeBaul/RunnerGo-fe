@@ -179,7 +179,6 @@ const useScene = () => {
         };
 
         console.log(params);
-
         // callback && callback();
 
         // return;
@@ -572,7 +571,7 @@ const useScene = () => {
         ).subscribe();
     };
 
-    const cloneNode = (id, nodes, node_config, id_apis, open_scene) => {
+    const cloneNode = (id, nodes, node_config, id_apis, open_scene, from) => {
         // API
         // 1. nodes 2. api
         console.log(1, id, 2, nodes, 3, node_config, 4, id_apis);
@@ -604,26 +603,47 @@ const useScene = () => {
         console.log('node_config', node_config);
         console.log('nodes', nodes);
 
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateIdApis',
+                payload: id_apis,
+            });
 
-        dispatch({
-            type: 'scene/updateIdApis',
-            payload: id_apis,
-        });
+            dispatch({
+                type: 'scene/updateNodeConfig',
+                payload: node_config,
+            })
 
-        dispatch({
-            type: 'scene/updateNodeConfig',
-            payload: node_config,
-        })
+            dispatch({
+                type: 'scene/updateNodes',
+                payload: nodes,
+            })
 
-        dispatch({
-            type: 'scene/updateNodes',
-            payload: nodes,
-        })
+            dispatch({
+                type: 'scene/updateCloneNode',
+                payload: _from_node,
+            })
+        } else {
+            dispatch({
+                type: 'plan/updateIdApis',
+                payload: id_apis,
+            });
 
-        dispatch({
-            type: 'scene/updateCloneNode',
-            payload: _from_node,
-        })
+            dispatch({
+                type: 'plan/updateNodeConfig',
+                payload: node_config,
+            })
+
+            dispatch({
+                type: 'plan/updateNodes',
+                payload: nodes,
+            })
+
+            dispatch({
+                type: 'plan/updateCloneNode',
+                payload: _from_node,
+            })
+        }
     }
 
     useEventBus('createApiNode', createApiNode);

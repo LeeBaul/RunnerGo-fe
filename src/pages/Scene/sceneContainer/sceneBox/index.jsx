@@ -82,6 +82,7 @@ const SceneBox = (props) => {
                 type: 'api',
                 data: {
                     id,
+                    from,
                 },
                 position: { x: 50, y: 50 },
                 dragHandle: '.box-item',
@@ -180,15 +181,15 @@ const SceneBox = (props) => {
             const old_nodes = nodes && nodes.map(item => {
                 const {
                     // node基本配置
-                    data, 
-                    dragging, 
-                    height, 
-                    id, 
-                    is_check, 
-                    position, 
-                    positionAbsolute, 
-                    selected, 
-                    type, 
+                    data,
+                    dragging,
+                    height,
+                    id,
+                    is_check,
+                    position,
+                    positionAbsolute,
+                    selected,
+                    type,
                     width,
                 } = item;
                 return {

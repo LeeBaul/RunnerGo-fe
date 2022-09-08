@@ -147,7 +147,7 @@ const useProject = () => {
         // // console.log(settings);
         // const team_id = settings.current_team_id;
         // sessionStorage.setItem('team_id', team_id);
-    
+
         // // console.log(123123123123);
         // dispatch({
         //     type: 'user/updateTeamId',
@@ -219,7 +219,7 @@ const useProject = () => {
 
         const apiListParams = {
             page: 1,
-            size: 20,
+            size: 100,
             team_id: localStorage.getItem('team_id'),
         };
 

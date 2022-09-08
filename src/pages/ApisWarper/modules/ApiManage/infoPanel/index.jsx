@@ -33,21 +33,30 @@ const ApiInfoPanel = (props) => {
         fetchHandleApi(apiData)
             .pipe(
                 tap((res) => {
-                    const { target_id, code } = res;
+                    const { data: { target_id }, code } = res;
                     if (code === 0) {
                         Message('success', '保存成功!');
                         const tempApiData = cloneDeep(open_apis);
-                        tempApiData[open_api_now].is_changed = -1;
+                        const _tempApiData = tempApiData[open_api_now];
+                        delete tempApiData[open_api_now];
+                        tempApiData[target_id] = _tempApiData;
+                        tempApiData[target_id].is_changed = -1;
+                        tempApiData[target_id].target_id = target_id;
+                        console.log(tempApiData, '保存成功后!');
                         dispatch({
                             type: 'opens/coverOpenApis',
                             payload: tempApiData
-                        })
-                        
+                        });
+                        dispatch({
+                            type: 'opens/updateOpenApiNow',
+                            payload: target_id,
+                        });
+                        Bus.$emit('updateTargetId', target_id);
                         global$.next({
                             action: 'GET_APILIST',
                             params: {
                                 page: 1,
-                                size: 20,
+                                size: 100,
                                 team_id: localStorage.getItem('team_id'),
                             }
                         });

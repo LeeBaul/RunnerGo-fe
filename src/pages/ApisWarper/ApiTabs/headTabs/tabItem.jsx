@@ -39,7 +39,7 @@ const renderPreText = (item) => {
 
 const HeadTabItem = (props) => {
     const { activeTabId, onTabChange, item, handleCloseItem } = props;
-    console.log(item);
+    console.log('item', item);
     const refTooltip = useRef(null);
 
     useEffect(() => {

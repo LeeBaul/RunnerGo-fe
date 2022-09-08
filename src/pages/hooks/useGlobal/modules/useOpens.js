@@ -506,7 +506,7 @@ const useOpens = () => {
         addOpensByObj(newItem, true, callback);
     };
 
-    const removeOpenItem = async (id) => {
+    const removeOpenItem = async (id, open_apis) => {
         // 判断是否为socket 关闭连接
         // const target = await Opens.get(id);
         // if (target?.target_type === 'websocket') {
@@ -519,27 +519,43 @@ const useOpens = () => {
         //     }
         // }
         // await Opens.delete(id).then(() => {
+        console.log(id, open_apis, open_api_now);
+        // return;
+
+
+        let ids = [];
+        for (let id in open_apis) {
+            ids.push(typeof open_apis[id].parent_id === 'number' ? parseInt(id) : id);
+        }
+        console.log(ids);
+
+        // const openNavs =
+        //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        const index_1 = ids.indexOf(id);
+        console.log(index_1);
+        if (id === CURRENT_TARGET_ID) {
+            let newId = '';
+            if (index_1 > 0) {
+                newId = ids[index_1 - 1];
+            } else {
+                newId = ids[index_1 + 1];
+            }
+            console.log(newId);
+            // 更新当前id
+            newId && updateTargetId(parseInt(newId));
+            dispatch({
+                type: 'opens/updateOpenApiNow',
+                payload: newId,
+            })
+        }
+
         dispatch({
             type: 'opens/removeApiById',
             payload: { target_id: id },
         });
 
-        const openNavs =
-            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
-        const index_1 = openNavs.indexOf(id);
-        if (id === CURRENT_TARGET_ID) {
-            let newId = '';
-            if (index_1 > 0) {
-                newId = openNavs[index_1 - 1];
-            } else {
-                newId = openNavs[index_1 + 1];
-            }
-            // 更新当前id
-            newId && updateTargetId(newId);
-        }
-
-        index_1 > -1 && openNavs.splice(index_1, 1);
-        apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { open_navs: openNavs });
+        // index_1 > -1 && openNavs.splice(index_1, 1);
+        // apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { open_navs: openNavs });
         // });
     };
 
@@ -730,7 +746,7 @@ const useOpens = () => {
             // 执行接口 失败添加异步任务
             if (tempTarget?.target_type) {
                 from(SaveTargetRequest({ ...tempTarget, is_socket: 1 })).subscribe({
-                    next(resp) {
+                    next (resp) {
                         if (resp?.code === 10000) {
                             // 更新本地数据库版本
                             updateCollectionById({
@@ -763,7 +779,7 @@ const useOpens = () => {
                             );
                         }
                     },
-                    error() {
+                    error () {
                         // 添加异步任务
                         pushTask(
                             {
@@ -792,7 +808,7 @@ const useOpens = () => {
             target_id: id,
             project_id: CURRENT_PROJECT_ID,
         }).subscribe({
-            next(resp) {
+            next (resp) {
                 if (resp?.code === 10000) Message('success', '备份成功');
             },
         });

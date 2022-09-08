@@ -48,14 +48,28 @@ const nodeLeftTopStyle = {
 
 
 const Box = (props) => {
-    const { data: { showOne, id } } = props;
+    const { data: { showOne, id, from } } = props;
     const dispatch = useDispatch();
     const refInput = useRef(null);
     const refDropdown = useRef(null);
-    const nodes = useSelector((store) => store.scene.nodes);
-    const id_apis = useSelector((store) => store.scene.id_apis);
-    const node_config = useSelector((store) => store.scene.node_config);
-    const open_scene = useSelector((store) => store.scene.open_scene);
+    const {
+        nodes: nodes_scene,
+        id_apis: id_apis_scene,
+        node_config: node_config_scene,
+        open_scene: open_scene_scene
+    } = useSelector((store) => store.scene);
+
+    const {
+        nodes: nodes_plan,
+        id_apis: id_apis_plan,
+        node_config: node_config_plan,
+        open_scene: open_scene_plan
+    } = useSelector((store) => store.plan);
+
+    const nodes = from === 'scene' ? nodes_scene : nodes_plan;
+    const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
+    const node_config = from === 'scene' ? node_config_scene : node_config_plan;
+    const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
     const [showApi, setShowApi] = useState(true);
     const [showMode, setShowMode] = useState(false);
     const [showModeTime, setShowModeTime] = useState(false);
@@ -97,14 +111,21 @@ const Box = (props) => {
                     refDropdown.current.setPopupVisible(false);
                 }}>编辑接口</p>
                 <p onClick={() => {
-                    dispatch({
-                        type: 'scene/updateDeleteNode',
-                        payload: id,
-                    });
+                    if (from === 'scene') {
+                        dispatch({
+                            type: 'scene/updateDeleteNode',
+                            payload: id,
+                        });
+                    } else {
+                        dispatch({
+                            type: 'plan/updateDeleteNode',
+                            payload: id,
+                        })
+                    }
                     refDropdown.current.setPopupVisible(false);
                 }}>删除接口</p>
                 <p onClick={() => {
-                    Bus.$emit('cloneNode', id, nodes, node_config, id_apis, open_scene);
+                    Bus.$emit('cloneNode', id, nodes, node_config, id_apis, open_scene, from);
                     refDropdown.current.setPopupVisible(false);
                 }}>复制接口</p>
             </div>
