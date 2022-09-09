@@ -17,34 +17,36 @@ const ApiURLPanel = (props) => {
     const open_api_now = useSelector((store) => store.opens.open_api_now);
     const open_res = useSelector((store) => store.opens.open_res);
 
-    const open_scene_res= useSelector((store) => store.scene.run_api_res)
+    const open_scene_res = useSelector((store) => store.scene.run_api_res)
     const open_scene = useSelector((store) => store.scene.open_scene);
 
     const open_plan_res = useSelector((store) => store.plan.run_api_res);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
 
     const id_now = useSelector((store) => store.scene.id_now);
-    const id_now_plan = useSelector((store) => store.plan.id_now_plan);
+    const id_now_plan = useSelector((store) => store.plan.id_now);
 
-    if (from === 'apis') {
-        if (open_res || open_res[open_api_now] || open_res[open_api_now].status === 'running') {
-            setBtnName('发送中...');
-        } else {
-            setBtnName('发送');
-        }
-    } else if (from === 'scene') {
-        if (open_scene_res || open_scene_res[id_now] || open_scene_res[id_now].status === 'running') {
-            setBtnName('发送中...');
-        } else {
-            setBtnName('发送');
-        }
-    } else if (from === 'plan') {
-        if (open_plan_res || open_plan_res[id_now_plan] || open_plan_res[id_now_plan].status === 'running') {
-            setBtnName('发送中...');
-        } else {
-            setBtnName('发送');
-        }
-    }
+    console.log(open_plan_res, id_now_plan);
+
+    // if (from === 'apis') {
+    //     if (open_res || open_res[open_api_now] || open_res[open_api_now].status === 'running') {
+    //         setBtnName('发送中...');
+    //     } else {
+    //         setBtnName('发送');
+    //     }
+    // } else if (from === 'scene') {
+    //     if (open_scene_res || open_scene_res[id_now] || open_scene_res[id_now].status === 'running') {
+    //         setBtnName('发送中...');
+    //     } else {
+    //         setBtnName('发送');
+    //     }
+    // } else if (from === 'plan') {
+    //     if (open_plan_res && open_plan_res[id_now_plan] && open_plan_res[id_now_plan].status === 'running') {
+    //         setBtnName('发送中...');
+    //     } else {
+    //         setBtnName('发送');
+    //     }
+    // }
 
     console.log('open_api_now', open_api_now);
     const refDropdown = useRef(null);
@@ -80,16 +82,19 @@ const ApiURLPanel = (props) => {
                     onClick={() => {
                         // apiSend(data);
                         if (from === 'scene') {
-                            Bus.$emit('sendSceneApi', open_scene.scene_id, id_now, open_scene_res);
+                            Bus.$emit('sendSceneApi', open_scene.scene_id, id_now, open_scene_res || {}, 'scene');
+                        } else if (from === 'plan') {
+                            console.log('()()()', open_plan_scene, id_now_plan, open_plan_res);
+                            Bus.$emit('sendSceneApi', open_plan_scene.scene_id, id_now_plan, open_plan_res || {}, 'plan');
                         } else {
                             Bus.$emit('sendApi', open_api_now);
                         }
                     }}
-                    // disabled={
-                    //     from === 'scene' ? open_scene_res && open_scene_res[id_now]?.status === 'running' : open_res && open_res[open_api_now]?.status === 'running'
-                    // }
+                // disabled={
+                //     from === 'scene' ? open_scene_res && open_scene_res[id_now]?.status === 'running' : open_res && open_res[open_api_now]?.status === 'running'
+                // }
                 >
-                    { btnName }
+                    {btnName}
                     {/* 发送 */}
                 </Button>
                 <Dropdown

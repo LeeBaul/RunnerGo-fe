@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Scale, Drawer, Input, Button } from 'adesign-react';
 import { Close as SvgClose } from 'adesign-react/icons'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isObject } from 'lodash';
 import Bus from '@utils/eventBus';
 import TreeMenu from '@components/TreeMenu';
@@ -14,7 +14,9 @@ import TaskConfig from './taskConfig';
 import { global$ } from '@hooks/useGlobal/global';
 import ApiPicker from '@pages/Scene/sceneContainer/apiPicker';
 import ApiManage from '@pages/ApisWarper/modules/ApiManage';
+import { getPathExpressionObj } from '@constants/pathExpression';
 import ScenePicker from './scenePicker';
+import './index.less';
 
 const { ScalePanel, ScaleItem } = Scale;
 
@@ -28,8 +30,10 @@ const PlanDetail = () => {
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
     const api_now = useSelector((store) => store.plan.api_now);
     const apiConfig = useSelector((store) => store.plan.showApiConfig);
+    const id_apis = useSelector((store) => store.plan.id_apis);
 
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
+    const dispatch = useDispatch();
     console.log(id);
 
     useEffect(() => {
@@ -50,11 +54,22 @@ const PlanDetail = () => {
 
     const onTargetChange = (type, value) => {
         console.log(api_now);
-        Bus.$emit('updateSceneApi', {
+        Bus.$emit('updatePlanApi', {
             id: api_now.id,
             pathExpression: getPathExpressionObj(type),
             value,
         }, id_apis);
+    };
+
+    const closeApiConfig = () => {
+        Bus.$emit('savePlanApi', api_now, id_apis, () => {
+            console.log(123);
+            // setDrawer(false)
+            dispatch({
+                type: 'plan/updateApiConfig',
+                payload: false
+            })
+        });
     };
 
     const DrawerHeader = () => {
@@ -65,7 +80,7 @@ const PlanDetail = () => {
                     <Input size="mini" value={apiName} placeholder="请输入接口名称" onChange={(e) => onTargetChange('name', e)} />
                 </div>
                 <Button onClick={() => {
-                    Bus.$emit('saveSceneApi', api_now, id_apis);
+                    Bus.$emit('savePlanApi', api_now, id_apis);
                 }}>保存</Button>
             </div>
         )
@@ -77,15 +92,18 @@ const PlanDetail = () => {
             {importApi && <ApiPicker onCancel={() => setImportApi(false)} />}
             {importScene && <ScenePicker onCancel={() => setImportScene(false)} />}
             {
-               configApi && <Drawer
-                    visible={true}
-                    title={<DrawerHeader />}
-                    onCancel={() => setDrawer(false)}
-                    footer={null}
-                    mask={false}
-                >
-                    <ApiManage from="plan" apiInfo={api_now} showInfo={false} onChange={(type, val) => onTargetChange(type, val)} />
-                </Drawer>
+                configApi &&
+                <div className='api-config'>
+                    <Drawer
+                        visible={true}
+                        title={<DrawerHeader />}
+                        onCancel={() => setDrawer(false)}
+                        footer={null}
+                        mask={false}
+                    >
+                        <ApiManage from="plan" apiInfo={api_now} showInfo={false} onChange={(type, val) => onTargetChange(type, val)} />
+                    </Drawer>
+                </div>
             }
             <ScalePanel
                 style={{ marginTop: '2px' }}

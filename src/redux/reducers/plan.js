@@ -128,6 +128,7 @@ export const plansReducer = (state = initialState, action) => {
         run_res: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updateIdNow}`:
+      console.log('redux/plan/updateIdNow', action.payload);
       return {
         ...state,
         id_now: action.payload,

@@ -712,7 +712,8 @@ const useScene = () => {
         })
     };
 
-    const sendSceneApi = (scene_id, node_id, run_api_res) => {
+    const sendSceneApi = (scene_id, node_id, run_api_res, from) => {
+        console.log('sendSceneApi', scene_id, node_id, run_api_res);
         const params = {
             scene_id,
             node_id,
@@ -745,10 +746,17 @@ const useScene = () => {
                                     status: 'finish',
                                 };
                                 console.log(data);
-                                dispatch({
-                                    type: 'scene/updateApiRes',
-                                    payload: _run_api_res
-                                })
+                                if (from === 'scene') {
+                                    dispatch({
+                                        type: 'scene/updateApiRes',
+                                        payload: _run_api_res
+                                    })
+                                } else if (from === 'plan') {
+                                    dispatch({
+                                        type: 'plan/updateApiRes',
+                                        payload: _run_api_res
+                                    })
+                                }
                             }
                         }
                     })

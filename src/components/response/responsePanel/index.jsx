@@ -20,26 +20,34 @@ import ResRegex from './regex';
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const ResPonsePanel = (props) => {
-  let { data, tempData, onChange, direction, from } = props;
+  let { data, tempData, onChange, direction, from = 'apis' } = props;
   const open_res = useSelector((store) => store.opens.open_res);
   const open_scene_res = useSelector((store) => store.scene.run_api_res);
+  const open_plan_res = useSelector((store) => store.plan.run_api_res);
   const id_now = useSelector((store) => store.scene.id_now);
+  const id_plan_now = useSelector((store) => store.plan.id_now);
 
   const open_api_now = useSelector((store) => store.opens.open_api_now);
 
-  const response_data = from === 'scene' ? open_scene_res && open_scene_res[id_now] : open_res && open_res[open_api_now];
+  const response_list = {
+    'apis': open_res && open_res[open_api_now],
+    'scene': open_scene_res && open_scene_res[id_now],
+    'plan': open_plan_res && open_plan_res[id_plan_now]
+  }
+
+  const response_data = response_list[from];
   // console.log(open_res[open_api_now]);
   tempData = {
     "request": {
-        "header": "POST /api/demo/login HTTP/1.1\r\nUser-Agent: kp-runner\r\nHost: 59.110.10.84:30008\r\nContent-Type: application/json\r\nContent-Length: 44\r\n\r\n",
-        "body": "{\"mobile\": \"15372876094\",\"ver_code\": \"1234\"}"
+      "header": "POST /api/demo/login HTTP/1.1\r\nUser-Agent: kp-runner\r\nHost: 59.110.10.84:30008\r\nContent-Type: application/json\r\nContent-Length: 44\r\n\r\n",
+      "body": "{\"mobile\": \"15372876094\",\"ver_code\": \"1234\"}"
     },
     "response": {
-        "header": "HTTP/1.1 200 OK\r\nDate: Wed, 31 Aug 2022 07:59:20 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 230\r\n\r\n",
-        "body": "{\"code\":10000,\"data\":{\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIxNTM3Mjg3NjA5NCIsInZlcl9jb2RlIjoiMTIzNCIsImV4cCI6MTY2MTk0MzU2MSwiaXNzIjoicHJvOTExIn0.BpQO-W4LBrG73XWezBBMbNUYBQew0Dkvj2pCro0sb8k\"},\"msg\":\"success\"}"
+      "header": "HTTP/1.1 200 OK\r\nDate: Wed, 31 Aug 2022 07:59:20 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 230\r\n\r\n",
+      "body": "{\"code\":10000,\"data\":{\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIxNTM3Mjg3NjA5NCIsInZlcl9jb2RlIjoiMTIzNCIsImV4cCI6MTY2MTk0MzU2MSwiaXNzIjoicHJvOTExIn0.BpQO-W4LBrG73XWezBBMbNUYBQew0Dkvj2pCro0sb8k\"},\"msg\":\"success\"}"
     },
     "assertion": null
-};
+  };
   const { APIS_TAB_DIRECTION } = useSelector((d) => d?.user?.config);
   const dispatch = useDispatch();
   const [diyVisible, setDiyVisible] = useState(false);
@@ -251,9 +259,9 @@ const ResPonsePanel = (props) => {
             key={d.id}
             id={d.id}
             title={d.title}
-            // disabled={}
+          // disabled={}
           >
-            <>{ response_data ? d.content : <NotResponse />}</>
+            <>{response_data ? d.content : <NotResponse />}</>
           </TabPan>
         ))}
       </Tabs>

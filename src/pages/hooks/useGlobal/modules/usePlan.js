@@ -147,7 +147,7 @@ const usePlan = () => {
         console.log(id, id_apis, node_config, api, config);
 
         let newApi = cloneDeep(api);
-        
+
         let _id = isArray(id) ? id : [id];
         let _api = isArray(api) ? api : [api];
         let _config = isArray(config) ? config : [config];
@@ -316,6 +316,109 @@ const usePlan = () => {
                 })
             })
         ).subscribe();
+    };
+
+    const updatePlanApi = (data, id_apis) => {
+        const { id, pathExpression, value } = data;
+
+        set(id_apis[id], pathExpression, value);
+
+        console.log(pathExpression, value);
+
+        console.log(data, id_apis);
+
+        if (pathExpression === 'request.url') {
+            let reqUrl = value;
+            let queryList = [];
+            const restfulList = [];
+            if (reqUrl) {
+                // 自动拼接url http://
+                if (!isURL(reqUrl)) {
+                    reqUrl = `http://${reqUrl}`;
+                }
+                const urlObj = createUrl(reqUrl);
+                if (isArray(id_apis[id].request?.query?.parameter)) {
+                    // 提取query
+                    const searchParams = GetUrlQueryToArray(urlObj?.search || '');
+                    queryList = id_apis[id].request.query.parameter.filter(
+                        (item) => item?.is_checked < 0
+                    );
+                    searchParams.forEach((item) => {
+                        const key = item?.key;
+                        const value = item?.value;
+                        let obj = {};
+                        const i = findIndex(id_apis[id].request.query.parameter, { key });
+                        if (i !== -1) obj = id_apis[id].request.query.parameter[i];
+                        queryList.push({
+                            description: obj?.description || '', // 字段描述
+                            is_checked: obj?.is_checked || 1, // 是否启用
+                            key: key?.trim(), // 参数名
+                            type: obj?.type || 'Text', // 字段类型
+                            not_null: obj?.not_null || 1, // 必填｜-1选填
+                            field_type: obj?.field_type || 'String', // 类型
+                            value: value?.trim(), // 参数值
+                        });
+                    });
+                    set(id_apis[id], 'request.query.parameter', queryList);
+                }
+
+                if (isArray(id_apis[id].request?.resful?.parameter)) {
+                    // 提取restful
+                    const paths = urlObj.pathname.split('/');
+                    paths.forEach((p) => {
+                        if (p.substring(0, 1) === ':' && p.length > 1) {
+                            let obj = {};
+                            const i = findIndex(id_apis[id].request?.resful?.parameter, {
+                                key: p.substring(1, p.length),
+                            });
+                            if (i !== -1) obj = id_apis[id].request?.resful?.parameter[i];
+                            restfulList.push({
+                                key: p.substring(1, p.length),
+                                description: obj?.description || '',
+                                is_checked: 1,
+                                type: 'Text',
+                                not_null: 1,
+                                field_type: 'String',
+                                value: obj?.value || '',
+                            });
+                        }
+                    });
+                    set(id_apis[id], 'request.resful.parameter', restfulList);
+                }
+            }
+            set(id_apis[id], 'url', value);
+        } else if (pathExpression === 'request.query.parameter') {
+            let paramsStr = '';
+            const url = id_apis[id].request?.url || '';
+            if (
+                isArray(id_apis[id].request?.query?.parameter) &&
+                id_apis[id].request?.query?.parameter.length > 0
+            ) {
+                id_apis[id].request.query.parameter.forEach((ite) => {
+                    if (ite.key !== '' && ite.is_checked == 1)
+                        paramsStr += `${paramsStr === '' ? '' : '&'}${ite.key}=${ite.value}`;
+                });
+                const newUrl = `${url.split('?')[0]}${paramsStr !== '' ? '?' : ''}${paramsStr}`;
+                set(id_apis[id], 'url', newUrl);
+                set(id_apis[id], 'request.url', newUrl);
+            }
+        } else if (pathExpression === 'name') {
+            set(id_apis[id], 'name', value);
+        }
+
+        set(id_apis[id], 'is_changed', true);
+        console.log(id_apis);
+        // dispatch({
+        //     type: 'scene/updateIdApis',
+        //     payload: id_apis,
+        // });
+        let _api_now = cloneDeep(id_apis[id]);
+        _api_now.id = id;
+        console.log(_api_now);
+        dispatch({
+            type: 'plan/updateApiNow',
+            payload: _api_now
+        });
     }
 
     useEffect(() => {
@@ -477,6 +580,21 @@ const usePlan = () => {
                 })
             }
         })
+    };
+
+    const savePlanApi = (api_now, id_apis, callback) => {
+        const _id_apis = cloneDeep(id_apis);
+        api_now.is_changed = false;
+        const id = api_now.id;
+        delete api_now['id'];
+        _id_apis[id] = api_now;
+        console.log('savePlanApi', _id_apis);
+        dispatch({
+            type: 'plan/updateIdApis',
+            payload: _id_apis,
+        });
+
+        callback && callback();
     }
 
     useEventBus('savePreConfig', savePreConfig);
@@ -490,6 +608,8 @@ const usePlan = () => {
     useEventBus('importSceneList', importSceneList);
     useEventBus('addNewPlanControl', addNewPlanControl);
     useEventBus('importSceneApi', importSceneApi);
+    useEventBus('savePlanApi', savePlanApi);
+    useEventBus('updatePlanApi', updatePlanApi);
 };
 
 export default usePlan;

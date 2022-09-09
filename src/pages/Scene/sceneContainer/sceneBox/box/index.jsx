@@ -378,7 +378,7 @@ const Box = (props) => {
         // e.stopPropagation();
         console.log(id_apis);
         const api_now = cloneDeep(id_apis[id]);
-        console.log(id_apis, id, api_now);
+        console.log(id_apis, id, api_now, from);
         api_now.id = id;
 
         console.log(api_now, id);
