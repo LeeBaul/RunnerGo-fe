@@ -4,10 +4,10 @@ import { cloneDeep, isArray, set } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { concatMap, map, tap, from } from 'rxjs';
 import { fetchDeleteApi } from '@services/apis';
-import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre } from '@services/scene';
+import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi } from '@services/scene';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
-import { fetchApiDetail } from '@services/apis';
+import { fetchApiDetail, fetchGetResult } from '@services/apis';
 import { v4 } from 'uuid';
 import QueryString from 'qs';
 
@@ -17,6 +17,7 @@ const useScene = () => {
     const dispatch = useDispatch();
     // const nodes = useSelector((store) => store.scene.nodes);
     // const edges = useSelector((store) => store.scene.edges);
+    const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
     const { id_apis, api_now, open_scene } = useSelector((store) => store.scene);
     // console.log(id_apis);
     const createApiNode = () => {
@@ -206,7 +207,7 @@ const useScene = () => {
         })
     }
 
-    const addNewSceneApi = (id, id_apis = {}, node_config = {}, api = {}, config = {}) => {
+    const addNewSceneApi = (id, id_apis = {}, node_config = {}, api = {}, config = {}, from) => {
         console.log(id, id_apis, node_config, api, config, '///////////////////////////');
 
         let _id = isArray(id) ? id : [id];
@@ -237,20 +238,34 @@ const useScene = () => {
 
             console.log(new_apis);
 
-            dispatch({
-                type: 'scene/updateIdApis',
-                payload: new_apis,
-            })
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateIdApis',
+                    payload: new_apis,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateIdApis',
+                    payload: new_apis,
+                })
+            }
         }
 
         for (let i = 0; i < _config.length; i++) {
 
             new_nodes[_id[i]] = _config[i];
 
-            dispatch({
-                type: 'scene/updateNodeConfig',
-                payload: new_nodes,
-            })
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateNodeConfig',
+                    payload: new_nodes,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateNodeConfig',
+                    payload: new_nodes,
+                })
+            }
 
         }
 
@@ -493,7 +508,7 @@ const useScene = () => {
                         idList.push(id);
 
                     });
-                    Bus.$emit('addNewSceneApi', idList, id_apis, node_config, apiList, configList);
+                    Bus.$emit('addNewSceneApi', idList, id_apis, node_config, apiList, configList, 'scene');
                 }
 
                 dispatch({
@@ -586,6 +601,7 @@ const useScene = () => {
 
         _from_node.id = _id;
         _from_node.data.id = _id;
+        _from_node.data.from = from_node.data.from;
         _from_node.position = {
             x: from_node.position.x + 100,
             y: from_node.position.y + 100,
@@ -644,6 +660,102 @@ const useScene = () => {
                 payload: _from_node,
             })
         }
+    };
+
+    const runScene = (scene_id, length) => {
+        console.log(scene_id, length);
+        const params = {
+            scene_id: parseInt(scene_id),
+        };
+
+        fetchRunScene(params).subscribe({
+            next: (res) => {
+                const { data: { ret_id } } = res;
+
+                const query = {
+                    ret_id,
+                };
+                let getCount = 0;
+
+                const t = setInterval(() => {
+                    if (getCount === 120) {
+                        clearInterval(t);
+                    }
+
+                    fetchGetSceneRes(query).subscribe({
+                        next: (res) => {
+                            const { data } = res;
+
+                            if (data.scenes) {
+                                const { scenes } = data;
+
+                                dispatch({
+                                    type: 'scene/updateRunRes',
+                                    payload: scenes,
+                                })
+                                if (data.scenes.length === length) {
+                                    clearInterval(t);
+                                    console.log(data);
+                                    // const { scenes } = data;
+
+                                    // dispatch({
+                                    //     type: 'scene/updateRunRes',
+                                    //     payload: scenes,
+                                    // })
+                                }
+                                getCount++;
+                            }
+                        }
+                    })
+                }, 500);
+            }
+        })
+    };
+
+    const sendSceneApi = (scene_id, node_id, run_api_res) => {
+        const params = {
+            scene_id,
+            node_id,
+        };
+        const _run_api_res = cloneDeep(run_api_res);
+        _run_api_res[node_id] = {
+            ..._run_api_res[node_id],
+            status: 'running',
+        };
+        dispatch({
+            type: 'scene/updateApiRes',
+            payload: _run_api_res
+        })
+        fetchSendSceneApi(params).pipe(
+            tap(res => {
+                const { data: { ret_id } } = res;
+                const query = {
+                    ret_id,
+                };
+
+                let t = setInterval(() => {
+                    fetchGetResult(query).subscribe({
+                        next: (res) => {
+                            const { data } = res;
+                            if (data) {
+                                clearInterval(t);
+                                const _run_api_res = cloneDeep(run_api_res);
+                                _run_api_res[node_id] = {
+                                    ...data,
+                                    status: 'finish',
+                                };
+                                console.log(data);
+                                dispatch({
+                                    type: 'scene/updateApiRes',
+                                    payload: _run_api_res
+                                })
+                            }
+                        }
+                    })
+                }, 1000);
+            })
+        )
+            .subscribe()
     }
 
     useEventBus('createApiNode', createApiNode);
@@ -662,6 +774,8 @@ const useScene = () => {
     useEventBus('cloneScene', cloneScene);
     useEventBus('cloneSceneFlow', cloneSceneFlow);
     useEventBus('cloneNode', cloneNode);
+    useEventBus('runScene', runScene);
+    useEventBus('sendSceneApi', sendSceneApi);
 };
 
 export default useScene;

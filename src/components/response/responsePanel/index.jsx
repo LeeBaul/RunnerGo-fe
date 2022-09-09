@@ -20,10 +20,15 @@ import ResRegex from './regex';
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const ResPonsePanel = (props) => {
-  let { data, tempData, onChange, direction } = props;
+  let { data, tempData, onChange, direction, from } = props;
   const open_res = useSelector((store) => store.opens.open_res);
+  const open_scene_res = useSelector((store) => store.scene.run_api_res);
+  const id_now = useSelector((store) => store.scene.id_now);
+
   const open_api_now = useSelector((store) => store.opens.open_api_now);
-  console.log(open_res[open_api_now]);
+
+  const response_data = from === 'scene' ? open_scene_res && open_scene_res[id_now] : open_res && open_res[open_api_now];
+  // console.log(open_res[open_api_now]);
   tempData = {
     "request": {
         "header": "POST /api/demo/login HTTP/1.1\r\nUser-Agent: kp-runner\r\nHost: 59.110.10.84:30008\r\nContent-Type: application/json\r\nContent-Length: 44\r\n\r\n",
@@ -54,7 +59,7 @@ const ResPonsePanel = (props) => {
       id: '1',
       title: '实时响应',
       content: (
-        <RealTimeResult target={data} tempData={open_res[open_api_now] || {}} onChange={onChange}></RealTimeResult>
+        <RealTimeResult target={data} tempData={response_data || {}} onChange={onChange}></RealTimeResult>
       ),
     },
     {
@@ -65,7 +70,7 @@ const ResPonsePanel = (props) => {
           {/* {numberDom(tempData?.request?.header)} */}
         </>
       ),
-      content: <ReqTable data={open_res[open_api_now] || {}}></ReqTable>,
+      content: <ReqTable data={response_data || {}}></ReqTable>,
     },
     {
       id: '3',
@@ -75,17 +80,17 @@ const ResPonsePanel = (props) => {
           {/* {numberDom(tempData?.response?.header)} */}
         </>
       ),
-      content: <ResTable data={open_res[open_api_now] || {}}></ResTable>,
+      content: <ResTable data={response_data || {}}></ResTable>,
     },
     {
       id: '4',
       title: '断言结果',
-      content: <ResAssert data={open_res[open_api_now] || {}}></ResAssert>
+      content: <ResAssert data={response_data || {}}></ResAssert>
     },
     {
       id: '5',
       title: '正则结果',
-      content: <ResRegex data={open_res[open_api_now] || {}}></ResRegex>
+      content: <ResRegex data={response_data || {}}></ResRegex>
     }
     // { id: '6', title: '失败响应示例', content: <Example></Example> },
   ];
@@ -248,7 +253,7 @@ const ResPonsePanel = (props) => {
             title={d.title}
             // disabled={}
           >
-            <>{ open_res[open_api_now] ? d.content : <NotResponse />}</>
+            <>{ response_data ? d.content : <NotResponse />}</>
           </TabPan>
         ))}
       </Tabs>

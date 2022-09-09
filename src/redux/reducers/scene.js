@@ -11,6 +11,7 @@ const initialState = {
   showApiConfig: false, // 是否展示接口配置
   saveScene: false, // 保存场景
   id_apis: {}, // id和api配置的映射关系
+  id_now: '', // 当前配置的node id
   api_now: {}, // 当前配置的api
   node_config: {}, // id和api/控制器基本配置的映射关系
 
@@ -22,6 +23,12 @@ const initialState = {
 
   update_edge: {}, // 要改变的线
   update_node: {}, // 要改变的点
+
+  run_res: null, // 运行场景的结果
+  run_api_res: null, // 运行节点API的结果
+
+  success_edge: [], // 运行成功的线
+  failed_edge: [], // 运行失败的线
 };
 
 // action名称
@@ -44,6 +51,11 @@ const actionTypes = {
   updateOpenName: 'updateOpenName',
   updateChangeEdge: 'updateChangeEdge',
   updateChangeNode: 'updateChangeNode',
+  updateRunRes: 'updateRunRes',
+  updateIdNow: 'updateIdNow',
+  updateApiRes: 'updateApiRes',
+  updateSuccessEdge: 'updateSuccessEdge',
+  updateFailedEdge: 'updateFailedEdge',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -142,6 +154,32 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         update_node: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateRunRes}`:
+      console.log('redux/scene/updateRunRes', action.payload);
+      return {
+        ...state,
+        run_res: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateIdNow}`:
+      return {
+        ...state,
+        id_now: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateApiRes}`:
+      return {
+        ...state,
+        run_api_res: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateSuccessEdge}`:
+      return {
+        ...state,
+        success_edge: action.payload,
+      };
+    case `${NAMESPACE}/${actionTypes.updateFailedEdge}`:
+      return {
+        ...state,
+        failed_edge: action.payload,
       }
     default:
       return state;

@@ -64,3 +64,18 @@ export const fetchImportVar = (
 export const fetchImportList = (
     query
 ) => ajax('get', '/management/api/v1/variable/scene/import/list', 'json', false, {}, query);
+
+// 运行场景
+export const fetchRunScene = (
+    params
+) => ajax('post', '/management/api/v1/scene/send', 'json', false, params);
+
+// 获取运行场景结果
+export const fetchGetSceneRes = (
+    query
+) => ajax('get', '/management/api/v1/scene/result', 'json', false, {}, query);
+
+// 运行场景里的接口
+export const fetchSendSceneApi = (
+    params
+) => ajax('post', '/management/api/v1/scene/api/send', 'json', false, params);

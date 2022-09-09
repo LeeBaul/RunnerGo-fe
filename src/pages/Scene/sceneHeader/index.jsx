@@ -45,20 +45,23 @@ const SceneHeader = (props) => {
     console.log(nodes, edges, id_apis, node_config);
 
     const runScene = () => {
+        const { scene_id } = open_scene;
+        console.log(scene_id);
+        Bus.$emit('runScene', scene_id, open_scene.nodes.length);
         console.log(nodes, edges);
-        const _edges = cloneDeep(edges);
-        _edges[0].animated = true;
-        _edges[0].style = {
-            stroke: 'blue',
-        };
-        _edges[0].markerEnd = {
-            type: MarkerType.ArrowClosed,
-        };
+        // const _edges = cloneDeep(edges);
+        // // _edges[0].animated = true;
+        // // _edges[0].style = {
+        // //     stroke: 'blue',
+        // // };
+        // // _edges[0].markerEnd = {
+        // //     type: MarkerType.ArrowClosed,
+        // // };
 
-        dispatch({
-            type: 'scene/updateChangeEdge',
-            payload: _edges[0]
-        })
+        // dispatch({
+        //     type: 'scene/updateChangeEdge',
+        //     payload: _edges[0]
+        // })
     }
     return (
         <div className='scene-header'>

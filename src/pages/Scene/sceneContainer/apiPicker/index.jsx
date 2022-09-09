@@ -25,7 +25,7 @@ const NodeType = {
 };
 
 const ApiPicker = (props) => {
-  const { onCancel, onAddApiItems } = props;
+  const { onCancel, onAddApiItems, from } = props;
 
   const refTree = useRef(null);
   const apiDatas = useSelector((store) => store?.apis?.apiDatas);
@@ -102,7 +102,12 @@ const ApiPicker = (props) => {
   const handleAddApiItems = async () => {
 
     const dataList = await getApiDataItems(apiDatas, checkedApiKeys);
-    Bus.$emit('importApiList', dataList);
+
+    if (from === 'scene') {
+      Bus.$emit('importApiList', dataList);
+    } else {
+      Bus.$emit('importSceneApi', dataList);
+    }
 
     onCancel();
   };

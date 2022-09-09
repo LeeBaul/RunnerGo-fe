@@ -44,7 +44,7 @@ export const rxAjax = (
             // clientid: sessionStorage.getItem('clientId') || 'NOLOGIN',
             // contentType: ContentType[contentType],
         } : {
-            Authorization: getCookie('token'),
+            Authorization: localStorage.getItem('kunpeng-token'),
         },
         body: params,
         queryParams: query,

@@ -6,12 +6,27 @@ import { Handle } from 'react-flow-renderer';
 import Bus from '@utils/eventBus';
 import { useSelector, useDispatch } from 'react-redux';
 
+import SvgSuccess from '@assets/logo/success';
+import SvgFailed from '@assets/logo/failed';
+import SvgRunning from '@assets/logo/running';
+
 const WaitController = (props) => {
-    const { data: { id } } = props;
+    const { data: { id, from } } = props;
     const [wait_ms, setWait] = useState(0);
     const refDropdown = useRef(null);
+    const run_res_scene = useSelector((store) => store.scene.run_res);
     const node_config = useSelector((store) => store.scene.node_config);
+    const edges_scene = useSelector((store) => store.scene.edges);
+
+    const run_res_plan = useSelector((store) => store.plan.run_res);
+    const edges_plan = useSelector((store) => store.plan.edges);
+
+    const run_res = from === 'scene' ? run_res_scene : run_res_plan;
+    const edges = from === 'scene' ? edges_scene : edges_plan;
     const dispatch = useDispatch();
+
+    // 当前节点状态
+    const [status, setStatus] = useState('default');
 
     useEffect(() => {
         const my_config = node_config[id];
@@ -22,22 +37,97 @@ const WaitController = (props) => {
         }
     }, [node_config]);
 
+    useEffect(() => {
+        if (run_res) {
+            const now_res = run_res.filter(item => item.event_id === id)[0];
+            console.log(run_res, now_res, id);
+            if (now_res) {
+                const { status } = now_res;
+                setStatus(status);
+
+                update(edges, status);
+            }
+        }
+    }, [run_res]);
+
     const onTargetChange = (type, value) => {
         Bus.$emit('updateNodeConfig', type, value, id, node_config);
     }
+
+    const update = (edges, status) => {
+        console.log('edges', edges, status);
+        if (status === 'success') {
+            // 以当前节点为顶点的线id
+            const successEdge = [];
+            // const Node = [];
+
+            edges.forEach(item => {
+                if (item.source === id) {
+                    successEdge.push(item.id);
+                }
+            })
+
+            console.log('successEdge', successEdge);
+
+            if (successEdge.length > 0) {
+                dispatch({
+                    type: 'scene/updateSuccessEdge',
+                    payload: successEdge,
+                })
+            }
+        } else if (status === 'failed') {
+            const failedEdge = [];
+
+            edges.forEach(item => {
+                if (item.source === id) {
+                    failedEdge.push(item.id);
+                }
+            })
+
+            console.log('failedEdge', failedEdge);
+
+            if (failedEdge.length > 0) {
+                dispatch({
+                    type: 'scene/updateFailedEdge',
+                    payload: failedEdge,
+                })
+            }
+        }
+    }
+
 
     const DropContent = () => {
         return (
             <div className='drop-content'>
                 <p onClick={() => {
-                    dispatch({
-                        type: 'scene/updateDeleteNode',
-                        payload: id,
-                    });
+                    if (from === 'scene') {
+                        dispatch({
+                            type: 'scene/updateDeleteNode',
+                            payload: id,
+                        });
+                    } else {
+                        dispatch({
+                            type: 'plan/updateDeleteNode',
+                            payload: id,
+                        });
+                    }
                     refDropdown.current.setPopupVisible(false);
                 }}>删除控制器</p>
             </div>
         )
+    };
+
+    const topBgStyle = {
+        'default': '',
+        'success': '#11811C',
+        'failed': '#892020',
+    }
+
+    const topStatus = {
+        'default': <></>,
+        'success': <SvgSuccess className='default' />,
+        'failed': <SvgFailed className='default' />,
+        'running': <SvgRunning className='default' />,
     };
 
     return (
@@ -49,9 +139,14 @@ const WaitController = (props) => {
                 className="my_handle"
             />
             <div className='controller-wait'>
-                <div className='controller-wait-header'>
-                    <div className='type'>
-                        等待控制器
+                <div className='controller-wait-header' style={{ backgroundColor: topBgStyle[status] }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className='type'>
+                            等待控制器
+                        </div>
+                        {
+                            topStatus[status]
+                        }
                     </div>
                     <div className='header-right'>
                         {/* <Switch defaultChecked /> */}

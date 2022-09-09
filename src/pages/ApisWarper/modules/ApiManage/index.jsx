@@ -23,7 +23,7 @@ const defaultLayouts = {
 };
 
 const ApiManage = (props) => {
-    const { data, tempData, onChange, showInfo = true, apiInfo } = props;
+    const { data, tempData, onChange, showInfo = true, apiInfo, from } = props;
     // 调整scale
     const [codeVisible, setCodeVisible] = useState(false);
 
@@ -37,9 +37,9 @@ const ApiManage = (props) => {
                         setCodeVisible(true);
                     }}
                 />}
-                <UrlPanel data={showInfo ? data : apiInfo} tempData={tempData} onChange={onChange} />
+                <UrlPanel from={from} data={showInfo ? data : apiInfo} tempData={tempData} onChange={onChange} />
             </div>
-            <ApisContent data={showInfo ? data: apiInfo} onChange={onChange} tempData={tempData} />
+            <ApisContent from={from} data={showInfo ? data: apiInfo} onChange={onChange} tempData={tempData} />
             {codeVisible && (
                 <GenerateCode
                     data={data}

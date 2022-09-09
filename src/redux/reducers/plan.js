@@ -7,7 +7,11 @@ const initialState = {
   open_plan_scene: {}, // 计划中打开的场景
   planMenu: [], // 计划左侧菜单
 
+  api_now: '', // 当前打开的接口编辑
+
   id_apis: {},
+  id_now: '', // 当前配置的node id
+  showApiConfig: false,
   node_config: {},
   type: [],
   nodes: [],
@@ -16,6 +20,12 @@ const initialState = {
 
   clone_node: [],
   import_node: [],
+
+  run_res: null,
+  run_api_res: null,
+
+  success_edge: [], // 运行成功的线
+  failed_edge: [], // 运行失败的线
 };
 
 // action名称
@@ -33,6 +43,14 @@ const actionTypes = {
   updateImportNode: 'updateImportNode',
   updateDeleteNode: 'updateDeleteNode',
   updateCloneNode: 'updateCloneNode',
+  updateApiNow: 'updateApiNow',
+
+  updateRunRes: 'updateRunRes',
+  updateIdNow: 'updateIdNow',
+  updateApiRes: 'updateApiRes',
+  updateSuccessEdge: 'updateSuccessEdge',
+  updateFailedEdge: 'updateFailedEdge',
+  updateApiConfig: 'updateApiConfig',
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -102,6 +120,42 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         clone_node: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateRunRes}`:
+      console.log('redux/scene/updateRunRes', action.payload);
+      return {
+        ...state,
+        run_res: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateIdNow}`:
+      return {
+        ...state,
+        id_now: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateApiRes}`:
+      return {
+        ...state,
+        run_api_res: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateSuccessEdge}`:
+      return {
+        ...state,
+        success_edge: action.payload,
+      };
+    case `${NAMESPACE}/${actionTypes.updateFailedEdge}`:
+      return {
+        ...state,
+        failed_edge: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateApiNow}`:
+      return {
+        ...state,
+        api_now: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateApiConfig}`:
+      return {
+        ...state,
+        showApiConfig: action.payload,
       }
     default:
       return state;

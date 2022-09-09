@@ -97,20 +97,22 @@ const SceneContainer = (props) => {
 
     return (
         <div className='scene-container'>
-            {showApiPicker && <ApiPicker onCancel={() => setApiPicker(false)} />}
+            {showApiPicker && <ApiPicker from={from} onCancel={() => setApiPicker(false)} />}
             {/* <DndProvider backend={HTML5Backend}> */}
             <SceneBox from={from} />
             {/* </DndProvider> */}
             <div className='api-config-drawer'>
-                <Drawer
-                    visible={showDrawer}
-                    title={<DrawerHeader />}
-                    onCancel={() => setDrawer(false)}
-                    footer={null}
-                    mask={false}
-                >
-                    <ApiManage apiInfo={api_now} showInfo={false} onChange={(type, val) => onTargetChange(type, val)} />
-                </Drawer>
+                {
+                    from === 'scene' ? <Drawer
+                        visible={showDrawer}
+                        title={<DrawerHeader />}
+                        onCancel={() => setDrawer(false)}
+                        footer={null}
+                        mask={false}
+                    >
+                        <ApiManage from={from} apiInfo={api_now} showInfo={false} onChange={(type, val) => onTargetChange(type, val)} />
+                    </Drawer> : <></>
+                }
             </div>
             <FooterConfig from={from} onChange={(type, e) => {
                 if (from === 'scene') {

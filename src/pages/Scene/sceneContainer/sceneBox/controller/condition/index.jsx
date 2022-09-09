@@ -10,7 +10,7 @@ import Bus from '@utils/eventBus';
 const { Option } = Select;
 
 const ConditionController = (props) => {
-    const { data: { id } } = props;
+    const { data: { id, from } } = props;
     const refDropdown = useRef(null);
     const dispatch = useDispatch();
     const node_config = useSelector((store) => store.scene.node_config);
@@ -40,10 +40,17 @@ const ConditionController = (props) => {
         return (
             <div className='drop-content'>
                 <p onClick={() => {
-                    dispatch({
-                        type: 'scene/updateDeleteNode',
-                        payload: id,
-                    });
+                    if (from === 'scene') {
+                        dispatch({
+                            type: 'scene/updateDeleteNode',
+                            payload: id,
+                        });
+                    } else {
+                        dispatch({
+                            type: 'plan/updateDeleteNode',
+                            payload: id,
+                        });
+                    }
                     refDropdown.current.setPopupVisible(false);
                 }}>删除控制器</p>
             </div>

@@ -17,6 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Handle } from 'react-flow-renderer';
 import { cloneDeep } from 'lodash';
 import Bus from '@utils/eventBus';
+import SvgSuccess from '@assets/logo/success';
+import SvgFailed from '@assets/logo/failed';
+import SvgRunning from '@assets/logo/running';
 
 const { CollapseItem, Collapse } = Col;
 
@@ -49,6 +52,7 @@ const nodeLeftTopStyle = {
 
 const Box = (props) => {
     const { data: { showOne, id, from } } = props;
+    console.log('Box id', id);
     const dispatch = useDispatch();
     const refInput = useRef(null);
     const refDropdown = useRef(null);
@@ -56,20 +60,30 @@ const Box = (props) => {
         nodes: nodes_scene,
         id_apis: id_apis_scene,
         node_config: node_config_scene,
-        open_scene: open_scene_scene
+        open_scene: open_scene_scene,
+        run_res: run_res_scene,
+
+        edges: edges_scene
     } = useSelector((store) => store.scene);
 
     const {
         nodes: nodes_plan,
         id_apis: id_apis_plan,
         node_config: node_config_plan,
-        open_scene: open_scene_plan
+        open_scene: open_scene_plan,
+        run_res: run_res_plan,
+        edges: edges_plan
     } = useSelector((store) => store.plan);
 
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
     const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
     const node_config = from === 'scene' ? node_config_scene : node_config_plan;
     const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
+    const run_res = from === 'scene' ? run_res_scene : run_res_plan;
+
+    const edges = from === 'scene' ? edges_scene : edges_plan;
+
+    console.log('run_res', run_res_scene, run_res);
     const [showApi, setShowApi] = useState(true);
     const [showMode, setShowMode] = useState(false);
     const [showModeTime, setShowModeTime] = useState(false);
@@ -91,6 +105,9 @@ const Box = (props) => {
     // 响应时间占比
     const [percent_age, setPercent] = useState(0);
 
+    // 当前节点状态
+    const [status, setStatus] = useState('default');
+
     useEffect(() => {
         const my_config = node_config[id];
         if (my_config) {
@@ -103,25 +120,59 @@ const Box = (props) => {
         }
     }, [node_config]);
 
+    useEffect(() => {
+        if (run_res) {
+            const now_res = run_res.filter(item => item.event_id === id)[0];
+            console.log(run_res, now_res, id);
+            if (now_res) {
+                const { status } = now_res;
+                setStatus(status);
+
+                update(edges, status);
+            }
+        }
+    }, [run_res]);
+
     const DropContent = () => {
         return (
             <div className='drop-content'>
                 <p onClick={() => {
-                    changeApiConfig();
+                    changeApiConfig(id);
                     refDropdown.current.setPopupVisible(false);
                 }}>编辑接口</p>
                 <p onClick={() => {
+                    const _open_scene = cloneDeep(open_scene);
+                    const index = _open_scene.nodes.findIndex(item => item.id === id);
+                    _open_scene.nodes.splice(index, 1);
+                    const edges = [];
+                    _open_scene.edges.forEach((item, index) => {
+                        if (item.source !== id && item.target !== id) {
+                            edges.push(index);
+                        }
+                    });
+                    _open_scene.edges = edges;
+
                     if (from === 'scene') {
                         dispatch({
                             type: 'scene/updateDeleteNode',
                             payload: id,
                         });
+                        dispatch({
+                            type: 'scene/updateOpenScene',
+                            payload: _open_scene,
+                        })
                     } else {
                         dispatch({
                             type: 'plan/updateDeleteNode',
                             payload: id,
+                        });
+                        dispatch({
+                            type: 'plan/updateOpenScene',
+                            payload: _open_scene,
                         })
                     }
+
+
                     refDropdown.current.setPopupVisible(false);
                 }}>删除接口</p>
                 <p onClick={() => {
@@ -132,14 +183,77 @@ const Box = (props) => {
         )
     };
 
+    const topBgStyle = {
+        'default': '',
+        'success': '#11811C',
+        'failed': '#892020',
+    }
+
+    const topStatus = {
+        'default': <></>,
+        'success': <SvgSuccess className='default' />,
+        'failed': <SvgFailed className='default' />,
+        'running': <SvgRunning className='default' />,
+    };
+
+    // 1. 运行场景
+    // 2. 所有根节点进入running状态
+    // 3. 轮询查结果, 查到结果都更新到redux
+    // 4. 结果集中有更新后, 节点中进行自身检查, 结果集中是否有本节点的信息, 如果有, 根据status进行自身更新  
+    // 5. 如果当前节点状态是success, 将此节点和所有next_list中的节点有关联的线变成绿色, 所有next_list中的节点为顶点的线变为loading
+    // 6. 如果当前节点状态是failed, 将此节点和所有next_list中的节点有关联的线变成红色
+
+    const update = (edges, status) => {
+        console.log('edges', edges, status);
+        if (status === 'success') {
+            // 以当前节点为顶点的线id
+            const successEdge = [];
+            // const Node = [];
+
+            edges.forEach(item => {
+                if (item.source === id) {
+                    successEdge.push(item.id);
+                }
+            })
+
+            console.log('successEdge', successEdge);
+
+            if (successEdge.length > 0) {
+                dispatch({
+                    type: 'scene/updateSuccessEdge',
+                    payload: successEdge,
+                })
+            }
+        } else if (status === 'failed') {
+            const failedEdge = [];
+
+            edges.forEach(item => {
+                if (item.source === id) {
+                    failedEdge.push(item.id);
+                }
+            })
+
+            console.log('failedEdge', failedEdge);
+
+            if (failedEdge.length > 0) {
+                dispatch({
+                    type: 'scene/updateFailedEdge',
+                    payload: failedEdge,
+                })
+            }
+        }
+    }
+
 
     const Header = () => {
         return (
-            <div className='box-item'>
+            <div className='box-item' style={{ backgroundColor: topBgStyle[status] }}>
                 <div className='box-item-left'>
                     <SvgApi />
                     <span>{id_apis[id] ? id_apis[id]?.name : '新建接口'}</span>
-                    <SvgApi className='success' />
+                    {
+                        topStatus[status]
+                    }
                 </div>
                 <div className='box-item-right'>
                     <p className='drop-down' onClick={() => setShowApi(!showApi)}>
@@ -259,20 +373,43 @@ const Box = (props) => {
         return obj[mode];
     };
 
-    const changeApiConfig = (e) => {
+    const changeApiConfig = (id) => {
         // e.preventDefault();
         // e.stopPropagation();
+        console.log(id_apis);
         const api_now = cloneDeep(id_apis[id]);
+        console.log(id_apis, id, api_now);
         api_now.id = id;
+
         console.log(api_now, id);
-        dispatch({
-            type: 'scene/updateApiNow',
-            payload: api_now,
-        })
-        dispatch({
-            type: 'scene/updateApiConfig',
-            payload: true
-        })
+
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateApiNow',
+                payload: api_now,
+            })
+            dispatch({
+                type: 'scene/updateApiConfig',
+                payload: true
+            })
+            dispatch({
+                type: 'scene/updateIdNow',
+                payload: id,
+            })
+        } else {
+            dispatch({
+                type: 'plan/updateApiNow',
+                payload: api_now,
+            })
+            dispatch({
+                type: 'plan/updateApiConfig',
+                payload: true
+            })
+            dispatch({
+                type: 'plan/updateIdNow',
+                payload: id,
+            })
+        }
     };
 
     const onTargetChange = (type, value) => {

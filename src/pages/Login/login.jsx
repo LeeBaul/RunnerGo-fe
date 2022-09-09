@@ -159,6 +159,7 @@ const LoginBox = (props) => {
           console.log(data);
           saveLocalData(data);
           localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
+          localStorage.setItem('kunpeng-token', data.token);
           Message('success', '登录成功!');
           // setCookie('token', userData.token);
 

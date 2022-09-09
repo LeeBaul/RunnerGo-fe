@@ -12,6 +12,7 @@ import ReactFlow, {
     Background,
     useNodesState,
     useEdgesState,
+    MarkerType,
 } from "react-flow-renderer";
 import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
@@ -43,15 +44,20 @@ const SceneBox = (props) => {
     const saveScene = useSelector((store) => store.scene.saveScene);
     const id_apis_scene = useSelector((store) => store.scene.id_apis);
     const node_config_scene = useSelector((store) => store.scene.node_config);
-    const import_node = useSelector((store) => store.scene.import_node);
+    const import_node_scene = useSelector((store) => store.scene.import_node);
     const delete_node_scene = useSelector((store) => store.scene.delete_node);
     const clone_node_scene = useSelector((store) => store.scene.clone_node);
+    const success_edge_scene = useSelector((store) => store.scene.success_edge);
+    const failed_edge_scene = useSelector((store) => store.scene.failed_edge);
 
     const type_now_plan = useSelector((store) => store.plan.type);
     const id_apis_plan = useSelector((store) => store.plan.id_apis);
     const node_config_plan = useSelector((store) => store.plan.node_config);
+    const import_node_plan = useSelector((store) => store.plan.import_node);
     const delete_node_plan = useSelector((store) => store.plan.delete_node);
     const clone_node_plan = useSelector((store) => store.plan.clone_node);
+    const success_edge_plan = useSelector((store) => store.plan.success_edge);
+    const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
 
     const open_scene = useSelector((store) => store.scene.open_scene);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
@@ -65,6 +71,10 @@ const SceneBox = (props) => {
     const delete_node = from === 'scene' ? delete_node_scene : delete_node_plan;
     const clone_node = from === 'scene' ? clone_node_scene : clone_node_plan;
     const update_edge = useSelector((store) => store.scene.update_edge);
+    const import_node = from === 'scene' ? import_node_scene : import_node_plan;
+
+    const success_edge = from === 'scene' ? success_edge_scene : success_edge_plan;
+    const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -103,24 +113,37 @@ const SceneBox = (props) => {
                 type: 'condition_controller',
                 data: {
                     id,
+                    from,
                 },
                 position: { x: 50, y: 50 }
             }
 
-            Bus.$emit('addNewSceneControl', new_node.id, node_config);
+            if (from === 'scene') {
+                Bus.$emit('addNewSceneControl', new_node.id, node_config);
+            } else {
+                Bus.$emit('addNewPlanControl', new_node.id, node_config);
+            }
 
             setNodes((nds) => nds.concat(new_node));
         } else if (action === 'add' && type === 'wait_controller') {
+            console.log('/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*');
             const new_node = {
                 id,
                 type: 'wait_controller',
                 data: {
                     id,
+                    from,
                 },
                 position: { x: 50, y: 50 }
             }
 
-            Bus.$emit('addNewSceneControl', new_node.id, node_config);
+            if (from === 'scene') {
+                console.log('from scene');
+                Bus.$emit('addNewSceneControl', new_node.id, node_config);
+            } else {
+                console.log('from plan');
+                Bus.$emit('addNewPlanControl', new_node.id, node_config);
+            }
 
             setNodes((nds) => nds.concat(new_node));
         }
@@ -152,26 +175,42 @@ const SceneBox = (props) => {
     }, [nodes, edges]);
 
     useEffect(() => {
-
-        import_node && import_node.forEach(item => {
-            const id = v4();
-            const new_node = {
-                id,
-                type: 'api',
-                data: {
+        let ids = [];
+        console.log('import_node', import_node);
+        if (import_node && import_node.length) {
+            import_node.forEach(item => {
+                const id = v4();
+                const new_node = {
                     id,
-                },
-                position: { x: 50, y: 50 }
+                    type: 'api',
+                    data: {
+                        id,
+                        from,
+                    },
+                    position: { x: 50, y: 50 }
+                }
+                console.log(id_apis, ']]]]]]]]]')
+                ids.push(id);
+                setNodes((nds) => nds.concat(new_node));
+            });
+            if (from === 'scene') {
+                Bus.$emit('addNewSceneApi', ids, id_apis, node_config, import_node, from);
+                dispatch({
+                    type: 'scene/updateImportNode',
+                    payload: [],
+                })
+            } else {
+                Bus.$emit('addNewPlanApi', ids, id_apis, node_config, import_node, from);
+                dispatch({
+                    type: 'plan/updateImportNode',
+                    payload: [],
+                })
             }
-            // console.log(id_apis, ']]]]]]]]]')
-
-            Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config, item);
-
-            setNodes((nds) => nds.concat(new_node));
-        })
+        }
     }, [import_node]);
 
     useEffect(() => {
+        console.log(nodes, 'nodes');
         if (Object.entries((open_data) || {}).length > 0) {
             console.log(open_data);
             const { nodes, edges } = open_data;
@@ -205,9 +244,11 @@ const SceneBox = (props) => {
                     width,
                 };
             });
+            console.log(old_nodes);
             // edges && (edges[0].animated = true);
-            setNodes(old_nodes || []);
-            setEdges(edges || []);
+            nodes && setNodes(old_nodes || []);
+            edges && setEdges(edges || []);
+
         }
     }, [open_data]);
 
@@ -279,7 +320,41 @@ const SceneBox = (props) => {
             console.log(_edges[index], '*****************************');
             setEdges(_edges);
         }
-    }, [update_edge])
+    }, [update_edge]);
+
+    useEffect(() => {
+        if (success_edge.length > 0) {
+            const _edges = cloneDeep(edges);
+            _edges.forEach(item => {
+                if (success_edge.includes(item.id)) {
+                    item.style = {
+                        stroke: '#2BA58F',
+                    };
+                    item.markerEnd = {
+                        type: MarkerType.ArrowClosed,
+                    };
+                }
+            })
+            setEdges(_edges);
+        }
+    }, [success_edge]);
+
+    useEffect(() => {
+        if (failed_edge.length > 0) {
+            const _edges = cloneDeep(edges);
+            _edges.forEach(item => {
+                if (failed_edge.includes(item.id)) {
+                    item.style = {
+                        stroke: '#FF4C4C',
+                    };
+                    item.markerEnd = {
+                        type: MarkerType.ArrowClosed,
+                    };
+                }
+            })
+            setEdges(_edges);
+        }
+    }, [failed_edge]);
 
 
     return (

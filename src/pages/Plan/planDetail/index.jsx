@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Scale } from 'adesign-react';
+import { Scale, Drawer, Input, Button } from 'adesign-react';
+import { Close as SvgClose } from 'adesign-react/icons'
 import { useSelector } from 'react-redux';
 import { isObject } from 'lodash';
 import Bus from '@utils/eventBus';
@@ -12,6 +13,7 @@ import DetailHeader from './header';
 import TaskConfig from './taskConfig';
 import { global$ } from '@hooks/useGlobal/global';
 import ApiPicker from '@pages/Scene/sceneContainer/apiPicker';
+import ApiManage from '@pages/ApisWarper/modules/ApiManage';
 import ScenePicker from './scenePicker';
 
 const { ScalePanel, ScaleItem } = Scale;
@@ -22,7 +24,12 @@ const PlanDetail = () => {
     const [sceneName, setSceneName] = useState('');
     const [importApi, setImportApi] = useState(false);
     const [importScene, setImportScene] = useState(false);
+    const [configApi, setConfigApi] = useState(false);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
+    const api_now = useSelector((store) => store.plan.api_now);
+    const apiConfig = useSelector((store) => store.plan.showApiConfig);
+
+    const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
     console.log(id);
 
     useEffect(() => {
@@ -31,12 +38,55 @@ const PlanDetail = () => {
             action: 'RELOAD_LOCAL_PLAN',
             id,
         });
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        setConfigApi(apiConfig);
+    }, [apiConfig])
+
+    useEffect(() => {
+        setApiName(api_now.name)
+    }, [api_now])
+
+    const onTargetChange = (type, value) => {
+        console.log(api_now);
+        Bus.$emit('updateSceneApi', {
+            id: api_now.id,
+            pathExpression: getPathExpressionObj(type),
+            value,
+        }, id_apis);
+    };
+
+    const DrawerHeader = () => {
+        return (
+            <div className='drawer-header'>
+                <div className='drawer-header-left'>
+                    <SvgClose width="16px" height="16px" onClick={(() => closeApiConfig())} />
+                    <Input size="mini" value={apiName} placeholder="请输入接口名称" onChange={(e) => onTargetChange('name', e)} />
+                </div>
+                <Button onClick={() => {
+                    Bus.$emit('saveSceneApi', api_now, id_apis);
+                }}>保存</Button>
+            </div>
+        )
+    };
+
     return (
         <>
             <DetailHeader />
             {importApi && <ApiPicker onCancel={() => setImportApi(false)} />}
-            {importScene && <ScenePicker onCancel={() => setImportScene(false)} /> }
+            {importScene && <ScenePicker onCancel={() => setImportScene(false)} />}
+            {
+               configApi && <Drawer
+                    visible={true}
+                    title={<DrawerHeader />}
+                    onCancel={() => setDrawer(false)}
+                    footer={null}
+                    mask={false}
+                >
+                    <ApiManage from="plan" apiInfo={api_now} showInfo={false} onChange={(type, val) => onTargetChange(type, val)} />
+                </Drawer>
+            }
             <ScalePanel
                 style={{ marginTop: '2px' }}
                 realTimeRender

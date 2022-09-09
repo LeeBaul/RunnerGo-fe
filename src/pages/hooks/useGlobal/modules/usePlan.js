@@ -3,7 +3,7 @@ import Bus, { useEventBus } from '@utils/eventBus';
 import { cloneDeep, isArray, set } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { tap, filter, map, concatMap, switchMap, from } from 'rxjs';
-import { fetchSceneFlowDetail, fetchCreateSceneFlow, fetchSceneDetail, fetchCreateScene, fetchBatchFlowDetail  } from '@services/scene';
+import { fetchSceneFlowDetail, fetchCreateSceneFlow, fetchSceneDetail, fetchCreateScene, fetchBatchFlowDetail } from '@services/scene';
 import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
@@ -77,8 +77,8 @@ const usePlan = () => {
         })
     };
 
-    const addOpenPlanScene = (id, data) => {
-        console.log(id, data);
+    const addOpenPlanScene = (id, id_apis, node_config) => {
+        // console.log(id, data);
         const { target_id } = id;
         const query = {
             team_id: localStorage.getItem('team_id'),
@@ -88,6 +88,53 @@ const usePlan = () => {
             next: (res) => {
                 const { data } = res;
 
+                if (data && data.nodes.length > 0) {
+                    const { nodes } = data;
+                    const idList = [];
+                    const apiList = [];
+                    const configList = [];
+                    nodes.forEach(item => {
+                        const {
+                            id,
+                            // api配置
+                            api,
+                            // node其他配置
+                            // api
+                            weight,
+                            mode,
+                            error_threshold,
+                            response_threshold,
+                            request_threshold,
+                            percent_age,
+                            // 等待控制器
+                            wait_ms,
+                            // 条件控制器
+                            var: _var,
+                            compare,
+                            val,
+                            remark,
+                        } = item;
+                        const config = {
+                            weight,
+                            mode,
+                            error_threshold,
+                            response_threshold,
+                            request_threshold,
+                            percent_age,
+                            wait_ms,
+                            var: _var,
+                            compare,
+                            val,
+                            remark
+                        };
+                        api && apiList.push(api);
+                        configList.push(config);
+                        idList.push(id);
+
+                    });
+                    Bus.$emit('addNewPlanApi', idList, id_apis, node_config, apiList, configList, 'plan');
+                }
+
                 dispatch({
                     type: 'plan/updateOpenScene',
                     payload: data || { target_id, },
@@ -96,43 +143,69 @@ const usePlan = () => {
         })
     };
 
-    const addNewPlanApi = (id, id_apis = {}, node_config = {}, api = {}) => {
-        console.log(id, id_apis);
+    const addNewPlanApi = (id, id_apis = {}, node_config = {}, api = {}, config = {}, from) => {
+        console.log(id, id_apis, node_config, api, config);
 
         let newApi = cloneDeep(api);
-
-        console.log('newApi', api, newApi, Object.entries(api));
-
-        if (Object.entries(api).length === 0) {
-            newApi = getBaseCollection('api');
-            newApi.method = 'POST';
-            newApi.request.body.mode = 'none';
-            newApi.is_changed = false;
-
-            delete newApi['target_id'];
-            delete newApi['parent_id'];
-        } else {
-
-        }
-
+        
+        let _id = isArray(id) ? id : [id];
+        let _api = isArray(api) ? api : [api];
+        let _config = isArray(config) ? config : [config];
+        let length = _config.length;
         let new_apis = cloneDeep(id_apis);
-        new_apis[id] = newApi;
-
-        console.log(new_apis);
-
-        dispatch({
-            type: 'plan/updateIdApis',
-            payload: new_apis,
-        })
-
         let new_nodes = cloneDeep(node_config);
 
-        new_nodes[id] = {};
+        for (let i = 0; i < _api.length; i++) {
+            let newApi = cloneDeep(_api[i]);
 
-        dispatch({
-            type: 'plan/updateNodeConfig',
-            payload: new_nodes,
-        })
+            // console.log('newApi', api, newApi, Object.entries(_api[i]));
+
+            if (Object.entries(_api[i]).length === 0) {
+                newApi = getBaseCollection('api');
+                newApi.method = 'POST';
+                newApi.request.body.mode = 'none';
+                newApi.is_changed = false;
+
+                delete newApi['target_id'];
+                delete newApi['parent_id'];
+            } else {
+
+            }
+
+            new_apis[_id[i]] = newApi;
+
+            console.log(new_apis);
+
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateIdApis',
+                    payload: new_apis,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateIdApis',
+                    payload: new_apis,
+                })
+            }
+        }
+
+        for (let i = 0; i < _config.length; i++) {
+
+            new_nodes[_id[i]] = _config[i];
+
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateNodeConfig',
+                    payload: new_nodes,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateNodeConfig',
+                    payload: new_nodes,
+                })
+            }
+
+        }
     };
 
     const saveScenePlan = (nodes, edges, id_apis, node_config, open_scene, id, callback) => {
@@ -343,7 +416,7 @@ const usePlan = () => {
                 )
             }),
             concatMap(res => {
-                console.log('resresresres',res);
+                console.log('resresresres', res);
                 _scenes.forEach(item => {
                     const _target_id = item.target_id;
                     const _scene = cloneDeep(item);
@@ -376,6 +449,36 @@ const usePlan = () => {
         ).subscribe();
     };
 
+    const addNewPlanControl = (id, node_config = {}) => {
+        const new_nodes = cloneDeep(node_config);
+        new_nodes[id] = {};
+
+        console.log('addNewPlanControl', new_nodes);
+
+        dispatch({
+            type: 'plan/updateNodeConfig',
+            payload: new_nodes,
+        })
+    };
+
+    const importSceneApi = (ids) => {
+        const query = {
+            team_id: localStorage.getItem('team_id'),
+            target_ids: ids,
+        };
+        fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
+            next: (res) => {
+                const { code, data: { targets } } = res;
+                // 1. 添加nodes节点
+                // 2. 添加id_apis映射
+                dispatch({
+                    type: 'plan/updateImportNode',
+                    payload: targets,
+                })
+            }
+        })
+    }
+
     useEventBus('savePreConfig', savePreConfig);
     useEventBus('createPlan', createPlan);
     useEventBus('deletePlan', deletePlan);
@@ -385,6 +488,8 @@ const usePlan = () => {
     useEventBus('copyPlan', copyPlan);
     useEventBus('dragUpdatePlan', dragUpdatePlan);
     useEventBus('importSceneList', importSceneList);
+    useEventBus('addNewPlanControl', addNewPlanControl);
+    useEventBus('importSceneApi', importSceneApi);
 };
 
 export default usePlan;

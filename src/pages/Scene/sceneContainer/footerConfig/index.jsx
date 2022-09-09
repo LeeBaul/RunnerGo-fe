@@ -12,10 +12,17 @@ const FooterConfig = (props) => {
         <div className='footer-config'>
             {showControl && <div className='add-controller'>
                 <div className='wait' onClick={() => {
-                    dispatch({
-                        type: 'scene/updateType',
-                        payload: ['add', 'wait_controller']
-                    })
+                    if (from === 'scene') {
+                        dispatch({
+                            type: 'scene/updateType',
+                            payload: ['add', 'wait_controller']
+                        })
+                    } else {
+                        dispatch({
+                            type: 'plan/updateType',
+                            payload: ['add', 'wait_controller']
+                        })
+                    }
                 }}>
                     <SvgAdd />
                     <span>等待控制器</span>

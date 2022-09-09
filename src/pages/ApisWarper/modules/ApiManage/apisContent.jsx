@@ -13,7 +13,7 @@ const MIN_SIZE = 40; // 最小化宽度或高度
 const MIN_CONTENT_SIZE = 200; // 内容区域宽度不足时最小化
 
 const ApisContent = (props) => {
-    const { data, tempData, onChange } = props;
+    const { data, tempData, onChange, from } = props;
 
     // 展示方向 1.水平 -1 上下
     const { APIS_TAB_DIRECTION } = useSelector((store) => store?.user?.config);
@@ -154,6 +154,7 @@ const ApisContent = (props) => {
                             direction={APIS_TAB_DIRECTION > 0 ? 'horizontal' : 'vertical'}
                             tempData={tempData || {}}
                             data={data || {}}
+                            from={from}
                             onChange={onChange}
                         />
                     )}

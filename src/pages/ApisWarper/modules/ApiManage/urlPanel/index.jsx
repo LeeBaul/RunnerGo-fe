@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Input, Select, Button, Dropdown } from 'adesign-react';
 import { Down } from 'adesign-react/icons';
 import { API_METHODS } from '@constants/methods';
@@ -11,10 +11,40 @@ import './index.less';
 
 const Option = Select.Option;
 const ApiURLPanel = (props) => {
-    const { data, onChange, tempData } = props;
+    const { data, onChange, tempData, from = 'apis' } = props;
     const { apiSend } = useApi();
+    const [btnName, setBtnName] = useState('发送');
     const open_api_now = useSelector((store) => store.opens.open_api_now);
     const open_res = useSelector((store) => store.opens.open_res);
+
+    const open_scene_res= useSelector((store) => store.scene.run_api_res)
+    const open_scene = useSelector((store) => store.scene.open_scene);
+
+    const open_plan_res = useSelector((store) => store.plan.run_api_res);
+    const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
+
+    const id_now = useSelector((store) => store.scene.id_now);
+    const id_now_plan = useSelector((store) => store.plan.id_now_plan);
+
+    if (from === 'apis') {
+        if (open_res || open_res[open_api_now] || open_res[open_api_now].status === 'running') {
+            setBtnName('发送中...');
+        } else {
+            setBtnName('发送');
+        }
+    } else if (from === 'scene') {
+        if (open_scene_res || open_scene_res[id_now] || open_scene_res[id_now].status === 'running') {
+            setBtnName('发送中...');
+        } else {
+            setBtnName('发送');
+        }
+    } else if (from === 'plan') {
+        if (open_plan_res || open_plan_res[id_now_plan] || open_plan_res[id_now_plan].status === 'running') {
+            setBtnName('发送中...');
+        } else {
+            setBtnName('发送');
+        }
+    }
 
     console.log('open_api_now', open_api_now);
     const refDropdown = useRef(null);
@@ -49,11 +79,17 @@ const ApiURLPanel = (props) => {
                     size="middle"
                     onClick={() => {
                         // apiSend(data);
-                        Bus.$emit('sendApi', open_api_now);
+                        if (from === 'scene') {
+                            Bus.$emit('sendSceneApi', open_scene.scene_id, id_now, open_scene_res);
+                        } else {
+                            Bus.$emit('sendApi', open_api_now);
+                        }
                     }}
-                    disabled={tempData?.sendStatus === 'sending'}
+                    // disabled={
+                    //     from === 'scene' ? open_scene_res && open_scene_res[id_now]?.status === 'running' : open_res && open_res[open_api_now]?.status === 'running'
+                    // }
                 >
-                    {open_res[open_api_now] ? (open_res[open_api_now].status === 'running' ? '发送中...' : '发送') : '发送'}
+                    { btnName }
                     {/* 发送 */}
                 </Button>
                 <Dropdown

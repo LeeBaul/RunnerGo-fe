@@ -64,7 +64,7 @@
     svg {
         width: 16px;
         height: 16px;
-        fill: #fff !important;
+        fill: #fff;
     }
 
     .box-item {
@@ -83,9 +83,16 @@
                 margin-left: 4px;
             }
 
-            .success {
+            .default, .success, .failed {
                 margin-left: 4px;
+            }
+
+            .success {
                 fill: #0f0 !important;
+            }
+            
+            .failed {
+                fill: #f00 !important;
             }
         }
 
