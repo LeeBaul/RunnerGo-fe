@@ -29,3 +29,8 @@ export const fetchCreatePre = (
 export const fetchDeletePlan = (
     params
 ) => ajax('post', '/management/api/v1/plan/delete', 'json', false, params);
+
+// 保存计划
+export const fetchSavePlan = (
+    params
+) => ajax('post', '/management/api/v1/plan/task/save', 'json', false, params);

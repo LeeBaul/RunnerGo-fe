@@ -186,6 +186,7 @@ const useOpens = () => {
         if (open_apis.hasOwnProperty(id) && isObject(open_apis[id])) {
             let target_temp = cloneDeep(open_apis[id]);
             target_temp = { ...target_temp, ...data };
+            console.log('target_temp', target_temp);
             // await Opens.put(target_temp, target_temp.target_id);
             dispatch({
                 type: 'opens/coverOpenApis',
@@ -197,7 +198,7 @@ const useOpens = () => {
     const updateCollectionById = async () => {
         const params = {
             page: 1,
-            size: 20,
+            size: 100,
             team_id: localStorage.getItem('team_id'),
         }
         global$.next({
@@ -424,18 +425,28 @@ const useOpens = () => {
 
                 fetchApiDetail(query).subscribe({
                     next: (res) => {
+                        console.log(res);
+                        console.log(res.data);
+                        console.log(res.data.targets);
                         const { code, data: { targets } } = res;
                         console.log('targetsssssssssssssss', targets);
                         if (code === 0) {
-                            const tempApis = cloneDeep(open_apis);
-                            targets[0].is_changed = -1;
+                            const tempApis = {
+                                ...open_apis
+                            };
+
+                            // _targets[0].is_changed = -1;
+                            // console.log(_targets[0]);
                             tempApis[id] = targets[0];
+
+                            // delete tempApis[id].is_changed;
 
                             console.log('tempApisssssss', tempApis);
 
                             dispatch({
                                 type: 'opens/coverOpenApis',
                                 payload: tempApis,
+                                // first: true
                             })
 
                             Bus.$emit('updateTargetId', tempApis[id].target_id);
@@ -559,7 +570,7 @@ const useOpens = () => {
         // });
     };
 
-    const saveTargetById = async (data, options = { is_socket: 1 }) => {
+    const saveTargetById = async (data, options = { is_socket: 1 }, callbacks) => {
         const { id, pid, callback } = data;
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
@@ -624,13 +635,19 @@ const useOpens = () => {
                 .pipe(
                     tap(async (res) => {
                         const { code } = res;
-                        if (code === 0) {
-                            Message('success', '保存成功!');
-                            // 更新collection
+
+                        if (callbacks) {
+                            callbacks && callbacks(code);
                             await updateCollectionById();
-                        } else {
-                            Message('error', '保存失败!');
                         }
+
+                        // if (code === 0) {
+                        //     Message('success', '保存成功!');
+                        //     // 更新collection
+
+                        // } else {
+                        //     Message('error', '保存失败!');
+                        // }
                     })
                 )
                 .subscribe();

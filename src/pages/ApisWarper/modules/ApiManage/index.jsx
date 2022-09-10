@@ -33,13 +33,14 @@ const ApiManage = (props) => {
                 {showInfo && <InfoPanel
                     data={data}
                     onChange={onChange}
+                    from={from}
                     showGenetateCode={() => {
                         setCodeVisible(true);
                     }}
                 />}
                 <UrlPanel from={from} data={showInfo ? data : apiInfo} tempData={tempData} onChange={onChange} />
             </div>
-            <ApisContent from={from} data={showInfo ? data: apiInfo} onChange={onChange} tempData={tempData} />
+            <ApisContent from={from} data={showInfo ? data : apiInfo} onChange={onChange} tempData={tempData} />
             {codeVisible && (
                 <GenerateCode
                     data={data}

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Bus, { useEventBus } from '@utils/eventBus';
-import { cloneDeep, isArray, set } from 'lodash';
+import { cloneDeep, isArray, set, findIndex } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { concatMap, map, tap, from } from 'rxjs';
 import { fetchDeleteApi } from '@services/apis';
@@ -234,7 +234,7 @@ const useScene = () => {
 
             }
 
-            new_apis[_id[i]] = newApi;
+            new_apis[newApi.id] = newApi;
 
             console.log(new_apis);
 
@@ -272,7 +272,7 @@ const useScene = () => {
         console.log(new_nodes, '/////////////////////////8858')
     }
 
-    const updateNodeConfig = (type, value, id, node_config) => {
+    const updateNodeConfig = (type, value, id, node_config, from) => {
         console.log(type, value, id, node_config);
         const _node_config = cloneDeep(node_config);
         console.log(_node_config[id], 6666);
@@ -311,10 +311,17 @@ const useScene = () => {
         //     default:
         //         break;
         // }
-        dispatch({
-            type: 'scene/updateNodeConfig',
-            payload: _node_config
-        })
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateNodeConfig',
+                payload: _node_config
+            })
+        } else {
+            dispatch({
+                type: 'plan/updateNodeConfig',
+                payload: _node_config
+            })
+        }
     }
 
     const updateSceneApi = (data, id_apis) => {
@@ -503,7 +510,11 @@ const useScene = () => {
                             val,
                             remark
                         };
-                        api && apiList.push(api);
+                        if (api) {
+                            api.id = id;
+                            apiList.push(api);
+                        }
+                        // api && apiList.push(api);
                         configList.push(config);
                         idList.push(id);
 
@@ -662,7 +673,7 @@ const useScene = () => {
         }
     };
 
-    const runScene = (scene_id, length) => {
+    const runScene = (scene_id, length, from) => {
         console.log(scene_id, length);
         const params = {
             scene_id: parseInt(scene_id),
@@ -689,10 +700,18 @@ const useScene = () => {
                             if (data.scenes) {
                                 const { scenes } = data;
 
-                                dispatch({
-                                    type: 'scene/updateRunRes',
-                                    payload: scenes,
-                                })
+                                if (from === 'scene') {
+                                    dispatch({
+                                        type: 'scene/updateRunRes',
+                                        payload: scenes,
+                                    })
+                                } else {
+                                    dispatch({
+                                        type: 'plan/updateRunRes',
+                                        payload: scenes,
+                                    })
+                                }
+
                                 if (data.scenes.length === length) {
                                     clearInterval(t);
                                     console.log(data);

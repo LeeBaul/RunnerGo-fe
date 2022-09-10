@@ -78,7 +78,11 @@ const usePlan = () => {
     };
 
     const addOpenPlanScene = (id, id_apis, node_config) => {
-        // console.log(id, data);
+        console.log(id, id_apis, node_config);
+        dispatch({
+            type: 'plan/updateOpenScene',
+            payload: {},
+        })
         const { target_id } = id;
         const query = {
             team_id: localStorage.getItem('team_id'),
@@ -87,6 +91,7 @@ const usePlan = () => {
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
+                console.log('1111111111', data);
 
                 if (data && data.nodes.length > 0) {
                     const { nodes } = data;
@@ -127,11 +132,17 @@ const usePlan = () => {
                             val,
                             remark
                         };
-                        api && apiList.push(api);
+                        if (api) {
+                            api.id = id;
+                            apiList.push(api);
+                        }
+                        // api && apiList.push(api);
+                        config.id = id;
                         configList.push(config);
                         idList.push(id);
 
                     });
+                    console.log('222222222222222222222', data);
                     Bus.$emit('addNewPlanApi', idList, id_apis, node_config, apiList, configList, 'plan');
                 }
 
@@ -172,7 +183,7 @@ const usePlan = () => {
 
             }
 
-            new_apis[_id[i]] = newApi;
+            new_apis[newApi.id] = newApi;
 
             console.log(new_apis);
 
@@ -532,10 +543,16 @@ const usePlan = () => {
                         tap(res => {
                             const { data: { target_id } } = res;
                             const flow_item = _flows.find(item => item.scene_id === _target_id);
+                            console.log(flow_item, 'flow_itemmmmmmmm');
+                            flow_item.nodes.forEach(item => {
+                                item.data.from = 'plan';
+                            });
+
                             const new_flow = {
                                 ...flow_item,
                                 scene_id: target_id,
                             };
+                            console.log(new_flow, 'new_flowwwwwwwwwwwww');
 
                             fetchCreateSceneFlow(new_flow).subscribe();
                         })

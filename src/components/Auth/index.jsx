@@ -33,7 +33,7 @@ const Authen = (props) => {
     }
     if (isDifferent) {
       setTimeout(() => {
-        onChange('auth', { ...newValue });
+        // onChange('auth', { ...newValue });
       }, 300);
     }
   }, []);

@@ -22,17 +22,17 @@ const SceneHeader = (props) => {
     const { id } = useParams();
     // const saveScene = useSelector((store) => store.scene.saveScene);
     const {
-        nodes: nodes_scene, 
+        nodes: nodes_scene,
         edges: edges_scene,
-        id_apis: id_apis_scene, 
-        node_config: node_config_scene, 
-        open_scene: open_scene_scene, 
+        id_apis: id_apis_scene,
+        node_config: node_config_scene,
+        open_scene: open_scene_scene,
     } = useSelector((store) => store.scene);
     const {
-        nodes: nodes_plan, 
+        nodes: nodes_plan,
         edges: edges_plan,
-        id_apis: id_apis_plan, 
-        node_config: node_config_plan, 
+        id_apis: id_apis_plan,
+        node_config: node_config_plan,
         open_plan_scene: open_scene_plan,
     } = useSelector((store) => store.plan);
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
@@ -47,7 +47,7 @@ const SceneHeader = (props) => {
     const runScene = () => {
         const { scene_id } = open_scene;
         console.log(scene_id);
-        Bus.$emit('runScene', scene_id, open_scene.nodes.length);
+        Bus.$emit('runScene', scene_id, open_scene.nodes.length, from);
         console.log(nodes, edges);
         // const _edges = cloneDeep(edges);
         // // _edges[0].animated = true;
@@ -74,17 +74,17 @@ const SceneHeader = (props) => {
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => {
                     if (from === 'scene') {
                         Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene, () => {
-                        Message('success', '保存成功!');
-                      });
+                            Message('success', '保存成功!');
+                        });
                     } else {
                         Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_scene, id, () => {
-                        Message('success', '保存成功!');
-                      });
+                            Message('success', '保存成功!');
+                        });
                     }
                 }}>保存</Button>
-                {from === 'scene' && <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>}
+                {<Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>}
             </div>
-            {showSceneConfig && <SceneConfig onCancel={() => setSceneConfig(false)} />}
+            {showSceneConfig && <SceneConfig from={from} onCancel={() => setSceneConfig(false)} />}
         </div>
     )
 };

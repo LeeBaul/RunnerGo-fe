@@ -59,7 +59,7 @@ const ConditionController = (props) => {
 
     const onTargetChange = (type, value) => {
         console.log(type, value);
-        Bus.$emit('updateNodeConfig', type, value, id, node_config);
+        Bus.$emit('updateNodeConfig', type, value, id, node_config, from);
     }
 
 

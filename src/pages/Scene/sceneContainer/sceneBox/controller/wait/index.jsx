@@ -15,14 +15,16 @@ const WaitController = (props) => {
     const [wait_ms, setWait] = useState(0);
     const refDropdown = useRef(null);
     const run_res_scene = useSelector((store) => store.scene.run_res);
-    const node_config = useSelector((store) => store.scene.node_config);
+    const node_config_scene = useSelector((store) => store.scene.node_config);
     const edges_scene = useSelector((store) => store.scene.edges);
 
     const run_res_plan = useSelector((store) => store.plan.run_res);
     const edges_plan = useSelector((store) => store.plan.edges);
+    const node_config_plan = useSelector((store) => store.plan.node_config);
 
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
+    const node_config = from === 'scene' ? node_config_scene : node_config_plan;
     const dispatch = useDispatch();
 
     // 当前节点状态
@@ -51,7 +53,7 @@ const WaitController = (props) => {
     }, [run_res]);
 
     const onTargetChange = (type, value) => {
-        Bus.$emit('updateNodeConfig', type, value, id, node_config);
+        Bus.$emit('updateNodeConfig', type, value, id, node_config, from);
     }
 
     const update = (edges, status) => {
@@ -70,10 +72,17 @@ const WaitController = (props) => {
             console.log('successEdge', successEdge);
 
             if (successEdge.length > 0) {
-                dispatch({
-                    type: 'scene/updateSuccessEdge',
-                    payload: successEdge,
-                })
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateSuccessEdge',
+                        payload: successEdge,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateSuccessEdge',
+                        payload: successEdge,
+                    })
+                }
             }
         } else if (status === 'failed') {
             const failedEdge = [];
@@ -87,10 +96,17 @@ const WaitController = (props) => {
             console.log('failedEdge', failedEdge);
 
             if (failedEdge.length > 0) {
-                dispatch({
-                    type: 'scene/updateFailedEdge',
-                    payload: failedEdge,
-                })
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateFailedEdge',
+                        payload: failedEdge,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateFailedEdge',
+                        payload: failedEdge,
+                    })
+                }
             }
         }
     }

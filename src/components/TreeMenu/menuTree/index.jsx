@@ -314,6 +314,7 @@ const MenuTrees = (props, treeRef) => {
                         } else if (type === 'scene') {
                             Bus.$emit('addOpenScene', val, id_apis_scene, node_config_scene)
                         } else if (type === 'plan') {
+                            console.log('addOpenPlanScene', id_apis_plan, node_config_plan);
                             Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
                         }
                     }

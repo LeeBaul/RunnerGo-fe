@@ -14,58 +14,84 @@ import { tap } from 'rxjs';
 import { global$ } from '@hooks/useGlobal/global';
 
 const ApiInfoPanel = (props) => {
-    const { data, showGenetateCode, onChange } = props;
+    const { data, showGenetateCode, onChange, from = 'apis' } = props;
 
     const [modalType, setModalType] = useState('');
     const { open_apis, open_api_now } = useSelector((store) => store.opens);
+    const {
+        id_apis: id_apis_scene,
+        id_now: id_now_scene,
+    } = useSelector((store) => store.scene);
+    const {
+        id_apis: id_apis_plan,
+        id_now: id_now_plan
+    } = useSelector((store) => store.plan);
+
+    const apiDataList = {
+        'apis': open_apis,
+        'scene': id_apis_scene,
+        'plan': id_apis_plan,
+    };
+    const apiNowList = {
+        'apis': open_api_now,
+        'scene': id_now_scene,
+        'plan': id_now_plan,
+    };
+
+    const apiData = apiDataList[from];
+    const apiNow = apiNowList[from];
 
     const dispatch = useDispatch();
 
     const saveApi = () => {
-        const apiData = cloneDeep(open_apis[open_api_now]);
-        if (typeof apiData.target_id === 'string') {
-            delete apiData['target_id'];
-            apiData.parent_id = parseInt(apiData.parent_id);
-            apiData.team_id = parseInt(localStorage.getItem('team_id'));
-        }
+        if (from === 'scene') {
+            Bus.$emit('saveSceneApi', apiNow, apiData)
+        } else {
+            const apiData = cloneDeep(apiData[apiNow]);
+            if (typeof apiData.target_id === 'string') {
+                delete apiData['target_id'];
+                apiData.parent_id = parseInt(apiData.parent_id);
+                apiData.team_id = parseInt(localStorage.getItem('team_id'));
+            }
 
-        apiData.is_changed = -1;
-        fetchHandleApi(apiData)
-            .pipe(
-                tap((res) => {
-                    const { data: { target_id }, code } = res;
-                    if (code === 0) {
-                        Message('success', '保存成功!');
-                        const tempApiData = cloneDeep(open_apis);
-                        const _tempApiData = tempApiData[open_api_now];
-                        delete tempApiData[open_api_now];
-                        tempApiData[target_id] = _tempApiData;
-                        tempApiData[target_id].is_changed = -1;
-                        tempApiData[target_id].target_id = target_id;
-                        console.log(tempApiData, '保存成功后!');
-                        dispatch({
-                            type: 'opens/coverOpenApis',
-                            payload: tempApiData
-                        });
-                        dispatch({
-                            type: 'opens/updateOpenApiNow',
-                            payload: target_id,
-                        });
-                        Bus.$emit('updateTargetId', target_id);
-                        global$.next({
-                            action: 'GET_APILIST',
-                            params: {
-                                page: 1,
-                                size: 100,
-                                team_id: localStorage.getItem('team_id'),
-                            }
-                        });
-                    } else {
-                        Message('error', '保存失败!');
-                    }
-                })
-            )
-            .subscribe();
+            apiData.is_changed = -1;
+            fetchHandleApi(apiData)
+                .pipe(
+                    tap((res) => {
+                        const { data: { target_id }, code } = res;
+                        if (code === 0) {
+                            Message('success', '保存成功!');
+                            const tempApiData = cloneDeep(open_apis);
+                            const _tempApiData = tempApiData[open_api_now];
+                            delete tempApiData[open_api_now];
+                            tempApiData[target_id] = _tempApiData;
+                            tempApiData[target_id].is_changed = -1;
+                            tempApiData[target_id].target_id = target_id;
+                            console.log(tempApiData, '保存成功后!');
+                            dispatch({
+                                type: 'opens/coverOpenApis',
+                                payload: tempApiData
+                            });
+                            dispatch({
+                                type: 'opens/updateOpenApiNow',
+                                payload: target_id,
+                            });
+                            Bus.$emit('updateTargetId', target_id);
+                            global$.next({
+                                action: 'GET_APILIST',
+                                params: {
+                                    page: 1,
+                                    size: 100,
+                                    team_id: localStorage.getItem('team_id'),
+                                }
+                            });
+                        } else {
+                            Message('error', '保存失败!');
+                        }
+                    })
+                )
+                .subscribe();
+        }
     }
 
     return (

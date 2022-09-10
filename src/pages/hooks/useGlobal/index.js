@@ -31,19 +31,19 @@ const useGlobal = (props) => {
     useDescription();
     useWebsocket();
     useScene(),
-    usePlan(),
-    useEffect(() => {
-        const token = getCookie('token');
-        // const uuid = localStorage.getItem('uuid')
-        
-        // 项目初始化
-        if (token) {
-            global$.next({
-                action: 'INIT_APPLICATION',
-            });
-        }
+        usePlan(),
+        useEffect(() => {
+            const token = localStorage.getItem('kunpeng-token');
+            // const uuid = localStorage.getItem('uuid')
 
-    }, []);
+            // 项目初始化
+            if (token) {
+                global$.next({
+                    action: 'INIT_APPLICATION',
+                });
+            }
+
+        }, []);
 };
 
 export default useGlobal;

@@ -28,6 +28,26 @@ const ApiURLPanel = (props) => {
 
     console.log(open_plan_res, id_now_plan);
 
+    const {
+        nodes: nodes_scene,
+        edges: edges_scene,
+        id_apis: id_apis_scene,
+        node_config: node_config_scene,
+        open_scene: open_scene_scene,
+    } = useSelector((store) => store.scene);
+    const {
+        nodes: nodes_plan,
+        edges: edges_plan,
+        id_apis: id_apis_plan,
+        node_config: node_config_plan,
+        open_plan_scene: open_scene_plan,
+    } = useSelector((store) => store.plan);
+    const nodes = from === 'scene' ? nodes_scene : nodes_plan;
+    const edges = from === 'scene' ? edges_scene : edges_plan;
+    const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
+    const node_config = from === 'scene' ? node_config_scene : node_config_plan;
+    // const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
+
     // if (from === 'apis') {
     //     if (open_res || open_res[open_api_now] || open_res[open_api_now].status === 'running') {
     //         setBtnName('发送中...');
@@ -82,12 +102,19 @@ const ApiURLPanel = (props) => {
                     onClick={() => {
                         // apiSend(data);
                         if (from === 'scene') {
-                            Bus.$emit('sendSceneApi', open_scene.scene_id, id_now, open_scene_res || {}, 'scene');
+                            Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene, () => {
+                                Bus.$emit('sendSceneApi', open_scene.scene_id, id_now, open_scene_res || {}, 'scene');
+                            });
                         } else if (from === 'plan') {
                             console.log('()()()', open_plan_scene, id_now_plan, open_plan_res);
                             Bus.$emit('sendSceneApi', open_plan_scene.scene_id, id_now_plan, open_plan_res || {}, 'plan');
                         } else {
-                            Bus.$emit('sendApi', open_api_now);
+                            Bus.$emit('saveTargetById', {
+                                id: open_api_now,
+                                callback: () => {
+                                    Bus.$emit('sendApi', open_api_now);
+                                }
+                            })
                         }
                     }}
                 // disabled={

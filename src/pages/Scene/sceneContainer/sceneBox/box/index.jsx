@@ -219,10 +219,17 @@ const Box = (props) => {
             console.log('successEdge', successEdge);
 
             if (successEdge.length > 0) {
-                dispatch({
-                    type: 'scene/updateSuccessEdge',
-                    payload: successEdge,
-                })
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateSuccessEdge',
+                        payload: successEdge,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateSuccessEdge',
+                        payload: successEdge,
+                    })
+                }
             }
         } else if (status === 'failed') {
             const failedEdge = [];
@@ -236,10 +243,17 @@ const Box = (props) => {
             console.log('failedEdge', failedEdge);
 
             if (failedEdge.length > 0) {
-                dispatch({
-                    type: 'scene/updateFailedEdge',
-                    payload: failedEdge,
-                })
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateFailedEdge',
+                        payload: failedEdge,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateFailedEdge',
+                        payload: failedEdge,
+                    })
+                }
             }
         }
     }

@@ -54,6 +54,7 @@ const actionTypes = {
   setApipostHeaders: 'setApipostHeaders',
   updateOpenApiNow: 'updateOpenApiNow',
   updateOpenRes: 'updateOpenRes',
+  InitApis: 'InitApis',
 }
 
 export const opensReducer = (state = initialState, action) => {
@@ -61,12 +62,21 @@ export const opensReducer = (state = initialState, action) => {
   const { target_id } = action.payload || {};
   const tempWebsockets = cloneDeep(websockets);
   switch (action.type) {
+    case `${NAMESPACE}/${actionTypes.InitApis}`:
+      const _data = cloneDeep(action.payload);
+      for (let i in _data) {
+        _data[i].is_changed = -1
+      }
+      return {
+        ...state,
+        open_apis: _data,
+      };
     case `${NAMESPACE}/${actionTypes.coverOpenApis}`:
-      console.log('coverOpenApis', action.payload);
+      console.log('coverOpenApis', action);
       return {
         ...state,
         open_apis: action.payload,
-      };
+      }
     case `${NAMESPACE}/${actionTypes.removeApiById}`:
       const tempOpenApis = cloneDeep(open_apis);
       delete tempOpenApis[target_id];

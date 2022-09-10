@@ -130,7 +130,7 @@ const PlanDetail = () => {
                     }
                 </ScaleItem>
                 <ScaleItem enableScale={true}>
-                    <TaskConfig />
+                    <TaskConfig from='default' />
                 </ScaleItem>
             </ScalePanel>
         </>

@@ -11,7 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import TaskConfig from '../taskConfig';
 import { cloneDeep } from 'lodash';
 import Bus from '@utils/eventBus';
-import { fetchPlanDetail } from '@services/plan';
+import { fetchPlanDetail, fetchSavePlan } from '@services/plan';
 import dayjs from 'dayjs';
 
 const DetailHeader = () => {
@@ -24,6 +24,8 @@ const DetailHeader = () => {
     const open_plan = useSelector((store) => store.plan.open_plan);
     const { id: plan_id } = useParams();
     const [planDetail, setPlanDetail] = useState({});
+
+    const task_config = useSelector((store) => store.plan.task_config);
 
     console.log(open_plan);
 
@@ -61,13 +63,34 @@ const DetailHeader = () => {
             _mode_conf[type] = value;
             setModeConf(_mode_conf);
         }
+    };
+
+    const savePlan = () => {
+        const params = {
+            plan_id,
+            team_id: parseInt(localStorage.getItem('team_id')),
+            name: planDetail.name,
+            ...task_config,
+        };
+
+        fetchSavePlan(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+
+                if (code === 0) {
+                    Message('success', '保存成功!');
+                } else {
+                    Message('error', '保存失败!');
+                }
+            }
+        })
     }
     return (
         <div className='detail-header'>
             {
                 preSet && (
                     <Modal title='预设配置' okText='保存' onOk={() => {
-                        Bus.$emit('savePreConfig', {task_type, mode, cron_expr, mode_conf}, () => {
+                        Bus.$emit('savePreConfig', { task_type, mode, cron_expr, mode_conf }, () => {
                             setPreSet(false);
                             Message('success', '保存成功!');
                         })
@@ -80,22 +103,22 @@ const DetailHeader = () => {
                 <SvgLeft onClick={() => navigate('/plan/list')} />
                 <div className='detail'>
                     <div className='detail-top'>
-                        <p className='name'>计划管理/{ planDetail.name }</p>
+                        <p className='name'>计划管理/{planDetail.name}</p>
                         <p className='status'>
-                            { statusList[planDetail.status] }
+                            {statusList[planDetail.status]}
                         </p>
                     </div>
                     <div className='detail-bottom'>
                         <div className='item'>
-                            <p>创建人：{ planDetail.created_user_name }</p>
+                            <p>创建人：{planDetail.created_user_name}</p>
                             <img src={avatar} />
                             <p style={{ marginLeft: '4px' }}></p>
                         </div>
                         <div className='item'>
-                            创建时间：{ dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss') }
+                            创建时间：{dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss')}
                         </div>
                         <div className='item'>
-                            最后修改时间：{ dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss') }
+                            最后修改时间：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss')}
                         </div>
                     </div>
                 </div>
@@ -103,7 +126,7 @@ const DetailHeader = () => {
             <div className='detail-header-right'>
                 <Button className='notice' onClick={() => setPreSet(true)}>预设配置</Button>
                 <Button className='notice' preFix={<SvgSave width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
-                <Button className='save' preFix={<SvgSave width="16" height="16" />}>保存</Button>
+                <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>保存</Button>
                 <Button className='run' preFix={<SvgSave width="16" height="16" />}>开始运行</Button>
             </div>
         </div>

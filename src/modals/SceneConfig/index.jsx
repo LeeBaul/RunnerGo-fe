@@ -10,8 +10,11 @@ import { useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
 const SceneConfig = (props) => {
-    const { onCancel } = props;
-    const open_scene = useSelector((store) => store.scene.open_scene);
+    const { onCancel, from } = props;
+    const open_scene_scene = useSelector((store) => store.scene.open_scene);
+    const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
+
+    const open_scene = from === 'scene' ? open_scene_scene : open_plan_scene;
     const [fileList, setFileList] = useState([]);
     const [varList, setVarList] = useState([]);
     const [checkName, setCheckName] = useState([]);
@@ -23,7 +26,7 @@ const SceneConfig = (props) => {
             ...newVal,
         };
         if (rowIndex === varList.length - 1) {
-            setVarList([...newList, { var: '', val: '', description: ''}])
+            setVarList([...newList, { var: '', val: '', description: '' }])
         } else {
             setVarList([...newList]);
         }
@@ -52,7 +55,7 @@ const SceneConfig = (props) => {
             fetchSceneVar(query).subscribe({
                 next: (res) => {
                     const { data: { variables } } = res;
-                    setVarList([...variables, { var: '', val: '', description: ''}]);
+                    setVarList([...variables, { var: '', val: '', description: '' }]);
                 }
             })
         }
@@ -212,6 +215,13 @@ const SceneConfig = (props) => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
+                    let name = res_name.split('/');
+                    const importFile = {
+                        name: name[name.length - 1],
+                    };
+                    const _fileList = cloneDeep(fileList);
+                    _fileList.push(importFile);
+                    setFileList(_fileList)
                     Message('success', '上传成功!');
                 }
             }
@@ -252,26 +262,26 @@ const SceneConfig = (props) => {
     }
 
     return (
-        <Modal className={GlobalVarModal} visible={true} title="场景设置" okText='保存' onOk={() => saveGlobalVar()}  onCancel={onCancel} >
+        <Modal className={GlobalVarModal} visible={true} title="场景设置" okText='保存' onOk={() => saveGlobalVar()} onCancel={onCancel} >
             <p className='container-title'>添加文件</p>
             <span>支持添加10M以内的csv、txt文件</span>
             <div className='file-list'>
                 {
                     fileList.map(item => (
                         <div className='file-list-item'>
-                        <div className='file-list-item-left'>
-                            { item.name }
+                            <div className='file-list-item-left'>
+                                {item.name}
+                            </div>
+                            <div className='file-list-item-right'>
+                                <p>预览</p>
+                                <p>下载</p>
+                                <p className='delete'>删除</p>
+                            </div>
                         </div>
-                        <div className='file-list-item-right'>
-                            <p>预览</p>
-                            <p>下载</p>
-                            <p className='delete'>删除</p>
-                        </div>
-                    </div>
                     ))
                 }
             </div>
-            <Upload onChange={(files, fileList) => uploadFile(files, fileList)}>
+            <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
                 <Button preFix={<SvgAdd />}>添加文件</Button>
             </Upload>
             <p className='container-title'>添加变量</p>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'adesign-react';
+import { Message, Modal } from 'adesign-react';
 import { useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import Bus from '@utils/eventBus';
@@ -50,6 +50,12 @@ const HeadTabs = (props) => {
                         callback: () => {
                             onRemoveTabItem(item.id);
                         },
+                    }, {}, (code) => {
+                        if (code === 0) {
+                            Message('success', '保存成功!');
+                        } else {
+                            Message('error', '保存失败!');
+                        }
                     });
                 },
                 onOk: () => {

@@ -323,6 +323,7 @@ const SceneBox = (props) => {
     }, [update_edge]);
 
     useEffect(() => {
+        console.log('success_edge', success_edge, edges);
         if (success_edge.length > 0) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {
@@ -334,7 +335,8 @@ const SceneBox = (props) => {
                         type: MarkerType.ArrowClosed,
                     };
                 }
-            })
+            });
+            console.log('setEdges', _edges);
             setEdges(_edges);
         }
     }, [success_edge]);
