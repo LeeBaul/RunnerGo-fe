@@ -208,7 +208,7 @@ const useScene = () => {
     }
 
     const addNewSceneApi = (id, id_apis = {}, node_config = {}, api = {}, config = {}, from) => {
-        console.log(id, id_apis, node_config, api, config, '///////////////////////////');
+        console.log(id, id_apis, node_config, api, config, from);
 
         let _id = isArray(id) ? id : [id];
         let _api = isArray(api) ? api : [api];
@@ -239,6 +239,7 @@ const useScene = () => {
             console.log(new_apis);
 
             if (from === 'scene') {
+                console.log('scene/updateIdApis');
                 dispatch({
                     type: 'scene/updateIdApis',
                     payload: new_apis,

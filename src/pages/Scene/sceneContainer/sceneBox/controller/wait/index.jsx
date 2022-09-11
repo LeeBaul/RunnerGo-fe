@@ -17,14 +17,17 @@ const WaitController = (props) => {
     const run_res_scene = useSelector((store) => store.scene.run_res);
     const node_config_scene = useSelector((store) => store.scene.node_config);
     const edges_scene = useSelector((store) => store.scene.edges);
+    const init_scene_scene = useSelector((store) => store.scene.init_scene);
 
     const run_res_plan = useSelector((store) => store.plan.run_res);
     const edges_plan = useSelector((store) => store.plan.edges);
     const node_config_plan = useSelector((store) => store.plan.node_config);
+    const init_scene_plan = useSelector((store) => store.plan.init_scene);
 
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
     const node_config = from === 'scene' ? node_config_scene : node_config_plan;
+    const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
     const dispatch = useDispatch();
 
     // 当前节点状态
@@ -38,6 +41,10 @@ const WaitController = (props) => {
             wait_ms && setWait(wait_ms);
         }
     }, [node_config]);
+
+    useEffect(() => {
+        setStatus('default');
+    }, [init_scene]);
 
     useEffect(() => {
         if (run_res) {

@@ -57,7 +57,7 @@ export const rxAjax = (
                 if (resp.response.code === 0) {
                     return resp?.response;
                 }
-                if (resp.response.code === 20006) {
+                if (resp.response.code === 20003) {
                     Message('error', '请先登录!');
                     window.location.href = '/login';
                 }

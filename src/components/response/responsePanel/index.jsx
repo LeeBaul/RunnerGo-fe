@@ -27,7 +27,12 @@ const ResPonsePanel = (props) => {
   const id_now = useSelector((store) => store.scene.id_now);
   const id_plan_now = useSelector((store) => store.plan.id_now);
 
+  const run_res_scene = useSelector((store) => store.scene.run_res);
+  const run_res_plan = useSelector((store) => store.plan.run_res);
+
   const open_api_now = useSelector((store) => store.opens.open_api_now);
+
+  const run_res = from === 'scene' ? run_res_scene : run_res_plan;
 
   const response_list = {
     'apis': open_res && open_res[open_api_now],
@@ -35,7 +40,11 @@ const ResPonsePanel = (props) => {
     'plan': open_plan_res && open_plan_res[id_plan_now]
   }
 
+  const scene_result = run_res && run_res.filter(item => item.event_id === (from === 'scene' ? id_now : id_plan_now))[0];
+
+  console.log(run_res, scene_result, '*/*/---/-*');
   const response_data = response_list[from];
+  console.log(response_data);
   // console.log(open_res[open_api_now]);
   tempData = {
     "request": {
@@ -67,7 +76,7 @@ const ResPonsePanel = (props) => {
       id: '1',
       title: '实时响应',
       content: (
-        <RealTimeResult target={data} tempData={response_data || {}} onChange={onChange}></RealTimeResult>
+        <RealTimeResult target={data} tempData={scene_result || response_data || {}} onChange={onChange}></RealTimeResult>
       ),
     },
     {
@@ -78,7 +87,7 @@ const ResPonsePanel = (props) => {
           {/* {numberDom(tempData?.request?.header)} */}
         </>
       ),
-      content: <ReqTable data={response_data || {}}></ReqTable>,
+      content: <ReqTable data={scene_result || response_data || {}}></ReqTable>,
     },
     {
       id: '3',
@@ -88,17 +97,17 @@ const ResPonsePanel = (props) => {
           {/* {numberDom(tempData?.response?.header)} */}
         </>
       ),
-      content: <ResTable data={response_data || {}}></ResTable>,
+      content: <ResTable data={scene_result || response_data || {}}></ResTable>,
     },
     {
       id: '4',
       title: '断言结果',
-      content: <ResAssert data={response_data || {}}></ResAssert>
+      content: <ResAssert data={scene_result || response_data || {}}></ResAssert>
     },
     {
       id: '5',
       title: '正则结果',
-      content: <ResRegex data={response_data || {}}></ResRegex>
+      content: <ResRegex data={scene_result || response_data || {}}></ResRegex>
     }
     // { id: '6', title: '失败响应示例', content: <Example></Example> },
   ];
@@ -208,7 +217,7 @@ const ResPonsePanel = (props) => {
 
   return (
     <>
-      {specialStatus === 'sending' && (
+      {response_data && response_data.status === 'running' && (
         <div className={ResponseSendWrapper}>
           <div className="loading_bar_tram"></div>
           <div className="apt_sendLoading_con">
@@ -261,7 +270,7 @@ const ResPonsePanel = (props) => {
             title={d.title}
           // disabled={}
           >
-            <>{response_data ? d.content : <NotResponse />}</>
+            <>{scene_result || response_data ? d.content : <NotResponse />}</>
           </TabPan>
         ))}
       </Tabs>

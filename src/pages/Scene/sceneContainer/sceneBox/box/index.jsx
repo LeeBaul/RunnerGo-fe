@@ -63,7 +63,8 @@ const Box = (props) => {
         open_scene: open_scene_scene,
         run_res: run_res_scene,
 
-        edges: edges_scene
+        edges: edges_scene,
+        init_scene: init_scene_scene,
     } = useSelector((store) => store.scene);
 
     const {
@@ -72,7 +73,8 @@ const Box = (props) => {
         node_config: node_config_plan,
         open_scene: open_scene_plan,
         run_res: run_res_plan,
-        edges: edges_plan
+        edges: edges_plan,
+        init_scene: init_scene_plan,
     } = useSelector((store) => store.plan);
 
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
@@ -82,6 +84,7 @@ const Box = (props) => {
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
 
     const edges = from === 'scene' ? edges_scene : edges_plan;
+    const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
 
     console.log('run_res', run_res_scene, run_res);
     const [showApi, setShowApi] = useState(true);
@@ -119,6 +122,10 @@ const Box = (props) => {
             percent_age && setPercent(percent_age);
         }
     }, [node_config]);
+
+    useEffect(() => {
+        setStatus('default');
+    }, [init_scene]);
 
     useEffect(() => {
         if (run_res) {
@@ -468,6 +475,12 @@ const Box = (props) => {
                     </Select>
                     {<RenderContent />}
                 </div>}
+                {
+                    (status === 'success' || status === 'failed') &&
+                    <div className='show-result'>
+                        <Button onClick={() => changeApiConfig(id)}>查看结果</Button>
+                    </div>
+                }
             </div>
 
             {/* <Collapse defaultActiveKey="api" onChange={() => setShowApi(!showApi)}>

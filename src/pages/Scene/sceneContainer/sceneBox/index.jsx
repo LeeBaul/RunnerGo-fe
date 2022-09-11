@@ -49,6 +49,8 @@ const SceneBox = (props) => {
     const clone_node_scene = useSelector((store) => store.scene.clone_node);
     const success_edge_scene = useSelector((store) => store.scene.success_edge);
     const failed_edge_scene = useSelector((store) => store.scene.failed_edge);
+    const init_scene_scene = useSelector((store) => store.scene.init_scene);
+    const run_res_scene = useSelector((store) => store.scene.run_res);
 
     const type_now_plan = useSelector((store) => store.plan.type);
     const id_apis_plan = useSelector((store) => store.plan.id_apis);
@@ -58,6 +60,8 @@ const SceneBox = (props) => {
     const clone_node_plan = useSelector((store) => store.plan.clone_node);
     const success_edge_plan = useSelector((store) => store.plan.success_edge);
     const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
+    const init_scene_plan = useSelector((store) => store.plan.init_scene);
+    const run_res_plan = useSelector((store) => store.plan.run_res);
 
     const open_scene = useSelector((store) => store.scene.open_scene);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
@@ -75,6 +79,9 @@ const SceneBox = (props) => {
 
     const success_edge = from === 'scene' ? success_edge_scene : success_edge_plan;
     const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
+
+    const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
+    const run_res = from === 'scene' ? run_res_scene : run_res_plan;
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -189,18 +196,19 @@ const SceneBox = (props) => {
                     },
                     position: { x: 50, y: 50 }
                 }
+                item.id = id;
                 console.log(id_apis, ']]]]]]]]]')
                 ids.push(id);
                 setNodes((nds) => nds.concat(new_node));
             });
             if (from === 'scene') {
-                Bus.$emit('addNewSceneApi', ids, id_apis, node_config, import_node, from);
+                Bus.$emit('addNewSceneApi', ids, id_apis, node_config, import_node, {}, from);
                 dispatch({
                     type: 'scene/updateImportNode',
                     payload: [],
                 })
             } else {
-                Bus.$emit('addNewPlanApi', ids, id_apis, node_config, import_node, from);
+                Bus.$emit('addNewPlanApi', ids, id_apis, node_config, import_node, {}, from);
                 dispatch({
                     type: 'plan/updateImportNode',
                     payload: [],
@@ -357,6 +365,20 @@ const SceneBox = (props) => {
             setEdges(_edges);
         }
     }, [failed_edge]);
+
+    useEffect(() => {
+        console.log(run_res, edges);
+        if (edges.length > 0) {
+            const _edges = cloneDeep(edges);
+            _edges.forEach(item => {
+                item.style = {};
+                item.markerEnd = {};
+            });
+            console.log(_edges, 66666666666666666666666666666);
+
+            setEdges(_edges);
+        }
+    }, [init_scene]);
 
 
     return (

@@ -3,13 +3,19 @@ import './index.less';
 
 const ResRegex = (props) => {
     const { data } = props;
-    const regex = data.regex ? JSON.parse(data.regex) || {} : {};
+    const regex = data.regex || [];
     const [regexList, setRegexList] = useState([]);
     console.log(1);
     const _regexList = [];
     if (regex) {
         console.log(regex);
-        
+
+        // regex.forEach(item => {
+        //     for (let i in item) {
+        //         _regexList.push(`${i}=${item[i]}`)
+        //     }
+        // })
+
         for (let i in regex) {
             console.log(i, regex[i]);
             for (let j in regex[i]) {
@@ -32,7 +38,7 @@ const ResRegex = (props) => {
             {
                 _regexList.length > 0 ? (
                     _regexList.map(item => (
-                        <p className='res-regex-item'>{ item }</p>
+                        <p className='res-regex-item'>{item}</p>
                     ))
                 ) : <p>还没有数据</p>
             }

@@ -1,51 +1,51 @@
 .scene-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 
-    .api-config-drawer {
+  .api-config-drawer {
+    .apipost-drawer {
+      box-shadow: -15px 0px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 0px 0px 5px 5px;
+      width: 709px !important;
+      // height: 1014px !important;
 
-        .apipost-drawer {
-            box-shadow: -15px 0px 20px rgba(0, 0, 0, 0.2);
-            border-radius: 0px 0px 5px 5px;
-            width: 709px !important;
-            // height: 1014px !important;
+      .apipost-drawer-close {
+        display: none;
+      }
 
-            .apipost-drawer-close {
-                display: none;
-            }
+      .drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
 
-            .drawer-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
+        &-left {
+          display: flex;
+          align-items: center;
 
-                &-left {
-                    display: flex;
-                    align-items: center;
-
-                    svg {
-                        border-radius: 3px;
-                        cursor: pointer;
-                        margin-right: 16px;
-                    }
-                }
-
-                .apipost-btn {
-                    background-color: #3A86FF;
-                    width: 84px;
-                    height: 30px;
-                    padding: 12px;
-                    border-radius: 3px;
-                    color: #fff;
-                }
-            }
+          svg {
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 16px;
+          }
         }
 
+        &-right {
+          .apipost-btn {
+            background-color: #3a86ff;
+            width: 84px;
+            height: 30px;
+            padding: 12px;
+            border-radius: 3px;
+            color: #fff;
+          }
+        }
+      }
     }
+  }
 
-    a {
-        display: none;
-    }
+  a {
+    display: none;
+  }
 }

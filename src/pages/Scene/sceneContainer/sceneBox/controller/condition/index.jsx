@@ -7,13 +7,33 @@ import { COMPARE_IF_TYPE } from '@constants/compare';
 import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
 
+import SvgSuccess from '@assets/logo/success';
+import SvgFailed from '@assets/logo/failed';
+import SvgRunning from '@assets/logo/running';
+
 const { Option } = Select;
 
 const ConditionController = (props) => {
     const { data: { id, from } } = props;
     const refDropdown = useRef(null);
+    // const dispatch = useDispatch();
+    // const node_config = useSelector((store) => store.scene.node_config);
+
+    const run_res_scene = useSelector((store) => store.scene.run_res);
+    const node_config_scene = useSelector((store) => store.scene.node_config);
+    const edges_scene = useSelector((store) => store.scene.edges);
+    const init_scene_scene = useSelector((store) => store.scene.init_scene);
+
+    const run_res_plan = useSelector((store) => store.plan.run_res);
+    const edges_plan = useSelector((store) => store.plan.edges);
+    const node_config_plan = useSelector((store) => store.plan.node_config);
+    const init_scene_plan = useSelector((store) => store.plan.init_scene);
+
+    const run_res = from === 'scene' ? run_res_scene : run_res_plan;
+    const edges = from === 'scene' ? edges_scene : edges_plan;
+    const node_config = from === 'scene' ? node_config_scene : node_config_plan;
+    const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
     const dispatch = useDispatch();
-    const node_config = useSelector((store) => store.scene.node_config);
     // 变量
     const [_var, setVar] = useState('');
     // 关系
@@ -22,6 +42,8 @@ const ConditionController = (props) => {
     const [val, setVal] = useState('');
     // 备注
     const [remark, setRemark] = useState('');
+
+    const [status, setStatus] = useState('default');
 
     useEffect(() => {
         const my_config = node_config[id];
@@ -35,6 +57,78 @@ const ConditionController = (props) => {
             remark && setRemark(remark);
         }
     }, [node_config]);
+
+    useEffect(() => {
+        setStatus('default');
+    }, [init_scene]);
+
+    useEffect(() => {
+        if (run_res) {
+            const now_res = run_res.filter(item => item.event_id === id)[0];
+            console.log(run_res, now_res, id);
+            if (now_res) {
+                const { status } = now_res;
+                setStatus(status);
+
+                update(edges, status);
+            }
+        }
+    }, [run_res]);
+
+    const update = (edges, status) => {
+        console.log('edges', edges, status);
+        if (status === 'success') {
+            // 以当前节点为顶点的线id
+            const successEdge = [];
+            // const Node = [];
+
+            edges.forEach(item => {
+                if (item.source === id) {
+                    successEdge.push(item.id);
+                }
+            })
+
+            console.log('successEdge', successEdge);
+
+            if (successEdge.length > 0) {
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateSuccessEdge',
+                        payload: successEdge,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateSuccessEdge',
+                        payload: successEdge,
+                    })
+                }
+            }
+        } else if (status === 'failed') {
+            const failedEdge = [];
+
+            edges.forEach(item => {
+                if (item.source === id) {
+                    failedEdge.push(item.id);
+                }
+            })
+
+            console.log('failedEdge', failedEdge);
+
+            if (failedEdge.length > 0) {
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateFailedEdge',
+                        payload: failedEdge,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateFailedEdge',
+                        payload: failedEdge,
+                    })
+                }
+            }
+        }
+    }
 
     const DropContent = () => {
         return (
@@ -62,6 +156,19 @@ const ConditionController = (props) => {
         Bus.$emit('updateNodeConfig', type, value, id, node_config, from);
     }
 
+    const topBgStyle = {
+        'default': '',
+        'success': '#11811C',
+        'failed': '#892020',
+    };
+
+    const topStatus = {
+        'default': <></>,
+        'success': <SvgSuccess className='default' />,
+        'failed': <SvgFailed className='default' />,
+        'running': <SvgRunning className='default' />,
+    };
+
 
     return (
         <>
@@ -73,9 +180,14 @@ const ConditionController = (props) => {
             />
             <div className='controller-condition'>
 
-                <div className='controller-condition-header'>
-                    <div className='type'>
-                        条件控制器
+                <div className='controller-condition-header' style={{ backgroundColor: topBgStyle[status] }} >
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className='type'>
+                            条件控制器
+                        </div>
+                        {
+                            topStatus[status]
+                        }
                     </div>
                     <div className='header-right'>
                         {/* <Switch defaultChecked /> */}

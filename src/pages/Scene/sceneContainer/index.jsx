@@ -74,12 +74,17 @@ const SceneContainer = (props) => {
         return (
             <div className='drawer-header'>
                 <div className='drawer-header-left'>
-                    <SvgClose width="16px" height="16px" onClick={(() => closeApiConfig())} />
+                    <Button style={{ marginRight: '8px' }} onClick={(() => closeApiConfig())} >
+                        {/* <SvgClose width="16px" height="16px" /> */}
+                        <p style={{ fontSize: '16px' }}>X</p>
+                    </Button>
                     <Input size="mini" value={apiName} placeholder="请输入接口名称" onChange={(e) => onTargetChange('name', e)} />
                 </div>
-                <Button onClick={() => {
-                    Bus.$emit('saveSceneApi', api_now, id_apis);
-                }}>保存</Button>
+                <div className='drawer-header-right'>
+                    <Button onClick={() => {
+                        Bus.$emit('saveSceneApi', api_now, id_apis);
+                    }}>保存</Button>
+                </div>
             </div>
         )
     };

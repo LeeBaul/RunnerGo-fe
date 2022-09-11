@@ -8,7 +8,10 @@ import Scene from "./Scene";
 import Plan from './Plan';
 import Report from "./Report";
 
-export const RoutePages = [
+import Header from './Layout/Header';
+import LeftToolbar from './Layout/LeftToolbar';
+
+const Route = [
     {
         name: 'login',
         path: '/login',
@@ -50,3 +53,27 @@ export const RoutePages = [
         element: Report,
     },
 ];
+
+const ignorePage = ['login', 'register', 'find'];
+
+// export const RoutePages = Route;
+
+export const RoutePages = Route.map(item => {
+    if (!ignorePage.includes(item.name)) {
+        console.log(item.element);
+        return {
+            ...item,
+            element: () => <>
+                <Header />
+                <div className='section-page'>
+                    <LeftToolbar />
+                    <div className='main-page'>
+                        <item.element />
+                    </div>
+                </div>
+            </>
+        }
+    } else {
+        return item;
+    }
+})

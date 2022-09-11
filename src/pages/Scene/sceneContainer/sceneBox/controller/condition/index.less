@@ -1,89 +1,91 @@
 .controller-condition {
-    width: 220px;
-    border-radius: 3px;
-    background: #27272B;
+  width: 220px;
+  border-radius: 3px;
+  background: #27272b;
 
-    border: 1px solid #39393D;
-    box-sizing: border-box;
+  border: 1px solid #39393d;
+  box-sizing: border-box;
 
-    &-header {
-        display: flex;
-        justify-content: space-between;
-        background: rgba(255, 255, 255, 0.04);
-        padding: 10px 8px;
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 10px 8px;
 
-        .type {
-            min-width: 80px;
-            min-height: 24px;
-            padding: 0 10px;
-            line-height: 24px;
+    .type {
+      min-width: 80px;
+      min-height: 24px;
+      padding: 0 10px;
+      line-height: 24px;
 
-            background: #FFE9DC;
-            border: 1px solid #D75207;
-            border-radius: 3px;
+      background: #ffe9dc;
+      border: 1px solid #d75207;
+      border-radius: 3px;
 
-            color: #D75207;
-        }
-
-        .header-right {
-            // min-width: 65px;
-            .apipost-switch default {
-                background: #27272B;
-            }
-    
-            svg {
-                width: 16px;
-                height: 16px;
-                fill: #fff;
-                margin-left: 8px;
-                cursor: pointer;
-            }
-        }
-
-
+      color: #d75207;
     }
 
-    &-main {
-        display: flex;
-        flex-direction: column;
-        padding: 0 10px 10px 10px;
-
-        .item {
-            display: flex;
-            align-items: center;
-
-            p {
-                padding: 0px 10px;
-                width: 28px;
-                height: 24px;
-                background: rgba(255, 255, 255, 0.08);
-                border-radius: 3px;
-                margin-top: 8px;
-                line-height: 24px;
-                margin-right: 8px;
-            }
-
-            .apipost-input,
-            .apipost-select {
-                width: 100%;
-            }
-
-            .apipost-select {
-                border: 1px solid #39393D;
-                border-radius: 3px;
-                margin-top: 8px;
-                background-color: #27272B;
-                height: 24px;
-            }
-
-            .apipost-input-inner-wrapper {
-                margin-top: 8px;
-            }
-        }
+    .default {
+      margin-left: 4px;
     }
+
+    .header-right {
+      // min-width: 65px;
+      .apipost-switch default {
+        background: #27272b;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        margin-left: 8px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &-main {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px 10px 10px;
+
+    .item {
+      display: flex;
+      align-items: center;
+
+      p {
+        padding: 0px 10px;
+        width: 28px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 3px;
+        margin-top: 8px;
+        line-height: 24px;
+        margin-right: 8px;
+      }
+
+      .apipost-input,
+      .apipost-select {
+        width: 100%;
+      }
+
+      .apipost-select {
+        border: 1px solid #39393d;
+        border-radius: 3px;
+        margin-top: 8px;
+        background-color: #27272b;
+        height: 24px;
+      }
+
+      .apipost-input-inner-wrapper {
+        margin-top: 8px;
+      }
+    }
+  }
 }
 
 .my_handle {
-    width: 10px;
-    height: 10px;
+  width: 10px;
+  height: 10px;
 }

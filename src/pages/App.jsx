@@ -34,7 +34,7 @@ const App = () => {
         //     window.location.href = '/login';
         // }
         // console.log(location);
-       
+
         if (!ignorePage.includes(location.pathname)) {
             setLayout(true);
             if (isExpire) {
@@ -47,7 +47,7 @@ const App = () => {
             if (!isExpire) {
                 console.log('----------');
                 // if (window.location.pathname !== location.pathname) {
-                    window.location.href = '/index';
+                window.location.href = '/index';
                 // }
             }
         }
@@ -57,20 +57,15 @@ const App = () => {
     useAsyncTask(); // 使用异步任务
     useApt();
 
+    console.log(RoutePages[3].element);
     return (
         <>
-            {showLayout && <Header />}
-            <div className='section-page'>
-                {showLayout && <LeftToolbar />}
-                <div className='main-page'>
-                    <Routes>
-                        {RoutePages.map((d) => (
-                            <Route key={d.name} path={d.path} element={<d.element />}></Route>
-                        ))}
-                        <Route path='/' element={<Navigate to="login" />} />
-                    </Routes>
-                </div>
-            </div>
+            <Routes>
+                {RoutePages.map((d) => (
+                    <Route key={d.name} path={d.path} element={<d.element />}></Route>
+                ))}
+                <Route path='/' element={<Navigate to="login" />} />
+            </Routes>
         </>
     )
 };

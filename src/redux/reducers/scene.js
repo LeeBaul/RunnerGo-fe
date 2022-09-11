@@ -29,6 +29,8 @@ const initialState = {
 
   success_edge: [], // 运行成功的线
   failed_edge: [], // 运行失败的线
+
+  init_scene: false, // 初始化点和线的状态
 };
 
 // action名称
@@ -56,6 +58,8 @@ const actionTypes = {
   updateApiRes: 'updateApiRes',
   updateSuccessEdge: 'updateSuccessEdge',
   updateFailedEdge: 'updateFailedEdge',
+
+  updateInitScene: 'updateInitScene',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -180,6 +184,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         failed_edge: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateInitScene}`:
+      return {
+        ...state,
+        init_scene: action.payload,
       }
     default:
       return state;

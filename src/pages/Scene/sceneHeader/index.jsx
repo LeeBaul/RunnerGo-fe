@@ -27,6 +27,7 @@ const SceneHeader = (props) => {
         id_apis: id_apis_scene,
         node_config: node_config_scene,
         open_scene: open_scene_scene,
+        init_scene: init_scene_scene,
     } = useSelector((store) => store.scene);
     const {
         nodes: nodes_plan,
@@ -34,12 +35,14 @@ const SceneHeader = (props) => {
         id_apis: id_apis_plan,
         node_config: node_config_plan,
         open_plan_scene: open_scene_plan,
+        init_scene: init_scene_plan,
     } = useSelector((store) => store.plan);
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
     const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
     const node_config = from === 'scene' ? node_config_scene : node_config_plan;
     const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
+    const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
 
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     console.log(nodes, edges, id_apis, node_config);
@@ -47,6 +50,25 @@ const SceneHeader = (props) => {
     const runScene = () => {
         const { scene_id } = open_scene;
         console.log(scene_id);
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateInitScene',
+                payload: !init_scene,
+            });
+            dispatch({
+                type: 'scene/updateRunRes',
+                payload: [],
+            })
+        } else {
+            dispatch({
+                type: 'plan/updateInitScene',
+                payload: !init_scene
+            })
+            dispatch({
+                type: 'plan/updateRunRes',
+                payload: []
+            })
+        }
         Bus.$emit('runScene', scene_id, open_scene.nodes.length, from);
         console.log(nodes, edges);
         // const _edges = cloneDeep(edges);

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Bus, { useEventBus } from '@utils/eventBus';
-import { cloneDeep, isArray, set } from 'lodash';
+import { cloneDeep, isArray, set, findIndex } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { tap, filter, map, concatMap, switchMap, from } from 'rxjs';
 import { fetchSceneFlowDetail, fetchCreateSceneFlow, fetchSceneDetail, fetchCreateScene, fetchBatchFlowDetail } from '@services/scene';

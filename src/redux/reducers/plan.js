@@ -28,6 +28,8 @@ const initialState = {
   failed_edge: [], // 运行失败的线
 
   task_config: {}, // 任务配置
+
+  init_scene: false,
 };
 
 // action名称
@@ -55,6 +57,8 @@ const actionTypes = {
   updateApiConfig: 'updateApiConfig',
 
   updateTaskConfig: 'updateTaskConfig',
+
+  updateInitScene: 'updateInitScene',
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -166,6 +170,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         task_config: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateInitScene}`:
+      return {
+        ...state,
+        init_scene: action.payload,
       }
     default:
       return state;

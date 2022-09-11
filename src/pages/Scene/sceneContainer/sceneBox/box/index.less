@@ -1,170 +1,180 @@
 .box {
-    // width: 194px;
+  // width: 194px;
+  // height: 42px;
+  // background-color: #303033;
+  // padding: 10px;
+  color: #fff;
+
+  .collapse {
+    border: none;
+    background-color: #303033;
+    width: 220px;
+
+    .show-result {
+      background-color: #27272b;
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 5px 5px 0;
+      .apipost-btn {
+        // margin-left: auto;
+      }
+    }
+
     // height: 42px;
-    // background-color: #303033;
-    // padding: 10px;
-    color: #fff;
+    .collapse-body {
+      border: none !important;
+      background-color: #27272b;
+      width: 100%;
+      padding: 16px !important;
 
-    .collapse {
-        border: none;
-        background-color: #303033;
-        width: 220px;
-
-        // height: 42px;
-        .collapse-body {
-            border: none !important;
-            background-color: #27272B;
-            width: 100%;
-            padding: 16px !important;
-
-            .common-flex {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-top: 10px;
-
-                span {
-                    white-space: nowrap;
-                }
-
-                .apipost-input-inner-wrapper {
-                    // width: 124px;
-                    height: 24px;
-                    margin-left: 4px;
-                }
-            }
-
-            .api-weight {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding-bottom: 8px;
-                border-bottom: 1px solid #39393D;
-
-                span {
-                    white-space: nowrap;
-                }
-
-                .apipost-input-inner-wrapper {
-                    // width: 124px;
-                    height: 24px;
-                    margin-left: 4px;
-                }
-            }
-
-            .apipost-select {
-                border: none;
-                width: 100%;
-                margin-top: 10px;
-                background-color: #27272B;
-            }
-        }
-    }
-
-    svg {
-        width: 16px;
-        height: 16px;
-        fill: #fff;
-    }
-
-    .box-item {
+      .common-flex {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+
+        span {
+          white-space: nowrap;
+        }
+
+        .apipost-input-inner-wrapper {
+          // width: 124px;
+          height: 24px;
+          margin-left: 4px;
+        }
+      }
+
+      .api-weight {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #39393d;
+
+        span {
+          white-space: nowrap;
+        }
+
+        .apipost-input-inner-wrapper {
+          // width: 124px;
+          height: 24px;
+          margin-left: 4px;
+        }
+      }
+
+      .apipost-select {
+        border: none;
         width: 100%;
-        height: 100%;
-        padding: 10px;
+        margin-top: 10px;
+        background-color: #27272b;
+      }
+    }
+  }
 
-        &-left {
-            display: flex;
-            align-items: center;
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+  }
 
-            span {
-                margin-left: 4px;
-            }
+  .box-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
 
-            .default, .success, .failed {
-                margin-left: 4px;
-            }
+    &-left {
+      display: flex;
+      align-items: center;
 
-            .success {
-                fill: #0f0 !important;
-            }
-            
-            .failed {
-                fill: #f00 !important;
-            }
-        }
+      span {
+        margin-left: 4px;
+      }
 
-        &-right {
-            display: flex;
+      .default,
+      .success,
+      .failed {
+        margin-left: 4px;
+      }
 
-            .drop-down {
-                padding: 3px;
+      .success {
+        fill: #0f0 !important;
+      }
 
-                svg {
-                    width: 9px;
-                    height: 9px;
-                }
-            }
-
-            .drop-down:hover {
-                background: rgba(255, 255, 255, 0.08);
-                border-radius: 3px;
-                // transform: matrix(1, 0, 0, -1, 0, 0);
-            }
-
-            .more-svg {
-                margin-left: 15px;
-                cursor: pointer;
-            }
-        }
+      .failed {
+        fill: #f00 !important;
+      }
     }
 
-    .my_handle {
-        width: 10px;
-        height: 10px;
-    }
+    &-right {
+      display: flex;
 
+      .drop-down {
+        padding: 3px;
+
+        svg {
+          width: 9px;
+          height: 9px;
+        }
+      }
+
+      .drop-down:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 3px;
+        // transform: matrix(1, 0, 0, -1, 0, 0);
+      }
+
+      .more-svg {
+        margin-left: 15px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .my_handle {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 .diybox {
+  display: flex;
+
+  .add {
+    width: 40px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: #409eff;
+    color: #fff;
+    font-size: 12px;
+  }
 
-    .add {
-        width: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        background: #409eff;
-        color: #fff;
-        font-size: 12px;
-    }
-
-    .input {
-        flex: 1;
-        min-width: 0;
-        outline: none;
-        border: 1px solid #dcdfe6;
-    }
+  .input {
+    flex: 1;
+    min-width: 0;
+    outline: none;
+    border: 1px solid #dcdfe6;
+  }
 }
 
 .apipost-dropdown {
-    .drop-content {
-        display: flex;
-        flex-direction: column;
-        padding: 0 5px;
+  .drop-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
 
-        p {
-            flex: 1;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-
-        p:hover {
-            color: #fff;
-        }
+    p {
+      flex: 1;
+      margin: 10px 0;
+      cursor: pointer;
     }
 
+    p:hover {
+      color: #fff;
+    }
+  }
 }

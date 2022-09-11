@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Input, Select, Button, Dropdown } from 'adesign-react';
 import { Down } from 'adesign-react/icons';
 import { API_METHODS } from '@constants/methods';
@@ -7,15 +7,18 @@ import useApi from '../../../hooks/useApi';
 import UrlInput from './urlInput';
 import { useSelector } from 'react-redux';
 import Bus from '@utils/eventBus';
+import { useParams } from 'react-router-dom';
 import './index.less';
 
 const Option = Select.Option;
 const ApiURLPanel = (props) => {
     const { data, onChange, tempData, from = 'apis' } = props;
     const { apiSend } = useApi();
+    const { id } = useParams();
     const [btnName, setBtnName] = useState('发送');
     const open_api_now = useSelector((store) => store.opens.open_api_now);
     const open_res = useSelector((store) => store.opens.open_res);
+    console.log('open_ressssssssssssssssssssssssssss', open_res)
 
     const open_scene_res = useSelector((store) => store.scene.run_api_res)
     const open_scene = useSelector((store) => store.scene.open_scene);
@@ -27,6 +30,20 @@ const ApiURLPanel = (props) => {
     const id_now_plan = useSelector((store) => store.plan.id_now);
 
     console.log(open_plan_res, id_now_plan);
+
+    const res_list = {
+        'apis': open_res && open_res[open_api_now],
+        'scene': open_scene_res && open_scene_res[id_now],
+        'plan': open_plan_res && open_plan_res[id_now_plan],
+    };
+
+    const res_now = res_list[from];
+
+    useEffect(() => {
+        if (res_now && res_now.status === 'finish') {
+            setBtnName('发送');
+        }
+    }, [res_now]);
 
     const {
         nodes: nodes_scene,
@@ -101,13 +118,16 @@ const ApiURLPanel = (props) => {
                     size="middle"
                     onClick={() => {
                         // apiSend(data);
+                        setBtnName('发送中...');
                         if (from === 'scene') {
-                            Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene, () => {
-                                Bus.$emit('sendSceneApi', open_scene.scene_id, id_now, open_scene_res || {}, 'scene');
+                            Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene_scene, () => {
+                                Bus.$emit('sendSceneApi', open_scene_scene.scene_id, id_now, open_scene_res || {}, 'scene');
                             });
                         } else if (from === 'plan') {
                             console.log('()()()', open_plan_scene, id_now_plan, open_plan_res);
-                            Bus.$emit('sendSceneApi', open_plan_scene.scene_id, id_now_plan, open_plan_res || {}, 'plan');
+                            Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_plan_scene, id, () => {
+                                Bus.$emit('sendSceneApi', open_plan_scene.scene_id, id_now_plan, open_plan_res || {}, 'plan');
+                            });
                         } else {
                             Bus.$emit('saveTargetById', {
                                 id: open_api_now,
