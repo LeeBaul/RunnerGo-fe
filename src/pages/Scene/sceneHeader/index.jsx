@@ -28,6 +28,7 @@ const SceneHeader = (props) => {
         node_config: node_config_scene,
         open_scene: open_scene_scene,
         init_scene: init_scene_scene,
+        to_loading: to_loading_scene,
     } = useSelector((store) => store.scene);
     const {
         nodes: nodes_plan,
@@ -36,6 +37,7 @@ const SceneHeader = (props) => {
         node_config: node_config_plan,
         open_plan_scene: open_scene_plan,
         init_scene: init_scene_plan,
+        to_loading: to_loading_plan,
     } = useSelector((store) => store.plan);
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
@@ -44,30 +46,56 @@ const SceneHeader = (props) => {
     const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
 
+    const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
+
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     console.log(nodes, edges, id_apis, node_config);
 
     const runScene = () => {
         const { scene_id } = open_scene;
-        console.log(scene_id);
+        console.log(scene_id, from);
         if (from === 'scene') {
             dispatch({
-                type: 'scene/updateInitScene',
-                payload: !init_scene,
-            });
+                type: 'scene/updateToLoading',
+                payload: false,
+            })
+            // dispatch({
+            //     type: 'scene/updateInitScene',
+            //     payload: false,
+            // });
+            // dispatch({
+            //     type: 'scene/updateInitScene',
+            //     payload: true,
+            // });
             dispatch({
                 type: 'scene/updateRunRes',
                 payload: [],
             })
+            setTimeout(() => {
+                dispatch({
+                    type: 'scene/updateToLoading',
+                    payload: true,
+                })
+            }, 200)
         } else {
             dispatch({
-                type: 'plan/updateInitScene',
-                payload: !init_scene
+                type: 'plan/updateToLoading',
+                payload: false,
             })
+            // dispatch({
+            //     type: 'plan/updateInitScene',
+            //     payload: true
+            // })
             dispatch({
                 type: 'plan/updateRunRes',
                 payload: []
             })
+            setTimeout(() => {
+                dispatch({
+                    type: 'plan/updateToLoading',
+                    payload: true,
+                })
+            }, 200);
         }
         Bus.$emit('runScene', scene_id, open_scene.nodes.length, from);
         console.log(nodes, edges);

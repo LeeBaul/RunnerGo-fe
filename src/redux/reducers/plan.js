@@ -30,6 +30,7 @@ const initialState = {
   task_config: {}, // 任务配置
 
   init_scene: false,
+  to_loading: false,
 };
 
 // action名称
@@ -59,6 +60,7 @@ const actionTypes = {
   updateTaskConfig: 'updateTaskConfig',
 
   updateInitScene: 'updateInitScene',
+  updateToLoading: 'updateToLoading',
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -175,6 +177,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         init_scene: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateToLoading}`:
+      return {
+        ...state,
+        to_loading: action.payload,
       }
     default:
       return state;

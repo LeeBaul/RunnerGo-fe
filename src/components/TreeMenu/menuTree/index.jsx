@@ -199,7 +199,7 @@ const MenuTrees = (props, treeRef) => {
                             <MenuStatus value={nodeItem} markObj={markObj}></MenuStatus>
                         )} */}
                         {nodeItem?.is_example > 0 && <Example value={nodeItem}></Example>}
-                        <Button
+                        {/* <Button
                             className="btn-more"
                             size="mini"
                             onClick={(e) => {
@@ -213,7 +213,7 @@ const MenuTrees = (props, treeRef) => {
                             }}
                         >
                             <SvgMore width="12px" height="12px" />
-                        </Button>
+                        </Button> */}
                     </div>
                 </DragNode>
             </MenuTreeNode>

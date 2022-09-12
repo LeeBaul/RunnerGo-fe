@@ -31,6 +31,8 @@ const initialState = {
   failed_edge: [], // 运行失败的线
 
   init_scene: false, // 初始化点和线的状态
+
+  to_loading: false, // 所有节点进入loading状态
 };
 
 // action名称
@@ -60,6 +62,7 @@ const actionTypes = {
   updateFailedEdge: 'updateFailedEdge',
 
   updateInitScene: 'updateInitScene',
+  updateToLoading: 'updateToLoading',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -189,6 +192,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         init_scene: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateToLoading}`:
+      return {
+        ...state,
+        to_loading: action.payload,
       }
     default:
       return state;

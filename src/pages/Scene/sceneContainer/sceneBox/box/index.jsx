@@ -65,6 +65,7 @@ const Box = (props) => {
 
         edges: edges_scene,
         init_scene: init_scene_scene,
+        to_loading: to_loading_scene,
     } = useSelector((store) => store.scene);
 
     const {
@@ -75,6 +76,7 @@ const Box = (props) => {
         run_res: run_res_plan,
         edges: edges_plan,
         init_scene: init_scene_plan,
+        to_loading: to_loading_plan,
     } = useSelector((store) => store.plan);
 
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
@@ -85,6 +87,10 @@ const Box = (props) => {
 
     const edges = from === 'scene' ? edges_scene : edges_plan;
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
+    const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
+
+    console.log(to_loading, 111111111111111111111111);
+
 
     console.log('run_res', run_res_scene, run_res);
     const [showApi, setShowApi] = useState(true);
@@ -124,7 +130,7 @@ const Box = (props) => {
     }, [node_config]);
 
     useEffect(() => {
-        setStatus('default');
+        setStatus('status');
     }, [init_scene]);
 
     useEffect(() => {
@@ -139,6 +145,14 @@ const Box = (props) => {
             }
         }
     }, [run_res]);
+
+    useEffect(() => {
+        console.log(to_loading, 111111111111111111111111);
+        if (to_loading) {
+            setStatus('running');
+            console.log('runninggggggg', status);
+        }
+    }, [to_loading])
 
     const DropContent = () => {
         return (
@@ -194,6 +208,7 @@ const Box = (props) => {
         'default': '',
         'success': '#11811C',
         'failed': '#892020',
+        'running': '',
     }
 
     const topStatus = {

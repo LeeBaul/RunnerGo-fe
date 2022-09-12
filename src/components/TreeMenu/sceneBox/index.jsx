@@ -10,7 +10,7 @@ const SceneBox = (props) => {
     const [showCreateScene, setCreateScene] = useState(false);
 
     return (
-        <div className='scene-box'>
+        <div className='scene-box' style={{ justifyContent: from === 'plan' ? 'center' : 'flex-start' }}>
             <div className='scene-box-item' onClick={() => setCreateGroup(true)}>
                 <SvgApis width="18" height="18" />
                 <p>{from !== 'plan' ? '新建' : ''}分组</p>

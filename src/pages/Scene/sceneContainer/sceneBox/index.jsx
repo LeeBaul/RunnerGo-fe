@@ -51,6 +51,7 @@ const SceneBox = (props) => {
     const failed_edge_scene = useSelector((store) => store.scene.failed_edge);
     const init_scene_scene = useSelector((store) => store.scene.init_scene);
     const run_res_scene = useSelector((store) => store.scene.run_res);
+    const to_loading_scene = useSelector((store) => store.scene.to_loading);
 
     const type_now_plan = useSelector((store) => store.plan.type);
     const id_apis_plan = useSelector((store) => store.plan.id_apis);
@@ -62,6 +63,7 @@ const SceneBox = (props) => {
     const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
     const init_scene_plan = useSelector((store) => store.plan.init_scene);
     const run_res_plan = useSelector((store) => store.plan.run_res);
+    const to_loading_plan = useSelector((store) => store.plan.to_loading);
 
     const open_scene = useSelector((store) => store.scene.open_scene);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
@@ -82,6 +84,7 @@ const SceneBox = (props) => {
 
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
+    const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -378,7 +381,7 @@ const SceneBox = (props) => {
 
             setEdges(_edges);
         }
-    }, [init_scene]);
+    }, [to_loading]);
 
 
     return (
