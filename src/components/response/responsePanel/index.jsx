@@ -16,6 +16,7 @@ import { responseTabs, ResponseErrorWrapper, ResponseSendWrapper } from './style
 import DiyExample from './diyExample';
 import ResAssert from './assert';
 import ResRegex from './regex';
+import Bus from '@utils/eventBus';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -225,11 +226,12 @@ const ResPonsePanel = (props) => {
             <Button
               type="primary"
               onClick={() => {
-                dispatch({
-                  type: 'opens/updateTempApisById',
-                  id: data?.target_id,
-                  payload: { sendStatus: 'initial' },
-                });
+                Bus.$emit('stopSend');
+                // dispatch({
+                //   type: 'opens/updateTempApisById',
+                //   id: data?.target_id,
+                //   payload: { sendStatus: 'initial' },
+                // });
               }}
             >
               取消发送

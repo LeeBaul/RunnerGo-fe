@@ -14,7 +14,7 @@ import { global$ } from '@hooks/useGlobal/global';
 const { Collapse, CollapseItem } = CollapseComponent;
 
 const TeamList = (props) => {
-  const { filterValue, currentTeamId, handleSwitchProject } = props;
+  const { filterValue, currentTeamId, handleSwitchProject, dropRef } = props;
 
   const [teamList, setTeamList] = useState([]);
   const [projectList, setProjectList] = useState([]);
@@ -34,7 +34,7 @@ const TeamList = (props) => {
     (team) =>
       filterValue === '' ||
       `${team.name}`.toLowerCase().indexOf(`${filterValue}`.toLowerCase()) !== -1
-      //  || filterdProjectList.map((d) => d.team_id).includes(team.team_id)
+    //  || filterdProjectList.map((d) => d.team_id).includes(team.team_id)
   );
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const TeamList = (props) => {
           if (code === 0) {
             const { teams } = data;
             // console.log(teams, 6666666666);
-          
+
             if (isArray(teams)) {
               setTeamList(teams);
               const teamData = {};
@@ -86,6 +86,8 @@ const TeamList = (props) => {
         const { code } = res;
         if (code === 0) {
           console.log(123123);
+          dropRef?.current?.setPopupVisible(false)
+          localStorage.setItem('team_id', team_id);
           global$.next({
             action: 'INIT_APPLICATION',
           });

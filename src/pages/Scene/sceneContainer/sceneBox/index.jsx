@@ -107,9 +107,9 @@ const SceneBox = (props) => {
             console.log(id_apis, ']]]]]]]]]')
 
             if (from === 'scene') {
-                Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config);
+                Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config, { id }, { id }, from);
             } else {
-                Bus.$emit('addNewPlanApi', new_node.id, id_apis, node_config);
+                Bus.$emit('addNewPlanApi', new_node.id, id_apis, node_config, { id }, { id }, from);
             }
             console.log('new_node', new_node);
             setNodes((nds) => nds.concat(new_node));
@@ -332,7 +332,7 @@ const SceneBox = (props) => {
 
     useEffect(() => {
         console.log('success_edge', success_edge, edges);
-        if (success_edge.length > 0) {
+        if (success_edge.length > 0 && edges.length > 0) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {
                 if (success_edge.includes(item.id)) {
@@ -350,7 +350,7 @@ const SceneBox = (props) => {
     }, [success_edge]);
 
     useEffect(() => {
-        if (failed_edge.length > 0) {
+        if (failed_edge.length > 0 && edges.length > 0) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {
                 if (failed_edge.includes(item.id)) {

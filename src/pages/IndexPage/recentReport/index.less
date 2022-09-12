@@ -1,45 +1,72 @@
 .recent-report {
-    background-color: #222226;
-    width: 100%;
-    height: 767px;
-    padding: 12px 12px 32px 8px;
-    margin-top: 2px;
-    .title {
-        font-size: 14px;
-        color: #fff;
-        font-weight: 600;
+  background-color: #222226;
+  width: 100%;
+  height: 767px;
+  padding: 12px 12px 32px 8px;
+  margin-top: 2px;
+  .title {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+  }
+  .report-search {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    margin-left: 4px;
+    .textBox {
+      width: 216px;
+      height: 30px;
+      background-color: #1a1a1d;
+      border: 1px solid #39393d;
+      border-radius: 5px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+      }
     }
-    .report-table {
-        width: 95%;
-        min-height: 500px;
-        margin: 40px auto;
-        position: relative;
-        .empty {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #fff;
-        }
-        .apipost-table-th {
-            background-color: #27272B;
-        }
-        .apipost-table-td {
-            color: #fff;
-            height: 30px;
-        }
-        .handle-content {
-            display: flex;
-            svg {
-                flex: 1;
-                width: 16px;
-                height: 16px;
-                fill: #fff;
-                cursor: pointer;
-            }
-            .delete {
-                fill: #f00;
-            }
-        }
+    .searchBtn {
+      height: 25px;
+      background-color: #3a86ff;
+      border-radius: 3px;
+      padding: 12px 8px;
+      color: #fff;
+      margin-left: 20px;
     }
+  }
+  .report-table {
+    width: 95%;
+    min-height: 500px;
+    margin: 15px auto;
+    position: relative;
+    .empty {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+    }
+    .apipost-table-th {
+      background-color: #27272b;
+    }
+    .apipost-table-td {
+      color: #fff;
+      height: 30px;
+    }
+    .handle-content {
+      display: flex;
+      svg {
+        flex: 1;
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        cursor: pointer;
+      }
+      .delete {
+        fill: #f00;
+      }
+    }
+  }
 }

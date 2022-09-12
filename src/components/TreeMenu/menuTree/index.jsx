@@ -51,6 +51,11 @@ const MenuTrees = (props, treeRef) => {
     const id_apis_plan = useSelector((d) => d.plan.id_apis);
     const node_config_scene = useSelector((d) => d.scene.node_config);
     const node_config_plan = useSelector((d) => d.plan.node_config);
+    const open_scene_scene = useSelector((d) => d.scene.open_scene);
+    const open_plan_scene = useSelector((d) => d.plan.open_plan_scene);
+
+    const open_scene = type === 'scene' ? open_scene_scene : open_plan_scene;
+    console.log(open_scene);
 
     const planData = useSelector((d) => d.plan.planMenu);
     const treeDataList = {
@@ -203,7 +208,7 @@ const MenuTrees = (props, treeRef) => {
                                 handleShowContextMenu(
                                     { ...props, project_id: CURRENT_PROJECT_ID },
                                     e,
-                                    nodeItem.data
+                                    nodeItem.data,
                                 );
                             }}
                         >
@@ -260,6 +265,8 @@ const MenuTrees = (props, treeRef) => {
                 onRightClick={handleShowContextMenu.bind(null, {
                     ...props,
                     project_id: CURRENT_PROJECT_ID,
+                    open_scene,
+                    from: type
                 })}
                 defaultExpandKeys={defaultExpandKeys}
                 onExpandKeysChange={handleExpandsChange}

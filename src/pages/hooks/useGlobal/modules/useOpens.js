@@ -36,6 +36,9 @@ import { CONFILCTURL } from '@constants/confilct';
 import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, fetchSendApi, fetchGetResult } from '@services/apis';
 import { getBaseCollection } from '@constants/baseCollection';
 
+// 发送api时轮询的参数
+const send_api_t = null;
+
 // 新建接口
 const useOpens = () => {
     const dispatch = useDispatch();
@@ -943,12 +946,12 @@ const useOpens = () => {
                     ret_id,
                 };
 
-                let t = setInterval(() => {
+                send_api_t = setInterval(() => {
                     fetchGetResult(query).subscribe({
                         next: (res) => {
                             const { data } = res;
                             if (data) {
-                                clearInterval(t);
+                                clearInterval(send_api_t);
                                 const _open_res = cloneDeep(open_res);
                                 _open_res[id] = {
                                     ...data,
@@ -966,6 +969,10 @@ const useOpens = () => {
             })
         )
             .subscribe()
+    };
+
+    const stopSend = () => {
+        clearInterval(send_api_t);
     }
 
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id
@@ -1018,6 +1025,8 @@ const useOpens = () => {
     useEventBus('dragUpdateTarget', dragUpdateTarget);
 
     useEventBus('sendApi', sendApi);
+
+    useEventBus('stopSend', stopSend);
 
     // 初始化tabs
     useEffect(() => {

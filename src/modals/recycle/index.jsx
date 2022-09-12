@@ -24,19 +24,19 @@ const Recycle = (props) => {
   const getDeleteFolder = async () => {
     const query = {
       page: 1,
-      size: 10,
+      size: 100,
       team_id: localStorage.getItem('team_id'),
     };
     fetchRecycleList(query)
-    .pipe(
-      tap((res) => {
-        const { code, data: { targets } } = res;
-        if (code === 0) {
-          setDataList(targets);
-        }
-      })
-    )
-    .subscribe();
+      .pipe(
+        tap((res) => {
+          const { code, data: { targets } } = res;
+          if (code === 0) {
+            setDataList(targets);
+          }
+        })
+      )
+      .subscribe();
     // const allData = await Collection.where('project_id').anyOf(project_id).toArray();
     // let delData = allData.filter((item) => item.status === -1);
     // delData = delData.sort((a, b) => Number(b.update_dtime) - Number(a.update_dtime));
@@ -64,7 +64,7 @@ const Recycle = (props) => {
         fetchRecallApi({
           target_id,
         }).subscribe({
-          next(resp) {
+          next (resp) {
             if (resp?.code === 0) {
               Message('success', '恢复成功');
               global$.next({
@@ -72,7 +72,7 @@ const Recycle = (props) => {
               });
             }
           },
-          error() {
+          error () {
             // pushTask({
             //   task_id: `${project_id}/${target_id}`,
             //   action: 'FOREVER',
@@ -96,12 +96,12 @@ const Recycle = (props) => {
         fetchStrongDeleteApi({
           target_id
         }).subscribe({
-          next(resp) {
+          next (resp) {
             if (resp?.code === 0) {
               Message('success', '删除成功');
             }
           },
-          error() {
+          error () {
             // pushTask({
             //   task_id: `${project_id}/${target_id}`,
             //   action: 'FOREVER',

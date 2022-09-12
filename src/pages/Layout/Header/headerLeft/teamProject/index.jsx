@@ -2,10 +2,10 @@ import React, { useRef, useState, useMemo } from 'react';
 import { Button, Input, Dropdown } from 'adesign-react';
 import { useSelector } from 'react-redux';
 import {
-  Team as SvgTeam,
-  Down as SvgDown,
-  StartUpTeam as SvgStartupteam,
-  Search as SvgSearch,
+    Team as SvgTeam,
+    Down as SvgDown,
+    StartUpTeam as SvgStartupteam,
+    Search as SvgSearch,
 } from 'adesign-react/icons';
 import { FE_BASEURL } from '@config/client';
 import { global$ } from '@hooks/useGlobal/global';
@@ -24,7 +24,7 @@ const TeamProject = () => {
     const currentTeamName = useMemo(() => {
         // let teamName = '离线团队';
         let team_id = localStorage.getItem('team_id');
-        let teamName = userTeams[team_id] ?  userTeams[team_id].name : '离线团队';
+        let teamName = userTeams[team_id] ? userTeams[team_id].name : '离线团队';
         // if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
         //     teamName = userTeams?.[currentTeamId]?.name;
         // }
@@ -51,6 +51,7 @@ const TeamProject = () => {
         <TeamProjectPanel>
             <SvgTeam />
             <Dropdown
+                ref={refDropdown}
                 content={
                     <DropdownContainer>
                         <div className="header">
@@ -73,6 +74,7 @@ const TeamProject = () => {
                         />
                         <TeamProjectWrapper>
                             <TeamList
+                                dropRef={refDropdown}
                                 filterValue={filterValue}
                                 currentTeamId={currentTeamId}
                                 handleSwitchProject={handleSwitchProject}
@@ -84,7 +86,7 @@ const TeamProject = () => {
                 <Button
                     afterFix={<SvgDown width="16" height="16" className="afterfix" />}
                 >
-                    { currentTeamName }
+                    {currentTeamName}
                 </Button>
             </Dropdown>
         </TeamProjectPanel>

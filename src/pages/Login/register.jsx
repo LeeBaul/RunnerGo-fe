@@ -154,8 +154,8 @@ const RegisterBox = (props) => {
                     // console.log(resp);
                     const { data: { token, expire_time_sec }, code } = resp;
                     if (code === 0) {
-                        localStorage.setItem('token', token);
-                        localStorage.setItem('expire_time_sec', expire_time_sec * 1000);
+                        // localStorage.setItem('token', token);
+                        // localStorage.setItem('expire_time_sec', expire_time_sec * 1000);
                         Message('success', '注册成功!');
                         navigate('/login');
 

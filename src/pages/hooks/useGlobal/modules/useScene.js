@@ -19,7 +19,8 @@ const useScene = () => {
     // const edges = useSelector((store) => store.scene.edges);
     const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
     const { id_apis, api_now, open_scene } = useSelector((store) => store.scene);
-    // console.log(id_apis);
+    // const scene = useScene((store) => store.scene);
+    console.log(open_scene);
     const createApiNode = () => {
         const new_node = {
             id: `${nodes.length + 1}`,
@@ -220,13 +221,14 @@ const useScene = () => {
         for (let i = 0; i < _api.length; i++) {
             let newApi = cloneDeep(_api[i]);
 
-            // console.log('newApi', api, newApi, Object.entries(_api[i]));
+            console.log('newApi', newApi, newApi.id);
 
-            if (Object.entries(_api[i]).length === 0) {
+            if (Object.entries(_api[i]).length < 2) {
                 newApi = getBaseCollection('api');
                 newApi.method = 'POST';
                 newApi.request.body.mode = 'none';
                 newApi.is_changed = false;
+                newApi.id = _api[i].id;
 
                 delete newApi['target_id'];
                 delete newApi['parent_id'];
@@ -463,6 +465,10 @@ const useScene = () => {
 
     const addOpenScene = (id, id_apis, node_config) => {
         console.log('addOpenScene', id);
+        dispatch({
+            type: 'scene/updateOpenScene',
+            payload: null,
+        })
         const { target_id } = id;
         const query = {
             team_id: localStorage.getItem('team_id'),
@@ -531,12 +537,27 @@ const useScene = () => {
         })
     }
 
-    const deleteScene = (id, callback) => {
+    const deleteScene = (id, open_scene, from, callback) => {
+        console.log(open_scene, id);
         const params = {
             target_id: parseInt(id),
         };
         fetchDeleteApi(params).subscribe({
             next: (res) => {
+                if (res.code === 0 || parseInt(open_scene || open_scene.scene_id || open_scene.target_id) === parseInt(id)) {
+                    console.log('-------------');
+                    if (from === 'scene') {
+                        dispatch({
+                            type: 'scene/updateOpenScene',
+                            payload: null,
+                        })
+                    } else {
+                        dispatch({
+                            type: 'plan/updateOpenScene',
+                            payload: null,
+                        })
+                    }
+                }
                 global$.next({
                     action: 'RELOAD_LOCAL_SCENE',
                 });

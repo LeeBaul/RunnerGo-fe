@@ -125,7 +125,7 @@ const ProjectMember = (props) => {
     return (
         <div>
             {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
-            <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} onCancel={onCancel} >
+            <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} onCancel={onCancel} onOk={onCancel} >
                 <Table columns={columns} data={data} />
                 {/* <div className='title'>
                     <p>成员</p>

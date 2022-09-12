@@ -110,15 +110,24 @@ export const deleteMultiData = async (target_id) => {
     fetchDeleteApi({
         target_id: parseInt(target_id)
     }).subscribe({
-        next(resp) {
+        next (resp) {
             const { code } = resp;
             if (code === 0) {
                 Message('success', '删除成功!');
+                // todo
+                global$.next({
+                    action: 'RELOAD_LOCAL_COLLECTIONS',
+                    payload: {
+                        page: 1,
+                        size: 100,
+                        team_id: localStorage.getItem('team_id')
+                    },
+                });
             } else {
                 Message('error', '删除失败!');
             }
         },
-        error(err) {
+        error (err) {
             pushTask({
                 task_id: targetIds.toString(),
                 action: 'DELETE',
@@ -128,18 +137,6 @@ export const deleteMultiData = async (target_id) => {
             });
         },
     });
-
-    // todo
-    setTimeout(() => {
-        global$.next({
-            action: 'RELOAD_LOCAL_COLLECTIONS',
-            payload: {
-                page: 1,
-                size: 20,
-                team_id: localStorage.getItem('team_id')
-            },
-        });
-    }, 100)
 };
 
 export default {

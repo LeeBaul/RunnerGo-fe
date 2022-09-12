@@ -13,6 +13,7 @@ const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
     const open_scene = useSelector((store) => store.scene.open_scene);
+    console.log(open_scene);
 
     return (
         <ScalePanel
@@ -26,8 +27,8 @@ const Scene = () => {
             <ScaleItem className="right-apis" enableScale={false}>
                 {
                     open_scene ? <>
-                        <SceneHeader from='scene'/>
-                        <SceneContainer from = 'scene' />
+                        <SceneHeader from='scene' />
+                        <SceneContainer from='scene' />
                     </> : <p className='empty'>没有数据</p>
                 }
             </ScaleItem>

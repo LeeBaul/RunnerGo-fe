@@ -171,11 +171,12 @@ const usePlan = () => {
 
             // console.log('newApi', api, newApi, Object.entries(_api[i]));
 
-            if (Object.entries(_api[i]).length === 0) {
+            if (Object.entries(_api[i]).length < 2) {
                 newApi = getBaseCollection('api');
                 newApi.method = 'POST';
                 newApi.request.body.mode = 'none';
                 newApi.is_changed = false;
+                newApi.id = _api[i].id;
 
                 delete newApi['target_id'];
                 delete newApi['parent_id'];
