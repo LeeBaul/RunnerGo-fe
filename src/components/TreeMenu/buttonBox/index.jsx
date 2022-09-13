@@ -66,7 +66,7 @@ const ButtonBox = (props) => {
                                 <div className={DropWrapper}>
                                     <div
                                         className="drop-item"
-                                        // onClick={() => setImport(true)}
+                                        onClick={() => setImport(true)}
                                     >
                                         <SvgNewApis width="18px" height="18px" />
                                         <span>导入接口</span>

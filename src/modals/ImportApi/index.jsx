@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Modal, Button, Collapse as Col, Input, Tree, CheckBox } from 'adesign-react';
-import { Search as SvgSearch } from 'adesign-react/icons';
+import {
+    Search as SvgSearch,
+    Apis as SvgApis,
+    Folder as SvgFolder,
+    WS as SvgWebSocket,
+    Doc as SvgDoc,
+} from 'adesign-react/icons';
 import './index.less';
+import { isUndefined } from 'lodash';
 
 const { CollapseItem, Collapse } = Col;
 
+const NodeType = {
+    api: SvgApis,
+    doc: SvgDoc,
+    websocket: SvgWebSocket,
+    folder: SvgFolder,
+};
+
 const ImportApi = (props) => {
     const { onCancel } = props;
+    const refTree = useRef(null);
 
     const dataList = [
         { id: '0001', parent: '0', title: '用户信息管理' },
@@ -44,6 +59,56 @@ const ImportApi = (props) => {
         setNewList(Object.values(newDatas));
     };
 
+    const renderIcon = (icon) => {
+        const NodeIcon = NodeType?.[icon];
+        if (isUndefined(NodeIcon)) {
+            return '';
+        }
+        return <NodeIcon width={12} style={{ marginLeft: 5 }} />;
+    };
+
+    const renderPrefix = (treeNode) => {
+        if (treeNode.target_type !== 'api') {
+            return null;
+        }
+        return <span style={{ marginLeft: 5 }}>{treeNode.method}</span>;
+    };
+
+    const handleNodeClick = (itemNode) => {
+        if (refTree.current === null) {
+            return;
+        }
+        if (checkedApiKeys.includes(itemNode.target_id)) {
+            refTree.current?.handleCheckNode({ key: itemNode.target_id, checked: 'uncheck' });
+        } else {
+            refTree.current?.handleCheckNode({ key: itemNode.target_id, checked: 'checked' });
+        }
+    };
+
+    const renderTreeNode = (nodeItem, { indent, nodeTitle, checkbox }) => {
+        return (
+            <div className='tree-node-inner'>
+                {indent}
+                {renderIcon(nodeItem.target_type)}
+                {renderPrefix(nodeItem)}
+                {nodeTitle}
+                {checkbox}
+            </div>
+        )
+    }
+
+    const renderRightTree = (nodeItem, { indent, nodeTitle, checkbox }) => {
+        return (
+            <div className='tree-node-inner'>
+                {indent}
+                {renderIcon(nodeItem.target_type)}
+                {renderPrefix(nodeItem)}
+                {nodeTitle}
+                <Button>x</Button>
+            </div>
+        )
+    }
+
     const handleCheckAll = (val) => {
         // if (val === 'checked') {
         //   const checkKeys = isObject(apiDatas) ? Object.keys(apiDatas) : [];
@@ -53,7 +118,32 @@ const ImportApi = (props) => {
         //   setCheckedApiKeys([]);
         // }
         setCheckAll(val);
-      };
+    };
+
+    const treeList = [
+        {
+            target_id: 1,
+            name: '新建接口1',
+            parent_id: 0,
+            target_type: 'api',
+            method: 'POST',
+        },
+        {
+            target_id: 2,
+            name: '新建接口2',
+            parent_id: 3,
+            target_type: 'api',
+            method: 'GET',
+        },
+        {
+            target_id: 3,
+            name: '新建分组',
+            parent_id: 0,
+            target_type: 'folder',
+            method: 'POST',
+        }
+    ]
+
 
     return (
         <Modal title={null} visible={true} onCancel={() => onCancel()}>
@@ -64,7 +154,7 @@ const ImportApi = (props) => {
                     </div>
                     <div className='import-left-container'>
                         <Collapse defaultActiveKey="a1">
-                            <CollapseItem name="a1" header="这是一个折叠标题">
+                            <CollapseItem name="a1" header="liuzhichun的团队">
                                 <Input placeholder="搜索项目/目录/接口名称" beforeFix={<SvgSearch width="16px" height="16px" />} />
                                 <Collapse defaultActiveKey="a11">
                                     <CollapseItem name="a11" header="新闻列表项目">
@@ -80,16 +170,24 @@ const ImportApi = (props) => {
                                         </div>
                                         <Tree
                                             showLine
+                                            ref={refTree}
                                             showIcon={false}
                                             checkedKeys={checkedList}
                                             onCheck={setCheckedList}
+                                            onNodeClick={handleNodeClick}
+                                            onCheckAll={(val) => {
+                                                setCheckAll(val)
+                                            }}
+                                            // enableVirtualList
+                                            render={renderTreeNode}
                                             enableCheck
                                             fieldNames={{
-                                                key: 'id',
-                                                title: 'title',
-                                                parent: 'parent',
+                                                key: 'target_id',
+                                                title: 'name',
+                                                parent: 'parent_id',
                                             }}
-                                            dataList={newList}
+                                            dataList={treeList}
+                                            ootFilter={(item) => item.parent_id === 0}
                                         />
                                     </CollapseItem>
                                 </Collapse>
@@ -109,7 +207,32 @@ const ImportApi = (props) => {
                         <p>鲲鹏测试: 鲲鹏团队一</p>
                         {/* <Button>x</Button> */}
                     </div>
-                    <div className='import-right-container'></div>
+                    <div className='import-right-container'>
+                        <div className='import-team'>
+                            <p className='title'>Cici的私有团队：</p>
+                            <Tree
+                                showLine
+                                ref={refTree}
+                                showIcon={false}
+                                checkedKeys={checkedList}
+                                onCheck={setCheckedList}
+                                onNodeClick={handleNodeClick}
+                                onCheckAll={(val) => {
+                                    setCheckAll(val)
+                                }}
+                                // enableVirtualList
+                                render={renderRightTree}
+                                enableCheck
+                                fieldNames={{
+                                    key: 'target_id',
+                                    title: 'name',
+                                    parent: 'parent_id',
+                                }}
+                                dataList={treeList}
+                                ootFilter={(item) => item.parent_id === 0}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </Modal>
