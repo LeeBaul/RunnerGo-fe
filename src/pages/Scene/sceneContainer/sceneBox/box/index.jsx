@@ -14,7 +14,7 @@ import {
     Dropdown,
 } from 'adesign-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Handle } from 'react-flow-renderer';
+import { Handle, MarkerType } from 'react-flow-renderer';
 import { cloneDeep } from 'lodash';
 import Bus from '@utils/eventBus';
 import SvgSuccess from '@assets/logo/success';
@@ -52,7 +52,7 @@ const nodeLeftTopStyle = {
 
 const Box = (props) => {
     const { data: { showOne, id, from } } = props;
-    console.log('Box id', id);
+    // console.log('Box id', id);
     const dispatch = useDispatch();
     const refInput = useRef(null);
     const refDropdown = useRef(null);
@@ -66,6 +66,9 @@ const Box = (props) => {
         edges: edges_scene,
         init_scene: init_scene_scene,
         to_loading: to_loading_scene,
+        success_edge: success_edge_scene,
+        failed_edge: failed_edge_scene,
+        running_scene: running_scene_scene,
     } = useSelector((store) => store.scene);
 
     const {
@@ -77,6 +80,9 @@ const Box = (props) => {
         edges: edges_plan,
         init_scene: init_scene_plan,
         to_loading: to_loading_plan,
+        success_edge: success_edge_plan,
+        failed_edge: failed_edge_plan,
+        running_scene: running_scene_plan,
     } = useSelector((store) => store.plan);
 
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
@@ -88,11 +94,15 @@ const Box = (props) => {
     const edges = from === 'scene' ? edges_scene : edges_plan;
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
     const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
+    const success_edge = from == 'scene' ? success_edge_scene : success_edge_plan;
+    const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
 
-    console.log(to_loading, 111111111111111111111111);
+    const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
+
+    // console.log(to_loading, 111111111111111111111111);
 
 
-    console.log('run_res', run_res_scene, run_res);
+    // console.log('run_res', run_res_scene, run_res);
     const [showApi, setShowApi] = useState(true);
     const [showMode, setShowMode] = useState(false);
     const [showModeTime, setShowModeTime] = useState(false);
@@ -134,9 +144,10 @@ const Box = (props) => {
     }, [init_scene]);
 
     useEffect(() => {
+        console.log('run_ressssssssss', run_res);
         if (run_res) {
             const now_res = run_res.filter(item => item.event_id === id)[0];
-            console.log(run_res, now_res, id);
+            // console.log(run_res, now_res, id);
             if (now_res) {
                 const { status } = now_res;
                 setStatus(status);
@@ -147,10 +158,13 @@ const Box = (props) => {
     }, [run_res]);
 
     useEffect(() => {
-        console.log(to_loading, 111111111111111111111111);
-        if (to_loading) {
-            setStatus('running');
-            console.log('runninggggggg', status);
+        // console.log(to_loading, 111111111111111111111111);
+        console.log(open_scene);
+        if (open_scene) {
+            if (to_loading && (open_scene || open_scene.scene_id)) {
+                setStatus('running');
+                // console.log('runninggggggg', status);
+            }
         }
     }, [to_loading])
 
@@ -165,28 +179,30 @@ const Box = (props) => {
                     const _open_scene = cloneDeep(open_scene);
                     const index = _open_scene.nodes.findIndex(item => item.id === id);
                     _open_scene.nodes.splice(index, 1);
-                    const edges = [];
+                    const edges_index = [];
                     _open_scene.edges.forEach((item, index) => {
                         if (item.source !== id && item.target !== id) {
-                            edges.push(index);
+                            edges_index.push(index);
                         }
                     });
-                    _open_scene.edges = edges;
+                    _open_scene.edges = _open_scene.edges.filter((item, index) => !edges_index.includes(index));
+                    // _open_scene.edges = edges;
+                    // console.log(_open_scene);
 
                     if (from === 'scene') {
-                        dispatch({
-                            type: 'scene/updateDeleteNode',
-                            payload: id,
-                        });
+                        // dispatch({
+                        //     type: 'scene/updateDeleteNode',
+                        //     payload: id,
+                        // });
                         dispatch({
                             type: 'scene/updateOpenScene',
                             payload: _open_scene,
                         })
                     } else {
-                        dispatch({
-                            type: 'plan/updateDeleteNode',
-                            payload: id,
-                        });
+                        // dispatch({
+                        //     type: 'plan/updateDeleteNode',
+                        //     payload: id,
+                        // });
                         dispatch({
                             type: 'plan/updateOpenScene',
                             payload: _open_scene,
@@ -226,54 +242,120 @@ const Box = (props) => {
     // 6. 如果当前节点状态是failed, 将此节点和所有next_list中的节点有关联的线变成红色
 
     const update = (edges, status) => {
-        console.log('edges', edges, status);
+        // console.log('edges', edges, status);
+        // const _open_scene = cloneDeep(open_scene);
+        // console.log(_open_scene, 'open_scenessss');
+        let temp = false;
+        // const { edges } = open_scene;
         if (status === 'success') {
             // 以当前节点为顶点的线id
-            const successEdge = [];
+            // const successEdge = [];
             // const Node = [];
 
             edges.forEach(item => {
-                if (item.source === id) {
-                    successEdge.push(item.id);
+                if (item.source === id && !success_edge.includes(item.id)) {
+                    success_edge.push(item.id);
+                    temp = true;
+                    // item.style = {
+                    //     stroke: '#2BA58F',
+                    // };
+                    // item.markerEnd = {
+                    //     type: MarkerType.ArrowClosed,
+                    // };
                 }
             })
+            // console.log(_open_scene);
 
-            console.log('successEdge', successEdge);
-
-            if (successEdge.length > 0) {
+            // console.log('successEdge', success_edge, from);
+            if (success_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateSuccessEdge',
-                        payload: successEdge,
+                        payload: success_edge,
                     })
                 } else {
                     dispatch({
                         type: 'plan/updateSuccessEdge',
-                        payload: successEdge,
+                        payload: success_edge
                     })
                 }
             }
+
+            // // if (success_edge.length > 0) {
+            //     if (from === 'scene' && temp) {
+            //         // dispatch({
+            //         //     type: 'scene/updateSuccessEdge',
+            //         //     payload: success_edge,
+            //         // })
+            //         dispatch({
+            //             type: 'scene/updateOpenScene',
+            //             payload: _open_scene,
+            //         })
+            //     } else if (from === 'plan' && temp) {
+            //         // dispatch({
+            //         //     type: 'plan/updateSuccessEdge',
+            //         //     payload: success_edge,
+            //         // })
+            //         dispatch({
+            //             type: 'plan/updateOpenScene',
+            //             payload: _open_scene,
+            //         })
+            //     // }
+            // }
         } else if (status === 'failed') {
-            const failedEdge = [];
+            // const failedEdge = [];
 
             edges.forEach(item => {
-                if (item.source === id) {
-                    failedEdge.push(item.id);
+                if (item.source === id && !failed_edge.includes(item.id)) {
+                    failed_edge.push(item.id);
+                    temp = true;
                 }
             })
+            // _open_scene.edges.forEach(item => {
+            //     if (item.source === id) {
+            //         temp = true;
+            //         item.style = {
+            //             stroke: '#FF4C4C',
+            //         };
+            //         item.markerEnd = {
+            //             type: MarkerType.ArrowClosed,
+            //         };
+            //         // failed_edge.push(item.id);
+            //     }
+            // })
 
-            console.log('failedEdge', failedEdge);
+            // if (from === 'scene' && temp) {
+            //     // dispatch({
+            //     //     type: 'scene/updateSuccessEdge',
+            //     //     payload: success_edge,
+            //     // })
+            //     dispatch({
+            //         type: 'scene/updateOpenScene',
+            //         payload: _open_scene,
+            //     })
+            // } else if (from === 'plan' && temp) {
+            //     // dispatch({
+            //     //     type: 'plan/updateSuccessEdge',
+            //     //     payload: success_edge,
+            //     // })
+            //     dispatch({
+            //         type: 'plan/updateOpenScene',
+            //         payload: _open_scene,
+            //     })
+            // }
 
-            if (failedEdge.length > 0) {
+            // console.log('failedEdge', failed_edge);
+
+            if (failed_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateFailedEdge',
-                        payload: failedEdge,
+                        payload: failed_edge,
                     })
                 } else {
                     dispatch({
                         type: 'plan/updateFailedEdge',
-                        payload: failedEdge,
+                        payload: failed_edge,
                     })
                 }
             }
@@ -340,7 +422,7 @@ const Box = (props) => {
                                     type="primary"
                                     className="add"
                                     onClick={() => {
-                                        console.log(refInput);
+                                        // console.log(refInput);
                                         if (!refInput?.current?.value) {
                                             return;
                                         }
@@ -404,7 +486,7 @@ const Box = (props) => {
             '5': <ReqCountMode />
         };
 
-        console.log(obj[mode]);
+        // console.log(obj[mode]);
 
         return obj[mode];
     };
@@ -412,12 +494,12 @@ const Box = (props) => {
     const changeApiConfig = (id) => {
         // e.preventDefault();
         // e.stopPropagation();
-        console.log(id_apis);
+        // console.log(id_apis);
         const api_now = cloneDeep(id_apis[id]);
-        console.log(id_apis, id, api_now, from);
+        // console.log(id_apis, id, api_now, from);
         api_now.id = id;
 
-        console.log(api_now, id);
+        // console.log(api_now, id);
 
         if (from === 'scene') {
             dispatch({
@@ -469,7 +551,7 @@ const Box = (props) => {
                         <Input size="mini" value={weight} onChange={(e) => {
                             setWeight(parseInt(e));
                             onTargetChange('weight', parseInt(e));
-                            console.log(nodes);
+                            // console.log(nodes);
                         }} placeholder="数值" />
                     </div>
                     <Select

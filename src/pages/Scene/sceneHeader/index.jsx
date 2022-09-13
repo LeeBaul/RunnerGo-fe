@@ -52,9 +52,14 @@ const SceneHeader = (props) => {
     console.log(nodes, edges, id_apis, node_config);
 
     const runScene = () => {
+        console.log(open_scene);
         const { scene_id } = open_scene;
-        console.log(scene_id, from);
+        // console.log(scene_id, from);
         if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateRunningScene',
+                payload: scene_id,
+            })
             dispatch({
                 type: 'scene/updateToLoading',
                 payload: false,
@@ -78,6 +83,10 @@ const SceneHeader = (props) => {
                 })
             }, 200)
         } else {
+            dispatch({
+                type: 'plan/updateRunningScene',
+                payload: scene_id,
+            })
             dispatch({
                 type: 'plan/updateToLoading',
                 payload: false,

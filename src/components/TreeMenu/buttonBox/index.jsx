@@ -21,6 +21,16 @@ const ButtonBox = (props) => {
 
     const [isExpandAll, setIsExpandAll] = useState(false);
     const [showFolder, setShowFolder] = useState(false);
+    const currentTeamId = localStorage.getItem('team_id');
+    const userTeams = useSelector((store) => store.teams.teamData);
+
+    const currentTeamName = useMemo(() => {
+        let currentTeamId = localStorage.getItem('team_id');
+        let teamName = userTeams[currentTeamId] ? userTeams[currentTeamId].name : '默认团队';
+        console.log(teamName);
+
+        return teamName;
+    }, [userTeams, currentTeamId]);
 
     const handleExpandAll = () => {
         const newExpandStatus = !isExpandAll;
@@ -33,7 +43,7 @@ const ButtonBox = (props) => {
     return (
         <>
             <div className="buttons-box">
-                <div className="project-title">默认项目</div>
+                <div className="project-title">{currentTeamName}</div>
                 <div className="button-list">
                     <Tooltip content="新建接口" placement="top">
                         <Button size="mini" onClick={() => {

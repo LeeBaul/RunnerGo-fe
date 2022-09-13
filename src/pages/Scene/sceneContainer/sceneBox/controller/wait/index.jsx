@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Switch, InputNumber, Dropdown } from 'adesign-react';
 import { More as SvgMore } from 'adesign-react/icons';
 import './index.less';
-import { Handle } from 'react-flow-renderer';
+import { Handle, MarkerType } from 'react-flow-renderer';
 import Bus from '@utils/eventBus';
 import { useSelector, useDispatch } from 'react-redux';
+import { cloneDeep } from 'lodash';
 
 import SvgSuccess from '@assets/logo/success';
 import SvgFailed from '@assets/logo/failed';
@@ -19,18 +20,30 @@ const WaitController = (props) => {
     const edges_scene = useSelector((store) => store.scene.edges);
     const init_scene_scene = useSelector((store) => store.scene.init_scene);
     const to_loading_scene = useSelector((store) => store.scene.to_loading);
+    const success_edge_scene = useSelector((store) => store.scene.success_edge);
+    const failed_edge_scene = useSelector((store) => store.scene.failed_edge);
+    const open_scene_scene = useSelector((store) => store.scene.open_scene);
+    const running_scene_scene = useSelector((store) => store.scene.running_scene);
 
     const run_res_plan = useSelector((store) => store.plan.run_res);
     const edges_plan = useSelector((store) => store.plan.edges);
     const node_config_plan = useSelector((store) => store.plan.node_config);
     const init_scene_plan = useSelector((store) => store.plan.init_scene);
     const to_loading_plan = useSelector((store) => store.plan.to_loading);
+    const success_edge_plan = useSelector((store) => store.plan.success_edge);
+    const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
+    const open_scene_plan = useSelector((store) => store.plan.open_scene);
+    const running_scene_plan = useSelector((store) => store.plan.running_scene);
 
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
     const node_config = from === 'scene' ? node_config_scene : node_config_plan;
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
     const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
+    const success_edge = from === 'scene' ? success_edge_scene : success_edge_plan;
+    const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
+    const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
+    const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
     const dispatch = useDispatch();
 
     // 当前节点状态
@@ -50,17 +63,20 @@ const WaitController = (props) => {
     }, [init_scene]);
 
     useEffect(() => {
-        console.log(to_loading, 111111111111111111111111);
-        if (to_loading) {
-            setStatus('running');
-            console.log('runninggggggg', status);
+        // console.log(to_loading, 111111111111111111111111);
+        if (open_scene) {
+            if (to_loading && running_scene === open_scene.scene_id) {
+                setStatus('running');
+                // console.log('runninggggggg', status);
+            }
         }
     }, [to_loading])
 
     useEffect(() => {
+        // console.log('run_resssss', run_res);
         if (run_res) {
             const now_res = run_res.filter(item => item.event_id === id)[0];
-            console.log(run_res, now_res, id);
+            // console.log(run_res, now_res, id, '**************************');
             if (now_res) {
                 const { status } = now_res;
                 setStatus(status);
@@ -75,54 +91,122 @@ const WaitController = (props) => {
     }
 
     const update = (edges, status) => {
-        console.log('edges', edges, status);
+        // console.log('edges', edges, status, open_scene);
+        // const _open_scene = cloneDeep(open_scene);
+        let temp = false;
         if (status === 'success') {
             // 以当前节点为顶点的线id
-            const successEdge = [];
+            // const successEdge = [];
             // const Node = [];
 
             edges.forEach(item => {
-                if (item.source === id) {
-                    successEdge.push(item.id);
+                if (item.source === id && !success_edge.includes(item.id)) {
+                    temp = true;
+                    success_edge.push(item.id);
                 }
             })
+            // _open_scene.edges.forEach(item => {
+            //     if (item.source === id) {
+            //         // success_edge.push(item.id);
+            //         temp = true;
+            //         item.style = {
+            //             stroke: '#2BA58F',
+            //         };
+            //         item.markerEnd = {
+            //             type: MarkerType.ArrowClosed,
+            //         };
+            //     }
+            // })
+            // console.log(_open_scene);
 
-            console.log('successEdge', successEdge);
+            // console.log('successEdge', success_edge);s
 
-            if (successEdge.length > 0) {
+            if (success_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateSuccessEdge',
-                        payload: successEdge,
+                        payload: success_edge,
                     })
                 } else {
                     dispatch({
                         type: 'plan/updateSuccessEdge',
-                        payload: successEdge,
+                        payload: success_edge,
                     })
                 }
             }
+            // if (from === 'scene' && temp) {
+            //     // dispatch({
+            //     //     type: 'scene/updateSuccessEdge',
+            //     //     payload: success_edge,
+            //     // })
+            //     dispatch({
+            //         type: 'scene/updateOpenScene',
+            //         payload: _open_scene,
+            //     })
+            // } else if (from === 'plan' && temp) {
+            //     // dispatch({
+            //     //     type: 'plan/updateSuccessEdge',
+            //     //     payload: success_edge,
+            //     // })
+            //     dispatch({
+            //         type: 'plan/updateOpenScene',
+            //         payload: _open_scene,
+            //     })
+            // }
         } else if (status === 'failed') {
-            const failedEdge = [];
+            // const failedEdge = [];
 
             edges.forEach(item => {
-                if (item.source === id) {
-                    failedEdge.push(item.id);
+                if (item.source === id && !failed_edge.includes(item.id)) {
+                    failed_edge.push(item.id);
+                    temp = true;
                 }
             })
+            // _open_scene.edges.forEach(item => {
+            //     if (item.source === id) {
+            //         temp = true;
+            //         item.style = {
+            //             stroke: '#FF4C4C',
+            //         };
+            //         item.markerEnd = {
+            //             type: MarkerType.ArrowClosed,
+            //         };
+            //         // failed_edge.push(item.id);
+            //     }
+            // })
 
-            console.log('failedEdge', failedEdge);
+            // if (from === 'scene' && temp) {
+            //     // dispatch({
+            //     //     type: 'scene/updateSuccessEdge',
+            //     //     payload: success_edge,
+            //     // })
+            //     dispatch({
+            //         type: 'scene/updateOpenScene',
+            //         payload: _open_scene,
+            //     })
+            // } else if (from === 'plan' && temp) {
+            //     // dispatch({
+            //     //     type: 'plan/updateSuccessEdge',
+            //     //     payload: success_edge,
+            //     // })
+            //     dispatch({
+            //         type: 'plan/updateOpenScene',
+            //         payload: _open_scene,
+            //     })
+            // }
 
-            if (failedEdge.length > 0) {
+            // console.log('failedEdge', failed_edge);
+
+            if (failed_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateFailedEdge',
-                        payload: failedEdge,
+                        payload: failed_edge,
                     })
                 } else {
                     dispatch({
                         type: 'plan/updateFailedEdge',
-                        payload: failedEdge,
+                        payload: failed_edge,
                     })
                 }
             }

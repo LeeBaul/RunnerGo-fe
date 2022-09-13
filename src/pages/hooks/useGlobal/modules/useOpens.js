@@ -37,7 +37,7 @@ import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, f
 import { getBaseCollection } from '@constants/baseCollection';
 
 // 发送api时轮询的参数
-const send_api_t = null;
+let send_api_t = null;
 
 // 新建接口
 const useOpens = () => {
@@ -950,6 +950,7 @@ const useOpens = () => {
                     fetchGetResult(query).subscribe({
                         next: (res) => {
                             const { data } = res;
+                            console.log(data);
                             if (data) {
                                 clearInterval(send_api_t);
                                 const _open_res = cloneDeep(open_res);

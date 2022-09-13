@@ -10,21 +10,21 @@ const ResRegex = (props) => {
     if (regex) {
         console.log(regex);
 
-        // regex.forEach(item => {
-        //     for (let i in item) {
-        //         _regexList.push(`${i}=${item[i]}`)
-        //     }
-        // })
-
-        for (let i in regex) {
-            console.log(i, regex[i]);
-            for (let j in regex[i]) {
-                let Key = j;
-                let Value = regex[i][j];
-                _regexList.push(`${Key}=${Value}`);
-                console.log(_regexList);
+        regex.forEach(item => {
+            for (let i in item) {
+                _regexList.push(`${i}=${item[i]}`)
             }
-        }
+        })
+
+        // for (let i in regex) {
+        //     console.log(i, regex[i]);
+        //     for (let j in regex[i]) {
+        //         let Key = j;
+        //         let Value = regex[i][j];
+        //         _regexList.push(`${Key}=${Value}`);
+        //         console.log(_regexList);
+        //     }
+        // }
         // setRegexList(_regexList);
     }
 

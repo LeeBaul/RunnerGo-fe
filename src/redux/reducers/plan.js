@@ -27,10 +27,14 @@ const initialState = {
   success_edge: [], // 运行成功的线
   failed_edge: [], // 运行失败的线
 
-  task_config: {}, // 任务配置
+  task_config: {
+    mode_conf: {}
+  }, // 任务配置
 
   init_scene: false,
   to_loading: false,
+
+  running_scene: '',
 };
 
 // action名称
@@ -61,6 +65,8 @@ const actionTypes = {
 
   updateInitScene: 'updateInitScene',
   updateToLoading: 'updateToLoading',
+
+  updateRunningScene: 'updateRunningScene',
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -182,6 +188,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         to_loading: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateRunningScene}`:
+      return {
+        ...state,
+        running_scene: action.payload,
       }
     default:
       return state;

@@ -67,7 +67,7 @@ const DetailHeader = () => {
 
     const savePlan = () => {
         const params = {
-            plan_id,
+            plan_id: parseInt(plan_id),
             team_id: parseInt(localStorage.getItem('team_id')),
             name: planDetail.name,
             ...task_config,

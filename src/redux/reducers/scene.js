@@ -33,6 +33,8 @@ const initialState = {
   init_scene: false, // 初始化点和线的状态
 
   to_loading: false, // 所有节点进入loading状态
+
+  running_scene: '', // 正在跑的场景id
 };
 
 // action名称
@@ -63,6 +65,7 @@ const actionTypes = {
 
   updateInitScene: 'updateInitScene',
   updateToLoading: 'updateToLoading',
+  updateRunningScene: 'updateRunningScene',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -197,6 +200,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         to_loading: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateRunningScene}`:
+      return {
+        ...state,
+        running_scene: action.payload,
       }
     default:
       return state;
