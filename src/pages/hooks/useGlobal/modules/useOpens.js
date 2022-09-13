@@ -37,7 +37,7 @@ import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, f
 import { getBaseCollection } from '@constants/baseCollection';
 
 // 发送api时轮询的参数
-let send_api_t = null;
+var send_api_t = null;
 
 // 新建接口
 const useOpens = () => {
@@ -972,8 +972,19 @@ const useOpens = () => {
             .subscribe()
     };
 
-    const stopSend = () => {
+    const stopSend = (id) => {
+        console.log('stopstopstop!', send_api_t);
         clearInterval(send_api_t);
+        const _open_res = cloneDeep(open_res);
+        _open_res[id] = {
+            // ...data,
+            status: 'finish',
+        };
+        // console.log(data);
+        dispatch({
+            type: 'opens/updateOpenRes',
+            payload: _open_res
+        })
     }
 
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id

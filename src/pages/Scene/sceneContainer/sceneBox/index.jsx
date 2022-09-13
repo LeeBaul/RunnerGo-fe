@@ -236,6 +236,7 @@ const SceneBox = (props) => {
 
     useEffect(() => {
         formatSuccess();
+        formatFailed();
     }, [nodes])
 
     useEffect(() => {
@@ -395,6 +396,23 @@ const SceneBox = (props) => {
                 }
             });
             // console.log('setEdges', _edges);
+            setEdges(_edges);
+        }
+    }
+
+    const formatFailed = () => {
+        if (failed_edge.length > 0 && edges.length > 0) {
+            const _edges = cloneDeep(edges);
+            _edges.forEach(item => {
+                if (failed_edge.includes(item.id)) {
+                    item.style = {
+                        stroke: '#FF4C4C',
+                    };
+                    item.markerEnd = {
+                        type: MarkerType.ArrowClosed,
+                    };
+                }
+            })
             setEdges(_edges);
         }
     }

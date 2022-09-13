@@ -22,6 +22,7 @@ const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const ResPonsePanel = (props) => {
   let { data, tempData, onChange, direction, from = 'apis' } = props;
+  console.log('data', data);
   const open_res = useSelector((store) => store.opens.open_res);
   const open_scene_res = useSelector((store) => store.scene.run_api_res);
   const open_plan_res = useSelector((store) => store.plan.run_api_res);
@@ -226,7 +227,7 @@ const ResPonsePanel = (props) => {
             <Button
               type="primary"
               onClick={() => {
-                Bus.$emit('stopSend');
+                Bus.$emit('stopSend', data.target_id);
                 // dispatch({
                 //   type: 'opens/updateTempApisById',
                 //   id: data?.target_id,
