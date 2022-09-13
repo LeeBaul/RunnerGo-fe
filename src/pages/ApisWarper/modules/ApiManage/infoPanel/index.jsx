@@ -47,15 +47,15 @@ const ApiInfoPanel = (props) => {
         if (from === 'scene') {
             Bus.$emit('saveSceneApi', apiNow, apiData)
         } else {
-            const apiData = cloneDeep(apiData[apiNow]);
-            if (typeof apiData.target_id === 'string') {
-                delete apiData['target_id'];
-                apiData.parent_id = parseInt(apiData.parent_id);
-                apiData.team_id = parseInt(localStorage.getItem('team_id'));
+            const _apiData = cloneDeep(apiData[apiNow]);
+            if (typeof _apiData.target_id === 'string') {
+                delete _apiData['target_id'];
+                _apiData.parent_id = parseInt(apiData.parent_id);
+                _apiData.team_id = parseInt(localStorage.getItem('team_id'));
             }
 
-            apiData.is_changed = -1;
-            fetchHandleApi(apiData)
+            _apiData.is_changed = -1;
+            fetchHandleApi(_apiData)
                 .pipe(
                     tap((res) => {
                         const { data: { target_id }, code } = res;

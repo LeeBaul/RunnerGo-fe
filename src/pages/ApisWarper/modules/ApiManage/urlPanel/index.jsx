@@ -5,7 +5,7 @@ import { API_METHODS } from '@constants/methods';
 import isFunction from 'lodash/isFunction';
 import useApi from '../../../hooks/useApi';
 import UrlInput from './urlInput';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
 import { useParams } from 'react-router-dom';
 import './index.less';
@@ -16,6 +16,7 @@ const ApiURLPanel = (props) => {
     const { apiSend } = useApi();
     const { id } = useParams();
     const [btnName, setBtnName] = useState('发送');
+    const dispatch = useDispatch();
     const open_api_now = useSelector((store) => store.opens.open_api_now);
     const open_res = useSelector((store) => store.opens.open_res);
     console.log('open_ressssssssssssssssssssssssssss', open_res)
@@ -121,7 +122,8 @@ const ApiURLPanel = (props) => {
                         setBtnName('发送中...');
                         if (from === 'scene') {
                             Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene_scene, () => {
-                                Bus.$emit('sendSceneApi', open_scene_scene.scene_id, id_now, open_scene_res || {}, 'scene');
+                                console.log(open_scene_scene);
+                                Bus.$emit('sendSceneApi', open_scene_scene.scene_id || open_scene_scene.target_id, id_now, open_scene_res || {}, 'scene');
                             });
                         } else if (from === 'plan') {
                             console.log('()()()', open_plan_scene, id_now_plan, open_plan_res);
@@ -131,9 +133,13 @@ const ApiURLPanel = (props) => {
                         } else {
                             Bus.$emit('saveTargetById', {
                                 id: open_api_now,
-                                callback: () => {
-                                    Bus.$emit('sendApi', open_api_now);
-                                }
+                            }, {}, (code, id) => {
+                                dispatch({
+                                    type: 'opens/updateOpenApiNow',
+                                    payload: id,
+                                })
+                                console.log(code, id);
+                                Bus.$emit('sendApi', id);
                             })
                         }
                     }}

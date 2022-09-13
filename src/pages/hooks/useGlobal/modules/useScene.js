@@ -764,7 +764,7 @@ const useScene = () => {
     const sendSceneApi = (scene_id, node_id, run_api_res, from) => {
         console.log('sendSceneApi', scene_id, node_id, run_api_res);
         const params = {
-            scene_id,
+            scene_id: parseInt(scene_id),
             node_id,
         };
         const _run_api_res = cloneDeep(run_api_res);

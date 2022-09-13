@@ -574,6 +574,7 @@ const useOpens = () => {
     };
 
     const saveTargetById = async (data, options = { is_socket: 1 }, callbacks) => {
+        console.log(data, options, callbacks);
         const { id, pid, callback } = data;
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
@@ -637,10 +638,11 @@ const useOpens = () => {
             fetchHandleApi(tempTarget)
                 .pipe(
                     tap(async (res) => {
-                        const { code } = res;
+                        const { code, data } = res;
 
                         if (callbacks) {
-                            callbacks && callbacks(code);
+                            console.log(code, data);
+                            callbacks && callbacks(code, data.target_id);
                             await updateCollectionById();
                         }
 
