@@ -469,6 +469,14 @@ const useScene = () => {
             type: 'scene/updateOpenScene',
             payload: null,
         })
+        dispatch({
+            type: 'scene/updateRunRes',
+            payload: null,
+        })
+        dispatch({
+            type: 'scene/updateRunningScene',
+            payload: ''
+        })
         const { target_id } = id;
         const query = {
             team_id: localStorage.getItem('team_id'),

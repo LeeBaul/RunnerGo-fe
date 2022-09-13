@@ -79,9 +79,21 @@ const usePlan = () => {
 
     const addOpenPlanScene = (id, id_apis, node_config) => {
         console.log(id, id_apis, node_config);
+        // dispatch({
+        //     type: 'plan/updateOpenScene',
+        //     payload: {},
+        // })
         dispatch({
             type: 'plan/updateOpenScene',
-            payload: {},
+            payload: null,
+        })
+        dispatch({
+            type: 'plan/updateRunRes',
+            payload: null,
+        })
+        dispatch({
+            type: 'plan/updateRunningScene',
+            payload: ''
         })
         const { target_id } = id;
         const query = {

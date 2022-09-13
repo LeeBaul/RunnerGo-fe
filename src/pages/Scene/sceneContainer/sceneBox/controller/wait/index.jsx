@@ -48,6 +48,7 @@ const WaitController = (props) => {
 
     // 当前节点状态
     const [status, setStatus] = useState('default');
+    const [topBg, setTopBg] = useState('');
 
     useEffect(() => {
         const my_config = node_config[id];
@@ -64,10 +65,11 @@ const WaitController = (props) => {
 
     useEffect(() => {
         // console.log(to_loading, 111111111111111111111111);
+        console.log(open_scene, to_loading, running_scene, 'eeeeeeeeeeeeee');
         if (open_scene) {
             if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
-                // console.log('runninggggggg', status);
+                console.log('runninggggggg', status);
             }
         }
     }, [to_loading])
@@ -235,12 +237,27 @@ const WaitController = (props) => {
         )
     };
 
-    const topBgStyle = {
+
+    // const topBgStyle = {
+    //     'default': '',
+    //     'success': '#11811C',
+    //     'failed': '#892020',
+    //     'running': '',
+    // }
+
+    const topBgStyle =  {
         'default': '',
         'success': '#11811C',
         'failed': '#892020',
         'running': '',
     }
+
+    useEffect(() => {
+        console.log(status, status, status);
+        setTopBg(topBgStyle[status])
+    }, [status]);
+
+    // console.log(topBgStyle[status]);
 
     const topStatus = {
         'default': <></>,
@@ -258,7 +275,7 @@ const WaitController = (props) => {
                 className="my_handle"
             />
             <div className='controller-wait'>
-                <div className='controller-wait-header' style={{ backgroundColor: topBgStyle[status] }}>
+                <div className='controller-wait-header' style={{ backgroundColor: topBg }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='type'>
                             等待控制器

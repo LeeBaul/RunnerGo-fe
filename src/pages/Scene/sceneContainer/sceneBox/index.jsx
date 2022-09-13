@@ -165,9 +165,9 @@ const SceneBox = (props) => {
         }
     }, [type_now]);
 
-    useEffect(() => {
-        formatSuccess();
-    }, [success_edge_scene]);
+    // useEffect(() => {
+    //     formatSuccess();
+    // }, [success_edge_scene]);
 
     useEffect(() => {
         console.log(1);
@@ -236,7 +236,7 @@ const SceneBox = (props) => {
 
     useEffect(() => {
         formatSuccess();
-        // formatFailed();
+        formatFailed();
     }, [nodes])
 
     useEffect(() => {
@@ -384,84 +384,118 @@ const SceneBox = (props) => {
 
     const formatSuccess = () => {
         if (success_edge.length > 0 && edges.length > 0) {
-            const _edges = cloneDeep(edges);
-            _edges.forEach(item => {
-                if (success_edge.includes(item.id)) {
-                    item.style = {
-                        stroke: '#2BA58F',
-                    };
-                    item.markerEnd = {
-                        type: MarkerType.ArrowClosed,
-                    };
-                }
-            });
+            // const _edges = cloneDeep(edges);
+            // _edges.forEach(item => {
+            //     console.log('itemmmmmmmmmm', item);
+            //     if (success_edge.includes(item.id)) {
+            //         item.style = {
+            //             stroke: '#2BA58F',
+            //         };
+            //         item.markerEnd = {
+            //             type: MarkerType.ArrowClosed,
+            //         };
+            //     }
+            // });
+            // setEdges(_edges);
             // console.log('setEdges', _edges);
-            setEdges(_edges);
+            setEdges((nds) => {
+                console.log('nds', nds);
+                const _nds = cloneDeep(nds);
+                _nds.forEach(item => {
+                    if (success_edge.includes(item.id)) {
+                        item.style = {
+                            stroke: '#2BA58F',
+                        };
+                        item.markerEnd = {
+                            type: MarkerType.ArrowClosed,
+                        };
+                    }
+                })
+                console.log(_nds);
+                return _nds;
+            });
         }
     }
 
     const formatFailed = () => {
         if (failed_edge.length > 0 && edges.length > 0) {
-            const _edges = cloneDeep(edges);
-            _edges.forEach(item => {
-                if (failed_edge.includes(item.id)) {
-                    item.style = {
-                        stroke: '#FF4C4C',
-                    };
-                    item.markerEnd = {
-                        type: MarkerType.ArrowClosed,
-                    };
-                }
-            })
-            setEdges(_edges);
+            // const _edges = cloneDeep(edges);
+            // _edges.forEach(item => {
+            //     if (failed_edge.includes(item.id)) {
+            //         item.style = {
+            //             stroke: '#FF4C4C',
+            //         };
+            //         item.markerEnd = {
+            //             type: MarkerType.ArrowClosed,
+            //         };
+            //     }
+            // })
+            // setEdges(_edges);
+
+            setEdges((nds) => {
+                console.log('nds', nds);
+                const _nds = cloneDeep(nds);
+                _nds.forEach(item => {
+                    if (failed_edge.includes(item.id)) {
+                        item.style = {
+                            stroke: '#FF4C4C',
+                        };
+                        item.markerEnd = {
+                            type: MarkerType.ArrowClosed,
+                        };
+                    }
+                })
+                console.log(_nds);
+                return _nds;
+            });
         }
     }
 
     useEffect(() => {
         console.log(1);
 
-        console.log('success_edge', success_edge, edges);
-        if (success_edge.length > 0 && edges.length > 0) {
-            const _edges = cloneDeep(edges);
-            _edges.forEach(item => {
-                if (success_edge.includes(item.id)) {
-                    item.style = {
-                        stroke: '#2BA58F',
-                    };
-                    item.markerEnd = {
-                        type: MarkerType.ArrowClosed,
-                    };
-                }
-            });
-            // console.log('setEdges', _edges);
-            setEdges(_edges);
-        }
+        // console.log('success_edge', success_edge, edges);
+        // if (success_edge.length > 0 && edges.length > 0) {
+        //     const _edges = cloneDeep(edges);
+        //     _edges.forEach(item => {
+        //         if (success_edge.includes(item.id)) {
+        //             item.style = {
+        //                 stroke: '#2BA58F',
+        //             };
+        //             item.markerEnd = {
+        //                 type: MarkerType.ArrowClosed,
+        //             };
+        //         }
+        //     });
+        //     // console.log('setEdges', _edges);
+        //     setEdges(_edges);
+        // }
     }, [success_edge]);
 
     useEffect(() => {
         console.log(1);
 
-        if (failed_edge.length > 0 && edges.length > 0) {
-            const _edges = cloneDeep(edges);
-            _edges.forEach(item => {
-                if (failed_edge.includes(item.id)) {
-                    item.style = {
-                        stroke: '#FF4C4C',
-                    };
-                    item.markerEnd = {
-                        type: MarkerType.ArrowClosed,
-                    };
-                }
-            })
-            setEdges(_edges);
-        }
+        // if (failed_edge.length > 0 && edges.length > 0) {
+        //     const _edges = cloneDeep(edges);
+        //     _edges.forEach(item => {
+        //         if (failed_edge.includes(item.id)) {
+        //             item.style = {
+        //                 stroke: '#FF4C4C',
+        //             };
+        //             item.markerEnd = {
+        //                 type: MarkerType.ArrowClosed,
+        //             };
+        //         }
+        //     })
+        //     setEdges(_edges);
+        // }
     }, [failed_edge]);
 
     useEffect(() => {
         console.log(1);
 
         // console.log(run_res, edges);
-        if (edges.length > 0) {
+        if (edges.length > 0 && to_loading) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {
                 item.style = {};

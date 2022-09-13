@@ -82,6 +82,7 @@ const ConditionController = (props) => {
 
     useEffect(() => {
         // console.log(to_loading, 111111111111111111111111);
+        
         if (open_scene) {
             if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
@@ -120,6 +121,7 @@ const ConditionController = (props) => {
 
             edges.forEach(item => {
                 if (item.source === id && !success_edge.includes(item.id)) {
+                    temp = true;
                     success_edge.push(item.id);
                 }
             })
@@ -140,7 +142,7 @@ const ConditionController = (props) => {
 
             // console.log('successEdge', success_edge);
 
-            if (success_edge.length > 0) {
+            if (success_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateSuccessEdge',
@@ -178,7 +180,7 @@ const ConditionController = (props) => {
 
             edges.forEach(item => {
                 if (item.source === id) {
-                    // temp = true;
+                    temp = true;
                     // item.style = {
                     //     stroke: '#FF4C4C',
                     // };
@@ -211,7 +213,7 @@ const ConditionController = (props) => {
             //     })
             // }
 
-            if (failed_edge.length > 0) {
+            if (failed_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateFailedEdge',
