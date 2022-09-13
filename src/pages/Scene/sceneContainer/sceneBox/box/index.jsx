@@ -161,7 +161,7 @@ const Box = (props) => {
         // console.log(to_loading, 111111111111111111111111);
         console.log(open_scene);
         if (open_scene) {
-            if (to_loading && (open_scene || open_scene.scene_id)) {
+            if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
                 // console.log('runninggggggg', status);
             }

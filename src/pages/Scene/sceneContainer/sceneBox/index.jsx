@@ -236,7 +236,7 @@ const SceneBox = (props) => {
 
     useEffect(() => {
         formatSuccess();
-        formatFailed();
+        // formatFailed();
     }, [nodes])
 
     useEffect(() => {
