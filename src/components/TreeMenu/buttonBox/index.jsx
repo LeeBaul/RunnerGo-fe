@@ -14,6 +14,7 @@ import { isString, isObject, isEmpty } from 'lodash';
 import Bus from '@utils/eventBus';
 import { DropWrapper } from './style';
 import FolderCreate from '@modals/folder/create';
+import ImportApi from "@modals/ImportApi";
 
 const ButtonBox = (props) => {
 
@@ -22,6 +23,7 @@ const ButtonBox = (props) => {
     const [isExpandAll, setIsExpandAll] = useState(false);
     const [showFolder, setShowFolder] = useState(false);
     const currentTeamId = localStorage.getItem('team_id');
+    const [showImport, setImport] = useState(false);
     const userTeams = useSelector((store) => store.teams.teamData);
 
     const currentTeamName = useMemo(() => {
@@ -64,6 +66,7 @@ const ButtonBox = (props) => {
                                 <div className={DropWrapper}>
                                     <div
                                         className="drop-item"
+                                        // onClick={() => setImport(true)}
                                     >
                                         <SvgNewApis width="18px" height="18px" />
                                         <span>导入接口</span>
@@ -93,6 +96,7 @@ const ButtonBox = (props) => {
                     </Tooltip>
                 </div>
                 { showFolder && <FolderCreate onCancel={() => setShowFolder(false)} /> }
+                { showImport && <ImportApi onCancel={() => setImport(false)} /> }
             </div>
         </>
     )

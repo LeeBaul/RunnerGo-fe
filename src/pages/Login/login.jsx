@@ -155,7 +155,11 @@ const LoginBox = (props) => {
       // captcha: vcodeObj,
     })
       .pipe(
-        concatMap(({ data }) => {
+        concatMap(({ data, code }) => {
+          if (code === 20004) {
+            Message('error', '用户名或密码错误!');
+            return;
+          }
           console.log(data);
           saveLocalData(data);
           localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
