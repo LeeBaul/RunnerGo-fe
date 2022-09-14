@@ -48,10 +48,11 @@ const RecentReport = () => {
                     if (code === 0) {
                         const { reports } = data;
                         const list = reports.map((item, index) => {
-                            const { report_id, name, task_type, task_mode, run_time_sec, last_time_sec, run_user_name, status } = item;
+                            const { report_id, plan_name, scene_name, task_type, task_mode, run_time_sec, last_time_sec, run_user_name, status } = item;
                             return {
                                 report_id,
-                                name,
+                                plan_name,
+                                scene_name,
                                 task_mode: modeList[task_mode],
                                 task_type: taskLit[task_type],
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
@@ -84,7 +85,7 @@ const RecentReport = () => {
         },
         {
             title: '计划名称',
-            dataIndex: 'name',
+            dataIndex: 'plan_name',
         },
         {
             title: '场景名称',
