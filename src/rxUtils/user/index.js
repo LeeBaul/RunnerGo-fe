@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // 获取用户配置信息 若获取不到，则创建用户默认配置
 const getLocalUserConfig = async (uuid, a) => {
-    // console.log('error!!!!!!!', a)
     // let userConfig = await User.get(uuid);
     const defaultProjectId = uuidV4();
 
@@ -39,7 +38,6 @@ const getLocalUserConfig = async (uuid, a) => {
 const updateUserLocalConfig = async (data) => {
     // const team_id = useSelector((store) => store.user.team_id);
     // const dispatch = useDispatch();
-    // console.log('userConfig!!!', settings);
     // const newInfo = cloneDeep(userInfo);
     // newInfo.team_id = settings.current_team_id;
     const { settings } = data;
@@ -47,8 +45,6 @@ const updateUserLocalConfig = async (data) => {
 
     localStorage.setItem('team_id', team_id);
     localStorage.setItem('settings', JSON.stringify(data))
-
-    // console.log(123123123123);
     // dispatch({
         // type: 'user/updateTeamId',
         // payload: team_id
@@ -94,13 +90,10 @@ const updateUserLocalConfig = async (data) => {
 
 // 获取用户配置信息
 export const getUserConfig$ = () => {
-    // console.log(123123123, isLogin());
     // return iif(
         // isLogin(),
     return from(fetchUserConfig()).pipe(
             tap((res) => {
-                console.log(res);
-                // console.log(res, '----------');
                 if (res?.code === 0) {
                     return updateUserLocalConfig(res.data);
                 }

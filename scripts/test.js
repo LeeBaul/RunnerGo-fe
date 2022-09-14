@@ -20,15 +20,38 @@ const webpackConfig = {
   devtool: 'eval-source-map',
   optimization: {
     splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'initial',
+      chunks: 'async', // 2. 处理的 chunk 类型
+      minSize: 20000, // 4. 允许新拆出 chunk 的最小体积
+      minRemainingSize: 0,
+      minChunks: 1, // 5. 拆分前被 chunk 公用的最小次数
+      maxAsyncRequests: 30, // 7. 每个异步加载模块最多能被拆分的数量
+      maxInitialRequests: 30, // 6. 每个入口和它的同步依赖最多能被拆分的数量
+      enforceSizeThreshold: 50000, // 8. 强制执行拆分的体积阈值并忽略其他限制
+      cacheGroups: { // 1. 缓存组
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/, // 1.1 模块路径/文件名匹配正则
+          priority: -10, // 1.2 缓存组权重
+          reuseExistingChunk: true, // 1.3 复用已被拆出的依赖模块，而不是继续包含在该组一起生成
+        },
+        default: {
+          minChunks: 2, // 5. default 组的模块必须至少被 2 个 chunk 共用 (本次分割前) 
+          priority: -20,
+          reuseExistingChunk: true,
         },
       },
     },
   },
+  // optimization: {
+  //   splitChunks: {
+  //     cacheGroups: {
+  //       commons: {
+  //         test: /[\\/]node_modules[\\/]/,
+  //         name: 'vendor',
+  //         chunks: 'initial',
+  //       },
+  //     },
+  //   },
+  // },
   plugins: [
     new HtmlWebpackPlugin({
       publicPath: '',

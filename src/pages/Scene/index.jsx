@@ -13,7 +13,6 @@ const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
     const open_scene = useSelector((store) => store.scene.open_scene);
-    console.log(open_scene);
 
     return (
         <ScalePanel

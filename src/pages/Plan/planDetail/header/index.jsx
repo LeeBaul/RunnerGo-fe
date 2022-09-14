@@ -27,8 +27,6 @@ const DetailHeader = () => {
 
     const task_config = useSelector((store) => store.plan.task_config);
 
-    console.log(open_plan);
-
     useEffect(() => {
         const query = {
             team_id: localStorage.getItem('team_id'),

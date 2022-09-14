@@ -88,7 +88,6 @@ export const sceneReducer = (state = initialState, action) => {
         isLoading: action.payload,
       };
     case `${NAMESPACE}/${actionTypes.updateNodes}`:
-      console.log('redux/scene/updateNodes', action.payload);
       return {
         ...state,
         nodes: action.payload,
@@ -99,7 +98,6 @@ export const sceneReducer = (state = initialState, action) => {
         edges: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updateType}`:
-      console.log(action.payload);
       return {
         ...state,
         type: action.payload,
@@ -115,7 +113,6 @@ export const sceneReducer = (state = initialState, action) => {
         saveScene: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updateIdApis}`:
-      console.log('scene/redux/updateIdApis', state.id_apis, action.payload)
       return {
         ...state,
         id_apis: action.payload,
@@ -166,7 +163,6 @@ export const sceneReducer = (state = initialState, action) => {
         update_node: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updateRunRes}`:
-      console.log('redux/scene/updateRunRes', action.payload);
       return {
         ...state,
         run_res: action.payload,

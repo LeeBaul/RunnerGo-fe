@@ -31,8 +31,6 @@ const InvitationModal = (props) => {
   const team_id = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
   const userInfo = useSelector((store) => store.user.userInfo);
 
-  // console.log(userInfo, 'userInfo++++');
-
   const { projectInfoAll, onCancel } = props;
 
   const [projectList, setProjectList] = useState([]);
@@ -337,7 +335,7 @@ const InvitationModal = (props) => {
         });
       return data;
     });
-    // console.log(teampAddList);
+
     if (!ifSelectAll) {
       teampAddList = [...d, ...teampAddList];
     } else {

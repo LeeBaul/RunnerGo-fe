@@ -89,9 +89,7 @@ const useCollection = () => {
 
     const addSceneItem = async (data, callback) => {
         const { type, pid, param, from, plan_id, clone, clone_id } = data;
-        console.log('param', param);
         let newScene = getBaseCollection(type);
-        console.log(newScene);
         if (!newScene) return;
         newScene.parent_id = parseInt(pid);
         if (isPlainObject(param)) {
@@ -100,13 +98,11 @@ const useCollection = () => {
         newScene['team_id'] = parseInt(localStorage.getItem('team_id'));
         delete newScene['target_id'];
 
-        console.log(newScene);
         newScene.source = from === 'scene' ? 1 : 2;
         plan_id && (newScene.plan_id = parseInt(plan_id));
         // return;
         fetchCreateScene(newScene).subscribe({
             next: async (resp) => {
-                console.log(resp);
                 const { code } = resp;
                 if (code === 0) {
                     if (clone) {
@@ -129,10 +125,8 @@ const useCollection = () => {
     }
 
     const addSceneGroupItem = async (data, callback) => {
-        console.log(data);
         const { type, pid, param, from, plan_id } = data;
         let newSceneGroup = getBaseCollection(type);
-        console.log(newSceneGroup);
         if (!newSceneGroup) return;
         newSceneGroup.parent_id = parseInt(pid);
         if (isPlainObject(param)) {
@@ -143,11 +137,9 @@ const useCollection = () => {
 
         newSceneGroup.source = from === 'scene' ? 1 : 2;
         plan_id && (newSceneGroup.plan_id = parseInt(plan_id));
-        console.log(newSceneGroup);
         // return;
         fetchCreateGroup(newSceneGroup).subscribe({
             next: async (resp) => {
-                console.log(resp);
                 const { code } = resp;
                 if (code === 0) {
                     callback && callback();
@@ -175,10 +167,8 @@ const useCollection = () => {
     }
 
     const addCollectionItem = async (data, callback) => {
-        console.log(data);
         const { type, pid, param } = data;
         let newCollection = getBaseCollection(type);
-        console.log(newCollection);
         // newCollection.project_id = CURRENT_PROJECT_ID || '-1';
         if (!newCollection) return;
         if (isString(pid) && pid.length > 0) {
@@ -199,11 +189,9 @@ const useCollection = () => {
         // 上传服务器 失败走异步任务
         newCollection['team_id'] = parseInt(localStorage.getItem('team_id'));
         delete newCollection['target_id'];
-        console.log(newCollection);
         // return;
         fetchHandleFolder(newCollection).subscribe({
             next: async (resp) => {
-                console.log(resp);
                 const { code } = resp;
                 if (code === 0) {
                     global$.next({
@@ -246,14 +234,12 @@ const useCollection = () => {
     };
     const busUpdateCollectionById = async (req, callback) => {
         const { id, data, oldValue } = req;
-        console.log(id, data, oldValue);
  
         const collection = cloneDeep(oldValue);
         const params = {
             ...collection,
             ...data
         };
-        console.log(params);
         fetchHandleFolder(params).subscribe({
             next: (res) => {
                 const { code } = res;

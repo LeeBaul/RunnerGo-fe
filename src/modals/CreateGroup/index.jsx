@@ -29,8 +29,6 @@ const Textarea = Input.Textarea;
 const CreateGroup = (props) => {
     const { onCancel, group, from, plan_id } = props;
 
-    console.log(group);
-
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
         pre_script: '',
@@ -68,7 +66,6 @@ const CreateGroup = (props) => {
         const init = () => {
             if (isPlainObject(group)) {
                 const { request, name, script: folderScript, parent_id, description } = group;
-                // console.log(parent_id)
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
                 name && setGroupName(name);
@@ -115,7 +112,6 @@ const CreateGroup = (props) => {
             setRequest((lastState) => {
                 const newState = cloneDeep(lastState);
                 newState[type].parameter = newList;
-                console.log(newState);
                 return newState;
             });
         }
@@ -336,7 +332,6 @@ const CreateGroup = (props) => {
             className={FolderModal}
             okText='保存'
             onOk={() => {
-                console.log(request);
                 if (trim(groupName).length <= 0) {
                     Message('error', '分组名称不能为空');
                     return;

@@ -17,7 +17,6 @@ import { MarkerType } from 'react-flow-renderer';
 const SceneHeader = (props) => {
     const { from } = props;
     const [showSceneConfig, setSceneConfig] = useState(false);
-    // console.log(sceneName);
     const dispatch = useDispatch();
     const { id } = useParams();
     // const saveScene = useSelector((store) => store.scene.saveScene);
@@ -49,12 +48,8 @@ const SceneHeader = (props) => {
     const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
 
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
-    console.log(nodes, edges, id_apis, node_config);
-
     const runScene = () => {
-        console.log(open_scene);
         const { scene_id } = open_scene;
-        // console.log(scene_id, from);
         if (from === 'scene') {
             dispatch({
                 type: 'scene/updateRunningScene',
@@ -107,7 +102,6 @@ const SceneHeader = (props) => {
             }, 200);
         }
         Bus.$emit('runScene', scene_id, open_scene.nodes.length, from);
-        console.log(nodes, edges);
         // const _edges = cloneDeep(edges);
         // // _edges[0].animated = true;
         // // _edges[0].style = {

@@ -21,13 +21,10 @@ const Apis = (props) => {
         Bus.$emit('updateTargetId', target_id);
     };
 
-    console.log(openApis, CURRENT_TARGET_ID);
-
 
     // 被打开的api数据列表
     const apiDataList = isObject(openApis)
         ? Object.values(openApis).map((item) => {
-            console.log(item);
             return {
                 id: item?.target_id,
                 title: item?.name,
@@ -44,7 +41,6 @@ const Apis = (props) => {
 
     // 删除tabItem
     const handleRemoveTab = (id, newID) => {
-        console.log('open_apis, 删除tabItem', openApis);
         id && Bus.$emit('removeOpenItem', id, openApis);
         newID && Bus.$emit('updateTargetId', newID);
     };

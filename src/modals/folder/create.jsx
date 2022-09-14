@@ -61,12 +61,10 @@ const CreateFolder = (props) => {
     const [description, setDescription] = useState('');
     const [tabActiveId, setTabActiveId] = useState('0');
     const [parent_id, setParent_id] = useState(0);
-    // console.log(parent_id, "parent_id");
 
     useEffect(() => {
         const init = () => {
             if (isPlainObject(folder)) {
-                console.log(folder);
                 const { request, name, script: folderScript, parent_id } = folder;
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
@@ -91,8 +89,6 @@ const CreateFolder = (props) => {
     }, [folder]);
 
     const handleChange = (rowData, rowIndex, newVal) => {
-        console.log(rowData, rowIndex, newVal);
-        console.log(request);
         const requestKey = {
             '0': 'header',
             '1': 'query',
@@ -113,10 +109,8 @@ const CreateFolder = (props) => {
                 ...newVal,
             };
             setRequest((lastState) => {
-                console.log('lastState', lastState);
                 const newState = cloneDeep(lastState);
                 newState[type].parameter = newList
-                console.log('newState', newState);
                 return newState;
             });
         }
@@ -181,7 +175,6 @@ const CreateFolder = (props) => {
                                     handleChange(rowData, rowIndex, { description: desc });
                                 }
                             }
-                            // console.log('失去焦点');
                         }}
                     />
                 );
@@ -345,7 +338,6 @@ const CreateFolder = (props) => {
             className={FolderModal}
             okText="保存"
             onOk={() => {
-                console.log(folderName, request);
                 // return;
                 if (trim(folderName).length <= 0) {
                     Message('error', '目录名称不能为空');

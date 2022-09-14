@@ -9,9 +9,6 @@ import Bus from '@utils/eventBus';
 
 const useNodeSort = (props) => {
     const { treeData, type } = props;
-
-    console.log(treeData);
-
     const dispatch = useDispatch();
     const sceneDatas = useSelector((store) => store.scene.sceneDatas);
     const apiDatas = useSelector((store) => store?.apis?.apiDatas);
@@ -34,11 +31,8 @@ const useNodeSort = (props) => {
 
     // 获取全部父级id列表
     const getParentKeys = (nodeItem) => {
-        console.log('nodeItem', nodeItem);
         const results = [];
         const digAll = (node) => {
-            console.log(node);
-            // console.log(node);
             const parent = treeData[node.parent_id];
             if (typeof parent !== 'undefined') {
                 digAll(parent);
@@ -61,29 +55,24 @@ const useNodeSort = (props) => {
         targetKey,
         mode
     ) => {
-        console.log(treeData, sourceKey, targetKey, mode);
         const sourceData = treeData[sourceKey];
         // const sourceData = treeData.filter(item => item.target_id === sourceKey)[0];
         const targetData = treeData[targetKey];
         // const targetData = treeData.filter(item => item.target_id === targetKey)[0];
 
-        console.log(targetData);
         let parent_id = '-1';
 
         let targetList = getChildList(targetData?.parent_id);
 
         // 禁止父节点拖动到子节点
         const targetParentKeys = getParentKeys(targetData);
-        console.log(targetParentKeys, sourceKey, targetKey);
         if (targetParentKeys.includes(sourceKey) || sourceKey === targetKey) {
             return;
         }
-        console.log(1);
         // 不是目录禁止拖进去
         if (mode === 'inside' && (targetData?.target_type !== 'folder' && targetData.target_type !== 'group')) {
             return;
         }
-        console.log(2);
 
         // 插到上面还是插到下面
         if (mode === 'top' || mode === 'bottom') {
@@ -134,12 +123,9 @@ const useNodeSort = (props) => {
         of('')
             .pipe(
                 tap(() => {
-                    console.log(123123123123);
                     // 更新redux
                     const newDatas = cloneDeep(data);
                     if (type === 'apis') {
-
-                        console.log('targetList', targetList);
                         targetList.forEach((item) => {
                             newDatas[item.target_id] = {
                                 ...newDatas[item.target_id],
@@ -165,26 +151,22 @@ const useNodeSort = (props) => {
 
                 }),
                 switchMap(() => {
-                    console.log(456456456);
                     const ids = [];
                     for (let i = 0; i < targetList.length; i++) {
                         ids.push(targetList[i].target_id);
                     }
 
                     if (type === 'apis') {
-                        console.log(789789789, ids);
                         Bus.$emit('dragUpdateTarget', {
                             ids,
                             targetList
                         })
                     } else if (type === 'scene') {
-                        console.log(789789789, ids);
                         Bus.$emit('dragUpdateScene', {
                             ids,
                             targetList
                         })
                     } else if (type === 'plan') {
-                        console.log(789789789, ids, targetList);
                         Bus.$emit('dragUpdatePlan', {
                             ids,
                             targetList,
@@ -201,7 +183,6 @@ const useNodeSort = (props) => {
                 // switchMap(() => Collection.bulkGet(targetList.map((item) => item.target_id))),
                 // filter((dataList) => isArray(dataList)),
                 // map((data) => {
-                //     console.log(data);
                 //     const targetDatas = {};
                 //     targetList.forEach((item) => {
                 //         targetDatas[item.target_id] = item;

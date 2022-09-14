@@ -5,7 +5,7 @@ import { Apis as SvgApis } from 'adesign-react/icons';
 
 const Info = (props) => {
     const { data, user } = props;
-    // console.log('Info', data);
+ 
     const taskList = [
         {
             number: data.plan_num,

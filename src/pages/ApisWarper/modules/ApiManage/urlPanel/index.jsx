@@ -19,7 +19,6 @@ const ApiURLPanel = (props) => {
     const dispatch = useDispatch();
     const open_api_now = useSelector((store) => store.opens.open_api_now);
     const open_res = useSelector((store) => store.opens.open_res);
-    console.log('open_ressssssssssssssssssssssssssss', open_res)
 
     const open_scene_res = useSelector((store) => store.scene.run_api_res)
     const open_scene = useSelector((store) => store.scene.open_scene);
@@ -30,7 +29,6 @@ const ApiURLPanel = (props) => {
     const id_now = useSelector((store) => store.scene.id_now);
     const id_now_plan = useSelector((store) => store.plan.id_now);
 
-    console.log(open_plan_res, id_now_plan);
 
     const res_list = {
         'apis': open_res && open_res[open_api_now],
@@ -85,8 +83,6 @@ const ApiURLPanel = (props) => {
     //         setBtnName('发送');
     //     }
     // }
-
-    console.log('open_api_now', open_api_now);
     const refDropdown = useRef(null);
 
     return (
@@ -122,11 +118,9 @@ const ApiURLPanel = (props) => {
                         setBtnName('发送中...');
                         if (from === 'scene') {
                             Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene_scene, () => {
-                                console.log(open_scene_scene);
                                 Bus.$emit('sendSceneApi', open_scene_scene.scene_id || open_scene_scene.target_id, id_now, open_scene_res || {}, 'scene');
                             });
                         } else if (from === 'plan') {
-                            console.log('()()()', open_plan_scene, id_now_plan, open_plan_res);
                             Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_plan_scene, id, () => {
                                 Bus.$emit('sendSceneApi', open_plan_scene.scene_id, id_now_plan, open_plan_res || {}, 'plan');
                             });
@@ -138,7 +132,6 @@ const ApiURLPanel = (props) => {
                                     type: 'opens/updateOpenApiNow',
                                     payload: id,
                                 })
-                                console.log(code, id);
                                 Bus.$emit('sendApi', id);
                             })
                         }

@@ -72,7 +72,6 @@ export const opensReducer = (state = initialState, action) => {
         open_apis: _data,
       };
     case `${NAMESPACE}/${actionTypes.coverOpenApis}`:
-      console.log('coverOpenApis', action);
       return {
         ...state,
         open_apis: action.payload,

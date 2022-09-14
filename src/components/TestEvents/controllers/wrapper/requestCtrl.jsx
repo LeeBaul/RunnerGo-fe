@@ -71,7 +71,7 @@ const RequestCtrl = () => {
   const tempData = {};
 
   const onChange = (type, value, extension) => {
-    // console.log(type, value, extension);
+
   };
 
   return (

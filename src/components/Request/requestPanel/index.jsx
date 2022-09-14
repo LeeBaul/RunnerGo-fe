@@ -16,8 +16,6 @@ const Option = Select.Option;
 const RequestPanel = (props) => {
   const { data, onChange } = props;
 
-  console.log('RequestPanel', data);
-
   const defaultList = [
     {
       id: '1',

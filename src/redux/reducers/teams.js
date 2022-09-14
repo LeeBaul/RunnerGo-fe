@@ -16,7 +16,6 @@ const actionTypes = {
 export const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
     case `${NAMESPACE}/${actionTypes.updateTeamData}`:
-      // console.log('redux/teams',action);
       return {
         ...state,
         teamData: action.payload,

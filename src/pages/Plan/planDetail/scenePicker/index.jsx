@@ -32,8 +32,6 @@ const ScenePicker = (props) => {
   const sceneDatas = useSelector((store) => store?.scene?.sceneDatas);
   const { id } = useParams();
 
-  console.log(sceneDatas);
-
   const [checkAll, setCheckAll] = useState('unCheck');
   const [checkedApiKeys, setCheckedApiKeys] = useState([]);
   const [filterParams, setFilterParams] = useState({
@@ -50,8 +48,6 @@ const ScenePicker = (props) => {
   };
 
   const { filteredTreeList } = useListData({ filterParams });
-
-  console.log('filteredTreeList', filteredTreeList);
 
   const getApiDataItems = async (sceneDatas, ckdkeys) => {
     // step1.深克隆，防止串数据
@@ -104,7 +100,7 @@ const ScenePicker = (props) => {
   const handleAddApiItems = async () => {
 
     const dataList = await getApiDataItems(sceneDatas, checkedApiKeys);
-    // console.log(dataList);
+
     Bus.$emit('importSceneList', dataList, id);
 
     onCancel();

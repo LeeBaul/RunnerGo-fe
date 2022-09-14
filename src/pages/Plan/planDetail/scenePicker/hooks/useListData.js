@@ -26,7 +26,6 @@ const useListData = (props) => {
     return result;
   };
 
-  console.log('treeData', treeData)
   // 被过滤后的目录菜单列表，平级结构，不带children，parent属性
   const filteredTreeList = React.useMemo(() => {
     if (treeData === undefined) {
@@ -61,7 +60,6 @@ const useListData = (props) => {
         });
       }
     });
-    console.log(dataList);
     return dataList;
   }, [treeData, filterParams]);
 

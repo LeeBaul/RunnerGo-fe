@@ -40,7 +40,6 @@ const useWebsocket = () => {
 
         // 保存协作操作日志 operator操作人 operatingTarget操作目标 operationTime操作时间（秒时间戳）
         const saveInviteDaily = (obj, type = '') => {
-            // console.log(obj);
             const temp_obj = {
                 message: obj,
                 created_at: obj.subject.modify_time,
@@ -52,7 +51,6 @@ const useWebsocket = () => {
             //   type: '',
             //   item: ,
             // });
-            // console.log(obj.subject.modify_uuid, uuidSelf);
             if (obj?.client_id !== uuidSelf) {
                 // TODO 新增协作日志展示小红点
                 // dispatch({

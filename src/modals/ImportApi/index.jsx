@@ -8,7 +8,8 @@ import {
     Doc as SvgDoc,
 } from 'adesign-react/icons';
 import './index.less';
-import { isUndefined } from 'lodash';
+import { isObject, isUndefined } from 'lodash';
+import useListData from './hooks/useListData';
 
 const { CollapseItem, Collapse } = Col;
 
@@ -41,6 +42,11 @@ const ImportApi = (props) => {
     const [newList, setNewList] = useState(dataList);
     const [checkedList, setCheckedList] = useState(['0001', '0011']);
     const [checkAll, setCheckAll] = useState('unCheck');
+    const [checkedApiKeys, setCheckedApiKeys] = useState([]);
+    const [filterParams, setFilterParams] = useState({
+        key: '',
+        status: 'all',
+    });
 
     const handleFilter = (key) => {
         const sourceData = _cloneDeep(dataList.reduce((a, b) => ({ ...a, [b.id]: b }), {}));
@@ -110,39 +116,51 @@ const ImportApi = (props) => {
     }
 
     const handleCheckAll = (val) => {
-        // if (val === 'checked') {
-        //   const checkKeys = isObject(apiDatas) ? Object.keys(apiDatas) : [];
-        //   setCheckedApiKeys(checkKeys);
-        // }
-        // if (val === 'uncheck') {
-        //   setCheckedApiKeys([]);
-        // }
+        if (val === 'checked') {
+            const checkKeys = isObject(treeList) ? Object.keys(treeList) : [];
+            setCheckedApiKeys(checkKeys);
+        }
+        if (val === 'uncheck') {
+            setCheckedApiKeys([]);
+        }
         setCheckAll(val);
     };
 
+    const { filteredTreeList } = useListData({ filterParams })
     const treeList = [
         {
-            target_id: 1,
+            target_id: "1",
             name: '新建接口1',
-            parent_id: 0,
+            parent_id: "0",
             target_type: 'api',
             method: 'POST',
+            sort: -1,
         },
         {
-            target_id: 2,
+            target_id: "2",
             name: '新建接口2',
-            parent_id: 3,
+            parent_id: "3",
             target_type: 'api',
             method: 'GET',
+            sort: -1,
         },
         {
-            target_id: 3,
+            target_id: "3",
             name: '新建分组',
-            parent_id: 0,
+            parent_id: "0",
             target_type: 'folder',
-            method: 'POST',
-        }
-    ]
+            // method: 'POST',
+            sort: -1,
+        },
+        {
+            target_id: "4",
+            name: '新建接口3',
+            parent_id: "0",
+            target_type: 'api',
+            method: 'GET',
+            sort: -1,
+        },
+    ];
 
 
     return (
@@ -159,14 +177,17 @@ const ImportApi = (props) => {
                                 <Collapse defaultActiveKey="a11">
                                     <CollapseItem name="a11" header="新闻列表项目">
                                         <div className="check-all">
-                                            <span>全选</span>
-                                            <CheckBox
-                                                size="small"
-                                                checked={checkAll}
-                                                onChange={(val) => {
-                                                    handleCheckAll(val);
-                                                }}
-                                            ></CheckBox>
+                                            <p className='name'>名称</p>
+                                            <div className='check-all-box'>
+                                                <span>全选</span>
+                                                <CheckBox
+                                                    size="small"
+                                                    checked={checkAll}
+                                                    onChange={(val) => {
+                                                        handleCheckAll(val);
+                                                    }}
+                                                ></CheckBox>
+                                            </div>
                                         </div>
                                         <Tree
                                             showLine
@@ -187,7 +208,8 @@ const ImportApi = (props) => {
                                                 parent: 'parent_id',
                                             }}
                                             dataList={treeList}
-                                            ootFilter={(item) => item.parent_id === 0}
+                                            // nodeSort={(pre, after) => pre.sort - after.sort}
+                                            rootFilter={(item) => item.parent_id === "0"}
                                         />
                                     </CollapseItem>
                                 </Collapse>
@@ -214,7 +236,7 @@ const ImportApi = (props) => {
                                 showLine
                                 ref={refTree}
                                 showIcon={false}
-                                checkedKeys={checkedList}
+                                checkedKeys={checkedApiKeys}
                                 onCheck={setCheckedList}
                                 onNodeClick={handleNodeClick}
                                 onCheckAll={(val) => {
@@ -229,7 +251,7 @@ const ImportApi = (props) => {
                                     parent: 'parent_id',
                                 }}
                                 dataList={treeList}
-                                ootFilter={(item) => item.parent_id === 0}
+                                rootFilter={(item) => item.parent_id === "0"}
                             />
                         </div>
                     </div>

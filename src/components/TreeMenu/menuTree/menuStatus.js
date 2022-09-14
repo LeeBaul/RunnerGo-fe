@@ -11,7 +11,6 @@ const MenuStatus = (props) => {
     const refDropdown = useRef(null);
     const handleStatusChange = (key) => {
         // 左侧目录修改接口状态
-        // console.log(value.data, key);
         Bus.$emit('saveTargetByObj', {
             IncompleteObject: { target_id: value.data.target_id, mark: key },
             callback: () => {
@@ -39,7 +38,6 @@ const MenuStatus = (props) => {
                                         key={markObj[it].key}
                                         className={TreeMenuItem}
                                         onClick={() => {
-                                            // console.log(it);
                                             handleStatusChange(it);
                                         }}
                                     >

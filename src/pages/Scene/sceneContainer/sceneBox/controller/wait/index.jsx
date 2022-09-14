@@ -64,21 +64,16 @@ const WaitController = (props) => {
     }, [init_scene]);
 
     useEffect(() => {
-        // console.log(to_loading, 111111111111111111111111);
-        console.log(open_scene, to_loading, running_scene, 'eeeeeeeeeeeeee');
         if (open_scene) {
             if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
-                console.log('runninggggggg', status);
             }
         }
     }, [to_loading])
 
     useEffect(() => {
-        // console.log('run_resssss', run_res);
         if (run_res) {
             const now_res = run_res.filter(item => item.event_id === id)[0];
-            // console.log(run_res, now_res, id, '**************************');
             if (now_res) {
                 const { status } = now_res;
                 setStatus(status);
@@ -93,7 +88,6 @@ const WaitController = (props) => {
     }
 
     const update = (edges, status) => {
-        // console.log('edges', edges, status, open_scene);
         // const _open_scene = cloneDeep(open_scene);
         let temp = false;
         if (status === 'success') {
@@ -119,9 +113,6 @@ const WaitController = (props) => {
             //         };
             //     }
             // })
-            // console.log(_open_scene);
-
-            // console.log('successEdge', success_edge);s
 
             if (success_edge.length > 0 && temp) {
                 if (from === 'scene') {
@@ -197,8 +188,6 @@ const WaitController = (props) => {
             //     })
             // }
 
-            // console.log('failedEdge', failed_edge);
-
             if (failed_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
@@ -253,11 +242,8 @@ const WaitController = (props) => {
     }
 
     useEffect(() => {
-        console.log(status, status, status);
         setTopBg(topBgStyle[status])
     }, [status]);
-
-    // console.log(topBgStyle[status]);
 
     const topStatus = {
         'default': <></>,
@@ -284,6 +270,7 @@ const WaitController = (props) => {
                             topStatus[status]
                         }
                     </div>
+                    <div className='drag-content'></div>
                     <div className='header-right'>
                         {/* <Switch defaultChecked /> */}
                         {/* <SvgMore /> */}

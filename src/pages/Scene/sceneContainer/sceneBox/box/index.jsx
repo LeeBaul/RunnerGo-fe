@@ -52,7 +52,6 @@ const nodeLeftTopStyle = {
 
 const Box = (props) => {
     const { data: { showOne, id, from } } = props;
-    // console.log('Box id', id);
     const dispatch = useDispatch();
     const refInput = useRef(null);
     const refDropdown = useRef(null);
@@ -98,11 +97,6 @@ const Box = (props) => {
     const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
 
     const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
-
-    // console.log(to_loading, 111111111111111111111111);
-
-
-    // console.log('run_res', run_res_scene, run_res);
     const [showApi, setShowApi] = useState(true);
     const [showMode, setShowMode] = useState(false);
     const [showModeTime, setShowModeTime] = useState(false);
@@ -144,10 +138,8 @@ const Box = (props) => {
     }, [init_scene]);
 
     useEffect(() => {
-        console.log('run_ressssssssss', run_res);
         if (run_res) {
             const now_res = run_res.filter(item => item.event_id === id)[0];
-            // console.log(run_res, now_res, id);
             if (now_res) {
                 const { status } = now_res;
                 setStatus(status);
@@ -158,12 +150,10 @@ const Box = (props) => {
     }, [run_res]);
 
     useEffect(() => {
-        // console.log(to_loading, 111111111111111111111111);
-        console.log(open_scene);
+
         if (open_scene) {
             if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
-                // console.log('runninggggggg', status);
             }
         }
     }, [to_loading])
@@ -187,7 +177,6 @@ const Box = (props) => {
                     });
                     _open_scene.edges = _open_scene.edges.filter((item, index) => !edges_index.includes(index));
                     // _open_scene.edges = edges;
-                    // console.log(_open_scene);
 
                     if (from === 'scene') {
                         // dispatch({
@@ -242,9 +231,7 @@ const Box = (props) => {
     // 6. 如果当前节点状态是failed, 将此节点和所有next_list中的节点有关联的线变成红色
 
     const update = (edges, status) => {
-        // console.log('edges', edges, status);
         // const _open_scene = cloneDeep(open_scene);
-        // console.log(_open_scene, 'open_scenessss');
         let temp = false;
         // const { edges } = open_scene;
         if (status === 'success') {
@@ -264,9 +251,6 @@ const Box = (props) => {
                     // };
                 }
             })
-            // console.log(_open_scene);
-
-            // console.log('successEdge', success_edge, from);
             if (success_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
@@ -344,8 +328,6 @@ const Box = (props) => {
             //     })
             // }
 
-            // console.log('failedEdge', failed_edge);
-
             if (failed_edge.length > 0 && temp) {
                 if (from === 'scene') {
                     dispatch({
@@ -372,6 +354,9 @@ const Box = (props) => {
                     {
                         topStatus[status]
                     }
+                </div>
+                <div className='drag-content'>
+
                 </div>
                 <div className='box-item-right'>
                     <p className='drop-down' onClick={() => setShowApi(!showApi)}>
@@ -422,7 +407,6 @@ const Box = (props) => {
                                     type="primary"
                                     className="add"
                                     onClick={() => {
-                                        // console.log(refInput);
                                         if (!refInput?.current?.value) {
                                             return;
                                         }
@@ -486,20 +470,14 @@ const Box = (props) => {
             '5': <ReqCountMode />
         };
 
-        // console.log(obj[mode]);
-
         return obj[mode];
     };
 
     const changeApiConfig = (id) => {
         // e.preventDefault();
         // e.stopPropagation();
-        // console.log(id_apis);
         const api_now = cloneDeep(id_apis[id]);
-        // console.log(id_apis, id, api_now, from);
         api_now.id = id;
-
-        // console.log(api_now, id);
 
         if (from === 'scene') {
             dispatch({
@@ -551,7 +529,6 @@ const Box = (props) => {
                         <Input size="mini" value={weight} onChange={(e) => {
                             setWeight(parseInt(e));
                             onTargetChange('weight', parseInt(e));
-                            // console.log(nodes);
                         }} placeholder="数值" />
                     </div>
                     <Select

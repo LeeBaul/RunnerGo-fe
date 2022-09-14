@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 // import { User } from '@indexedDB/user';
 
 const createTarget = (type, baseCollection) => {
-  console.log(type, baseCollection);
   switch (type) {
     case 'api':
       const api = {
@@ -245,7 +244,6 @@ const createTarget = (type, baseCollection) => {
           },
         },
       };
-      console.log(folder);
       return folder;
       break;
     case 'websocket':
@@ -387,7 +385,6 @@ const createTarget = (type, baseCollection) => {
           },
         },
       };
-      console.log(scene);
       return scene;
       default:
       return baseCollection;

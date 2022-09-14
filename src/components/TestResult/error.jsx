@@ -7,7 +7,6 @@ import { bindSafeHtml } from '@utils/common';
 import PieCharts from './pie';
 
 const ErrorResult = (props) => {
-  // console.log(props, '0000000000');
 
   return (
     <div className="error-panel">

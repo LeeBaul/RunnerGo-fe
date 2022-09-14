@@ -5,7 +5,6 @@ const ResTable = (props) => {
   const { data } = props;
   const headerList = [];
   const resHeader = data?.response_header || '';
-  console.log(resHeader);
   for (const key in resHeader) {
     if (typeof resHeader[key] === 'object') {
       for (const it in resHeader[key]) {

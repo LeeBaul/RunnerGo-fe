@@ -11,6 +11,7 @@
         justify-content: space-between;
         background: rgba(255, 255, 255, 0.04);
         padding: 10px 8px;
+        position: relative;
 
         .type {
             min-width: 80px;
@@ -27,6 +28,15 @@
 
         .default {
             margin-left: 4px;
+        }
+
+        .drag-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            // background-color: #f00;
+            height: 46px;
+            width: 85%;
         }
 
         .header-right {

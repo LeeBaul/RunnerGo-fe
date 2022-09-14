@@ -32,11 +32,9 @@ const ApiTabs = (props) => {
 
     const [activeId, setActiveId] = useState(defaultTabId);
     const mergedActiveId = 'defaultTabId' in props ? defaultTabId : activeId;
-    console.log(apiList);
     const activeIndex = useMemo(() => {
         let newIndex = -1;
         apiList.forEach((item, index) => {
-            console.log('item.id', item.id, mergedActiveId);
             if (item.id === parseInt(mergedActiveId)) {
                 newIndex = index;
             }
@@ -45,18 +43,15 @@ const ApiTabs = (props) => {
     }, [mergedActiveId, apiList.length]);
 
     const handleRemoveTabItem = (id) => {
-        console.log('handleRemoveTabItem', id);
         if (isFunction(onRemoveTab)) {
             onRemoveTab(id);
         } else {
             const newList = apiList.filter((d) => d.id !== id);
-            console.log('newList', newList);
             let newActiveId = '';
             const tabIndex = apiList.reduce(
                 (a, b, index) => (b.id === id ? index : a),
                 -1
             );
-            console.log('tabIndex', tabIndex);
             if (tabIndex === -1) {
                 return;
             }
@@ -68,7 +63,6 @@ const ApiTabs = (props) => {
                     // 前一个设为选中态
                     newActiveId = apiList.find((d, index) => index === tabIndex - 1)?.id || '';
                 }
-                console.log('newActiveId', newActiveId);
                 setActiveId(newActiveId);
                 onChange(newActiveId);
             }
@@ -125,7 +119,6 @@ const ApiTabs = (props) => {
                 <Button
                     type="primary"
                     onClick={() => {
-                        // console.log(123123);
                         Bus.$emit('addOpenItem', { type: 'api' });
                     }}
                 >
@@ -173,8 +166,6 @@ const ApiTabs = (props) => {
             </div> */}
         </div>
     );
-
-    console.log('activeIndex', activeIndex, 'mergedActiveId', mergedActiveId);
     return (
         <>
             <Tabs

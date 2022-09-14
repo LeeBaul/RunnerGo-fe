@@ -11,7 +11,7 @@ const Report = () => {
         return (
             <Routes>
                 <Route path='list' element={<ReportList />}></Route>
-                <Route path='detail' element={<ReportContent />}></Route>
+                <Route path='detail/:id' element={<ReportContent />}></Route>
                 <Route path='/*' element={<Navigate to="/report/list" />}></Route>
             </Routes>
         )

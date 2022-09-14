@@ -48,7 +48,6 @@ const PlanList = () => {
                 {status === 'running' ? <Button className='stop-btn' preFix={<SvgRun />}>停止</Button> :
                     <Button className='run-btn' preFix={<SvgRun />}>开始</Button>}
                 <SvgEye onClick={() => {
-                    console.log(data);
                     dispatch({
                         type: 'plan/updateOpenPlan',
                         payload: data

@@ -134,7 +134,6 @@ const Header = (props) => {
             style={{ width: '100%' }}
             value={rowData?.field_type || 'String'}
             onChange={(newVal) => {
-              console.log(rowData, rowIndex, { field_type: newVal }, 888);
               handleChange(rowData, rowIndex, { field_type: newVal });
             }}
           >
@@ -245,7 +244,6 @@ const Header = (props) => {
     if (!hasStatic) {
       return [...parameter, { ...newDataItem }];
     }
-    console.log(...parameter);
     return [...parameter];
   };
   return (

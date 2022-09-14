@@ -27,13 +27,9 @@ const App = () => {
         const token = getCookie('token');
         const expire_time_sec = localStorage.getItem('expire_time_sec');
         const isExpire = new Date().getTime() > parseInt(expire_time_sec || 0);
-        console.log(new Date().getTime());
-        console.log(expire_time_sec, parseInt(expire_time_sec));
-        console.log('isExpire', isExpire, location.pathname);
         // if (!token || isExpire) {
         //     window.location.href = '/login';
         // }
-        // console.log(location);
 
         if (!ignorePage.includes(location.pathname)) {
             setLayout(true);
@@ -45,7 +41,6 @@ const App = () => {
             setLayout(false);
             // sessionStorage.removeItem('team_id');
             if (!isExpire) {
-                console.log('----------');
                 // if (window.location.pathname !== location.pathname) {
                 window.location.href = '/index';
                 // }
@@ -56,8 +51,6 @@ const App = () => {
     useGlobal(null);
     useAsyncTask(); // 使用异步任务
     useApt();
-
-    console.log(RoutePages[3].element);
     return (
         <>
             <Routes>

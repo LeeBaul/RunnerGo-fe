@@ -23,7 +23,6 @@ const ProjectMember = (props) => {
         fetchRemoveMember(params)
             .pipe(
                 tap((res) => {
-                    // console.log(res);
                     const { data, code } = res;
 
                     if (code === 0) {
@@ -45,7 +44,6 @@ const ProjectMember = (props) => {
         fetchTeamMemberList(query)
             .pipe(
                 tap((res) => {
-                    // console.log(res);
                     const { code, data: { members } } = res;
                     if (code === 0) {
                         let dataList = [];

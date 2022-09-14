@@ -11,6 +11,16 @@
     justify-content: space-between;
     background: rgba(255, 255, 255, 0.04);
     padding: 10px 8px;
+    position: relative;
+
+    .drag-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 85%;
+      height: 46px;
+      // background-color: #f00;
+    }
 
     .type {
       min-width: 80px;
@@ -88,4 +98,5 @@
 .my_handle {
   width: 10px;
   height: 10px;
+  z-index: 10;
 }

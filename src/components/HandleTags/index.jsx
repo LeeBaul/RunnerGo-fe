@@ -16,7 +16,6 @@ const tagList = {
 
 const HandleTags = (props) => {
     const { type } = props;
-    console.log(type);
     const [color, text] = tagList[type];
     return (
         <div className='handle-tag' style={{ backgroundColor: color }}>

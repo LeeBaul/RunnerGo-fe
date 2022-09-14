@@ -23,7 +23,6 @@ export const createChildFolder = ({ params, showModal, action }) => {
     Bus.$emit('addOpenItem', { type: 'folder', pid: params.target_id });
 };
 export const modifyFolder = async (target_id, props) => {
-    console.log(props, target_id);
     // const folder = await Collection.get(params.target_id);
     // if (!isUndefined(folder) && isPlainObject(folder)) {
     fetchFolderDetail({

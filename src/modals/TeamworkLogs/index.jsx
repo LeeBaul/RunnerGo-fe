@@ -60,13 +60,11 @@ const TeamworkLogs = (props) => {
         newArr[index].data.push(it);
       }
     });
-    // console.log(newArr);
     return newArr;
   };
 
   const getLogList = () => {
     // const listener1 = () => {
-    //   // console.log(refTooltip);
     //   refTooltip?.current?.setPopupVisible(false);
     // };
 
@@ -87,7 +85,6 @@ const TeamworkLogs = (props) => {
             let max = Math.ceil(total / pageSize);
             if (max === 0) max = 1;
             setMaxPage(max);
-            console.log(max);
             operations.forEach(item => {
               const itemData = {
                 ...item,
@@ -115,7 +112,6 @@ const TeamworkLogs = (props) => {
                 }
               }
             });
-            // console.log(list);
             setList(list);
           }
         })

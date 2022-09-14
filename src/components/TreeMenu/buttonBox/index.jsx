@@ -29,7 +29,6 @@ const ButtonBox = (props) => {
     const currentTeamName = useMemo(() => {
         let currentTeamId = localStorage.getItem('team_id');
         let teamName = userTeams[currentTeamId] ? userTeams[currentTeamId].name : '默认团队';
-        console.log(teamName);
 
         return teamName;
     }, [userTeams, currentTeamId]);
@@ -37,7 +36,6 @@ const ButtonBox = (props) => {
     const handleExpandAll = () => {
         const newExpandStatus = !isExpandAll;
         setIsExpandAll(newExpandStatus);
-        console.log(treeRef.current);
         treeRef.current?.handleExpandItem(newExpandStatus);
         // setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.IS_EXPAND_ALL`, newExpandStatus ? 1 : -1);
     };

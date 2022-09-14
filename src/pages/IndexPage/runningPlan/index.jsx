@@ -10,9 +10,8 @@ import { isArray } from 'lodash';
 const RunningPlan = () => {
     const navigate = useNavigate();
     const planData = useSelector((store) => store.plan.planData);
-    console.log(planData);
+
     const [planList, setPlanList] = useState(isArray(planData) ? planData : []);
-    console.log(planList);
 
     const dispatch = useDispatch();
 

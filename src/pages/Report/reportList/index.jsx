@@ -41,7 +41,7 @@ const ReportList = () => {
         const { report_id } = props;
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate('/report/detail')} />
+                <SvgEye onClick={() => navigate(`/report/detail/${report_id}`)} />
                 <SvgCopy />
                 <SvgDelete className='delete-svg' onClick={() => deleteReport(report_id)} />
             </div>
@@ -68,7 +68,6 @@ const ReportList = () => {
         };
         fetchReportList(query).subscribe({
             next: (res) => {
-                console.log(res);
                 const { data: { reports } } = res;
                 const list = reports.map(item => {
                     const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id } = item;
@@ -145,7 +144,7 @@ const ReportList = () => {
         },
         {
             title: '计划名称',
-            dataIndex: 'name',
+            dataIndex: 'plan_name',
         },
         {
             title: '场景名称',

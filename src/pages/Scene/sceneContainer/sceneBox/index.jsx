@@ -26,7 +26,6 @@ const nodeTypes = {
 }
 
 const onLoad = (reactFlowInstance) => {
-    // console.log('flow loaded: ', reactFlowInstance);
     reactFlowInstance.fitView();
 };
 
@@ -34,7 +33,6 @@ const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInsta
 
 const SceneBox = (props) => {
     const { from } = props;
-    // console.log('0+++', from);
 
     const refBox = useRef();
     const refContainer = useRef();
@@ -67,11 +65,9 @@ const SceneBox = (props) => {
 
     const open_scene = useSelector((store) => store.scene.open_scene);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
-    // console.log('1+++', open_scene);
-    // console.log('2+++', open_plan_scene);
 
     const open_data = from === 'scene' ? open_scene : open_plan_scene;
-    // console.log('open_Dataaaaaaaaa', open_data);
+
     const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
     const node_config = from === 'scene' ? node_config_scene : node_config_plan;
     const type_now = from === 'scene' ? type_now_scene : type_now_plan;
@@ -83,8 +79,6 @@ const SceneBox = (props) => {
     const success_edge = from === 'scene' ? success_edge_scene : success_edge_plan;
     const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
 
-    console.log('sucesssssssssssssss_edge', success_edge);
-
 
 
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
@@ -93,15 +87,57 @@ const SceneBox = (props) => {
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+    const onConnect = useCallback((params) => {
+
+        const res = checkConnect(params.source, params.target);
+        if (res) {
+            return setEdges((eds) => {
+                return addEdge(params, eds)
+            })
+        } else {
+            Message('error', '无法实现闭环, 请在下方新建节点')
+        }
+
+    }, [edges]);
+
+    const checkConnect = (source, target) => {
+        // 检查target有没有在source的父节点树中出现过
+        // const arr = [];
+        for (let i = 0; i < edges.length; i++) {
+            if (edges[i].source === target) {
+                return false;
+            }
+            if (edges[i].target === source) {
+                // arr.push(edges[i].source);
+                checkConnect(edges, edges[i].source, target);
+            }
+        };
+
+        return true;
+        // edges.forEach(item => {
+        //     if (item.target === source) {
+        //         arr.push(item.source);
+        //     }
+        // })
+    };
+
+    // const _nodes = [
+    //     { id: 'a' },
+    //     { id: 'b' },
+    //     { id: 'c' },
+    // ];
+    // const _edges = [
+    //     { source: 'a', target: 'b' },
+    //     { source: 'b', target: 'c' },
+    // ];
+
+    // const connect = { source: 'c', target: 'a' }; // 不允许
 
 
     useEffect(() => {
         const [action, type] = type_now;
-        // console.log(action, type);
         const id = v4();
         if (action === 'add' && type === 'api') {
-            // console.log(nodes.length);
             const apiList = nodes.filter(item => item.type === 'api');
             const new_node = {
                 id,
@@ -111,18 +147,15 @@ const SceneBox = (props) => {
                     from,
                 },
                 position: { x: 50, y: 50 },
-                dragHandle: '.box-item',
+                dragHandle: '.drag-content',
             }
-            // console.log(id_apis, ']]]]]]]]]')
 
             if (from === 'scene') {
                 Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config, { id }, { id }, from);
             } else {
                 Bus.$emit('addNewPlanApi', new_node.id, id_apis, node_config, { id }, { id }, from);
             }
-            // console.log('new_node', new_node);
             setNodes((nds) => nds.concat(new_node));
-            // console.log(nodes);
         } else if (action === 'add' && type === 'condition_controller') {
             const new_node = {
                 id,
@@ -131,7 +164,8 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: { x: 50, y: 50 }
+                position: { x: 50, y: 50 },
+                dragHandle: '.drag-content',
             }
 
             if (from === 'scene') {
@@ -142,7 +176,6 @@ const SceneBox = (props) => {
 
             setNodes((nds) => nds.concat(new_node));
         } else if (action === 'add' && type === 'wait_controller') {
-            // console.log('/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*');
             const new_node = {
                 id,
                 type: 'wait_controller',
@@ -150,14 +183,13 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: { x: 50, y: 50 }
+                position: { x: 50, y: 50 },
+                dragHandle: '.drag-content',
             }
 
             if (from === 'scene') {
-                // console.log('from scene');
                 Bus.$emit('addNewSceneControl', new_node.id, node_config);
             } else {
-                // console.log('from plan');
                 Bus.$emit('addNewPlanControl', new_node.id, node_config);
             }
 
@@ -170,7 +202,6 @@ const SceneBox = (props) => {
     // }, [success_edge_scene]);
 
     useEffect(() => {
-        console.log(1);
         // formatSuccess();
         if (nodes.length > 0 || edges.length > 0) {
             if (from === 'scene') {
@@ -192,15 +223,13 @@ const SceneBox = (props) => {
                     payload: edges,
                 })
             }
-            // console.log(123123123123123, nodes, edges);
         }
     }, [nodes, edges]);
 
     useEffect(() => {
-        console.log(1);
 
         let ids = [];
-        // console.log('import_node', import_node);
+
         if (import_node && import_node.length) {
             import_node.forEach(item => {
                 const id = v4();
@@ -214,7 +243,6 @@ const SceneBox = (props) => {
                     position: { x: 50, y: 50 }
                 }
                 item.id = id;
-                // console.log(id_apis, ']]]]]]]]]')
                 ids.push(id);
                 setNodes((nds) => nds.concat(new_node));
             });
@@ -240,11 +268,8 @@ const SceneBox = (props) => {
     }, [nodes])
 
     useEffect(() => {
-        console.log(1);
-
-        console.log(nodes, open_data, 'nodes');
         if (Object.entries((open_data) || {}).length > 0) {
-            // console.log(open_data);
+
             const { nodes, edges } = open_data;
             // 1. 对nodes进行赋值, 渲染视图
             // 2. 对id_apis进行赋值, 建立id和api的映射关系
@@ -276,7 +301,6 @@ const SceneBox = (props) => {
                     width,
                 };
             });
-            // console.log(old_nodes);
             // edges && (edges[0].animated = true);
             nodes && setNodes(old_nodes || []);
             edges && setEdges(edges || []);
@@ -305,9 +329,7 @@ const SceneBox = (props) => {
     }, [open_data]);
 
     useEffect(() => {
-        console.log(1);
 
-        // console.log(nodes, delete_node);
         if (delete_node.length > 0) {
             const node_index = nodes.findIndex(item => item.id === delete_node);
             const edge_index = edges.map((item, index) => {
@@ -315,11 +337,10 @@ const SceneBox = (props) => {
                     return index;
                 }
             });
-            // console.log(node_index, edge_index);
             let _nodes = cloneDeep(nodes);
             let _edges = cloneDeep(edges);
             _nodes.splice(node_index, 1);
-            // console.log(_nodes);
+
             setNodes(_nodes);
             // edge_index.forEach(item => {
             //     typeof item === 'number' && _edges.splice(item, 1);
@@ -352,14 +373,11 @@ const SceneBox = (props) => {
     }, [delete_node]);
 
     useEffect(() => {
-        console.log(1);
 
         if (Object.entries(clone_node).length > 0) {
             const _nodes = cloneDeep(nodes);
             _nodes.splice(_nodes.length - 1, 1);
-            // console.log('clone_node_______________________', _nodes);
             const index = _nodes.findIndex(item => item.id === clone_node.id);
-            // console.log('indexindexindex', index);
 
             if (index === -1) {
                 _nodes.push(clone_node);
@@ -371,13 +389,11 @@ const SceneBox = (props) => {
     }, [clone_node]);
 
     useEffect(() => {
-        console.log(1);
 
         if (Object.entries(update_edge).length > 0) {
             const _edges = cloneDeep(edges);
             const index = _edges.findIndex(item => item.id === update_edge.id);
             _edges[index] = update_edge;
-            // console.log(_edges[index], '*****************************');
             setEdges(_edges);
         }
     }, [update_edge]);
@@ -386,7 +402,6 @@ const SceneBox = (props) => {
         if (success_edge.length > 0 && edges.length > 0) {
             // const _edges = cloneDeep(edges);
             // _edges.forEach(item => {
-            //     console.log('itemmmmmmmmmm', item);
             //     if (success_edge.includes(item.id)) {
             //         item.style = {
             //             stroke: '#2BA58F',
@@ -397,9 +412,7 @@ const SceneBox = (props) => {
             //     }
             // });
             // setEdges(_edges);
-            // console.log('setEdges', _edges);
             setEdges((nds) => {
-                console.log('nds', nds);
                 const _nds = cloneDeep(nds);
                 _nds.forEach(item => {
                     if (success_edge.includes(item.id)) {
@@ -411,7 +424,6 @@ const SceneBox = (props) => {
                         };
                     }
                 })
-                console.log(_nds);
                 return _nds;
             });
         }
@@ -433,7 +445,6 @@ const SceneBox = (props) => {
             // setEdges(_edges);
 
             setEdges((nds) => {
-                console.log('nds', nds);
                 const _nds = cloneDeep(nds);
                 _nds.forEach(item => {
                     if (failed_edge.includes(item.id)) {
@@ -445,16 +456,12 @@ const SceneBox = (props) => {
                         };
                     }
                 })
-                console.log(_nds);
                 return _nds;
             });
         }
     }
 
     useEffect(() => {
-        console.log(1);
-
-        // console.log('success_edge', success_edge, edges);
         // if (success_edge.length > 0 && edges.length > 0) {
         //     const _edges = cloneDeep(edges);
         //     _edges.forEach(item => {
@@ -467,14 +474,11 @@ const SceneBox = (props) => {
         //             };
         //         }
         //     });
-        //     // console.log('setEdges', _edges);
         //     setEdges(_edges);
         // }
     }, [success_edge]);
 
     useEffect(() => {
-        console.log(1);
-
         // if (failed_edge.length > 0 && edges.length > 0) {
         //     const _edges = cloneDeep(edges);
         //     _edges.forEach(item => {
@@ -492,17 +496,12 @@ const SceneBox = (props) => {
     }, [failed_edge]);
 
     useEffect(() => {
-        console.log(1);
-
-        // console.log(run_res, edges);
         if (edges.length > 0 && to_loading) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {
                 item.style = {};
                 item.markerEnd = {};
             });
-            // console.log(_edges, 66666666666666666666666666666);
-
             setEdges(_edges);
         }
     }, [to_loading]);

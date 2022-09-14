@@ -90,7 +90,6 @@ const TaskConfig = (props) => {
                     step_run_time && setStepRunTime(step_run_time);
                     task_type && setTaskType(task_type);
                 }
-                console.log(plan);
                 // setPlanDetail(plan);
             }
         })
@@ -171,7 +170,6 @@ const TaskConfig = (props) => {
     const [cron_expr, setCronExpr] = useState('');
 
     const updateTaskConfig = (type, value) => {
-        console.log(type, value);
         const _task_config = cloneDeep(task_config);
         if (type === 'task_type') {
             _task_config['task_type'] = value;
@@ -187,7 +185,6 @@ const TaskConfig = (props) => {
             _task_config['mode'] = value;
             _task_config['mode_conf'][type] = value;
         };
-        console.log('_task_config', _task_config);
 
 
         dispatch({
@@ -204,7 +201,6 @@ const TaskConfig = (props) => {
                     <Radio value="duration">
                         <span className='label'>持续时长: </span>
                         <Input size="mini" value={duration} onChange={(e) => {
-                            console.log(e, parseInt(e));
                             setDuration(parseInt(e));
                             from === 'preset' && onChange('duration', parseInt(e));
                             from === 'default' && updateTaskConfig('duration', parseInt(e));

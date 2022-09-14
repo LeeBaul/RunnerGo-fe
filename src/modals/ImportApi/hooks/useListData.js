@@ -1,11 +1,47 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+// import { ITreeMenuItem } from '@dto/apis';
 import { cloneDeep, isEqual, merge, isUndefined } from 'lodash';
 
-const usePlanData = (props) => {
-    const { filterParams, selectedKeys } = props;
 
-    const treeData = useSelector((store) => store.plan.planMenu);
+const useListData = (props) => {
+    const { filterParams } = props;
+
+    //   const treeData = useSelector((store) => store?.apis?.apiDatas);
+    const treeData = [
+        {
+            target_id: 1,
+            name: '新建接口1',
+            parent_id: 0,
+            target_type: 'api',
+            method: 'POST',
+            sort: -1,
+        },
+        {
+            target_id: 2,
+            name: '新建接口2',
+            parent_id: 3,
+            target_type: 'api',
+            method: 'GET',
+            sort: -1,
+        },
+        {
+            target_id: 3,
+            name: '新建分组',
+            parent_id: 0,
+            target_type: 'folder',
+            // method: 'POST',
+            sort: -1,
+        },
+        {
+            target_id: 4,
+            name: '新建接口3',
+            parent_id: 0,
+            target_type: 'api',
+            method: 'GET',
+            sort: -1,
+        },
+    ];
 
     // 查找当前节点及全部上层对象
     const getParentItems = (
@@ -23,10 +59,8 @@ const usePlanData = (props) => {
         dig(parent_id);
         return result;
     };
-
     // 被过滤后的目录菜单列表，平级结构，不带children，parent属性
     const filteredTreeList = React.useMemo(() => {
-        // return treeData instanceof Array ? treeData : [];
         if (treeData === undefined) {
             return [];
         }
@@ -37,6 +71,7 @@ const usePlanData = (props) => {
             const includeUrl = `${data?.url}`.toLowerCase().indexOf(key.toLowerCase()) !== -1;
             const includeName =
                 key === '' || `${data?.name}`.toLowerCase().indexOf(key.toLowerCase()) !== -1;
+
             if (
                 (includeName === true || includeUrl === true) &&
                 (data.mark === status || status === 'all')
@@ -51,10 +86,12 @@ const usePlanData = (props) => {
         });
         const dataList = [];
         Object.entries(newList).forEach(([target_id, data]) => {
-            dataList.push({
-                ...data,
-                target_id,
-            });
+            if (['api', 'folder'].includes(data.target_type)) {
+                dataList.push({
+                    ...data,
+                    target_id,
+                });
+            }
         });
         return dataList;
     }, [treeData, filterParams]);
@@ -63,11 +100,12 @@ const usePlanData = (props) => {
     const filteredTreeData = React.useMemo(() => {
         const newTreeData = {};
         const dataList = cloneDeep(filteredTreeList);
-        dataList && dataList.forEach((item) => {
+        dataList.forEach((item) => {
             if (!isUndefined(item.target_id)) {
                 newTreeData[item.target_id] = item;
             }
         });
+        const rootList = [];
         for (const item of dataList) {
             const parent = newTreeData[item.parent_id];
             if (parent !== undefined) {
@@ -76,63 +114,16 @@ const usePlanData = (props) => {
                 }
                 parent.children.push(item);
             }
+            if (item.parent_id === '0') {
+                rootList.push(item);
+            }
         }
-        return newTreeData;
+        return rootList;
     }, [filteredTreeList]);
-
-    // 根据含有children属性的数组，获取几点本身及下级全部target_id列表
-    const getSelfNodeAndChildKeys = (treeData, nodeKey) => {
-        const list = [];
-        const digAllNodes = (treeNode) => {
-            list.push(treeNode.target_id);
-            if (treeNode.target_type === 'folder' && Array.isArray(treeNode.children)) {
-                const childList = treeNode.children.sort((a, b) => a.sort - b.sort);
-                for (const childItem of childList) {
-                    digAllNodes(childItem);
-                }
-            }
-        };
-        digAllNodes(treeData[nodeKey]);
-        return list;
-    };
-
-    // 当前被选中的节点列表
-    const selectedNewTreeData = React.useMemo(() => {
-        const newTree = [];
-        let sort = 0;
-        for (const itemKey of selectedKeys) {
-            const selectedItem = filteredTreeData[itemKey];
-            if (isUndefined(selectedItem)) {
-                continue;
-            }
-            let parent = filteredTreeData[selectedItem?.parent_id];
-
-            // 父对象不为空，并且父对象target_id未在selectedKeys中
-            while (
-                !isUndefined(parent?.target_id) &&
-                !selectedKeys.includes(parent?.target_id) &&
-                parent !== filteredTreeData[parent.parent_id]
-            ) {
-                parent = filteredTreeData[parent.parent_id];
-            }
-            const { children, ...newItem } = selectedItem;
-
-            // item为最顶层
-            if (isUndefined(parent)) {
-                newTree.push({ ...newItem, parent_id: '0', sort });
-            } else {
-                newTree.push({ ...newItem, parent_id: parent.target_id, sort });
-            }
-            sort++;
-        }
-        return newTree;
-    }, [selectedKeys, filteredTreeData]);
 
     return {
         filteredTreeList,
         filteredTreeData,
-        getSelfNodeAndChildKeys,
-        selectedNewTreeData,
     };
 };
-export default usePlanData;
+export default useListData;

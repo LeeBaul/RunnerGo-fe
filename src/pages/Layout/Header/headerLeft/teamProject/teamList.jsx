@@ -55,12 +55,10 @@ const TeamList = (props) => {
           const { code, data } = res;
           if (code === 0) {
             const { teams } = data;
-            // console.log(teams, 6666666666);
 
             if (isArray(teams)) {
               setTeamList(teams);
               const teamData = {};
-              // console.log(teams, 6666666666);
               teams.forEach((data) => {
                 teamData[data.team_id] = data;
               });
@@ -82,10 +80,8 @@ const TeamList = (props) => {
     settings.settings.current_team_id = team_id;
     fetchUpdateConfig(settings).subscribe({
       next: (res) => {
-        console.log(res);
         const { code } = res;
         if (code === 0) {
-          console.log(123123);
           dropRef?.current?.setPopupVisible(false)
           localStorage.setItem('team_id', team_id);
           global$.next({
@@ -96,7 +92,7 @@ const TeamList = (props) => {
         }
       },
       err: (err) => {
-        console.log(err);
+
       }
     })
   }

@@ -14,7 +14,6 @@ const Beautify = (props) => {
       try {
         editorDom.getContribution('editor.contrib.findController')._start({}, true);
       } catch (error) {
-        // console.log(error, '编辑器打开搜索功能出错了。。。。。。');
       }
     },
   }));

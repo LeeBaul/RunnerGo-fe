@@ -32,7 +32,6 @@ instance.interceptors.request.use(
         return config;
     },
     (err) => {
-        console.log(err);
     }
 );
 
@@ -43,7 +42,6 @@ instance.interceptors.response.use(
         }
     },
     (err) => {
-        console.log(err);
     }
 );
 

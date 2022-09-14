@@ -61,16 +61,12 @@ const ConditionController = (props) => {
 
     const [status, setStatus] = useState('default');
 
-    // console.log('444444444444', open_scene);
-
     useEffect(() => {
         const my_config = node_config[id];
-        // console.log(my_config, 'myconfigggggggggggggggggggggggggggg');
         if (my_config) {
             const { var: _var, compare, val, remark } = my_config;
             _var && setVar(_var);
             compare && setCompare(compare);
-            // console.log(_var, val);
             val && setVal(val);
             remark && setRemark(remark);
         }
@@ -81,12 +77,10 @@ const ConditionController = (props) => {
     }, [init_scene]);
 
     useEffect(() => {
-        // console.log(to_loading, 111111111111111111111111);
         
         if (open_scene) {
             if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
-                // console.log('runninggggggg', status);
             }
         }
     }, [to_loading])
@@ -94,7 +88,6 @@ const ConditionController = (props) => {
     useEffect(() => {
         if (run_res) {
             const now_res = run_res.filter(item => item.event_id === id)[0];
-            // console.log(run_res, now_res, id);
             if (now_res) {
                 const { status } = now_res;
                 setStatus(status);
@@ -111,7 +104,6 @@ const ConditionController = (props) => {
     }, [open_scene]);
 
     const update = (edges, status) => {
-        // console.log('edges', edges, status, open_scene);
         // const _open_scene = cloneDeep(open_scene);
         let temp = false;
         if (status === 'success') {
@@ -137,10 +129,6 @@ const ConditionController = (props) => {
             //         };
             //     }
             // })
-            // console.log(_open_scene);
-
-
-            // console.log('successEdge', success_edge);
 
             if (success_edge.length > 0 && temp) {
                 if (from === 'scene') {
@@ -190,8 +178,6 @@ const ConditionController = (props) => {
                     failed_edge.push(item.id);
                 }
             })
-
-            // console.log('failedEdge', failed_edge);
 
             // if (from === 'scene' && temp) {
             //     // dispatch({
@@ -251,7 +237,7 @@ const ConditionController = (props) => {
     };
 
     const onTargetChange = (type, value) => {
-        // console.log(type, value);
+
         Bus.$emit('updateNodeConfig', type, value, id, node_config, from);
     }
 
@@ -289,6 +275,7 @@ const ConditionController = (props) => {
                             topStatus[status]
                         }
                     </div>
+                    <div className='drag-content'></div>
                     <div className='header-right'>
                         {/* <Switch defaultChecked /> */}
                         {/* <SvgMore /> */}

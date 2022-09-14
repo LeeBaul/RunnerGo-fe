@@ -29,7 +29,6 @@ const Regular = (props) => {
     };
 
     const handleChange = (rowData, rowIndex, newVal) => {
-        console.log('parameter', parameter);
         const newList = [...parameter];
         newList[rowIndex] = {
             ...rowData,

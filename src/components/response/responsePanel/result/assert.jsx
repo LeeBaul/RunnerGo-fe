@@ -50,7 +50,6 @@ const Assert = (props) => {
             // ru for Russian instancePath
             localize.zh(validate.errors);
             setErrors(validate.errors || []);
-            // console.log('errors', ajv.errorsText(validate.errors, { separator: '\n' }));
           }
         } else {
           setValid('init');
@@ -61,7 +60,6 @@ const Assert = (props) => {
         setErrors([]);
       }
     } catch (error) {
-      console.log('error', error);
     }
   }, [response, data?.response]);
   const expectText = (key) => {

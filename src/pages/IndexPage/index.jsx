@@ -31,7 +31,6 @@ const IndexPage = () => {
     // }, []);
 
     // useEffect(() => {
-    //     console.log('window.team_id', window.team_id)
     //     fetchDashBoardInfo({
     //         team_id: window.team_id
     //     })
@@ -48,7 +47,6 @@ const IndexPage = () => {
     //                     });
     //                     setUser(user);
     //                     setLogList(operations);
-    //                     console.log('IndexPage', userInfo);
     //                     const newInfo = cloneDeep(userInfo);
     //                     newInfo.email = user.email;
     //                     newInfo.nickname = user.nickname;
@@ -60,7 +58,6 @@ const IndexPage = () => {
     //                         type: 'user/updateUserInfo',
     //                         payload: newInfo
     //                     })
-    //                     console.log(userInfo, user, newInfo);
     //                 }
     //             })
     //         )
@@ -71,7 +68,6 @@ const IndexPage = () => {
 
 
     // fetch('https://kpmanage.apipost.cn/management/api/v1/dashboard/default').then((res) => {
-    //     console.log(res);
     // })
 
     const handleShowAsync = (bool) => {

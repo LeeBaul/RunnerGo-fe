@@ -102,7 +102,6 @@ const useApi = () => {
         consoleObj.result = 'error';
         // consoleObj.time = responseTime;
         consoleObj.date_time = new Date().getTime();
-        // console.log(consoleObj);
         // 控制台打印
         dispatch({
             type: 'console/addConsoleList',
@@ -405,12 +404,10 @@ const useApi = () => {
             const { request, response } = convertResult?.data || {};
             const { target_id, resMime, fitForShow, stream, filename, code, resCookies } = response || {};
             const { raw: rawBody, buffer, base64 } = Atools.bufferToRaw(stream.data, resMime);
-            // console.log(buffer, 'bufferbufferbuffer', rawBody);
 
             response.rawBody = rawBody;
             response.stream.data = Array.from(buffer);
             response.base64Body = base64;
-            // console.log(response, 'response');
             // 接口发送结束  状态恢复
             dispatch({
                 type: 'opens/updateTempApisById',
@@ -456,8 +453,6 @@ const useApi = () => {
                     value: EditFormat(rawBody).value,
                 });
             }
-
-            // console.log(convertResult.data, 'data');
         } else if (convertResult?.status === 'error') {
             throw new Error(convertResult?.message || '请求失败。');
         }
@@ -566,7 +561,6 @@ const useApi = () => {
             // http 请求返回
             desktop_proxy.on('runtime_response', (data) => {
                 const { action } = data.data;
-                // console.log(data, 'runtime_response返回结果');
                 // todo 支持并发请求接口
                 if (data?.status === 'success') {
                     // 处理结果
@@ -596,7 +590,6 @@ const useApi = () => {
             });
 
             desktop_proxy.onclose = (reason) => {
-                // console.log('成功了duankai1会  ');
                 desktop_proxy.removeAllListeners('http_response');
                 // called when the underlying connection is closed
                 resolve(true);
@@ -668,7 +661,6 @@ const useApi = () => {
 
         try {
             const options = await getOPtions(tempApi, config);
-            // console.log('处理请求数据 over');
 
             if (isElectron()) {
                 await electronSend(tempApi);
@@ -700,7 +692,6 @@ const useApi = () => {
                     break;
             }
         } catch (error) {
-            console.log('接口发送状态改为异常', error);
 
             // 接口发送状态改为异常
             dispatch({
@@ -717,7 +708,6 @@ const useApi = () => {
             // if (!desktop_proxy?._callbacks?.$grpc_allMethodList_response) {
             desktop_proxy.on('grpc_allMethodList_response', function (res) {
                 desktop_proxy.removeAllListeners('grpc_allMethodList_response');
-                // console.log('grpc_allMethodList_response', res);
 
                 if (res?.status === 'success') {
                     // 处理结果 存到本地
@@ -757,7 +747,6 @@ const useApi = () => {
             // if (!desktop_proxy?._callbacks?.$grpc_request_response) {
             desktop_proxy.on('grpc_request_response', function (res) {
                 desktop_proxy.removeAllListeners('grpc_request_response');
-                // console.log('grpc_request_response', res, methodBody, methodPath);
                 if (res?.status === 'success') {
                     // 处理结果 存到本地
                     if (isPlainObject(res?.data?.response)) {
@@ -807,7 +796,6 @@ const useApi = () => {
             // if (!desktop_proxy?._callbacks?.$grpc_request_response) {
             desktop_proxy.on('grpc_mockMethodRequest_response', function (res) {
                 desktop_proxy.removeAllListeners('grpc_mockMethodRequest_response');
-                // console.log('grpc_mockMethodRequest_response', res, methodBody, methodPath);
                 if (res?.status === 'success') {
                     // 处理结果 存到本地
                     if (isPlainObject(res?.data) && res.data.hasOwnProperty('response')) {
@@ -888,7 +876,6 @@ const useApi = () => {
                         default:
                             break;
                     }
-                    // console.log(res, 'websocket_res');
                 });
             }
             if (target?.method === 'Raw') {
@@ -930,7 +917,6 @@ const useApi = () => {
 
     const sendMessageWebSocket = (id, message, event) => {
         if (desktop_proxy && desktop_proxy?.connected) {
-            // console.log(id, message, event);
             desktop_proxy.emit('websocket', {
                 action: 'message',
                 message,

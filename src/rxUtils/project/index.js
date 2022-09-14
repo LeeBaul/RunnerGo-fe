@@ -418,7 +418,6 @@ export const getLocalDataList$ = (uuid) => {
             projectList: isArray(projectList) ? projectList : [],
         })),
         tap((data) => {
-            // console.log(data, 'bendi xiangmu lieb ');
         })
     );
 };
@@ -437,14 +436,13 @@ export const getLatestTeamProjectList$ = (uuid) => {
                         mergeMap((delId) => UserTeams.where({ uuid, team_id: delId }).delete()),
                         reduce((a, b) => a + 1, 0),
                         tap((res) => {
-                            // console.log('已删除团队数量', res);
+
                         })
                     )
                 ),
                 mergeMap(() =>
                     from(UserTeams.bulkPut(diffData.addedTeamList)).pipe(
                         tap((res) => {
-                            // console.log('已添加团队数量', diffData.addedTeamList.length);
                         })
                     )
                 ),
@@ -453,14 +451,12 @@ export const getLatestTeamProjectList$ = (uuid) => {
                         // mergeMap((delId) => UserProjects.where({ uuid, project_id: delId }).delete()),
                         reduce((a, b) => a + 1, 0),
                         tap((res) => {
-                            // console.log('已删除项目数量', res);
                         })
                     )
                 ),
                 // mergeMap(() =>
                 //     // from(UserProjects.bulkPut(diffData.addedProjectList)).pipe(
                 //     //     tap((res) => {
-                //     //         console.log('已添加项目数量', diffData.addedProjectList.length);
                 //     //     })
                 //     // )
                 // )

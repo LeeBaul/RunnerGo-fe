@@ -23,7 +23,6 @@ export const createChildFolder = ({ params, showModal, action }) => {
     Bus.$emit('addOpenItem', { type: 'folder', pid: params.target_id });
 };
 export const modifyFolder = async (target_id, props) => {
-    console.log(props, target_id);
     // const folder = await Collection.get(params.target_id);
     // if (!isUndefined(folder) && isPlainObject(folder)) {
     fetchSceneDetail({
@@ -31,7 +30,6 @@ export const modifyFolder = async (target_id, props) => {
         target_id
     }).subscribe({
         next (res) {
-            console.log('获取场景详情', res);
             const { data: { scenes } } = res;
             props.showModal('addScene', { scene: scenes[0] });
         }
@@ -39,7 +37,6 @@ export const modifyFolder = async (target_id, props) => {
     // }
 };
 export const cloneScene = async (target_id, props) => {
-    console.log(target_id, props);
     Bus.$emit('cloneScene', target_id);
 };
 export const shareFolder = ({ props, params, showModal }) => {
@@ -109,7 +106,6 @@ export const pasteToCurrent = ({ props, params }) => {
 };
 export const pasteFolderToRoot = ({ props }) => { };
 export const deleteFolder = async (target_id, props, open_scene, from) => {
-    console.log(target_id, props, open_scene);
     // deleteMultiData(target_id);
     Bus.$emit('deleteScene', target_id, open_scene, from, (code) => {
         if (code === 0) {

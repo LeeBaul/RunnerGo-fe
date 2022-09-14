@@ -137,18 +137,12 @@ const useProject = () => {
     // 展示用户配置信息
     const handleInitUserConfig = ({ data: { settings } }) => {
 
-        // console.log(data);
-        // console.log(sessionStorage.getItem('team_id'));
-
         // const dispatch = useDispatch();
-        // // console.log('userConfig!!!', settings);
         // // const newInfo = cloneDeep(userInfo);
         // // newInfo.team_id = settings.current_team_id;
-        // // console.log(settings);
         // const team_id = settings.current_team_id;
         // sessionStorage.setItem('team_id', team_id);
 
-        // // console.log(123123123123);
         // dispatch({
         //     type: 'user/updateTeamId',
         //     payload: team_id
@@ -190,8 +184,6 @@ const useProject = () => {
         //     localStorage.setItem('uuid', '-1');
         // }
 
-        console.log(1111);
-
         dispatch({
             type: 'apis/recoverApiDatas',
         });
@@ -229,7 +221,6 @@ const useProject = () => {
                 // 初始化主题色
                 ininTheme(userConfig);
                 const team_id = localStorage.getItem('team_id');
-                console.log(team_id);
                 return of(team_id).pipe(
                     // step1.加载团队列表
                     concatMap(() => getUserTeamList$().pipe(tap(handleInitTeams))),
@@ -257,14 +248,12 @@ const useProject = () => {
                     // switchMap(() =>
                     //     getUserTargetList$(current_project_id).pipe(
                     //         tap((data) => {
-                    //             // console.log('左侧目录信息获取成功：', data);
                     //         })
                     //     )
                     // ),
                     // 获取项目下用户信息列表
                     // concatMap(() => getProjectUserList$(current_project_id)),
                     // tap((res) => {
-                    //     // console.log('当前用户信息列表：', res);
                     // }),
                     // 加载分享列表
                     // switchMap(() =>
@@ -273,7 +262,6 @@ const useProject = () => {
                     //             global$.next({
                     //                 action: 'RELOAD_SHARE_LIST',
                     //             });
-                    //             // console.log('分享列表加载完成', shareList);
                     //         })
                     //     )
                     // ),
@@ -433,7 +421,6 @@ const useProject = () => {
         //     .pipe(
         //         filter((d) => d.action === 'GET_MEMBERLIST'),
         //         tap(() => {
-        //             console.log('GET_MEMBERLIST');
         //         })
         //     )
         //     .subscribe();

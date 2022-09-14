@@ -61,6 +61,18 @@ export const rxAjax = (
                     Message('error', '请先登录!');
                     window.location.href = '/login';
                 }
+                if (resp.response.code === 10001) {
+                    Message('error', '参数校验错误!');
+                }
+                if (resp.response.code === 10005) {
+                    Message('error', '请求下游服务器失败!');
+                }
+                if (resp.response.code === 10102) {
+                    Message('error', 'mysql操作失败');
+                }
+                if (resp.response.code === 20004) {
+                    Message('error', '用户名或密码错误');
+                }
                 // if (resp.response.code === 0000) {
                 //     fetchTokenRefresh()
                 //     .pipe(
@@ -74,62 +86,60 @@ export const rxAjax = (
                 // 11000;   //token已过期或退出登录 (已登陆)提示 + 弹窗
                 // 11090;   //token必传 弹窗
                 // 11091;   //token被顶替（已登陆）提示 + 弹窗
-                if (
-                    resp.response.code === 11000 ||
-                    resp.response.code === 11090 ||
-                    resp.response.code === 11091
-                ) {
-                    // web 端 跳登陆页面
-                    if (resp.response.code === 11000 || resp.response.code === 11091) {
-                        isLogin() && Message('error', resp.response?.msg);
-                        isLogin() && Bus.$emit('openModal', 'LoginModal');
-                    }
-                    // console.log('是否登陆', isLogin(), resp.response.code);
+                // if (
+                //     resp.response.code === 11000 ||
+                //     resp.response.code === 11090 ||
+                //     resp.response.code === 11091
+                // ) {
+                //     // web 端 跳登陆页面
+                //     if (resp.response.code === 11000 || resp.response.code === 11091) {
+                //         isLogin() && Message('error', resp.response?.msg);
+                //         isLogin() && Bus.$emit('openModal', 'LoginModal');
+                //     }
 
-                    // 判断登陆状态
-                    if (isLogin()) {
-                        clearUserData();
-                    } else {
-                        return resp?.response;
-                    }
-                }
+                //     // 判断登陆状态
+                //     if (isLogin()) {
+                //         clearUserData();
+                //     } else {
+                //         return resp?.response;
+                //     }
+                // }
                 // 当前操作人不在项目中
-                if (
-                    resp.response.code === 11061 ||
-                    resp.response.code === 11044 ||
-                    resp.response.code === 11027 ||
-                    resp.response.code === 11028
-                ) {
-                    // TODO 修改跳转页面
-                    if (reg.test(window.location.pathname)) {
-                        // window.location.href = '/apis';
-                        return;
-                    }
-                    if (regPro.test(window.location.pathname)) {
-                        // window.location.href = '/project';
-                    }
-                    // window.location.reload();
-                }
-                if (!ignoreCodeArr.includes(resp.response.code)) {
-                    // 不能在这里添加全局弹窗提示
-                    setTimeout(() => {
-                        Message('error', resp.response?.msg);
-                    }, 150);
-                }
+                // if (
+                //     resp.response.code === 11061 ||
+                //     resp.response.code === 11044 ||
+                //     resp.response.code === 11027 ||
+                //     resp.response.code === 11028
+                // ) {
+                //     // TODO 修改跳转页面
+                //     if (reg.test(window.location.pathname)) {
+                //         // window.location.href = '/apis';
+                //         return;
+                //     }
+                //     if (regPro.test(window.location.pathname)) {
+                //         // window.location.href = '/project';
+                //     }
+                //     // window.location.reload();
+                // }
+                // if (!ignoreCodeArr.includes(resp.response.code)) {
+                //     // 不能在这里添加全局弹窗提示
+                //     setTimeout(() => {
+                //         Message('error', resp.response?.msg);
+                //     }, 150);
+                // }
                 // 冲突逻辑处理
-                if (resp?.response.code === 10100) {
-                    // console.log('error, 冲突啦');
-                    const responseUrl = resp.request.url || '';
-                    const server_json = resp?.response?.data?.conflict?.server || {};
-                    const local_json = JSON.parse(resp?.request?.body);
-                    const version = resp?.response?.data?.version || '';
-                    Bus.$emit('compareJson', {
-                        responseUrl,
-                        server_json,
-                        local_json,
-                        version,
-                    });
-                }
+                // if (resp?.response.code === 10100) {
+                //     const responseUrl = resp.request.url || '';
+                //     const server_json = resp?.response?.data?.conflict?.server || {};
+                //     const local_json = JSON.parse(resp?.request?.body);
+                //     const version = resp?.response?.data?.version || '';
+                //     Bus.$emit('compareJson', {
+                //         responseUrl,
+                //         server_json,
+                //         local_json,
+                //         version,
+                //     });
+                // }
 
                 catchError((error) => {
                     throw error;

@@ -85,7 +85,7 @@ const MonacoEditor = (props) => {
   const [ftSize, setFtSize] = useState('14px');
   useEffect(() => {
     setFtSize(ftObj?.[SYSSCALE] || '14px');
-    // console.log(SYSSCALE);
+
   }, [SYSSCALE]);
 
   // if (isClient()) {

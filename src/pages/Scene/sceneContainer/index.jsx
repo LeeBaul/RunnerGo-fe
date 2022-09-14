@@ -33,7 +33,6 @@ const SceneContainer = (props) => {
 
     const closeApiConfig = () => {
         Bus.$emit('saveSceneApi', api_now, id_apis, () => {
-            console.log(123);
             // setDrawer(false)
             dispatch({
                 type: 'scene/updateApiConfig',
@@ -90,7 +89,6 @@ const SceneContainer = (props) => {
     };
 
     const onTargetChange = (type, value) => {
-        console.log(api_now);
         Bus.$emit('updateSceneApi', {
             id: api_now.id,
             pathExpression: getPathExpressionObj(type),

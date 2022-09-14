@@ -67,7 +67,6 @@ const ApiInfoPanel = (props) => {
                             tempApiData[target_id] = _tempApiData;
                             tempApiData[target_id].is_changed = -1;
                             tempApiData[target_id].target_id = target_id;
-                            console.log(tempApiData, '保存成功后!');
                             dispatch({
                                 type: 'opens/coverOpenApis',
                                 payload: tempApiData

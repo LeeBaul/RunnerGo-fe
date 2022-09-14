@@ -160,7 +160,6 @@ const LoginBox = (props) => {
             Message('error', '用户名或密码错误!');
             return;
           }
-          console.log(data);
           saveLocalData(data);
           localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
           localStorage.setItem('kunpeng-token', data.token);
@@ -174,10 +173,8 @@ const LoginBox = (props) => {
           // });
         }),
         concatMap(({ data }) => {
-          console.log(data);
           const team_id = data.settings.current_team_id;
           localStorage.setItem('team_id', team_id);
-          // console.log(123123123123);
           dispatch({
             type: 'user/updateTeamId',
             payload: team_id
@@ -189,9 +186,6 @@ const LoginBox = (props) => {
           });
         }),
         tap(() => {
-          console.log(123123);
-
-
         })
         // tap(() => {
         //   navigate('/index')
@@ -199,7 +193,6 @@ const LoginBox = (props) => {
 
 
         // tap((resp) => {
-        //   // console.log(resp);
         //   if (resp.code !== 10000) {
         //     captchaObj && captchaObj?.destroy();
         //     getVcodeUrl();
@@ -210,7 +203,6 @@ const LoginBox = (props) => {
         // // filter((resp) => resp.code === 10000),
         // map((resp) => resp.data),
         // tap((userData) => {
-        //   // console.log(userData);
         //   saveLocalData(userData);
         //   localStorage.setItem('expire_time_sec', userData.expire_time_sec * 1000);
         //   Message('success', '登录成功!');
@@ -234,7 +226,6 @@ const LoginBox = (props) => {
 
         //   // fetchUserConfig().pipe(
         //   //     tap((res) => {
-        //   //       console.log(res);
         //   //     })
         //   // )
         //   // let timer = null;
@@ -248,7 +239,6 @@ const LoginBox = (props) => {
         // concatMap(() => {
         //   fetchUserConfig().pipe(
         //     tap((res) => {
-        //       console.log(res);
         //     })
         //   )
         // }),
@@ -285,7 +275,6 @@ const LoginBox = (props) => {
           <div
             className={cn({ 'tabs-item': true, active: panelType === 'wxCode' })}
             onClick={() => {
-              // console.log(123123123);
               setPanelType('wxCode');
             }}
           >

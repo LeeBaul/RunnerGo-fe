@@ -40,7 +40,6 @@ const SceneConfig = (props) => {
             };
             fetchImportList(query).subscribe({
                 next: (res) => {
-                    console.log(res);
                     const { data: { imports } } = res;
                     const _imports = imports.map(item => {
                         let name = item.name.split('/');
@@ -72,16 +71,13 @@ const SceneConfig = (props) => {
                             value={text}
                             onBlur={(e) => {
                                 const _list = cloneDeep(varList);
-                                console.log(_list, checkName);
                                 const names = _list.filter(item => item.var === checkName[1]);
-                                console.log(names);
                                 if (names.length > 1) {
                                     const length = _list[checkName[0]].var.length;
                                     _list[checkName[0]].var = _list[checkName[0]].var.substring(0, length - 1);
                                     setVarList(_list);
                                     Message('error', '变量名重复!');
                                 }
-                                console.log(e);
                             }}
                             onChange={(newVal) => {
                                 handleChange(rowData, rowIndex, { var: newVal });
@@ -174,7 +170,6 @@ const SceneConfig = (props) => {
     };
 
     const uploadFile = async (files, fileList) => {
-        console.log(files, fileList);
         const fileMaxSize = 1024 * 10;
         const fileType = ['csv', 'txt'];
         const { originFile: { size, name } } = files[0];
@@ -198,13 +193,10 @@ const SceneConfig = (props) => {
             bucket: 'apipost',
         };
         const client = new OSS(ossConfig);
-        console.log(client);
         const { name: res_name, url } = await client.put(
             `kunpeng/test/${v4()}.${nameType}`,
             files[0].originFile,
         )
-        // console.log(result);
-        console.log(open_scene);
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
             scene_id: open_scene.scene_id,
@@ -233,7 +225,6 @@ const SceneConfig = (props) => {
     const saveGlobalVar = () => {
         const _list = cloneDeep(varList);
         _list.splice(_list.length - 1, 1);
-        console.log(_list);
         const variables = _list.map(item => {
             const { var: _var, val, description } = item;
             return {

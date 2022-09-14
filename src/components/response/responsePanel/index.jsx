@@ -22,7 +22,6 @@ const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const ResPonsePanel = (props) => {
   let { data, tempData, onChange, direction, from = 'apis' } = props;
-  console.log('data', data);
   const open_res = useSelector((store) => store.opens.open_res);
   const open_scene_res = useSelector((store) => store.scene.run_api_res);
   const open_plan_res = useSelector((store) => store.plan.run_api_res);
@@ -44,10 +43,7 @@ const ResPonsePanel = (props) => {
 
   const scene_result = run_res && run_res.filter(item => item.event_id === (from === 'scene' ? id_now : id_plan_now))[0];
 
-  console.log(run_res, scene_result, '*/*/---/-*');
   const response_data = response_list[from];
-  console.log(response_data);
-  // console.log(open_res[open_api_now]);
   tempData = {
     "request": {
       "header": "POST /api/demo/login HTTP/1.1\r\nUser-Agent: kp-runner\r\nHost: 59.110.10.84:30008\r\nContent-Type: application/json\r\nContent-Length: 44\r\n\r\n",

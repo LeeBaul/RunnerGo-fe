@@ -29,8 +29,6 @@ const Textarea = Input.Textarea;
 const CreateScene = (props) => {
     const { onCancel, scene, from, plan_id } = props;
 
-    console.log('CreateScene', scene, from, plan_id);
-
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
         pre_script: '',
@@ -334,7 +332,6 @@ const CreateScene = (props) => {
             className={FolderModal}
             okText='保存'
             onOk={() => {
-                console.log(request);
                 if (trim(sceneName).length <= 0) {
                     Message('error', '场景名称不能为空');
                     return;

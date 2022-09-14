@@ -38,7 +38,6 @@ const TestResult = (props) => {
     });
     setEventList(newEventList);
   };
-  // console.log(eventList, '----988--88--');
 
   return (
     <EventContext.Provider

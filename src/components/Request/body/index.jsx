@@ -174,7 +174,6 @@ const Body = (props) => {
                     handleChange(rowData, rowIndex, { description: desc });
                   }
                 }
-                // console.log('失去焦点');
               }}
             />
           );
@@ -199,7 +198,6 @@ const Body = (props) => {
                   handleChange(rowData, rowIndex, { description: desc });
                 }
               }
-              // console.log('失去焦点');
             }}
           />
         );
@@ -390,7 +388,6 @@ const Body = (props) => {
               {/* {readonly != 1 && (
                 <Button
                   onClick={() => {
-                    console.log(refRequest.current);
                     if (isFunction(refRequest?.current?.extractData))
                       refRequest.current.extractData();
                   }}

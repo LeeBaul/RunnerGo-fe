@@ -87,7 +87,6 @@ export const plansReducer = (state = initialState, action) => {
         open_plan: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updatePlanMenu}`:
-      console.log('redux/plan/updatePlanMenu', action);
       return {
         ...state,
         planMenu: action.payload,
@@ -138,13 +137,11 @@ export const plansReducer = (state = initialState, action) => {
         clone_node: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updateRunRes}`:
-      console.log('redux/scene/updateRunRes', action.payload);
       return {
         ...state,
         run_res: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updateIdNow}`:
-      console.log('redux/plan/updateIdNow', action.payload);
       return {
         ...state,
         id_now: action.payload,

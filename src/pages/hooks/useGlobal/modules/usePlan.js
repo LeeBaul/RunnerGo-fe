@@ -27,7 +27,6 @@ const usePlan = () => {
 
         fetchCreatePre(params).subscribe({
             next: (res) => {
-                console.log(res);
 
                 callback && callback();
             }
@@ -43,7 +42,6 @@ const usePlan = () => {
 
         fetchCreatePlan(params).subscribe({
             next: (res) => {
-                console.log(res);
                 const { code, data } = res;
 
                 if (code === 0) {
@@ -58,7 +56,6 @@ const usePlan = () => {
     }
 
     const deletePlan = (id, callback) => {
-        console.log(id);
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
             plan_id: parseInt(id),
@@ -78,7 +75,6 @@ const usePlan = () => {
     };
 
     const addOpenPlanScene = (id, id_apis, node_config) => {
-        console.log(id, id_apis, node_config);
         // dispatch({
         //     type: 'plan/updateOpenScene',
         //     payload: {},
@@ -103,7 +99,6 @@ const usePlan = () => {
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
-                console.log('1111111111', data);
 
                 if (data && data.nodes.length > 0) {
                     const { nodes } = data;
@@ -154,7 +149,6 @@ const usePlan = () => {
                         idList.push(id);
 
                     });
-                    console.log('222222222222222222222', data);
                     Bus.$emit('addNewPlanApi', idList, id_apis, node_config, apiList, configList, 'plan');
                 }
 
@@ -167,7 +161,6 @@ const usePlan = () => {
     };
 
     const addNewPlanApi = (id, id_apis = {}, node_config = {}, api = {}, config = {}, from) => {
-        console.log(id, id_apis, node_config, api, config);
 
         let newApi = cloneDeep(api);
 
@@ -180,8 +173,6 @@ const usePlan = () => {
 
         for (let i = 0; i < _api.length; i++) {
             let newApi = cloneDeep(_api[i]);
-
-            // console.log('newApi', api, newApi, Object.entries(_api[i]));
 
             if (Object.entries(_api[i]).length < 2) {
                 newApi = getBaseCollection('api');
@@ -197,8 +188,6 @@ const usePlan = () => {
             }
 
             new_apis[newApi.id] = newApi;
-
-            console.log(new_apis);
 
             if (from === 'scene') {
                 dispatch({
@@ -275,7 +264,6 @@ const usePlan = () => {
             }
         });
 
-        console.log(open_scene);
         const params = {
             scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -287,8 +275,6 @@ const usePlan = () => {
             // multi_level_nodes: JSON.stringify(formatSceneData(nodes, edges))
             // songsong: formatSceneData(nodes, edges),
         };
-
-        console.log(params);
 
         fetchCreateSceneFlow(params).subscribe({
             next: (res) => {
@@ -346,10 +332,6 @@ const usePlan = () => {
         const { id, pathExpression, value } = data;
 
         set(id_apis[id], pathExpression, value);
-
-        console.log(pathExpression, value);
-
-        console.log(data, id_apis);
 
         if (pathExpression === 'request.url') {
             let reqUrl = value;
@@ -431,14 +413,12 @@ const usePlan = () => {
         }
 
         set(id_apis[id], 'is_changed', true);
-        console.log(id_apis);
         // dispatch({
         //     type: 'scene/updateIdApis',
         //     payload: id_apis,
         // });
         let _api_now = cloneDeep(id_apis[id]);
         _api_now.id = id;
-        console.log(_api_now);
         dispatch({
             type: 'plan/updateApiNow',
             payload: _api_now
@@ -450,7 +430,6 @@ const usePlan = () => {
             .pipe(
                 filter((d) => d.action === 'RELOAD_LOCAL_PLAN'),
                 map((d) => {
-                    console.log(d);
                     return {
                         params: d.payload,
                         id: d.id
@@ -466,7 +445,6 @@ const usePlan = () => {
                             tempPlanList[targets[i].target_id] = targets[i];
                         }
                     }
-                    console.log('计划左侧菜单栏', tempPlanList);
                     dispatch({
                         type: 'plan/updatePlanMenu',
                         payload: tempPlanList
@@ -512,7 +490,6 @@ const usePlan = () => {
     };
 
     const importSceneList = (ids, plan_id) => {
-        console.log(ids);
         const query = {
             team_id: localStorage.getItem('team_id'),
             target_id: ids,
@@ -537,13 +514,11 @@ const usePlan = () => {
                     tap(res => {
                         const { data: { flows } } = res;
                         _flows = flows;
-                        console.log('_flows', _flows);
                         return res;
                     })
                 )
             }),
             concatMap(res => {
-                console.log('resresresres', res);
                 _scenes.forEach(item => {
                     const _target_id = item.target_id;
                     const _scene = cloneDeep(item);
@@ -556,7 +531,6 @@ const usePlan = () => {
                         tap(res => {
                             const { data: { target_id } } = res;
                             const flow_item = _flows.find(item => item.scene_id === _target_id);
-                            console.log(flow_item, 'flow_itemmmmmmmm');
                             flow_item.nodes.forEach(item => {
                                 item.data.from = 'plan';
                             });
@@ -565,7 +539,6 @@ const usePlan = () => {
                                 ...flow_item,
                                 scene_id: target_id,
                             };
-                            console.log(new_flow, 'new_flowwwwwwwwwwwww');
 
                             fetchCreateSceneFlow(new_flow).subscribe();
                         })
@@ -585,8 +558,6 @@ const usePlan = () => {
     const addNewPlanControl = (id, node_config = {}) => {
         const new_nodes = cloneDeep(node_config);
         new_nodes[id] = {};
-
-        console.log('addNewPlanControl', new_nodes);
 
         dispatch({
             type: 'plan/updateNodeConfig',
@@ -618,7 +589,7 @@ const usePlan = () => {
         const id = api_now.id;
         delete api_now['id'];
         _id_apis[id] = api_now;
-        console.log('savePlanApi', _id_apis);
+
         dispatch({
             type: 'plan/updateIdApis',
             payload: _id_apis,

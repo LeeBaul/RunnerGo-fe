@@ -30,7 +30,6 @@ const ApiPicker = (props) => {
   const refTree = useRef(null);
   const apiDatas = useSelector((store) => store?.apis?.apiDatas);
 
-  console.log(apiDatas);
 
   const [checkAll, setCheckAll] = useState('unCheck');
   const [checkedApiKeys, setCheckedApiKeys] = useState([]);
@@ -48,8 +47,6 @@ const ApiPicker = (props) => {
   };
 
   const { filteredTreeList } = useListData({ filterParams });
-
-  console.log('filteredTreeList', filteredTreeList);
 
   const getApiDataItems = async (apiDatas, ckdkeys) => {
     // step1.深克隆，防止串数据

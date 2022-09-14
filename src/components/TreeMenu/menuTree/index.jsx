@@ -55,7 +55,6 @@ const MenuTrees = (props, treeRef) => {
     const open_plan_scene = useSelector((d) => d.plan.open_plan_scene);
 
     const open_scene = type === 'scene' ? open_scene_scene : open_plan_scene;
-    console.log(open_scene);
 
     const planData = useSelector((d) => d.plan.planMenu);
     const treeDataList = {
@@ -117,7 +116,6 @@ const MenuTrees = (props, treeRef) => {
     };
 
     const getTargetMethodClassName = (item) => {
-        // console.log(item);
         let className = '';
         switch (item.target_type) {
             case 'websocket':
@@ -181,7 +179,6 @@ const MenuTrees = (props, treeRef) => {
     };
 
     const renderTreeNode = (nodeItem, { indent, nodeTitle }) => {
-        // console.log(nodeItem, 'nodeItem');
         return (
             <MenuTreeNode>
                 <DragNode
@@ -203,8 +200,6 @@ const MenuTrees = (props, treeRef) => {
                             className="btn-more"
                             size="mini"
                             onClick={(e) => {
-                                console.log(e);
-                                console.log(nodeItem);
                                 handleShowContextMenu(
                                     { ...props, project_id: CURRENT_PROJECT_ID },
                                     e,
@@ -285,7 +280,6 @@ const MenuTrees = (props, treeRef) => {
                 dataList={filteredTreeList}
                 render={renderTreeNode}
                 onNodeClick={(val) => {
-                    console.log(val);
                     if (type !== 'apis' && val.target_type !== 'group') {
                         // getSceneName(val.name);
                         dispatch({
@@ -321,7 +315,6 @@ const MenuTrees = (props, treeRef) => {
                         } else if (type === 'scene') {
                             Bus.$emit('addOpenScene', val, id_apis_scene, node_config_scene)
                         } else if (type === 'plan') {
-                            console.log('addOpenPlanScene', id_apis_plan, node_config_plan);
                             Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
                         }
                     }

@@ -98,7 +98,6 @@ const Preview = (props) => {
       onOk: () => {
         const newData = { ...previewData };
         set(newData, `response.${key}.raw`, '');
-        // console.log(newData);
         setPreviewData(newData);
       },
     });

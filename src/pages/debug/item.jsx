@@ -18,9 +18,6 @@ const NodeItem = (props) => {
     onKeyChange(dataKey,val);
   }
 
-
-  // console.log(dataKey,'----',value);
-
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <Input value={dataKey} onChange={handleKeyChange} />

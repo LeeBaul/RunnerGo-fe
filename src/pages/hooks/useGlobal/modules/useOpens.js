@@ -163,7 +163,6 @@ const useOpens = () => {
 
     const addOpensByObj = async (Obj, selected = false, callback) => {
         const tempOpenApis = cloneDeep(open_apis);
-        console.log('Obj', Obj);
         tempOpenApis[Obj.target_id] = Obj;
 
         // await Opens.put(Obj, Obj.target_id).then(() => {
@@ -189,7 +188,6 @@ const useOpens = () => {
         if (open_apis.hasOwnProperty(id) && isObject(open_apis[id])) {
             let target_temp = cloneDeep(open_apis[id]);
             target_temp = { ...target_temp, ...data };
-            console.log('target_temp', target_temp);
             // await Opens.put(target_temp, target_temp.target_id);
             dispatch({
                 type: 'opens/coverOpenApis',
@@ -230,14 +228,12 @@ const useOpens = () => {
 
     const updateTarget = async (data) => {
         const { target_id, pathExpression, value } = data;
-        console.log('updateTarget', data);
         const tempOpenApis = open_apis;
         if (!tempOpenApis.hasOwnProperty(target_id)) {
             return;
         }
         // TODO 修改本地库
         set(tempOpenApis[target_id], pathExpression, value);
-        console.log(tempOpenApis[target_id]);
         // url兼容处理
         if (pathExpression === 'request.url') {
             let reqUrl = value;
@@ -247,10 +243,8 @@ const useOpens = () => {
                 // 自动拼接url http://
                 if (!isURL(reqUrl)) {
                     reqUrl = `http://${reqUrl}`;
-                    console.log('reqUrlreqUrlreqUrl', reqUrl);
                 }
                 const urlObj = createUrl(reqUrl);
-                console.log('urlObjurlObjurlObj', urlObj);
                 if (isArray(tempOpenApis[target_id]?.request?.query?.parameter)) {
                     // 提取query
                     const searchParams = GetUrlQueryToArray(urlObj?.search || '');
@@ -428,23 +422,16 @@ const useOpens = () => {
 
                 fetchApiDetail(query).subscribe({
                     next: (res) => {
-                        console.log(res);
-                        console.log(res.data);
-                        console.log(res.data.targets);
                         const { code, data: { targets } } = res;
-                        console.log('targetsssssssssssssss', targets);
                         if (code === 0) {
                             const tempApis = {
                                 ...open_apis
                             };
 
                             // _targets[0].is_changed = -1;
-                            // console.log(_targets[0]);
                             tempApis[id] = targets[0];
 
                             // delete tempApis[id].is_changed;
-
-                            console.log('tempApisssssss', tempApis);
 
                             dispatch({
                                 type: 'opens/coverOpenApis',
@@ -462,7 +449,7 @@ const useOpens = () => {
                         }
                     },
                     err: (err) => {
-                        console.log(err);
+                        // console.log(err);
                     }
                 })
                     ;
@@ -471,7 +458,6 @@ const useOpens = () => {
             //     newApi = completionTarget(res);
             // });
         } else {
-            console.log(1111111111);
             newApi = getBaseCollection(type);
             // newApi.project_id = CURRENT_PROJECT_ID || '-1';
             newApi.is_changed = 1;
@@ -485,16 +471,11 @@ const useOpens = () => {
                 newApi.request.body.mode = 'none';
             }
         }
-
-        console.log('-----------', newApi);
         if (!newApi) return;
 
         if (isString(pid) && pid.length > 0) {
             newApi.parent_id = pid;
         }
-
-        console.log('newApi', newApi);
-
         addOpensByObj(newApi, true);
     };
 
@@ -533,7 +514,6 @@ const useOpens = () => {
         //     }
         // }
         // await Opens.delete(id).then(() => {
-        console.log(id, open_apis, open_api_now);
         // return;
 
 
@@ -541,12 +521,10 @@ const useOpens = () => {
         for (let id in open_apis) {
             ids.push(typeof open_apis[id].parent_id === 'number' ? parseInt(id) : id);
         }
-        console.log(ids);
 
         // const openNavs =
         //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
         const index_1 = ids.indexOf(id);
-        console.log(index_1);
         if (id === CURRENT_TARGET_ID) {
             let newId = '';
             if (index_1 > 0) {
@@ -554,7 +532,6 @@ const useOpens = () => {
             } else {
                 newId = ids[index_1 + 1];
             }
-            console.log(newId);
             // 更新当前id
             newId && updateTargetId(parseInt(newId));
             dispatch({
@@ -574,7 +551,6 @@ const useOpens = () => {
     };
 
     const saveTargetById = async (data, options = { is_socket: 1 }, callbacks) => {
-        console.log(data, options, callbacks);
         const { id, pid, callback } = data;
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
@@ -641,7 +617,6 @@ const useOpens = () => {
                         const { code, data } = res;
 
                         if (callbacks) {
-                            console.log(code, data);
                             callbacks && callbacks(code, data.target_id);
                             await updateCollectionById();
                         }
@@ -952,7 +927,6 @@ const useOpens = () => {
                     fetchGetResult(query).subscribe({
                         next: (res) => {
                             const { data } = res;
-                            console.log(data);
                             if (data) {
                                 clearInterval(send_api_t);
                                 const _open_res = cloneDeep(open_res);
@@ -960,7 +934,6 @@ const useOpens = () => {
                                     ...data,
                                     status: 'finish',
                                 };
-                                console.log(data);
                                 dispatch({
                                     type: 'opens/updateOpenRes',
                                     payload: _open_res
@@ -975,14 +948,12 @@ const useOpens = () => {
     };
 
     const stopSend = (id) => {
-        console.log('stopstopstop!', send_api_t);
         clearInterval(send_api_t);
         const _open_res = cloneDeep(open_res);
         _open_res[id] = {
             // ...data,
             status: 'finish',
         };
-        // console.log(data);
         dispatch({
             type: 'opens/updateOpenRes',
             payload: _open_res

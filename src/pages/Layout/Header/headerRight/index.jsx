@@ -25,14 +25,12 @@ const HeaderRight = () => {
     const [outsideClose, setOutsideClose] = useState(true);
 
     const teamMember = useSelector((store) => store.teams.teamMember);
-    // console.log(teamMember, '//////////////////');
 
 
     useEffect(() => {
         // global$.next({
         //     action: 'INIT_APPLICATION',
         // });
-        // console.log(teamMember, '+++++++++++++++');
         // setMemberList()
         // const query = {
         //     team_id: 10
@@ -40,7 +38,6 @@ const HeaderRight = () => {
         // fetchTeamMemberList(query)
         //     .pipe(
         //         tap((res) => {
-        //             console.log(res);
         //             const { code, data: { members } } = res;
         //             setMemberList(members);
         //             // if (code === 0) {
@@ -68,7 +65,6 @@ const HeaderRight = () => {
     }, []);
 
     const RenderMemberList = () => {
-        // console.log(teamMember);
         return teamMember.slice(0, 3).map(item => (
             <Dropdown
                 content={

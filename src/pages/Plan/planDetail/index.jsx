@@ -34,10 +34,7 @@ const PlanDetail = () => {
 
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
     const dispatch = useDispatch();
-    console.log(id);
-
     useEffect(() => {
-        console.log('RELOAD_LOCAL_PLAN');
         global$.next({
             action: 'RELOAD_LOCAL_PLAN',
             id,
@@ -53,7 +50,7 @@ const PlanDetail = () => {
     }, [api_now])
 
     const onTargetChange = (type, value) => {
-        console.log(api_now);
+
         Bus.$emit('updatePlanApi', {
             id: api_now.id,
             pathExpression: getPathExpressionObj(type),
@@ -63,7 +60,6 @@ const PlanDetail = () => {
 
     const closeApiConfig = () => {
         Bus.$emit('savePlanApi', api_now, id_apis, () => {
-            console.log(123);
             // setDrawer(false)
             dispatch({
                 type: 'plan/updateApiConfig',
@@ -119,12 +115,11 @@ const PlanDetail = () => {
                 <ScaleItem className="left-menus" minWidth={250} maxWidth={350}>
                     <TreeMenu type='plan' plan_id={id} getSceneName={(e) => setSceneName(e)} onChange={(e) => setImportScene(e)} />
                 </ScaleItem>
-                <ScaleItem className="right-apis" enableScale={true}>
+                <ScaleItem className="right-apis">
                     {
                         open_plan_scene ? <>
                             <SceneHeader from='plan' sceneName={sceneName} />
                             <SceneContainer from='plan' onChange={(type, e) => {
-                                console.log(type, e);
                                 if (type === 'api') {
                                     setImportApi(e)
                                 } else if (type === 'scene') {
@@ -134,7 +129,7 @@ const PlanDetail = () => {
                         </> : <p className='empty'>还没有数据</p>
                     }
                 </ScaleItem>
-                <ScaleItem enableScale={true}>
+                <ScaleItem>
                     <TaskConfig from='default' />
                 </ScaleItem>
             </ScalePanel>

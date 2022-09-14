@@ -62,16 +62,13 @@ const GlobalVar = (props) => {
                             value={text}
                             onBlur={(e) => {
                                 const _list = cloneDeep(list);
-                                console.log(_list, checkName);
                                 const names = _list.filter(item => item.var === checkName[1]);
-                                console.log(names);
                                 if (names.length > 1) {
                                     const length = _list[checkName[0]].var.length;
                                     _list[checkName[0]].var = _list[checkName[0]].var.substring(0, length - 1);
                                     setList(_list);
                                     Message('error', '变量名重复!');
                                 }
-                                console.log(e);
                             }}
                             onChange={(newVal) => {
                                 handleChange(rowData, rowIndex, { var: newVal });
@@ -123,7 +120,6 @@ const GlobalVar = (props) => {
     const saveGlobalVar = () => {
         const _list = cloneDeep(list);
         _list.splice(_list.length - 1, 1);
-        console.log(_list);
         const variables = _list.map(item => {
             const { var: _var, val, description } = item;
             return {

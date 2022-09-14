@@ -5,7 +5,6 @@ const ResAssert = (props) => {
     const { data } = props;
 
     const assertion = data.assertion || [];
-    console.log('assertion', assertion);
     return (
         <div className='res-assert'>
             {

@@ -19,7 +19,6 @@ const { Option } = Select;
 
 const Assert = (props) => {
     const { parameter, onChange } = props;
-    console.log(parameter, '================');
 
     const handleTableDelete = (index) => {
         const newList = [...parameter];
@@ -30,7 +29,6 @@ const Assert = (props) => {
     };
 
     const handleChange = (rowData, rowIndex, newVal) => {
-        console.log('parameter', parameter);
         const newList = [...parameter];
         newList[rowIndex] = {
             ...rowData,
@@ -48,7 +46,6 @@ const Assert = (props) => {
                 <Select
                     value={rowData.response_type || null}
                     onChange={(e) => {
-                        console.log(rowData, rowIndex, { response_type: e }, 666666);
                         handleChange(rowData, rowIndex, { response_type: e });
                     }}
                 >

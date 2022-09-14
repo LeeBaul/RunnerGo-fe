@@ -38,7 +38,6 @@ const UrlInput = (props) => {
         } else if (envVisible) {
             setEnvVisible(false);
         }
-        console.log(str);
         onChange(str);
     };
 
@@ -51,7 +50,6 @@ const UrlInput = (props) => {
                 placeholder={placeholder}
                 readonly={readonly}
                 onChange={(val, e) => {
-                    console.log(val, e);
                     inputChange(val, e);
                 }}
                 onBlur={onBlur}

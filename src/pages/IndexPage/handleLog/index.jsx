@@ -10,8 +10,6 @@ const HandleLog = (props) => {
     const { logList } = props;
     const [showLog, setShowLog] = useState(false);
 
-    // console.log(logList);
-
     return (
         <div className='handle-log'>
             <div className='log-top'>

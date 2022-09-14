@@ -26,7 +26,6 @@ const json = {
 
 const RealTimeResult = (props) => {
   const { tempData, target, onChange } = props;
-  console.log('tempDataaaaaaaaaa', tempData);
   const { response_body } = tempData || {};
   const searchRef = useRef(null);
   const [valid, setValid] = useState('init');
@@ -145,7 +144,6 @@ const RealTimeResult = (props) => {
               <div
                 className="icon-box"
                 onClick={() => {
-                  // console.log(response);
                   // if (response?.fitForShow == 'Monaco') {
                   copyStringToClipboard(response_body, true);
                   // } else {

@@ -60,7 +60,6 @@ const ignorePage = ['login', 'register', 'find'];
 
 export const RoutePages = Route.map(item => {
     if (!ignorePage.includes(item.name)) {
-        console.log(item.element);
         return {
             ...item,
             element: () => <>
