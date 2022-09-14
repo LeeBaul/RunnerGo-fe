@@ -7,11 +7,11 @@ export const ApisWrapper = css`
   .left-menus > .scale-item-content {
     height: 100%;
     display: flex;
-    // background-color: #222226;
+    background-color: #222226;
   }
-  // .right-apis {
-  //   margin: 0 2px;
-  // }
+  .right-apis {
+    margin: 0 2px;
+  }
   .right-apis > .scale-item-content {
     background-color: #222226;
     display: flex;

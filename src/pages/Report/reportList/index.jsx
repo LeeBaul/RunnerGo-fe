@@ -11,6 +11,7 @@ import {
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
 import { fetchReportList, fetchDeleteReport } from '@services/report';
+import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 
 const ReportList = () => {
@@ -81,10 +82,11 @@ const ReportList = () => {
                         handle: <HandleContent report_id={report_id} />
                     }
                 });
+                console.log(list);
                 setReportList(list);
             }
         })
-    }, [keyword])
+    }, [keyword]);
 
     const data = [
         {
@@ -183,10 +185,12 @@ const ReportList = () => {
         }
     ];
 
+    const getNewkeyword = debounce((e) => setKeyword(e), 500);
+
 
     return (
         <div className='report'>
-            <ReportListHeader onChange={(e) => setKeyword(e)} />
+            <ReportListHeader onChange={getNewkeyword} />
             <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<p className='empty'>还没有数据</p>} />,
         </div>
     )

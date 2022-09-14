@@ -6,6 +6,7 @@ import Bus from '@utils/eventBus';
 import cloneDeep from 'lodash/cloneDeep';
 import { isArray } from 'lodash';
 import TabItem from './tabItem';
+import { global$ } from '@hooks/useGlobal/global';
 
 const SortableItem = SortableElement(({ activeTabId, onTabChange, item, handleCloseItem }) => {
     return <TabItem {...{ activeTabId, onTabChange, item, handleCloseItem }} />;

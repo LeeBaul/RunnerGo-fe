@@ -22,11 +22,14 @@ const PlanHeader = (props) => {
                 <Input
                     className="textBox"
                     value={keyword}
-                    onChange={(e) => setKeyword(e)}
+                    onChange={(e) => {
+                        setKeyword(e);
+                        onChange(e);
+                    }}
                     beforeFix={<SvgSearch />}
                     placeholder="搜索计划名称/执行者"
                 />
-                <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button>
+                {/* <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button> */}
             </div>
             <div className='plan-header-right'>
                 <Button className='createBtn' preFix={<SvgAdd />} onClick={() => setShowPlan(true)}>新建计划</Button>

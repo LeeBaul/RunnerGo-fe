@@ -55,6 +55,7 @@ const actionTypes = {
   updateOpenApiNow: 'updateOpenApiNow',
   updateOpenRes: 'updateOpenRes',
   InitApis: 'InitApis',
+  updateSaveAll: 'updateSaveAll',
 }
 
 export const opensReducer = (state = initialState, action) => {
@@ -155,6 +156,18 @@ export const opensReducer = (state = initialState, action) => {
       return {
         ...state,
         open_res: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateSaveAll}`:
+      const _apis = cloneDeep(open_apis);
+      for (let i in _apis) {
+        if (_apis[i].is_changed > 0) {
+          _apis[i].is_changed = -1;
+        }
+      }
+      // _apis[action.payload].is_changed = -1;
+      return {
+        ...state,
+        open_apis: _apis,
       }
     default:
       return state;

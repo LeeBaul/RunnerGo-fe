@@ -10,9 +10,10 @@ import './dropdown.less';
 const AddMenu = (props) => {
     const [visible, setVisible] = useState(false);
     const refDropdown = useRef(null);
+    const { open_apis, open_api_now } = useSelector((d) => d.opens);
     const { CURRENT_TARGET_ID } = useSelector((d) => d.workspace ? d.workspace : {});
     const handleMenuClick = (action) => {
-        Bus.$emit(action, CURRENT_TARGET_ID);
+        Bus.$emit(action, open_apis, open_api_now);
         refDropdown.current?.setPopupVisible(false);
     };
 

@@ -14,10 +14,11 @@ const PressMonitor = () => {
     useEffect(() => {
 
         const query = {
-            report_id,
+            report_id: 75,
         };
         fetchMachine(query).subscribe({
             next: (res) => {
+                // console.log(res);
             }
         })
     })

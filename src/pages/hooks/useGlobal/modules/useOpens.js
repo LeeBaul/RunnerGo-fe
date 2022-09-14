@@ -181,9 +181,8 @@ const useOpens = () => {
         // });
     };
 
-    const updateOpensById = async (req) => {
+    const updateOpensById = (req) => {
         const { id, data } = req;
-
         // TODO 修改本地库
         if (open_apis.hasOwnProperty(id) && isObject(open_apis[id])) {
             let target_temp = cloneDeep(open_apis[id]);
@@ -428,7 +427,7 @@ const useOpens = () => {
                                 ...open_apis
                             };
 
-                            // _targets[0].is_changed = -1;
+                            targets[0].is_changed = -1;
                             tempApis[id] = targets[0];
 
                             // delete tempApis[id].is_changed;
@@ -480,6 +479,7 @@ const useOpens = () => {
     };
 
     const updateTargetId = async (id) => {
+        // console.log('updateTargetId', id);
         // const uuid = localStorage.getItem('uuid');
         // User.update(uuid, { 'workspace.CURRENT_TARGET_ID': id }).then(() => {
         // apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { CURRENT_TARGET_ID: id });
@@ -487,6 +487,10 @@ const useOpens = () => {
             type: 'workspace/updateWorkspaceState',
             payload: { CURRENT_TARGET_ID: id },
         });
+        dispatch({
+            type: 'opens/updateOpenApiNow',
+            payload: id,
+        })
         // });
     };
 
@@ -515,25 +519,30 @@ const useOpens = () => {
         // }
         // await Opens.delete(id).then(() => {
         // return;
-
+    
+        console.log(open_apis);
 
         let ids = [];
         for (let id in open_apis) {
             ids.push(typeof open_apis[id].parent_id === 'number' ? parseInt(id) : id);
         }
 
+        console.log(ids, CURRENT_TARGET_ID);
+
         // const openNavs =
         //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
         const index_1 = ids.indexOf(id);
-        if (id === CURRENT_TARGET_ID) {
+        console.log(index_1);
+        if (`${id}` === `${CURRENT_TARGET_ID}`) {
             let newId = '';
             if (index_1 > 0) {
                 newId = ids[index_1 - 1];
             } else {
                 newId = ids[index_1 + 1];
             }
+            console.log(newId);
             // 更新当前id
-            newId && updateTargetId(parseInt(newId));
+            newId && updateTargetId(newId);
             dispatch({
                 type: 'opens/updateOpenApiNow',
                 payload: newId,
@@ -560,6 +569,7 @@ const useOpens = () => {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
             // tempTarget.update_dtime = ~~(new Date().getTime() / 1000);
             tempTarget.is_changed = -1;
+            // console.log(1111);
             // tempTarget.modifier_id = localStorage.getItem('uuid');
             switch (tempTarget?.target_type) {
                 case 'api':
@@ -598,6 +608,7 @@ const useOpens = () => {
             //     notFindIdNew: true,
             // });
             // 更新opens
+            // console.log(tempOpenApis.target_id);
             await updateOpensById({
                 id: tempTarget?.target_id,
                 data: tempTarget,
@@ -613,12 +624,27 @@ const useOpens = () => {
 
             fetchHandleApi(tempTarget)
                 .pipe(
-                    tap(async (res) => {
+                    tap((res) => {
                         const { code, data } = res;
 
                         if (callbacks) {
                             callbacks && callbacks(code, data.target_id);
-                            await updateCollectionById();
+                            // await updateCollectionById();
+                        }
+
+                        if (code === 0) {
+                            global$.next({
+                                action: 'GET_APILIST',
+                                params: {
+                                    page: 1,
+                                    size: 100,
+                                    team_id: localStorage.getItem('team_id'),
+                                }
+                            });
+                            // dispatch({
+                            //     type: 'opens/updateSaveApi',
+                            //     payload: tempTarget.target_id,
+                            // })
                         }
 
                         // if (code === 0) {

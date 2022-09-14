@@ -88,7 +88,7 @@ const PlanDetail = () => {
     };
 
     return (
-        <>
+        <div className='plan-detail'>
             <DetailHeader />
             {importApi && <ApiPicker onCancel={() => setImportApi(false)} />}
             {importScene && <ScenePicker onCancel={() => setImportScene(false)} />}
@@ -133,7 +133,7 @@ const PlanDetail = () => {
                     <TaskConfig from='default' />
                 </ScaleItem>
             </ScalePanel>
-        </>
+        </div>
     )
 };
 

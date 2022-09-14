@@ -19,9 +19,12 @@ const ReportListHeader = (props) => {
                     className="textBox"
                     beforeFix={<SvgSearch />}
                     placeholder="搜索计划名称/执行者"
-                    onChange={(e) => setKeyword(e)}
+                    onChange={(e) => {
+                        setKeyword(e);
+                        onChange(e);
+                    }}
                 />
-                <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button>
+                {/* <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button> */}
             </div>
             {/* <div className='report-header-right'>
                 <Button className='createBtn' preFix={<SvgAdd />} onClick={() => navigate('/plan/detail')}>新建计划</Button>

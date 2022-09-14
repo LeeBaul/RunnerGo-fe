@@ -14,18 +14,18 @@ const useOpenTabs = () => {
     const opens = useSelector((store) => store?.opens);
     const workspace = useSelector((store) => store?.workspace);
     const { desktop_proxy } = useSelector((store) => store?.desktopProxy);
-    const { open_apis } = opens;
+    const { open_apis, open_api_now } = opens;
     const { CURRENT_PROJECT_ID } = workspace;
 
     // 关闭所有标签
     const closeAllTarget = async () => {
-        const open_navs =
-            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        // const open_navs =
+        //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
 
-        if (isArray(open_navs) && open_navs.length > 0) {
-            for (const id of open_navs) {
+        if (Object.entries(open_apis).length > 0) {
+            for (let id in open_apis) {
                 const target = open_apis[id];
-                if (target.hasOwnProperty('is_changed') && target.is_changed > 0) {
+                if (target.hasOwnProperty('is_changed') && (target.is_changed > 0)) {
                     const res = await asyncModalConfirm({
                         title: '提示',
                         content: `当前${target?.name || '标签'
@@ -54,54 +54,102 @@ const useOpenTabs = () => {
                 }
             }
         }
+
+        // if (isArray(open_navs) && open_navs.length > 0) {
+        //     for (const id of open_navs) {
+        //         const target = open_apis[id];
+        //         if (target.hasOwnProperty('is_changed') && target.is_changed > 0) {
+        //             const res = await asyncModalConfirm({
+        //                 title: '提示',
+        //                 content: `当前${target?.name || '标签'
+        //                     }未保存是否确认关闭？如果您选择关闭它，这些更改将丢失`,
+        //                 cancelText: '取消',
+        //                 diyText: '保存并关闭',
+        //                 okText: '不保存',
+        //             });
+        //             if (res === undefined) {
+        //                 // 保存并关闭
+        //                 Bus.$emit('saveTargetById', {
+        //                     id,
+        //                     callback: () => {
+        //                         Bus.$emit('removeOpenItem', id);
+        //                     },
+        //                 });
+        //             } else if (res) {
+        //                 // 不保存
+        //                 Bus.$emit('removeOpenItem', id);
+        //             } else {
+        //                 // 取消
+        //                 return;
+        //             }
+        //         } else {
+        //             Bus.$emit('removeOpenItem', id);
+        //         }
+        //     }
+        // }
     };
     // 强制关闭所有标签
     const focreCloseAllTarget = async () => {
-        const open_navs =
-            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
-        if (isArray(open_navs) && open_navs.length > 0) {
+        // const open_navs =
+        //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        if (Object.entries(open_apis).length > 0) {
             const res = await asyncModalConfirm({
                 title: '强制关闭？',
-                content: `确定关闭当前${open_navs.length}个标签吗。如果有未保存的更改，这些更改将丢失`,
+                content: `确定关闭当前${Object.entries(open_apis).length}个标签吗。如果有未保存的更改，这些更改将丢失`,
                 cancelText: '取消',
                 okText: '强制关闭',
             });
             if (res) {
-                const targets = await Opens.bulkGet(open_navs);
-                if (isArray(targets)) {
-                    targets.forEach((target) => {
-                        if (target?.target_type === 'websocket') {
-                            // 关闭socket连接
-                            if (desktop_proxy && desktop_proxy?.connected) {
-                                desktop_proxy.emit('websocket', {
-                                    action: 'disconnect',
-                                    target,
-                                });
-                            }
-                        }
-                    });
-                }
-                Opens.bulkDelete(open_navs).then(() => {
-                    dispatch({
-                        type: 'opens/coverOpenApis',
-                        payload: {},
-                    });
-                    dispatch({
-                        type: 'opens/coverWebsockets',
-                        payload: {},
-                    });
-                    apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { open_navs: [] });
-                });
+                dispatch({
+                    type: 'opens/coverOpenApis',
+                    payload: {},
+                })
             }
         }
+
+        // if (isArray(open_navs) && open_navs.length > 0) {
+        //     const res = await asyncModalConfirm({
+        //         title: '强制关闭？',
+        //         content: `确定关闭当前${open_navs.length}个标签吗。如果有未保存的更改，这些更改将丢失`,
+        //         cancelText: '取消',
+        //         okText: '强制关闭',
+        //     });
+        //     if (res) {
+        //         const targets = await Opens.bulkGet(open_navs);
+        //         if (isArray(targets)) {
+        //             targets.forEach((target) => {
+        //                 if (target?.target_type === 'websocket') {
+        //                     // 关闭socket连接
+        //                     if (desktop_proxy && desktop_proxy?.connected) {
+        //                         desktop_proxy.emit('websocket', {
+        //                             action: 'disconnect',
+        //                             target,
+        //                         });
+        //                     }
+        //                 }
+        //             });
+        //         }
+        //         Opens.bulkDelete(open_navs).then(() => {
+        //             dispatch({
+        //                 type: 'opens/coverOpenApis',
+        //                 payload: {},
+        //             });
+        //             dispatch({
+        //                 type: 'opens/coverWebsockets',
+        //                 payload: {},
+        //             });
+        //             apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { open_navs: [] });
+        //         });
+        //     }
+        // }
     };
     // 关闭其他标签
-    const closeOtherTargetById = async (current_id) => {
-        const open_navs =
-            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
-        if (isArray(open_navs) && open_navs.length > 1) {
-            for (const id of open_navs) {
-                if (current_id === id) {
+    const closeOtherTargetById = async (apis, current_id) => {
+        // const open_navs =
+        //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        if (Object.entries(open_apis).length > 1) {
+            for (const id in open_apis) {
+                if (`${current_id}` === `${id}`) {
                     continue;
                 }
                 const target = open_apis[id];
@@ -136,47 +184,69 @@ const useOpenTabs = () => {
         }
     };
     // 强制关闭其他标签
-    const focreCloseOtherTargetById = async (current_id) => {
-        const open_navs =
-            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
-        if (isArray(open_navs) && open_navs.length > 1) {
+    const focreCloseOtherTargetById = async (apis, current_id) => {
+
+        // const open_navs =
+        //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        if (Object.entries(open_apis).length > 1) {
             const res = await asyncModalConfirm({
                 title: '强制关闭？',
-                content: `确定关闭其他${open_navs.length - 1}个标签吗。如果有未保存的更改，这些更改将丢失`,
+                content: `确定关闭其他${Object.entries(open_apis).length - 1}个标签吗。如果有未保存的更改，这些更改将丢失`,
                 cancelText: '取消',
                 okText: '强制关闭',
             });
             if (res) {
-                for (const id of open_navs) {
-                    if (current_id !== id) {
+                for (const id in open_apis) {
+                    if (`${current_id}` !== `${id}`) {
                         Bus.$emit('removeOpenItem', id);
                     }
                 }
             }
         }
+        // if (isArray(open_navs) && open_navs.length > 1) {
+        //     const res = await asyncModalConfirm({
+        //         title: '强制关闭？',
+        //         content: `确定关闭其他${open_navs.length - 1}个标签吗。如果有未保存的更改，这些更改将丢失`,
+        //         cancelText: '取消',
+        //         okText: '强制关闭',
+        //     });
+        //     if (res) {
+        //         for (const id of open_navs) {
+        //             if (current_id !== id) {
+        //                 Bus.$emit('removeOpenItem', id);
+        //             }
+        //         }
+        //     }
+        // }
     };
     // 保存所有标签
-    const saveAllTarget = async () => {
-        if (isPlainObject(open_apis)) {
+    const saveAllTarget = async (open_apis) => {
+        if (Object.entries(open_apis).length > 0) {
             for (const key in open_apis) {
-                await Bus.$asyncEmit('saveTargetById', { id: key });
+                if (open_apis[key].is_changed > 0) {
+                    await Bus.$asyncEmit('saveTargetById', { id: key });
+                    // await Bus.$emit('saveTargetId', { id: key });
+                }
             }
+            dispatch({
+                type: 'opens/updateSaveAll',
+            })
             Message('success', '保存所有标签成功');
         }
     };
     // 关闭所有标签
-    useEventBus('closeAllTarget', closeAllTarget, [open_apis, CURRENT_PROJECT_ID]);
+    useEventBus('closeAllTarget', closeAllTarget, [open_apis, open_api_now]);
 
     // 强制关闭所有标签
-    useEventBus('focreCloseAllTarget', focreCloseAllTarget, [CURRENT_PROJECT_ID]);
+    useEventBus('focreCloseAllTarget', focreCloseAllTarget, [open_apis, open_api_now]);
 
     // 关闭其他标签
-    useEventBus('closeOtherTargetById', closeOtherTargetById, [open_apis, CURRENT_PROJECT_ID]);
+    useEventBus('closeOtherTargetById', closeOtherTargetById, [open_apis, open_api_now]);
 
     // 强制关闭其他标签
     useEventBus('focreCloseOtherTargetById', focreCloseOtherTargetById, [
         open_apis,
-        CURRENT_PROJECT_ID,
+        open_api_now,
     ]);
 
     // 关闭其他标签

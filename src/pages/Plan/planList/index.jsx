@@ -12,6 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlanList } from '@services/plan';
+import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 import Bus from '@utils/eventBus';
 
@@ -146,10 +147,12 @@ const PlanList = () => {
         }
     ];
 
+    const getNewkeyword = debounce((e) => setKeyword(e), 500);
+
 
     return (
         <div className='plan'>
-            <PlanHeader onChange={(e) => setKeyword(e)} />
+            <PlanHeader onChange={getNewkeyword} />
             <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<p className='empty'>还没有数据</p>} />,
         </div>
     )

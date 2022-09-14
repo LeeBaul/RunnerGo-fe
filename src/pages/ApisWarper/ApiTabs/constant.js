@@ -15,42 +15,42 @@ export const TABITEMMENULIST = [
         icon: SvgApis,
         action: 'addOpenItem',
     },
-    {
-        title: '新建文本',
-        type: 'doc',
-        icon: SvgDoc,
-        action: 'addOpenItem',
-    },
-    {
-        title: '新建WebSocket',
-        type: 'websocket',
-        icon: SvgSocket,
-        action: 'addOpenItem',
-    },
-    {
-        title: '新建Grpc',
-        type: 'grpc',
-        icon: GrpcSvg,
-        action: 'addOpenItem',
-    },
-    {
-        title: '粘贴接口/文本',
-        type: 'newapi',
-        icon: SvgCopy,
-        action: 'pasteApiOrDoc',
-    },
-    {
-        title: '从cURL导入',
-        type: 'newapi',
-        icon: SvgCode,
-        action: 'importCURL',
-    },
-    {
-        title: '导入项目',
-        type: 'newapi',
-        icon: SvgProject,
-        action: 'importProject',
-    },
+    // {
+    //     title: '新建文本',
+    //     type: 'doc',
+    //     icon: SvgDoc,
+    //     action: 'addOpenItem',
+    // },
+    // {
+    //     title: '新建WebSocket',
+    //     type: 'websocket',
+    //     icon: SvgSocket,
+    //     action: 'addOpenItem',
+    // },
+    // {
+    //     title: '新建Grpc',
+    //     type: 'grpc',
+    //     icon: GrpcSvg,
+    //     action: 'addOpenItem',
+    // },
+    // {
+    //     title: '粘贴接口/文本',
+    //     type: 'newapi',
+    //     icon: SvgCopy,
+    //     action: 'pasteApiOrDoc',
+    // },
+    // {
+    //     title: '从cURL导入',
+    //     type: 'newapi',
+    //     icon: SvgCode,
+    //     action: 'importCURL',
+    // },
+    // {
+    //     title: '导入项目',
+    //     type: 'newapi',
+    //     icon: SvgProject,
+    //     action: 'importProject',
+    // },
 ];
 export const TABMOREMENULIST = [
     {
