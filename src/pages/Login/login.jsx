@@ -6,7 +6,7 @@ import { tap, filter, map, concatMap } from 'rxjs/operators';
 import { Input, Button, CheckBox, Message } from 'adesign-react';
 import WxiconSvg from '@assets/login/wxicon.svg';
 import logoImg from '@assets/logo/qrlogo.png';
-import { openUrl, saveLocalData, setCookie } from '@utils';
+import { openUrl, saveLocalData, setCookie, EamilReg } from '@utils';
 import { FE_BASEURL } from '@config/index';
 import getVcodefun from '@utils/getVcode';
 import {
@@ -41,6 +41,7 @@ const LoginBox = (props) => {
   // 极验验证码
   const [vcodeObj, setVcodeObj] = useState({});
   const [captchaObj, setCaptchaObj] = useState(null);
+  const [emailError, setEmailError] = useState(false);
   // 获取用户全局配置
   const config = useSelector((store) => store.user.config);
   const dispatch = useDispatch();
@@ -141,6 +142,9 @@ const LoginBox = (props) => {
   const loginNow = () => {
     if (Object.keys(vcodeObj).length === 0) {
       return Message('error', '请进行验证');
+    }
+    if (emailError) {
+      return;
     }
     try {
       // 记住密码
@@ -259,6 +263,14 @@ const LoginBox = (props) => {
     navigate('/index');
   }
 
+  const checkEmail = () => {
+    if (!EamilReg(email)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  }
+
   return (
     <div className="right-wrapper">
       <div className="title item">
@@ -292,7 +304,9 @@ const LoginBox = (props) => {
               onChange={(value) => {
                 setEmail(value);
               }}
+              onBlur={() => checkEmail()}
             />
+            { emailError && <p className='error-tips'>邮箱格式错误</p> }
           </div>
           <div className="item">
             <Input

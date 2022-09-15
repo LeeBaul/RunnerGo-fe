@@ -11,6 +11,7 @@ import { fetchReportList } from '@services/report';
 import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 const RecentReport = () => {
 
@@ -123,6 +124,8 @@ const RecentReport = () => {
         }
     ];
 
+    const getNewKeyword = debounce((e) => setKeyword(e), 500); 
+
     return (
         <div className='recent-report'>
             <p className='title'>近期测试报告</p>
@@ -130,7 +133,7 @@ const RecentReport = () => {
                 <Input
                     className="textBox"
                     value={keyword}
-                    onChange={(e) => setKeyword(e)}
+                    onChange={getNewKeyword}
                     beforeFix={<SvgSearch />}
                     placeholder="搜索计划名称/执行者"
                 />

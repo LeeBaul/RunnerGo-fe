@@ -124,9 +124,18 @@ export const LoginWrapper = styled.div`
 
     .item {
       height: 76px;
+      display: flex;
+      flex-direction: column;
 
       .apipost-btn {
         height: 41px;
+      }
+
+      .error-tips {
+        color: rgb(255, 77, 79);
+        font-size: 14px;
+        margin-top: 6px;
+        margin-left: 4px;
       }
     }
     .qr-code {

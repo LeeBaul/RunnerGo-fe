@@ -128,6 +128,7 @@ const ApiURLPanel = (props) => {
                             Bus.$emit('saveTargetById', {
                                 id: open_api_now,
                             }, {}, (code, id) => {
+                                console.log(code, id);
                                 dispatch({
                                     type: 'opens/updateOpenApiNow',
                                     payload: id,
@@ -143,7 +144,7 @@ const ApiURLPanel = (props) => {
                     {btnName}
                     {/* 发送 */}
                 </Button>
-                <Dropdown
+                {/* <Dropdown
                     ref={refDropdown}
                     placement="bottom-end"
                     className="request-download-btn"
@@ -153,7 +154,7 @@ const ApiURLPanel = (props) => {
                         <div className="split-line" />
                         <Down width={16} className="arrow-icon" />
                     </div>
-                </Dropdown>
+                </Dropdown> */}
             </div>
         </div>
     );

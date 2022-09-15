@@ -369,6 +369,9 @@ const InvitationModal = (props) => {
     setIfSelectAll(!ifSelectAll);
   };
   const onSubmit = () => {
+    if (addList.length < 1) {
+      return;
+    }
     const params = {
       team_id: parseInt(localStorage.getItem('team_id')),
       member_email: addList.map(item => item.email)

@@ -6,7 +6,7 @@ import { tap, filter, map } from 'rxjs/operators';
 import { Input, Button, CheckBox, Message } from 'adesign-react';
 import WxiconSvg from '@assets/login/wxicon.svg';
 import logoImg from '@assets/logo/qrlogo.png';
-import { openUrl, saveLocalData } from '@utils';
+import { openUrl, saveLocalData, EamilReg } from '@utils';
 import { FE_BASEURL } from '@config/index';
 import getVcodefun from '@utils/getVcode';
 import {
@@ -45,6 +45,9 @@ const RegisterBox = (props) => {
     // 极验验证码
     const [vcodeObj, setVcodeObj] = useState({});
     const [captchaObj, setCaptchaObj] = useState(null);
+    const [emailError, setEmailError] = useState(false);
+    const [nameError, setNameError] = useState(false);
+    const [pwdDiff, setPwdDiff] = useState(false);
     // 获取极验内容
     const getVcodeUrl = async () => {
         const { result, captcha } = await getVcodefun();
@@ -142,6 +145,9 @@ const RegisterBox = (props) => {
         if (Object.keys(vcodeObj).length === 0) {
             return Message('error', '请进行验证');
         }
+        if (emailError || nameError || pwdDiff) {
+            return;
+        }
         fetchUserRegisterForEmailRequest({
             email,
             password,
@@ -191,6 +197,31 @@ const RegisterBox = (props) => {
         navigate('/index');
     }
 
+    const checkEmail = () => {
+        console.log(email, EamilReg(email))
+        if (!EamilReg(email)) {
+            setEmailError(true);
+        } else {
+            setEmailError(false);
+        }
+    }
+
+    const checkName = () => {
+        if (nickname.length < 4) {
+            setNameError(true);
+        } else {
+            setNameError(false);
+        }
+    }
+
+    const checkPwd = () => {
+        if (password !== repeat_password) {
+            setPwdDiff(true);
+        } else {
+            setPwdDiff(false);
+        }
+    }
+
     return (
         <div className="right-wrapper">
             <div className="title item">
@@ -224,7 +255,9 @@ const RegisterBox = (props) => {
                             onChange={(value) => {
                                 setEmail(value);
                             }}
+                            onBlur={() => checkEmail()}
                         />
+                        { emailError && <p className='error-tips'>邮箱格式错误</p> }
                     </div>
                     <div className="item">
                         <Input
@@ -244,7 +277,9 @@ const RegisterBox = (props) => {
                             onChange={(value) => {
                                 setRepeatPassword(value);
                             }}
+                            onBlur={() => checkPwd()}
                         />
+                        { pwdDiff && <p className='error-tips'>两次密码不一致</p> }
                     </div>
                     <div className="item">
                         <Input
@@ -253,7 +288,9 @@ const RegisterBox = (props) => {
                             onChange={(value) => {
                                 setNickname(value);
                             }}
+                            onBlur={() => checkName()}
                         />
+                        { nameError && <p className='error-tips'>昵称最少4位</p> }
                     </div>
                     <div className="item">
                         <div id="captcha"></div>

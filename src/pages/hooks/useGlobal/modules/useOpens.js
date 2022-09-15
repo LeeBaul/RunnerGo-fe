@@ -564,6 +564,7 @@ const useOpens = () => {
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
         const tempTarget = tempOpenApis[target_id];
+        console.log('tempTarget', tempTarget);
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
@@ -617,10 +618,10 @@ const useOpens = () => {
             // TODO:
             if (typeof tempTarget.target_id === 'string') {
                 delete tempTarget['target_id'];
-                tempTarget.parent_id = parseInt(tempTarget.parent_id);
-                tempTarget.team_id = parseInt(localStorage.getItem('team_id'));
             }
 
+            tempTarget.parent_id = parseInt(tempTarget.parent_id);
+            tempTarget.team_id = parseInt(localStorage.getItem('team_id'));
 
             fetchHandleApi(tempTarget)
                 .pipe(
@@ -931,7 +932,7 @@ const useOpens = () => {
 
     const sendApi = (id) => {
         const params = {
-            target_id: parseInt(id),
+            target_id: id ? parseInt(id) : parseInt(open_api_now),
         };
         const _open_res = cloneDeep(open_res);
         _open_res[id] = {
