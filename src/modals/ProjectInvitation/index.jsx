@@ -36,7 +36,7 @@ const InvitationModal = (props) => {
   const [projectList, setProjectList] = useState([]);
   const [addList, setAddList] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [selectValue, setSelectValue] = useState('readwrite');
+  const [selectValue, setSelectValue] = useState('common');
   const [needBuyStation, setNeedBuyStation] = useState(0);
   const [groupCode, setGroupCode] = useState(0);
   const [successPer, setSuccessPer] = useState(0);
@@ -479,10 +479,10 @@ const InvitationModal = (props) => {
                   maxLength={30}
                   // onPressEnter={() => changeTeamInvitation('add')}
                 />
-                {/* <Select  onChange={(key) => setSelectValue(key)}>
+                <Select value={selectValue}  onChange={(key) => setSelectValue(key)}>
                   <Option value="admin">管理员</Option>
-                  <Option value="common">普通用户</Option>
-                </Select> */}
+                  <Option value="common">成员</Option>
+                </Select>
                 <Button
                   type="primary"
                   className="apipost-blue-btn"
@@ -574,13 +574,12 @@ const InvitationModal = (props) => {
           </div>
           <div className="team-inviation-footer">
             <div className="team-inviation-footer-l">
-              <span className="know-link-people">知道链接的人</span>
+              {/* <span className="know-link-people">知道链接的人</span>
               <Select defaultValue="common" value={linkPower} onChange={(key) => setLinkPower(key)}>
-                {/* {renderOptions()} */}
                 <Option value="admin">管理员</Option>
                 <Option value="common">成员</Option>
-              </Select>
-              <div
+              </Select> */}
+              {/* <div
                 className="team-inviation-link"
                 type="link"
                 onClick={() => {
@@ -601,7 +600,7 @@ const InvitationModal = (props) => {
               >
                 <ConnectIcon></ConnectIcon>
                 复制邀请链接
-              </div>
+              </div> */}
             </div>
             <div className="team-inviation-footer-r">
               {/* <span className="team-inviation-footer-need-buy-span">

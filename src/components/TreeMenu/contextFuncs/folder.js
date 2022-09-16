@@ -5,6 +5,7 @@ import { isArray, isObject, isPlainObject, isString, isUndefined } from 'lodash'
 import Bus from '@utils/eventBus';
 import { getCoverData, getFullData, deleteMultiData } from './common';
 import { fetchFolderDetail } from '@services/apis';
+import { global$ } from '@hooks/useGlobal/global';
 
 export const createApi = ({ params, props }) => {
     Bus.$emit('addOpenItem', { type: 'api', pid: params.target_id });
@@ -105,7 +106,18 @@ export const pasteToCurrent = ({ props, params }) => {
 };
 export const pasteFolderToRoot = ({ props }) => { };
 export const deleteFolder = async (target_id) => {
-    deleteMultiData(target_id);
+    // deleteMultiData(target_id);
+    Bus.$emit('toDeleteFolder', target_id, () => {
+        Message('success', '删除成功！');
+        global$.next({
+            action: 'GET_APILIST',
+            payload: {
+                page: 1,
+                size: 100,
+                team_id: localStorage.getItem('team_id')
+            },
+        });       
+    });
 };
 
 export default {

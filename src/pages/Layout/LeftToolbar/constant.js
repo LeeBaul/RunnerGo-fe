@@ -8,12 +8,18 @@ import {
     Doc as SvgDoc, 
     Delete as RecycleIcon
  } from 'adesign-react/icons';
+ import SvgHome from '@assets/icons/Home';
+ import SvgScene from '@assets/icons/Scene1';
+ import SvgPlan from '@assets/icons/Plan1';
+ import SvgReport from '@assets/icons/Report1';
+ import SvgMachine from '@assets/icons/Machine';
+//  import SvgGroup from '@assets/icons/H';
 
 export const leftBarItems = [
     {
         type: 'index',
         title: '首页',
-        icon: SvgApis,
+        icon: SvgHome,
         link: '/index',
     },
     {
@@ -25,31 +31,31 @@ export const leftBarItems = [
     {
         type: 'scene',
         title: '场景管理',
-        icon: SvgApis,
+        icon: SvgScene,
         link: '/scene',
     },
     {
         type: 'plan',
         title: '计划管理',
-        icon: SvgApis,
+        icon: SvgPlan,
         link: '/plan',
     },
     {
         type: 'report',
         title: '报告管理',
-        icon: SvgApis,
+        icon: SvgReport,
         link: '/report',
     },
     {
         type: 'machine',
         title: '机器管理',
-        icon: SvgApis,
+        icon: SvgMachine,
         link: '/machine',
     },
     {
         type: 'doc',
         title: '使用文档',
-        icon: SvgApis,
+        icon: SvgDoc,
         link: '/doc',
     },
 ];

@@ -18,7 +18,8 @@ const useScene = () => {
     // const nodes = useSelector((store) => store.scene.nodes);
     // const edges = useSelector((store) => store.scene.edges);
     const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
-    const { id_apis, api_now, open_scene } = useSelector((store) => store.scene);
+    const { id_apis, api_now, open_scene, sceneDatas } = useSelector((store) => store.scene);
+    // console.log(sceneDatas);
     // const scene = useScene((store) => store.scene);
     const createApiNode = () => {
         const new_node = {
@@ -539,7 +540,6 @@ const useScene = () => {
             }
         })
     }
-
     const cloneScene = (id) => {
         const query = {
             team_id: localStorage.getItem('team_id'),
@@ -764,6 +764,38 @@ const useScene = () => {
             })
         )
             .subscribe()
+    };
+
+    const toDeleteGroup = (target_id, callback) => {
+
+        const deleteIds = [target_id];
+        const _sceneDatas = cloneDeep(sceneDatas);
+        console.log(target_id, sceneDatas);
+
+        const loopGetChild = (parent_id, _sceneDatas) => {
+            let arr = [];
+            let resArr = [];
+            for (let i in _sceneDatas) {
+
+                if (`${_sceneDatas[i].parent_id}` === `${parent_id}`) {
+                    arr.push(_sceneDatas[i].target_id);
+                    if (_sceneDatas[i].target_type === 'folder') {
+                        resArr = loopGetChild(_sceneDatas[i].target_id, _sceneDatas);
+                    }
+                }
+            }
+            console.log(arr, resArr);
+            return arr.concat(resArr);
+        };
+
+        const _res = deleteIds.concat(loopGetChild(target_id, _sceneDatas))
+        console.log(_res);
+        
+        _res.forEach(item => {
+            fetchDeleteApi({ target_id: parseInt(item) }).subscribe(); 
+        })
+
+        callback && callback();
     }
 
     useEventBus('createApiNode', createApiNode);
@@ -784,6 +816,7 @@ const useScene = () => {
     useEventBus('cloneNode', cloneNode);
     useEventBus('runScene', runScene);
     useEventBus('sendSceneApi', sendSceneApi);
+    useEventBus('toDeleteGroup', toDeleteGroup, [sceneDatas]);
 };
 
 export default useScene;

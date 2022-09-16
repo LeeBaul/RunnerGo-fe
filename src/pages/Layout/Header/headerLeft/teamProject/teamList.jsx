@@ -95,35 +95,47 @@ const TeamList = (props) => {
 
       }
     })
-  }
+  };
+  console.log(filterdTeamList);
 
   return (
-    <Collapse
-      defaultActiveKey={currentTeamId}
-      style={{ border: 'none', overflow: 'auto', margin: '5px 0' }}
-      onChange={(id) => changeTeam(id)}
-    >
+    <div className='team_content'>
       {filterdTeamList.map((team) => (
-        <CollapseItem
-          key={team.team_id}
-          name={team.team_id}
-          header={
-            <TeamHeader>
-              <SvgTeam className="t-icon" />
-              <span className="t-title">{team.name}</span>
-              <span className="counts">
-                {team.cnt}
-              </span>
-            </TeamHeader>
-          }
-        >
-          <ProjectList
-            projects={filterdProjectList?.filter((d) => d.team_id === team.team_id)}
-            handleSwitchProject={handleSwitchProject}
-          />
-        </CollapseItem>
+        <div className='team_content_item'>
+          <TeamHeader>
+            <SvgTeam className='t-icon' />
+            <span className='t-title'>{ team.name }</span>
+            <span className='counts'>{ team.cnt }</span>
+          </TeamHeader>
+        </div>
       ))}
-    </Collapse>
+    </div>
+    // <Collapse
+    //   defaultActiveKey={currentTeamId}
+    //   style={{ border: 'none', overflow: 'auto', margin: '5px 0' }}
+    //   onChange={(id) => changeTeam(id)}
+    // >
+    //   {filterdTeamList.map((team) => (
+    //     <CollapseItem
+    //       key={team.team_id}
+    //       name={team.team_id}
+    //       header={
+    //         <TeamHeader>
+    //           <SvgTeam className="t-icon" />
+    //           <span className="t-title">{team.name}</span>
+    //           <span className="counts">
+    //             {team.cnt}
+    //           </span>
+    //         </TeamHeader>
+    //       }
+    //     >
+    //       <ProjectList
+    //         projects={filterdProjectList?.filter((d) => d.team_id === team.team_id)}
+    //         handleSwitchProject={handleSwitchProject}
+    //       />
+    //     </CollapseItem>
+    //   ))}
+    // </Collapse>
   );
 };
 

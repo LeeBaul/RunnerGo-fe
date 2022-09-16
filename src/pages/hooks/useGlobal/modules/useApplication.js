@@ -26,6 +26,7 @@ import Bus, { useEventBus } from '@utils/eventBus';
 import { useNavigate } from 'react-router-dom';
 
 import { fetchDashBoardInfo, fetchRunningPlan } from '@services/dashboard';
+import { fetchApiList } from '@services/apis';
 
 
 import { global$ } from '../global';
@@ -35,6 +36,7 @@ const useProject = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userInfo = useSelector((store) => store.user.userInfo);
+    const apiDatas = useSelector((store) => store.apis.apiDatas);
     // const userData = useSelector((store) => store.dashboard.userData);
     // 项目初始化完成
     const handleInitProjectFinish = async (project_id) => {
@@ -367,7 +369,7 @@ const useProject = () => {
         )
     }
     // 获取接口列表
-    const handleInitApiList = ({ data: { targets }, code }) => {
+    const handleInitApiList = ({ data: { targets, total }, code }) => {
         if (code === 0) {
             // dispatch({
             //     type: 'apis/updateApiDatas',
@@ -381,6 +383,10 @@ const useProject = () => {
                 type: 'apis/updateApiDatas',
                 payload: tempApiList
             })
+
+            if (total > 100) {
+                loopGetApi(2, 100, total - 100);
+            }
             // dispatch({
             //     type: 'opens/coverOpenApis',
             //     payload: tempApiList
@@ -388,6 +394,33 @@ const useProject = () => {
         } else {
             // Message('error', '接口列表获取失败!');
         }
+    }
+
+    const loopGetApi = (page, size, needReq) => {
+        const params = {
+            page,
+            size,
+            team_id: parseInt(localStorage.getItem('team_id')),
+        };
+        fetchApiList(params).subscribe({
+            next: ({ data: { targets, total }, code }) => {
+                if (code === 0) {
+                    const tempApiList = {};
+                    for (let i = 0; i < targets.length; i++) {
+                        tempApiList[targets[i].target_id] = targets[i];
+                    }
+                    const apis = cloneDeep(apiDatas);
+                    const _apis = Object.assign(apis, tempApiList);
+                    dispatch({
+                        type: 'apis/updateApiDatas',
+                        payload: _apis
+                    })
+                    if (needReq - 100 > 0) {
+                        loopGetApi(page + 1, size, needReq - 100);
+                    }
+                }
+            }
+        })
     }
 
     useEventBus('getTeamMemberList', getTeamMemberList);

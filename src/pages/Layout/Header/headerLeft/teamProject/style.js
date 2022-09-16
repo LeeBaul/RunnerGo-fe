@@ -32,6 +32,7 @@ export const DropdownContainer = styled.div`
   width: 354px;
   box-sizing: border-box;
   padding: 12px;
+  background-color: background: rgba(39, 39, 43, 0.95) !important;
 
   & .header {
     height: 24px;
@@ -62,6 +63,7 @@ export const TeamHeader = styled.div`
   display: flex;
   height: 30px;
   align-items: center;
+  cursor: pointer;
   & .t-icon {
     width: 16px;
     height: 16px;
@@ -73,7 +75,7 @@ export const TeamHeader = styled.div`
     padding-left: 4px;
   }
   & .counts {
-    margin-right: 20px;
+    margin-right: 10px;
     height: 16px;
     line-height: 16px;
     padding: 0 8px;

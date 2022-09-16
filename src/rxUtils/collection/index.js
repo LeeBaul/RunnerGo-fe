@@ -75,6 +75,10 @@ export const getAllEffectCollections = async (project_id, target_Ids) => {
     return Object.values(resultObj);
 };
 
+const loopGetApiList = (page, size) => {
+    
+}
+
 export const getApiList$ = (params) => {
     const defaultParams = {
         page: 1,

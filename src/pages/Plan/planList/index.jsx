@@ -15,6 +15,7 @@ import { fetchPlanList } from '@services/plan';
 import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 import Bus from '@utils/eventBus';
+import SvgStop from '@assets/icons/Stop';
 
 const PlanList = () => {
 
@@ -43,30 +44,33 @@ const PlanList = () => {
     }
 
     const HandleContent = (props) => {
-        const { status, data } = props;
+        const { data } = props;
+        const { status, plan_id } = data;
         return (
             <div className='handle-content'>
-                {status === 'running' ? <Button className='stop-btn' preFix={<SvgRun />}>停止</Button> :
+                {status === 1 ? <Button className='stop-btn' preFix={<SvgStop />}>停止</Button> :
                     <Button className='run-btn' preFix={<SvgRun />}>开始</Button>}
-                <SvgEye onClick={() => {
-                    dispatch({
-                        type: 'plan/updateOpenPlan',
-                        payload: data
-                    })
-                    navigate(`/plan/detail/${data.plan_id}`);
-                }} />
-                <SvgCopy onClick={() => {
-                    // Bus.$emit('copyPlan', data);
-                }} />
-                <SvgDelete style={{ fill: '#f00' }} onClick={() => {
-                    Bus.$emit('deletePlan', data.plan_id, (code) => {
-                        if (code === 0) {
-                            Message('success', '删除成功!');
-                        } else {
-                            Message('error', '删除失败!');
-                        }
-                    })
-                }} />
+                <div className='handle-icons'>
+                    <SvgEye onClick={() => {
+                        dispatch({
+                            type: 'plan/updateOpenPlan',
+                            payload: data
+                        })
+                        navigate(`/plan/detail/${plan_id}`);
+                    }} />
+                    <SvgCopy onClick={() => {
+                        // Bus.$emit('copyPlan', data);
+                    }} />
+                    <SvgDelete style={{ fill: '#f00' }} onClick={() => {
+                        Bus.$emit('deletePlan', plan_id, (code) => {
+                            if (code === 0) {
+                                Message('success', '删除成功!');
+                            } else {
+                                Message('error', '删除失败!');
+                            }
+                        })
+                    }} />
+                </div>
             </div>
         )
     }
@@ -92,7 +96,7 @@ const PlanList = () => {
                         status: statusList[status],
                         created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                         updated_time_sec: dayjs(updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
-                        handle: <HandleContent data={item} status='running' />
+                        handle: <HandleContent data={item}  />
                     }
                 })
                 plans && setPlanList(planList);

@@ -297,7 +297,7 @@ const LoginBox = (props) => {
       </div>
       {panelType === 'email' ? (
         <div>
-          <div className="item">
+          <div className={ cn('item', { 'input-error': emailError }) }>
             <Input
               placeholder="请输入邮箱地址"
               value={email}

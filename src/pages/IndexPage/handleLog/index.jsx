@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './index.less';
-import { Apis as SvgApis, Right as SvgRight } from 'adesign-react/icons';
+import { Apis as SvgApis, Right as SvgRight, Lately as SvgLately } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
 import HandleTags from '@components/HandleTags';
 import TeamworkLogs from '@modals/TeamworkLogs';
@@ -14,7 +14,7 @@ const HandleLog = (props) => {
         <div className='handle-log'>
             <div className='log-top'>
                 <div className='log-top-left'>
-                    <SvgApis />
+                    <SvgLately />
                     <p>操作日志</p>
                 </div>
                 <div className='log-top-right' onClick={() => setShowLog(true)}>

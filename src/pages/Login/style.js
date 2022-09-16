@@ -138,6 +138,10 @@ export const LoginWrapper = styled.div`
         margin-left: 4px;
       }
     }
+    .input-error > .apipost-input-inner-wrapper {
+      background: rgba(255, 76, 76, 0.1);
+      border: 1px solid #39393D;
+    }
     .qr-code {
       .login_wx {
         position: relative;

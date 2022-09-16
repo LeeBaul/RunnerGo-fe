@@ -33,7 +33,7 @@ import * as jsondiffpatch from 'jsondiffpatch';
 import { urlParseLax } from '@utils/common';
 import { from, lastValueFrom, tap, map, concatMap, of } from 'rxjs';
 import { CONFILCTURL } from '@constants/confilct';
-import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, fetchSendApi, fetchGetResult } from '@services/apis';
+import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, fetchSendApi, fetchGetResult, fetchDeleteApi } from '@services/apis';
 import { getBaseCollection } from '@constants/baseCollection';
 
 // 发送api时轮询的参数
@@ -49,11 +49,12 @@ const useOpens = () => {
     const { CURRENT_PROJECT_ID, CURRENT_TARGET_ID } = workspace;
 
     // 重新排序
-    const targetReorder = async (target) => {
+    const targetReorder = (target) => {
         if (isObject(target) && target.hasOwnProperty('parent_id')) {
             const parentKey = target.parent_id || '0';
             const project_id = target?.project_id;
-            const projectNodes = await Collection.where('project_id').anyOf(project_id).toArray();
+            // const projectNodes = await Collection.where('project_id').anyOf(project_id).toArray();
+            const projectNodes = Object.entries(apiDatas);
             let sort = 0;
             const rootNodes = projectNodes.filter((item) => item.parent_id === parentKey);
             const nodeSort = rootNodes.map((item) => item.sort);
@@ -202,7 +203,7 @@ const useOpens = () => {
             team_id: localStorage.getItem('team_id'),
         }
         global$.next({
-            action: 'RELOAD_LOCAL_COLLECTIONS',
+            action: 'GET_APILIST',
             payload: params,
         });
         // const { id, data, notFindIdNew } = req;
@@ -520,19 +521,15 @@ const useOpens = () => {
         // await Opens.delete(id).then(() => {
         // return;
     
-        console.log(open_apis);
 
         let ids = [];
         for (let id in open_apis) {
             ids.push(typeof open_apis[id].parent_id === 'number' ? parseInt(id) : id);
         }
 
-        console.log(ids, CURRENT_TARGET_ID);
-
         // const openNavs =
         //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
         const index_1 = ids.indexOf(id);
-        console.log(index_1);
         if (`${id}` === `${CURRENT_TARGET_ID}`) {
             let newId = '';
             if (index_1 > 0) {
@@ -540,7 +537,6 @@ const useOpens = () => {
             } else {
                 newId = ids[index_1 + 1];
             }
-            console.log(newId);
             // 更新当前id
             newId && updateTargetId(newId);
             dispatch({
@@ -563,14 +559,12 @@ const useOpens = () => {
         const { id, pid, callback } = data;
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
-        const tempTarget = tempOpenApis[target_id];
-        console.log('tempTarget', tempTarget);
+        let tempTarget = tempOpenApis[target_id];
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
             // tempTarget.update_dtime = ~~(new Date().getTime() / 1000);
             tempTarget.is_changed = -1;
-            // console.log(1111);
             // tempTarget.modifier_id = localStorage.getItem('uuid');
             switch (tempTarget?.target_type) {
                 case 'api':
@@ -590,7 +584,9 @@ const useOpens = () => {
 
             // return;
             // sort 排序
-            // if (tempTarget?.sort == -1) await targetReorder(tempTarget);
+            if (tempTarget?.sort == -1) {
+                tempTarget =  targetReorder(tempTarget);
+            }
 
             // 过滤key为空的数据
             // filterEmptyKey(tempTarget);
@@ -609,7 +605,6 @@ const useOpens = () => {
             //     notFindIdNew: true,
             // });
             // 更新opens
-            // console.log(tempOpenApis.target_id);
             await updateOpensById({
                 id: tempTarget?.target_id,
                 data: tempTarget,
@@ -681,7 +676,6 @@ const useOpens = () => {
             //                 },
             //             });
 
-            //             // console.log(resp);
             //         } else {
             //             // 添加异步任务
             //             pushTask(
@@ -987,6 +981,36 @@ const useOpens = () => {
         })
     }
 
+    const toDeleteFolder = (target_id, callback) => {
+
+        const deleteIds = [target_id];
+        const _apiDatas = cloneDeep(apiDatas);
+
+        const loopGetChild = (parent_id, _apiDatas) => {
+            let arr = [];
+            let resArr = [];
+            for (let i in _apiDatas) {
+
+                if (`${_apiDatas[i].parent_id}` === `${parent_id}`) {
+                    arr.push(_apiDatas[i].target_id);
+                    if (_apiDatas[i].target_type === 'folder') {
+                        resArr = loopGetChild(_apiDatas[i].target_id, _apiDatas);
+                    }
+                }
+            }
+
+            return arr.concat(resArr);
+        };
+
+        const _res = deleteIds.concat(loopGetChild(target_id, _apiDatas))
+        
+        _res.forEach(item => {
+            fetchDeleteApi({ target_id: parseInt(item) }).subscribe(); 
+        })
+
+        callback && callback();
+    }
+
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id
     useEventBus('addOpenItem', addOpenItem, [CURRENT_PROJECT_ID, open_apis]);
 
@@ -1039,6 +1063,8 @@ const useOpens = () => {
     useEventBus('sendApi', sendApi);
 
     useEventBus('stopSend', stopSend);
+
+    useEventBus('toDeleteFolder', toDeleteFolder, [apiDatas]);
 
     // 初始化tabs
     useEffect(() => {

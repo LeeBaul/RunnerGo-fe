@@ -3,7 +3,8 @@ import './index.less';
 import { Button, Message, Modal } from 'adesign-react';
 import {
     Left as SvgLeft,
-    Save as SvgSave
+    Save as SvgSave,
+    CaretRight as SvgCareRight
 } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
 import { useSelector } from 'react-redux';
@@ -13,6 +14,7 @@ import { cloneDeep } from 'lodash';
 import Bus from '@utils/eventBus';
 import { fetchPlanDetail, fetchSavePlan } from '@services/plan';
 import dayjs from 'dayjs';
+import SvgSendEmail from '@assets/icons/SendEmail';
 
 const DetailHeader = () => {
     const navigate = useNavigate();
@@ -24,8 +26,6 @@ const DetailHeader = () => {
     const open_plan = useSelector((store) => store.plan.open_plan);
     const { id: plan_id } = useParams();
     const [planDetail, setPlanDetail] = useState({});
-
-    const task_config = useSelector((store) => store.plan.task_config);
 
     useEffect(() => {
         const query = {
@@ -63,26 +63,6 @@ const DetailHeader = () => {
         }
     };
 
-    const savePlan = () => {
-        const params = {
-            plan_id: parseInt(plan_id),
-            team_id: parseInt(localStorage.getItem('team_id')),
-            name: planDetail.name,
-            ...task_config,
-        };
-
-        fetchSavePlan(params).subscribe({
-            next: (res) => {
-                const { code } = res;
-
-                if (code === 0) {
-                    Message('success', '保存成功!');
-                } else {
-                    Message('error', '保存失败!');
-                }
-            }
-        })
-    }
     return (
         <div className='detail-header'>
             {
@@ -123,9 +103,8 @@ const DetailHeader = () => {
             </div>
             <div className='detail-header-right'>
                 <Button className='notice' onClick={() => setPreSet(true)}>预设配置</Button>
-                <Button className='notice' preFix={<SvgSave width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
-                <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>保存</Button>
-                <Button className='run' preFix={<SvgSave width="16" height="16" />}>开始运行</Button>
+                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
+                <Button className='run' preFix={<SvgCareRight width="16" height="16" />}>开始运行</Button>
             </div>
         </div>
     )

@@ -45,6 +45,7 @@ const useNodeSort = (props) => {
 
     // 获取子节点列表
     const getChildList = (parent_id) => {
+        console.log('getChildList', Object.entries(treeData));
         return Object.values(treeData)
             .filter((d) => d?.parent_id === parent_id)
             .sort((a, b) => a.sort - b.sort);
@@ -55,6 +56,7 @@ const useNodeSort = (props) => {
         targetKey,
         mode
     ) => {
+        console.log(sourceKey, targetKey, mode);
         const sourceData = treeData[sourceKey];
         // const sourceData = treeData.filter(item => item.target_id === sourceKey)[0];
         const targetData = treeData[targetKey];
@@ -63,6 +65,7 @@ const useNodeSort = (props) => {
         let parent_id = '-1';
 
         let targetList = getChildList(targetData?.parent_id);
+        console.log(targetList);
 
         // 禁止父节点拖动到子节点
         const targetParentKeys = getParentKeys(targetData);
@@ -107,6 +110,8 @@ const useNodeSort = (props) => {
             ...targetInfo,
             sort: index,
         }));
+        
+        console.log('targetList', targetList);
 
         const result = {
             task_id: `${project_id}/${parent_id}`,

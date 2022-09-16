@@ -5,6 +5,7 @@ import { isArray, isObject, isPlainObject, isString, isUndefined } from 'lodash'
 import Bus from '@utils/eventBus';
 import { getCoverData, getFullData, deleteMultiData } from './common';
 import { fetchGroupDetail } from '@services/scene';
+import { global$ } from '@hooks/useGlobal/global';
 
 export const createApi = ({ params, props }) => {
     Bus.$emit('addOpenItem', { type: 'api', pid: params.target_id });
@@ -107,7 +108,13 @@ export const pasteToCurrent = ({ props, params }) => {
 };
 export const pasteFolderToRoot = ({ props }) => { };
 export const deleteFolder = async (target_id) => {
-    deleteMultiData(target_id);
+    // deleteMultiData(target_id);
+    Bus.$emit('toDeleteGroup', target_id, () => {
+        Message('success', '删除成功!');
+        global$.next({
+            action: 'RELOAD_LOCAL_SCENE',
+        });
+    })
 };
 
 export default {

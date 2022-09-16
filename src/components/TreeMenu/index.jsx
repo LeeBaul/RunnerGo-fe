@@ -35,6 +35,7 @@ const TreeMenu = (props) => {
         'plan': planDataParam,
     };
 
+    console.log(listDataParam);
 
     const dataParam = dataList[type];
 

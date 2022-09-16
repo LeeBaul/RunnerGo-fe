@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Radio, Switch, Table, Input, Button } from 'adesign-react';
+import { Save as SvgSave } from 'adesign-react/icons';
 import { fetchPreConfig } from '@services/plan';
 import { useSelector, useDispatch } from 'react-redux';
 import './index.less';
 import { cloneDeep } from 'lodash';
-import { fetchPlanDetail } from '@services/plan';
+// import { fetchPlanDetail } from '@services/plan';
+import { fetchPlanDetail, fetchSavePlan } from '@services/plan';
 import { useParams } from 'react-router-dom';
 
 const TaskConfig = (props) => {
@@ -293,13 +295,37 @@ const TaskConfig = (props) => {
         '3': <CommonMode />,
         '4': <CommonMode />,
         '5': <CommonMode />,
+    };
+
+    const savePlan = () => {
+        const params = {
+            plan_id: parseInt(plan_id),
+            team_id: parseInt(localStorage.getItem('team_id')),
+            name: planDetail.name,
+            ...task_config,
+        };
+
+        fetchSavePlan(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+
+                if (code === 0) {
+                    Message('success', '保存成功!');
+                } else {
+                    Message('error', '保存失败!');
+                }
+            }
+        })
     }
     return (
         <div className='task-config'>
             {
                 from !== 'preset' && <div className='task-config-header'>
                     <p>任务配置</p>
-                    <Button onClick={() => init(initData)}>导入预设配置</Button>
+                    <div className='btn'>
+                        <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>保存</Button>
+                        <Button onClick={() => init(initData)}>导入预设配置</Button>
+                    </div>
                 </div>
             }
             <div className='task-config-container'>

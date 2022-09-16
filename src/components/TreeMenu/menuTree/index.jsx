@@ -319,7 +319,7 @@ const MenuTrees = (props, treeRef) => {
                         }
                     }
                 }}
-                rootFilter={(item) => item.parent_id === 0}
+                rootFilter={(item) => typeof item.parent_id === 'number'}
             />
         </DndProvider>
     );

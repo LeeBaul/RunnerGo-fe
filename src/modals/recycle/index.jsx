@@ -68,7 +68,7 @@ const Recycle = (props) => {
             if (resp?.code === 0) {
               Message('success', '恢复成功');
               global$.next({
-                action: 'RELOAD_LOCAL_COLLECTIONS',
+                action: 'GET_APILIST',
               });
             }
           },

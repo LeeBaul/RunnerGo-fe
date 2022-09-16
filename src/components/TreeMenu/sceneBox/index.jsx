@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './index.less';
-import { Apis as SvgApis } from 'adesign-react/icons';
+import { Apis as SvgApis, NewFolder as SvgNewFolder, Download as SvgDownload } from 'adesign-react/icons';
+import SvgScene from '@assets/icons/Scene1';
 import CreateGroup from '@modals/CreateGroup';
 import CreateScene from '@modals/CreateScene';
 
@@ -12,12 +13,12 @@ const SceneBox = (props) => {
     return (
         <div className='scene-box' style={{ justifyContent: from === 'plan' ? 'center' : 'flex-start' }}>
             <div className='scene-box-item' onClick={() => setCreateGroup(true)}>
-                <SvgApis width="18" height="18" />
+                <SvgNewFolder width="18" height="18" />
                 <p>{from !== 'plan' ? '新建' : ''}分组</p>
             </div>
             <div className='line' style={{ margin: from === 'plan' ? '0 4px' : '0 14px' }}></div>
             <div className='scene-box-item' onClick={() => setCreateScene(true)}>
-                <SvgApis width="18" height="18" />
+                <SvgScene width="18" height="18" />
                 <p>新建场景</p>
             </div>
             {
@@ -25,7 +26,7 @@ const SceneBox = (props) => {
                 <>
                     <div className='line' style={{ margin: from === 'plan' ? '0 4px' : '0 14px' }}></div>
                     <div className='scene-box-item' onClick={() => onChange(true)}>
-                        <SvgApis width="18" height="18" />
+                        <SvgDownload width="18" height="18" />
                         <p>导入场景</p>
                     </div>
                 </>

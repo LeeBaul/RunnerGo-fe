@@ -2,6 +2,10 @@ import React from 'react';
 import './index.less';
 import avatar from '@assets/logo/avatar.png';
 import { Apis as SvgApis } from 'adesign-react/icons';
+import SvgPlan from '@assets/icons/Plan1';
+import SvgScene from '@assets/icons/Scene1';
+import SvgReport from '@assets/icons/Report1';
+
 
 const Info = (props) => {
     const { data, user } = props;
@@ -9,19 +13,19 @@ const Info = (props) => {
     const taskList = [
         {
             number: data.plan_num,
-            icon: SvgApis,
+            icon: SvgPlan,
             name: '计划数',
             color: '#3A86FF',
         },
         {
             number: data.scene_num,
-            icon: SvgApis,
+            icon: SvgScene,
             name: '场景数',
             color: '#2BA58F',
         },
         {
             number: data.report_num,
-            icon: SvgApis,
+            icon: SvgReport,
             name: '报告数',
             color: '#E1A022',
         },

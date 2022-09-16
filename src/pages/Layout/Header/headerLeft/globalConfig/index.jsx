@@ -5,6 +5,7 @@ import {
  } from 'adesign-react/icons';
  import CommonFunction from '@modals/CommonFunc';
  import GlobalVar from '@modals/GlobalVar';
+ import SvgGlobalVar from '@assets/icons/GlobalVar';
 
 const GlobalConfig = () => {
     const [showFunc, setShowFunc] = useState(false);
@@ -12,7 +13,7 @@ const GlobalConfig = () => {
     return (
         <div className='global-config'>
             <div className='config-item' onClick={() => setShowVar(true)}>
-                <SvgDesc />
+                <SvgGlobalVar />
                 <span>全局变量</span>
             </div>
             <div className='config-item' onClick={() => setShowFunc(true)}>

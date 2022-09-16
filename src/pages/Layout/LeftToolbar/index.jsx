@@ -17,7 +17,7 @@ const LeftToolbar = () => {
                     })}
                     onClick={() => setCurrentPath(item.link)}
                 >
-                    <item.icon className="svg-item" />
+                    <item.icon className='svg-item' />
                     <span className="item-text">{item.title}</span>
                 </div>
             </Link>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { Right as SvgRight } from 'adesign-react/icons';
+import { Right as SvgRight, CaretRight as SvgCaretRight } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
 import { fetchRunningPlan } from '@services/dashboard';
 import { tap } from 'rxjs';
@@ -60,6 +60,9 @@ const RunningPlan = () => {
             <div className='running-top'>
                 <div className='running-top-left'>
                     运行中
+                    <div className='running-icon'>
+                        <SvgCaretRight />
+                    </div>
                 </div>
                 <div className='running-top-right' onClick={() => navigate('/plan')}>
                     查看更多

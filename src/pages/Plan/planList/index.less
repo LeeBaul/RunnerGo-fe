@@ -37,7 +37,7 @@
 
             .run-btn,
             .stop-btn {
-                width: 60px;
+                min-width: 60px;
                 height: 18px;
                 border-radius: 3px;
                 padding: 10px 8px;
@@ -47,18 +47,34 @@
 
             .run-btn {
                 background: #3CC071;
+                svg {
+                    width: 13px;
+                    height: 15px;
+                    fill: #fff;
+                    margin-right: 7px;
+                }
             }
 
             .stop-btn {
                 background: #FF4C4C;
+                svg {
+                    width: 10px;
+                    height: 10px;
+                    fill: #fff;
+                    margin-right: 7px;
+                }
             }
 
-            svg {
-                width: 16px;
-                height: 16px;
-                fill: #fff;
-                flex: 1;
-                cursor: pointer;
+            .handle-icons {
+                width: 100%;
+                svg {
+                    width: 16px;
+                    height: 16px;
+                    fill: #fff;
+                    // flex: 1;
+                    margin: 0 10px;
+                    cursor: pointer;
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ const useListData = (props) => {
     const { filterParams, selectedKeys } = props;
 
     const treeData = useSelector((store) => store?.apis?.apiDatas);
+    console.log('treeData', treeData);
 
     // 查找当前节点及全部上层对象
     const getParentItems = (
@@ -33,6 +34,7 @@ const useListData = (props) => {
         const { key, status = 'all' } = filterParams;
         const sourceData = cloneDeep(treeData);
         const newList = {};
+        console.log('sourceData', sourceData);
         Object.entries(sourceData).forEach(([target_id, data]) => {
             const includeUrl = `${data?.url}`.toLowerCase().indexOf(key.toLowerCase()) !== -1;
             const includeName =
@@ -56,6 +58,7 @@ const useListData = (props) => {
                 target_id,
             });
         });
+        console.log('dataList', dataList);
         return dataList;
     }, [treeData, filterParams]);
 

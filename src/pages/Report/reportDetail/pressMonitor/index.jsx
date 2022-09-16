@@ -14,7 +14,7 @@ const PressMonitor = () => {
     useEffect(() => {
 
         const query = {
-            report_id: 75,
+            report_id: 136,
         };
         fetchMachine(query).subscribe({
             next: (res) => {

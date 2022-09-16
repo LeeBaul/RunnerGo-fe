@@ -17,10 +17,12 @@ import { cloneDeep, isArray, isPlainObject, isString, isUndefined, max } from 'l
 import { pushTask } from '@asyncTasks/index';
 import dayjs from 'dayjs';
 import { global$ } from '../global';
+import { fetchSceneList } from '@services/scene';
 
 const useCollection = () => {
     const dispatch = useDispatch();
     const { CURRENT_PROJECT_ID } = useSelector((store) => store?.workspace);
+    const sceneDatas = useSelector((store) => store.scene.sceneDatas);
     const updateCollectionById = async (payload) => {
         const { id, data } = payload;
         let target = await Collection.get(id);
@@ -195,7 +197,7 @@ const useCollection = () => {
                 const { code } = resp;
                 if (code === 0) {
                     global$.next({
-                        action: 'RELOAD_LOCAL_COLLECTIONS',
+                        action: 'GET_APILIST',
                     });
                     callback && callback();
                 }
@@ -247,7 +249,7 @@ const useCollection = () => {
                     callback && callback();
                     // 刷新左侧目录列表
                     global$.next({
-                        action: 'RELOAD_LOCAL_COLLECTIONS',
+                        action: 'GET_APILIST',
                     });
                 }
             }
@@ -269,7 +271,7 @@ const useCollection = () => {
 
         // todo
         global$.next({
-            action: 'RELOAD_LOCAL_COLLECTIONS',
+            action: 'GET_APILIST',
             payload: CURRENT_PROJECT_ID,
         });
     };
@@ -321,6 +323,34 @@ const useCollection = () => {
             });
     };
 
+    const loopGetScene = (page, size, needReq) => {
+        const params = {
+            page,
+            size,
+            team_id: parseInt(localStorage.getItem('team_id')),
+            source: 1,
+        };
+        fetchSceneList(params).subscribe({
+            next: ({ data: { targets, total } }) => {
+                const tempSceneList = {};
+                if (targets instanceof Array) {
+                    for (let i = 0; i < targets.length; i++) {
+                        tempSceneList[targets[i].target_id] = targets[i];
+                    }
+                }
+                const sceneList = cloneDeep(sceneDatas);
+                const _sceneList = Object.assign(sceneList, tempSceneList);
+                dispatch({
+                    type: 'scene/updateSceneDatas',
+                    payload: _sceneList
+                })
+                if (needReq - 100 > 0) {
+                    loopGetScene(page + 1, size, needReq - 100);
+                }
+            }
+        })
+    }
+
     useEffect(() => {
         // 修改collection 数据 （包括indexedDB和redux）
         global$
@@ -361,7 +391,7 @@ const useCollection = () => {
                 filter((d) => d.action === 'RELOAD_LOCAL_SCENE'),
                 map((d) => d.payload),
                 concatMap((e) => getSceneList$(e, 'scene')),
-                switchMap(async ({ data: { targets } }) => {
+                switchMap(async ({ data: { targets, total } }) => {
                     const tempSceneList = {};
                     if (targets instanceof Array) {
                         for (let i = 0; i < targets.length; i++) {
@@ -372,6 +402,9 @@ const useCollection = () => {
                         type: 'scene/updateSceneDatas',
                         payload: tempSceneList
                     })
+                    if (total > 100) {
+                        loopGetScene(2, 100, total - 100);
+                    }
                 })
             )
             .subscribe();

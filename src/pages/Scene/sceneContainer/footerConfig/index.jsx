@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Apis as SvgApis, Add as SvgAdd } from 'adesign-react/icons';
+import { Apis as SvgApis, Add as SvgAdd, Download as SvgDownload } from 'adesign-react/icons';
 import './index.less';
 import Bus from '@utils/eventBus';
 import { useDispatch } from 'react-redux';
@@ -64,12 +64,12 @@ const FooterConfig = (props) => {
                 </div>
                 <span className='line'></span>
                 <div className='config-item' onClick={() => setShowControl(!showControl)}>
-                    <SvgApis />
+                    <SvgAdd />
                     <span>添加控制器</span>
                 </div>
                 <span className='line'></span>
                 <div className='config-item' onClick={() => onChange('api', true)}>
-                    <SvgApis />
+                    <SvgDownload />
                     <span>导入接口</span>
                 </div>
                 {/* {

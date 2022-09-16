@@ -116,7 +116,7 @@ export const deleteMultiData = async (target_id) => {
                 Message('success', '删除成功!');
                 // todo
                 global$.next({
-                    action: 'RELOAD_LOCAL_COLLECTIONS',
+                    action: 'GET_APILIST',
                     payload: {
                         page: 1,
                         size: 100,

@@ -248,7 +248,7 @@ const RegisterBox = (props) => {
             </div>
             {panelType === 'email' ? (
                 <div>
-                    <div className="item">
+                    <div className={cn('item', { 'input-error': emailError })}>
                         <Input
                             placeholder="请输入邮箱地址"
                             value={email}
@@ -269,7 +269,7 @@ const RegisterBox = (props) => {
                             }}
                         />
                     </div>
-                    <div className="item">
+                    <div className={cn('item', { 'input-error': pwdDiff })}>
                         <Input
                             type="password"
                             placeholder="请确认密码"
@@ -281,7 +281,7 @@ const RegisterBox = (props) => {
                         />
                         { pwdDiff && <p className='error-tips'>两次密码不一致</p> }
                     </div>
-                    <div className="item">
+                    <div className={cn('item', { 'input-error': nameError })}>
                         <Input
                             placeholder="请输入昵称"
                             value={nickname}

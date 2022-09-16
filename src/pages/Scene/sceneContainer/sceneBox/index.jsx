@@ -99,10 +99,8 @@ const SceneBox = (props) => {
         }
 
     }, [edges]);
-
+    
     const checkConnect = (source, target) => {
-        // 检查target有没有在source的父节点树中出现过
-        // const arr = [];
         for (let i = 0; i < edges.length; i++) {
             if (edges[i].source === target) {
                 return false;
@@ -112,13 +110,7 @@ const SceneBox = (props) => {
                 checkConnect(edges, edges[i].source, target);
             }
         };
-
         return true;
-        // edges.forEach(item => {
-        //     if (item.target === source) {
-        //         arr.push(item.source);
-        //     }
-        // })
     };
 
     // const _nodes = [
