@@ -476,6 +476,7 @@ const Box = (props) => {
     const changeApiConfig = (id) => {
         // e.preventDefault();
         // e.stopPropagation();
+        console.log(id_apis, id);
         const api_now = cloneDeep(id_apis[id]);
         api_now.id = id;
 

@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import { useParams } from 'react-router-dom';
 import { fetchMachine } from '@services/report';
+import dayjs from 'dayjs';
 
 const PressMonitor = () => {
     let base = +new Date(1988, 9, 3);
     let oneDay = 24 * 3600 * 1000;
     let data = [[base, Math.random() * 300]];
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
+    const [metrics, setMetrics] = useState([]);
     const { id: report_id } = useParams();
 
     useEffect(() => {
@@ -18,14 +22,19 @@ const PressMonitor = () => {
         };
         fetchMachine(query).subscribe({
             next: (res) => {
+                const { data: { start_time_sec, end_time_sec, metrics } } = res;
+                setStartTime(start_time_sec);
+                setEndTime(end_time_sec);
+                setMetrics(metrics);
                 // console.log(res);
             }
         })
-    })
+    }, [])
     for (let i = 1; i < 20000; i++) {
         let now = new Date((base += oneDay));
         data.push([+now, Math.round((Math.random() - 0.5) * 20 + data[i - 1][1])]);
     }
+    console.log(data);
     let getOption = () => {
         let option = {
             tooltip: {
@@ -71,7 +80,7 @@ const PressMonitor = () => {
                     smooth: true,
                     symbol: 'none',
                     areaStyle: {},
-                    data: data
+                    data: metrics.length ? metrics[0].cpu : [],
                 }
             ]
         };
