@@ -126,6 +126,18 @@ const SceneBox = (props) => {
     // const connect = { source: 'c', target: 'a' }; // 不允许
 
 
+    
+    useEffect(() => {
+        if (edges.length > 0 && to_loading) {
+            const _edges = cloneDeep(edges);
+            _edges.forEach(item => {
+                item.style = {};
+                item.markerEnd = {};
+            });
+            setEdges(_edges);
+        }
+    }, [to_loading]);
+
     useEffect(() => {
         const [action, type] = type_now;
         const id = v4();
@@ -219,7 +231,6 @@ const SceneBox = (props) => {
     }, [nodes, edges]);
 
     useEffect(() => {
-
         let ids = [];
 
         if (import_node && import_node.length) {
@@ -257,7 +268,7 @@ const SceneBox = (props) => {
     useEffect(() => {
         formatSuccess();
         formatFailed();
-    }, [nodes])
+    }, [nodes, success_edge, failed_edge])
 
     useEffect(() => {
         if (Object.entries((open_data) || {}).length > 0) {
@@ -321,7 +332,6 @@ const SceneBox = (props) => {
     }, [open_data]);
 
     useEffect(() => {
-
         if (delete_node.length > 0) {
             const node_index = nodes.findIndex(item => item.id === delete_node);
             const edge_index = edges.map((item, index) => {
@@ -365,7 +375,6 @@ const SceneBox = (props) => {
     }, [delete_node]);
 
     useEffect(() => {
-
         if (Object.entries(clone_node).length > 0) {
             const _nodes = cloneDeep(nodes);
             _nodes.splice(_nodes.length - 1, 1);
@@ -381,7 +390,6 @@ const SceneBox = (props) => {
     }, [clone_node]);
 
     useEffect(() => {
-
         if (Object.entries(update_edge).length > 0) {
             const _edges = cloneDeep(edges);
             const index = _edges.findIndex(item => item.id === update_edge.id);
@@ -486,17 +494,6 @@ const SceneBox = (props) => {
         //     setEdges(_edges);
         // }
     }, [failed_edge]);
-
-    useEffect(() => {
-        if (edges.length > 0 && to_loading) {
-            const _edges = cloneDeep(edges);
-            _edges.forEach(item => {
-                item.style = {};
-                item.markerEnd = {};
-            });
-            setEdges(_edges);
-        }
-    }, [to_loading]);
 
     return (
         <div ref={refContainer} style={{ width: '100%', height: '100%' }}>

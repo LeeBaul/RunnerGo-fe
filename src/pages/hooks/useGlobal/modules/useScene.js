@@ -445,7 +445,27 @@ const useScene = () => {
         })
         dispatch({
             type: 'scene/updateRunningScene',
-            payload: ''
+            payload: '',
+        })
+        dispatch({
+            type: 'scene/updateNodes',
+            payload: [],
+        });
+        dispatch({
+            type: 'scene/updateEdges',
+            payload: [],
+        })
+        dispatch({
+            type: 'scene/updateCloneNode',
+            payload: [],
+        })
+        dispatch({
+            type: 'scene/updateSuccessEdge',
+            payload: [],
+        });
+        dispatch({
+            type: 'scene/updateFailedEdge',
+            payload: [],
         })
         const { target_id } = id;
         const query = {
@@ -610,10 +630,14 @@ const useScene = () => {
         };
         _from_node.dragging = false;
         _from_node.selected = false;
+        console.log('id_apis', id_apis);
 
         id_apis[_id] = _clone_api;
         node_config[_id] = _clone_config;
         nodes.push(_from_node);
+        console.log(id_apis);
+        console.log(nodes);
+        console.log(node_config);
 
         if (from === 'scene') {
             dispatch({
@@ -698,6 +722,17 @@ const useScene = () => {
 
                                 if (data.scenes.length === length) {
                                     clearInterval(t);
+                                    if (from === 'scene') {
+                                        dispatch({
+                                            type: 'scene/updateRunStatus',
+                                            payload: 'finish',
+                                        })
+                                    } else {
+                                        dispatch({
+                                            type: 'plan/updateRunStatus',
+                                            payload: 'finish',
+                                        })
+                                    }
                                     // const { scenes } = data;
 
                                     // dispatch({

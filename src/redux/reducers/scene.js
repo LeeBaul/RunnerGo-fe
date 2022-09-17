@@ -25,6 +25,7 @@ const initialState = {
   update_node: {}, // 要改变的点
 
   run_res: null, // 运行场景的结果
+  run_status: '', // 运行场景的状态
   run_api_res: null, // 运行节点API的结果
 
   success_edge: [], // 运行成功的线
@@ -66,6 +67,7 @@ const actionTypes = {
   updateInitScene: 'updateInitScene',
   updateToLoading: 'updateToLoading',
   updateRunningScene: 'updateRunningScene',
+  updateRunStatus: 'updateRunStatus',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -201,6 +203,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         running_scene: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateRunStatus}`:
+      return {
+        ...state,
+        run_status: action.payload,
       }
     default:
       return state;

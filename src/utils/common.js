@@ -5,7 +5,7 @@ import parseUrl from 'url-parse';
 import { isUndefined, isArray, isFunction, isNumber } from 'lodash';
 
 export const isLogin = () => {
-    const token = getCookie('token');
+    const token = localStorage.getItem('kunpeng-token');
     const expire_time_sec = localStorage.getItem('expire_time_sec');
     const isExpire = new Date().getTime() < expire_time_sec;
     return (

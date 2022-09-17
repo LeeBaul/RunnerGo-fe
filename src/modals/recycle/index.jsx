@@ -10,6 +10,7 @@ import Api from './api';
 import Folder from './folder';
 import { RecycleModalWrapper } from './style';
 import { tap } from 'rxjs';
+import { cloneDeep } from 'lodash';
 
 const { Tabs, TabPan } = TabComponent;
 
@@ -21,18 +22,22 @@ const Recycle = (props) => {
   const [dataList, setDataList] = useState([]);
   const [filter, setFilter] = useState('');
 
-  const getDeleteFolder = async () => {
+  const getDeleteFolder = async (page, size, dataList = []) => {
     const query = {
-      page: 1,
-      size: 100,
+      page,
+      size,
       team_id: localStorage.getItem('team_id'),
     };
     fetchRecycleList(query)
       .pipe(
         tap((res) => {
-          const { code, data: { targets } } = res;
+          const { code, data: { targets, total } } = res;
           if (code === 0) {
-            setDataList(targets);
+            if (targets.length > 0) {
+              const _dataList = dataList.concat(targets);
+              setDataList(_dataList);
+              getDeleteFolder(page + 1, size, _dataList);
+            }
           }
         })
       )
@@ -44,7 +49,7 @@ const Recycle = (props) => {
   };
 
   useEffect(() => {
-    getDeleteFolder();
+    getDeleteFolder(1, 100);
   }, []);
 
   const handleRestoreDestory = async (target_id, type) => {
@@ -70,6 +75,10 @@ const Recycle = (props) => {
               global$.next({
                 action: 'GET_APILIST',
               });
+              const _dataList = cloneDeep(dataList);
+              const _index = _dataList.findIndex(item => item.target_id === target_id);
+              _dataList.splice(_index, 1);
+              setDataList(_dataList);
             }
           },
           error () {
@@ -99,6 +108,11 @@ const Recycle = (props) => {
           next (resp) {
             if (resp?.code === 0) {
               Message('success', '删除成功');
+              const _dataList = cloneDeep(dataList);
+              const _index = _dataList.findIndex(item => item.target_id === target_id);
+              _dataList.splice(_index, 1);
+              setDataList(_dataList);
+              // getDeleteFolder(1, 100);
             }
           },
           error () {
@@ -117,9 +131,6 @@ const Recycle = (props) => {
         });
       }
     }
-    setTimeout(() => {
-      getDeleteFolder();
-    }, 100);
   };
 
   const renderTabPanel = ({ headerTabItems }) => {

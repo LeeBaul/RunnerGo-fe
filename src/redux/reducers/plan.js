@@ -22,6 +22,7 @@ const initialState = {
   import_node: [],
 
   run_res: null,
+  run_status: '',
   run_api_res: null,
 
   success_edge: [], // 运行成功的线
@@ -67,6 +68,7 @@ const actionTypes = {
   updateToLoading: 'updateToLoading',
 
   updateRunningScene: 'updateRunningScene',
+  updateRunStatus: 'updateRunStatus',
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -190,6 +192,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         running_scene: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateRunStatus}`:
+      return {
+        ...state,
+        run_status: action.payload,
       }
     default:
       return state;

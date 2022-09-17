@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { Button, Dropdown } from 'adesign-react';
+import { Button, Dropdown, Message } from 'adesign-react';
 import {
     LogoutRight as SvgLogout,
     InviteMembers as SvgInvite
@@ -14,6 +14,7 @@ import { fetchTeamMemberList } from '@services/user';
 import { tap } from 'rxjs';
 import { useSelector } from 'react-redux';
 import { global$ } from '@hooks/useGlobal/global';
+import { useNavigate } from 'react-router-dom';
 
 
 const HeaderRight = () => {
@@ -25,6 +26,7 @@ const HeaderRight = () => {
     const [outsideClose, setOutsideClose] = useState(true);
 
     const teamMember = useSelector((store) => store.teams.teamMember);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -82,7 +84,16 @@ const HeaderRight = () => {
                 </div>
             </Dropdown>
         ))
-    }
+    };
+
+    const loginOut = () => {
+        localStorage.removeItem('kunpeng-token');
+        localStorage.removeItem('expire_time_sec');
+        localStorage.removeItem('team_id');
+        localStorage.removeItem('settings');
+        navigate('/login');
+        Message('success', '退出成功!');
+    };
 
     return (
         <div className='header-right'>
@@ -95,7 +106,7 @@ const HeaderRight = () => {
             <Button className='invite' preFix={<SvgInvite />} onClick={() => setShowModal(true)}>邀请协作</Button>
             <div className='more-btn'>
                 <Button className='handle-log' onClick={() => setShowLog(true)}>操作日志</Button>
-                <Button className='handle-log' preFix={<SvgLogout />}>退出</Button>
+                <Button className='handle-log' preFix={<SvgLogout />} onClick={() => loginOut()}>退出</Button>
             </div>
             {showModal && <InvitationModal onCancel={() => {
                 setShowModal(false);
