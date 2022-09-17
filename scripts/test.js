@@ -18,14 +18,14 @@ const webpackConfig = {
   },
   mode: 'production',
   devtool: false,
-  optimize: {
-    output: {
-      comments: false,//去掉注释
-    },
-    compress: {
-      warnings: false,//去掉警告
-    }
-  },
+  // optimize: {
+  //   output: {
+  //     comments: false,//去掉注释
+  //   },
+  //   compress: {
+  //     warnings: false,//去掉警告
+  //   }
+  // },
   optimization: {
     splitChunks: {
       chunks: 'async', // 2. 处理的 chunk 类型
