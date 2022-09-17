@@ -177,7 +177,7 @@ const SceneHeader = (props) => {
         //     payload: _edges[0]
         // })
     }
-    console.log(run_res_scene, run_res_plan);
+
     return (
         <div className='scene-header'>
             <div className='scene-header-left'>{open_scene_name}</div>

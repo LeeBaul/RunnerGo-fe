@@ -17,12 +17,27 @@ const IndexPage = () => {
     const [info, setInfo] = useState({});
     // 当前用户的基本信息
     const [user, setUser] = useState({});
+    const [log, setLog] = useState([]);
     // 操作日志
     // const [logList, setLogList] = useState([]);
-    const userInfo = useSelector((store) => store.user.userInfo);
-    const dispatch = useDispatch();
-    const userData = useSelector((store) => store.dashboard.userData);
-    const logList = useSelector((store) => store.teams.logList);
+    // const userInfo = useSelector((store) => store.user.userInfo);
+    // const dispatch = useDispatch();
+    // const userData = useSelector((store) => store.dashboard.userData);
+    // const logList = useSelector((store) => store.teams.logList);
+
+    useEffect(() => {
+        fetchDashBoardInfo({
+            team_id: parseInt(localStorage.getItem('team_id'))
+        }).subscribe({
+            next: (res) => {
+                console.log(res);
+                const { data: { user, api_num, plan_num, report_num, scene_num, operations } } = res;
+                setUser(user);
+                setInfo({ api_num, scene_num, plan_num, report_num });
+                setLog(operations);
+            }
+        })
+    }, []);
 
     // useEffect(() => {
     //     global$.next({
@@ -77,9 +92,9 @@ const IndexPage = () => {
         <div className='index-page'>
             <AsyncData showAsync={showAsync} handleShowAsync={handleShowAsync} />
             <div className='index-top'>
-                <Info data={userData} user={userInfo} />
+                <Info data={info} user={user} />
                 <RunningPlan />
-                <HandleLog logList={logList} />
+                <HandleLog logList={log} />
             </div>
             <div className='index-bottom'>
                 <RecentReport />

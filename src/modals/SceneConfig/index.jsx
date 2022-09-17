@@ -301,6 +301,7 @@ const SceneConfig = (props) => {
     };
 
     const downloadFile = async (name, url) => {
+        console.log(name, url);
         const result = await fetch(url);
         const file = await result.blob();
         let a = document.createElement('a');

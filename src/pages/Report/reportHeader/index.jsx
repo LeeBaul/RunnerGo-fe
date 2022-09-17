@@ -9,6 +9,8 @@ import SendEmail from '@modals/SendEmail';
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import SvgSendEmail from '@assets/icons/SendEmail';
+import SvgStop from '@assets/icons/Stop';
 
 const ReportHeader = () => {
     const [showSendEmail, setSendEmail] = useState(false);
@@ -123,9 +125,9 @@ const ReportHeader = () => {
                 <div className='report-status'>运行中</div>
             </div>
             <div className='report-header-right'>
-                <Button className='notice' preFix={<SvgAddcircle width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
+                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
                 <Button className='download' onClick={() => donwloadReport()}>下载</Button>
-                <Button className='stop' preFix={<SvgAddcircle width="16" height="16" />}>停止任务</Button>
+                <Button className='stop' preFix={<SvgStop width="10" height="10" />}>停止任务</Button>
             </div>
             {showSendEmail && <SendEmail onCancel={() => setSendEmail(false)} />}
         </div>

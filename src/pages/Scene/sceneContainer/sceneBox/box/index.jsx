@@ -74,7 +74,7 @@ const Box = (props) => {
         nodes: nodes_plan,
         id_apis: id_apis_plan,
         node_config: node_config_plan,
-        open_scene: open_scene_plan,
+        open_plan_scene: open_scene_plan,
         run_res: run_res_plan,
         edges: edges_plan,
         init_scene: init_scene_plan,
@@ -150,7 +150,6 @@ const Box = (props) => {
     }, [run_res]);
 
     useEffect(() => {
-
         if (open_scene) {
             if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
@@ -476,7 +475,6 @@ const Box = (props) => {
     const changeApiConfig = (id) => {
         // e.preventDefault();
         // e.stopPropagation();
-        console.log(id_apis, id);
         const api_now = cloneDeep(id_apis[id]);
         api_now.id = id;
 

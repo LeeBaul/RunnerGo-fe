@@ -48,7 +48,7 @@ const PlanList = () => {
         const { status, plan_id } = data;
         return (
             <div className='handle-content'>
-                {status === 1 ? <Button className='stop-btn' preFix={<SvgStop />}>停止</Button> :
+                {status === 2 ? <Button className='stop-btn' preFix={<SvgStop />}>停止</Button> :
                     <Button className='run-btn' preFix={<SvgRun />}>开始</Button>}
                 <div className='handle-icons'>
                     <SvgEye onClick={() => {

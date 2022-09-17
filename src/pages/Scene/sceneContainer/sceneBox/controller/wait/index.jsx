@@ -32,7 +32,7 @@ const WaitController = (props) => {
     const to_loading_plan = useSelector((store) => store.plan.to_loading);
     const success_edge_plan = useSelector((store) => store.plan.success_edge);
     const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
-    const open_scene_plan = useSelector((store) => store.plan.open_scene);
+    const open_scene_plan = useSelector((store) => store.plan.open_plan_scene);
     const running_scene_plan = useSelector((store) => store.plan.running_scene);
 
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
