@@ -264,7 +264,7 @@ const TeamworkLogs = (props) => {
                         </div>
                         <div className="action">
                           <HandleTags type={logItem.category} />
-                          <Tooltip
+                          {/* <Tooltip
                             ref={refTooltip}
                             placement="bottom"
                             offset={[6, 15]}
@@ -280,7 +280,7 @@ const TeamworkLogs = (props) => {
                                   : Intercept(logItem?.message?.subject?.modify_subject)}
                               </div>
                             }
-                          >
+                          > */}
                             <div className="text-ellipsis" style={{marginLeft: '6px'}}>
                               {/* {logItem?.message?.action === 'lock' ||
                                 logItem?.message?.action === 'unlock'
@@ -291,7 +291,7 @@ const TeamworkLogs = (props) => {
                                 : Intercept(logItem?.message?.subject?.modify_subject)} */}
                                 { logItem.name }
                             </div>
-                          </Tooltip>
+                          {/* </Tooltip> */}
                         </div>
                         <div className="time">
                           { it.created_time_sec }

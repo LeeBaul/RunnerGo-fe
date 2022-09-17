@@ -79,3 +79,8 @@ export const fetchGetSceneRes = (
 export const fetchSendSceneApi = (
     params
 ) => ajax('post', '/management/api/v1/scene/api/send', 'json', false, params);
+
+// 删除场景设置的文件
+export const fetchDeleteImport = (
+    params
+) => ajax('post', '/management/api/v1/variable/scene/import/delete', 'json', false, params);

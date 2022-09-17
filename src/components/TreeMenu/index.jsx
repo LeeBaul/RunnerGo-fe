@@ -35,8 +35,6 @@ const TreeMenu = (props) => {
         'plan': planDataParam,
     };
 
-    console.log(listDataParam);
-
     const dataParam = dataList[type];
 
     const handleShowModal = (mtype, mProps) => {
@@ -74,7 +72,7 @@ const TreeMenu = (props) => {
                 type={type}
                 // getSceneName={getSceneName}
             />
-            <RecycleBin />
+            { type === 'apis' && <RecycleBin /> }
         </MenuWrapper>
     )
 };

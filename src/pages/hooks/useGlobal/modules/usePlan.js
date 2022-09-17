@@ -91,6 +91,26 @@ const usePlan = () => {
             type: 'plan/updateRunningScene',
             payload: ''
         })
+        dispatch({
+            type: 'plan/updateNodes',
+            payload: [],
+        });
+        dispatch({
+            type: 'plan/updateEdges',
+            payload: [],
+        });
+        dispatch({
+            type: 'plan/updateCloneNode',
+            payload: [],
+        });
+        dispatch({
+            type: 'plan/updateSuccessEdge',
+            payload: [],
+        });
+        dispatch({
+            type: 'plan/updateFailedEdge',
+            payload: [],
+        });
         const { target_id } = id;
         const query = {
             team_id: localStorage.getItem('team_id'),

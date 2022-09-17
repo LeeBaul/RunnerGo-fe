@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.less';
 import {
     Setting1 as SvgSetting,
@@ -13,6 +13,7 @@ import Bus from '@utils/eventBus';
 import { useParams } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
 import { MarkerType } from 'react-flow-renderer';
+import SvgStop from '@assets/icons/Stop';
 
 const SceneHeader = (props) => {
     const { from } = props;
@@ -28,6 +29,8 @@ const SceneHeader = (props) => {
         open_scene: open_scene_scene,
         init_scene: init_scene_scene,
         to_loading: to_loading_scene,
+        run_res: run_res_scene,
+        run_status: run_status_scene,
     } = useSelector((store) => store.scene);
     const {
         nodes: nodes_plan,
@@ -37,6 +40,8 @@ const SceneHeader = (props) => {
         open_plan_scene: open_scene_plan,
         init_scene: init_scene_plan,
         to_loading: to_loading_plan,
+        run_res: run_res_plan,
+        run_status: run_status_plan,
     } = useSelector((store) => store.plan);
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
@@ -46,11 +51,47 @@ const SceneHeader = (props) => {
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
 
     const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
+    // const run_res = from === 'scene' ? (run_res_scene ? run_res_scene[open_scene.scene_id] : {}) : (run_res_plan ? run_res_plan[open_scene.scene_id] : {});
+    const run_status = from === 'scene' ? run_status_scene : run_status_plan;
+
+    useEffect(() => {
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateToLoading',
+                payload: false,
+            })
+            dispatch({
+                type: 'scene/updateSuccessEdge',
+                payload: [],
+            });
+            dispatch({
+                type: 'scene/updateFailedEdge',
+                payload: [],
+            });
+        } else {
+            dispatch({
+                type: 'plan/updateToLoading',
+                payload: false,
+            })
+            dispatch({
+                type: 'plan/updateSuccessEdge',
+                payload: [],
+            });
+            dispatch({
+                type: 'plan/updateFailedEdge',
+                payload: [],
+            });
+        }
+    }, []);
 
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     const runScene = () => {
         const { scene_id } = open_scene;
         if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateRunStatus',
+                payload: 'running',
+            })
             dispatch({
                 type: 'scene/updateRunningScene',
                 payload: scene_id,
@@ -71,6 +112,14 @@ const SceneHeader = (props) => {
                 type: 'scene/updateRunRes',
                 payload: [],
             })
+            dispatch({
+                type: 'scene/updateSuccessEdge',
+                payload: [],
+            });
+            dispatch({
+                type: 'scene/updateFailedEdge',
+                payload: [],
+            })
             setTimeout(() => {
                 dispatch({
                     type: 'scene/updateToLoading',
@@ -78,6 +127,10 @@ const SceneHeader = (props) => {
                 })
             }, 200)
         } else {
+            dispatch({
+                type: 'plan/updateRunStatus',
+                payload: 'running',
+            })
             dispatch({
                 type: 'plan/updateRunningScene',
                 payload: scene_id,
@@ -93,6 +146,14 @@ const SceneHeader = (props) => {
             dispatch({
                 type: 'plan/updateRunRes',
                 payload: []
+            })
+            dispatch({
+                type: 'plan/updateSuccessEdge',
+                payload: [],
+            });
+            dispatch({
+                type: 'plan/updateFailedEdge',
+                payload: [],
             })
             setTimeout(() => {
                 dispatch({
@@ -116,6 +177,7 @@ const SceneHeader = (props) => {
         //     payload: _edges[0]
         // })
     }
+    console.log(run_res_scene, run_res_plan);
     return (
         <div className='scene-header'>
             <div className='scene-header-left'>{open_scene_name}</div>
@@ -135,7 +197,11 @@ const SceneHeader = (props) => {
                         });
                     }
                 }}>保存</Button>
-                {<Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>}
+                {
+                    run_status === 'running'
+                    ? <Button className='stopBtn' preFix={<SvgStop />}>停止运行</Button>
+                    : <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>
+                }
             </div>
             {showSceneConfig && <SceneConfig from={from} onCancel={() => setSceneConfig(false)} />}
         </div>

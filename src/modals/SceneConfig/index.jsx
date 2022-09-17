@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Table, Upload, Button, Input, Message } from 'adesign-react';
 import { Copy as SvgCopy, Add as SvgAdd, Delete as SvgDelete } from 'adesign-react/icons';
 import { GlobalVarModal, HeaderTitleStyle, VarNameStyle } from './style';
-import { copyStringToClipboard } from '@utils';
+import { copyStringToClipboard, str2testData } from '@utils';
 import OSS from 'ali-oss';
 import { v4 } from 'uuid';
-import { fetchImportVar, fetchImportList, fetchSceneVar, fetchChangeVar } from '@services/scene';
+import { fetchImportVar, fetchImportList, fetchSceneVar, fetchChangeVar, fetchDeleteImport } from '@services/scene';
 import { useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
+import PreviewFile from '../PreviewFile';
 
 const SceneConfig = (props) => {
     const { onCancel, from } = props;
@@ -18,6 +19,9 @@ const SceneConfig = (props) => {
     const [fileList, setFileList] = useState([]);
     const [varList, setVarList] = useState([]);
     const [checkName, setCheckName] = useState([]);
+    const [showPreview, setPreview] = useState(false);
+    const [previewData, setPreviewData] = useState([]);
+    const [fileType, setFileType] = useState('');
 
     const handleChange = (rowData, rowIndex, newVal) => {
         const newList = [...varList];
@@ -45,6 +49,7 @@ const SceneConfig = (props) => {
                         let name = item.name.split('/');
                         return {
                             ...item,
+                            path: item.name,
                             name: name[name.length - 1],
                         }
                     });
@@ -169,12 +174,12 @@ const SceneConfig = (props) => {
         )
     };
 
-    const uploadFile = async (files, fileList) => {
+    const uploadFile = async (files, fileLists) => {
         const fileMaxSize = 1024 * 10;
         const fileType = ['csv', 'txt'];
         const { originFile: { size, name } } = files[0];
         const nameType = name.split('.')[1];
-        if (fileList.length === 5) {
+        if (fileLists.length === 5) {
             Message('error', '最多上传5个文件!');
             return;
         }
@@ -210,7 +215,10 @@ const SceneConfig = (props) => {
                     let name = res_name.split('/');
                     const importFile = {
                         name: name[name.length - 1],
+                        path: res_name,
+                        url,
                     };
+                    console.log(fileList);
                     const _fileList = cloneDeep(fileList);
                     _fileList.push(importFile);
                     setFileList(_fileList)
@@ -250,6 +258,61 @@ const SceneConfig = (props) => {
                 Message('error', '保存失败!');
             }
         });
+    };
+
+    const deleteFile = (name) => {
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            scene_id: open_scene.scene_id,
+            name,
+        };
+        fetchDeleteImport(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    Message('success', '删除成功!');
+                    const _fileList = cloneDeep(fileList);
+                    const _index = _fileList.findIndex(item => item.path === name);
+                    _fileList.splice(_index, 1);
+                    setFileList(_fileList);
+                } else {
+                    Message('error', '删除失败!');
+                }
+            }
+        })
+    };
+
+    const previewFile = async (url) => {
+        const result = await fetch(url);
+        const file = await result.blob();
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const text = reader.result;
+            console.log(text);
+            const testData = str2testData(text);
+            console.log(testData);
+            setPreviewData(testData.length > 0 ? testData : text);
+            setFileType(testData.length > 0 ? 'csv' : 'txt');
+            setPreview(true);
+        };
+
+        reader.readAsText(file);
+    };
+
+    const downloadFile = async (name, url) => {
+        const result = await fetch(url);
+        const file = await result.blob();
+        let a = document.createElement('a');
+        let _url = window.URL.createObjectURL(file);
+        let filename = name;
+        a.href = _url;
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(_url);
+        document.body.removeChild(a);
     }
 
     return (
@@ -264,9 +327,9 @@ const SceneConfig = (props) => {
                                 {item.name}
                             </div>
                             <div className='file-list-item-right'>
-                                <p>预览</p>
-                                <p>下载</p>
-                                <p className='delete'>删除</p>
+                                <p onClick={() => previewFile(item.url)}>预览</p>
+                                <p onClick={() => downloadFile(item.name, item.url)}>下载</p>
+                                <p className='delete' onClick={() => deleteFile(item.path)}>删除</p>
                             </div>
                         </div>
                     ))
@@ -277,6 +340,7 @@ const SceneConfig = (props) => {
             </Upload>
             <p className='container-title'>添加变量</p>
             <Table showBorder columns={columns} data={varList} />
+            { showPreview && <PreviewFile fileType={fileType} data={previewData} onCancel={() => setPreview(false)} /> }
         </Modal>
     )
 };
