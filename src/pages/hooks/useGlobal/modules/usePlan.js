@@ -4,7 +4,7 @@ import { cloneDeep, isArray, set, findIndex } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { tap, filter, map, concatMap, switchMap, from } from 'rxjs';
 import { fetchSceneFlowDetail, fetchCreateSceneFlow, fetchSceneDetail, fetchCreateScene, fetchBatchFlowDetail } from '@services/scene';
-import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan } from '@services/plan';
+import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan, fetchRunPlan, fetchStopPlan } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail } from '@services/apis';
@@ -616,7 +616,35 @@ const usePlan = () => {
         });
 
         callback && callback();
-    }
+    };
+
+    const runPlan = (plan_id, callback) => {
+        const params = {
+            plan_id: parseInt(plan_id),
+            team_id: parseInt(localStorage.getItem('team_id')),
+        };
+        fetchRunPlan(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                callback && callback(code);
+            }
+        })
+    };
+
+    const stopPlan = (plan_id, callback) => {
+        const params = {
+            plan_ids: [parseInt(plan_id)],
+        };
+        console.log(params);
+        fetchStopPlan(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                callback && callback(code);
+            }
+        })
+    };
+
+
 
     useEventBus('savePreConfig', savePreConfig);
     useEventBus('createPlan', createPlan);
@@ -631,6 +659,8 @@ const usePlan = () => {
     useEventBus('importSceneApi', importSceneApi);
     useEventBus('savePlanApi', savePlanApi);
     useEventBus('updatePlanApi', updatePlanApi);
+    useEventBus('runPlan', runPlan);
+    useEventBus('stopPlan', stopPlan);
 };
 
 export default usePlan;

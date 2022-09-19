@@ -1,64 +1,46 @@
 {
-    "report_id": "1111111",
-    "report_name": "测试项目性能测试报告",
-    "plan_id": 1,
-    "plan_name": "测试项目",
-    "scene_id": 123,
-    "scene_name": "登录新增",
-    "results": {
-        "1111111": {
-            "report_id": "", 
-            "report_name": "",
-            "plan_id": 0,
-            "plan_name": "",
-            "scene_id": 0,
-            "scene_name": "",
-            "": "",
-
-            "total_request_num": 14,
-
-            "total_request_time": 17854,
-
-            "success_num": 0,
-
-            "error_num": 14,
-
-            "avg_request_time": 1275,
-
-            "max_request_time": 1289,
-
-            "min_request_time": 1266,
-            "custom_request_time_line": 0,
-            "custom_request_time_line_value": 0,
-            "ninety_request_time_line": 1286,
-            "ninety_five_request_time_line": 1289,
-            "ninety_nine_request_time_line": 1289,
-            "send_bytes": 616,
-            "received_bytes": 3220
-        },
-        "333333": {
-            "report_id": "",
-            "report_name": "",
-            "plan_id": 0,
-            "plan_name": "",
-            "scene_id": 0,
-            "scene_name": "",
-            "target_id": 0,
-            "name": "",
-            "total_request_num": 8,
-            "total_request_time": 10211,
-            "success_num": 8,
-            "error_num": 0,
-            "avg_request_time": 1276,
-            "max_request_time": 1289,
-            "min_request_time": 1271,
-            "custom_request_time_line": 0,
-            "custom_request_time_line_value": 0,
-            "ninety_request_time_line": 1289,
-            "ninety_five_request_time_line": 1289,
-            "ninety_nine_request_time_line": 1289,
-            "send_bytes": 2544,
-            "received_bytes": 400
-        }
-    }
+	"end": false,                                                                    // 任务是否结束
+	"report_id": "1111111",                                                 // 测试报告id
+	"report_name": "测试项目性能测试报告",                        // 测试报告名称
+	"plan_id": 1,
+	"plan_name": "测试项              目",
+	"scene_id": 123,
+	"scene_name": "登录新增",
+	"results": {
+		"1111111": {                                                              // event_id
+			"total_request_num": 10,                                 // 总请求数
+			"total_request_time": 2496,                                  // 总响应时间
+			"success_num": 0,                                                 // 成功数
+			"error_num": 10,                                                   // 失败数
+			"avg_request_time": 249,                                      // 平均响应时间
+			"max_request_time": 439,                                     // 最大响应时间
+			"min_request_time": 51,                                          // 最小响应时间
+			"custom_request_time_line": 0,                               // 自定义响应时间线
+			"custom_request_time_line_value": 0,                     // 自定义响应时间线的值
+			"ninety_request_time_line": 439,                            // 90%响应时间线的值
+			"ninety_five_request_time_line": 439,       				 // 95%响应时间线的值
+			"ninety_nine_request_time_line": 439,                       // 99%响应时间线的值
+			"send_bytes": 440,                                                     // 发送的字节数
+			"received_bytes": 2300,                                              // 接收到的字节数
+			"qps": 10                                                                    // 每秒请求数
+		},
+		"333333": {
+			"total_request_num": 9,
+			"total_request_time": 2351,
+			"success_num": 9,
+			"error_num": 0,
+			"avg_request_time": 261,
+			"max_request_time": 378,
+			"min_request_time": 107,
+			"custom_request_time_line": 0,
+			"custom_request_time_line_value": 0,
+			"ninety_request_time_line": 378,
+			"ninety_five_request_time_line": 378,
+			"ninety_nine_request_time_line": 378,
+			"send_bytes": 2862,
+			"received_bytes": 450,
+			"qps": 9
+		}
+	},
+	"Machine": null
 }

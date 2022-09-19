@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Radio, Switch, Table, Input, Button } from 'adesign-react';
+import { Radio, Switch, Table, Input, Button, Message } from 'adesign-react';
 import { Save as SvgSave } from 'adesign-react/icons';
 import { fetchPreConfig } from '@services/plan';
 import { useSelector, useDispatch } from 'react-redux';
@@ -52,6 +52,7 @@ const TaskConfig = (props) => {
 
     const [initData, setInitData] = useState({});
     const dispatch = useDispatch();
+    const [planDetail, setPlanDetail] = useState({});
     const task_config = useSelector((store) => store.plan.task_config);
     const { id: plan_id } = useParams();
 
@@ -67,32 +68,33 @@ const TaskConfig = (props) => {
                     const {
                         mode,
                         cron_expr,
-                        mode_conf: {
-                            concurrency,
-                            duration,
-                            max_concurrency,
-                            reheat_time,
-                            round_num,
-                            start_concurrency,
-                            step,
-                            step_run_time,
-                            threshold_value
-                        },
+                        mode_conf,
                         task_type
                     } = plan;
                     mode && setMode(mode);
                     cron_expr && setCronExpr(cron_expr);
-                    concurrency && setConcurrency(concurrency);
-                    duration && setDuration(duration);
-                    max_concurrency && setMaxConcurrency(max_concurrency);
-                    reheat_time && setReheatTime(reheat_time);
-                    round_num && setRoundNum(round_num);
-                    start_concurrency && setStartConcurrency(start_concurrency);
-                    step && setStep(step);
-                    step_run_time && setStepRunTime(step_run_time);
+                    // concurrency && setConcurrency(concurrency);
+                    // duration && setDuration(duration);
+                    // max_concurrency && setMaxConcurrency(max_concurrency);
+                    // reheat_time && setReheatTime(reheat_time);
+                    // round_num && setRoundNum(round_num);
+                    // start_concurrency && setStartConcurrency(start_concurrency);
+                    // step && setStep(step);
+                    // step_run_time && setStepRunTime(step_run_time);
+                    setModeConf(mode_conf);
                     task_type && setTaskType(task_type);
+                    console.log(mode_conf);
+                    dispatch({
+                        type: 'plan/updateTaskConfig',
+                        payload: {
+                            mode,
+                            cron_expr,
+                            task_type,
+                            mode_conf,
+                        },
+                    })
                 }
-                // setPlanDetail(plan);
+                setPlanDetail(plan);
             }
         })
     }, [plan_id]);
@@ -101,29 +103,20 @@ const TaskConfig = (props) => {
         const {
             mode,
             cron_expr,
-            mode_conf: {
-                concurrency,
-                duration,
-                max_concurrency,
-                reheat_time,
-                round_num,
-                start_concurrency,
-                step,
-                step_run_time,
-                threshold_value
-            },
+            mode_conf,
             task_type
         } = preinstall;
         mode && setMode(mode);
         cron_expr && setCronExpr(cron_expr);
-        concurrency && setConcurrency(concurrency);
-        duration && setDuration(duration);
-        max_concurrency && setMaxConcurrency(max_concurrency);
-        reheat_time && setReheatTime(reheat_time);
-        round_num && setRoundNum(round_num);
-        start_concurrency && setStartConcurrency(start_concurrency);
-        step && setStep(step);
-        step_run_time && setStepRunTime(step_run_time);
+        setModeConf(mode_conf);
+        // concurrency && setConcurrency(concurrency);
+        // duration && setDuration(duration);
+        // max_concurrency && setMaxConcurrency(max_concurrency);
+        // reheat_time && setReheatTime(reheat_time);
+        // round_num && setRoundNum(round_num);
+        // start_concurrency && setStartConcurrency(start_concurrency);
+        // step && setStep(step);
+        // step_run_time && setStepRunTime(step_run_time);
         task_type && setTaskType(task_type);
     }
 
@@ -168,6 +161,8 @@ const TaskConfig = (props) => {
     // 预热时长
     const [reheat_time, setReheatTime] = useState(0);
 
+    const [mode_conf, setModeConf] = useState({});
+
     // cron表达式
     const [cron_expr, setCronExpr] = useState('');
 
@@ -184,7 +179,8 @@ const TaskConfig = (props) => {
             if (task_type === 2) {
                 _task_config['cron_expr'] = cron_expr;
             }
-            _task_config['mode'] = value;
+            _task_config['mode'] = mode;
+            _task_config['mode_conf'] = mode_conf;
             _task_config['mode_conf'][type] = value;
         };
 
@@ -202,36 +198,47 @@ const TaskConfig = (props) => {
                 <Radio.Group value={default_mode} onChange={(e) => setDefaultMode(e)}>
                     <Radio value="duration">
                         <span className='label'>持续时长: </span>
-                        <Input size="mini" value={duration} onChange={(e) => {
-                            setDuration(parseInt(e));
-                            from === 'preset' && onChange('duration', parseInt(e));
-                            from === 'default' && updateTaskConfig('duration', parseInt(e));
+                        <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.duration = parseInt(e.target.value);
+                            // setDuration(parseInt(e.target.value));
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('duration', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('duration', parseInt(e.target.value));
                         }} disabled={default_mode === 'round_num'} /> s
                     </Radio>
                     <Radio value="round_num">
                         <span className='label'>轮次: </span>
-                        <Input size="mini" value={round_num} onChange={(e) => {
-                            setRoundNum(parseInt(e));
-                            from === 'preset' && onChange('round_num', parseInt(e));
-                            from === 'default' && updateTaskConfig('round_num', parseInt(e));
+                        <Input size="mini" value={mode_conf.round_num} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.round_num = parseInt(e.target.value);
+                            // setRoundNum(_mode_conf);
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('round_num', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('round_num', parseInt(e.target.value));
                         }} disabled={default_mode === 'duration'} /> 次
                     </Radio>
                 </Radio.Group>
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
                         <span>并发数: </span>
-                        <Input size="mini" value={concurrency} onChange={(e) => {
-                            setConcurrency(parseInt(e));
-                            from === 'preset' && onChange('concurrency', parseInt(e));
-                            from === 'default' && updateTaskConfig('concurrency', parseInt(e));
+                        <Input size="mini" value={mode_conf.concurrency} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.concurrency = parseInt(e.target.value);
+                            // setConcurrency(_mode_conf);
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('concurrency', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('concurrency', parseInt(e.target.value));
                         }} />
                     </div>
                     <div className='config-detail-item'>
                         <span>预热: </span>
-                        <Input size="mini" value={reheat_time} onChange={(e) => {
-                            setReheatTime(parseInt(e));
-                            from === 'preset' && onChange('reheat_time', parseInt(e));
-                            from === 'default' && updateTaskConfig('reheat_time', parseInt(e));
+                        <Input size="mini" value={mode_conf.reheat_time} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.reheat_time = parseInt(e.target.value);
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('reheat_time', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('reheat_time', parseInt(e.target.value));
                         }} />s
                     </div>
                 </div>
@@ -246,42 +253,57 @@ const TaskConfig = (props) => {
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
                         <span>起始并发数: </span>
-                        <Input size="mini" value={start_concurrency} onChange={(e) => {
-                            setStartConcurrency(parseInt(e));
-                            from === 'preset' && onChange('start_concurrency', parseInt(e));
-                            from === 'default' && updateTaskConfig('start_concurrency', parseInt(e));
+                        <Input size="mini" value={mode_conf.start_concurrency} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.start_concurrency = parseInt(e.target.value);
+                            // setStartConcurrency(parseInt(e.target.value));
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('start_concurrency', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('start_concurrency', parseInt(e.target.value));
                         }} />
                     </div>
                     <div className='config-detail-item'>
                         <span>并发数步长: </span>
-                        <Input size="mini" value={step} onChange={(e) => {
-                            setStep(parseInt(e));
-                            from === 'preset' && onChange('step', parseInt(e));
-                            from === 'default' && updateTaskConfig('step', parseInt(e));
+                        <Input size="mini" value={mode_conf.step} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.step = parseInt(e.target.value);
+                            // setStep(parseInt(e.target.value));
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('step', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('step', parseInt(e.target.value));
                         }} />
                     </div>
                     <div className='config-detail-item'>
                         <span>步长执行时长: </span>
-                        <Input size="mini" value={step_run_time} onChange={(e) => {
-                            setStepRunTime(parseInt(e));
-                            from === 'preset' && onChange('step_run_time', parseInt(e));
-                            from === 'default' && updateTaskConfig('step_run_time', parseInt(e));
+                        <Input size="mini" value={mode_conf.step_run_time} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.step_run_time = parseInt(e.target.value);
+                            // setStepRunTime(parseInt(e.target.value));
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('step_run_time', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('step_run_time', parseInt(e.target.value));
                         }} />s
                     </div>
                     <div className='config-detail-item'>
                         <span>最大并发数: </span>
-                        <Input size="mini" value={max_concurrency} onChange={(e) => {
-                            setMaxConcurrency(parseInt(e));
-                            from === 'preset' && onChange('max_concurrency', parseInt(e));
-                            from === 'default' && updateTaskConfig('max_concurrency', parseInt(e));
+                        <Input size="mini" value={mode_conf.max_concurrency} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.max_concurrency = parseInt(e.target.value);
+                            // setMaxConcurrency(parseInt(e.target.value));
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('max_concurrency', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('max_concurrency', parseInt(e.target.value));
                         }} />次
                     </div>
                     <div className='config-detail-item'>
                         <span>稳定持续时长: </span>
-                        <Input size="mini" value={duration} onChange={(e) => {
-                            setDuration(parseInt(e));
-                            from === 'preset' && onChange('duration', parseInt(e));
-                            from === 'default' && updateTaskConfig('duration', parseInt(e));
+                        <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
+                            const _mode_conf = cloneDeep(mode_conf);
+                            _mode_conf.duration = parseInt(e.target.value);
+                            // setDuration(parseInt(e.target.value));
+                            setModeConf(_mode_conf);
+                            from === 'preset' && onChange('duration', parseInt(e.target.value));
+                            from === 'default' && updateTaskConfig('duration', parseInt(e.target.value));
                         }} />s
                     </div>
                 </div>
@@ -317,6 +339,7 @@ const TaskConfig = (props) => {
             }
         })
     }
+
     return (
         <div className='task-config'>
             {
@@ -350,10 +373,10 @@ const TaskConfig = (props) => {
                 {
                     task_type === 2 && <div className='item'>
                         <p style={{ marginRight: '5px' }}>填写cron表达式: </p>
-                        <Input value={cron_expr} onChange={(e) => {
-                            setCronExpr(e);
-                            from === 'preset' && onChange('cron_expr', e);
-                            from === 'default' && updateTaskConfig('cron_expr', e);
+                        <Input value={cron_expr} onBlur={(e) => {
+                            setCronExpr(e.target.value);
+                            from === 'preset' && onChange('cron_expr', e.target.value);
+                            from === 'default' && updateTaskConfig('cron_expr', e.target.value);
                         }} placeholder="每隔5秒执行一次: */5 * * * * ?" />
                     </div>
                 }

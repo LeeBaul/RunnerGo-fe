@@ -13,12 +13,17 @@ const HeaderLeft = () => {
     const DropContent = () => {
         return (
             <div className='drop-content'>
-                <div className='drop-content-item' onClick={() => setImportApi(true)}>
+                <div className='drop-content-item' onClick={() => {
+                    setImportApi(true);
+                    refDropdown.current.setPopupVisible(false);
+                }}>
                     <SvgApis />
                     <span>同步Apipost</span>
                 </div>
                 <div className='line'></div>
-                <div className='drop-content-item'>
+                <div className='drop-content-item' onClick={() => {
+                    refDropdown.current.setPopupVisible(false);
+                }}>
                     <SvgApis />
                     <span>导入其他项目</span>
                 </div>

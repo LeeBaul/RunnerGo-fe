@@ -12,9 +12,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import TaskConfig from '../taskConfig';
 import { cloneDeep } from 'lodash';
 import Bus from '@utils/eventBus';
-import { fetchPlanDetail, fetchSavePlan } from '@services/plan';
+import { fetchPlanDetail, fetchSavePlan, fetchRunPlan, fetchStopPlan } from '@services/plan';
 import dayjs from 'dayjs';
 import SvgSendEmail from '@assets/icons/SendEmail';
+import SvgStop from '@assets/icons/Stop';
 
 const DetailHeader = () => {
     const navigate = useNavigate();
@@ -28,6 +29,10 @@ const DetailHeader = () => {
     const [planDetail, setPlanDetail] = useState({});
 
     useEffect(() => {
+        getReportDetail();
+    }, [plan_id]);
+
+    const getReportDetail = () => {
         const query = {
             team_id: localStorage.getItem('team_id'),
             plan_id,
@@ -38,7 +43,7 @@ const DetailHeader = () => {
                 setPlanDetail(plan);
             }
         })
-    }, [plan_id]);
+    }
 
     const savePreSet = (e) => {
 
@@ -62,7 +67,6 @@ const DetailHeader = () => {
             setModeConf(_mode_conf);
         }
     };
-
     return (
         <div className='detail-header'>
             {
@@ -104,7 +108,24 @@ const DetailHeader = () => {
             <div className='detail-header-right'>
                 <Button className='notice' onClick={() => setPreSet(true)}>预设配置</Button>
                 <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
-                <Button className='run' preFix={<SvgCareRight width="16" height="16" />}>开始运行</Button>
+                {
+                    planDetail.status === 1
+                        ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
+                            if (code === 0) {
+                                getReportDetail();
+                            } else {
+                                Message('error', '操作失败!');
+                            }
+                        })}>开始运行</Button>
+                        : <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
+                            if (code === 0) {
+                                Message('success', '停止成功!');
+                                getReportDetail();
+                            } else {
+                                Message('error', '停止失败!');
+                            }
+                        })} >停止运行</Button>
+                }
             </div>
         </div>
     )

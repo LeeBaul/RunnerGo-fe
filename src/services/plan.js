@@ -34,3 +34,13 @@ export const fetchDeletePlan = (
 export const fetchSavePlan = (
     params
 ) => ajax('post', '/management/api/v1/plan/task/save', 'json', false, params);
+
+// 执行计划
+export const fetchRunPlan = (
+    params
+) => ajax('post', '/management/api/v1/plan/run', 'json', false, params);
+
+// 停止计划
+export const fetchStopPlan = (
+    params
+) => ajax('post', '/management/api/v1/plan/stop', 'json', false, params);

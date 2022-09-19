@@ -165,7 +165,7 @@ const RecentReport = () => {
                     value={keyword}
                     onChange={getNewKeyword}
                     beforeFix={<SvgSearch />}
-                    placeholder="搜索计划名称/执行者"
+                    placeholder="搜索计划名称/场景名称/执行者"
                 />
                 {/* <Button className='searchBtn'>搜索</Button> */}
             </div>

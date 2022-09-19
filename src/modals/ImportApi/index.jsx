@@ -117,7 +117,9 @@ const ImportApi = (props) => {
 
     const handleCheckAll = (val) => {
         if (val === 'checked') {
-            const checkKeys = isObject(treeList) ? Object.keys(treeList) : [];
+            // const checkKeys = isObject(treeList) ? Object.keys(treeList) : [];
+            const checkKeys = treeList.map(item => item.target_id)
+            console.log(checkKeys);
             setCheckedApiKeys(checkKeys);
         }
         if (val === 'uncheck') {

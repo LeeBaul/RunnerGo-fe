@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
 import { useParams } from 'react-router-dom';
 import './index.less';
+import { debounce } from 'lodash';
 
 const Option = Select.Option;
 const ApiURLPanel = (props) => {
@@ -113,6 +114,7 @@ const ApiURLPanel = (props) => {
                 <Button
                     type="primary"
                     size="middle"
+                    disabled={btnName === '发送中...'}
                     onClick={() => {
                         // apiSend(data);
                         setBtnName('发送中...');

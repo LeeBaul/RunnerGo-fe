@@ -24,7 +24,7 @@ const PlanList = () => {
     const [planList, setPlanList] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [total, setTotal] = useState(0);
-    const [pageSize,  setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
     const refreshList = useSelector((store) => store.plan.refreshList);
@@ -52,8 +52,21 @@ const PlanList = () => {
         const { status, plan_id } = data;
         return (
             <div className='handle-content'>
-                {status === 2 ? <Button className='stop-btn' preFix={<SvgStop />}>停止</Button> :
-                    <Button className='run-btn' preFix={<SvgRun />}>开始</Button>}
+                {status === 2 ? <Button className='stop-btn' preFix={<SvgStop />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
+                    if (code === 0) {
+                        Message('success', '停止成功!');
+                        getPlanList();
+                    } else {
+                        Message('error', '停止失败!');
+                    }
+                })}>停止</Button> :
+                    <Button className='run-btn' preFix={<SvgRun />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
+                        if (code === 0) {
+                            getPlanList();
+                        } else {
+                            Message('error', '操作失败!');
+                        }
+                    })}>开始</Button>}
                 <div className='handle-icons'>
                     <SvgEye onClick={() => {
                         dispatch({
@@ -80,6 +93,10 @@ const PlanList = () => {
     }
 
     useEffect(() => {
+        getPlanList();
+    }, [refreshList, keyword, currentPage, pageSize]);
+
+    const getPlanList = () => {
         const query = {
             page: currentPage,
             size: pageSize,
@@ -101,13 +118,13 @@ const PlanList = () => {
                         status: statusList[status],
                         created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                         updated_time_sec: dayjs(updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
-                        handle: <HandleContent data={item}  />
+                        handle: <HandleContent data={item} />
                     }
                 })
                 plans && setPlanList(planList);
             }
         })
-    }, [refreshList, keyword, currentPage, pageSize])
+    }
 
 
     const columns = [
@@ -157,7 +174,7 @@ const PlanList = () => {
     ];
 
     const getNewkeyword = debounce((e) => setKeyword(e), 500);
-    
+
     const pageChange = (page, size) => {
         page !== currentPage && setCurrentPage(page);
         size !== pageSize && setPageSize(size);
@@ -168,7 +185,7 @@ const PlanList = () => {
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} />
             <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<p className='empty'>还没有数据</p>} />,
-            <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)}  />
+            <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />
         </div>
     )
 };

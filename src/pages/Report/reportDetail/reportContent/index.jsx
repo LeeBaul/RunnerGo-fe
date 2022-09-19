@@ -1,10 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 import { Table } from 'adesign-react';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 
-const ReportContent = () => {
+const ReportContent = (props) => {
+    const { data: datas  } = props;
+    const [tableData, setTableData] = useState([]);
+    const [tableData1, setTableData1] = useState(datas);
+    const [tps, setTps] = useState([]);
+    const [rps, setRps] = useState([]);
+    const [concurrency, setConcurrency] = useState([]);
+    const [errNum, setErrNum] = useState([]);
+
+    useEffect(() => {
+        console.log(datas);
+        setTableData1(datas);
+        let tps = [];
+        let rps = [];
+        let concurrency = [];
+        let errNum = [];
+        datas && datas.forEach(item => {
+            tps.push(item.qps);
+            rps.push(item.rps);
+            concurrency.push(item.rps);
+            errNum.push(item.error_num);
+        });
+        setTps(tps);
+        setRps(rps);
+        setConcurrency(concurrency);
+        setErrNum(errNum);
+    }, [datas]);
     const data = [
         {
             threshold: '-',
@@ -103,39 +129,39 @@ const ReportContent = () => {
         },
         {
             title: '总请求数',
-            dataIndex: 'reqTotal',
+            dataIndex: 'total_request_num',
+        },
+        {
+            title: '总响应时间',
+            dataIndex: 'total_request_time'
         },
         {
             title: '最大响应时间',
-            dataIndex: 'resTimeMax',
+            dataIndex: 'max_request_time',
         },
         {
             title: '最小响应时间',
-            dataIndex: 'resTimeMin',
-        },
-        {
-            title: '自定义',
-            dataIndex: 'custom',
+            dataIndex: 'min_request_time',
         },
         {
             title: '90%响应时间线',
-            dataIndex: 'ninetyTime',
+            dataIndex: 'ninety_request_time_line',
         },
         {
             title: '95%响应时间线',
-            dataIndex: 'ninetyFiveTime',
+            dataIndex: 'ninety_five_request_time_line',
         },
         {
             title: '99%响应时间线',
-            dataIndex: 'ninetyNineTime',
+            dataIndex: 'ninety_nine_request_time_line',
         },
         {
             title: '吞吐量',
-            dataIndex: 'throughput',
+            dataIndex: 'qps',
         },
         {
             title: '错误数',
-            dataIndex: 'errNum',
+            dataIndex: 'error_num',
         },
         {
             title: '错误率',
@@ -143,15 +169,15 @@ const ReportContent = () => {
         },
         {
             title: '接受字节数',
-            dataIndex: 'acceptByte',
+            dataIndex: 'received_bytes',
         },
         {
             title: '发送字节数',
-            dataIndex: 'sendByte',
+            dataIndex: 'send_bytes',
         },
     ];
 
-    const getOption = () => {
+    const getOption = (name, data) => {
         let option = {
             title: {
                 text: '每秒事务数',
@@ -237,7 +263,7 @@ const ReportContent = () => {
                 </div>
             </div>
             <Table showBorder columns={columns} data={data} />
-            <Table showBorder columns={columns1} data={data1} />
+            <Table showBorder columns={columns1} data={tableData1} />
             <div className='echarts-list'>
                 <ReactEcharts className='echarts' option={getOption()} />
                 <ReactEcharts className='echarts' option={getOption()} />

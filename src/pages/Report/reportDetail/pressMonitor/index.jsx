@@ -34,12 +34,19 @@ const PressMonitor = () => {
         let now = new Date((base += oneDay));
         data.push([+now, Math.round((Math.random() - 0.5) * 20 + data[i - 1][1])]);
     }
-    console.log(data);
     let getOption = (name, data) => {
         data.forEach(item => {
             item[0] = item[0] * 1000; 
         })
         let option = {
+            title: {
+                text: name,
+                left: 'center',
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 14
+                },
+            },
             tooltip: {
                 trigger: 'axis',
                 position: function (pt) {

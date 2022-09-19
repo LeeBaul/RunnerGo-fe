@@ -129,7 +129,7 @@ const PlanDetail = () => {
                         </> : <p className='empty'>还没有数据</p>
                     }
                 </ScaleItem>
-                <ScaleItem>
+                <ScaleItem enableScale={false}>
                     <TaskConfig from='default' />
                 </ScaleItem>
             </ScalePanel>
