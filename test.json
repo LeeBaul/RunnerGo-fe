@@ -7,19 +7,26 @@
     "scene_name": "登录新增",
     "results": {
         "1111111": {
-            "report_id": "",
+            "report_id": "", 
             "report_name": "",
             "plan_id": 0,
             "plan_name": "",
             "scene_id": 0,
             "scene_name": "",
             "": "",
+
             "total_request_num": 14,
+
             "total_request_time": 17854,
+
             "success_num": 0,
+
             "error_num": 14,
+
             "avg_request_time": 1275,
+
             "max_request_time": 1289,
+
             "min_request_time": 1266,
             "custom_request_time_line": 0,
             "custom_request_time_line_value": 0,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button } from 'adesign-react';
+import { Table, Button, Message } from 'adesign-react';
 import './index.less';
 import ReportListHeader from './reportListHeader';
 import {
@@ -13,11 +13,15 @@ import { useNavigate } from 'react-router-dom';
 import { fetchReportList, fetchDeleteReport } from '@services/report';
 import { debounce } from 'lodash';
 import dayjs from 'dayjs';
+import Pagination from '@components/Pagination';
 
 const ReportList = () => {
     const navigate = useNavigate();
     const [reportList, setReportList] = useState([]);
     const [keyword, setKeyword] = useState('');
+    const [total, setTotal] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
 
     const modeList = {
         '1': '并发模式',
@@ -52,16 +56,25 @@ const ReportList = () => {
     const deleteReport = (report_id) => {
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            report_id,
+            report_id: parseInt(report_id),
         };
 
-        fetchDeleteReport(params).subscribe()
+        fetchDeleteReport(params).subscribe({
+            next: (res) => {
+                Message('success', '删除成功!');
+                getReportData();
+            }
+        });
     }
 
     useEffect(() => {
+        getReportData();
+    }, [keyword, currentPage, pageSize]);
+
+    const getReportData = () => {
         const query = {
-            page: 1,
-            size: 10,
+            page: currentPage,
+            size: pageSize,
             team_id: localStorage.getItem('team_id'),
             keyword,
             start_time_sec: '',
@@ -69,7 +82,8 @@ const ReportList = () => {
         };
         fetchReportList(query).subscribe({
             next: (res) => {
-                const { data: { reports } } = res;
+                const { data: { reports, total } } = res;
+                setTotal(total);
                 const list = reports.map(item => {
                     const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id } = item;
                     return {
@@ -86,7 +100,7 @@ const ReportList = () => {
                 setReportList(list);
             }
         })
-    }, [keyword]);
+    }
 
     const data = [
         {
@@ -187,11 +201,16 @@ const ReportList = () => {
 
     const getNewkeyword = debounce((e) => setKeyword(e), 500);
 
+    const pageChange = (page, size) => {
+        page !== page && setCurrentPage(page);
+        size !== size && setPageSize(size);
+    }
 
     return (
         <div className='report'>
             <ReportListHeader onChange={getNewkeyword} />
-            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<p className='empty'>还没有数据</p>} />,
+            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<p className='empty'>还没有数据</p>} />
+            <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />
         </div>
     )
 };

@@ -16,12 +16,16 @@ import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 import Bus from '@utils/eventBus';
 import SvgStop from '@assets/icons/Stop';
+import Pagination from '@components/Pagination';
 
 const PlanList = () => {
 
     const navigate = useNavigate();
     const [planList, setPlanList] = useState([]);
     const [keyword, setKeyword] = useState('');
+    const [total, setTotal] = useState(0);
+    const [pageSize,  setPageSize] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
     const refreshList = useSelector((store) => store.plan.refreshList);
 
@@ -77,8 +81,8 @@ const PlanList = () => {
 
     useEffect(() => {
         const query = {
-            page: 1,
-            size: 20,
+            page: currentPage,
+            size: pageSize,
             team_id: localStorage.getItem('team_id'),
             keyword,
             start_time_sec: '',
@@ -86,7 +90,8 @@ const PlanList = () => {
         };
         fetchPlanList(query).subscribe({
             next: (res) => {
-                const { data: { plans } } = res;
+                const { data: { plans, total } } = res;
+                setTotal(total);
                 const planList = plans.map(item => {
                     const { task_type, mode, status, created_time_sec, updated_time_sec } = item;
                     return {
@@ -102,7 +107,7 @@ const PlanList = () => {
                 plans && setPlanList(planList);
             }
         })
-    }, [refreshList, keyword])
+    }, [refreshList, keyword, currentPage, pageSize])
 
 
     const columns = [
@@ -152,12 +157,18 @@ const PlanList = () => {
     ];
 
     const getNewkeyword = debounce((e) => setKeyword(e), 500);
+    
+    const pageChange = (page, size) => {
+        page !== currentPage && setCurrentPage(page);
+        size !== pageSize && setPageSize(size);
+    }
 
 
     return (
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} />
             <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<p className='empty'>还没有数据</p>} />,
+            <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)}  />
         </div>
     )
 };

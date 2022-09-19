@@ -67,7 +67,7 @@ const HeaderRight = () => {
     }, []);
 
     const RenderMemberList = () => {
-        return teamMember.slice(0, 3).map(item => (
+        return teamMember.slice(0, 1).map(item => (
             <Dropdown
                 content={
                     <div className="online-list">
@@ -80,7 +80,7 @@ const HeaderRight = () => {
             >
                 <div className='person-avatar'>
                     <img src={item.avatar || avatar} alt="" />
-                    <div className='person-status'></div>
+                    {/* <div className='person-status'></div> */}
                 </div>
             </Dropdown>
         ))

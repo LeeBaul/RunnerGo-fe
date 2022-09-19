@@ -150,18 +150,10 @@ const ResPonsePanel = (props) => {
           ) : (
             headerTabItems
           )}
-          {/* <ResponseStatus
-            response={data?.response || {}}
+          <ResponseStatus
+            response={scene_result || response_data || {}}
             onChange={onChange}
-            tempData={tempData}
-            data={tempData?.response || {}}
-            diyExampleKey={diyExampleKey}
-            setDiyExampleKey={(val) => {
-              setActiveIndex('-1');
-              setDiyExampleKey(val);
-              setDiyVisible(true);
-            }}
-          ></ResponseStatus> */}
+          ></ResponseStatus>
         </div>
       </>
     );
@@ -212,7 +204,7 @@ const ResPonsePanel = (props) => {
       </>
     );
   };
-
+  console.log(response_data);
   return (
     <>
       {response_data && response_data.status === 'running' && (

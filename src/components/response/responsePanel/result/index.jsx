@@ -35,12 +35,12 @@ const RealTimeResult = (props) => {
       title: '美化',
       id: '1',
       content: (
-        <Beautify
+        response_body ?  <Beautify
           // mode={isString(response?.resMime?.ext) ? response?.resMime?.ext : ''}
           // value={response?.fitForShow == 'Monaco' ? response?.rawBody : ''}
           value={response_body}
           currentRef={searchRef}
-        ></Beautify>
+        ></Beautify> : <></>
       ),
     },
     {

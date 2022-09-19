@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { Table, Input, Button } from 'adesign-react';
+import { Table, Input, Button, Message } from 'adesign-react';
 import {
     Iconeye as SvgEye,
     Export as SvgExport,
     Delete as SvgDelete,
     Search as SvgSearch,
 } from 'adesign-react/icons';
-import { fetchReportList } from '@services/report';
+import { fetchReportList, fetchDeleteReport } from '@services/report';
 import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
+import Pagination from '@components/Pagination';
 
 const RecentReport = () => {
 
     const [reportList, setReportList] = useState([]);
     const [keyword, setKeyword] = useState('');
+    const [total, setTotal] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
     const navigate = useNavigate();
 
     const modeList = {
@@ -34,9 +38,13 @@ const RecentReport = () => {
     };
 
     useEffect(() => {
+        getReportData();
+    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize]);
+
+    const getReportData = () => {
         const query = {
-            page: 1,
-            size: 10,
+            page: currentPage,
+            size: pageSize,
             team_id: localStorage.getItem('team_id'),
             keyword,
             start_time_sec: '',
@@ -47,7 +55,8 @@ const RecentReport = () => {
                 tap((res) => {
                     const { code, data } = res;
                     if (code === 0) {
-                        const { reports } = data;
+                        const { reports, total } = data;
+                        setTotal(total);
                         const list = reports.map((item, index) => {
                             const { report_id, plan_name, scene_name, task_type, task_mode, run_time_sec, last_time_sec, run_user_name, status } = item;
                             return {
@@ -60,7 +69,7 @@ const RecentReport = () => {
                                 last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
                                 run_user_name,
                                 status: status === 1 ? <p style={{ color: '#3CC071' }}>运行中</p> : <p>未开始</p>,
-                                operation: <HandleContent />
+                                operation: <HandleContent report_id={report_id} />
                             }
                         });
                         setReportList(list);
@@ -68,17 +77,33 @@ const RecentReport = () => {
                 })
             )
             .subscribe();
-    }, [keyword, localStorage.getItem('team_id')]);
+    }
 
-    const HandleContent = () => {
+    const HandleContent = (props) => {
+        const { report_id } = props;
         return (
             <div className='handle-content'>
                 <SvgEye onClick={() => navigate('/report/detail')} />
                 <SvgExport />
-                <SvgDelete className='delete' />
+                <SvgDelete className='delete' onClick={() => deleteReport(report_id)} />
             </div>
         )
     };
+
+    const deleteReport = (report_id) => {
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            report_id: parseInt(report_id),
+        };
+
+        fetchDeleteReport(params).subscribe({
+            next: (res) => {
+                Message('success', '删除成功!');
+                getReportData();
+            }
+        });
+    };
+
     const columns = [
         {
             title: '测试报告ID',
@@ -124,7 +149,12 @@ const RecentReport = () => {
         }
     ];
 
-    const getNewKeyword = debounce((e) => setKeyword(e), 500); 
+    const getNewKeyword = debounce((e) => setKeyword(e), 500);
+
+    const pageChange = (page, size) => {
+        page!== currentPage && setCurrentPage(page);
+        size !== pageSize && setPageSize(size);
+    };
 
     return (
         <div className='recent-report'>
@@ -140,6 +170,7 @@ const RecentReport = () => {
                 {/* <Button className='searchBtn'>搜索</Button> */}
             </div>
             <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<p className='empty'>还没有数据</p>} />
+            <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} />
         </div>
     )
 };

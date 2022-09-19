@@ -35,7 +35,10 @@ const PressMonitor = () => {
         data.push([+now, Math.round((Math.random() - 0.5) * 20 + data[i - 1][1])]);
     }
     console.log(data);
-    let getOption = () => {
+    let getOption = (name, data) => {
+        data.forEach(item => {
+            item[0] = item[0] * 1000; 
+        })
         let option = {
             tooltip: {
                 trigger: 'axis',
@@ -75,12 +78,12 @@ const PressMonitor = () => {
             // ],
             series: [
                 {
-                    name: 'Fake Data',
+                    name,
                     type: 'line',
                     smooth: true,
                     symbol: 'none',
                     areaStyle: {},
-                    data: metrics.length ? metrics[0].cpu : [],
+                    data,
                 }
             ]
         };
@@ -90,12 +93,16 @@ const PressMonitor = () => {
 
     return (
         <div className='press-monitor'>
-            <div className='monitor-list'>
-                <ReactEcharts className='echarts' option={getOption()} />
-                <ReactEcharts className='echarts' option={getOption()} />
-                <ReactEcharts className='echarts' option={getOption()} />
-                <ReactEcharts className='echarts' option={getOption()} />
-            </div>
+            {
+               metrics.length > 0 && metrics.map(item => (
+                    <div className='monitor-list'>
+                    <ReactEcharts className='echarts' option={getOption('cpu', item.cpu)} />
+                    <ReactEcharts className='echarts' option={getOption('disk_io', item.disk_io)} />
+                    <ReactEcharts className='echarts' option={getOption('mem', item.mem)} />
+                    <ReactEcharts className='echarts' option={getOption('net_io', item.net_io)} />
+                </div>
+                ))
+            }
         </div>
     )
 };

@@ -200,13 +200,13 @@ const SceneHeader = (props) => {
                     <SvgSetting />
                     <span>场景设置</span>
                 </div>
-                <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene()}>保存</Button>
+                <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene(() => {
+                            Message('success', '保存成功!');
+                        })}>保存</Button>
                 {
                     run_status === 'running'
                         ? <Button className='stopBtn' preFix={<SvgStop />}>停止运行</Button>
-                        : <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene(() => {
-                            Message('success', '保存成功!');
-                        })}>开始运行</Button>
+                        : <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>
                 }
             </div>
             {showSceneConfig && <SceneConfig from={from} onCancel={() => setSceneConfig(false)} />}

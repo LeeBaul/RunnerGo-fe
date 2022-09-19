@@ -609,30 +609,50 @@ const useScene = () => {
         ).subscribe();
     };
 
+    const getNewCoordinate = (nodes) => {
+        let position = {
+            x: 50,
+            y: 50,
+        };
+        nodes.forEach(item => {
+            if (item.position.x > position.x - 10 || item.position.x < position.x + 10) {
+                position.x +=  20;
+            }
+            if (item.position.y > position.y - 10 || item.position.y < position.y + 10) {
+                position.y += 20;
+            }
+        });
+        return position;
+    }
+
     const cloneNode = (id, nodes, node_config, id_apis, open_scene, from) => {
         // API
         // 1. nodes 2. api
 
         const _clone_api = id_apis[id];
-        const _clone_config = node_config[id];
+
 
         const from_node = nodes.filter(item => item.id === id)[0];
         const _from_node = cloneDeep(from_node);
 
         const _id = v4();
+        const _clone_config = {
+            ...node_config[id],
+            id: _id
+        };
 
         _from_node.id = _id;
         _from_node.data.id = _id;
         _from_node.data.from = from_node.data.from;
-        _from_node.position = {
-            x: from_node.position.x + 100,
-            y: from_node.position.y + 100,
-        };
+        _from_node.position = getNewCoordinate(nodes);
         _from_node.dragging = false;
         _from_node.selected = false;
         console.log('id_apis', id_apis);
+        console.log(_id, _from_node);
 
         id_apis[_id] = _clone_api;
+
+        console.log('_clone_config', _clone_config);
         node_config[_id] = _clone_config;
         nodes.push(_from_node);
         console.log(id_apis);

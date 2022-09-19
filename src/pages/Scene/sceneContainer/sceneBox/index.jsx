@@ -150,7 +150,7 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: { x: 50, y: 50 },
+                position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
 
@@ -168,7 +168,7 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: { x: 50, y: 50 },
+                position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
 
@@ -187,7 +187,7 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: { x: 50, y: 50 },
+                position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
 
@@ -200,6 +200,22 @@ const SceneBox = (props) => {
             setNodes((nds) => nds.concat(new_node));
         }
     }, [type_now]);
+
+    const getNewCoordinate = (nodes) => {
+        let position = {
+            x: 50,
+            y: 50,
+        };
+        nodes.forEach(item => {
+            if (item.position.x > position.x - 10 || item.position.x < position.x + 10) {
+                position.x +=  20;
+            }
+            if (item.position.y > position.y - 10 || item.position.y < position.y + 10) {
+                position.y += 20;
+            }
+        });
+        return position;
+    }
 
     // useEffect(() => {
     //     formatSuccess();
@@ -234,8 +250,11 @@ const SceneBox = (props) => {
         let ids = [];
 
         if (import_node && import_node.length) {
+            let _position = [];
             import_node.forEach(item => {
                 const id = v4();
+                let position = getNewCoordinate(nodes.concat(_position));
+                _position.push({position})
                 const new_node = {
                     id,
                     type: 'api',
@@ -243,7 +262,7 @@ const SceneBox = (props) => {
                         id,
                         from,
                     },
-                    position: { x: 50, y: 50 }
+                    position,
                 }
                 item.id = id;
                 ids.push(id);
