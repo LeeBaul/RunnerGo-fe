@@ -218,7 +218,7 @@ const SceneConfig = (props) => {
                         path: res_name,
                         url,
                     };
-                    console.log(fileList);
+
                     const _fileList = cloneDeep(fileList);
                     _fileList.push(importFile);
                     setFileList(_fileList)
@@ -289,9 +289,9 @@ const SceneConfig = (props) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             const text = reader.result;
-            console.log(text);
+
             const testData = str2testData(text);
-            console.log(testData);
+
             setPreviewData(testData.length > 0 ? testData : text);
             setFileType(testData.length > 0 ? 'csv' : 'txt');
             setPreview(true);
@@ -301,7 +301,7 @@ const SceneConfig = (props) => {
     };
 
     const downloadFile = async (name, url) => {
-        console.log(name, url);
+
         const result = await fetch(url);
         const file = await result.blob();
         let a = document.createElement('a');

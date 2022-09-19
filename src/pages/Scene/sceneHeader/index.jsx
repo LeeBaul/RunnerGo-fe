@@ -161,8 +161,14 @@ const SceneHeader = (props) => {
                     payload: true,
                 })
             }, 200);
+        };
+        const _callback = () => {
+            Bus.$emit('runScene', scene_id, open_scene.nodes.length, from);
         }
-        Bus.$emit('runScene', scene_id, open_scene.nodes.length, from);
+        saveScene(_callback);
+
+    
+
         // const _edges = cloneDeep(edges);
         // // _edges[0].animated = true;
         // // _edges[0].style = {
@@ -176,6 +182,14 @@ const SceneHeader = (props) => {
         //     type: 'scene/updateChangeEdge',
         //     payload: _edges[0]
         // })
+    };
+
+    const saveScene = (callback) => {
+        if (from === 'scene') {
+            Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene, callback);
+        } else {
+            Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_scene, id, callback);
+        }
     }
 
     return (
@@ -186,21 +200,13 @@ const SceneHeader = (props) => {
                     <SvgSetting />
                     <span>场景设置</span>
                 </div>
-                <Button className='saveBtn' preFix={<SvgSave />} onClick={() => {
-                    if (from === 'scene') {
-                        Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene, () => {
-                            Message('success', '保存成功!');
-                        });
-                    } else {
-                        Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_scene, id, () => {
-                            Message('success', '保存成功!');
-                        });
-                    }
-                }}>保存</Button>
+                <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene()}>保存</Button>
                 {
                     run_status === 'running'
-                    ? <Button className='stopBtn' preFix={<SvgStop />}>停止运行</Button>
-                    : <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>
+                        ? <Button className='stopBtn' preFix={<SvgStop />}>停止运行</Button>
+                        : <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene(() => {
+                            Message('success', '保存成功!');
+                        })}>开始运行</Button>
                 }
             </div>
             {showSceneConfig && <SceneConfig from={from} onCancel={() => setSceneConfig(false)} />}

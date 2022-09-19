@@ -213,6 +213,8 @@ const Box = (props) => {
         'success': '#11811C',
         'failed': '#892020',
         'running': '',
+        'not-run': '',
+        'not-hit': '',
     }
 
     const topStatus = {
@@ -220,6 +222,8 @@ const Box = (props) => {
         'success': <SvgSuccess className='default' />,
         'failed': <SvgFailed className='default' />,
         'running': <SvgRunning className='default' />,
+        'not-run': <></>,
+        'not-hit': <></>,
     };
 
     // 1. 运行场景
