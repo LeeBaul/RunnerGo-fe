@@ -61,6 +61,7 @@ const ReportDetail = (props) => {
 
     const [data, setData] = useState([]);
 	const { id: report_id } = useParams();
+	const [end, setEnd] = useState(false);
 	
 	let report_detail_t = null;
 
@@ -90,6 +91,7 @@ const ReportDetail = (props) => {
 				if (end) {
 					onStatus('已完成')
 					clearInterval(report_detail_t);
+					setEnd(true);
 				}
 			}
 		})
@@ -98,7 +100,7 @@ const ReportDetail = (props) => {
 
     const defaultList = [
         { id: '1', title: '测试详情页', content: <ReportContent data={data} config={configData}  />  },
-        { id: '2', title: 'debug日志', content: <DebugLog stopDebug={stopDebug} />},
+        { id: '2', title: 'debug日志', content: <DebugLog end={end} stopDebug={stopDebug} />},
         { id: '3', title: '压力机监控', content: <PressMonitor /> },
         { id: '4', title: '被服务器监控', content: '被服务器监控' }
     ];

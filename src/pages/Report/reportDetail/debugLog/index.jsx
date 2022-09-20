@@ -4,23 +4,31 @@ import { fetchDebugLog } from '@services/report';
 import { useParams } from 'react-router-dom';
 
 const DebugLog = (props) => {
-    const { stopDebug } = props;
+    const { stopDebug, end } = props;
     const { id: report_id } = useParams();
+    const [log, setLog] = useState([]);
 
     let t = null;
 
 
     useEffect(() => {
-        if (stopDebug === 'stop' && t) {
+        getDebug();
+        console.log(end);
+        if (end) {
             clearInterval(t);
         } else {
-            t && clearInterval(t);
-            stopDebug !== 'stop' && (t = setInterval(getDebug, 1000));
+            t = setInterval(getDebug, 1000);
         }
+        // if (stopDebug === 'stop' && t) {
+        //     clearInterval(t);
+        // } else {
+        //     t && clearInterval(t);
+        //     stopDebug !== 'stop' && (t = setInterval(getDebug, 1000));
+        // }
         return () => {
             clearInterval(t);
         }
-    }, [stopDebug]);
+    }, [end]);
 
     const getDebug = () => {
         const query = {
@@ -30,6 +38,8 @@ const DebugLog = (props) => {
         fetchDebugLog(query).subscribe({
             next: (res) => {
                 console.log(res);
+                const { data } = res;
+                setLog(data);
             },
             err: (err) => {
                 console.log(err);
@@ -38,7 +48,7 @@ const DebugLog = (props) => {
     }
     return (
         <div className='debug-log'>
-            DebugLog
+            { log }
         </div>
     )
 };
