@@ -61,21 +61,20 @@ const ReportDetail = () => {
 	const { id: report_id } = useParams();
 
     useEffect(() => {
-		const params = {
-			report_id: parseInt(report_id),
+		const query = {
+			report_id,
 		};
-		fetchReportDetail(params).subscribe({
+		fetchReportDetail(query).subscribe({
 			next: (res) => {
-				console.log(res);
+				const { data: { results } } = res;
+				console.log(results);
+				const dataList = [];
+				for (let i in results) {
+					dataList.push(results[i]);
+				}
+				setData(dataList);
 			}
 		})
-        const { results } = reportResult;
-        const dataList = [];
-        for (let i in results) {
-
-            dataList.push(results[i]);
-        }
-        setData(dataList);
     }, []);
 
 

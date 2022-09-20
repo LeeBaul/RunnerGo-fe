@@ -3,15 +3,22 @@ import './index.less';
 import { Table } from 'adesign-react';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
+import { cloneDeep } from 'lodash';
+import dayjs from 'dayjs';
 
 const ReportContent = (props) => {
     const { data: datas  } = props;
     const [tableData, setTableData] = useState([]);
-    const [tableData1, setTableData1] = useState(datas);
+    const [tableData1, setTableData1] = useState([]);
+    // 每秒事务数
     const [tps, setTps] = useState([]);
+    // 每秒请求数
     const [rps, setRps] = useState([]);
+    // 并发数
     const [concurrency, setConcurrency] = useState([]);
+    // 错误数
     const [errNum, setErrNum] = useState([]);
+    const [qpsList, setQpsList] = useState([]);
 
     useEffect(() => {
         console.log(datas);
@@ -20,16 +27,83 @@ const ReportContent = (props) => {
         let rps = [];
         let concurrency = [];
         let errNum = [];
+        let _total_request_num = 0;
+        let _total_request_time = 0;
+        let _max_request_time = 0;
+        let _min_request_time = 0;
+        let _ninety_request_time_line = 0;
+        let _ninety_five_request_time_line = 0;
+        let _ninety_nine_request_time_line = 0;
+        let _qps = 0;
+        let _error_num = 0;
+        let _error_rate = 0;
+        let _received_bytes = 0;
+        let _send_bytes = 0;
+        
+        let _qps_list = []; 
         datas && datas.forEach(item => {
-            tps.push(item.qps);
-            rps.push(item.rps);
-            concurrency.push(item.rps);
-            errNum.push(item.error_num);
+            const {
+                total_request_num,
+                total_request_time,
+                max_request_time,
+                min_request_time,
+                ninety_request_time_line,
+                ninety_five_request_time_line,
+                ninety_nine_request_time_line,
+                qps,
+                error_num,
+                error_rate,
+                received_bytes,
+                send_bytes,
+                qps_list,
+                api_name,
+            } = item;
+            tps.push(qps);
+            rps.push(qps);
+            concurrency.push(qps);
+            errNum.push(qps);
+            _total_request_num += total_request_num;
+            _total_request_time += total_request_time;
+            _max_request_time += max_request_time;
+            _min_request_time += min_request_time;
+            _ninety_request_time_line += ninety_request_time_line;
+            _ninety_five_request_time_line += ninety_five_request_time_line;
+            _ninety_nine_request_time_line += ninety_nine_request_time_line;
+            _qps += qps;
+            _error_num += error_num;
+            _error_rate += error_rate;
+            _received_bytes += received_bytes;
+            _send_bytes += send_bytes;
+
+            _qps_list.push({
+                name: api_name,
+                x_data: qps_list.map(item => dayjs(item.time_stamp * 1000).format('hh:mm:ss')),
+                y_data: qps_list.map(item => item.value)
+            });
+            console.log(_qps_list);
         });
         setTps(tps);
         setRps(rps);
         setConcurrency(concurrency);
         setErrNum(errNum);
+        setQpsList(_qps_list);
+        let _datas = cloneDeep(datas);
+        _datas.unshift({
+            apiName: '汇总',
+            total_request_num: _total_request_num,
+            total_request_time: _total_request_time,
+            max_request_time: _max_request_time,
+            min_request_time: _min_request_time,
+            ninety_request_time_line: _ninety_request_time_line,
+            ninety_five_request_time_line: _ninety_five_request_time_line,
+            ninety_nine_request_time_line: _ninety_nine_request_time_line,
+            qps: _qps,
+            error_num: _error_num,
+            error_rate: _error_rate,
+            received_bytes: _received_bytes,
+            send_bytes: _send_bytes,
+        });
+        setTableData1(_datas);
     }, [datas]);
     const data = [
         {
@@ -165,7 +239,7 @@ const ReportContent = (props) => {
         },
         {
             title: '错误率',
-            dataIndex: 'errRate',
+            dataIndex: 'error_rate',
         },
         {
             title: '接受字节数',
@@ -178,9 +252,10 @@ const ReportContent = (props) => {
     ];
 
     const getOption = (name, data) => {
+        console.log(data);
         let option = {
             title: {
-                text: '每秒事务数',
+                text: name,
                 left: 'center',
                 textStyle: {
                     color: '#fff',
@@ -199,7 +274,7 @@ const ReportContent = (props) => {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                data: data[0] ? data[0].x_data : [],
                 axisLabel: {
                     color: '#fff',
                 },
@@ -215,39 +290,15 @@ const ReportContent = (props) => {
                     }
                 }
             },
-            series: [
-                {
-                    name: 'Email',
+            series: data.length > 0 ? data.map(item => {
+                return {
+                    name: item.api_name,
                     type: 'line',
                     stack: 'Total',
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: 'Union Ads',
-                    type: 'line',
-                    stack: 'Total',
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: 'Video Ads',
-                    type: 'line',
-                    stack: 'Total',
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                },
-                {
-                    name: 'Direct',
-                    type: 'line',
-                    stack: 'Total',
-                    data: [320, 332, 301, 334, 390, 330, 320]
-                },
-                {
-                    name: 'Search Engine',
-                    type: 'line',
-                    stack: 'Total',
-                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    data: item.y_data
                 }
-            ]
-        };
+            }) : []
+        }
         return option;
     }
 
@@ -265,10 +316,10 @@ const ReportContent = (props) => {
             <Table showBorder columns={columns} data={data} />
             <Table showBorder columns={columns1} data={tableData1} />
             <div className='echarts-list'>
-                <ReactEcharts className='echarts' option={getOption()} />
-                <ReactEcharts className='echarts' option={getOption()} />
-                <ReactEcharts className='echarts' option={getOption()} />
-                <ReactEcharts className='echarts' option={getOption()} />
+                <ReactEcharts className='echarts' option={getOption('每秒事务数', qpsList)} />
+                <ReactEcharts className='echarts' option={getOption('每秒请求数', qpsList)} />
+                <ReactEcharts className='echarts' option={getOption('并发数', qpsList)} />
+                <ReactEcharts className='echarts' option={getOption('错误数', qpsList)} />
             </div>
         </div>
     )
