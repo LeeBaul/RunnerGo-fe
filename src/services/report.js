@@ -14,3 +14,8 @@ export const fetchMachine = (
 export const fetchDeleteReport = (
     params
 ) => ajax('post', '/management/api/v1/report/delete', 'json', false, params);
+
+// 获取报告详情
+export const fetchReportDetail = (
+    params
+) => ajax('post', '/v1/report/detail', 'json', false, params);

@@ -9,6 +9,7 @@ import { Button, Message } from 'adesign-react';
 import { useSelector, useDispatch } from 'react-redux';
 import CreateApi from '@modals/CreateApi';
 import SceneConfig from '@modals/SceneConfig';
+import { fetchStopScene } from '@services/scene';
 import Bus from '@utils/eventBus';
 import { useParams } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
@@ -190,7 +191,7 @@ const SceneHeader = (props) => {
         } else {
             Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_scene, id, callback);
         }
-    }
+    };
 
     return (
         <div className='scene-header'>
@@ -205,7 +206,9 @@ const SceneHeader = (props) => {
                         })}>保存</Button>
                 {
                     run_status === 'running'
-                        ? <Button className='stopBtn' preFix={<SvgStop />}>停止运行</Button>
+                        ? <Button className='stopBtn' preFix={<SvgStop />} onClick={() => Bus.$emit('stopScene', open_scene.scene_id, from, () => {
+                            Message('success', '停止成功!');
+                        })}>停止运行</Button>
                         : <Button className='runBtn' preFix={<SvgCaretRight />} onClick={() => runScene()}>开始运行</Button>
                 }
             </div>

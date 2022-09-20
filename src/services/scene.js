@@ -84,3 +84,8 @@ export const fetchSendSceneApi = (
 export const fetchDeleteImport = (
     params
 ) => ajax('post', '/management/api/v1/variable/scene/import/delete', 'json', false, params);
+
+// 停止运行场景
+export const fetchStopScene = (
+    params
+) => ajax('post', '/management/api/v1/scene/stop', 'json', false, params);

@@ -4,6 +4,8 @@ import { TabStyle } from './style';
 import ReportContent from './reportContent';
 import DebugLog from './debugLog';
 import PressMonitor from './pressMonitor';
+import { useParams } from 'react-router-dom';
+import { fetchReportDetail } from '@services/report';
 
 const { Tabs, TabPan } = TabComponent;
 
@@ -56,7 +58,17 @@ const reportResult = {
 
 const ReportDetail = () => {
     const [data, setData] = useState([]);
+	const { id: report_id } = useParams();
+
     useEffect(() => {
+		const params = {
+			report_id: parseInt(report_id),
+		};
+		fetchReportDetail(params).subscribe({
+			next: (res) => {
+				console.log(res);
+			}
+		})
         const { results } = reportResult;
         const dataList = [];
         for (let i in results) {

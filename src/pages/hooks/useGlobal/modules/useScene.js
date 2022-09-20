@@ -4,7 +4,7 @@ import { cloneDeep, isArray, set, findIndex } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { concatMap, map, tap, from } from 'rxjs';
 import { fetchDeleteApi } from '@services/apis';
-import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi } from '@services/scene';
+import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi, fetchStopScene } from '@services/scene';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail, fetchGetResult } from '@services/apis';
@@ -12,6 +12,8 @@ import { v4 } from 'uuid';
 import QueryString from 'qs';
 
 import { global$ } from '../global';
+
+let scene_t = null;
 
 const useScene = () => {
     const dispatch = useDispatch();
@@ -716,10 +718,10 @@ const useScene = () => {
                 };
                 let getCount = 0;
 
-                const t = setInterval(() => {
-                    if (getCount === 120) {
-                        clearInterval(t);
-                    }
+                scene_t = setInterval(() => {
+                    // if (getCount === 120) {
+                    //     clearInterval(scene_t);
+                    // }
 
                     fetchGetSceneRes(query).subscribe({
                         next: (res) => {
@@ -741,7 +743,7 @@ const useScene = () => {
                                 }
 
                                 if (data.scenes.length === length) {
-                                    clearInterval(t);
+                                    clearInterval(scene_t);
                                     if (from === 'scene') {
                                         dispatch({
                                             type: 'scene/updateRunStatus',
@@ -851,6 +853,32 @@ const useScene = () => {
         })
 
         callback && callback();
+    };
+
+    const stopScene = (scene_id, from, callback) => {
+        const params = {
+            scene_id: parseInt(scene_id),
+        };
+        fetchStopScene(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    clearInterval(scene_t);
+                    callback && callback();
+                    if (from === 'scene') {
+                        dispatch({
+                            type: 'scene/updateRunStatus',
+                            payload: 'finish',
+                        })
+                    } else {
+                        dispatch({
+                            type: 'plan/updateRunStatus',
+                            payload: 'finish',
+                        })
+                    }
+                }
+            }
+        })
     }
 
     useEventBus('createApiNode', createApiNode);
@@ -872,6 +900,7 @@ const useScene = () => {
     useEventBus('runScene', runScene);
     useEventBus('sendSceneApi', sendSceneApi);
     useEventBus('toDeleteGroup', toDeleteGroup, [sceneDatas]);
+    useEventBus('stopScene', stopScene);
 };
 
 export default useScene;
