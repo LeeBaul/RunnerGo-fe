@@ -57,7 +57,7 @@ const reportResult = {
 };
 
 const ReportDetail = (props) => {
-	const { data: configData, stopDebug } = props;
+	const { data: configData, stopDebug, onStatus } = props;
 
     const [data, setData] = useState([]);
 	const { id: report_id } = useParams();
@@ -88,6 +88,7 @@ const ReportDetail = (props) => {
 
 				
 				if (end) {
+					onStatus('已完成')
 					clearInterval(report_detail_t);
 				}
 			}
