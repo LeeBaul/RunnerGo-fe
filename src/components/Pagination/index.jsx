@@ -9,6 +9,7 @@ const Pagination = (props) => {
     const [pageSize, setPageSize] = useState(size);
     const [currentPage, setCurrentPage] = useState(current);
     const [sizeList, setSizeList] = useState([5, 10, 15, 20]);
+    const [maxPage, setMaxPage] = useState(0);
     useEffect(() => {
         if (typeof total !== 'number' ||
             typeof pageSize !== 'number' ||
@@ -19,6 +20,7 @@ const Pagination = (props) => {
             let num = Math.floor(total / pageSize) + 1;
             const numArr = new Array(num).fill(0);
             setPageNum(numArr);
+            setMaxPage(num);
         }
     }, [pageSize, total])
 
@@ -40,15 +42,19 @@ const Pagination = (props) => {
             </Select>
             {/* <Button onClick={() => onChange && onChange(1, pageSize)}>首页</Button> */}
             <Button onClick={() => {
-                onChange && onChange(currentPage - 1, pageSize);
-                setCurrentPage(currentPage - 1);
+                if (currentPage - 1 > 0) {
+                    onChange && onChange(currentPage - 1, pageSize);
+                    setCurrentPage(currentPage - 1);
+                }
             }}>上一页</Button>
             <div className='paging-content'>
-               <Input value={currentPage} onChange={(e) => setCurrentPage(parseInt(e))} />
+                <Input value={currentPage} onChange={(e) => setCurrentPage(parseInt(e))} />
             </div>
             <Button onClick={() => {
-                onChange && onChange(currentPage + 1, pageSize);
-                setCurrentPage(currentPage + 1);
+                if (currentPage + 1 <= maxPage) {
+                    onChange && onChange(currentPage + 1, pageSize);
+                    setCurrentPage(currentPage + 1);
+                }
             }}>下一页</Button>
             <Button onClick={() => onChange && onChange(currentPage, pageSize)}>跳转</Button>
             {/* <Button onClick={() => onChange(pageNum.length, pageSize)}>尾页</Button> */}

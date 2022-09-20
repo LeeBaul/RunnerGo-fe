@@ -1,22 +1,26 @@
 import React, { useState, useRef } from 'react';
 import './index.less';
-import { Button } from 'adesign-react';
+import { Button, Message } from 'adesign-react';
 import {
     Addcircle as SvgAddcircle,
     Left as SvgLeft,
 } from 'adesign-react/icons';
 import SendEmail from '@modals/SendEmail';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import SvgSendEmail from '@assets/icons/SendEmail';
 import SvgStop from '@assets/icons/Stop';
+import Bus from '@utils/eventBus';
+import { fetchStopReport } from '@services/report';
 
-const ReportHeader = () => {
+const ReportHeader = (props) => {
+    const { data: { plan_name }, status } = props;
     const [showSendEmail, setSendEmail] = useState(false);
     const navigate = useNavigate();
     const ref1 = useRef(null);
     const refs = [ref1];
+    const { id: report_id } = useParams();
     const handleExportPdf = async () => {
       // 根据dpi放大，防止图片模糊
       const scale = window.devicePixelRatio > 1 ? window.devicePixelRatio : 2;
@@ -115,19 +119,36 @@ const ReportHeader = () => {
             }
             pdf.save('123.pdf');
         })
+    };
+
+    const stopReport = () => {
+        const params = {
+            report_ids: [report_id],
+        };
+
+        fetchStopReport(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    Message('success', '停止成功!');
+                } else {
+                    Message('error', '停止失败!');
+                }
+            }
+        })
     }
 
     return (
         <div className='report-header' ref={ref1}>
             <div className='report-header-left'>
                 <SvgLeft onClick={() => navigate('/report/list')} />
-                <div className='report-name'>计划名称12345</div>
-                <div className='report-status'>运行中</div>
+                <div className='report-name'>{plan_name}</div>
+                <div className='report-status'>{ status }</div>
             </div>
             <div className='report-header-right'>
                 <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
                 <Button className='download' onClick={() => donwloadReport()}>下载</Button>
-                <Button className='stop' preFix={<SvgStop width="10" height="10" />}>停止任务</Button>
+                {/* <Button className='stop' preFix={<SvgStop width="10" height="10" onClick={() => stopReport() }/>}>中止任务</Button> */}
             </div>
             {showSendEmail && <SendEmail onCancel={() => setSendEmail(false)} />}
         </div>

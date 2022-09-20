@@ -43,8 +43,8 @@ const PlanList = () => {
         '5': '每秒请求数模式',
     };
     const statusList = {
-        '1': '未开始',
-        '2': <p style={{ color: '#3CC071' }}>进行中</p>,
+        '1': '未运行',
+        '2': <p style={{ color: '#3CC071' }}>运行中</p>,
     }
 
     const HandleContent = (props) => {
@@ -92,8 +92,17 @@ const PlanList = () => {
         )
     }
 
+    let plan_t = null;
     useEffect(() => {
         getPlanList();
+        if (plan_t) {
+            clearInterval(plan_t);
+        }
+        plan_t = setInterval(getPlanList, 1000);
+
+        return () => {
+            clearInterval(plan_t);
+        }
     }, [refreshList, keyword, currentPage, pageSize]);
 
     const getPlanList = () => {
@@ -184,7 +193,7 @@ const PlanList = () => {
     return (
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} />
-            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'>还没有数据</div>} />,
+            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'>还没有数据</div>} />
             { planList.length > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
         </div>
     )

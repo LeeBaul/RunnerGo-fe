@@ -42,7 +42,7 @@ const usePlan = () => {
 
         fetchCreatePlan(params).subscribe({
             next: (res) => {
-                const { code, data } = res;
+                const { code, data: { plan_id } } = res;
 
                 if (code === 0) {
                     dispatch({
@@ -50,7 +50,7 @@ const usePlan = () => {
                         payload: true
                     })
                 }
-                callback && callback(code);
+                callback && callback(code, plan_id);
             }
         })
     }
@@ -643,8 +643,6 @@ const usePlan = () => {
             }
         })
     };
-
-
 
     useEventBus('savePreConfig', savePreConfig);
     useEventBus('createPlan', createPlan);

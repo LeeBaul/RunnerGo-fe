@@ -5,10 +5,47 @@ import ReportExecutor from '../reportExecutor';
 import ReportDetail from '../reportDetail';
 import { Tabs as TabList } from 'adesign-react';
 import { TabStyle } from './style';
+import { fetchReportInfo } from '@services/report';
+import { useParams } from 'react-router-dom';
 
 const { Tabs, TabPan } = TabList;
 
 const ReportContent = () => {
+    const { id: report_id } = useParams();
+    // 计划名称
+    const [headerData, setHeaderData] = useState({});
+    // 头像 昵称 创建时间
+    const [infoData, setInfoData] = useState({});
+    // 任务类型 模式 config
+    const [configData, setConfigData] = useState({});
+    const [stopDebug, setStopDebug] = useState('stop');
+    const [reportStatus, setReportStatus] = useState('进行中');
+
+    useEffect(() => {
+        const query = {
+            report_id,
+            team_id: localStorage.getItem('team_id'),
+        };
+        fetchReportInfo(query).subscribe({
+            next: (res) => {
+                console.log(res);
+                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec } }} = res;
+                setHeaderData({
+                    plan_name,
+                })
+                setInfoData({
+                    user_avatar,
+                    user_name,
+                    created_time_sec,
+                });
+                setConfigData({
+                    task_mode,
+                    task_type,
+                    mode_conf
+                })
+            }
+        })
+    }, []);
 
     const defaultList = [
         { id: '1', title: '新建标题1', content: <ReportDetail /> },
@@ -17,15 +54,16 @@ const ReportContent = () => {
     ];
     return (
         <div className='report'>
-            <ReportHeader />
-            <ReportExecutor />
-            <Tabs type="card" className={TabStyle} defaultActiveId="1">
+            <ReportHeader data={headerData} status={reportStatus} />
+            <ReportExecutor data={infoData} onStop={(e) => setStopDebug(e)} />
+            {/* <Tabs type="card" className={TabStyle} defaultActiveId="1">
                 {defaultList.map((d) => (
                     <TabPan key={d.id} id={d.id} title={d.title}>
                         {d.content}
                     </TabPan>
                 ))}
-            </Tabs>
+            </Tabs> */}
+            <ReportDetail data={configData} stopDebug={stopDebug} onStatus={(e) => setReportStatus(e)} /> 
         </div>
     )
 };

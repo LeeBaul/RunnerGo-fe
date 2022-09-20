@@ -21,6 +21,7 @@ import { isArray, cloneDeep, isPlainObject, isString, set, trim } from 'lodash';
 import { findSon } from '@utils';
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
+import { useNavigate } from 'react-router-dom';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -28,6 +29,7 @@ const Textarea = Input.Textarea;
 
 const CreatePlan = (props) => {
     const { onCancel, group } = props;
+    const navigate = useNavigate();
 
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
@@ -362,12 +364,13 @@ const CreatePlan = (props) => {
                             name: planName,
                             remark: planDesc,
                         },
-                        (code) => {
+                        (code, id) => {
                             if (code === 0) {
                                 onCancel();
-                                Message('success', '新建分组成功');
+                                Message('success', '新建成功');
+                                navigate(`/plan/detail/${id}`);
                             } else {
-                                Message('error', '新建分组失败');
+                                Message('error', '新建失败');
                             }
                         }
                     );

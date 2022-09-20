@@ -38,8 +38,8 @@ const ReportList = () => {
     };
 
     const statusList = {
-        '1': '未开始',
-        '2': <p style={{ color: '#3CC071' }}>进行中</p>,
+        '1': <p style={{ color: '#3CC071' }}>运行中</p>,
+        '2': '已完成',
     }
 
     const HandleContent = (props) => {
@@ -67,8 +67,18 @@ const ReportList = () => {
         });
     }
 
+    let report_t = null;
+
     useEffect(() => {
         getReportData();
+        if (report_t) {
+            clearInterval(report_t);
+        }
+        report_t = setInterval(getReportData, 1000);
+
+        return () => {
+            clearInterval(report_t);
+        }
     }, [keyword, currentPage, pageSize]);
 
     const getReportData = () => {
@@ -96,7 +106,6 @@ const ReportList = () => {
                         handle: <HandleContent report_id={report_id} />
                     }
                 });
-                console.log(list);
                 setReportList(list);
             }
         })
@@ -202,8 +211,8 @@ const ReportList = () => {
     const getNewkeyword = debounce((e) => setKeyword(e), 500);
 
     const pageChange = (page, size) => {
-        page !== page && setCurrentPage(page);
-        size !== size && setPageSize(size);
+        page !== currentPage && setCurrentPage(page);
+        size !== pageSize && setPageSize(size);
     }
 
     return (

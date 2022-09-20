@@ -6,8 +6,27 @@ import ReactEcharts from 'echarts-for-react';
 import { cloneDeep } from 'lodash';
 import dayjs from 'dayjs';
 
+const modeMap = {
+    'duration': '持续时长',
+    'round_num': '轮次',
+    'concurrency': '并发数',
+    'reheat_time': '预热',
+    'start_concurrency': '起始并发数',
+    'step': '并发数步长',
+    'step_run_time': '步长执行时长',
+    'max_concurrency': '最大并发数',
+}
+
+const modeList = {
+    '1': '并发模式',
+    '2': '阶梯模式',
+    '3': '错误率模式',
+    '4': '响应时间模式',
+    '5': '每秒请求数模式'
+}
+
 const ReportContent = (props) => {
-    const { data: datas  } = props;
+    const { data: datas, config: { task_mode, task_type, mode_conf }  } = props;
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);
     // 每秒事务数
@@ -19,9 +38,10 @@ const ReportContent = (props) => {
     // 错误数
     const [errNum, setErrNum] = useState([]);
     const [qpsList, setQpsList] = useState([]);
+    const [configColumn, setConfigColumn] = useState([]);
+    const [configData, setConfigData] = useState([]);
 
     useEffect(() => {
-        console.log(datas);
         setTableData1(datas);
         let tps = [];
         let rps = [];
@@ -80,7 +100,6 @@ const ReportContent = (props) => {
                 x_data: qps_list.map(item => dayjs(item.time_stamp * 1000).format('hh:mm:ss')),
                 y_data: qps_list.map(item => item.value)
             });
-            console.log(_qps_list);
         });
         setTps(tps);
         setRps(rps);
@@ -92,19 +111,84 @@ const ReportContent = (props) => {
             apiName: '汇总',
             total_request_num: _total_request_num,
             total_request_time: _total_request_time,
-            max_request_time: _max_request_time,
-            min_request_time: _min_request_time,
-            ninety_request_time_line: _ninety_request_time_line,
-            ninety_five_request_time_line: _ninety_five_request_time_line,
-            ninety_nine_request_time_line: _ninety_nine_request_time_line,
-            qps: _qps,
-            error_num: _error_num,
-            error_rate: _error_rate,
+            max_request_time: '-',
+            min_request_time: '-',
+            ninety_request_time_line: '-',
+            ninety_five_request_time_line: '-',
+            ninety_nine_request_time_line: '-',
+            qps: '-',
+            error_num: '-',
+            error_rate: '-',
             received_bytes: _received_bytes,
             send_bytes: _send_bytes,
         });
         setTableData1(_datas);
     }, [datas]);
+
+    useEffect(() => {
+        console.log(mode_conf);
+        if (mode_conf) {
+            const { 
+                concurrency,
+                duration,
+                max_concurrency,
+                reheat_time,
+                round_num,
+                start_concurrency,
+                step,
+                step_run_time,
+                threshold_value
+            } = mode_conf;
+            setConfigData([{ concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time }]);
+            let _columns = [];
+            if (task_mode === 1) {
+                _columns = [
+                    duration ?
+                    {
+                        title: '持续时长',
+                        dataIndex: 'duration',
+                    } : 
+                    {
+                        title: '轮次',
+                        dataIndex: 'round_num',
+                    },
+                    {
+                        title: '并发数',
+                        dataIndex: 'concurrency',
+                    },
+                    {
+                        title: '预热时长',
+                        dataIndex: 'reheat_time',
+                    }
+                ];
+            } else {
+                _columns = [
+                    {
+                        title: '起始并发数',
+                        dataIndex: 'start_concurrency',
+                    },
+                    {
+                        title: '并发数步长',
+                        dataIndex: 'step',
+                    },
+                    {
+                        title: '步长执行时长',
+                        dataIndex: 'step_run_time',
+                    },
+                    {
+                        title: '最大并发数',
+                        dataIndex: 'max_concurrency',
+                    },
+                    {
+                        title: '稳定持续时长',
+                        dataIndex: 'duration'
+                    }
+                ];
+            };
+            setConfigColumn(_columns);
+        }
+
+    }, [mode_conf]);
     const data = [
         {
             threshold: '-',
@@ -252,7 +336,6 @@ const ReportContent = (props) => {
     ];
 
     const getOption = (name, data) => {
-        console.log(data);
         let option = {
             title: {
                 text: name,
@@ -302,18 +385,20 @@ const ReportContent = (props) => {
         return option;
     }
 
+    console.log(configColumn, configData);
+
     return (
         <div className='report-content'>
             <div className='report-content-top'>
                 <div className='top-type'>
-                    <span>任务类型: 普通任务</span>
+                    <span>任务类型: { task_type === 1 ? '普通任务' : '定时任务' }</span>
                     <span>分布式: 是</span>
                 </div>
                 <div className='top-mode'>
-                    <span>压测模式: 响应时间模式90%</span>
+                    <span>压测模式: { modeList[task_mode] }</span>
                 </div>
             </div>
-            <Table showBorder columns={columns} data={data} />
+            <Table showBorder columns={configColumn} data={configData} />
             <Table showBorder columns={columns1} data={tableData1} />
             <div className='echarts-list'>
                 <ReactEcharts className='echarts' option={getOption('每秒事务数', qpsList)} />

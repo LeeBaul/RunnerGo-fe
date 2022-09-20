@@ -21,6 +21,7 @@ import { handleShowContextMenu } from './contextMenu';
 import Example from './example';
 import MenuStatus from './menuStatus';
 import './index.less';
+import cn from 'classnames';
 
 const NodeType = {
     api: SvgApis,
@@ -65,8 +66,10 @@ const MenuTrees = (props, treeRef) => {
     const treeData = treeDataList[type];
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
+    const open_api_now = useSelector((store) => store.opens.open_api_now);
     const [defaultExpandKeys, setDefaultExpandKeys] = useState([]);
     const uuid = localStorage.getItem('uuid');
+
 
     const [markObj, setMarkObj] = useState([]);
 
@@ -187,7 +190,7 @@ const MenuTrees = (props, treeRef) => {
                     key={nodeItem.nodeKey}
                     moved={handleNodeDragEnd}
                 >
-                    <div className="tree-node-inner">
+                    <div className={cn('tree-node-inner', { 'tree-node-inner-selected': type === 'apis' ? `${nodeItem.nodeKey}` === `${open_api_now}` : `${nodeItem.nodeKey}` === `${open_scene ? open_scene.scene_id : ''}`})}>
                         {indent}
                         {renderIcon(nodeItem.target_type)}
                         {renderPrefix(nodeItem)}
@@ -251,7 +254,6 @@ const MenuTrees = (props, treeRef) => {
         digFindAll(rootList);
         setSelectedKeys(newList);
     };
-
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -319,7 +321,7 @@ const MenuTrees = (props, treeRef) => {
                         }
                     }
                 }}
-                rootFilter={(item) => typeof item.parent_id === 'number'}
+                rootFilter={(item) => item.parent_id === 0}
             />
         </DndProvider>
     );

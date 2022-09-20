@@ -56,31 +56,48 @@ const reportResult = {
 	"Machine": null
 };
 
-const ReportDetail = () => {
+const ReportDetail = (props) => {
+	const { data: configData, stopDebug } = props;
+
     const [data, setData] = useState([]);
 	const { id: report_id } = useParams();
+	
+	let report_detail_t = null;
 
     useEffect(() => {
+		getReportDetail();
+		report_detail_t = setInterval(getReportDetail, 1000);
+
+		return () => {
+			clearInterval(report_detail_t);
+		}
+    }, []);
+
+	const getReportDetail = () => {
 		const query = {
 			report_id,
 		};
 		fetchReportDetail(query).subscribe({
 			next: (res) => {
-				const { data: { results } } = res;
-				console.log(results);
+				const { data: { results, end } } = res;
 				const dataList = [];
 				for (let i in results) {
 					dataList.push(results[i]);
 				}
 				setData(dataList);
+
+				
+				if (end) {
+					clearInterval(report_detail_t);
+				}
 			}
 		})
-    }, []);
+	}
 
 
     const defaultList = [
-        { id: '1', title: '测试详情页', content: <ReportContent data={data}  />  },
-        { id: '2', title: 'debug日志', content: <DebugLog />},
+        { id: '1', title: '测试详情页', content: <ReportContent data={data} config={configData}  />  },
+        { id: '2', title: 'debug日志', content: <DebugLog stopDebug={stopDebug} />},
         { id: '3', title: '压力机监控', content: <PressMonitor /> },
         { id: '4', title: '被服务器监控', content: '被服务器监控' }
     ];

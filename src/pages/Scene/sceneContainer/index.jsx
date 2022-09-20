@@ -77,7 +77,7 @@ const SceneContainer = (props) => {
                         {/* <SvgClose width="16px" height="16px" /> */}
                         <p style={{ fontSize: '16px' }}>x</p>
                     </Button>
-                    <Input size="mini" value={apiName} placeholder="请输入接口名称" onChange={(e) => onTargetChange('name', e)} />
+                    <Input size="mini" value={apiName} placeholder="请输入接口名称" onBlur={(e) => onTargetChange('name', e.target.value)} />
                 </div>
                 <div className='drawer-header-right'>
                     <Button onClick={() => {

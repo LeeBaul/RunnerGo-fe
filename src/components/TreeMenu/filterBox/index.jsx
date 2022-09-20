@@ -48,12 +48,12 @@ const FilterBox = (props) => {
                 // }
                 placeholder={type === 'apis' ? '搜索目录或接口' : '搜索分组或场景'}
             />
-            {
+            {/* {
                 (type === 'apis') &&
                 <Button onClick={handlToTarget} size="mini" className="btn-location">
                     <SvgLocation width="20px" height="20px" />
                 </Button>
-            }
+            } */}
         </div>
     )
 };

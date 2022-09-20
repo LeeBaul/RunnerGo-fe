@@ -19,6 +19,23 @@ export const MenuTreeNode = styled.div`
     flex-direction: row;
     border-radius: 0;
   }
+  .tree-node-inner-selected {
+    background-color: var(--highlight-background-color-tertiary);
+
+    &:hover {
+        background-color: var(--highlight-background-color-secondary);
+    }
+
+    color:var(--content-color-primary);
+
+    svg {
+        fill: var(--content-color-primary);
+    }
+
+    .apipost-btn {
+        background-color: var(--highlight-background-color-primary);
+    }
+}
 `;
 
 export const TreeIcon = css`

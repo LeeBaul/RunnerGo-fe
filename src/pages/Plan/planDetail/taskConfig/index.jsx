@@ -320,6 +320,22 @@ const TaskConfig = (props) => {
     };
 
     const savePlan = () => {
+        if (mode === 1) {
+            const { mode_conf: { duration, round_num, concurrency, reheat_time } } = task_config;
+            if (!duration && !round_num) {
+                Message('error', '未填必填项!');
+                return;
+            } else if (!concurrency || !reheat_time) {
+                Message('error', '未填必填项!');
+                return;
+            }
+        } else {
+            const { mode_conf: { start_concurrency, step, step_run_time, max_concurrency, duration } } = task_config;
+            if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
+                Message('error', '未填必填项!');
+                return;
+            }
+        }
         const params = {
             plan_id: parseInt(plan_id),
             team_id: parseInt(localStorage.getItem('team_id')),
