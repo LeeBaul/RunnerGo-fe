@@ -41,11 +41,13 @@ const DebugLog = (props) => {
                 const { data } = res;
                 let _data = [];
                 data && data.forEach(item => {
-                    const { request_body, request_header, response_body, response_header } = item;
-                    _data.push(`请求头: ${request_header}`);
-                    _data.push(`请求体: ${request_body}`);
-                    _data.push(`响应头: ${response_header}`);
-                    _data.push(`响应体: ${response_body}`);
+                    const { request_body, request_header, response_body, response_header, type } = item;
+                    if (type === 'api') {
+                        _data.push(`请求头: ${request_header}`);
+                        _data.push(`请求体: ${request_body}`);
+                        _data.push(`响应头: ${response_header}`);
+                        _data.push(`响应体: ${response_body}`);
+                    }
                 })
                 setLog(_data);
             },
