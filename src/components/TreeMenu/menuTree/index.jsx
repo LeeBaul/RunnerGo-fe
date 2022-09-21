@@ -88,10 +88,10 @@ const MenuTrees = (props, treeRef) => {
 
     useEffect(() => {
         if (type === 'plan') {
-            const plan_open_group = JSON.parse(localStorage.getItem('plan_open_group'));
+            const plan_open_group = JSON.parse(localStorage.getItem('plan_open_group') || '[]');
             setDefaultExpandKeys(plan_open_group);
         }
-    }, [JSON.parse(localStorage.getItem('plan_open_group'))]);
+    }, []);
 
     useEventBus('statusListInit', statusListInit, [CURRENT_PROJECT_ID]);
 
@@ -186,9 +186,9 @@ const MenuTrees = (props, treeRef) => {
     };
 
     const handleExpandsChange = (keys) => {
-        console.log(keys);
         if (type === 'plan') {
             localStorage.setItem('plan_open_group', JSON.stringify(keys));
+            setDefaultExpandKeys(keys);
         }
         setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.CURRENT_EXPAND_KEYS`, keys);
     };

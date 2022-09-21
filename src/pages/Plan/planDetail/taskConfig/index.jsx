@@ -83,7 +83,6 @@ const TaskConfig = (props) => {
                     // step_run_time && setStepRunTime(step_run_time);
                     setModeConf(mode_conf);
                     task_type && setTaskType(task_type);
-                    console.log(mode_conf);
                     dispatch({
                         type: 'plan/updateTaskConfig',
                         payload: {
