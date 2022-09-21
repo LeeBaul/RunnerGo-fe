@@ -371,6 +371,7 @@ const useScene = () => {
                 }
             }
             set(id_apis[id], 'url', value);
+            set(tempOpenApis[target_id], 'request.url', reqUrl);
         } else if (pathExpression === 'request.query.parameter') {
             let paramsStr = '';
             const url = id_apis[id].request?.url || '';
@@ -649,6 +650,7 @@ const useScene = () => {
         _from_node.position = getNewCoordinate(nodes);
         _from_node.dragging = false;
         _from_node.selected = false;
+        _from_node.dragHandle = '.drag-content';
         console.log('id_apis', id_apis);
         console.log(_id, _from_node);
 
