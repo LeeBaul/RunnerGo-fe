@@ -39,6 +39,11 @@ const PlanDetail = () => {
             action: 'RELOAD_LOCAL_PLAN',
             id,
         });
+
+        dispatch({
+            type: 'plan/updateOpenScene',
+            payload: null
+        })
     }, []);
 
     useEffect(() => {
