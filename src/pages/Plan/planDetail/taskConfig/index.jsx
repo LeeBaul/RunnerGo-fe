@@ -324,7 +324,7 @@ const TaskConfig = (props) => {
             if (!duration && !round_num) {
                 Message('error', '未填必填项!');
                 return;
-            } else if (!concurrency || !reheat_time) {
+            } else if (!concurrency) {
                 Message('error', '未填必填项!');
                 return;
             }

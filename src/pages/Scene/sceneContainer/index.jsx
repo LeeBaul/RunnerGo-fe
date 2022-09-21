@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { Drawer, Button, Input, Modal } from 'adesign-react';
+import { Drawer, Button, Input, Modal, Message } from 'adesign-react';
 import { Close as SvgClose } from 'adesign-react/icons';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -81,7 +81,9 @@ const SceneContainer = (props) => {
                 </div>
                 <div className='drawer-header-right'>
                     <Button onClick={() => {
-                        Bus.$emit('saveSceneApi', api_now, id_apis);
+                        Bus.$emit('saveSceneApi', api_now, id_apis, () => {
+                            Message('success', '保存成功!')
+                        });
                     }}>保存</Button>
                 </div>
             </div>
