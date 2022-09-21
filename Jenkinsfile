@@ -1,6 +1,6 @@
 def createVersion() {
     // 定义一个版本号作为当次构建的版本，输出结果 20191210175842_69
-    return new Date().format('yyyy-MM-dd HH:mm:ss')
+    return new Date().format('YYYY-MM-DD HH:mm:ss')
 }
 
 pipeline {

@@ -97,10 +97,10 @@ const DetailHeader = () => {
                             <p style={{ marginLeft: '4px' }}></p>
                         </div>
                         <div className='item'>
-                            创建时间：{dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss')}
+                            创建时间：{dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
                         </div>
                         <div className='item'>
-                            最后修改时间：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss')}
+                            最后修改时间：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
                         </div>
                     </div>
                 </div>

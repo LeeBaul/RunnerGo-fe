@@ -35,7 +35,7 @@ const HandleLog = (props) => {
                                 <p>{item.name}</p>
                             </div>
                             <div className='log-item-right'>
-                                {dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss')}
+                                {dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
                             </div>
                         </div>
                     )) : <p className='empty'>还没有操作日志</p>

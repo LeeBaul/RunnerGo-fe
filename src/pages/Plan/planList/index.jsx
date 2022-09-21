@@ -118,25 +118,25 @@ const PlanList = () => {
             next: (res) => {
                 const { data: { plans, total } } = res;
                 setTotal(total);
-                let bool = false;
+                // let bool = false;
                 const planList = plans.map(item => {
                     const { task_type, mode, status, created_time_sec, updated_time_sec } = item;
-                    if (status === 1) {
-                        bool = true;
-                    }
+                    // if (status === 1) {
+                    //     bool = true;
+                    // }
                     return {
                         ...item,
                         task_type: taskList[task_type],
                         mode: modeList[mode],
                         status: statusList[status],
-                        created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
-                        updated_time_sec: dayjs(updated_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                        created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                        updated_time_sec: dayjs(updated_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                         handle: <HandleContent data={item} />
                     }
                 });
-                if (!bool) {
-                    plan_t && clearInterval(plan_t);
-                }
+                // if (!bool) {
+                //     plan_t && clearInterval(plan_t);
+                // }
                 plans && setPlanList(planList);
             }
         })

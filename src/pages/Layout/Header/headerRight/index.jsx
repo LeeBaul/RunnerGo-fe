@@ -53,7 +53,7 @@ const HeaderRight = () => {
         //             //         }
         //             //         return {
         //             //             member: <MemberInfo userInfo={userInfo}  />,
-        //             //             joinTime: dayjs(join_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+        //             //             joinTime: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
         //             //             // invitedBy: '七七',
         //             //             stationType: '读写工位',
         //             //             handle: <p style={{cursor: 'pointer'}} onClick={() => removeMember(item.user_id)}>移除成员</p>,

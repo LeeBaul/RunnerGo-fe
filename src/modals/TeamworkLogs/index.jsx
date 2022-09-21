@@ -89,7 +89,7 @@ const TeamworkLogs = (props) => {
               const itemData = {
                 ...item,
                 time: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD'),
-                created_time_sec: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                created_time_sec: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
               };
 
               if (list.length === 0) {

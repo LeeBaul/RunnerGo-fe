@@ -54,7 +54,7 @@ const ReportExecutor = (props) => {
                 <img src={user_avatar || avatar} />
                 <p>{ user_name }</p>
             </div>
-            <p className='create-time'>创建时间: { dayjs(created_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss') }</p>
+            <p className='create-time'>创建时间: { dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss') }</p>
             {/* <p className='last-time'>最后修改时间: 2022-12-22 03:22</p> */}
             <p className='run-time'>执行时长: 300s</p>
             <Dropdown

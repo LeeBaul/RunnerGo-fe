@@ -65,8 +65,8 @@ const RecentReport = () => {
                                 scene_name,
                                 task_mode: modeList[task_mode],
                                 task_type: taskLit[task_type],
-                                run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
-                                last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                                run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                                last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 run_user_name,
                                 status: status === 1 ? <p style={{ color: '#3CC071' }}>运行中</p> : <p>未开始</p>,
                                 operation: <HandleContent report_id={report_id} />

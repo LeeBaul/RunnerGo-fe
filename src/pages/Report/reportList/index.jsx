@@ -94,25 +94,25 @@ const ReportList = () => {
             next: (res) => {
                 const { data: { reports, total } } = res;
                 setTotal(total);
-                let bool = false;
+                // let bool = false;
                 const list = reports.map(item => {
                     const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id } = item;
-                    if (status === 1) {
-                        bool = true;
-                    }
+                    // if (status === 1) {
+                    //     bool = true;
+                    // }
                     return {
                         ...item,
                         task_mode: modeList[task_mode],
                         status: statusList[status],
                         task_type: taskList[task_type],
-                        run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
-                        last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD hh:mm:ss'),
+                        run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                        last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                         handle: <HandleContent report_id={report_id} />
                     }
                 });
-                if (!bool) {
-                    report_t && clearInterval(report_t);
-                }
+                // if (!bool) {
+                //     report_t && clearInterval(report_t);
+                // }
                 
                 setReportList(list);
             }
