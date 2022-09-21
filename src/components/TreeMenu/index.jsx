@@ -17,7 +17,7 @@ import RecycleBin from './recycleBin';
 import { MenuWrapper } from './style';
 
 const TreeMenu = (props) => {
-    const { type = 'apis', plan_id, getSceneName, onChange } = props;
+    const { type = 'apis', getSceneName, onChange } = props;
     const [filterParams, setFilterParams] = useState({ key: '', status: 'all' }); // 接口过滤参数
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [modalType, setModalType] = useState('');
@@ -47,10 +47,10 @@ const TreeMenu = (props) => {
                 <FolderCreate {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
             {modalType === 'addGroup' && (
-                <CreateGroup from={type} plan_id={plan_id} {...modalProps} onCancel={setModalType.bind(null, '')} />
+                <CreateGroup from={type} {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
             {modalType === 'addScene' && (
-                <CreateScene from={type} plan_id={plan_id} {...modalProps} onCancel={setModalType.bind(null, '')} />
+                <CreateScene from={type} {...modalProps} onCancel={setModalType.bind(null, '')} />
             )}
             <div className='menus-header'>
                 <FilterBox
@@ -60,7 +60,7 @@ const TreeMenu = (props) => {
                     onChange={setFilterParams}
                     type={type}
                 />
-                {type === 'apis' ? <ButtonBox treeRef={treeRef} showModal={handleShowModal} /> : <SceneBox from={type} plan_id={plan_id} onChange={onChange} />}
+                {type === 'apis' ? <ButtonBox treeRef={treeRef} showModal={handleShowModal} /> : <SceneBox from={type} onChange={onChange} />}
             </div>
             <MenuTrees
                 ref={treeRef}

@@ -21,13 +21,16 @@ import { isArray, cloneDeep, isPlainObject, isString, set, trim } from 'lodash';
 import { findSon } from '@utils';
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
+import { useParams } from 'react-router-dom';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const Textarea = Input.Textarea;
 
 const CreateScene = (props) => {
-    const { onCancel, scene, from, plan_id } = props;
+    const { onCancel, scene, from } = props;
+
+    const { id: plan_id } = useParams();
 
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({

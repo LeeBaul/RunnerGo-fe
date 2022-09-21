@@ -6,7 +6,7 @@ import CreateGroup from '@modals/CreateGroup';
 import CreateScene from '@modals/CreateScene';
 
 const SceneBox = (props) => {
-    const { from, plan_id, onChange } = props;
+    const { from, onChange } = props;
     const [showCreateGroup, setCreateGroup] = useState(false);
     const [showCreateScene, setCreateScene] = useState(false);
 
@@ -32,8 +32,8 @@ const SceneBox = (props) => {
                 </>
             }
 
-            {showCreateGroup && <CreateGroup from={from} plan_id={plan_id} onCancel={() => setCreateGroup(false)} />}
-            {showCreateScene && <CreateScene from={from} plan_id={plan_id} onCancel={() => setCreateScene(false)} />}
+            {showCreateGroup && <CreateGroup from={from} onCancel={() => setCreateGroup(false)} />}
+            {showCreateScene && <CreateScene from={from} onCancel={() => setCreateScene(false)} />}
         </div>
     )
 };

@@ -22,10 +22,11 @@ import Example from './example';
 import MenuStatus from './menuStatus';
 import './index.less';
 import cn from 'classnames';
+import SvgScene from '@assets/icons/Scene1';
 
 const NodeType = {
     api: SvgApis,
-    scene: SvgApis,
+    scene: SvgScene,
     doc: SvgDoc,
     websocket: SvgWebSocket,
     folder: SvgFolder,
@@ -84,6 +85,13 @@ const MenuTrees = (props, treeRef) => {
             });
         setMarkObj(obj);
     };
+
+    useEffect(() => {
+        if (type === 'plan') {
+            const plan_open_group = JSON.parse(localStorage.getItem('plan_open_group'));
+            setDefaultExpandKeys(plan_open_group);
+        }
+    }, [JSON.parse(localStorage.getItem('plan_open_group'))]);
 
     useEventBus('statusListInit', statusListInit, [CURRENT_PROJECT_ID]);
 
@@ -178,6 +186,10 @@ const MenuTrees = (props, treeRef) => {
     };
 
     const handleExpandsChange = (keys) => {
+        console.log(keys);
+        if (type === 'plan') {
+            localStorage.setItem('plan_open_group', JSON.stringify(keys));
+        }
         setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.CURRENT_EXPAND_KEYS`, keys);
     };
 
