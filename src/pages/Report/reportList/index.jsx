@@ -94,8 +94,12 @@ const ReportList = () => {
             next: (res) => {
                 const { data: { reports, total } } = res;
                 setTotal(total);
+                let bool = false;
                 const list = reports.map(item => {
                     const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id } = item;
+                    if (status === 1) {
+                        bool = true;
+                    }
                     return {
                         ...item,
                         task_mode: modeList[task_mode],
@@ -106,6 +110,10 @@ const ReportList = () => {
                         handle: <HandleContent report_id={report_id} />
                     }
                 });
+                if (!bool) {
+                    report_t && clearInterval(report_t);
+                }
+                
                 setReportList(list);
             }
         })

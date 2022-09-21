@@ -122,13 +122,16 @@ const ReportHeader = (props) => {
     };
 
     const stopReport = () => {
+        console.log(123);
         const params = {
-            report_ids: [report_id],
+            team_id: parseInt(localStorage.getItem('team_id')),
+            report_ids: [parseInt(report_id)],
         };
 
         fetchStopReport(params).subscribe({
             next: (res) => {
                 const { code } = res;
+                console.log(code);
                 if (code === 0) {
                     Message('success', '停止成功!');
                 } else {
@@ -148,7 +151,7 @@ const ReportHeader = (props) => {
             <div className='report-header-right'>
                 <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
                 <Button className='download' onClick={() => donwloadReport()}>下载</Button>
-                {/* <Button className='stop' preFix={<SvgStop width="10" height="10" onClick={() => stopReport() }/>}>中止任务</Button> */}
+                <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => stopReport() }  >中止任务</Button>
             </div>
             {showSendEmail && <SendEmail onCancel={() => setSendEmail(false)} />}
         </div>

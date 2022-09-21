@@ -8,16 +8,16 @@ const DebugLog = (props) => {
     const { id: report_id } = useParams();
     const [log, setLog] = useState([]);
 
-    let t = null;
+    let debug_t = null;
 
 
     useEffect(() => {
         getDebug();
         console.log(end);
         if (end) {
-            clearInterval(t);
+            clearInterval(debug_t);
         } else {
-            t = setInterval(getDebug, 1000);
+            debug_t = setInterval(getDebug, 1000);
         }
         // if (stopDebug === 'stop' && t) {
         //     clearInterval(t);
@@ -26,7 +26,7 @@ const DebugLog = (props) => {
         //     stopDebug !== 'stop' && (t = setInterval(getDebug, 1000));
         // }
         return () => {
-            clearInterval(t);
+            clearInterval(debug_t);
         }
     }, [end]);
 
@@ -39,7 +39,15 @@ const DebugLog = (props) => {
             next: (res) => {
                 console.log(res);
                 const { data } = res;
-                setLog(data);
+                let _data = [];
+                data && data.forEach(item => {
+                    const { request_body, request_header, response_body, response_header } = item;
+                    _data.push(`请求头: ${request_header}`);
+                    _data.push(`请求体: ${request_body}`);
+                    _data.push(`响应头: ${response_header}`);
+                    _data.push(`响应体: ${response_body}`);
+                })
+                setLog(_data);
             },
             err: (err) => {
                 console.log(err);
@@ -48,7 +56,9 @@ const DebugLog = (props) => {
     }
     return (
         <div className='debug-log'>
-            { log }
+            {
+                log.length > 0 ?  log.map(item => <p className='debug-log-item'>{ item }</p>) : <p>没有debug日志</p>
+            }
         </div>
     )
 };

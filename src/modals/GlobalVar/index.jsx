@@ -112,7 +112,7 @@ const GlobalVar = (props) => {
             title: '',
             width: 40,
             render: (text, rowData, rowIndex) => {
-                return <SvgDelete onClick={() => deleteItem(rowIndex)} className='delete-svg' />
+                return rowIndex !== list.length - 1 ? <SvgDelete onClick={() => deleteItem(rowIndex)} className='delete-svg' /> : <></>
             }
         }
     ];
