@@ -19,6 +19,8 @@ const { Option } = Select;
 
 const Assert = (props) => {
     const { parameter, onChange } = props;
+    const [unKey, setUnKey] = useState(false);
+    const [unValue, setUnValue] = useState(false);
 
     const handleTableDelete = (index) => {
         const newList = [...parameter];
@@ -34,6 +36,7 @@ const Assert = (props) => {
             ...rowData,
             ...newVal,
         };
+        console.log(rowData, rowIndex, newVal);
         onChange('assert', [...newList]);
     }
 
@@ -65,6 +68,7 @@ const Assert = (props) => {
                     <ApiInput
                         size="mini"
                         value={text}
+                        disabled={ parameter[rowIndex] ?  parameter[rowIndex].response_type === 3 : false }
                         onChange={(newVal) => {
                             handleChange(rowData, rowIndex, { var: newVal });
                         }}
@@ -99,6 +103,7 @@ const Assert = (props) => {
                     <ApiInput
                         size="mini"
                         value={text}
+                        disabled={ parameter[rowIndex] ? (parameter[rowIndex].compare === 'notnull' || parameter[rowIndex].compare === 'null') : false }
                         onChange={(newVal) => {
                             handleChange(rowData, rowIndex, { val: newVal });
                         }}

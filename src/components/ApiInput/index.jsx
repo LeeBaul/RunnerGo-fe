@@ -8,7 +8,7 @@ import { metionWrapper } from './style';
 const Textarea = Input.Textarea;
 
 const ApiInput = (props) => {
-  const { value, onChange, placeholder, readonly = false, afterFix, onBlur, onModal } = props;
+  const { value, onChange, placeholder, readonly = false, afterFix, onBlur, onModal, disabled = false } = props;
 
   const [envVisible, setEnvVisible] = useState(false);
   const [envObj, setEnvObj] = useState({});
@@ -62,6 +62,7 @@ const ApiInput = (props) => {
         onBlur={onBlur}
         height={24}
         bordered={false}
+        disabled={disabled}
         onKeyDown={(e) => {
           // 38上 40下 13回车
           const keyCode = e.keyCode || e.which;
