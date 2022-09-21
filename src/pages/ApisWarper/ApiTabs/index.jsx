@@ -125,7 +125,7 @@ const ApiTabs = (props) => {
                     <SvgHttp />
                     <h3>新建 Http 接口</h3>
                 </Button>
-                <Button
+                {/* <Button
                     type="primary"
                     onClick={() => {
                         Bus.$emit('addOpenItem', { type: 'doc' });
@@ -142,8 +142,8 @@ const ApiTabs = (props) => {
                 >
                     <SvgGrpc />
                     <h3>新建 Grpc 接口</h3>
-                </Button>
-                <Button
+                </Button> */}
+                {/* <Button
                     type="primary"
                     onClick={() => {
                         Bus.$emit('addOpenItem', { type: 'websocket' });
@@ -151,7 +151,7 @@ const ApiTabs = (props) => {
                 >
                     <SvgWebsocket />
                     <h3>新建 WebSocket 接口</h3>
-                </Button>
+                </Button> */}
             </div>
             {/* <div className="importProject">
                 <Button

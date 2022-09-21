@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const LoginWrapper = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   position: relative;
   background: var(--background-color-secondary);
   .left {

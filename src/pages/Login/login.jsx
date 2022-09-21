@@ -64,7 +64,7 @@ const LoginBox = (props) => {
             setPassword(userObj.password);
           }
         } catch (error) {
-          // console.log(error);
+
         }
       }
     } else if (panelType === 'wxCode') {

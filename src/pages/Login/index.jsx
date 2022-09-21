@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import LogoSvg from '@assets/login/logo.svg';
@@ -13,6 +13,7 @@ const Login = (props) => {
     const { children } = props;
     const dispatch = useDispatch();
     const config = useSelector((store) => store.user.config);
+    const [leftShow, setLeftShow] = useState(true);
     useEffect(() => {
         const newConfig = cloneDeep(config);
         newConfig.SYSCOMPACTVIEW = 1;
@@ -28,12 +29,35 @@ const Login = (props) => {
                 <Route path="login" element={<LoginBox />}></Route>
                 <Route path="register" element={<RegisterBox />}></Route>
             </Routes>
-        )
-    }
+        ) 
+    };
+
+    const onWindowResize = ({ currentTarget }) => {
+        if (currentTarget.innerWidth < 1100) {
+            setLeftShow(false);
+        } else {
+            setLeftShow(true);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', onWindowResize);
+        const firstSize = window.innerWidth;
+        if (firstSize < 1100) {
+            setLeftShow(false);
+        } else {
+            setLeftShow(true);
+        };
+
+        return () => {
+            window.removeEventListener('resize', onWindowResize);
+        }
+    }, []);
 
     return (
         <LoginWrapper>
-            <div className='left'>
+            {
+                leftShow && <div className='left'>
                 <div>
                     <div className='logo-box'>
                         <LogoSvg />
@@ -44,6 +68,7 @@ const Login = (props) => {
                     <BannerSvg />
                 </div>
             </div>
+            }
             <div className='right'>
                 { children }
             </div>
