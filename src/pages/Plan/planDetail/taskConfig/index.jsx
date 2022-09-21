@@ -386,12 +386,12 @@ const TaskConfig = (props) => {
                     </Radio.Group>
                 </div>
                 {
-                    task_type === 2 && <div className='item'>
+                    task_type === 2 && <div className='item' style={{ marginBottom: '20px' }}>
                         <p style={{ marginRight: '5px' }}>填写cron表达式: </p>
-                        <Input value={cron_expr} onBlur={(e) => {
-                            setCronExpr(e.target.value);
-                            from === 'preset' && onChange('cron_expr', e.target.value);
-                            from === 'default' && updateTaskConfig('cron_expr', e.target.value);
+                        <Input value={cron_expr} onChange={(e) => {
+                            setCronExpr(e);
+                            from === 'preset' && onChange('cron_expr', e);
+                            from === 'default' && updateTaskConfig('cron_expr', e);
                         }} placeholder="每隔5秒执行一次: */5 * * * * ?" />
                     </div>
                 }

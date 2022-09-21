@@ -19,9 +19,20 @@ const ReportContent = () => {
     // 任务类型 模式 config
     const [configData, setConfigData] = useState({});
     const [stopDebug, setStopDebug] = useState('stop');
-    const [reportStatus, setReportStatus] = useState('进行中');
+    const [reportStatus, setReportStatus] = useState(1);
+
+    let report_info_t = null;
 
     useEffect(() => {
+        getReportInfo();
+        report_info_t =  setInterval(getReportInfo, 1000);
+
+        return () => {
+           report_info_t && clearInterval(report_info_t);
+        }
+    }, []);
+
+    const getReportInfo = () => {
         const query = {
             report_id,
             team_id: localStorage.getItem('team_id'),
@@ -29,7 +40,7 @@ const ReportContent = () => {
         fetchReportInfo(query).subscribe({
             next: (res) => {
                 console.log(res);
-                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec } }} = res;
+                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status } }} = res;
                 setHeaderData({
                     plan_name,
                 })
@@ -42,10 +53,14 @@ const ReportContent = () => {
                     task_mode,
                     task_type,
                     mode_conf
-                })
+                });
+                setReportStatus(task_status);
+                if (task_status === 2) {
+                   report_info_t && clearInterval(report_info_t);
+                }
             }
-        })
-    }, []);
+        });
+    }
 
     const defaultList = [
         { id: '1', title: '新建标题1', content: <ReportDetail /> },

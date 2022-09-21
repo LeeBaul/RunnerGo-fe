@@ -417,7 +417,7 @@ const Body = (props) => {
             </div>
           )}
         </div>
-        {['urlencoded', 'form-data'].includes(value?.mode) && (
+        {false && (
           <Importexport data={[...value?.parameter]} type="bodyParameter" onChange={onChange} />
         )}
       </div>
