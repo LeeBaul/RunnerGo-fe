@@ -44,3 +44,8 @@ export const fetchRunPlan = (
 export const fetchStopPlan = (
     params
 ) => ajax('post', '/management/api/v1/plan/stop', 'json', false, params);
+
+// 克隆计划
+export const fetchCopyPlan = (
+    params
+) => ajax('post', '/management/api/v1/plan/clone', 'json', false, params);

@@ -106,7 +106,7 @@ const ReportList = () => {
                         status: statusList[status],
                         task_type: taskList[task_type],
                         run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                        last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                        last_time_sec: status === 1 ? '-' : dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                         handle: <HandleContent report_id={report_id} />
                     }
                 });

@@ -11,7 +11,7 @@ import {
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPlanList } from '@services/plan';
+import { fetchPlanList, fetchCopyPlan } from '@services/plan';
 import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 import Bus from '@utils/eventBus';
@@ -45,6 +45,24 @@ const PlanList = () => {
     const statusList = {
         '1': '未运行',
         '2': <p style={{ color: '#3CC071' }}>运行中</p>,
+    };
+
+    const copyPlan = (plan_id) => {
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            plan_id: parseInt(plan_id),
+        };
+        fetchCopyPlan(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    Message('success', '复制成功!');
+                    getPlanList();
+                } else {
+                    Message('error', '复制失败!');
+                }
+            }
+        })
     }
 
     const HandleContent = (props) => {
@@ -75,9 +93,7 @@ const PlanList = () => {
                         })
                         navigate(`/plan/detail/${plan_id}`);
                     }} />
-                    <SvgCopy onClick={() => {
-                        // Bus.$emit('copyPlan', data);
-                    }} />
+                    <SvgCopy onClick={() => copyPlan(plan_id)} />
                     <SvgDelete style={{ fill: '#f00' }} onClick={() => {
                         Bus.$emit('deletePlan', plan_id, (code) => {
                             if (code === 0) {
