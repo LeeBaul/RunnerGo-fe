@@ -70,7 +70,7 @@ const ReportContent = () => {
     return (
         <div className='report'>
             <ReportHeader data={headerData} status={reportStatus} />
-            <ReportExecutor data={infoData} onStop={(e) => setStopDebug(e)} />
+            <ReportExecutor data={infoData} status={reportStatus} onStop={(e) => setStopDebug(e)} />
             {/* <Tabs type="card" className={TabStyle} defaultActiveId="1">
                 {defaultList.map((d) => (
                     <TabPan key={d.id} id={d.id} title={d.title}>
@@ -78,7 +78,7 @@ const ReportContent = () => {
                     </TabPan>
                 ))}
             </Tabs> */}
-            <ReportDetail data={configData} stopDebug={stopDebug} onStatus={(e) => setReportStatus(e)} /> 
+            <ReportDetail data={configData} stopDebug={stopDebug} /> 
         </div>
     )
 };

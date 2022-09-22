@@ -115,7 +115,7 @@ const PlanDetail = () => {
                 style={{ marginTop: '2px' }}
                 realTimeRender
                 className={ApisWrapper}
-                defaultLayouts={{ 0: { width: 280 }, 1: { width: 905, flex: 1 }, 2: { width: 630 } }}
+                defaultLayouts={{ 0: { width: 280 }, 1: { width: 905, flex: 1 }, 2: { width: 420 } }}
             >
                 <ScaleItem className="left-menus" minWidth={250} maxWidth={350}>
                     <TreeMenu type='plan' getSceneName={(e) => setSceneName(e)} onChange={(e) => setImportScene(e)} />

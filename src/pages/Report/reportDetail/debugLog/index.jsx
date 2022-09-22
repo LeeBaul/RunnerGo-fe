@@ -59,7 +59,7 @@ const DebugLog = (props) => {
     return (
         <div className='debug-log'>
             {
-                log.length > 0 ?  log.map(item => <p className='debug-log-item'>{ item }</p>) : <p>没有debug日志</p>
+                log.length > 0 ?  log.map(item => <p className='debug-log-item'>{ item }</p>) : ''
             }
         </div>
     )

@@ -8,7 +8,7 @@ import { fetchSetDebug } from '@services/report';
 import { useParams } from 'react-router-dom';
 
 const ReportExecutor = (props) => {
-    const { data: { user_avatar, user_name, created_time_sec }, onStop } = props;
+    const { data: { user_avatar, user_name, created_time_sec }, onStop, status } = props;
     const DropRef = useRef(null);
     const [debugName, setDebugName] = useState('关闭debug模式');
     const [stop, setStop] = useState(false);
@@ -47,6 +47,7 @@ const ReportExecutor = (props) => {
             </div>
         )
     }
+    console.log(status);
     return (
         <div className='report-executor'>
             <p>执行者:</p>
@@ -65,7 +66,7 @@ const ReportExecutor = (props) => {
                     </div>
                 }
             >
-                <Button className='close-debug' afterFix={<SvgDown />} type='primary'>{ debugName }</Button>
+                <Button className='close-debug' afterFix={<SvgDown />} type='primary' disabled={status === 2}>{ debugName }</Button>
             </Dropdown>
         </div>
     )

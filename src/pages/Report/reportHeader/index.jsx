@@ -150,7 +150,7 @@ const ReportHeader = (props) => {
             </div>
             <div className='report-header-right'>
                 <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
-                <Button className='download' onClick={() => donwloadReport()}>下载</Button>
+                {/* <Button className='download' onClick={() => donwloadReport()}>下载</Button> */}
                 {
                     status === 1 
                     ? <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => stopReport() }  >中止任务</Button>

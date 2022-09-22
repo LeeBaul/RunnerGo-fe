@@ -8,7 +8,7 @@ import {
     Doc as SvgDoc,
 } from 'adesign-react/icons';
 import './index.less';
-import { cloneDeep, isObject, isUndefined } from 'lodash';
+import _, { cloneDeep, isObject, isUndefined } from 'lodash';
 import useListData from './hooks/useListData';
 
 const { CollapseItem, Collapse } = Col;
@@ -50,6 +50,8 @@ const ImportApi = (props) => {
     });
     const [rightList, setRightList] = useState([]);
     const [leftList, setLeftList] = useState([]);
+    const [team_now, setTeamNow] = useState('');
+    const [apis, setApis] = useState([]);
 
     const handleFilter = (key) => {
         const sourceData = _cloneDeep(dataList.reduce((a, b) => ({ ...a, [b.id]: b }), {}));
@@ -118,7 +120,8 @@ const ImportApi = (props) => {
         )
     }
 
-    const handleCheckAll = (val, team_name) => {
+    const handleCheckAll = (val, project_name) => {
+        console.log(val);
         if (val === 'checked') {
             // const checkKeys = isObject(treeList) ? Object.keys(treeList) : [];
             const checkKeys = treeList.map(item => item.target_id)
@@ -131,6 +134,20 @@ const ImportApi = (props) => {
             //         item.list.push()
             //     }
             // })
+            // 1. 拿到此次全选涉及到的所有api
+            const _list = leftList.find(item => item.name === project_name).list;
+            // 2. 添加到右侧对应团队下
+            const _rightList = cloneDeep(rightList);
+            const _index = _rightList.findIndex(item => item.name === team_now);
+            if (_index === -1) {
+                _rightList.push({
+                    name: team_now,
+                    list: _list,
+                })
+            } else {
+                _rightList[_index].list = [..._rightList[_index].list, ..._list];
+            }
+            setRightList(_rightList);
         }
         if (val === 'uncheck') {
             setCheckedApiKeys([]);
@@ -184,7 +201,7 @@ const ImportApi = (props) => {
                     name: 'B项目',
                     list: [
                         {
-                            target_id: "1",
+                            target_id: "5",
                             name: '新建接口1',
                             parent_id: "0",
                             target_type: 'api',
@@ -192,7 +209,7 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                         {
-                            target_id: "2",
+                            target_id: "6",
                             name: '新建接口2',
                             parent_id: "3",
                             target_type: 'api',
@@ -200,7 +217,7 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                         {
-                            target_id: "3",
+                            target_id: "7",
                             name: '新建分组',
                             parent_id: "0",
                             target_type: 'folder',
@@ -208,7 +225,7 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                         {
-                            target_id: "4",
+                            target_id: "8",
                             name: '新建接口3',
                             parent_id: "0",
                             target_type: 'api',
@@ -221,7 +238,7 @@ const ImportApi = (props) => {
                     name: 'C项目',
                     list: [
                         {
-                            target_id: "1",
+                            target_id: "9",
                             name: '新建接口1',
                             parent_id: "0",
                             target_type: 'api',
@@ -229,7 +246,7 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                         {
-                            target_id: "2",
+                            target_id: "10",
                             name: '新建接口2',
                             parent_id: "3",
                             target_type: 'api',
@@ -237,7 +254,7 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                         {
-                            target_id: "3",
+                            target_id: "11",
                             name: '新建分组',
                             parent_id: "0",
                             target_type: 'folder',
@@ -245,7 +262,7 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                         {
-                            target_id: "4",
+                            target_id: "12",
                             name: '新建接口3',
                             parent_id: "0",
                             target_type: 'api',
@@ -419,7 +436,47 @@ const ImportApi = (props) => {
 
     useEffect(() => {
         setNowList(teamList[0]);
-    }, [])
+        teamList.length > 0 && setTeamNow(teamList[0])
+        let apis = [];
+        console.log(_treeList[0].project);
+        _treeList[0].project.forEach(item => {
+            apis = apis.concat(item.list);
+        });
+        console.log(apis);
+        setApis(apis);
+    }, []);
+
+    const selectNodeItem = (e, project_name) => {
+        console.log(e, project_name, leftList);
+        setCheckedApiKeys(e);
+        // const projectList = leftList.find(item => item.name === project_name).list;
+        const selectItem = [];
+        console.log(apis);
+        apis.forEach(item => {
+            if (e.includes(item.target_id)) {
+                selectItem.push(item);
+            }
+        });
+        const _rightList = cloneDeep(rightList);
+        const _index = _rightList.findIndex(item => item.name === team_now);
+        if (_index === -1) {
+            _rightList.push({
+                name: team_now,
+                list: selectItem,
+            })
+        } else {
+            // _rightList[_index].list = [..._rightList[_index].list, ...selectItem];
+            // _rightList[_index].list = 
+            // selectItem.forEach(elem => {
+            //     let __index = _rightList[_index].list.findIndex(item => item.target_id === elem.target_id);
+            //     if (__index === -1) {
+            //         _rightList[_index].list.push(elem);
+            //     }
+            // })
+            _rightList[_index].list = selectItem;
+        }
+        setRightList(_rightList);
+    }
 
 
     return (
@@ -451,7 +508,7 @@ const ImportApi = (props) => {
                                                     size="small"
                                                     checked={checkAll}
                                                     onChange={(val) => {
-                                                        handleCheckAll(val);
+                                                        handleCheckAll(val, item.name);
                                                     }}
                                                 ></CheckBox>
                                             </div>
@@ -461,7 +518,7 @@ const ImportApi = (props) => {
                                             ref={refTree}
                                             showIcon={false}
                                             checkedKeys={checkedApiKeys}
-                                            onCheck={setCheckedApiKeys}
+                                            onCheck={(e) => selectNodeItem(e, item.name)}
                                             onNodeClick={handleNodeClick}
                                             onCheckAll={(val) => {
                                                 setCheckAll(val)
@@ -491,28 +548,34 @@ const ImportApi = (props) => {
                     </div>
                     <div className='import-right-container'>
                         <div className='import-team'>
-                            <p className='title'>Cici的私有团队：</p>
-                            <Tree
-                                showLine
-                                ref={refTree}
-                                showIcon={false}
-                                checkedKeys={checkedApiKeys}
-                                onCheck={setCheckedList}
-                                onNodeClick={handleNodeClick}
-                                onCheckAll={(val) => {
-                                    setCheckAll(val)
-                                }}
-                                // enableVirtualList
-                                render={renderRightTree}
-                                enableCheck
-                                fieldNames={{
-                                    key: 'target_id',
-                                    title: 'name',
-                                    parent: 'parent_id',
-                                }}
-                                dataList={treeList}
-                                rootFilter={(item) => item.parent_id === "0"}
-                            />
+                            {
+                                rightList.map(item => (
+                                    <>
+                                        <p className='title'>{ item.name }:</p>
+                                        <Tree
+                                            showLine
+                                            ref={refTree}
+                                            showIcon={false}
+                                            checkedKeys={checkedApiKeys}
+                                            onCheck={setCheckedList}
+                                            onNodeClick={handleNodeClick}
+                                            onCheckAll={(val) => {
+                                                setCheckAll(val)
+                                            }}
+                                            // enableVirtualList
+                                            render={renderRightTree}
+                                            enableCheck
+                                            fieldNames={{
+                                                key: 'target_id',
+                                                title: 'name',
+                                                parent: 'parent_id',
+                                            }}
+                                            dataList={item.list}
+                                            rootFilter={(item) => item.parent_id === "0"}
+                                        />
+                                    </>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>

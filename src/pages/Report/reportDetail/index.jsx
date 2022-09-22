@@ -89,7 +89,7 @@ const ReportDetail = (props) => {
 
 				
 				if (end) {
-					onStatus('已完成')
+					// onStatus('已完成')
 					clearInterval(report_detail_t);
 					setEnd(true);
 				}
