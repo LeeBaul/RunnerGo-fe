@@ -26,8 +26,17 @@
 
       &-top {
         display: flex;
+        align-items: center;
         .name {
           font-size: 16px;
+          display: flex;
+          align-items: center;
+          height: 22px;
+          white-space: nowrap;
+
+          .apipost-input-inner-wrapper {
+            height: 22px;
+          }
         }
         .status {
           width: 52px;
@@ -49,10 +58,16 @@
           margin-right: 16px;
           display: flex;
           align-items: center;
+          white-space: nowrap;
 
           img {
             width: 20px;
             height: 20px;
+            margin-left: 8px;
+          }
+
+          .apipost-input-inner-wrapper {
+            height: 24px;
             margin-left: 8px;
           }
         }

@@ -12,6 +12,7 @@ import {
     Input,
     Select,
     Dropdown,
+    Message,
 } from 'adesign-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Handle, MarkerType } from 'react-flow-renderer';
@@ -116,7 +117,7 @@ const Box = (props) => {
     // 请求数阈值
     const [request_threshold, setReq] = useState(0);
     // 响应时间占比
-    const [percent_age, setPercent] = useState(0);
+    const [percent_age, setPercent] = useState(90);
 
     // 当前节点状态
     const [status, setStatus] = useState('default');
@@ -398,44 +399,53 @@ const Box = (props) => {
     const ResTimeMode = () => {
         return (
             <div className='time-mode'>
-                <Select
-                    data-module="select-diy-example"
-                    dropdownRender={(menu) => (
-                        <>
-                            <div className="menulist">{menu}</div>
-                            <div className="diybox">
-                                <input size="mini" ref={refInput} className="input" />
-                                <Button
-                                    size="mini"
-                                    type="primary"
-                                    className="add"
-                                    onClick={() => {
-                                        if (!refInput?.current?.value) {
-                                            return;
-                                        }
-                                        setMenuList([...menuList, refInput?.current?.value]);
-                                        if (refInput?.current) {
-                                            refInput.current.value = '';
-                                        }
-                                    }}
-                                >
-                                    添加
-                                </Button>
-                            </div>
-                        </>
-                    )}
-                    onChange={(e) => {
-                        setPercent(parseInt(e));
-                        onTargetChange('percent_age', parseInt(e));
-                    }}
-                    defaultValue={90}
-                >
-                    {menuList.map((d, index) => (
-                        <Option key={index} value={d}>
-                            {d}
-                        </Option>
-                    ))}
-                </Select>
+                <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                    <span>线: </span>
+                    <Select
+                        className='config-line'
+                        data-module="select-diy-example"
+                        dropdownRender={(menu) => (
+                            <>
+                                <div className="menulist">{menu}</div>
+                                <div className="diybox">
+                                    <input size="mini" placeholder='大于等于50, 小于100' ref={refInput} className="input" />
+                                    <Button
+                                        size="mini"
+                                        type="primary"
+                                        className="add"
+                                        onClick={() => {
+                                            if (!refInput?.current?.value) {
+                                                return;
+                                            }
+                                            if (refInput.current.value < 50 || refInput.current.value > 99) {
+                                                Message('error', '输入数字只能大于等于50, 小于100');
+                                                return;
+                                            }
+                                            setMenuList([...menuList, refInput?.current?.value]);
+                                            if (refInput?.current) {
+                                                refInput.current.value = '';
+                                            }
+                                        }}
+                                    >
+                                        添加
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                        onChange={(e) => {
+                            setPercent(parseInt(e));
+                            onTargetChange('percent_age', parseInt(e));
+                        }}
+                        defaultValue={percent_age}
+                    
+                    >
+                        {menuList.map((d, index) => (
+                            <Option key={index} value={d}>
+                                {d}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
                 <div className='common-flex'>
                     <span>响应时间阈值</span>
                     <Input size="mini" value={response_threshold} onChange={(e) => {
@@ -443,13 +453,13 @@ const Box = (props) => {
                         onTargetChange('response_threshold', parseInt(e));
                     }} placeholder="阈值" />
                 </div>
-                <div className='common-flex'>
+                {/* <div className='common-flex'>
                     <span>请求数阈值</span>
                     <Input size="mini" value={request_threshold} onChange={(e) => {
                         setReq(parseInt(e));
                         onTargetChange('request_threshold', parseInt(e));
                     }} placeholder="阈值" />
-                </div>
+                </div> */}
             </div>
         )
     }

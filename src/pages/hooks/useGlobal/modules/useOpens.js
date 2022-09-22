@@ -33,7 +33,7 @@ import * as jsondiffpatch from 'jsondiffpatch';
 import { urlParseLax } from '@utils/common';
 import { from, lastValueFrom, tap, map, concatMap, of } from 'rxjs';
 import { CONFILCTURL } from '@constants/confilct';
-import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, fetchSendApi, fetchGetResult, fetchDeleteApi } from '@services/apis';
+import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, fetchSendApi, fetchGetResult, fetchDeleteApi, fetchChangeSort } from '@services/apis';
 import { getBaseCollection } from '@constants/baseCollection';
 
 // 发送api时轮询的参数
@@ -47,6 +47,15 @@ const useOpens = () => {
     const { desktop_proxy } = useSelector((store) => store?.desktopProxy);
     const workspace = useSelector((store) => store?.workspace);
     const { CURRENT_PROJECT_ID, CURRENT_TARGET_ID } = workspace;
+
+    const getSort = (apiDatas) => {
+        console.log(apiDatas);
+        if (Object.values(apiDatas).length === 0) {
+            return 1;
+        }
+        const _list = Object.values(apiDatas).filter(item => `${item.parent_id}` === '0');
+        return _list.length + 1;
+    };
 
     // 重新排序
     const targetReorder = (target) => {
@@ -470,6 +479,7 @@ const useOpens = () => {
                 // newApi.request.body.mode = userInfo.config?.AJAX_DEFAULT_MODE || 'none';
                 newApi.request.body.mode = 'none';
             }
+            newApi.sort = getSort(apiDatas);
         }
         if (!newApi) return;
 
@@ -904,6 +914,17 @@ const useOpens = () => {
         targetList.forEach(item => {
             targetDatas[item.target_id] = item;
         })
+        console.log(ids, targetList);
+        const { parent_id, sort, target_id } = targetList[0];
+        const params = {
+            parent_id: parseInt(parent_id),
+            sort: parseInt(sort),
+            target_id: parseInt(target_id),
+            // target_info: targetList,
+            team_id: parseInt(localStorage.getItem('team_id')),
+        };
+        fetchChangeSort(params).subscribe();
+        return;
         fetchApiDetail(query).pipe(
             tap((res) => {
                 const { code, data: { targets } } = res;
@@ -983,36 +1004,40 @@ const useOpens = () => {
 
     const toDeleteFolder = (target_id, callback) => {
 
-        const deleteIds = [target_id];
-        const _apiDatas = cloneDeep(apiDatas);
+        // const deleteIds = [target_id];
+        // const _apiDatas = cloneDeep(apiDatas);
 
-        const loopGetChild = (parent_id, _apiDatas) => {
-            let arr = [];
-            let resArr = [];
-            for (let i in _apiDatas) {
+        // const loopGetChild = (parent_id, _apiDatas) => {
+        //     let arr = [];
+        //     let resArr = [];
+        //     for (let i in _apiDatas) {
 
-                if (`${_apiDatas[i].parent_id}` === `${parent_id}`) {
-                    arr.push(_apiDatas[i].target_id);
-                    if (_apiDatas[i].target_type === 'folder') {
-                        resArr = loopGetChild(_apiDatas[i].target_id, _apiDatas);
-                    }
-                }
-            }
+        //         if (`${_apiDatas[i].parent_id}` === `${parent_id}`) {
+        //             arr.push(_apiDatas[i].target_id);
+        //             if (_apiDatas[i].target_type === 'folder') {
+        //                 resArr = loopGetChild(_apiDatas[i].target_id, _apiDatas);
+        //             }
+        //         }
+        //     }
 
-            return arr.concat(resArr);
-        };
+        //     return arr.concat(resArr);
+        // };
 
-        const _res = deleteIds.concat(loopGetChild(target_id, _apiDatas))
+        // const _res = deleteIds.concat(loopGetChild(target_id, _apiDatas))
         
-        _res.forEach(item => {
-            fetchDeleteApi({ target_id: parseInt(item) }).subscribe(); 
-        })
-
-        callback && callback();
+        // _res.forEach(item => {
+            fetchDeleteApi({ target_id: parseInt(target_id) }).subscribe({
+                next: (res) => {
+                    if (res.code === 0) {
+                        callback && callback();
+                    } 
+                }
+            }); 
+        // })
     }
 
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id
-    useEventBus('addOpenItem', addOpenItem, [CURRENT_PROJECT_ID, open_apis]);
+    useEventBus('addOpenItem', addOpenItem, [CURRENT_PROJECT_ID, open_apis, apiDatas]);
 
     // 修改当前选中targetID
     useEventBus('updateTargetId', updateTargetId, [CURRENT_PROJECT_ID]);

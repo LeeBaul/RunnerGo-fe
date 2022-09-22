@@ -23,6 +23,7 @@ const useCollection = () => {
     const dispatch = useDispatch();
     const { CURRENT_PROJECT_ID } = useSelector((store) => store?.workspace);
     const sceneDatas = useSelector((store) => store.scene.sceneDatas);
+    const apiDatas = useSelector((store) => store.apis.apiDatas);
     const updateCollectionById = async (payload) => {
         const { id, data } = payload;
         let target = await Collection.get(id);
@@ -30,6 +31,14 @@ const useCollection = () => {
             target = { ...target, ...data };
             await Collection.put(target, target.target_id);
         }
+    };
+    const getSort = () => {
+        console.log(apiDatas);
+        if (Object.values(apiDatas).length === 0) {
+            return 1;
+        }
+        const _list = Object.values(apiDatas).filter(item => `${item.parent_id}` === '0');
+        return _list.length + 1;
     };
     // 重新排序
     const targetReorder = async (target) => {
@@ -179,6 +188,8 @@ const useCollection = () => {
         if (isPlainObject(param)) {
             newCollection = { ...newCollection, ...param };
         }
+
+        newCollection.sort = getSort(apiDatas);
 
         // sort 排序
         // if (newCollection?.sort == -1) await targetReorder(newCollection);
@@ -410,6 +421,7 @@ const useCollection = () => {
             .subscribe();
     }, []);
     useEventBus('bulkAddCollection', bulkAddCollection, []);
+    useEventBus('addCollectionItem', addCollectionItem, [apiDatas]);
     useEffect(() => {
         Bus.$on('addCollectionItem', addCollectionItem);
         Bus.$on('addSceneGroupItem', addSceneGroupItem);

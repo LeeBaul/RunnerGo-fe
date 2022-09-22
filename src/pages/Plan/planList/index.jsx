@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Message } from 'adesign-react';
+import { Table, Button, Message, Tooltip } from 'adesign-react';
 import './index.less';
 import PlanHeader from '../planHeader';
 import {
@@ -136,12 +136,16 @@ const PlanList = () => {
                 setTotal(total);
                 // let bool = false;
                 const planList = plans.map(item => {
-                    const { task_type, mode, status, created_time_sec, updated_time_sec } = item;
+                    const { task_type, mode, status, created_time_sec, updated_time_sec, name } = item;
                     // if (status === 1) {
                     //     bool = true;
                     // }
                     return {
                         ...item,
+                        name: 
+                        <Tooltip content={<div>{name}</div>}>
+                            <div className='ellipsis'>{ name }</div>
+                        </Tooltip>,
                         task_type: taskList[task_type],
                         mode: modeList[mode],
                         status: statusList[status],

@@ -68,7 +68,7 @@ const ResponseStatus = (props) => {
         <div className="status-left">
 
         </div>
-        {response && (
+        {Object.entries(response).length > 0 && (
           <div className={ResponseStatusRight}>
             {/* <div className="status-group">
               <SettingSvg className="success" />

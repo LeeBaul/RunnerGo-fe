@@ -108,7 +108,7 @@ const useNodeSort = (props) => {
         // 重新生成sort
         targetList = targetList.map((targetInfo, index) => ({
             ...targetInfo,
-            sort: index,
+            sort: index + 1,
         }));
         
         console.log('targetList', targetList);
@@ -124,6 +124,12 @@ const useNodeSort = (props) => {
                 target_id,
             })),
         };
+
+        // console.log(data, targetList);
+        // return;
+        // const { target_id, sort, parent_id: _parent_id } = targetList[0];
+
+
 
         of('')
             .pipe(

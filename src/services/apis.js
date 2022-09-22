@@ -46,6 +46,10 @@ export const fetchSendApi = (
 export const fetchGetResult = (
     query
 ) => ajax('get', '/management/api/v1/target/result', 'json', false, {}, query);
+// 拖拽排序
+export const fetchChangeSort = (
+    params
+) => ajax('post', '/management/api/v1/target/sort', 'json', false, params);
 
 
 

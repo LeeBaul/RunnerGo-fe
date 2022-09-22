@@ -28,6 +28,11 @@
         .apipost-table-td {
             color: #fff;
             height: 30px;
+            .apipost-table-cell {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
 
         .handle-content {
@@ -63,4 +68,10 @@
             }
         }
     }
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

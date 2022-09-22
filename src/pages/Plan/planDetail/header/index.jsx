@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { Button, Message, Modal } from 'adesign-react';
+import { Button, Input, Message, Modal, Tooltip } from 'adesign-react';
 import {
     Left as SvgLeft,
     Save as SvgSave,
@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import TaskConfig from '../taskConfig';
 import { cloneDeep } from 'lodash';
 import Bus from '@utils/eventBus';
-import { fetchPlanDetail, fetchSavePlan, fetchRunPlan, fetchStopPlan } from '@services/plan';
+import { fetchPlanDetail, fetchSavePlan, fetchRunPlan, fetchStopPlan, fetchCreatePlan } from '@services/plan';
 import dayjs from 'dayjs';
 import SvgSendEmail from '@assets/icons/SendEmail';
 import SvgStop from '@assets/icons/Stop';
@@ -67,6 +67,25 @@ const DetailHeader = () => {
             setModeConf(_mode_conf);
         }
     };
+
+    const changePlanInfo = (type, value) => {
+        let params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            name: planDetail.name,
+            remark: planDetail.remark,
+            plan_id: parseInt(plan_id),
+        };
+        params[type] = value;
+        fetchCreatePlan(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code !== 0) {
+                    Message('error', '修改失败!');
+                }
+            }
+        })
+    }
+
     return (
         <div className='detail-header'>
             {
@@ -85,7 +104,17 @@ const DetailHeader = () => {
                 <SvgLeft onClick={() => navigate('/plan/list')} />
                 <div className='detail'>
                     <div className='detail-top'>
-                        <p className='name'>计划管理/{planDetail.name}</p>
+                        <p className='name'>
+                            计划管理/
+                            <Tooltip
+                                placement="top"
+                                content={<div>{planDetail.name}</div>}
+                            >
+                              <div>
+                                 <Input value={planDetail.name} onBlur={(e) => changePlanInfo('name', e.target.value)} />
+                              </div>
+                            </Tooltip>
+                        </p>
                         <p className='status'>
                             {statusList[planDetail.status]}
                         </p>
@@ -101,6 +130,10 @@ const DetailHeader = () => {
                         </div>
                         <div className='item'>
                             最后修改时间：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                        </div>
+                        <div className='item'>
+                            计划描述: 
+                            <Input value={planDetail.remark} onBlur={(e) => changePlanInfo('remark', e.target.value)} />
                         </div>
                     </div>
                 </div>

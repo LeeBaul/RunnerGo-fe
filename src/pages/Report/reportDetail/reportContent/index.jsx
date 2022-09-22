@@ -96,7 +96,7 @@ const ReportContent = (props) => {
             _send_bytes += send_bytes;
 
             _qps_list.push({
-                name: api_name,
+                api_name,
                 x_data: qps_list.map(item => dayjs(item.time_stamp * 1000).format('hh:mm:ss')),
                 y_data: qps_list.map(item => item.value)
             });
@@ -108,7 +108,7 @@ const ReportContent = (props) => {
         setQpsList(_qps_list);
         let _datas = cloneDeep(datas);
         _datas.unshift({
-            apiName: '汇总',
+            api_name: '汇总',
             total_request_num: _total_request_num,
             total_request_time: _total_request_time,
             max_request_time: '-',
@@ -283,7 +283,7 @@ const ReportContent = (props) => {
     const columns1 = [
         {
             title: '接口名称',
-            dataIndex: 'apiName',
+            dataIndex: 'api_name',
         },
         {
             title: '总请求数',

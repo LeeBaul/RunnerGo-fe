@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Message } from 'adesign-react';
+import { Table, Button, Message, Tooltip } from 'adesign-react';
 import './index.less';
 import ReportListHeader from './reportListHeader';
 import {
@@ -96,12 +96,16 @@ const ReportList = () => {
                 setTotal(total);
                 // let bool = false;
                 const list = reports.map(item => {
-                    const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id } = item;
+                    const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id, plan_name } = item;
                     // if (status === 1) {
                     //     bool = true;
                     // }
                     return {
                         ...item,
+                        plan_name: 
+                        <Tooltip content={<div>{plan_name}</div>}>
+                            <div className='ellipsis'>{plan_name}</div>
+                        </Tooltip>,
                         task_mode: modeList[task_mode],
                         status: statusList[status],
                         task_type: taskList[task_type],
