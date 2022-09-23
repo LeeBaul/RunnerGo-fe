@@ -83,7 +83,7 @@ const RecentReport = () => {
         const { report_id } = props;
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate('/report/detail')} />
+                <SvgEye onClick={() => navigate(`/report/detail/${report_id}`)} />
                 <SvgExport />
                 <SvgDelete className='delete' onClick={() => deleteReport(report_id)} />
             </div>

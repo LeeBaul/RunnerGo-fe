@@ -76,6 +76,7 @@ const TeamList = (props) => {
   const changeTeam = (team_id) => {
     // 1. 进行config接口的update操作
     // 3. 进行项目初始化
+    console.log(team_id);
     const settings = JSON.parse(localStorage.getItem('settings'));
     settings.settings.current_team_id = team_id;
     fetchUpdateConfig(settings).subscribe({
@@ -101,7 +102,7 @@ const TeamList = (props) => {
   return (
     <div className='team_content'>
       {filterdTeamList.map((team) => (
-        <div className='team_content_item'>
+        <div className='team_content_item' onClick={() => changeTeam(team.team_id)}>
           <TeamHeader>
             <SvgTeam className='t-icon' />
             <span className='t-title'>{ team.name }</span>
