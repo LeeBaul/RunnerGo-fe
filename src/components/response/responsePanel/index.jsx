@@ -204,7 +204,7 @@ const ResPonsePanel = (props) => {
       </>
     );
   };
-  console.log(response_data);
+
   return (
     <>
       {response_data && response_data.status === 'running' && (

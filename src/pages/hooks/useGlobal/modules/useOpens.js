@@ -63,13 +63,15 @@ const useOpens = () => {
             const parentKey = target.parent_id || '0';
             const project_id = target?.project_id;
             // const projectNodes = await Collection.where('project_id').anyOf(project_id).toArray();
-            const projectNodes = Object.entries(apiDatas);
+            const projectNodes = Object.values(apiDatas);
             let sort = 0;
-            const rootNodes = projectNodes.filter((item) => item.parent_id === parentKey);
+            const rootNodes = projectNodes.filter((item) => `${item.parent_id}` === `${parentKey}`);
             const nodeSort = rootNodes.map((item) => item.sort);
+            console.log(rootNodes, nodeSort, projectNodes);
             sort = max(nodeSort) || 0;
             target.sort = sort + 1;
         }
+        console.log(target);
         return target;
     };
     // 过滤key为空的值
@@ -479,7 +481,7 @@ const useOpens = () => {
                 // newApi.request.body.mode = userInfo.config?.AJAX_DEFAULT_MODE || 'none';
                 newApi.request.body.mode = 'none';
             }
-            newApi.sort = getSort(apiDatas);
+            // newApi.sort = getSort(apiDatas);
         }
         if (!newApi) return;
 
@@ -594,9 +596,10 @@ const useOpens = () => {
 
             // return;
             // sort 排序
-            if (tempTarget?.sort == -1) {
+            // if (tempTarget?.sort == -1) {
                 tempTarget =  targetReorder(tempTarget);
-            }
+                console.log(tempTarget);
+            // }
 
             // 过滤key为空的数据
             // filterEmptyKey(tempTarget);
@@ -917,11 +920,11 @@ const useOpens = () => {
         console.log(ids, targetList);
         const { parent_id, sort, target_id } = targetList[0];
         const params = {
-            parent_id: parseInt(parent_id),
-            sort: parseInt(sort),
-            target_id: parseInt(target_id),
-            // target_info: targetList,
-            team_id: parseInt(localStorage.getItem('team_id')),
+            // parent_id: parseInt(parent_id),
+            // sort: parseInt(sort),
+            // target_id: parseInt(target_id),
+            targets: targetList,
+            // team_id: parseInt(localStorage.getItem('team_id')),
         };
         fetchChangeSort(params).subscribe();
         return;

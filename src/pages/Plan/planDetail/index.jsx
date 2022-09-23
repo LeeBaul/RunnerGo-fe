@@ -135,7 +135,7 @@ const PlanDetail = () => {
                     }
                 </ScaleItem>
                 <ScaleItem enableScale={false}>
-                    <TaskConfig from='default' />
+                    <TaskConfig from='default' refresh={true} />
                 </ScaleItem>
             </ScalePanel>
         </div>

@@ -347,7 +347,7 @@ const ConditionController = (props) => {
                         </Select>
                     </div>
                     <div className='item'>
-                        <Input size="mini" value={val} onChange={(e) => {
+                        <Input size="mini" disabled={compare === 'null' || compare === 'notnull'} value={val} onChange={(e) => {
                             setVal(e);
                             onTargetChange('val', e);
                         }} placeholder="变量值" />

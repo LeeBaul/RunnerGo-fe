@@ -169,20 +169,20 @@ const Header = (props) => {
         );
       },
     },
-    {
-      title: '',
-      width: 30,
-      render: (text, rowData, rowIndex) => (
-        <div>
-          <DescChoice
-            onChange={(newVal) => {
-              handleChange(rowData, rowIndex, { description: newVal });
-            }}
-            filterKey={rowData?.key}
-          ></DescChoice>
-        </div>
-      ),
-    },
+    // {
+    //   title: '',
+    //   width: 30,
+    //   render: (text, rowData, rowIndex) => (
+    //     <div>
+    //       <DescChoice
+    //         onChange={(newVal) => {
+    //           handleChange(rowData, rowIndex, { description: newVal });
+    //         }}
+    //         filterKey={rowData?.key}
+    //       ></DescChoice>
+    //     </div>
+    //   ),
+    // },
     {
       title: '',
       width: 30,

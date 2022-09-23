@@ -44,9 +44,19 @@ const ApiInfoPanel = (props) => {
     const dispatch = useDispatch();
 
     const saveApi = () => {
-        if (from === 'scene') {
+        if (from === 'scene' || from === 'plan') {
             Bus.$emit('saveSceneApi', apiNow, apiData)
         } else {
+            Bus.$emit('saveTargetById', {
+                id: apiNow,
+            }, {}, (code) => {
+                if (code === 0) {
+                    Message('success', '保存成功!');
+                } else {
+                    Message('error', '保存失败!');
+                }
+            });
+            return;
             const _apiData = cloneDeep(apiData[apiNow]);
             if (typeof _apiData.target_id === 'string') {
                 delete _apiData['target_id'];

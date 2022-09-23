@@ -105,21 +105,27 @@ const TaskConfig = (props) => {
             mode_conf,
             task_type
         } = preinstall;
+        console.log(preinstall);
+        const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = mode_conf;
         mode && setMode(mode);
         cron_expr && setCronExpr(cron_expr);
         setModeConf(mode_conf);
-        // concurrency && setConcurrency(concurrency);
-        // duration && setDuration(duration);
-        // max_concurrency && setMaxConcurrency(max_concurrency);
-        // reheat_time && setReheatTime(reheat_time);
-        // round_num && setRoundNum(round_num);
-        // start_concurrency && setStartConcurrency(start_concurrency);
-        // step && setStep(step);
-        // step_run_time && setStepRunTime(step_run_time);
+        concurrency && setConcurrency(concurrency);
+        duration && setDuration(duration);
+        max_concurrency && setMaxConcurrency(max_concurrency);
+        reheat_time && setReheatTime(reheat_time);
+        round_num && setRoundNum(round_num);
+        start_concurrency && setStartConcurrency(start_concurrency);
+        step && setStep(step);
+        step_run_time && setStepRunTime(step_run_time);
         task_type && setTaskType(task_type);
     }
 
     useEffect(() => {
+        getPreConfig();
+    }, []);
+
+    const getPreConfig = (callback) => {
         const query = {
             team_id: localStorage.getItem('team_id'),
         };
@@ -131,9 +137,10 @@ const TaskConfig = (props) => {
                 } else {
                     setInitData(preinstall);
                 }
+                callback && init(preinstall);
             }
         })
-    }, []);
+    }
 
 
 
@@ -202,8 +209,9 @@ const TaskConfig = (props) => {
                             _mode_conf.duration = parseInt(e.target.value);
                             // setDuration(parseInt(e.target.value));
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('duration', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('duration', parseInt(e.target.value));
+                            // from === 'preset' && onChange('duration', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('duration', parseInt(e.target.value));
                         }} disabled={default_mode === 'round_num'} /> s
                     </Radio>
                     <Radio value="round_num">
@@ -213,8 +221,9 @@ const TaskConfig = (props) => {
                             _mode_conf.round_num = parseInt(e.target.value);
                             // setRoundNum(_mode_conf);
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('round_num', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('round_num', parseInt(e.target.value));
+                            // from === 'preset' && onChange('round_num', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('round_num', parseInt(e.target.value));
                         }} disabled={default_mode === 'duration'} /> 次
                     </Radio>
                 </Radio.Group>
@@ -226,8 +235,9 @@ const TaskConfig = (props) => {
                             _mode_conf.concurrency = parseInt(e.target.value);
                             // setConcurrency(_mode_conf);
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('concurrency', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('concurrency', parseInt(e.target.value));
+                            // from === 'preset' && onChange('concurrency', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('concurrency', parseInt(e.target.value));
                         }} />
                     </div>
                     <div className='config-detail-item'>
@@ -236,8 +246,9 @@ const TaskConfig = (props) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.reheat_time = parseInt(e.target.value);
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('reheat_time', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('reheat_time', parseInt(e.target.value));
+                            // from === 'preset' && onChange('reheat_time', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('reheat_time', parseInt(e.target.value));
                         }} />s
                     </div>
                 </div>
@@ -257,8 +268,9 @@ const TaskConfig = (props) => {
                             _mode_conf.start_concurrency = parseInt(e.target.value);
                             // setStartConcurrency(parseInt(e.target.value));
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('start_concurrency', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('start_concurrency', parseInt(e.target.value));
+                            // from === 'preset' && onChange('start_concurrency', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('start_concurrency', parseInt(e.target.value));
                         }} />
                     </div>
                     <div className='config-detail-item'>
@@ -268,8 +280,9 @@ const TaskConfig = (props) => {
                             _mode_conf.step = parseInt(e.target.value);
                             // setStep(parseInt(e.target.value));
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('step', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('step', parseInt(e.target.value));
+                            // from === 'preset' && onChange('step', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('step', parseInt(e.target.value));
                         }} />
                     </div>
                     <div className='config-detail-item'>
@@ -279,8 +292,9 @@ const TaskConfig = (props) => {
                             _mode_conf.step_run_time = parseInt(e.target.value);
                             // setStepRunTime(parseInt(e.target.value));
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('step_run_time', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('step_run_time', parseInt(e.target.value));
+                            // from === 'preset' && onChange('step_run_time', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('step_run_time', parseInt(e.target.value));
                         }} />s
                     </div>
                     <div className='config-detail-item'>
@@ -290,8 +304,9 @@ const TaskConfig = (props) => {
                             _mode_conf.max_concurrency = parseInt(e.target.value);
                             // setMaxConcurrency(parseInt(e.target.value));
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('max_concurrency', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('max_concurrency', parseInt(e.target.value));
+                            // from === 'preset' && onChange('max_concurrency', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('max_concurrency', parseInt(e.target.value));
                         }} />次
                     </div>
                     <div className='config-detail-item'>
@@ -301,8 +316,9 @@ const TaskConfig = (props) => {
                             _mode_conf.duration = parseInt(e.target.value);
                             // setDuration(parseInt(e.target.value));
                             setModeConf(_mode_conf);
-                            from === 'preset' && onChange('duration', parseInt(e.target.value));
-                            from === 'default' && updateTaskConfig('duration', parseInt(e.target.value));
+                            // from === 'preset' && onChange('duration', parseInt(e.target.value));
+                            // from === 'default' && 
+                            updateTaskConfig('duration', parseInt(e.target.value));
                         }} />s
                     </div>
                 </div>
@@ -362,7 +378,9 @@ const TaskConfig = (props) => {
                     <p>任务配置</p>
                     <div className='btn'>
                         <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>保存</Button>
-                        <Button onClick={() => init(initData)}>导入预设配置</Button>
+                        <Button onClick={() => {
+                            getPreConfig(() => init(initData))
+                        }}>导入预设配置</Button>
                     </div>
                 </div>
             }
@@ -378,8 +396,9 @@ const TaskConfig = (props) => {
                     <p>任务类型: </p>
                     <Radio.Group value={task_type} onChange={(e) => {
                         setTaskType(e);
-                        from === 'preset' && onChange('task_type', e);
-                        from === 'default' && updateTaskConfig('task_type', parseInt(e));
+                        // from === 'preset' && onChange('task_type', e);
+                        // from === 'default' && 
+                        updateTaskConfig('task_type', parseInt(e));
                     }}>
                         <Radio value={1}>普通任务</Radio>
                         <Radio value={2}>定时任务</Radio>
@@ -390,8 +409,9 @@ const TaskConfig = (props) => {
                         <p style={{ marginRight: '5px' }}>填写cron表达式: </p>
                         <Input value={cron_expr} onChange={(e) => {
                             setCronExpr(e);
-                            from === 'preset' && onChange('cron_expr', e);
-                            from === 'default' && updateTaskConfig('cron_expr', e);
+                            // from === 'preset' && onChange('cron_expr', e);
+                            // from === 'default' && 
+                            updateTaskConfig('cron_expr', e);
                         }} placeholder="每隔5秒执行一次: */5 * * * * ?" />
                     </div>
                 }
@@ -404,8 +424,9 @@ const TaskConfig = (props) => {
                     <p style={{ marginBottom: 'auto', marginTop: '5px' }}>压测模式: </p>
                     <Radio.Group value={mode} onChange={(e) => {
                         setMode(e);
-                        from === 'preset' && onChange('mode', e);
-                        from === 'default' && updateTaskConfig('mode', parseInt(e));
+                        // from === 'preset' && onChange('mode', e);
+                        // from === 'default' && 
+                        updateTaskConfig('mode', parseInt(e));
                     }} >
                         {modeList.map((item, index) => (<Radio value={index + 1} style={{ marginBottom: '16px' }}>{item}</Radio>))}
                     </Radio.Group>

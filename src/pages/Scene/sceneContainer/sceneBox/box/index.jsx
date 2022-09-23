@@ -177,6 +177,7 @@ const Box = (props) => {
                     });
                     _open_scene.edges = _open_scene.edges.filter((item, index) => !edges_index.includes(index));
                     // _open_scene.edges = edges;
+                    console.log('-----', _open_scene);
 
                     if (from === 'scene') {
                         // dispatch({
@@ -556,7 +557,7 @@ const Box = (props) => {
                     >
                         <Option value="1">默认模式</Option>
                         <Option value="2">错误率模式</Option>
-                        <Option value="3">每秒事务数模式</Option>
+                        {/* <Option value="3">每秒事务数模式</Option> */}
                         <Option value="4">响应时间模式</Option>
                         <Option value="5">每秒请求数模式</Option>
                     </Select>

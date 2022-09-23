@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Message, Tooltip } from 'adesign-react';
+import { Table, Button, Message, Tooltip, Modal } from 'adesign-react';
 import './index.less';
 import PlanHeader from '../planHeader';
 import {
@@ -95,11 +95,17 @@ const PlanList = () => {
                     }} />
                     <SvgCopy onClick={() => copyPlan(plan_id)} />
                     <SvgDelete style={{ fill: '#f00' }} onClick={() => {
-                        Bus.$emit('deletePlan', plan_id, (code) => {
-                            if (code === 0) {
-                                Message('success', '删除成功!');
-                            } else {
-                                Message('error', '删除失败!');
+                        Modal.confirm({
+                            title: '注意',
+                            content: '是否确定要删除此计划?',
+                            onOk: () => {
+                                Bus.$emit('deletePlan', plan_id, (code) => {
+                                    if (code === 0) {
+                                        Message('success', '删除成功!');
+                                    } else {
+                                        Message('error', '删除失败!');
+                                    }
+                                })
                             }
                         })
                     }} />
@@ -142,10 +148,10 @@ const PlanList = () => {
                     // }
                     return {
                         ...item,
-                        name: 
-                        <Tooltip content={<div>{name}</div>}>
-                            <div className='ellipsis'>{ name }</div>
-                        </Tooltip>,
+                        name:
+                            <Tooltip content={<div>{name}</div>}>
+                                <div className='ellipsis'>{name}</div>
+                            </Tooltip>,
                         task_type: taskList[task_type],
                         mode: modeList[mode],
                         status: statusList[status],
@@ -221,7 +227,7 @@ const PlanList = () => {
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} />
             <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'>还没有数据</div>} />
-            { planList.length > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
+            {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )
 };

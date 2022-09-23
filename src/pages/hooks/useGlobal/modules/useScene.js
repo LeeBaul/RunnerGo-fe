@@ -252,7 +252,6 @@ const useScene = () => {
                     payload: new_nodes,
                 })
             }
-
         }
     }
 
@@ -371,7 +370,7 @@ const useScene = () => {
                 }
             }
             set(id_apis[id], 'url', value);
-            set(tempOpenApis[target_id], 'request.url', reqUrl);
+            set(id_apis[id], 'request.url', reqUrl);
         } else if (pathExpression === 'request.query.parameter') {
             let paramsStr = '';
             const url = id_apis[id].request?.url || '';
@@ -632,6 +631,7 @@ const useScene = () => {
         // API
         // 1. nodes 2. api
 
+        console.log(open_scene);
         const _clone_api = id_apis[id];
 
 
@@ -663,6 +663,10 @@ const useScene = () => {
         console.log(nodes);
         console.log(node_config);
 
+        const _open_scene = cloneDeep(open_scene);
+        _open_scene.nodes = [..._open_scene.nodes, _from_node];
+        console.log(_open_scene, _from_node);
+
         if (from === 'scene') {
             dispatch({
                 type: 'scene/updateIdApis',
@@ -683,6 +687,10 @@ const useScene = () => {
                 type: 'scene/updateCloneNode',
                 payload: _from_node,
             })
+            dispatch({
+                type: 'scene/updateOpenScene',
+                payload: _open_scene,
+            })
         } else {
             dispatch({
                 type: 'plan/updateIdApis',
@@ -702,6 +710,10 @@ const useScene = () => {
             dispatch({
                 type: 'plan/updateCloneNode',
                 payload: _from_node,
+            })
+            dispatch({
+                type: 'plan/updateOpenScene',
+                payload: _open_scene,
             })
         }
     };

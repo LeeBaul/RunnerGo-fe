@@ -25,6 +25,7 @@ const DetailHeader = () => {
     const [task_type, setTaskType] = useState(1);
     const [cron_expr, setCronExpr] = useState('');
     const open_plan = useSelector((store) => store.plan.open_plan);
+    const task_config = useSelector((store) => store.plan.task_config);
     const { id: plan_id } = useParams();
     const [planDetail, setPlanDetail] = useState({});
 
@@ -91,6 +92,7 @@ const DetailHeader = () => {
             {
                 preSet && (
                     <Modal title='预设配置' okText='保存' onOk={() => {
+                        const { task_type, mode, cron_expr, mode_conf } = task_config;
                         Bus.$emit('savePreConfig', { task_type, mode, cron_expr, mode_conf }, () => {
                             setPreSet(false);
                             Message('success', '保存成功!');

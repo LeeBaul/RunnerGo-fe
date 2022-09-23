@@ -170,7 +170,7 @@ const RecentReport = () => {
                 {/* <Button className='searchBtn'>搜索</Button> */}
             </div>
             <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'>还没有数据</div>} />
-            { reportList.length > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
+            { total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
         </div>
     )
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Message, Tooltip } from 'adesign-react';
+import { Table, Button, Message, Tooltip, Modal } from 'adesign-react';
 import './index.less';
 import ReportListHeader from './reportListHeader';
 import {
@@ -47,8 +47,16 @@ const ReportList = () => {
         return (
             <div className='handle-content'>
                 <SvgEye onClick={() => navigate(`/report/detail/${report_id}`)} />
-                <SvgCopy />
-                <SvgDelete className='delete-svg' onClick={() => deleteReport(report_id)} />
+                {/* <SvgCopy /> */}
+                <SvgDelete className='delete-svg' onClick={() => {
+                    Modal.confirm({
+                        title: '注意',
+                        content: '是否确定删除此报告?',
+                        onOk: () => {
+                            deleteReport(report_id);
+                        }
+                    })
+                }} />
             </div>
         )
     };
@@ -216,7 +224,7 @@ const ReportList = () => {
         {
             title: '操作',
             dataIndex: 'handle',
-            width: 196,
+            width: 96,
         }
     ];
 
@@ -231,7 +239,7 @@ const ReportList = () => {
         <div className='report'>
             <ReportListHeader onChange={getNewkeyword} />
             <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'>还没有数据</div>} />
-            { reportList.length > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
+            { total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
         </div>
     )
 };

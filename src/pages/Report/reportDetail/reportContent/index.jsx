@@ -290,16 +290,20 @@ const ReportContent = (props) => {
             dataIndex: 'total_request_num',
         },
         {
-            title: '总响应时间',
+            title: '总响应时间(ms)',
             dataIndex: 'total_request_time'
         },
         {
-            title: '最大响应时间',
+            title: '最大响应时间(ms)',
             dataIndex: 'max_request_time',
         },
         {
-            title: '最小响应时间',
+            title: '最小响应时间(ms)',
             dataIndex: 'min_request_time',
+        },
+        {
+            title: '平均响应时间(ms)',
+            dataIndex: 'avg_request_time',
         },
         {
             title: '90%响应时间线',

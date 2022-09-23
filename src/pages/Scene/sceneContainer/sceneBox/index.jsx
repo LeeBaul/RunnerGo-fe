@@ -153,11 +153,20 @@ const SceneBox = (props) => {
                 position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
-
+            const _open_data = cloneDeep(open_data);
+            _open_data.nodes.push(new_node);
             if (from === 'scene') {
                 Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config, { id }, { id }, from);
+                dispatch({
+                    type: 'scene/updateOpenScene',
+                    payload: _open_data,
+                })
             } else {
                 Bus.$emit('addNewPlanApi', new_node.id, id_apis, node_config, { id }, { id }, from);
+                dispatch({
+                    type: 'plan/updateOpenScene',
+                    payload: _open_data,
+                })
             }
             setNodes((nds) => nds.concat(new_node));
         } else if (action === 'add' && type === 'condition_controller') {
@@ -171,11 +180,21 @@ const SceneBox = (props) => {
                 position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
+            const _open_data = cloneDeep(open_data);
+            _open_data.nodes.push(new_node);
 
             if (from === 'scene') {
                 Bus.$emit('addNewSceneControl', new_node.id, node_config);
+                dispatch({
+                    type: 'scene/updateOpenScene',
+                    payload: _open_data,
+                })
             } else {
                 Bus.$emit('addNewPlanControl', new_node.id, node_config);
+                dispatch({
+                    type: 'plan/updateOpenScene',
+                    payload: _open_data,
+                })
             }
 
             setNodes((nds) => nds.concat(new_node));
@@ -190,11 +209,21 @@ const SceneBox = (props) => {
                 position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
+            const _open_data = cloneDeep(open_data);
+            _open_data.nodes.push(new_node);
 
             if (from === 'scene') {
                 Bus.$emit('addNewSceneControl', new_node.id, node_config);
+                dispatch({
+                    type: 'scene/updateOpenScene',
+                    payload: _open_data,
+                })
             } else {
                 Bus.$emit('addNewPlanControl', new_node.id, node_config);
+                dispatch({
+                    type: 'plan/updateOpenScene',
+                    payload: _open_data,
+                })
             }
 
             setNodes((nds) => nds.concat(new_node));
@@ -327,25 +356,25 @@ const SceneBox = (props) => {
             nodes && setNodes(old_nodes || []);
             edges && setEdges(edges || []);
 
-            // if (from === 'scene') {
-            //     dispatch({
-            //         type: 'scene/updateNodes',
-            //         payload: nodes,
-            //     });
-            //     dispatch({
-            //         type: 'scene/updateEdges',
-            //         payload: edges,
-            //     })
-            // } else {
-            //     dispatch({
-            //         type: 'plan/updateNodes',
-            //         payload: nodes,
-            //     });
-            //     dispatch({
-            //         type: 'plan/updateEdges',
-            //         payload: edges,
-            //     })
-            // }
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateNodes',
+                    payload: nodes,
+                });
+                dispatch({
+                    type: 'scene/updateEdges',
+                    payload: edges,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateNodes',
+                    payload: nodes,
+                });
+                dispatch({
+                    type: 'plan/updateEdges',
+                    payload: edges,
+                })
+            }
 
         }
     }, [open_data]);
