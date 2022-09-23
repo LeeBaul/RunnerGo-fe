@@ -78,7 +78,7 @@ const ReportContent = () => {
                     </TabPan>
                 ))}
             </Tabs> */}
-            <ReportDetail data={configData} stopDebug={stopDebug} /> 
+            <ReportDetail data={configData} stopDebug={stopDebug} status={reportStatus} /> 
         </div>
     )
 };

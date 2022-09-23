@@ -4,7 +4,7 @@ import { fetchDebugLog } from '@services/report';
 import { useParams } from 'react-router-dom';
 
 const DebugLog = (props) => {
-    const { stopDebug, end } = props;
+    const { stopDebug, end, status } = props;
     const { id: report_id } = useParams();
     const [log, setLog] = useState([]);
 
@@ -12,6 +12,7 @@ const DebugLog = (props) => {
 
 
     useEffect(() => {
+        console.log(stopDebug);
         getDebug();
         console.log(end);
         if (end) {
@@ -59,7 +60,7 @@ const DebugLog = (props) => {
     return (
         <div className='debug-log'>
             {
-                log.length > 0 ?  log.map(item => <p className='debug-log-item'>{ item }</p>) : ''
+                log.length > 0 ?  log.map(item => <p className='debug-log-item'>{ item }</p>) : (stopDebug === 'stop' && status === 1 ? '请打开debug模式' : '')
             }
         </div>
     )

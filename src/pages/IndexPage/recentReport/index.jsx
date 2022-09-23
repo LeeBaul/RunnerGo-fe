@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { Table, Input, Button, Message } from 'adesign-react';
+import { Table, Input, Button, Message, Tooltip } from 'adesign-react';
 import {
     Iconeye as SvgEye,
     Export as SvgExport,
@@ -61,7 +61,7 @@ const RecentReport = () => {
                             const { report_id, plan_name, scene_name, task_type, task_mode, run_time_sec, last_time_sec, run_user_name, status } = item;
                             return {
                                 report_id,
-                                plan_name,
+                                plan_name: <Tooltip content={<div>{plan_name}</div>}><div className='ellipsis'>{plan_name}</div></Tooltip>,
                                 scene_name,
                                 task_mode: modeList[task_mode],
                                 task_type: taskLit[task_type],

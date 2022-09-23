@@ -37,7 +37,7 @@ const ReportExecutor = (props) => {
                             const { code } = res;
                             if (code === 0) {
                                 Message('success', '设置成功!');
-                                onStop(itemList[item])
+                                onStop(itemList[item]);
                             } else {
                                 Message('error', '设置失败!');
                             }
