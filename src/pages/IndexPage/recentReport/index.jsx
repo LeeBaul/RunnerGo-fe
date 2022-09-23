@@ -58,9 +58,10 @@ const RecentReport = () => {
                         const { reports, total } = data;
                         setTotal(total);
                         const list = reports.map((item, index) => {
-                            const { report_id, plan_name, scene_name, task_type, task_mode, run_time_sec, last_time_sec, run_user_name, status } = item;
+                            const { report_id, plan_name, scene_name, task_type, task_mode, run_time_sec, last_time_sec, run_user_name, status, rank } = item;
                             return {
-                                report_id,
+                                ...item,
+                                rank,
                                 plan_name: <Tooltip content={<div>{plan_name}</div>}><div className='ellipsis'>{plan_name}</div></Tooltip>,
                                 scene_name,
                                 task_mode: modeList[task_mode],
@@ -107,7 +108,7 @@ const RecentReport = () => {
     const columns = [
         {
             title: '测试报告ID',
-            dataIndex: 'report_id',
+            dataIndex: 'rank',
         },
         {
             title: '计划名称',

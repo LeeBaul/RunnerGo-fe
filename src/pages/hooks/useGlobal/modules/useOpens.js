@@ -568,10 +568,11 @@ const useOpens = () => {
     };
 
     const saveTargetById = async (data, options = { is_socket: 1 }, callbacks) => {
-        const { id, pid, callback } = data;
+        const { id, saveId ,pid, callback } = data;
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
         let tempTarget = tempOpenApis[target_id];
+        console.log(id, tempTarget);
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
@@ -598,7 +599,6 @@ const useOpens = () => {
             // sort 排序
             // if (tempTarget?.sort == -1) {
                 tempTarget =  targetReorder(tempTarget);
-                console.log(tempTarget);
             // }
 
             // 过滤key为空的数据
@@ -631,6 +631,10 @@ const useOpens = () => {
             tempTarget.parent_id = parseInt(tempTarget.parent_id);
             tempTarget.team_id = parseInt(localStorage.getItem('team_id'));
 
+            if (saveId) {
+                tempTarget.target_id = saveId;
+            }
+
             fetchHandleApi(tempTarget)
                 .pipe(
                     tap((res) => {
@@ -640,6 +644,11 @@ const useOpens = () => {
                             callbacks && callbacks(code, data.target_id);
                             // await updateCollectionById();
                         }
+
+                        dispatch({
+                            type: 'opens/updateOpenApiNow',
+                            payload: data.target_id,
+                        })
 
                         if (code === 0) {
                             global$.next({
@@ -952,6 +961,7 @@ const useOpens = () => {
         const params = {
             target_id: id ? parseInt(id) : parseInt(open_api_now),
         };
+        console.log(id, params);
         const _open_res = cloneDeep(open_res);
         _open_res[id] = {
             ..._open_res[id],

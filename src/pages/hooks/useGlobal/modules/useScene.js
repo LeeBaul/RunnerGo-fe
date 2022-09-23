@@ -617,11 +617,11 @@ const useScene = () => {
             y: 50,
         };
         nodes.forEach(item => {
-            if (item.position.x > position.x - 10 || item.position.x < position.x + 10) {
-                position.x +=  20;
+            if (item.position.x >= position.x - 10 || item.position.x <= position.x + 10) {
+                position.x +=  40;
             }
-            if (item.position.y > position.y - 10 || item.position.y < position.y + 10) {
-                position.y += 20;
+            if (item.position.y >= position.y - 10 || item.position.y <= position.y + 10) {
+                position.y += 40;
             }
         });
         return position;
@@ -643,6 +643,7 @@ const useScene = () => {
             ...node_config[id],
             id: _id
         };
+        console.log(nodes);
 
         _from_node.id = _id;
         _from_node.data.id = _id;

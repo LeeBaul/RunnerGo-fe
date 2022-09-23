@@ -154,7 +154,13 @@ const SceneBox = (props) => {
                 dragHandle: '.drag-content',
             }
             const _open_data = cloneDeep(open_data);
-            _open_data.nodes.push(new_node);
+            console.log(_open_data);
+            if (_open_data.nodes) {
+                _open_data.nodes.push(new_node);
+            } else {
+                _open_data.nodes = [new_node];
+                _open_data.edges = [];
+            }
             if (from === 'scene') {
                 Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config, { id }, { id }, from);
                 dispatch({
@@ -181,7 +187,12 @@ const SceneBox = (props) => {
                 dragHandle: '.drag-content',
             }
             const _open_data = cloneDeep(open_data);
-            _open_data.nodes.push(new_node);
+            if (_open_data.nodes) {
+                _open_data.nodes.push(new_node);
+            } else {
+                _open_data.nodes = [new_node];
+                _open_data.edges = [];
+            }
 
             if (from === 'scene') {
                 Bus.$emit('addNewSceneControl', new_node.id, node_config);
@@ -209,8 +220,13 @@ const SceneBox = (props) => {
                 position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
-            const _open_data = cloneDeep(open_data);
-            _open_data.nodes.push(new_node);
+            const _open_data = cloneDeep(open_data || []);
+            if (_open_data.nodes) {
+                _open_data.nodes.push(new_node);
+            } else {
+                _open_data.nodes = [new_node];
+                _open_data.edges = [];
+            }
 
             if (from === 'scene') {
                 Bus.$emit('addNewSceneControl', new_node.id, node_config);
@@ -237,10 +253,10 @@ const SceneBox = (props) => {
         };
         nodes.forEach(item => {
             if (item.position.x > position.x - 10 || item.position.x < position.x + 10) {
-                position.x +=  20;
+                position.x += 30;
             }
             if (item.position.y > position.y - 10 || item.position.y < position.y + 10) {
-                position.y += 20;
+                position.y += 30;
             }
         });
         return position;
@@ -253,6 +269,7 @@ const SceneBox = (props) => {
     useEffect(() => {
         // formatSuccess();
         if (nodes.length > 0 || edges.length > 0) {
+            console.log(nodes);
             if (from === 'scene') {
                 dispatch({
                     type: 'scene/updateNodes',
@@ -355,6 +372,7 @@ const SceneBox = (props) => {
             // edges && (edges[0].animated = true);
             nodes && setNodes(old_nodes || []);
             edges && setEdges(edges || []);
+            console.log(nodes, edges);
 
             if (from === 'scene') {
                 dispatch({

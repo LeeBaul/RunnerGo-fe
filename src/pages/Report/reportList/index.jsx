@@ -104,12 +104,13 @@ const ReportList = () => {
                 setTotal(total);
                 // let bool = false;
                 const list = reports.map(item => {
-                    const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id, plan_name } = item;
+                    const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id, plan_name, rank } = item;
                     // if (status === 1) {
                     //     bool = true;
                     // }
                     return {
                         ...item,
+                        rank,
                         plan_name: 
                         <Tooltip content={<div>{plan_name}</div>}>
                             <div className='ellipsis'>{plan_name}</div>
@@ -185,7 +186,7 @@ const ReportList = () => {
     const columns = [
         {
             title: '测试报告ID',
-            dataIndex: 'report_id',
+            dataIndex: 'rank',
         },
         {
             title: '计划名称',

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './index.less';
 import { Right as SvgRight, CaretRight as SvgCaretRight } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
-import { fetchRunningPlan } from '@services/dashboard';
 import { tap } from 'rxjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { isArray } from 'lodash';
@@ -19,41 +18,41 @@ const RunningPlan = () => {
         setPlanList(planData || []);
     }, [planData]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        let timer = null;
-        const loopFetch = () => {
-            const params = {
-                team_id: localStorage.getItem('team_id'),
-                page: 1,
-                size: 5
-            };
-            fetchRunningPlan(params)
-                .pipe(
-                    tap((res) => {
-                        const { code, data } = res;
-                        if (code === 0) {
-                            const { plans } = data;
-                            dispatch({
-                                type: 'plan/updatePlanData',
-                                payload: plans
-                            })
-                            setPlanList(plans);
-                            if (plans.length === 0) {
-                                clearInterval(timer);
-                            }
-                        }
-                    })
-                ).subscribe();
-        };
-        timer = setInterval(() => {
-            loopFetch();
-        }, 5000);
+    //     let timer = null;
+    //     const loopFetch = () => {
+    //         const params = {
+    //             team_id: localStorage.getItem('team_id'),
+    //             page: 1,
+    //             size: 5
+    //         };
+    //         fetchRunningPlan(params)
+    //             .pipe(
+    //                 tap((res) => {
+    //                     const { code, data } = res;
+    //                     if (code === 0) {
+    //                         const { plans } = data;
+    //                         dispatch({
+    //                             type: 'plan/updatePlanData',
+    //                             payload: plans
+    //                         })
+    //                         setPlanList(plans);
+    //                         if (plans.length === 0) {
+    //                             clearInterval(timer);
+    //                         }
+    //                     }
+    //                 })
+    //             ).subscribe();
+    //     };
+    //     timer = setInterval(() => {
+    //         loopFetch();
+    //     }, 5000);
 
-        return () => {
-            clearInterval(timer);
-        }
-    }, []);
+    //     return () => {
+    //         clearInterval(timer);
+    //     }
+    // }, []);
 
     return (
         <div className='running-plan'>

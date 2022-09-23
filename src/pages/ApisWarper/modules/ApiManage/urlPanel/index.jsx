@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
 import { useParams } from 'react-router-dom';
 import './index.less';
-import { debounce } from 'lodash';
+import { cloneDeep, debounce } from 'lodash';
 
 const Option = Select.Option;
 const ApiURLPanel = (props) => {
@@ -19,6 +19,8 @@ const ApiURLPanel = (props) => {
     const [btnName, setBtnName] = useState('发送');
     const dispatch = useDispatch();
     const open_api_now = useSelector((store) => store.opens.open_api_now);
+    const opens = useSelector((store) => store.opens.open_apis);
+
     const open_res = useSelector((store) => store.opens.open_res);
 
     const open_scene_res = useSelector((store) => store.scene.run_api_res)
@@ -85,6 +87,7 @@ const ApiURLPanel = (props) => {
     //     }
     // }
     const refDropdown = useRef(null);
+    const [saveId, setSaveId] = useState(null);
 
     return (
         <div className="api-url-panel">
@@ -129,12 +132,10 @@ const ApiURLPanel = (props) => {
                         } else {
                             Bus.$emit('saveTargetById', {
                                 id: open_api_now,
+                                saveId: saveId,
                             }, {}, (code, id) => {
                                 console.log(code, id);
-                                dispatch({
-                                    type: 'opens/updateOpenApiNow',
-                                    payload: id,
-                                })
+                                setSaveId(id);
                                 Bus.$emit('sendApi', id);
                             })
                         }

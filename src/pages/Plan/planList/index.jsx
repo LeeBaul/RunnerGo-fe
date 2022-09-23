@@ -142,12 +142,13 @@ const PlanList = () => {
                 setTotal(total);
                 // let bool = false;
                 const planList = plans.map(item => {
-                    const { task_type, mode, status, created_time_sec, updated_time_sec, name } = item;
+                    const { task_type, mode, status, created_time_sec, updated_time_sec, name, rank } = item;
                     // if (status === 1) {
                     //     bool = true;
                     // }
                     return {
                         ...item,
+                        rank,
                         name:
                             <Tooltip content={<div>{name}</div>}>
                                 <div className='ellipsis'>{name}</div>
@@ -171,8 +172,8 @@ const PlanList = () => {
 
     const columns = [
         {
-            title: '任务ID',
-            dataIndex: 'plan_id',
+            title: '计划ID',
+            dataIndex: 'rank',
         },
         {
             title: '计划名称',
