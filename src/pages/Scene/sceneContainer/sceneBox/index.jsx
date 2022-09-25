@@ -101,8 +101,12 @@ const SceneBox = (props) => {
     }, [edges]);
     
     const checkConnect = (source, target) => {
+        if (source === target) {
+            return false;
+        }
+
         for (let i = 0; i < edges.length; i++) {
-            if (edges[i].source === target && edges[i].target === source) {
+            if (edges[i].source === target && (edges.findIndex(item => item.target === source) !== -1)) {
                 return false;
             }
             if (edges[i].target === source) {
