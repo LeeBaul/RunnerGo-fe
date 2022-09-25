@@ -128,14 +128,6 @@ const SceneBox = (props) => {
     // ];
 
     // const connect = { source: 'c', target: 'a' }; // 不允许
-
-    useEffect(() => {
-        dispatch({
-                type: 'scene/updateType',
-                payload: [],
-            });
-    }, []);
-
     
     useEffect(() => {
         if (edges.length > 0 && to_loading) {
@@ -471,6 +463,7 @@ const SceneBox = (props) => {
 
     useEffect(() => {
         const [action, type] = type_now;
+        console.log(type_now);
         const id = v4();
         if (action === 'add' && type === 'api') {
             const apiList = nodes.filter(item => item.type === 'api');

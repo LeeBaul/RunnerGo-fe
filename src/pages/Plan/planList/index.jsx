@@ -28,6 +28,8 @@ const PlanList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
     const refreshList = useSelector((store) => store.plan.refreshList);
+    const id_apis_plan = useSelector((d) => d.plan.id_apis);
+    const node_config_plan = useSelector((d) => d.plan.node_config);
 
     const taskList = {
         '0': '-',
@@ -91,6 +93,16 @@ const PlanList = () => {
                             type: 'plan/updateOpenPlan',
                             payload: data
                         })
+                        dispatch({
+                            type: 'plan/updateOpenScene',
+                            payload: null,
+                        })
+                        let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
+                        console.log(planMap);
+                        if (planMap[plan_id]) {
+                            console.log(planMap[plan_id]);
+                            Bus.$emit('addOpenPlanScene', { target_id: planMap[plan_id] }, id_apis_plan, node_config_plan)
+                        }
                         navigate(`/plan/detail/${plan_id}`);
                     }} />
                     <SvgCopy onClick={() => copyPlan(plan_id)} />

@@ -31,6 +31,7 @@ const PlanDetail = () => {
     const api_now = useSelector((store) => store.plan.api_now);
     const apiConfig = useSelector((store) => store.plan.showApiConfig);
     const id_apis = useSelector((store) => store.plan.id_apis);
+    const node_config_plan = useSelector((store) => store.plan.node_config);
 
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
     const dispatch = useDispatch();
@@ -39,11 +40,18 @@ const PlanDetail = () => {
             action: 'RELOAD_LOCAL_PLAN',
             id,
         });
-        dispatch({
-            type: 'plan/updateOpenScene',
-            payload: null
-        })
     }, []);
+
+    useEffect(() => {
+        return () => {
+            let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
+            console.log(planMap, open_plan_scene);
+            if (open_plan_scene) {
+                planMap[id] = open_plan_scene.scene_id || open_plan_scene.target_id;
+            }
+            localStorage.setItem('planMap', JSON.stringify(planMap));
+        }
+    }, [open_plan_scene])
 
 
     useEffect(() => {

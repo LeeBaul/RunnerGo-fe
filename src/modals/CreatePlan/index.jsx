@@ -22,6 +22,7 @@ import { findSon } from '@utils';
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -30,6 +31,7 @@ const Textarea = Input.Textarea;
 const CreatePlan = (props) => {
     const { onCancel, group } = props;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
@@ -366,6 +368,10 @@ const CreatePlan = (props) => {
                         },
                         (code, id) => {
                             if (code === 0) {
+                                dispatch({
+                                    type: 'plan/updateOpenScene',
+                                    payload: null,
+                                })
                                 onCancel();
                                 Message('success', '新建成功');
                                 navigate(`/plan/detail/${id}`);
