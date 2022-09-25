@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Scale } from 'adesign-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isObject } from 'lodash';
 import Bus from '@utils/eventBus';
 import TreeMenu from '@components/TreeMenu';

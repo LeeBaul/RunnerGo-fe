@@ -25,11 +25,11 @@ const SceneContainer = (props) => {
 
     useEffect(() => {
         setDrawer(apiConfig);
-    }, [apiConfig])
+    }, [apiConfig]);
 
     useEffect(() => {
         setApiName(api_now.name)
-    }, [api_now])
+    }, [api_now]);
 
     const closeApiConfig = () => {
         Bus.$emit('saveSceneApi', api_now, id_apis, () => {

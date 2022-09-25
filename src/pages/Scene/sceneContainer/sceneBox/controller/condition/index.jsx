@@ -231,36 +231,36 @@ const ConditionController = (props) => {
                     //     });
                     // }
                     // refDropdown.current.setPopupVisible(false);
-                    const _open_scene = cloneDeep(open_scene);
-                    const index = _open_scene.nodes.findIndex(item => item.id === id);
-                    _open_scene.nodes.splice(index, 1);
-                    const edges_index = [];
-                    _open_scene.edges.forEach((item, index) => {
-                        if (item.source !== id && item.target !== id) {
-                            edges_index.push(index);
-                        }
-                    });
-                    _open_scene.edges = _open_scene.edges.filter((item, index) => !edges_index.includes(index));
+                    // const _open_scene = cloneDeep(open_scene);
+                    // const index = _open_scene.nodes.findIndex(item => item.id === id);
+                    // _open_scene.nodes.splice(index, 1);
+                    // const edges_index = [];
+                    // _open_scene.edges.forEach((item, index) => {
+                    //     if (item.source !== id && item.target !== id) {
+                    //         edges_index.push(index);
+                    //     }
+                    // });
+                    // _open_scene.edges = _open_scene.edges.filter((item, index) => !edges_index.includes(index));
                     // _open_scene.edges = edges;
 
                     if (from === 'scene') {
-                        // dispatch({
-                        //     type: 'scene/updateDeleteNode',
-                        //     payload: id,
-                        // });
                         dispatch({
-                            type: 'scene/updateOpenScene',
-                            payload: _open_scene,
-                        })
+                            type: 'scene/updateDeleteNode',
+                            payload: id,
+                        });
+                        // dispatch({
+                        //     type: 'scene/updateOpenScene',
+                        //     payload: _open_scene,
+                        // })
                     } else {
-                        // dispatch({
-                        //     type: 'plan/updateDeleteNode',
-                        //     payload: id,
-                        // });
                         dispatch({
-                            type: 'plan/updateOpenScene',
-                            payload: _open_scene,
-                        })
+                            type: 'plan/updateDeleteNode',
+                            payload: id,
+                        });
+                        // dispatch({
+                        //     type: 'plan/updateOpenScene',
+                        //     payload: _open_scene,
+                        // })
                     }
                 }}>删除控制器</p>
             </div>

@@ -69,6 +69,12 @@ const SceneHeader = (props) => {
                 type: 'scene/updateFailedEdge',
                 payload: [],
             });
+            // console.log(1);
+            // dispatch({
+            //     type: 'scene/updateType',
+            //     payload: [],
+            // });
+            // console.log(2);
         } else {
             dispatch({
                 type: 'plan/updateToLoading',
@@ -82,6 +88,10 @@ const SceneHeader = (props) => {
                 type: 'plan/updateFailedEdge',
                 payload: [],
             });
+            // dispatch({
+            //     type: 'plan/updateType',
+            //     payload: [],
+            // })
         }
     }, []);
 

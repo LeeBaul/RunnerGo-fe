@@ -100,6 +100,7 @@ export const sceneReducer = (state = initialState, action) => {
         edges: action.payload,
       }
     case `${NAMESPACE}/${actionTypes.updateType}`:
+      console.log(action.payload);
       return {
         ...state,
         type: action.payload,

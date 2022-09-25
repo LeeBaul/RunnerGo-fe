@@ -123,6 +123,7 @@ const useScene = () => {
     }
 
     const saveScene = (nodes, edges, id_apis, node_config, open_scene, callback) => {
+        console.log(node_config);
         const get_pre = (id, edges) => {
             const pre_list = [];
             edges.forEach(item => {
@@ -164,6 +165,7 @@ const useScene = () => {
                 }
             }
         });
+        console.log(_nodes);
         const params = {
             scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -258,6 +260,7 @@ const useScene = () => {
     const updateNodeConfig = (type, value, id, node_config, from) => {
         const _node_config = cloneDeep(node_config);
         _node_config[id][type] = value;
+        console.log(_node_config);
         // switch (type) {
         //     case 'weight':
         //         _node_config[id].weight = value;
@@ -664,9 +667,9 @@ const useScene = () => {
         console.log(nodes);
         console.log(node_config);
 
-        const _open_scene = cloneDeep(open_scene);
-        _open_scene.nodes = [..._open_scene.nodes, _from_node];
-        console.log(_open_scene, _from_node);
+        // const _open_scene = cloneDeep(open_scene);
+        // _open_scene.nodes = [..._open_scene.nodes, _from_node];
+        // console.log(_open_scene, _from_node);
 
         if (from === 'scene') {
             dispatch({
@@ -688,10 +691,10 @@ const useScene = () => {
                 type: 'scene/updateCloneNode',
                 payload: _from_node,
             })
-            dispatch({
-                type: 'scene/updateOpenScene',
-                payload: _open_scene,
-            })
+            // dispatch({
+            //     type: 'scene/updateOpenScene',
+            //     payload: _open_scene,
+            // })
         } else {
             dispatch({
                 type: 'plan/updateIdApis',
@@ -712,10 +715,10 @@ const useScene = () => {
                 type: 'plan/updateCloneNode',
                 payload: _from_node,
             })
-            dispatch({
-                type: 'plan/updateOpenScene',
-                payload: _open_scene,
-            })
+            // dispatch({
+            //     type: 'plan/updateOpenScene',
+            //     payload: _open_scene,
+            // })
         }
     };
 

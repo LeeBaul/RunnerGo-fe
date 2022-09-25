@@ -166,37 +166,37 @@ const Box = (props) => {
                     refDropdown.current.setPopupVisible(false);
                 }}>编辑接口</p>
                 <p onClick={() => {
-                    const _open_scene = cloneDeep(open_scene);
-                    const index = _open_scene.nodes.findIndex(item => item.id === id);
-                    _open_scene.nodes.splice(index, 1);
-                    const edges_index = [];
-                    _open_scene.edges.forEach((item, index) => {
-                        if (item.source !== id && item.target !== id) {
-                            edges_index.push(index);
-                        }
-                    });
-                    _open_scene.edges = _open_scene.edges.filter((item, index) => !edges_index.includes(index));
-                    // _open_scene.edges = edges;
-                    console.log('-----', _open_scene);
+                    // const _open_scene = cloneDeep(open_scene);
+                    // const index = _open_scene.nodes.findIndex(item => item.id === id);
+                    // _open_scene.nodes.splice(index, 1);
+                    // const edges_index = [];
+                    // _open_scene.edges.forEach((item, index) => {
+                    //     if (item.source !== id && item.target !== id) {
+                    //         edges_index.push(index);
+                    //     }
+                    // });
+                    // _open_scene.edges = _open_scene.edges.filter((item, index) => !edges_index.includes(index));
+                    // // _open_scene.edges = edges;
+                    // console.log('-----', _open_scene);
 
                     if (from === 'scene') {
-                        // dispatch({
-                        //     type: 'scene/updateDeleteNode',
-                        //     payload: id,
-                        // });
                         dispatch({
-                            type: 'scene/updateOpenScene',
-                            payload: _open_scene,
-                        })
+                            type: 'scene/updateDeleteNode',
+                            payload: id,
+                        });
+                        // dispatch({
+                        //     type: 'scene/updateOpenScene',
+                        //     payload: _open_scene,
+                        // })
                     } else {
-                        // dispatch({
-                        //     type: 'plan/updateDeleteNode',
-                        //     payload: id,
-                        // });
                         dispatch({
-                            type: 'plan/updateOpenScene',
-                            payload: _open_scene,
-                        })
+                            type: 'plan/updateDeleteNode',
+                            payload: id,
+                        });
+                        // dispatch({
+                        //     type: 'plan/updateOpenScene',
+                        //     payload: _open_scene,
+                        // })
                     }
 
 
@@ -523,7 +523,7 @@ const Box = (props) => {
     };
 
     const onTargetChange = (type, value) => {
-        Bus.$emit('updateNodeConfig', type, value, id, node_config);
+        Bus.$emit('updateNodeConfig', type, value, id, node_config, from);
     }
 
     return (
@@ -540,9 +540,17 @@ const Box = (props) => {
                 {showApi && <div className='collapse-body'>
                     <div className='api-weight'>
                         <span>接口权重</span>
-                        <Input size="mini" value={weight} onChange={(e) => {
-                            setWeight(parseInt(e));
-                            onTargetChange('weight', parseInt(e));
+                        <Input size="mini"  value={weight} onChange={(e) => {
+                            if (parseInt(e) > 100 || parseInt(e) < 0) {
+                                Message('error', '接口权重范围在0-100之间!');
+                                setWeight(parseInt(e) > 100 ? '100' : '0');
+                                onTargetChange('weight', parseInt(e) > 100 ? 100 : 0);
+                                // setWeight();
+                                // onTargetChange('weight', parseInt(e));
+                            } else {
+                                setWeight(parseInt(e));
+                                onTargetChange('weight', parseInt(e));
+                            }
                         }} placeholder="数值" />
                     </div>
                     <Select
