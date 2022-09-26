@@ -26,22 +26,22 @@ const App = () => {
     const ignorePage = ['/login', '/register', '/find']
 
     useEffect(() => {
-        const token = getCookie('token');
+        // const token = getCookie('token');
         const expire_time_sec = localStorage.getItem('expire_time_sec');
+        const token = localStorage.getItem('kunpeng-token');
         const isExpire = new Date().getTime() > parseInt(expire_time_sec || 0);
         // if (!token || isExpire) {
         //     window.location.href = '/login';
         // }
 
         if (!ignorePage.includes(location.pathname)) {
-            setLayout(true);
+            // setLayout(true);
             if (isExpire) {
                 // window.location.href = '/login';
                 navigate('/login');
-                Message('error', '请登录!')
             }
         } else {
-            setLayout(false);
+            // setLayout(false);
             // sessionStorage.removeItem('team_id');
             if (!isExpire) {
                 // if (window.location.pathname !== location.pathname) {
