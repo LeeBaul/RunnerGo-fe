@@ -564,7 +564,7 @@ const Box = (props) => {
                         onChange={(e) => setMode(e)}
                     >
                         <Option value="1">默认模式</Option>
-                        <Option value="2">错误率模式</Option>
+                        <Option value="3">错误率模式</Option>
                         {/* <Option value="3">每秒事务数模式</Option> */}
                         <Option value="4">响应时间模式</Option>
                         <Option value="5">每秒请求数模式</Option>

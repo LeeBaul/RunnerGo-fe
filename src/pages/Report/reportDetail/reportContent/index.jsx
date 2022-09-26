@@ -38,6 +38,7 @@ const ReportContent = (props) => {
     // 错误数
     const [errNum, setErrNum] = useState([]);
     const [qpsList, setQpsList] = useState([]);
+    const [errList, setErrList] = useState([]);
     const [configColumn, setConfigColumn] = useState([]);
     const [configData, setConfigData] = useState([]);
 
@@ -51,31 +52,33 @@ const ReportContent = (props) => {
         let _total_request_time = 0;
         let _max_request_time = 0;
         let _min_request_time = 0;
-        let _ninety_request_time_line = 0;
-        let _ninety_five_request_time_line = 0;
-        let _ninety_nine_request_time_line = 0;
+        let _ninety_request_time_line_value = 0;
+        let _ninety_five_request_time_line_value = 0;
+        let _ninety_nine_request_time_line_value = 0;
         let _qps = 0;
         let _error_num = 0;
         let _error_rate = 0;
         let _received_bytes = 0;
         let _send_bytes = 0;
         
-        let _qps_list = []; 
+        let _qps_list = [];
+        let _err_list = [];
         datas && datas.forEach(item => {
             const {
                 total_request_num,
                 total_request_time,
                 max_request_time,
                 min_request_time,
-                ninety_request_time_line,
-                ninety_five_request_time_line,
-                ninety_nine_request_time_line,
+                ninety_request_time_line_value,
+                ninety_five_request_time_line_value,
+                ninety_nine_request_time_line_value,
                 qps,
                 error_num,
                 error_rate,
                 received_bytes,
                 send_bytes,
                 qps_list,
+                error_num_list,
                 api_name,
             } = item;
             tps.push(qps);
@@ -86,9 +89,9 @@ const ReportContent = (props) => {
             _total_request_time += total_request_time;
             _max_request_time += max_request_time;
             _min_request_time += min_request_time;
-            _ninety_request_time_line += ninety_request_time_line;
-            _ninety_five_request_time_line += ninety_five_request_time_line;
-            _ninety_nine_request_time_line += ninety_nine_request_time_line;
+            _ninety_request_time_line_value += ninety_request_time_line_value;
+            _ninety_five_request_time_line_value += ninety_five_request_time_line_value;
+            _ninety_nine_request_time_line_value += ninety_nine_request_time_line_value;
             _qps += qps;
             _error_num += error_num;
             _error_rate += error_rate;
@@ -97,15 +100,21 @@ const ReportContent = (props) => {
 
             _qps_list.push({
                 api_name,
-                x_data: qps_list.map(item => dayjs(item.time_stamp * 1000).format('hh:mm:ss')),
+                x_data: qps_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
                 y_data: qps_list.map(item => item.value)
             });
+            _err_list.push({
+                api_name,
+                x_data: error_num_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
+                y_data: error_num_list.map(item => item.value),
+            })
         });
         setTps(tps);
         setRps(rps);
         setConcurrency(concurrency);
         setErrNum(errNum);
         setQpsList(_qps_list);
+        setErrList(_err_list);
         let _datas = cloneDeep(datas);
         _datas.unshift({
             api_name: '汇总',
@@ -113,9 +122,9 @@ const ReportContent = (props) => {
             total_request_time: _total_request_time,
             max_request_time: '-',
             min_request_time: '-',
-            ninety_request_time_line: '-',
-            ninety_five_request_time_line: '-',
-            ninety_nine_request_time_line: '-',
+            ninety_request_time_line_value: '-',
+            ninety_five_request_time_line_value: '-',
+            ninety_nine_request_time_line_value: '-',
             qps: '-',
             error_num: '-',
             error_rate: '-',
@@ -290,32 +299,33 @@ const ReportContent = (props) => {
             dataIndex: 'total_request_num',
         },
         {
-            title: '总响应时间(ms)',
-            dataIndex: 'total_request_time'
+            title: '总响应时间(s)',
+            dataIndex: 'total_request_time',
+            width: 150,
         },
         {
-            title: '最大响应时间(ms)',
+            title: 'max(ms)',
             dataIndex: 'max_request_time',
         },
         {
-            title: '最小响应时间(ms)',
+            title: 'min(ms)',
             dataIndex: 'min_request_time',
         },
         {
-            title: '平均响应时间(ms)',
+            title: 'avg(ms)',
             dataIndex: 'avg_request_time',
         },
         {
-            title: '90%响应时间线',
-            dataIndex: 'ninety_request_time_line',
+            title: '90%',
+            dataIndex: 'ninety_request_time_line_value',
         },
         {
-            title: '95%响应时间线',
-            dataIndex: 'ninety_five_request_time_line',
+            title: '95%',
+            dataIndex: 'ninety_five_request_time_line_value',
         },
         {
-            title: '99%响应时间线',
-            dataIndex: 'ninety_nine_request_time_line',
+            title: '99%',
+            dataIndex: 'ninety_nine_request_time_line_value',
         },
         {
             title: '吞吐量',
@@ -408,7 +418,7 @@ const ReportContent = (props) => {
                 <ReactEcharts className='echarts' option={getOption('每秒事务数', qpsList)} />
                 <ReactEcharts className='echarts' option={getOption('每秒请求数', qpsList)} />
                 <ReactEcharts className='echarts' option={getOption('并发数', qpsList)} />
-                <ReactEcharts className='echarts' option={getOption('错误数', qpsList)} />
+                <ReactEcharts className='echarts' option={getOption('错误数', errList)} />
             </div>
         </div>
     )
