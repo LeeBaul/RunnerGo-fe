@@ -215,7 +215,11 @@ const ResPonsePanel = (props) => {
             <Button
               type="primary"
               onClick={() => {
-                Bus.$emit('stopSend', data.target_id);
+                if (from === 'apis') {
+                  Bus.$emit('stopSend', data.target_id);
+                } else {
+                  Bus.$emit('stopSceneApi', data.id);
+                }
                 // dispatch({
                 //   type: 'opens/updateTempApisById',
                 //   id: data?.target_id,

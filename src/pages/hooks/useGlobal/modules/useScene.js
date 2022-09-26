@@ -14,13 +14,14 @@ import QueryString from 'qs';
 import { global$ } from '../global';
 
 let scene_t = null;
+let send_scene_api_t = null;
 
 const useScene = () => {
     const dispatch = useDispatch();
     // const nodes = useSelector((store) => store.scene.nodes);
     // const edges = useSelector((store) => store.scene.edges);
     const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
-    const { id_apis, api_now, open_scene, sceneDatas } = useSelector((store) => store.scene);
+    const { id_apis, api_now, open_scene, sceneDatas, run_api_res } = useSelector((store) => store.scene);
     // const scene = useScene((store) => store.scene);
     const createApiNode = () => {
         const new_node = {
@@ -814,12 +815,12 @@ const useScene = () => {
                 const query = {
                     ret_id,
                 };
-                let t = setInterval(() => {
+                send_scene_api_t = setInterval(() => {
                     fetchGetResult(query).subscribe({
                         next: (res) => {
                             const { data } = res;
                             if (data) {
-                                clearInterval(t);
+                                clearInterval(send_scene_api_t);
                                 const _run_api_res = cloneDeep(run_api_res);
                                 _run_api_res[node_id] = {
                                     ...data,
@@ -898,6 +899,19 @@ const useScene = () => {
                 }
             }
         })
+    };
+
+    const stopSceneApi = (id) => {
+        clearInterval(send_scene_api_t);
+        const _run_api_res = cloneDeep(run_api_res);
+        _run_api_res[id] = {
+            status: 'finish',
+        };
+        dispatch({
+            type: 'scene/updateApiRes',
+            payload: _run_api_res
+        })
+
     }
 
     useEventBus('createApiNode', createApiNode);
@@ -920,6 +934,7 @@ const useScene = () => {
     useEventBus('sendSceneApi', sendSceneApi);
     useEventBus('toDeleteGroup', toDeleteGroup, [sceneDatas]);
     useEventBus('stopScene', stopScene);
+    useEventBus('stopSceneApi', stopSceneApi, [run_api_res])
 };
 
 export default useScene;
