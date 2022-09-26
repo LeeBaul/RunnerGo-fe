@@ -144,8 +144,9 @@ const ScenePicker = (props) => {
   };
 
   const handleCheckAll = (val) => {
+    console.log(val);
     if (val === 'checked') {
-      const checkKeys = isObject(apiDatas) ? Object.keys(apiDatas) : [];
+      const checkKeys = isObject(sceneDatas) ? Object.keys(sceneDatas) : [];
       setCheckedApiKeys(checkKeys);
     }
     if (val === 'uncheck') {

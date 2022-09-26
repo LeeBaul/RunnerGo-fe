@@ -45,7 +45,6 @@ const PlanDetail = () => {
     useEffect(() => {
         return () => {
             let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
-            console.log(planMap, open_plan_scene);
             if (open_plan_scene) {
                 planMap[id] = open_plan_scene.scene_id || open_plan_scene.target_id;
             }
