@@ -73,14 +73,15 @@ const TaskConfig = (props) => {
                     } = plan;
                     mode && setMode(mode);
                     cron_expr && setCronExpr(cron_expr);
-                    // concurrency && setConcurrency(concurrency);
-                    // duration && setDuration(duration);
-                    // max_concurrency && setMaxConcurrency(max_concurrency);
-                    // reheat_time && setReheatTime(reheat_time);
-                    // round_num && setRoundNum(round_num);
-                    // start_concurrency && setStartConcurrency(start_concurrency);
-                    // step && setStep(step);
-                    // step_run_time && setStepRunTime(step_run_time);
+                    const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = cron_expr;
+                    concurrency && setConcurrency(concurrency);
+                    duration && setDuration(duration);
+                    max_concurrency && setMaxConcurrency(max_concurrency);
+                    reheat_time && setReheatTime(reheat_time);
+                    round_num && setRoundNum(round_num);
+                    start_concurrency && setStartConcurrency(start_concurrency);
+                    step && setStep(step);
+                    step_run_time && setStepRunTime(step_run_time);
                     setModeConf(mode_conf);
                     task_type && setTaskType(task_type);
                     dispatch({
@@ -109,6 +110,7 @@ const TaskConfig = (props) => {
         const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = mode_conf;
         mode && setMode(mode);
         cron_expr && setCronExpr(cron_expr);
+        console.log(mode_conf);
         setModeConf(mode_conf);
         concurrency && setConcurrency(concurrency);
         duration && setDuration(duration);
@@ -119,6 +121,19 @@ const TaskConfig = (props) => {
         step && setStep(step);
         step_run_time && setStepRunTime(step_run_time);
         task_type && setTaskType(task_type);
+
+        let _task_config = cloneDeep(task_config);
+        _task_config = {
+            mode,
+            cron_expr,
+            mode_conf,
+            task_type,
+        }
+
+        dispatch({
+            type: 'plan/updateTaskConfig',
+            payload: _task_config,
+        })
     }
 
     useEffect(() => {
@@ -346,6 +361,7 @@ const TaskConfig = (props) => {
             }
         } else {
             const { mode_conf: { start_concurrency, step, step_run_time, max_concurrency, duration } } = task_config;
+            console.log(start_concurrency, step, step_run_time, max_concurrency, duration);
             if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
                 Message('error', '未填必填项!');
                 return;

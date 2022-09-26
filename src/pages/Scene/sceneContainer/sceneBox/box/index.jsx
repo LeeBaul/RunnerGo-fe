@@ -136,8 +136,6 @@ const Box = (props) => {
     // 当前节点状态
     const [status, setStatus] = useState('default');
 
-
-    console.log(123);
     useEffect(() => {
         const my_config = node_config[id];
         if (my_config) {
@@ -385,6 +383,7 @@ const Box = (props) => {
                     </p>
                     <Dropdown
                         ref={refDropdown}
+                        // trigger="hover"
                         content={
                             <div>
                                 <DropContent />
@@ -454,7 +453,7 @@ const Box = (props) => {
                             onTargetChange('percent_age', parseInt(e));
                         }}
                         defaultValue={percent_age}
-                    
+
                     >
                         {menuList.map((d, index) => (
                             <Option key={index} value={d}>
@@ -545,27 +544,35 @@ const Box = (props) => {
     const [selectBox, setSelectBox] = useState(false);
 
     useEffect(() => {
-        // document.addEventListener('click', (e) => clickOutSide(e))
+        document.addEventListener('click', (e) => clickOutSide(e))
 
         return () => {
-            // document.removeEventListener('click', (e) => clickOutSide(e));
+            document.removeEventListener('click', (e) => clickOutSide(e));
         }
     }, []);
 
-    // const clickOutSide = (e) => {
-    //     let _box = document.querySelector('.selectBox');
+    const clickOutSide = (e) => {
+        let _box = document.querySelector('.selectBox');
 
-    //     if (_box && !_box.contains(e.target)) {
-    //         setSelectBox(false);
-    //     }
-    // }
+        if (_box && !_box.contains(e.target)) {
+            setSelectBox(false);
+        }
+    }
 
     return (
-        <div 
+        <div
             className={cn('box', {
-                // selectBox: selectBox
+                selectBox: selectBox
             })}
-            // onClick={(e) => setSelectBox(true)}
+            onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSelectBox(true);
+
+                if (e.target.className.baseVal === 'more-svg' || e.target.parentNode.className.baseVal === 'more-svg') {
+                    refDropdown.current.setPopupVisible(true);
+                }
+            }}
         >
             <Handle
                 type="target"
@@ -579,7 +586,7 @@ const Box = (props) => {
                 {showApi && <div className='collapse-body'>
                     <div className='api-weight'>
                         <span>接口权重</span>
-                        <Input size="mini"  value={weight} onChange={(e) => {
+                        <Input size="mini" value={weight} onChange={(e) => {
                             if (parseInt(e) > 100 || parseInt(e) < 0) {
                                 Message('error', '接口权重范围在0-100之间!');
                                 setWeight(parseInt(e) > 100 ? '100' : '0');
