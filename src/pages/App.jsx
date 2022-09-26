@@ -13,10 +13,12 @@ import GlobalModule from './globalModule';
 import DebugPanel from './debug';
 import { getCookie } from '@utils';
 import { Message } from 'adesign-react';
+import { useNavigate } from 'react-router-dom'
 
 const App = () => {
     // 精简模式
     const { SYSCOMPACTVIEW } = useSelector((store) => store.user.config);
+    const navigate = useNavigate();
 
     const location = useLocation();
     const [showLayout, setLayout] = useState(false);
@@ -34,7 +36,8 @@ const App = () => {
         if (!ignorePage.includes(location.pathname)) {
             setLayout(true);
             if (isExpire) {
-                window.location.href = '/login';
+                // window.location.href = '/login';
+                navigate('/login');
                 Message('error', '请登录!')
             }
         } else {
@@ -42,7 +45,8 @@ const App = () => {
             // sessionStorage.removeItem('team_id');
             if (!isExpire) {
                 // if (window.location.pathname !== location.pathname) {
-                window.location.href = '/index';
+                // window.location.href = '/index';
+                navigate('/index');
                 // }
             }
         }
