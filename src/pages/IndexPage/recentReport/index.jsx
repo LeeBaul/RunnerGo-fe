@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import Pagination from '@components/Pagination';
+import SvgEmpty from '@assets/img/empty';
 
 const RecentReport = () => {
 
@@ -170,7 +171,7 @@ const RecentReport = () => {
                 />
                 {/* <Button className='searchBtn'>搜索</Button> */}
             </div>
-            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'>还没有数据</div>} />
+            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'> <SvgEmpty /> <p>还没有数据</p></div>} />
             { total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
         </div>
     )

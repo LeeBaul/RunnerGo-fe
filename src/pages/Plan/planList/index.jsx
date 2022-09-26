@@ -17,6 +17,7 @@ import dayjs from 'dayjs';
 import Bus from '@utils/eventBus';
 import SvgStop from '@assets/icons/Stop';
 import Pagination from '@components/Pagination';
+import SvgEmpty from '@assets/img/empty';
 
 const PlanList = () => {
 
@@ -239,7 +240,7 @@ const PlanList = () => {
     return (
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} />
-            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'>还没有数据</div>} />
+            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>还没有数据</p> </div>} />
             {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )

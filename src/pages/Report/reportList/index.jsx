@@ -14,6 +14,7 @@ import { fetchReportList, fetchDeleteReport } from '@services/report';
 import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 import Pagination from '@components/Pagination';
+import SvgEmpty from '@assets/img/empty';
 
 const ReportList = () => {
     const navigate = useNavigate();
@@ -239,7 +240,7 @@ const ReportList = () => {
     return (
         <div className='report'>
             <ReportListHeader onChange={getNewkeyword} />
-            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'>还没有数据</div>} />
+            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'><SvgEmpty /><p>还没有数据</p></div>} />
             { total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
         </div>
     )

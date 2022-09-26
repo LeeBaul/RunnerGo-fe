@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { tap } from 'rxjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { isArray } from 'lodash';
+import SvgEmpty from '@assets/img/empty';
 
 const RunningPlan = () => {
     const navigate = useNavigate();
@@ -89,7 +90,10 @@ const RunningPlan = () => {
                             <p>查看详情</p>
                         </div>
                     ))
-                        : <p className='empty'>还没有运行中</p>
+                        : <div className='empty'>
+                            <SvgEmpty />
+                            <p>还没有运行中</p>
+                          </div>
                 }
             </div>
         </div>
