@@ -471,6 +471,10 @@ const useScene = () => {
         dispatch({
             type: 'scene/updateFailedEdge',
             payload: [],
+        });
+        dispatch({
+            type: 'scene/updateApiConfig',
+            payload: false,
         })
         const { target_id } = id;
         const query = {
@@ -793,6 +797,7 @@ const useScene = () => {
         const params = {
             scene_id: parseInt(scene_id),
             node_id,
+            team_id: parseInt(localStorage.getItem('team_id')),
         };
         const _run_api_res = cloneDeep(run_api_res);
         _run_api_res[node_id] = {

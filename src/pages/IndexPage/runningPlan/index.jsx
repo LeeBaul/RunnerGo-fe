@@ -92,7 +92,7 @@ const RunningPlan = () => {
                     ))
                         : <div className='empty'>
                             <SvgEmpty />
-                            <p>还没有运行中</p>
+                            <p>还没有数据</p>
                           </div>
                 }
             </div>

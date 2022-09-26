@@ -114,7 +114,7 @@ const useCollection = () => {
         // return;
         fetchCreateScene(newScene).subscribe({
             next: async (resp) => {
-                const { code } = resp;
+                const { code, data } = resp;
                 if (code === 0) {
                     if (clone) {
                         Bus.$emit('cloneSceneFlow', resp.data.target_id, clone_id);
@@ -130,7 +130,7 @@ const useCollection = () => {
                         });
                     }
                 }
-                callback && callback(code);
+                callback && callback(code, data);
             }
         })
     }

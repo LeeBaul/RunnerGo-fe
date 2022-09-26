@@ -97,7 +97,7 @@ const SceneHeader = (props) => {
 
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     const runScene = () => {
-        const { scene_id } = open_scene;
+        const { scene_id, target_id } = open_scene;
         if (from === 'scene') {
             dispatch({
                 type: 'scene/updateRunStatus',
@@ -174,7 +174,7 @@ const SceneHeader = (props) => {
             }, 200);
         };
         const _callback = () => {
-            Bus.$emit('runScene', scene_id, open_scene.nodes.length, from);
+            Bus.$emit('runScene', scene_id ? scene_id : target_id, nodes.length, from);
         }
         saveScene(_callback);
 

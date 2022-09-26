@@ -68,21 +68,21 @@ const HeaderRight = () => {
 
     const RenderMemberList = () => {
         return teamMember.slice(0, 1).map(item => (
-            <Dropdown
-                content={
-                    <div className="online-list">
-                        <SingleUser
-                            useMsg={item}
-                            currentUser={item}
-                        ></SingleUser>
-                    </div>
-                }
-            >
+            // <Dropdown
+            //     content={
+            //         <div className="online-list">
+            //             <SingleUser
+            //                 useMsg={item}
+            //                 currentUser={item}
+            //             ></SingleUser>
+            //         </div>
+            //     }
+            // >
                 <div className='person-avatar'>
                     <img src={item.avatar || avatar} alt="" />
                     {/* <div className='person-status'></div> */}
                 </div>
-            </Dropdown>
+            // </Dropdown>
         ))
     };
 

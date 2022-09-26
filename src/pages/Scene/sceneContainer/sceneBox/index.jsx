@@ -18,11 +18,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
 import { v4 } from 'uuid';
 import { edges as initialEdges } from './mock';
+import CustomEdge from "./customEdge";
 
 const nodeTypes = {
     api: Box,
     condition_controller: ConditionController,
     wait_controller: WaitController
+};
+
+const edgeTypes = {
+    common: CustomEdge,
 }
 
 const onLoad = (reactFlowInstance) => {
@@ -88,11 +93,14 @@ const SceneBox = (props) => {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const onConnect = useCallback((params) => {
-
-        const res = checkConnect(params.source, params.target);
+        console.log(params);
+        const _params = cloneDeep(params);
+        _params.type = 'common';
+        const res = checkConnect(_params.source, _params.target);
         if (res) {
             return setEdges((eds) => {
-                return addEdge(params, eds)
+                console.log(_params);
+                return addEdge(_params, eds)
             })
         } else {
             Message('error', '无法实现闭环, 请在下方新建节点')
@@ -598,6 +606,7 @@ const SceneBox = (props) => {
             {/* <WaitController /> */}
             <ReactFlow
                 nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
                 nodes={nodes}
                 edges={edges}
                 onNodesChange={onNodesChange}

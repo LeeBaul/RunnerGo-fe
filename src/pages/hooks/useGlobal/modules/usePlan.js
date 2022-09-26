@@ -111,6 +111,10 @@ const usePlan = () => {
             type: 'plan/updateFailedEdge',
             payload: [],
         });
+        dispatch({
+            type: 'plan/updateApiConfig',
+            payload: false,
+        })
         const { target_id } = id;
         const query = {
             team_id: localStorage.getItem('team_id'),

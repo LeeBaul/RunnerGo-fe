@@ -11,6 +11,8 @@ import SvgSuccess from '@assets/logo/success';
 import SvgFailed from '@assets/logo/failed';
 import SvgRunning from '@assets/logo/running';
 
+import cn from 'classnames';
+
 const WaitController = (props) => {
     const { data: { id, from } } = props;
     const [wait_ms, setWait] = useState(0);
@@ -283,6 +285,24 @@ const WaitController = (props) => {
         'running': <SvgRunning className='default' />,
     };
 
+    // const [selectBox, setSelectBox] = useState(false);
+
+    // useEffect(() => {
+    //     document.addEventListener('click', (e) => clickOutSide(e))
+
+    //     return () => {
+    //         document.removeEventListener('click', (e) => clickOutSide(e));
+    //     }
+    // }, []);
+
+    // const clickOutSide = (e) => {
+    //     let _box = document.querySelector('.selectBox');
+
+    //     if (_box && !_box.contains(e.target)) {
+    //         setSelectBox(false);
+    //     }
+    // }
+
     return (
         <>
             <Handle
@@ -291,7 +311,11 @@ const WaitController = (props) => {
                 id="a"
                 className="my_handle"
             />
-            <div className='controller-wait'>
+            <div className={cn('controller-wait', {
+                // selectBox: selectBox
+            })} 
+                // onClick={() => setSelectBox(true)}
+            >
                 <div className='controller-wait-header' style={{ backgroundColor: topBg }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='type'>

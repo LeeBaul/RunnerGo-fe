@@ -960,6 +960,7 @@ const useOpens = () => {
     const sendApi = (id) => {
         const params = {
             target_id: id ? parseInt(id) : parseInt(open_api_now),
+            team_id: parseInt(localStorage.getItem('team_id')),
         };
         console.log(id, params);
         const _open_res = cloneDeep(open_res);

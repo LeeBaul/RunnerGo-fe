@@ -22,6 +22,7 @@ import { findSon } from '@utils';
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -31,6 +32,11 @@ const CreateScene = (props) => {
     const { onCancel, scene, from } = props;
 
     const { id: plan_id } = useParams();
+    const dispatch = useDispatch();
+    const id_apis_scene = useSelector((store) => store.scene.id_apis);
+    const id_apis_plan = useSelector((store) => store.plan.id_apis);
+    const node_config_scene = useSelector((store) => store.scene.node_config);
+    const node_config_plan = useSelector((store) => store.plan.node_config);
 
     const { apiFolders } = useFolders();
     const [script, setScript] = useState({
@@ -375,10 +381,19 @@ const CreateScene = (props) => {
                             from,
                             plan_id,
                         },
-                        (code) => {
+                        (code, data) => {
                             onCancel();
                             if (code === 0) {
                                 Message('success', '新建场景成功');
+                                dispatch({
+                                    type: 'scene/updateOpenName',
+                                    payload: data.target_name,
+                                })
+                                if (from === 'scene') {
+                                    Bus.$emit('addOpenScene', data, id_apis_scene, node_config_scene)
+                                } else if (from === 'plan') {
+                                    Bus.$emit('addOpenPlanScene', data, id_apis_plan, node_config_plan);
+                                }
                             } else {
                                 Message('fail', '新建场景失败');
                             }
