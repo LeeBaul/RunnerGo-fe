@@ -21,7 +21,6 @@ const useScene = () => {
     // const edges = useSelector((store) => store.scene.edges);
     const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
     const { id_apis, api_now, open_scene, sceneDatas } = useSelector((store) => store.scene);
-    // console.log(sceneDatas);
     // const scene = useScene((store) => store.scene);
     const createApiNode = () => {
         const new_node = {
@@ -123,7 +122,6 @@ const useScene = () => {
     }
 
     const saveScene = (nodes, edges, id_apis, node_config, open_scene, callback) => {
-        console.log(node_config);
         const get_pre = (id, edges) => {
             const pre_list = [];
             edges.forEach(item => {
@@ -165,7 +163,6 @@ const useScene = () => {
                 }
             }
         });
-        console.log(_nodes);
         const params = {
             scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -260,7 +257,6 @@ const useScene = () => {
     const updateNodeConfig = (type, value, id, node_config, from) => {
         const _node_config = cloneDeep(node_config);
         _node_config[id][type] = value;
-        console.log(_node_config);
         // switch (type) {
         //     case 'weight':
         //         _node_config[id].weight = value;
@@ -400,6 +396,7 @@ const useScene = () => {
         // });
         let _api_now = cloneDeep(id_apis[id]);
         _api_now.id = id;
+
         dispatch({
             type: 'scene/updateApiNow',
             payload: _api_now
@@ -638,8 +635,7 @@ const useScene = () => {
         // API
         // 1. nodes 2. api
 
-        console.log(open_scene);
-        const _clone_api = id_apis[id];
+        const _clone_api = cloneDeep(id_apis[id]);
 
 
         const from_node = nodes.filter(item => item.id === id)[0];
@@ -650,7 +646,6 @@ const useScene = () => {
             ...node_config[id],
             id: _id
         };
-        console.log(nodes);
 
         _from_node.id = _id;
         _from_node.data.id = _id;
@@ -659,21 +654,19 @@ const useScene = () => {
         _from_node.dragging = false;
         _from_node.selected = false;
         _from_node.dragHandle = '.drag-content';
-        console.log('id_apis', id_apis);
-        console.log(_id, _from_node);
+
+        _clone_api.id = _id;
+
 
         id_apis[_id] = _clone_api;
 
-        console.log('_clone_config', _clone_config);
         node_config[_id] = _clone_config;
         nodes.push(_from_node);
-        console.log(id_apis);
-        console.log(nodes);
-        console.log(node_config);
 
         // const _open_scene = cloneDeep(open_scene);
         // _open_scene.nodes = [..._open_scene.nodes, _from_node];
         // console.log(_open_scene, _from_node);
+
 
         if (from === 'scene') {
             dispatch({
@@ -804,17 +797,23 @@ const useScene = () => {
             ..._run_api_res[node_id],
             status: 'running',
         };
-        dispatch({
-            type: 'scene/updateApiRes',
-            payload: _run_api_res
-        })
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateApiRes',
+                payload: _run_api_res
+            })
+        } else {
+            dispatch({
+                type: 'plan/updateApiRes',
+                payload: _run_api_res
+            })
+        }
         fetchSendSceneApi(params).pipe(
             tap(res => {
                 const { data: { ret_id } } = res;
                 const query = {
                     ret_id,
                 };
-
                 let t = setInterval(() => {
                     fetchGetResult(query).subscribe({
                         next: (res) => {
@@ -850,7 +849,6 @@ const useScene = () => {
 
         const deleteIds = [target_id];
         const _sceneDatas = cloneDeep(sceneDatas);
-        console.log(target_id, sceneDatas);
 
         const loopGetChild = (parent_id, _sceneDatas) => {
             let arr = [];
@@ -864,12 +862,10 @@ const useScene = () => {
                     }
                 }
             }
-            console.log(arr, resArr);
             return arr.concat(resArr);
         };
 
         const _res = deleteIds.concat(loopGetChild(target_id, _sceneDatas))
-        console.log(_res);
         
         _res.forEach(item => {
             fetchDeleteApi({ target_id: parseInt(item) }).subscribe(); 

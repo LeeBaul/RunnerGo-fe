@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Switch, Input, Select, Dropdown } from 'adesign-react';
+import { Switch, Input, Select, Dropdown, Button } from 'adesign-react';
 import { More as SvgMore } from 'adesign-react/icons';
 import './index.less';
 import { Handle, MarkerType } from 'react-flow-renderer';
@@ -333,7 +333,7 @@ const ConditionController = (props) => {
                     <div className='header-right'>
                         {/* <Switch defaultChecked /> */}
                         {/* <SvgMore /> */}
-                        <Dropdown
+                        {/* <Dropdown
                             ref={refDropdown}
                             content={
                                 <div>
@@ -343,7 +343,20 @@ const ConditionController = (props) => {
                         // style={{ zIndex: 1050 }}
                         >
                             <div><SvgMore className='more-svg' /></div>
-                        </Dropdown>
+                        </Dropdown> */}
+                        <Button onClick={() => {
+                              if (from === 'scene') {
+                                dispatch({
+                                    type: 'scene/updateDeleteNode',
+                                    payload: id,
+                                });
+                            } else {
+                                dispatch({
+                                    type: 'plan/updateDeleteNode',
+                                    payload: id,
+                                });
+                            }
+                        }}>X</Button>
                     </div>
                 </div>
                 <div className='controller-condition-main'>

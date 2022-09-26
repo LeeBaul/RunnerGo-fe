@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Switch, InputNumber, Dropdown } from 'adesign-react';
+import { Switch, InputNumber, Dropdown, Button } from 'adesign-react';
 import { More as SvgMore } from 'adesign-react/icons';
 import './index.less';
 import { Handle, MarkerType } from 'react-flow-renderer';
@@ -329,7 +329,7 @@ const WaitController = (props) => {
                     <div className='header-right'>
                         {/* <Switch defaultChecked /> */}
                         {/* <SvgMore /> */}
-                        <Dropdown
+                        {/* <Dropdown
                             ref={refDropdown}
                             content={
                                 <div>
@@ -339,7 +339,20 @@ const WaitController = (props) => {
                         // style={{ zIndex: 1050 }}
                         >
                             <div><SvgMore className='more-svg' /></div>
-                        </Dropdown>
+                        </Dropdown> */}
+                        <Button onClick={() => {
+                              if (from === 'scene') {
+                                dispatch({
+                                    type: 'scene/updateDeleteNode',
+                                    payload: id,
+                                });
+                            } else {
+                                dispatch({
+                                    type: 'plan/updateDeleteNode',
+                                    payload: id,
+                                });
+                            }
+                        }}>X</Button>
                     </div>
                 </div>
                 <div className='controller-wait-main'>
