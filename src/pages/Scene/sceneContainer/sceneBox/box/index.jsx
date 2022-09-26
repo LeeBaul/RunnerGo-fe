@@ -72,19 +72,32 @@ const Box = (props) => {
         running_scene: running_scene_scene,
     } = useSelector((store) => store.scene);
 
-    const {
-        nodes: nodes_plan,
-        id_apis: id_apis_plan,
-        node_config: node_config_plan,
-        open_plan_scene: open_scene_plan,
-        run_res: run_res_plan,
-        edges: edges_plan,
-        init_scene: init_scene_plan,
-        to_loading: to_loading_plan,
-        success_edge: success_edge_plan,
-        failed_edge: failed_edge_plan,
-        running_scene: running_scene_plan,
-    } = useSelector((store) => store.plan);
+    const nodes_plan = useSelector((store) => store.plan.nodes);
+    const id_apis_plan = useSelector((store) => store.plan.id_apis);
+    const node_config_plan = useSelector((store) => store.plan.node_config);
+    const open_scene_plan = useSelector((store) => store.plan.open_plan_scene);
+    const run_res_plan = useSelector((store) => store.plan.run_res);
+    const edges_plan = useSelector((store) => store.plan.edges);
+    const init_scene_plan = useSelector((store) => store.plan.init_scene);
+    const to_loading_plan = useSelector((store) => store.plan.to_loading);
+    const success_edge_plan = useSelector((store) => store.plan.success_edge);
+    const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
+    const running_scene_plan = useSelector((store) => store.plan.running_scene);
+
+    // 这样写, store.plan里有任何值更新, 都会刷新组件
+    // const {
+    //     nodes: nodes_plan,
+    //     id_apis: id_apis_plan,
+    //     node_config: node_config_plan,
+    //     open_plan_scene: open_scene_plan,
+    //     run_res: run_res_plan,
+    //     edges: edges_plan,
+    //     init_scene: init_scene_plan,
+    //     to_loading: to_loading_plan,
+    //     success_edge: success_edge_plan,
+    //     failed_edge: failed_edge_plan,
+    //     running_scene: running_scene_plan,
+    // } = useSelector((store) => store.plan);
 
     const nodes = from === 'scene' ? nodes_scene : nodes_plan;
     const id_apis = from === 'scene' ? id_apis_scene : id_apis_plan;
@@ -123,6 +136,8 @@ const Box = (props) => {
     // 当前节点状态
     const [status, setStatus] = useState('default');
 
+
+    console.log(123);
     useEffect(() => {
         const my_config = node_config[id];
         if (my_config) {
