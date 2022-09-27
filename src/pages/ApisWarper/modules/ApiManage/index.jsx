@@ -26,6 +26,12 @@ const ApiManage = (props) => {
     const { data, tempData, onChange, showInfo = true, apiInfo, from } = props;
     // 调整scale
     const [codeVisible, setCodeVisible] = useState(false);
+    const [saveId, setSaveId] = useState(null);
+
+    useEffect(() => {
+        console.log(0);
+        setSaveId(null);
+    }, []);
 
     return (
         <ApisWrapper>
@@ -34,11 +40,12 @@ const ApiManage = (props) => {
                     data={data}
                     onChange={onChange}
                     from={from}
+                    onSave={(e) => setSaveId(e)}
                     showGenetateCode={() => {
                         setCodeVisible(true);
                     }}
                 />}
-                <UrlPanel from={from} data={showInfo ? data : apiInfo} tempData={tempData} onChange={onChange} />
+                <UrlPanel saveId={saveId} from={from} data={showInfo ? data : apiInfo} tempData={tempData} onChange={onChange} />
             </div>
             <ApisContent from={from} data={showInfo ? data : apiInfo} onChange={onChange} tempData={tempData} />
             {codeVisible && (

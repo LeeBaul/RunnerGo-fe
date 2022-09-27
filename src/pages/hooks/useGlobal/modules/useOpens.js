@@ -572,7 +572,7 @@ const useOpens = () => {
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
         let tempTarget = tempOpenApis[target_id];
-        console.log(id, tempTarget, tempOpenApis);
+        console.log(id, tempTarget, tempOpenApis, saveId);
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();

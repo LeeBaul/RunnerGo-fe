@@ -40,6 +40,7 @@ const initialState = {
   ], // apipost 默认请求头
 
   open_res: {}, // 响应结果
+  saveId: null,
 };
 
 // action名称
@@ -56,6 +57,7 @@ const actionTypes = {
   updateOpenRes: 'updateOpenRes',
   InitApis: 'InitApis',
   updateSaveAll: 'updateSaveAll',
+  updateSaveId: 'updateSaveId',
 }
 
 export const opensReducer = (state = initialState, action) => {
@@ -168,6 +170,11 @@ export const opensReducer = (state = initialState, action) => {
       return {
         ...state,
         open_apis: _apis,
+      }
+    case `${NAMESPACE}/${actionTypes.updateSaveId}`:
+      return {
+        ...state,
+        saveId: action.payload,
       }
     default:
       return state;

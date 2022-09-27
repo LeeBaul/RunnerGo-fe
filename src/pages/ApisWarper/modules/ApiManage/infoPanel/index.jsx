@@ -14,7 +14,7 @@ import { tap } from 'rxjs';
 import { global$ } from '@hooks/useGlobal/global';
 
 const ApiInfoPanel = (props) => {
-    const { data, showGenetateCode, onChange, from = 'apis' } = props;
+    const { data, showGenetateCode, onChange, from = 'apis', onSave } = props;
 
     const [modalType, setModalType] = useState('');
     const { open_apis, open_api_now } = useSelector((store) => store.opens);
@@ -49,9 +49,15 @@ const ApiInfoPanel = (props) => {
         } else {
             Bus.$emit('saveTargetById', {
                 id: apiNow,
-            }, {}, (code) => {
+            }, {}, (code, id) => {
+                console.log(code, id);
                 if (code === 0) {
                     Message('success', '保存成功!');
+                    // onSave(id);
+                    dispatch({
+                        type: 'opens/updateSaveId',
+                        payload: id,
+                    })
                 } else {
                     Message('error', '保存失败!');
                 }

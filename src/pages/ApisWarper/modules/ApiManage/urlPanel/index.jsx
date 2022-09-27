@@ -32,6 +32,8 @@ const ApiURLPanel = (props) => {
     const id_now = useSelector((store) => store.scene.id_now);
     const id_now_plan = useSelector((store) => store.plan.id_now);
 
+    const _saveId = useSelector((store) => store.opens.saveId);
+
 
     const res_list = {
         'apis': open_res && open_res[open_api_now],
@@ -46,6 +48,14 @@ const ApiURLPanel = (props) => {
             setBtnName('发送');
         }
     }, [res_now]);
+
+    useEffect(() => {
+        console.log(_saveId);
+        setSaveId(_saveId);
+        // if (_saveId) {
+            // setSaveId(_saveId);
+        // }
+    }, [_saveId]);
 
     const {
         nodes: nodes_scene,
