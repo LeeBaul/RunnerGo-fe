@@ -38,10 +38,10 @@ const ReqTable = (props) => {
   ];
 
   return (
-    <>
+    <div style={{ padding: '20px' }}>
       {/* <Table showHeader={false} showBorder columns={columns} data={list} /> */}
-      { reqHeader }
-    </>
+      { reqHeader.split('\r').map(item => <p style={{ marginBottom: '10px' }}>{item}</p>) }
+    </div>
   );
 };
 

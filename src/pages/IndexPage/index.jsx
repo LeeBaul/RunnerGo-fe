@@ -18,6 +18,7 @@ const IndexPage = () => {
     // 当前用户的基本信息
     const [user, setUser] = useState({});
     const [log, setLog] = useState([]);
+    const dispatch = useDispatch();
     // 操作日志
     // const [logList, setLogList] = useState([]);
     // const userInfo = useSelector((store) => store.user.userInfo);
@@ -30,7 +31,6 @@ const IndexPage = () => {
             team_id: parseInt(localStorage.getItem('team_id'))
         }).subscribe({
             next: (res) => {
-                console.log(res);
                 const { data: { user, api_num, plan_num, report_num, scene_num, operations } } = res;
                 setUser(user);
                 setInfo({ api_num, scene_num, plan_num, report_num });

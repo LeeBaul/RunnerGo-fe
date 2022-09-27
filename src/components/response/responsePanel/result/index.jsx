@@ -25,20 +25,22 @@ const json = {
 };
 
 const RealTimeResult = (props) => {
-  const { tempData, target, onChange } = props;
-  const { response_body } = tempData || {};
+  const { tempData, target, onChange, type } = props;
+  const { response_body, request_body } = tempData || {};
   const searchRef = useRef(null);
   const [valid, setValid] = useState('init');
+
+  const data = tempData[type];
 
   const tabsList = [
     {
       title: '美化',
       id: '1',
       content: (
-        response_body ?  <Beautify
+        data ?  <Beautify
           // mode={isString(response?.resMime?.ext) ? response?.resMime?.ext : ''}
           // value={response?.fitForShow == 'Monaco' ? response?.rawBody : ''}
-          value={response_body}
+          value={data}
           currentRef={searchRef}
         ></Beautify> : <></>
       ),
@@ -48,7 +50,7 @@ const RealTimeResult = (props) => {
       id: '2',
       content: (
         // <div className="rawhtml">{response?.fitForShow == 'Monaco' ? response?.rawBody : ''}</div>
-        <div className="rawhtml">{response_body}</div>
+        <div className="rawhtml">{data}</div>
       ),
     },
     // {
@@ -145,7 +147,7 @@ const RealTimeResult = (props) => {
                 className="icon-box"
                 onClick={() => {
                   // if (response?.fitForShow == 'Monaco') {
-                  copyStringToClipboard(response_body, true);
+                  copyStringToClipboard(data, true);
                   // } else {
                   // Message('error', '当前格式不支持复制');
                   // }

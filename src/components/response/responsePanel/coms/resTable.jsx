@@ -35,10 +35,10 @@ const ResTable = (props) => {
   ];
 
   return (
-    <>
+    <div style={{ padding: '20px' }}>
       {/* <Table showHeader={false} showBorder columns={columns} data={list} /> */}
-      { resHeader }
-    </>
+      { resHeader.split('\r').map(item => <p style={{ marginBottom: '10px' }}>{item}</p>) }
+    </div>
   );
 };
 

@@ -12,6 +12,18 @@ export const fetchUserRegisterForEmailRequest = (
 export const fetchTeamList = (
 
 ) => ajax('get', '/management/api/v1/team/list', 'json', false);
+// 创建/修改团队
+export const fetchCreateTeam = (
+  params
+) => ajax('post', '/management/api/v1/team/save', 'json', false, params);
+// 退出团队
+export const fetchQuitTeam = (
+  params
+) => ajax('post', '/management/api/v1/team/quit', 'json', false, params);
+// 设置成员角色
+export const fetchUpdateRole = (
+  params
+) => ajax('post', '/management/api/v1/team/role', 'json', false, params);
 // 获取团队成员列表
 export const fetchTeamMemberList = (
   query

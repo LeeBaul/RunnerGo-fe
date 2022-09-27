@@ -74,7 +74,7 @@ const ResPonsePanel = (props) => {
       id: '1',
       title: '实时响应',
       content: (
-        <RealTimeResult target={data} tempData={scene_result || response_data || {}} onChange={onChange}></RealTimeResult>
+        <RealTimeResult type="response_body" target={data} tempData={scene_result || response_data || {}} onChange={onChange}></RealTimeResult>
       ),
     },
     {
@@ -91,6 +91,16 @@ const ResPonsePanel = (props) => {
       id: '3',
       title: (
         <>
+          请求体
+          {/* {numberDom(tempData?.request?.header)} */}
+        </>
+      ),
+      content: <RealTimeResult type="request_body" target={data} tempData={scene_result || response_data || {}} onChange={onChange}></RealTimeResult>,
+    },
+    {
+      id: '4',
+      title: (
+        <>
           响应头
           {/* {numberDom(tempData?.response?.header)} */}
         </>
@@ -98,12 +108,12 @@ const ResPonsePanel = (props) => {
       content: <ResTable data={scene_result || response_data || {}}></ResTable>,
     },
     {
-      id: '4',
+      id: '5',
       title: '断言结果',
       content: <ResAssert data={scene_result || response_data || {}}></ResAssert>
     },
     {
-      id: '5',
+      id: '6',
       title: '正则结果',
       content: <ResRegex data={scene_result || response_data || {}}></ResRegex>
     }

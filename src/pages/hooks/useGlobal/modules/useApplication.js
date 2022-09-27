@@ -227,7 +227,7 @@ const useProject = () => {
                     // step1.加载团队列表
                     concatMap(() => getUserTeamList$().pipe(tap(handleInitTeams))),
                     // step2. 执行异步上传任务
-                    // concatMap(() => getIndexPage$().pipe(tap(handleInitIndex))),
+                    concatMap(() => getIndexPage$().pipe(tap(handleInitIndex))),
                     concatMap(() => getRunningPlan$().pipe(tap(handleInitRunningPlan))),
                     concatMap(() => getApiList$(apiListParams).pipe(tap(handleInitApiList))),
                     tap(() => {

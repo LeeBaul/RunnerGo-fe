@@ -36,7 +36,7 @@ const InvitationModal = (props) => {
   const [projectList, setProjectList] = useState([]);
   const [addList, setAddList] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [selectValue, setSelectValue] = useState('common');
+  const [selectValue, setSelectValue] = useState(2);
   const [needBuyStation, setNeedBuyStation] = useState(0);
   const [groupCode, setGroupCode] = useState(0);
   const [successPer, setSuccessPer] = useState(0);
@@ -91,7 +91,7 @@ const InvitationModal = (props) => {
           {
             key: uuidv4(),
             email: inputTempValue,
-            power: 'common',
+            power: selectValue,
             noAdd: projectListIndex > -1 && projectList[projectListIndex]?.is_readonly === 1,
           },
           ...teampAddList,
@@ -374,7 +374,12 @@ const InvitationModal = (props) => {
     }
     const params = {
       team_id: parseInt(localStorage.getItem('team_id')),
-      member_email: addList.map(item => item.email)
+      members: addList.map(item => {
+        return {
+          email: item.email,
+          role_id: item.power
+        }
+      })
     }
     fetchInviteMember(params)
     .pipe(
@@ -480,8 +485,8 @@ const InvitationModal = (props) => {
                   // onPressEnter={() => changeTeamInvitation('add')}
                 />
                 <Select value={selectValue}  onChange={(key) => setSelectValue(key)}>
-                  <Option value="admin">管理员</Option>
-                  <Option value="common">成员</Option>
+                  <Option value={3}>管理员</Option>
+                  <Option value={2}>成员</Option>
                 </Select>
                 <Button
                   type="primary"
@@ -526,8 +531,8 @@ const InvitationModal = (props) => {
                         }}
                       >
                         {/* {renderOptions()} */}
-                        <Option value="admin">管理员</Option>
-                        <Option value="common">成员</Option>
+                        <Option value={3}>管理员</Option>
+                        <Option value={2}>成员</Option>
                       </Select>
                     </span>
                     {/* {computeStation(item)} */}

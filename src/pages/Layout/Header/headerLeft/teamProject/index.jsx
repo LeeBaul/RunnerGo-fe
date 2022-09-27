@@ -12,9 +12,11 @@ import { global$ } from '@hooks/useGlobal/global';
 import { isObject, isString } from 'lodash';
 import TeamList from './teamList';
 import { TeamProjectPanel, DropdownContainer, TeamProjectWrapper } from './style';
+import TeamLists from '@modals/TeamList';
 
 const TeamProject = () => {
     const [filterValue, setFilterValue] = useState('');
+    const [showTeamList, setTeamList] = useState(false);
     const refDropdown = useRef(null);
     const currentTeamId = useSelector((store) => store.user.team_id);
     // const currentTeamId = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
@@ -56,6 +58,7 @@ const TeamProject = () => {
                     <DropdownContainer>
                         <div className="header">
                             <span>团队</span>
+                            <Button onClick={() => setTeamList(true)}>团队管理</Button>
                             {/* <a href={USER_PROJECT_URL} target="_blank" rel="noreferrer">
                                 <Button
                                     preFix={<SvgStartupteam width="16" height="16" className="perfix" />}
@@ -89,6 +92,7 @@ const TeamProject = () => {
                     {currentTeamName}
                 </Button>
             </Dropdown>
+            { showTeamList && <TeamLists onCancel={() => setTeamList(false)} /> }
         </TeamProjectPanel>
     )
 };

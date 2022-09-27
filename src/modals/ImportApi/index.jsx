@@ -53,6 +53,8 @@ const ImportApi = (props) => {
     const [team_now, setTeamNow] = useState('');
     const [apis, setApis] = useState([]);
 
+    const [checkAllMap, setCheckAllMap] = useState({});
+
     const handleFilter = (key) => {
         const sourceData = _cloneDeep(dataList.reduce((a, b) => ({ ...a, [b.id]: b }), {}));
         const newDatas = {};
@@ -115,7 +117,24 @@ const ImportApi = (props) => {
                 {renderIcon(nodeItem.target_type)}
                 {renderPrefix(nodeItem)}
                 {nodeTitle}
-                <Button>x</Button>
+                <Button onClick={() => {
+                    console.log(checkedApiKeys);
+                    const { data: { target_id } } = nodeItem;
+                    const _rightList = cloneDeep(rightList);
+                    _rightList.forEach((item, index) => {
+                        const _index = item.list.findIndex(item => item.target_id === target_id);
+                        if (_index !== -1) {
+                           item.list.splice(_index, 1);
+                        }
+                    });
+                    const _checkedApiKeys = cloneDeep(checkedApiKeys);
+                    const selectIndex = _checkedApiKeys.findIndex(item => item === target_id);
+                    if (selectIndex !== -1) {
+                        _checkedApiKeys.splice(selectIndex, 1);
+                    }
+                    setRightList(_rightList);
+                    setCheckedApiKeys(_checkedApiKeys);
+                }}>x</Button>
             </div>
         )
     }
@@ -159,9 +178,11 @@ const ImportApi = (props) => {
     const _treeList = [
         {
             team: 'A团队',
+            id: 'team-1',
             project: [
                 {
                     name: 'A项目',
+                    id: 'pj-1',
                     list: [
                         {
                             target_id: "1",
@@ -196,9 +217,11 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                     ],
+                    check: [],
                 },
                 {
                     name: 'B项目',
+                    id: 'pj-2',
                     list: [
                         {
                             target_id: "5",
@@ -233,9 +256,12 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                     ],
+                    check: [],
+                    checkAll: 'uncheck',
                 },
                 {
                     name: 'C项目',
+                    id: 'pj-3',
                     list: [
                         {
                             target_id: "9",
@@ -270,14 +296,18 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                     ],
+                    check: [],
+                    checkAll: 'uncheck',
                 }
             ]
         },
         {
             team: 'B团队',
+            id: 'team-2',
             project: [
                 {
                     name: 'A项目',
+                    id: 'pj-4',
                     list: [
                         {
                             target_id: "1",
@@ -312,9 +342,12 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                     ],
+                    check: [],
+                    checkAll: 'uncheck',
                 },
                 {
                     name: 'B项目',
+                    id: 'pj-5',
                     list: [
                         {
                             target_id: "1",
@@ -349,9 +382,12 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                     ],
+                    check: [],
+                    checkAll: 'uncheck',
                 },
                 {
                     name: 'C项目',
+                    id: 'pj-6',
                     list: [
                         {
                             target_id: "1",
@@ -386,6 +422,8 @@ const ImportApi = (props) => {
                             sort: -1,
                         },
                     ],
+                    check: [],
+                    checkAll: 'uncheck',
                 }
             ]
         }
@@ -425,11 +463,11 @@ const ImportApi = (props) => {
         },
     ];
 
-    const teamList = ['A团队', 'B团队', 'C团队'];
+    const teamList = ['team-1', 'team-2', 'team-3'];
 
-    const setNowList = (name) => {
-        console.log(name);
-        const list = _treeList.find(item => item.team === name).project;
+    const setNowList = (id) => {
+        console.log(id);
+        const list = _treeList.find(item => item.id === id).project;
         console.log(list, _treeList);
         setLeftList(list);
     }
@@ -444,11 +482,29 @@ const ImportApi = (props) => {
         });
         console.log(apis);
         setApis(apis);
+        let checkMap = {};
+        _treeList.forEach(item => {
+            checkMap[item.id] = {};
+
+            item.project.forEach(elem => {
+                checkMap[item.id][elem.id] = 'uncheck';
+            })
+        });
+        console.log(checkMap);
+        setCheckAllMap(checkMap);
     }, []);
 
     const selectNodeItem = (e, project_name) => {
         console.log(e, project_name, leftList);
         setCheckedApiKeys(e);
+        const _leftList = cloneDeep(leftList);
+        _leftList.forEach(item => {
+            if (item.name === project_name) {
+                item.check = e;
+            }
+        });
+        setLeftList(_leftList);
+        console.log(_leftList);
         // const projectList = leftList.find(item => item.name === project_name).list;
         const selectItem = [];
         console.log(apis);
@@ -458,7 +514,7 @@ const ImportApi = (props) => {
             }
         });
         const _rightList = cloneDeep(rightList);
-        const _index = _rightList.findIndex(item => item.name === team_now);
+        const _index = _rightList.findIndex(item => item.id === team_now);
         if (_index === -1) {
             _rightList.push({
                 name: team_now,
@@ -496,7 +552,7 @@ const ImportApi = (props) => {
                     </div>
                     <div className='import-left-container'>
                         {
-                            leftList.map(item => (
+                            leftList.map((item, index) => (
                                 <Collapse defaultActiveKey="a11">
                                     <CollapseItem name={item.name} header={item.name}>
                                         <Input style={{ width: '100%' }} placeholder="搜索项目/目录/接口名称" beforeFix={<SvgSearch width="16px" height="16px" />} />
@@ -506,7 +562,7 @@ const ImportApi = (props) => {
                                                 <span>全选</span>
                                                 <CheckBox
                                                     size="small"
-                                                    checked={checkAll}
+                                                    checked={checkAllMap[team_now][item.id]}
                                                     onChange={(val) => {
                                                         handleCheckAll(val, item.name);
                                                     }}
@@ -517,11 +573,23 @@ const ImportApi = (props) => {
                                             showLine
                                             ref={refTree}
                                             showIcon={false}
-                                            checkedKeys={checkedApiKeys}
+                                            checkedKeys={item.check}
                                             onCheck={(e) => selectNodeItem(e, item.name)}
                                             onNodeClick={handleNodeClick}
                                             onCheckAll={(val) => {
-                                                setCheckAll(val)
+                                                console.log(val);
+                                                const _checkAllMap = cloneDeep(checkAllMap);
+                                                if (_checkAllMap[team_now][item.id] !== val) {
+                                                    _checkAllMap[team_now][item.id] = val;
+                                                    setCheckAllMap(_checkAllMap);
+                                                }
+                                                // const _leftList = cloneDeep(leftList);
+                                                // if (_leftList[index].checkAll !== val) {
+                                                //     _leftList[index].checkAll = val;
+                                                //     // setCheckAll(val)
+                                                //     console.log(_leftList);
+                                                //     setLeftList(_leftList);
+                                                // }
                                             }}
                                             // enableVirtualList
                                             render={renderTreeNode}
@@ -556,12 +624,12 @@ const ImportApi = (props) => {
                                             showLine
                                             ref={refTree}
                                             showIcon={false}
-                                            checkedKeys={checkedApiKeys}
-                                            onCheck={setCheckedList}
-                                            onNodeClick={handleNodeClick}
-                                            onCheckAll={(val) => {
-                                                setCheckAll(val)
-                                            }}
+                                            // checkedKeys={checkedApiKeys}
+                                            // onCheck={setCheckedList}
+                                            // onNodeClick={handleNodeClick}
+                                            // onCheckAll={(val) => {
+                                            //     setCheckAll(val)
+                                            // }}
                                             // enableVirtualList
                                             render={renderRightTree}
                                             enableCheck
