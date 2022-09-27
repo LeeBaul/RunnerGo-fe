@@ -285,23 +285,23 @@ const WaitController = (props) => {
         'running': <SvgRunning className='default' />,
     };
 
-    // const [selectBox, setSelectBox] = useState(false);
+    const [selectBox, setSelectBox] = useState(false);
 
-    // useEffect(() => {
-    //     document.addEventListener('click', (e) => clickOutSide(e))
+    useEffect(() => {
+        document.addEventListener('click', (e) => clickOutSide(e))
 
-    //     return () => {
-    //         document.removeEventListener('click', (e) => clickOutSide(e));
-    //     }
-    // }, []);
+        return () => {
+            document.removeEventListener('click', (e) => clickOutSide(e));
+        }
+    }, []);
 
-    // const clickOutSide = (e) => {
-    //     let _box = document.querySelector('.selectBox');
+    const clickOutSide = (e) => {
+        let _box = document.querySelector('.selectBox');
 
-    //     if (_box && !_box.contains(e.target)) {
-    //         setSelectBox(false);
-    //     }
-    // }
+        if (_box && !_box.contains(e.target)) {
+            setSelectBox(false);
+        }
+    }
 
     return (
         <>
@@ -312,9 +312,13 @@ const WaitController = (props) => {
                 className="my_handle"
             />
             <div className={cn('controller-wait', {
-                // selectBox: selectBox
+                selectBox: selectBox
             })} 
-                // onClick={() => setSelectBox(true)}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectBox(true);
+                }}
             >
                 <div className='controller-wait-header' style={{ backgroundColor: topBg }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>

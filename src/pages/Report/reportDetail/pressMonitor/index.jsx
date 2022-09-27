@@ -37,7 +37,7 @@ const PressMonitor = () => {
         // let x_data = [];
         // let y_data = [];
         data.forEach(item => {
-            item[0] = dayjs(item[0] * 1000).format('hh:mm');
+            item[0] = dayjs(item[0] * 1000).format('HH:mm');
             // x_data.push(item[0] * 1000);
             // y_data.push(item[1]);
         })
