@@ -57,20 +57,33 @@ const Box = (props) => {
     const dispatch = useDispatch();
     const refInput = useRef(null);
     const refDropdown = useRef(null);
-    const {
-        nodes: nodes_scene,
-        id_apis: id_apis_scene,
-        node_config: node_config_scene,
-        open_scene: open_scene_scene,
-        run_res: run_res_scene,
+    // const {
+    //     nodes: nodes_scene,
+    //     id_apis: id_apis_scene,
+    //     node_config: node_config_scene,
+    //     open_scene: open_scene_scene,
+    //     run_res: run_res_scene,
 
-        edges: edges_scene,
-        init_scene: init_scene_scene,
-        to_loading: to_loading_scene,
-        success_edge: success_edge_scene,
-        failed_edge: failed_edge_scene,
-        running_scene: running_scene_scene,
-    } = useSelector((store) => store.scene);
+    //     edges: edges_scene,
+    //     init_scene: init_scene_scene,
+    //     to_loading: to_loading_scene,
+    //     success_edge: success_edge_scene,
+    //     failed_edge: failed_edge_scene,
+    //     running_scene: running_scene_scene,
+    // } = useSelector((store) => store.scene);
+
+    const nodes_scene = useSelector((store) => store.scene.nodes);
+    const id_apis_scene = useSelector((store) => store.scene.id_apis);
+    const node_config_scene = useSelector((store) => store.scene.node_config);
+    const open_scene_scene = useSelector((store) => store.scene.open_scene);
+    const run_res_scene = useSelector((store) => store.scene.run_res);
+    const edges_scene = useSelector((store) => store.scene.edges);
+    const init_scene_scene = useSelector((store) => store.scene.init_scene);
+    const to_loading_scene = useSelector((store) => store.scene.to_loading);
+    const success_edge_scene = useSelector((store) => store.scene.success_edge);
+    const failed_edge_scene = useSelector((store) => store.scene.failed_edge);
+    const running_scene_scene = useSelector((store) => store.scene.running_scene);
+
 
     const nodes_plan = useSelector((store) => store.plan.nodes);
     const id_apis_plan = useSelector((store) => store.plan.id_apis);
@@ -493,8 +506,8 @@ const Box = (props) => {
     const RenderContent = () => {
         const obj = {
             '1': <></>,
-            '2': <ErrMode />,
-            '3': <></>,
+            '3': <ErrMode />,
+            '2': <></>,
             '4': <ResTimeMode />,
             '5': <ReqCountMode />
         };
@@ -615,7 +628,91 @@ const Box = (props) => {
                         <Option value="4">响应时间模式</Option>
                         <Option value="5">每秒请求数模式</Option>
                     </Select>
-                    {<RenderContent />}
+                    {/* {<RenderContent />} */}
+                    {/* todo: 高阶组件input onchange导致失焦 */}
+                    {
+                        mode === "3" && <div className='common-flex'>
+                            <span>错误率阈值</span>
+                            <Input size="mini" value={error_threshold} onChange={(e) => {
+                                setError(parseInt(e));
+                                onTargetChange('error_threshold', parseInt(e));
+                            }} placeholder="阈值" />
+                        </div>
+                    }
+                    {
+                        mode === "4" && <div className='time-mode'>
+                            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                                <span>线: </span>
+                                <Select
+                                    className='config-line'
+                                    data-module="select-diy-example"
+                                    dropdownRender={(menu) => (
+                                        <>
+                                            <div className="menulist">{menu}</div>
+                                            <div className="diybox">
+                                                <input size="mini" placeholder='大于等于50, 小于100' ref={refInput} className="input" />
+                                                <Button
+                                                    size="mini"
+                                                    type="primary"
+                                                    className="add"
+                                                    onClick={() => {
+                                                        if (!refInput?.current?.value) {
+                                                            return;
+                                                        }
+                                                        if (refInput.current.value < 50 || refInput.current.value > 99) {
+                                                            Message('error', '输入数字只能大于等于50, 小于100');
+                                                            return;
+                                                        }
+                                                        setMenuList([...menuList, refInput?.current?.value]);
+                                                        if (refInput?.current) {
+                                                            refInput.current.value = '';
+                                                        }
+                                                    }}
+                                                >
+                                                    添加
+                                                </Button>
+                                            </div>
+                                        </>
+                                    )}
+                                    onChange={(e) => {
+                                        setPercent(parseInt(e));
+                                        onTargetChange('percent_age', parseInt(e));
+                                    }}
+                                    defaultValue={percent_age}
+
+                                >
+                                    {menuList.map((d, index) => (
+                                        <Option key={index} value={d}>
+                                            {d}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </div>
+                            <div className='common-flex'>
+                                <span>响应时间阈值</span>
+                                <Input size="mini" value={response_threshold} onChange={(e) => {
+                                    setRes(parseInt(e));
+                                    onTargetChange('response_threshold', parseInt(e));
+                                }} placeholder="阈值" />
+                            </div>
+                            {/* <div className='common-flex'>
+                            <span>请求数阈值</span>
+                            <Input size="mini" value={request_threshold} onChange={(e) => {
+                                setReq(parseInt(e));
+                                onTargetChange('request_threshold', parseInt(e));
+                            }} placeholder="阈值" />
+                        </div> */}
+                        </div>
+                    }
+                    {
+                        mode === "5" && <div className='common-flex'>
+                            <span>请求数阈值</span>
+                            <Input size="mini" placeholder="阈值" onChange={(e) => {
+                                setReq(parseInt(e));
+                                onTargetChange('request_threshold', parseInt(e));
+                            }} />
+                        </div>
+                    }
                 </div>}
                 {
                     (status === 'success' || status === 'failed') &&
