@@ -572,7 +572,7 @@ const useOpens = () => {
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
         let tempTarget = tempOpenApis[target_id];
-        console.log(id, tempTarget);
+        console.log(id, tempTarget, tempOpenApis);
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
@@ -597,9 +597,9 @@ const useOpens = () => {
 
             // return;
             // sort 排序
-            // if (tempTarget?.sort == -1) {
+            if (tempTarget.sort == -1) {
                 tempTarget =  targetReorder(tempTarget);
-            // }
+            }
 
             // 过滤key为空的数据
             // filterEmptyKey(tempTarget);
@@ -645,10 +645,10 @@ const useOpens = () => {
                             // await updateCollectionById();
                         }
 
-                        dispatch({
-                            type: 'opens/updateOpenApiNow',
-                            payload: data.target_id,
-                        })
+                        // dispatch({
+                        //     type: 'opens/updateOpenApiNow',
+                        //     payload: data.target_id,
+                        // })
 
                         if (code === 0) {
                             global$.next({
@@ -962,10 +962,10 @@ const useOpens = () => {
             target_id: id ? parseInt(id) : parseInt(open_api_now),
             team_id: parseInt(localStorage.getItem('team_id')),
         };
-        console.log(id, params);
+        console.log(id, params, open_api_now);
         const _open_res = cloneDeep(open_res);
-        _open_res[id] = {
-            ..._open_res[id],
+        _open_res[open_api_now] = {
+            ..._open_res[open_api_now],
             status: 'running',
         };
         dispatch({
@@ -986,7 +986,7 @@ const useOpens = () => {
                             if (data) {
                                 clearInterval(send_api_t);
                                 const _open_res = cloneDeep(open_res);
-                                _open_res[id] = {
+                                _open_res[open_api_now] = {
                                     ...data,
                                     status: 'finish',
                                 };
@@ -1099,7 +1099,7 @@ const useOpens = () => {
     //
     useEventBus('dragUpdateTarget', dragUpdateTarget);
 
-    useEventBus('sendApi', sendApi);
+    useEventBus('sendApi', sendApi, [open_api_now]);
 
     useEventBus('stopSend', stopSend);
 
