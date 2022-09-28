@@ -84,6 +84,11 @@ const TaskConfig = (props) => {
                     step_run_time && setStepRunTime(step_run_time);
                     setModeConf(mode_conf);
                     task_type && setTaskType(task_type);
+                    if (mode_conf.round_num !== 0) {
+                        setDefaultMode('round_num');
+                    } else {
+                        setDefaultMode('duration');
+                    }
                     dispatch({
                         type: 'plan/updateTaskConfig',
                         payload: {
@@ -164,7 +169,7 @@ const TaskConfig = (props) => {
     const [mode, setMode] = useState(1);
     // 普通任务1 定时任务2
     const [task_type, setTaskType] = useState(1);
-    const [default_mode, setDefaultMode] = useState("duration");
+
     // 持续时长
     const [duration, setDuration] = useState(0);
     // 轮次
@@ -183,6 +188,8 @@ const TaskConfig = (props) => {
     const [reheat_time, setReheatTime] = useState(0);
 
     const [mode_conf, setModeConf] = useState({});
+
+    const [default_mode, setDefaultMode] = useState('duration');
 
     // cron表达式
     const [cron_expr, setCronExpr] = useState('');
@@ -216,7 +223,20 @@ const TaskConfig = (props) => {
     const ConcurrentMode = () => {
         return (
             <div className='other-config-item'>
-                <Radio.Group value={default_mode} onChange={(e) => setDefaultMode(e)}>
+                <Radio.Group value={default_mode} onChange={(e) => {
+                    setDefaultMode(e);
+                    // console.log(e);
+                    const _mode_conf = cloneDeep(mode_conf);
+                    if (e === 'duration') {
+                        _mode_conf.round_num = 0;
+                        setModeConf(_mode_conf);
+                        updateTaskConfig('round_num', 0);
+                    } else if (e === 'round_num') {
+                        _mode_conf.duration = 0;
+                        setModeConf(_mode_conf);
+                        updateTaskConfig('duration', 0);
+                    }
+                }}>
                     <Radio value="duration">
                         <span className='label'>持续时长: </span>
                         <Input size="mini" value={mode_conf.duration} onBlur={(e) => {

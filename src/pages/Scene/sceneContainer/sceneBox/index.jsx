@@ -140,6 +140,7 @@ const SceneBox = (props) => {
     // const connect = { source: 'c', target: 'a' }; // 不允许
     
     useEffect(() => {
+        console.log('to_loading', to_loading)
         if (edges.length > 0 && to_loading) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {

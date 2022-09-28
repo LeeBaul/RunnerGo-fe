@@ -370,7 +370,7 @@ const useScene = () => {
                 }
             }
             set(id_apis[id], 'url', value);
-            set(id_apis[id], 'request.url', reqUrl);
+            // set(id_apis[id], 'request.url', reqUrl);
         } else if (pathExpression === 'request.query.parameter') {
             let paramsStr = '';
             const url = id_apis[id].request?.url || '';
@@ -722,6 +722,7 @@ const useScene = () => {
 
     const runScene = (scene_id, length, from) => {
         const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
             scene_id: parseInt(scene_id),
         };
 

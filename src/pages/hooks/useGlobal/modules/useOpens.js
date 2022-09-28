@@ -313,7 +313,7 @@ const useOpens = () => {
                 // }
             }
             set(tempOpenApis[target_id], 'url', value);
-            set(tempOpenApis[target_id], 'request.url', reqUrl);
+            // set(tempOpenApis[target_id], 'request.url', reqUrl);
             // set(tempOpenApis[target_id], 'request.url', reqUrl);
         } else if (pathExpression === 'request.query.parameter') {
             let paramsStr = '';
