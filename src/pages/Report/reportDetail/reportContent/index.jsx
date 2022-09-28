@@ -401,7 +401,7 @@ const ReportContent = (props) => {
                 return {
                     name: item.api_name,
                     type: 'line',
-                    stack: 'Total',
+                    // stack: 'Total',
                     data: item.y_data
                 }
             }) : []
