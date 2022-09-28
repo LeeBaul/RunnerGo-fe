@@ -565,7 +565,6 @@ const Box = (props) => {
     }, []);
 
     const clickOutSide = (e) => {
-        console.log(e);
         let _box = document.querySelector('.box');
 
         if (_box && !_box.contains(e.target)) {
@@ -579,7 +578,6 @@ const Box = (props) => {
                 selectBox: selectBox
             })}
             onClick={(e) => {
-                console.log(e);
                 e.preventDefault();
                 e.stopPropagation();
                 setSelectBox(true);

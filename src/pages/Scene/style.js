@@ -23,6 +23,15 @@ export const ApisWrapper = css`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    p {
+      margin-top: 8px;
+      color: #666666;
+    }
   }
 `;
 

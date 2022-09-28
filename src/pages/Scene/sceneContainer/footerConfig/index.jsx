@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Apis as SvgApis, Add as SvgAdd, Download as SvgDownload } from 'adesign-react/icons';
 import './index.less';
 import Bus from '@utils/eventBus';
@@ -8,6 +8,23 @@ const FooterConfig = (props) => {
     const { onChange, from = 'scene' } = props;
     const [showControl, setShowControl] = useState(false);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        document.addEventListener('click', (e) => clickOutSide(e))
+
+        return () => {
+            document.removeEventListener('click', (e) => clickOutSide(e));
+        }
+    }, []);
+
+    const clickOutSide = (e) => {
+        let _box = document.querySelector('.footer-config');
+
+        if (_box && !_box.contains(e.target)) {
+            setShowControl(false);
+        }
+    }
+
     return (
         <div className='footer-config'>
             {showControl && <div className='add-controller'>

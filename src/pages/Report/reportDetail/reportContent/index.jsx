@@ -39,6 +39,7 @@ const ReportContent = (props) => {
     const [errNum, setErrNum] = useState([]);
     const [qpsList, setQpsList] = useState([]);
     const [errList, setErrList] = useState([]);
+    const [concurrencyList, setConcurrencyList] = useState([]);
     const [configColumn, setConfigColumn] = useState([]);
     const [configData, setConfigData] = useState([]);
 
@@ -63,6 +64,7 @@ const ReportContent = (props) => {
         
         let _qps_list = [];
         let _err_list = [];
+        let _concurrency_list = [];
         datas && datas.forEach(item => {
             const {
                 total_request_num,
@@ -80,6 +82,7 @@ const ReportContent = (props) => {
                 qps_list,
                 error_num_list,
                 api_name,
+                concurrency_list,
             } = item;
             item.total_request_time = Math.round(total_request_time / 1000);
             item.error_rate = `${error_rate * 100}%`
@@ -110,6 +113,11 @@ const ReportContent = (props) => {
                 x_data: error_num_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
                 y_data: error_num_list.map(item => item.value),
             })
+            _concurrency_list.push({
+                api_name,
+                x_data: concurrency_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
+                y_data: concurrency_list.map(item => item.value),
+            })
         });
         setTps(tps);
         setRps(rps);
@@ -117,6 +125,7 @@ const ReportContent = (props) => {
         setErrNum(errNum);
         setQpsList(_qps_list);
         setErrList(_err_list);
+        setConcurrencyList(_concurrency_list);
         let _datas = cloneDeep(datas);
         _datas.unshift({
             api_name: '汇总',
@@ -416,7 +425,7 @@ const ReportContent = (props) => {
             <div className='echarts-list'>
                 <ReactEcharts className='echarts' option={getOption('每秒事务数', qpsList)} />
                 <ReactEcharts className='echarts' option={getOption('每秒请求数', qpsList)} />
-                <ReactEcharts className='echarts' option={getOption('并发数', qpsList)} />
+                <ReactEcharts className='echarts' option={getOption('并发数', concurrencyList)} />
                 <ReactEcharts className='echarts' option={getOption('错误数', errList)} />
             </div>
         </div>

@@ -8,6 +8,7 @@ import { ApisWrapper, ApiManageWrapper } from './style';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import SceneHeader from './sceneHeader';
 import SceneContainer from './sceneContainer';
+import SvgEmpty from '@assets/img/empty';
 
 const { ScalePanel, ScaleItem } = Scale;
 
@@ -28,7 +29,10 @@ const Scene = () => {
                     open_scene ? <>
                         <SceneHeader from='scene' />
                         <SceneContainer from='scene' />
-                    </> : <p className='empty'>没有数据</p>
+                    </> : <div className='empty'>
+                            <SvgEmpty />
+                            <p>没有数据</p>
+                          </div>
                 }
             </ScaleItem>
 
