@@ -21,10 +21,13 @@ const Regular = (props) => {
     const { parameter, onChange } = props;
 
     const handleTableDelete = (index) => {
+        console.log(index);
         const newList = [...parameter];
         if (newList.length > 0) {
+            console.log(parameter);
             newList.splice(index, 1);
-            onChange('assert', [...newList]);
+            console.log(newList);
+            onChange('regex', [...newList]);
         }
     };
 
