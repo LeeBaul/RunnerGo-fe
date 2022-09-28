@@ -92,6 +92,8 @@ const SceneBox = (props) => {
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+    console.log(nodes);
     const onConnect = useCallback((params) => {
         console.log(params);
         const _params = cloneDeep(params);
@@ -211,6 +213,7 @@ const SceneBox = (props) => {
                         from,
                     },
                     position,
+                    dragHandle: '.drag-content',
                 }
                 item.id = id;
                 ids.push(id);
@@ -256,6 +259,7 @@ const SceneBox = (props) => {
                     selected,
                     type,
                     width,
+                    dragHandle,
                 } = item;
                 return {
                     data,
@@ -268,6 +272,7 @@ const SceneBox = (props) => {
                     selected,
                     type,
                     width,
+                    dragHandle,
                 };
             });
             // edges && (edges[0].animated = true);

@@ -128,8 +128,12 @@ const ProjectMember = (props) => {
         })
     };
 
-    const setRole = (role_id) => {
+    const setRole = (role_id, user_id) => {
         // 判断当前用户的更改权限
+        // 成员: 无任何更改权限
+        // 管理员: 成员 => 管理员 true 管理员 => 成员 false
+        // 超级管理员: 成员 => 管理员 true 管理员 => 成员 true
+        // all： xxx => 超级管理员 false 超级管理员 => xxx false 
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
             user_id: 'xxxx',
@@ -178,7 +182,7 @@ const ProjectMember = (props) => {
                                     <div>
                                         <Select
                                             value={item.role_id}
-                                            onChange={(e) => setRole(e)}
+                                            onChange={(e) => setRole(e, item.user_id)}
                                         >
                                             <Option value={1}>超级管理员</Option>
                                             <Option value={2}>成员</Option>

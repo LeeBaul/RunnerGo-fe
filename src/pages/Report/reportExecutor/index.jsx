@@ -8,7 +8,7 @@ import { fetchSetDebug } from '@services/report';
 import { useParams } from 'react-router-dom';
 
 const ReportExecutor = (props) => {
-    const { data: { user_avatar, user_name, created_time_sec }, onStop, status } = props;
+    const { data: { user_avatar, user_name, created_time_sec }, onStop, status, runTime } = props;
     const DropRef = useRef(null);
     const [debugName, setDebugName] = useState('关闭debug模式');
     const [stop, setStop] = useState(false);
@@ -47,7 +47,7 @@ const ReportExecutor = (props) => {
             </div>
         )
     }
-    console.log(status);
+
     return (
         <div className='report-executor'>
             <p>执行者:</p>
@@ -57,7 +57,7 @@ const ReportExecutor = (props) => {
             </div>
             <p className='create-time'>创建时间: { dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss') }</p>
             {/* <p className='last-time'>最后修改时间: 2022-12-22 03:22</p> */}
-            <p className='run-time'>执行时长: 300s</p>
+            <p className='run-time'>执行时长: {runTime}s</p>
             <Dropdown
                 ref={DropRef}
                 content={

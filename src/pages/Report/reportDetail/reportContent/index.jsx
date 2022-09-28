@@ -137,7 +137,6 @@ const ReportContent = (props) => {
     }, [datas]);
 
     useEffect(() => {
-        console.log(mode_conf);
         if (mode_conf) {
             const { 
                 concurrency,
@@ -400,8 +399,6 @@ const ReportContent = (props) => {
         }
         return option;
     }
-
-    console.log(configColumn, configData);
 
     return (
         <div className='report-content'>

@@ -57,11 +57,12 @@ const reportResult = {
 };
 
 const ReportDetail = (props) => {
-	const { data: configData, stopDebug, onStatus, status } = props;
+	const { data: configData, stopDebug, onStatus, status, onRunTime } = props;
 
     const [data, setData] = useState([]);
 	const { id: report_id } = useParams();
 	const [end, setEnd] = useState(false);
+	// const [runTime, setRunTime] = useState(0);
 	
 	let report_detail_t = null;
 
@@ -86,8 +87,10 @@ const ReportDetail = (props) => {
 					dataList.push(results[i]);
 				}
 				setData(dataList);
-
-				
+				const item = dataList.length > 0 ? dataList[0].qps_list : [];
+				const time = item.length > 1 ? item[item.length - 1].time_stamp - item[0].time_stamp : 0;
+				// setRunTime(time);
+				onRunTime(time);
 				if (end) {
 					// onStatus('已完成')
 					clearInterval(report_detail_t);
@@ -101,7 +104,7 @@ const ReportDetail = (props) => {
     const defaultList = [
         { id: '1', title: '测试详情页', content: <ReportContent data={data} config={configData}  />  },
         { id: '2', title: 'debug日志', content: <DebugLog status={status} end={end} stopDebug={stopDebug} />},
-        { id: '3', title: '压力机监控', content: <PressMonitor /> },
+        { id: '3', title: '压力机监控', content: <PressMonitor status={status} /> },
         { id: '4', title: '被服务器监控', content: '被服务器监控' }
     ];
 

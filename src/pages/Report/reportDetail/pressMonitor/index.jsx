@@ -6,7 +6,9 @@ import { useParams } from 'react-router-dom';
 import { fetchMachine } from '@services/report';
 import dayjs from 'dayjs';
 
-const PressMonitor = () => {
+const PressMonitor = (props) => {
+    const { status } = props;
+
     let base = +new Date(1988, 9, 3);
     let oneDay = 24 * 3600 * 1000;
     let _data = [[base, Math.random() * 300]];
@@ -15,8 +17,22 @@ const PressMonitor = () => {
     const [metrics, setMetrics] = useState([]);
     const { id: report_id } = useParams();
 
+    let press_monitor_t = null;
     useEffect(() => {
+        getMonitorData();
 
+        if (status === 2) {
+            press_monitor_t && clearInterval(press_monitor_t);
+        } else {
+            press_monitor_t = setInterval(getMonitorData, 3000);   
+        }
+
+        return () => {
+            clearInterval(press_monitor_t);
+        }
+    }, [status]);
+
+    const getMonitorData = () => {
         const query = {
             report_id,
         };
@@ -27,8 +43,8 @@ const PressMonitor = () => {
                 setEndTime(end_time_sec);
                 setMetrics(metrics);
             }
-        })
-    }, [])
+        });
+    }
     // for (let i = 1; i < 20000; i++) {
     //     let now = new Date((base += oneDay));
     //     _data.push([+now, Math.round((Math.random() - 0.5) * 20 + _data[i - 1][1])]);

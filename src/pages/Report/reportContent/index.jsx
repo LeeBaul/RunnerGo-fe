@@ -20,6 +20,7 @@ const ReportContent = () => {
     const [configData, setConfigData] = useState({});
     const [stopDebug, setStopDebug] = useState('stop');
     const [reportStatus, setReportStatus] = useState(1);
+    const [runTime, setRunTime] = useState(0);
 
     let report_info_t = null;
 
@@ -39,7 +40,6 @@ const ReportContent = () => {
         };
         fetchReportInfo(query).subscribe({
             next: (res) => {
-                console.log(res);
                 const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status } }} = res;
                 setHeaderData({
                     plan_name,
@@ -70,7 +70,7 @@ const ReportContent = () => {
     return (
         <div className='report'>
             <ReportHeader data={headerData} status={reportStatus} />
-            <ReportExecutor data={infoData} status={reportStatus} onStop={(e) => setStopDebug(e)} />
+            <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
             {/* <Tabs type="card" className={TabStyle} defaultActiveId="1">
                 {defaultList.map((d) => (
                     <TabPan key={d.id} id={d.id} title={d.title}>
@@ -78,7 +78,7 @@ const ReportContent = () => {
                     </TabPan>
                 ))}
             </Tabs> */}
-            <ReportDetail data={configData} stopDebug={stopDebug} status={reportStatus} /> 
+            <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} /> 
         </div>
     )
 };

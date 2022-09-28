@@ -326,10 +326,7 @@ const MenuTrees = (props, treeRef) => {
                     } else {
                         if (type === 'apis') {
                             Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
-                            dispatch({
-                                type: 'opens/updateSaveId',
-                                payload: null,
-                            })
+                            console.log(123123);
                         } else if (type === 'scene') {
                             Bus.$emit('addOpenScene', val, id_apis_scene, node_config_scene)
                         } else if (type === 'plan') {

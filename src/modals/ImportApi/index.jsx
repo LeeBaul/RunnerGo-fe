@@ -517,6 +517,7 @@ const ImportApi = (props) => {
         const _index = _rightList.findIndex(item => item.id === team_now);
         if (_index === -1) {
             _rightList.push({
+                id: team_now,
                 name: team_now,
                 list: selectItem,
             })
@@ -529,7 +530,13 @@ const ImportApi = (props) => {
             //         _rightList[_index].list.push(elem);
             //     }
             // })
-            _rightList[_index].list = selectItem;
+            let add = [];
+            _rightList[_index].list = selectItem.map(item => {
+                if (_rightList[_index].list.findIndex(elem => elem.target_id === item.target_id) !== -1) {
+                    add.push(item);
+                }
+            });
+            _rightList[_index].list = _rightList[_index].list.concat(add);
         }
         setRightList(_rightList);
     }

@@ -58,7 +58,10 @@ const TeamProject = () => {
                     <DropdownContainer>
                         <div className="header">
                             <span>团队</span>
-                            <Button onClick={() => setTeamList(true)}>团队管理</Button>
+                            <Button onClick={() => {
+                                setTeamList(true);
+                                refDropdown.current.setPopupVisible(false);
+                            }}>团队管理</Button>
                             {/* <a href={USER_PROJECT_URL} target="_blank" rel="noreferrer">
                                 <Button
                                     preFix={<SvgStartupteam width="16" height="16" className="perfix" />}

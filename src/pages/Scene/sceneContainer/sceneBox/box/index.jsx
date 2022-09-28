@@ -565,7 +565,8 @@ const Box = (props) => {
     }, []);
 
     const clickOutSide = (e) => {
-        let _box = document.querySelector('.selectBox');
+        console.log(e);
+        let _box = document.querySelector('.box');
 
         if (_box && !_box.contains(e.target)) {
             setSelectBox(false);
@@ -578,13 +579,14 @@ const Box = (props) => {
                 selectBox: selectBox
             })}
             onClick={(e) => {
+                console.log(e);
                 e.preventDefault();
                 e.stopPropagation();
                 setSelectBox(true);
 
-                if (e.target.className.baseVal === 'more-svg' || e.target.parentNode.className.baseVal === 'more-svg') {
-                    refDropdown.current.setPopupVisible(true);
-                }
+                // if (e.target.className.baseVal === 'more-svg' || e.target.parentNode.className.baseVal === 'more-svg') {
+                //     refDropdown.current.setPopupVisible(true);
+                // }
             }}
         >
             <Handle

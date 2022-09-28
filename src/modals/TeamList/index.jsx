@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ProjectMemberModal, HeaderLeftModal } from './style';
 import avatar from '@assets/logo/avatar.png';
 import { InviteMembers as SvgInvite, Team as SvgTeam } from 'adesign-react/icons';
-import { fetchTeamMemberList, fetchRemoveMember, fetchTeamList } from '@services/user';
+import { fetchTeamMemberList, fetchRemoveMember, fetchTeamList, fetchQuitTeam } from '@services/user';
 import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import InvitationModal from '../ProjectInvitation';
@@ -20,6 +20,8 @@ const TeamList = (props) => {
     const [data, setData] = useState([]);
     const [showInvite, setShowInvite] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
+    const [showQuit, setShowQuit] = useState(false);
+    const [confirmTeam, setConfirmTeam] = useState({});
 
     const userInfo = useSelector((store) => store.user.userInfo);
 
@@ -53,6 +55,58 @@ const TeamList = (props) => {
         });
     }
 
+    const confirmQuit = () => {
+        setShowQuit(true);
+    }
+
+    const deleteTeam = () => {
+
+    }
+    const outTeam = () => {
+        // 判断当前团队是否是该用户的私有团队
+        const team_id = localStorage.getItem('team_id');
+        const team_item = data.find(item => item.team_id === confirmTeam.team_id);
+
+        // 当前团队是私有团队, 并且团队的创建者是自己
+        if (team_item.type === 1 && team_item.created_user_id === userId) {
+            Message('error', '您无法退出自己的私有团队!');
+            return;
+        }
+        const params = {
+            team_id: parseInt(team_id),
+        };
+        fetchQuitTeam(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    Message('success', '退出成功!');
+                    const _teamList = Object.values(teamList);
+                    const myTeam = _teamList.find(item => item.type === 1 && item.created_user_id === userId);
+
+                    const settings = JSON.parse(localStorage.getItem('settings'));
+                    settings.settings.current_team_id = myTeam.team_id;
+                    fetchUpdateConfig(settings).subscribe({
+                        next: (res) => {
+                            const { code } = res;
+                            if (code === 0) {
+                                localStorage.setItem('team_id', myTeam.team_id);
+                                global$.next({
+                                    action: 'INIT_APPLICATION',
+                                });
+                                onCancel();
+                                navigate('/index');
+                            } else {
+                                Message('error', '切换团队失败!');
+                            }
+                        },
+                    })
+                } else {
+                    Message('error', '退出失败!');
+                }
+            }
+        })
+    };
+
     const fetchData = (res) => {
         const { data: { user: { user_id } } } = res;
 
@@ -68,8 +122,15 @@ const TeamList = (props) => {
                             return {
                                 ...item,
                                 created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                                handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => removeMember(item.user_id)}>
-                                    { item.user_id === user_id ? '解散团队' : '退出团队' }
+                                handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
+                                    if (item.created_user_id === user_id) {
+                                        deleteTeam();
+                                    } else {
+                                        setConfirmTeam(item);
+                                        confirmQuit();
+                                    }
+                                }}>
+                                    {item.created_user_id === user_id ? '解散团队' : '退出团队'}
                                 </p>,
                             }
                         });
@@ -96,7 +157,7 @@ const TeamList = (props) => {
         },
         {
             title: '创建人',
-            dataIndex: 'invitedBy',
+            dataIndex: 'created_user_name',
         },
         {
             title: '操作',
@@ -131,12 +192,22 @@ const TeamList = (props) => {
     return (
         <div>
             {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
-            { showCreate && <CreateTeam onCancel={(e) => {
+            {showCreate && <CreateTeam onCancel={(e) => {
                 setShowCreate(false);
                 if (e) {
                     getUserInfo().pipe(tap(fetchData)).subscribe();
                 }
-            }}/> }
+            }} />}
+            {showQuit &&
+                <Modal
+                    visible={true}
+                    title="退出团队"
+                    content={`确认退出${confirmTeam.name}?`}
+                    okText="退出团队"
+                    onCancel={() => setShowQuit(false)}
+                    onOk={() => outTeam()}
+                ></Modal>
+            }
             <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} onCancel={onCancel} onOk={onCancel} >
                 <Table columns={columns} data={data} />
                 {/* <div className='title'>

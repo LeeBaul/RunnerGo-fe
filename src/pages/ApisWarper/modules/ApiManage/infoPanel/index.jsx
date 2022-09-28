@@ -43,12 +43,15 @@ const ApiInfoPanel = (props) => {
 
     const dispatch = useDispatch();
 
+    const _saveId = useSelector((store) => store.opens.saveId);
+
     const saveApi = () => {
         if (from === 'scene' || from === 'plan') {
             Bus.$emit('saveSceneApi', apiNow, apiData)
         } else {
             Bus.$emit('saveTargetById', {
                 id: apiNow,
+                saveId: _saveId
             }, {}, (code, id) => {
                 console.log(code, id);
                 if (code === 0) {

@@ -419,6 +419,12 @@ const useOpens = () => {
 
         const { type, id, pid } = data;
         let newApi = '';
+
+        dispatch({
+            type: 'opens/updateSaveId',
+            payload: null,
+        })
+        
         if (id) {
             Bus.$emit('updateTargetId', id);
             dispatch({

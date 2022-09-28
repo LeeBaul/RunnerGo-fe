@@ -12,9 +12,7 @@ const DebugLog = (props) => {
 
 
     useEffect(() => {
-        console.log(stopDebug);
         getDebug();
-        console.log(end);
         if (end) {
             clearInterval(debug_t);
         } else {
@@ -38,7 +36,6 @@ const DebugLog = (props) => {
         };
         fetchDebugLog(query).subscribe({
             next: (res) => {
-                console.log(res);
                 const { data } = res;
                 let _data = [];
                 data && data.forEach(item => {
