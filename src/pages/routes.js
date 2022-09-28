@@ -7,6 +7,8 @@ import IndexPage from "./IndexPage";
 import Scene from "./Scene";
 import Plan from './Plan';
 import Report from "./Report";
+import Machine from "./Machine";
+import Doc from "./Doc";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -52,6 +54,16 @@ const Route = [
         path: '/report/*',
         element: Report,
     },
+    {
+        name: 'machine',
+        path: '/machine/*',
+        element: Machine,
+    },
+    {
+        name: 'doc',
+        path: '/doc/*',
+        element: Doc,
+    }
 ];
 
 const ignorePage = ['login', 'register', 'find'];

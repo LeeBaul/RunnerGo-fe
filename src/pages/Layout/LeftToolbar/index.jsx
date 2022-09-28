@@ -5,17 +5,21 @@ import './index.less';
 import { leftBarItems } from './constant';
 
 const LeftToolbar = () => {
-    let [currentPath, setCurrentPath] = useState(location.pathname);
+    let [currentPath, setCurrentPath] = useState(`/${location.hash.split('/')[1]}`);
 
+    console.log(currentPath, leftBarItems, location.pathname, location);
     const leftBarList = leftBarItems.map((item, index) => (
         <React.Fragment key={index}>
             <Link to={item.link}>
                 <div
                     key={index}
                     className={cn('toolbar-item', {
-                        active: currentPath.indexOf(item.link) !== -1,
+                        active: currentPath === item.link,
                     })}
-                    onClick={() => setCurrentPath(item.link)}
+                    onClick={() => {
+                        setCurrentPath(item.link);
+                        console.log(item.link);
+                    }}
                 >
                     <item.icon className='svg-item' />
                     <span className="item-text">{item.title}</span>
