@@ -9,7 +9,7 @@ import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import InvitationModal from '../ProjectInvitation';
 import Bus from '@utils/eventBus';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchDashBoardInfo } from '@services/dashboard';
 
 import { global$ } from '@hooks/useGlobal/global';
@@ -28,6 +28,7 @@ const ProjectMember = (props) => {
     const teamList = useSelector((store) => store.teams.teamData);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const removeMember = (member_id, role_id) => {
         // 当前用户是普通成员, 没有移除任何人的权限
@@ -114,6 +115,14 @@ const ProjectMember = (props) => {
                                 global$.next({
                                     action: 'INIT_APPLICATION',
                                 });
+                                dispatch({
+                                    type: 'opens/coverOpenApis',
+                                    payload: {},
+                                  })
+                                dispatch({
+                                    type: 'scene/updateOpenScene',
+                                    payload: null,
+                                })
                                 onCancel();
                                 navigate('/index');
                             } else {

@@ -12,12 +12,13 @@ const CustomEdge = (props) => {
         targetY,
         sourcePosition,
         targetPosition,
-        borderRadius = 0,
+        borderRadius = 3,
         style = {},
         data,
         arrowHeadType,
         markerEndId,
     } = props;
+    console.log(sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, borderRadius)
 
     const edgePath = getBezierPath({
         sourceX,
@@ -48,6 +49,8 @@ const CustomEdge = (props) => {
             setClick(false);
         }
     }
+
+    console.log(edgePath);
 
     return (
         <>

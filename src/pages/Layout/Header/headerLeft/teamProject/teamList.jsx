@@ -10,6 +10,7 @@ import { tap } from 'rxjs';
 import { useDispatch } from 'react-redux';
 
 import { global$ } from '@hooks/useGlobal/global';
+import { useNavigate } from 'react-router-dom';
 
 const { Collapse, CollapseItem } = CollapseComponent;
 
@@ -20,6 +21,7 @@ const TeamList = (props) => {
   const [projectList, setProjectList] = useState([]);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const uuid = localStorage.getItem('uuid');
 
@@ -85,9 +87,18 @@ const TeamList = (props) => {
         if (code === 0) {
           dropRef?.current?.setPopupVisible(false)
           localStorage.setItem('team_id', team_id);
+          dispatch({
+            type: 'opens/coverOpenApis',
+            payload: {},
+          })
+          dispatch({
+            type: 'scene/updateOpenScene',
+            payload: null,
+        })
           global$.next({
             action: 'INIT_APPLICATION',
           });
+          navigate('/index');
         } else {
           Message('error', '切换失败!');
         }

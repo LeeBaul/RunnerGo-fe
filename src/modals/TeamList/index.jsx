@@ -9,7 +9,7 @@ import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import InvitationModal from '../ProjectInvitation';
 import Bus from '@utils/eventBus';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchDashBoardInfo } from '@services/dashboard';
 import CreateTeam from '../CreateTeam';
 
@@ -24,6 +24,7 @@ const TeamList = (props) => {
     const [confirmTeam, setConfirmTeam] = useState({});
 
     const userInfo = useSelector((store) => store.user.userInfo);
+    const dispatch = useDispatch();
 
     const removeMember = (member_id) => {
         const params = {
@@ -93,6 +94,14 @@ const TeamList = (props) => {
                                 global$.next({
                                     action: 'INIT_APPLICATION',
                                 });
+                                dispatch({
+                                    type: 'opens/coverOpenApis',
+                                    payload: {},
+                                })
+                                dispatch({
+                                    type: 'scene/updateOpenScene',
+                                    payload: null,
+                                })
                                 onCancel();
                                 navigate('/index');
                             } else {
