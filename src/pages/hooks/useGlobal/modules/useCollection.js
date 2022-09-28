@@ -189,7 +189,11 @@ const useCollection = () => {
             newCollection = { ...newCollection, ...param };
         }
 
-        newCollection.sort = getSort(apiDatas);
+        if (newCollection.sort = -1) {
+            newCollection = targetReorder(newCollection);
+        }
+
+        // newCollection.sort = getSort(apiDatas);
 
         // sort 排序
         // if (newCollection?.sort == -1) await targetReorder(newCollection);

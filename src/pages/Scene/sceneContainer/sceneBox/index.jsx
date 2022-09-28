@@ -93,15 +93,15 @@ const SceneBox = (props) => {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    console.log(nodes);
+
     const onConnect = useCallback((params) => {
-        console.log(params);
+
         const _params = cloneDeep(params);
         _params.type = 'common';
         const res = checkConnect(_params.source, _params.target);
         if (res) {
             return setEdges((eds) => {
-                console.log(_params);
+
                 return addEdge(_params, eds)
             })
         } else {
@@ -140,7 +140,7 @@ const SceneBox = (props) => {
     // const connect = { source: 'c', target: 'a' }; // 不允许
     
     useEffect(() => {
-        console.log('to_loading', to_loading)
+
         if (edges.length > 0 && to_loading) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {
@@ -477,7 +477,7 @@ const SceneBox = (props) => {
 
     useEffect(() => {
         const [action, type] = type_now;
-        console.log(type_now);
+
         const id = v4();
         if (action === 'add' && type === 'api') {
             const apiList = nodes.filter(item => item.type === 'api');

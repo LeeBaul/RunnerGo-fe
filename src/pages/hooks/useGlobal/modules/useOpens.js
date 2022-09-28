@@ -924,15 +924,21 @@ const useOpens = () => {
     };
 
     const dragUpdateTarget = ({ ids, targetList }) => {
+        const _ids = cloneDeep(ids);
+        _ids.forEach(item => {
+            if (typeof item.parent_id === 'string') {
+                item.parent_id = parseInt(item.parent_id);
+            }
+        })
         const query = {
             team_id: localStorage.getItem('team_id'),
-            target_ids: ids
+            target_ids: _ids
         };
         const targetDatas = {};
         targetList.forEach(item => {
             targetDatas[item.target_id] = item;
         })
-        console.log(ids, targetList);
+        console.log(_ids, targetList);
         const { parent_id, sort, target_id } = targetList[0];
         const params = {
             // parent_id: parseInt(parent_id),

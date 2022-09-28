@@ -79,18 +79,20 @@ const useNodeSort = (props) => {
 
         // 插到上面还是插到下面
         if (mode === 'top' || mode === 'bottom') {
-            targetList = targetList.filter((item) => item.target_id !== sourceKey);
+            targetList = targetList.filter((item) => `${item.target_id}` !== `${sourceKey}`);
             sourceData.parent_id = targetData.parent_id;
             parent_id = targetData.parent_id;
 
             // 被拖进目标序号
             let sortIndex = 0;
+            console.log(targetKey, targetList);
             targetList.forEach((item, index) => {
-                if (item.target_id === targetKey) {
+                if (`${item.target_id}` === `${targetKey}`) {
                     sortIndex = index;
                 }
             });
             if (mode === 'top') {
+                console.log(sortIndex);
                 targetList.splice(sortIndex, 0, sourceData);
             } else if (mode === 'bottom') {
                 targetList.splice(sortIndex + 1, 0, sourceData);
@@ -161,7 +163,7 @@ const useNodeSort = (props) => {
                     }
 
                 }),
-                switchMap(() => {
+                tap(() => {
                     const ids = [];
                     for (let i = 0; i < targetList.length; i++) {
                         ids.push(targetList[i].target_id);
