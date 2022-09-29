@@ -70,7 +70,7 @@ export const HeaderLeftModal = css`
     .invite-btn {
         width: 86px;
         height: 30px;
-        background-color: #ff4c4c;
+        background-color: var(--theme-color);
         border-radius: 5px;
         padding: 5px 8px;
         color: #fff;

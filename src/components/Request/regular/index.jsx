@@ -47,7 +47,7 @@ const Regular = (props) => {
             dataIndex: 'var',
             enableResize: true,
             render: (text, rowData, rowIndex) => (
-                <ApiInput
+                <Input
                     size="mini"
                     value={text}
                     onChange={(newVal) => {
@@ -62,7 +62,7 @@ const Regular = (props) => {
             enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
-                    <ApiInput
+                    <Input
                         size="mini"
                         value={text}
                         onChange={(newVal) => {
@@ -78,7 +78,7 @@ const Regular = (props) => {
             enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
-                    <ApiInput
+                    <Input
                         size="mini"
                         value={text}
                         onChange={(newVal) => {

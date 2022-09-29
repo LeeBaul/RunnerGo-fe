@@ -183,16 +183,15 @@ const TeamworkLogs = (props) => {
             }}
           />
           <Button
-            type="primary"
             disabled={page === maxPage}
             style={
-              page === maxPage ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: '#999999' } : {}
+              page === maxPage ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: '#999999' } : { }
             }
             onClick={() => setPage((pre) => pre + 1)}
           >
             下一页
           </Button>
-          <Button type="primary" onClick={handleJumpPage}>
+          <Button style={{ backgroundColor: 'var(--theme-color)' }} onClick={handleJumpPage}>
             跳转
           </Button>
         </div>
@@ -201,7 +200,7 @@ const TeamworkLogs = (props) => {
           {/* 刷新 */}
         </div>
       </div>
-      <Button onClick={onCancel}>关闭</Button>
+      <Button onClick={onCancel} style={{backgroundColor: 'var(--theme-color)'}}>关闭</Button>
     </div>
   );
 

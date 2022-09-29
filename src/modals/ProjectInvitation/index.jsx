@@ -489,8 +489,7 @@ const InvitationModal = (props) => {
                   <Option value={2}>成员</Option>
                 </Select>
                 <Button
-                  type="primary"
-                  className="apipost-blue-btn"
+                  // className="apipost-blue-btn"
                   onClick={() => changeTeamInvitation('add')}
                 >
                   确定
@@ -614,9 +613,9 @@ const InvitationModal = (props) => {
                 ) : null}
                 {needBuyStation && needBuyStation > 0 ? `需购买${needBuyStation}个读写工位` : null}
               </span> */}
-              <Button type="primary" onClick={onSubmit} className="apipost-blue-btn">
+              <Button onClick={onSubmit}>
                 {/* {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'} */}
-                添加协作人员
+                添加人员
               </Button>
             </div>
           </div>

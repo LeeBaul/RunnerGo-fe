@@ -262,8 +262,8 @@ const ProjectMember = (props) => {
         return (
             <div className={HeaderLeftModal}>
                 <div className='member-header-left'>
-                    <p className='title'>项目成员列表</p>
-                    <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>邀请协作</Button>
+                    <p className='title'>团队成员列表</p>
+                    <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>邀请</Button>
                 </div>
             </div>
         )

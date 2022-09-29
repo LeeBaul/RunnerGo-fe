@@ -79,7 +79,12 @@ export const GlobalVarModal = css`
         color: #f00;
     }
     .apipost-modal-footer > div > .apipost-btn {
-        margin: 0 20px;
+        margin: 0 8px;
+        width: 100px;
+        height: 40px;
+    }
+    .apipost-btn-default {
+        background-color: #39393D;
     }
 `;
 

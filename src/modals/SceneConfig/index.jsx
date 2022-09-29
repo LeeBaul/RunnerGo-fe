@@ -337,7 +337,7 @@ const SceneConfig = (props) => {
                 }
             </div>
             <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
-                <Button preFix={<SvgAdd />}>添加文件</Button>
+                <Button style={{ backgroundColor: 'var(--theme-color)' }} preFix={<SvgAdd />}>添加文件</Button>
             </Upload>
             <p className='container-title'>添加变量</p>
             <Table showBorder columns={columns} data={varList} />

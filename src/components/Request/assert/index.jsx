@@ -66,7 +66,7 @@ const Assert = (props) => {
             width: 120,
             render: (text, rowData, rowIndex) => {
                 return (
-                    <ApiInput
+                    <Input
                         size="mini"
                         value={text}
                         disabled={ parameter[rowIndex] ?  parameter[rowIndex].response_type === 3 : false }
@@ -101,7 +101,7 @@ const Assert = (props) => {
             enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
-                    <ApiInput
+                    <Input
                         size="mini"
                         value={text}
                         disabled={ parameter[rowIndex] ? (parameter[rowIndex].compare === 'notnull' || parameter[rowIndex].compare === 'null') : false }
