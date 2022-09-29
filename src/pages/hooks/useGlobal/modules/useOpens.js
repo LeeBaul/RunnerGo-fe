@@ -326,6 +326,10 @@ const useOpens = () => {
                 const newUrl = `${url.split('?')[0]}${paramsStr !== '' ? '?' : ''}${paramsStr}`;
                 set(tempOpenApis[target_id], 'url', newUrl);
                 set(tempOpenApis[target_id], 'request.url', newUrl);
+            } else {
+                url = url.split('?')[0];
+                set(tempOpenApis[target_id], 'url', url);
+                set(tempOpenApis[target_id], 'request.url', url);       
             }
         }
         // 小红点判断

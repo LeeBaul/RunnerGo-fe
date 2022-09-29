@@ -45,7 +45,7 @@ const Regular = (props) => {
         {
             title: '变量名',
             dataIndex: 'var',
-            enableResize: true,
+            // enableResize: true,
             render: (text, rowData, rowIndex) => (
                 <Input
                     size="mini"
@@ -59,7 +59,7 @@ const Regular = (props) => {
         {
             title: '表达式',
             dataIndex: 'express',
-            enableResize: true,
+            // enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
                     <Input
@@ -75,7 +75,7 @@ const Regular = (props) => {
         {
             title: '描述',
             dataIndex: 'val',
-            enableResize: true,
+            // enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
                     <Input
