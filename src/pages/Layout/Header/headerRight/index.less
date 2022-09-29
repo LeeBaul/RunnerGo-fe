@@ -290,8 +290,8 @@
 }
 
 .user-home {
-  // width: 254px;
-  // height: 250px;
+  width: 166px;
+  height: 178px;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -302,14 +302,36 @@
   border-radius: 5px;
 
   .name {
-    font-weight: 600;
-    font-size: 24px;
+    font-weight: 400;
+    font-size: 16px;
   }
 
   .email {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 4px;
+    color: #666;
+  }
+
+  .line {
+    width: 130px;
+    height: 0;
+    border: 1px solid #fff;
+    margin-top: 12px;
+  }
+
+  .person-page {
+    width: 130px;
+    height: 22px;
+    color: #000;
+    padding: 7px 12px;
+    background-color: #f9f9f9;
+    margin-top: 15px;
+
+    svg {
+      margin-right: 8px;
+      fill: #000;
+    }
   }
 
   .person-drop {
@@ -319,7 +341,8 @@
     &-item {
       display: flex;
       align-items: center;
-      margin: 15px 0;
+      margin: 10px 0;
+      cursor: pointer;
 
       svg {
         width: 16px;

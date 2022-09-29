@@ -1,156 +1,149 @@
-.userHome {
-    width: 864px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-   
-    .headPortrait {
-      height: 60px;
-      width: 60px;
-      margin: 0 auto;
-      position: relative;
-  
-      img {
-        border-radius: 32.5px;
-      }
-  
-      &:hover {
-        // opacity: 0.3;
-        // background: black;
-      }
-  
-      &:hover:after {
-        content: "编辑";
-        color: #fff;
-        font-size: var(--size-14px);
-        text-align: center;
+.user-page {
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    position: relative;
+    color: #000;
+
+    .return-btn {
+        width: 60px;
+        height: 36px;
+        background: #F2F2F2;
+        padding: 8px 8px 8px 4px;
+        color: #000;
+        margin-top: 80px;
+        margin-left: 80px;
+
+        svg {
+            fill: #000;
+            margin-right: 4px;
+        }
+    }
+
+    &-container {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
         position: absolute;
         top: 50%;
         left: 50%;
+
         transform: translate(-50%, -50%);
-        font-weight: normal;
-        background: rgba(0, 0, 0, 0.4);
-        height: 100%;
-        width: 100%;
-        line-height: 60px;
-        border-radius: 32.5px;
-      }
-    }
-  
-    .userName {
-      margin-top: 12px;
-      text-align: center;
-      .userName_name {
-        font-size: var(--size-16px);
-        font-weight: 600;
-        color: var(--fn1);
-        margin-right: 8px;
-      }
-  
-      .userName_icon {
-        width: 18px;
-        height: 18px;
-        display: inline-block;
-        cursor: pointer;
-      }
-    }
-  
-    .userEmail {
-      width: 180px;
-      color: var(--title-1);
-      font-size: var(--size-14px);
-      margin: 15px auto 60px;
-      text-align: center;
-    }
-  
-    .content_layout {
-      display: flex;
-      margin-top: 39px;
-      font-weight: 600;
-      color: var(--fn1);
-      font-size: var(--size-16px);
-      justify-content: center;
-      .content_layout_left {
-        margin-right: 461px;
-        margin-left: 10px;
-        width: 150px;
-        text-align: left;
-  
-        .content_layout_left_title {
-          text-align: left;
+        &-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .avatar {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+            }
+
+            .handle-name {
+                display: flex;
+                margin-top: 10px;
+
+                .name {
+                    font-weight: 600;
+                    font-size: 16px;
+                }
+
+                svg {
+                    fill: #000;
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+
+            .email {
+                font-weight: 400;
+                font-size: 14px;
+                color: #666;
+                margin-top: 15px;
+            }
         }
-  
-        .content_layout_left_time {
-          margin-left: 12px;
-          font-size: var(--size-14px);
-          color: var(--error);
-          font-weight: normal;
+
+        &-list {
+            margin-top: 64px;
+
+            &-item {
+                display: flex;
+                justify-content: space-between;
+                width: 718px;
+                padding: 18px;
+                border-bottom: 1px solid #f2f2f2;
+
+                .label {
+                    font-weight: 600;
+                    font-size: 16px;
+                    margin-bottom: 6px;
+                }
+
+                .common-item {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .apipost-btn {
+                    width: 90px;
+                    height: 41px;
+                    border: 1px solid #f2f2f2;
+                }
+
+                .apipost-btn:hover {
+                    background-color: #fff;
+                    color: #000;
+                }
+
+                .email-left {
+                    .email {
+                        margin-bottom: 6px;
+                        .change-num {
+                            color: #f00;
+                            margin-left: 12px;
+                        }
+                    }
+                }
+
+                .wx-left {
+                    .wx {
+                        margin-bottom: 6px;
+                        svg {
+                            margin-left: 5px;
+                        }
+                    }
+                }
+            }
         }
-  
-        .content_layout_left_icon {
-          width: 20px;
-          height: 16px;
-          display: inline-block;
-          margin-left: 5px;
+
+        &-bottom {
+            display: flex;
+            align-items: center;
+            width: 700px;
+            justify-content: flex-start;
+            margin-top: 55px;
+
+            .apipost-btn {
+                width: 110px;
+                height: 41px;
+                padding: 12px;
+                border: 1px solid #ff4c4c;
+                color: #ff4c4c;
+            }
+
+            .apipost-btn:hover {
+                background-color: #fff;
+            }
+
+            p {
+                cursor: pointer;
+                margin-left: 24px;
+                color: #666;
+            }
         }
-  
-        .content_layout_left_email {
-          color: var(--title-1);
-          font-weight: normal;
-          font-size: var(--size-14px);
-          margin-top: 5px;
-        }
-      }
-  
-      .content_layout_right1 {
-        min-width: 92px;
-        margin-right: 30px;
-      }
-  
-      .content_layout_right2 {
-        line-height: 2.5;
-      }
     }
-  
-    .userBr {
-      height: 1px;
-      background-color: var(--bg1);
-      width: 89%;
-      margin: 29px auto 0;
-    }
-  
-    .logOut {
-      margin-top: 32px;
-      text-align: left;
-      margin-left: 53px;
-    }
-  }
-  .prevBtn {
-    width: 72px;
-    height: 34px;
-    border-radius: 10px;
-    line-height: 34px;
-    font-weight: 400;
-    background: rgb(242, 242, 242);
-    color: rgb(43, 43, 43);
-    position: fixed;
-    top: 135px;
-    left: 266px;
-  }
-  
-  .user_center_modal {
-    .api-input-group {
-      height: 44px;
-      background: none;
-      .api-input {
-        background: none;
-      }
-    }
-  }
-  // .Back_btn_user {
-  //   display: none;
-  //   &.isShowBack {
-  //     display: inline-flex;
-  //   }
-  // }
+}

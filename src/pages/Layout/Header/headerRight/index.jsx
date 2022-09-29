@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './index.less';
 import { Button, Dropdown, Message } from 'adesign-react';
 import {
@@ -30,6 +30,7 @@ const HeaderRight = () => {
 
     const teamMember = useSelector((store) => store.teams.teamMember);
     const navigate = useNavigate();
+    const refDropdown = useRef();
 
 
     useEffect(() => {
@@ -82,20 +83,27 @@ const HeaderRight = () => {
             //     }
             // >
             <Dropdown
+                ref={refDropdown}
+                placement="bottom-end"
                 content={
                     <div className='user-home'>
                         <p className='name'>Frank</p>
                         <p className='email'>17710709463@163.com</p>
+                        <Button className='person-page' preFix={<SvgUserhome />} onClick={() => {
+                            refDropdown.current.setPopupVisible(false);
+                            navigate('/userhome')
+                        }}>我的个人主页</Button>
+                        <div className='line'></div>
                         <div className='person-drop'>
-                            <div className='person-drop-item'>
-                                <SvgUserhome />
-                                <span>我的个人主页</span>
-                            </div>
-                            <div className='person-drop-item'>
+                            <div className='person-drop-item' onClick={() => {
+                                refDropdown.current.setPopupVisible(false);
+                            }}>
                                 <SvgDocs />
                                 <span>实用文档</span>
                             </div>
-                            <div className='person-drop-item'>
+                            <div className='person-drop-item' onClick={() => {
+                                refDropdown.current.setPopupVisible(false);
+                            }}>
                                 <SvgCustomer />
                                 <span>企业专属客服</span>
                             </div>

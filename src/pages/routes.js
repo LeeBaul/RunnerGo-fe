@@ -9,6 +9,7 @@ import Plan from './Plan';
 import Report from "./Report";
 import Machine from "./Machine";
 import Doc from "./Doc";
+import UserHome from "./UserHome";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -63,10 +64,15 @@ const Route = [
         name: 'doc',
         path: '/doc/*',
         element: Doc,
+    },
+    {
+        name: 'userhome',
+        path: '/userhome/*',
+        element: UserHome,
     }
 ];
 
-const ignorePage = ['login', 'register', 'find'];
+const ignorePage = ['login', 'register', 'find', 'userhome'];
 
 // export const RoutePages = Route;
 

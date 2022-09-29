@@ -539,7 +539,8 @@ const useOpens = () => {
         // }
         // await Opens.delete(id).then(() => {
         // return;
-    
+        
+        console.log(id, open_apis);
 
         let ids = [];
         for (let id in open_apis) {
@@ -549,7 +550,7 @@ const useOpens = () => {
         // const openNavs =
         //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
         const index_1 = ids.indexOf(id);
-        if (`${id}` === `${CURRENT_TARGET_ID}`) {
+        if (`${id}` === `${open_api_now}`) {
             let newId = '';
             if (index_1 > 0) {
                 newId = ids[index_1 - 1];
@@ -1089,6 +1090,7 @@ const useOpens = () => {
         CURRENT_PROJECT_ID,
         CURRENT_TARGET_ID,
         desktop_proxy,
+        open_api_now
     ]);
 
     // 保存接口 ByID
