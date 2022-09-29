@@ -50,7 +50,6 @@ const ApiURLPanel = (props) => {
     }, [res_now]);
 
     useEffect(() => {
-        console.log(_saveId);
         setSaveId(_saveId);
         // if (_saveId) {
             // setSaveId(_saveId);
@@ -144,7 +143,6 @@ const ApiURLPanel = (props) => {
                                 id: open_api_now,
                                 saveId: saveId,
                             }, {}, (code, id) => {
-                                console.log(code, id);
                                 setSaveId(id);
                                 Bus.$emit('sendApi', id);
                             })

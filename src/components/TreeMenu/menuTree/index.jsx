@@ -68,6 +68,7 @@ const MenuTrees = (props, treeRef) => {
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
     const open_api_now = useSelector((store) => store.opens.open_api_now);
+    const saveId = useSelector((store) => store.opens.saveId);
     const [defaultExpandKeys, setDefaultExpandKeys] = useState([]);
     const uuid = localStorage.getItem('uuid');
 
@@ -326,7 +327,6 @@ const MenuTrees = (props, treeRef) => {
                     } else {
                         if (type === 'apis') {
                             Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
-                            console.log(123123);
                         } else if (type === 'scene') {
                             Bus.$emit('addOpenScene', val, id_apis_scene, node_config_scene)
                         } else if (type === 'plan') {

@@ -14,6 +14,7 @@ const { ScalePanel, ScaleItem } = Scale;
 const Apis = (props) => {
     const openApis = useSelector((store) => store?.opens?.open_apis);
     const CURRENT_TARGET_ID = useSelector((store) => store?.workspace?.CURRENT_TARGET_ID);
+    const open_api_now = useSelector((store) => store.opens.open_api_now);
 
 
     // 切换tabItem
@@ -72,7 +73,7 @@ const Apis = (props) => {
                 <ApiTabs
                     className={ApiManageWrapper}
                     onChange={handleTabChange}
-                    defaultTabId={CURRENT_TARGET_ID}
+                    defaultTabId={open_api_now}
                     apiList={apiDataList}
                     onRemoveTab={handleRemoveTab}
                     contentRender={contentRender}

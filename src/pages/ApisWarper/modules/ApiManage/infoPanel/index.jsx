@@ -53,12 +53,16 @@ const ApiInfoPanel = (props) => {
                 id: apiNow,
                 saveId: _saveId
             }, {}, (code, id) => {
-                console.log(code, id);
+
                 if (code === 0) {
                     Message('success', '保存成功!');
                     // onSave(id);
                     dispatch({
                         type: 'opens/updateSaveId',
+                        payload: id,
+                    })
+                    dispatch({
+                        type: 'opens/updateOpenApiNow',
                         payload: id,
                     })
                 } else {

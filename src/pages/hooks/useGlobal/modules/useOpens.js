@@ -49,7 +49,6 @@ const useOpens = () => {
     const { CURRENT_PROJECT_ID, CURRENT_TARGET_ID } = workspace;
 
     const getSort = (apiDatas) => {
-        console.log(apiDatas);
         if (Object.values(apiDatas).length === 0) {
             return 1;
         }
@@ -67,11 +66,9 @@ const useOpens = () => {
             let sort = 0;
             const rootNodes = projectNodes.filter((item) => `${item.parent_id}` === `${parentKey}`);
             const nodeSort = rootNodes.map((item) => item.sort);
-            console.log(rootNodes, nodeSort, projectNodes);
             sort = max(nodeSort) || 0;
             target.sort = sort + 1;
         }
-        console.log(target);
         return target;
     };
     // 过滤key为空的值
@@ -578,7 +575,6 @@ const useOpens = () => {
         const target_id = id || CURRENT_TARGET_ID;
         const tempOpenApis = cloneDeep(open_apis);
         let tempTarget = tempOpenApis[target_id];
-        console.log(id, tempTarget, tempOpenApis, saveId);
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
@@ -646,15 +642,27 @@ const useOpens = () => {
                     tap((res) => {
                         const { code, data } = res;
 
+                        
+
                         if (callbacks) {
                             callbacks && callbacks(code, data.target_id);
                             // await updateCollectionById();
                         }
 
-                        // dispatch({
-                        //     type: 'opens/updateOpenApiNow',
-                        //     payload: data.target_id,
-                        // })
+                        const _old = cloneDeep(tempOpenApis[id]);
+                        _old.target_id = data.target_id;
+                        delete tempOpenApis[id];
+                        tempOpenApis[data.target_id] = _old;
+
+                        dispatch({
+                            type: 'opens/coverOpenApis',
+                            payload: tempOpenApis,
+                        })
+
+                        dispatch({
+                            type: 'opens/updateOpenApiNow',
+                            payload: data.target_id,
+                        })
 
                         if (code === 0) {
                             global$.next({
@@ -938,7 +946,6 @@ const useOpens = () => {
         targetList.forEach(item => {
             targetDatas[item.target_id] = item;
         })
-        console.log(_ids, targetList);
         const { parent_id, sort, target_id } = targetList[0];
         const params = {
             // parent_id: parseInt(parent_id),
@@ -974,7 +981,6 @@ const useOpens = () => {
             target_id: id ? parseInt(id) : parseInt(open_api_now),
             team_id: parseInt(localStorage.getItem('team_id')),
         };
-        console.log(id, params, open_api_now);
         const _open_res = cloneDeep(open_res);
         _open_res[open_api_now] = {
             ..._open_res[open_api_now],
