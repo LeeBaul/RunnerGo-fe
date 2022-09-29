@@ -40,7 +40,7 @@ const SceneConfig = (props) => {
         if (open_scene) {
             const query = {
                 team_id: localStorage.getItem('team_id'),
-                scene_id: open_scene.scene_id,
+                scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id,
             };
             fetchImportList(query).subscribe({
                 next: (res) => {
@@ -204,7 +204,7 @@ const SceneConfig = (props) => {
         )
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            scene_id: open_scene.scene_id,
+            scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id,
             name: res_name,
             url,
         };
@@ -243,7 +243,7 @@ const SceneConfig = (props) => {
         });
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            scene_id: parseInt(open_scene.scene_id),
+            scene_id: parseInt(open_scene.scene_id ? open_scene.scene_id : open_scene.target_id),
             variables
         };
         fetchChangeVar(params).subscribe({
@@ -263,7 +263,7 @@ const SceneConfig = (props) => {
     const deleteFile = (name) => {
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            scene_id: open_scene.scene_id,
+            scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id,
             name,
         };
         fetchDeleteImport(params).subscribe({

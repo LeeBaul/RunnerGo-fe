@@ -3,7 +3,10 @@ import './index.less';
 import { Button, Dropdown, Message } from 'adesign-react';
 import {
     LogoutRight as SvgLogout,
-    InviteMembers as SvgInvite
+    InviteMembers as SvgInvite,
+    Userhome as SvgUserhome,
+    Docs as SvgDocs,
+    Customer as SvgCustomer,
 } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png'
 import InvitationModal from '@modals/ProjectInvitation';
@@ -78,11 +81,34 @@ const HeaderRight = () => {
             //         </div>
             //     }
             // >
-                <div className='person-avatar'>
-                    <img src={item.avatar || avatar} alt="" />
-                    {/* <div className='person-status'></div> */}
+            <Dropdown
+                content={
+                    <div className='user-home'>
+                        <p className='name'>Frank</p>
+                        <p className='email'>17710709463@163.com</p>
+                        <div className='person-drop'>
+                            <div className='person-drop-item'>
+                                <SvgUserhome />
+                                <span>我的个人主页</span>
+                            </div>
+                            <div className='person-drop-item'>
+                                <SvgDocs />
+                                <span>实用文档</span>
+                            </div>
+                            <div className='person-drop-item'>
+                                <SvgCustomer />
+                                <span>企业专属客服</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            >
+                <div>
+                    <div className='person-avatar'>
+                        <img src={item.avatar || avatar} alt="" />
+                    </div>
                 </div>
-            // </Dropdown>
+            </Dropdown>
         ))
     };
 

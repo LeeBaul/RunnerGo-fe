@@ -1,188 +1,91 @@
 .header-right {
+  display: flex;
+  align-items: center;
+
+  .handle-log {
+    width: 64px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    color: #fff;
+    padding: 5px 8px;
+  }
+
+  .team-person {
+    margin-left: 20px;
+    display: flex;
+
+    .person-avatar {
+      position: relative;
+      margin-left: 4px;
+
+      .person-status {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #07E81D;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+
+    .person-number {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #39393D;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+    }
+  }
+
+  .invite {
+    margin-left: 16px;
+    width: 62px;
+    height: 30px;
+    background-color: #EC663C;
+    padding: 5px 8px;
+    color: #fff;
+
+    svg {
+      fill: #fff;
+      margin-right: 6px;
+    }
+  }
+
+  .more-btn {
+    margin-left: 16px;
     display: flex;
     align-items: center;
 
-    .handle-log {
-        width: 64px;
-        height: 30px;
-        background-color: rgba(255, 255, 255, 0.08);
-        border-radius: 5px;
-        color: #fff;
-        padding: 5px 8px;
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+      margin-right: 8px;
     }
+  }
 
-    .team-person {
-        margin-left: 20px;
-        display: flex;
-
-        .person-avatar {
-            position: relative;
-            margin-left: 4px;
-
-            .person-status {
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                background-color: #07E81D;
-                position: absolute;
-                bottom: 0;
-                right: 0;
-            }
-        }
-
-        .person-number {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #39393D;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 4px;
-        }
-    }
-
-    .invite {
-        margin-left: 16px;
-        width: 62px;
-        height: 30px;
-        background-color: #EC663C;
-        padding: 5px 8px;
-        color: #fff;
-
-        svg {
-            fill: #fff;
-            margin-right: 6px;
-        }
-    }
-
-    .more-btn {
-        margin-left: 16px;
-        display: flex;
-        align-items: center;
-
-        svg {
-            width: 16px;
-            height: 16px;
-            fill: #fff;
-            margin-right: 8px;
-        }
-    }
-
-    .single-user {
-        height: 50px;
-        border-bottom: 1px solid var(--border-color-default);
-        padding: 8px;
-        display: flex;
-        align-items: center;
-
-        .worker-avatar {
-            position: relative;
-
-            img {
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                margin: 0 8px 0 0;
-            }
-
-            .isOnline {
-                position: absolute;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                left: 15px;
-                top: 15px;
-                background: var(--base-color-success);
-
-                &.notOnline {
-                    background: var(--background-color-tertiary);
-                }
-            }
-        }
-
-        .worker-msg {
-            width: 128px;
-            font-size: var(--size-12px);
-            flex-grow: 0;
-            flex-shrink: 0;
-
-            .name {
-                color: var(--content-color-primary);
-                font-weight: 500;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .email {
-                color: var(--content-color-secondary);
-                height: 14px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                margin-top: 4px;
-            }
-        }
-
-        .work-role {
-            width: 44px;
-            height: 17px;
-            margin: 0 0 0 8px;
-            position: relative;
-
-            .role-msg {
-                width: 44px;
-                height: 17px;
-                border-radius: 3px;
-                cursor: pointer;
-                line-height: 17px;
-                text-align: center;
-                font-size: var(--size-12px);
-                color: var(--content-color-constant);
-                background-color: var(--base-color-brand);
-
-                &.isRead {
-                    color: var(--content-color-primary);
-                    background-color: var(--background-color-tertiary);
-                }
-
-                &.isOwner {
-                    background-color: var(--base-color-success);
-                }
-
-                &.isAdmin {
-                    background-color: var(--base-color-info);
-                }
-            }
-        }
-    }
-
-    .online-list {
-        width: 234px;
-        max-height: 500px;
-        overflow-y: auto;
-    }
-}
-
-.single-user {
+  .single-user {
     height: 50px;
     border-bottom: 1px solid var(--border-color-default);
     padding: 8px;
     display: flex;
     align-items: center;
-    color: #fff;
-  
+
     .worker-avatar {
       position: relative;
-  
+
       img {
         width: 20px;
         height: 20px;
         border-radius: 50%;
         margin: 0 8px 0 0;
       }
-  
+
       .isOnline {
         position: absolute;
         width: 5px;
@@ -191,19 +94,19 @@
         left: 15px;
         top: 15px;
         background: var(--base-color-success);
-  
+
         &.notOnline {
           background: var(--background-color-tertiary);
         }
       }
     }
-  
+
     .worker-msg {
       width: 128px;
       font-size: var(--size-12px);
       flex-grow: 0;
       flex-shrink: 0;
-  
+
       .name {
         color: var(--content-color-primary);
         font-weight: 500;
@@ -211,7 +114,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-  
+
       .email {
         color: var(--content-color-secondary);
         height: 14px;
@@ -221,13 +124,13 @@
         margin-top: 4px;
       }
     }
-  
+
     .work-role {
       width: 44px;
       height: 17px;
       margin: 0 0 0 8px;
       position: relative;
-  
+
       .role-msg {
         width: 44px;
         height: 17px;
@@ -238,52 +141,195 @@
         font-size: var(--size-12px);
         color: var(--content-color-constant);
         background-color: var(--base-color-brand);
-  
+
         &.isRead {
           color: var(--content-color-primary);
           background-color: var(--background-color-tertiary);
         }
-  
+
         &.isOwner {
           background-color: var(--base-color-success);
         }
-  
+
         &.isAdmin {
           background-color: var(--base-color-info);
         }
       }
     }
   }
-  
-  .change-role {
-    .role-item {
-      width: 64px;
-      height: 32px;
-      line-height: 32px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      text-align: center;
-      color: var(--content-color-secondary);
-  
-      &:hover {
-        background: var(--base-color-info);
-        color: var(--content-color-constant);
+
+  .online-list {
+    width: 234px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}
+
+.single-user {
+  height: 50px;
+  border-bottom: 1px solid var(--border-color-default);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+
+  .worker-avatar {
+    position: relative;
+
+    img {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin: 0 8px 0 0;
+    }
+
+    .isOnline {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      left: 15px;
+      top: 15px;
+      background: var(--base-color-success);
+
+      &.notOnline {
+        background: var(--background-color-tertiary);
       }
     }
   }
-  
-  
-  .counter {
-    width: 30px;
-    height: 30px;
-    margin-left: 4px;
-    border-radius: 50%;
-    border: 1px solid var(--border-color-default);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--content-color-secondary);;
-    position: relative;
-    cursor: pointer;
+
+  .worker-msg {
+    width: 128px;
+    font-size: var(--size-12px);
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    .name {
+      color: var(--content-color-primary);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .email {
+      color: var(--content-color-secondary);
+      height: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-top: 4px;
+    }
   }
+
+  .work-role {
+    width: 44px;
+    height: 17px;
+    margin: 0 0 0 8px;
+    position: relative;
+
+    .role-msg {
+      width: 44px;
+      height: 17px;
+      border-radius: 3px;
+      cursor: pointer;
+      line-height: 17px;
+      text-align: center;
+      font-size: var(--size-12px);
+      color: var(--content-color-constant);
+      background-color: var(--base-color-brand);
+
+      &.isRead {
+        color: var(--content-color-primary);
+        background-color: var(--background-color-tertiary);
+      }
+
+      &.isOwner {
+        background-color: var(--base-color-success);
+      }
+
+      &.isAdmin {
+        background-color: var(--base-color-info);
+      }
+    }
+  }
+}
+
+.change-role {
+  .role-item {
+    width: 64px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    text-align: center;
+    color: var(--content-color-secondary);
+
+    &:hover {
+      background: var(--base-color-info);
+      color: var(--content-color-constant);
+    }
+  }
+}
+
+
+.counter {
+  width: 30px;
+  height: 30px;
+  margin-left: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color-default);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--content-color-secondary);
+  ;
+  position: relative;
+  cursor: pointer;
+}
+
+.user-home {
+  // width: 254px;
+  // height: 250px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+  padding: 12px;
+  box-shadow: 0px 5px 30px rgba(52, 52, 52, 0.1);
+  border-radius: 5px;
+
+  .name {
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  .email {
+    font-weight: 400;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .person-drop {
+    display: flex;
+    flex-direction: column;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+      }
+
+      span {
+        margin-left: 8px;
+      }
+    }
+  }
+}
