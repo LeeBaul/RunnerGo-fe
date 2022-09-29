@@ -45,6 +45,7 @@ const Regular = (props) => {
         {
             title: '变量名',
             dataIndex: 'var',
+            enableResize: true,
             render: (text, rowData, rowIndex) => (
                 <ApiInput
                     size="mini"

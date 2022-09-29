@@ -43,8 +43,9 @@ const Assert = (props) => {
     const columns = [
         {
             title: '',
-            width: 40,
+            width: 60,
             dataIndex: 'response_type',
+            enableResize: true,
             render: (text, rowData, rowIndex) => (
                 <Select
                     value={rowData.response_type || null}
@@ -62,7 +63,7 @@ const Assert = (props) => {
             title: '字段',
             dataIndex: 'var',
             enableResize: true,
-            width: 100,
+            width: 120,
             render: (text, rowData, rowIndex) => {
                 return (
                     <ApiInput
@@ -97,7 +98,7 @@ const Assert = (props) => {
         {
             title: '值',
             dataIndex: 'val',
-            width: 55,
+            enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
                     <ApiInput
