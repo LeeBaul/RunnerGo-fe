@@ -103,7 +103,7 @@ const HeaderRight = () => {
                     <p>{teamMember.length}</p>
                 </div>
             </div>
-            <Button className='invite' preFix={<SvgInvite />} onClick={() => setShowModal(true)}>邀请协作</Button>
+            <Button className='invite' preFix={<SvgInvite />} onClick={() => setShowModal(true)}>邀请</Button>
             <div className='more-btn'>
                 <Button className='handle-log' onClick={() => setShowLog(true)}>操作日志</Button>
                 <Button className='handle-log' preFix={<SvgLogout />} onClick={() => loginOut()}>退出</Button>

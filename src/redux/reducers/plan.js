@@ -36,6 +36,7 @@ const initialState = {
   to_loading: false,
 
   running_scene: '',
+  select_box: '',
 };
 
 // action名称
@@ -69,6 +70,7 @@ const actionTypes = {
 
   updateRunningScene: 'updateRunningScene',
   updateRunStatus: 'updateRunStatus',
+  updateSelectBox: 'updateSelectBox',
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -197,6 +199,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         run_status: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateSelectBox}`:
+      return {
+        ...state,
+        select_box: action.payload,
       }
     default:
       return state;

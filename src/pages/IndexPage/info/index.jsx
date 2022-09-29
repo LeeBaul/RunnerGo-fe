@@ -48,13 +48,16 @@ const Info = (props) => {
             <div className='task-info'>
                 {
                     taskList.map((item, index) => (
-                        <div className='task-detail' key={index}>
-                            <p className='task-number' style={{ color: item.color }}>{ item.number }</p>
-                            <div className='task-name'>
-                                <item.icon />
-                                <span>{ item.name }</span>
+                        <>
+                            <div className='task-detail' key={index}>
+                                <p className='task-number' style={{ color: item.color }}>{ item.number }</p>
+                                <div className='task-name'>
+                                    <item.icon />
+                                    <span>{ item.name }</span>
+                                </div>
                             </div>
-                        </div>
+                            { index !== taskList.length - 1 && <span className='line'></span> }
+                        </>
                     ))
                 }
             </div>

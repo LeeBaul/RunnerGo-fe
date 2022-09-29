@@ -83,6 +83,7 @@ const Box = (props) => {
     const success_edge_scene = useSelector((store) => store.scene.success_edge);
     const failed_edge_scene = useSelector((store) => store.scene.failed_edge);
     const running_scene_scene = useSelector((store) => store.scene.running_scene);
+    const select_box_scene = useSelector((store) => store.scene.select_box);
 
 
     const nodes_plan = useSelector((store) => store.plan.nodes);
@@ -96,6 +97,7 @@ const Box = (props) => {
     const success_edge_plan = useSelector((store) => store.plan.success_edge);
     const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
     const running_scene_plan = useSelector((store) => store.plan.running_scene);
+    const select_box_plan = useSelector((store) => store.plan.select_box);
 
     // 这样写, store.plan里有任何值更新, 都会刷新组件
     // const {
@@ -125,6 +127,8 @@ const Box = (props) => {
     const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
 
     const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
+
+    const select_box = from === 'scene' ? select_box_scene : select_box_plan;
     const [showApi, setShowApi] = useState(true);
     const [showMode, setShowMode] = useState(false);
     const [showModeTime, setShowModeTime] = useState(false);
@@ -396,7 +400,6 @@ const Box = (props) => {
                     </p>
                     <Dropdown
                         ref={refDropdown}
-                        // trigger="hover"
                         content={
                             <div>
                                 <DropContent />
@@ -404,7 +407,15 @@ const Box = (props) => {
                         }
                     // style={{ zIndex: 1050 }}
                     >
-                        <div><SvgMore className='more-svg' /></div>
+                        <div ><SvgMore className='more-svg' onClick={(e) => {
+                            console.log(e);
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectBox(true);
+                            setTimeout(() => {
+                                refDropdown.current.setPopupVisible(true);
+                            }, 100);
+                        }} /></div>
                     </Dropdown>
                 </div>
             </div>
@@ -557,7 +568,7 @@ const Box = (props) => {
     const [selectBox, setSelectBox] = useState(false);
 
     useEffect(() => {
-        document.addEventListener('click', (e) => clickOutSide(e))
+        document.addEventListener('click', (e) => clickOutSide(e));
 
         return () => {
             document.removeEventListener('click', (e) => clickOutSide(e));
@@ -565,12 +576,21 @@ const Box = (props) => {
     }, []);
 
     const clickOutSide = (e) => {
-        let _box = document.querySelector('.box');
+
+        let _box = document.querySelector('.selectBox');
 
         if (_box && !_box.contains(e.target)) {
             setSelectBox(false);
         }
     }
+
+    useEffect(() => {
+        if (select_box === id) {
+            setSelectBox(true);
+        } else {
+            setSelectBox(false);
+        }
+    }, [select_box]);
 
     return (
         <div
@@ -580,11 +600,18 @@ const Box = (props) => {
             onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setSelectBox(true);
-
-                // if (e.target.className.baseVal === 'more-svg' || e.target.parentNode.className.baseVal === 'more-svg') {
-                //     refDropdown.current.setPopupVisible(true);
-                // }
+                // setSelectBox(true);
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateSelectBox',
+                        payload: id,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateSelectBox',
+                        payload: id,
+                    })
+                }
             }}
         >
             <Handle

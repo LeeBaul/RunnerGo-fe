@@ -35,7 +35,9 @@ const initialState = {
 
   to_loading: false, // 所有节点进入loading状态
 
-  running_scene: '', // 正在跑的场景id
+  running_scene: '', // 正在跑的场景id,
+
+  select_box: '', //当前选中的节点
 };
 
 // action名称
@@ -68,6 +70,7 @@ const actionTypes = {
   updateToLoading: 'updateToLoading',
   updateRunningScene: 'updateRunningScene',
   updateRunStatus: 'updateRunStatus',
+  updateSelectBox: 'updateSelectBox',
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -209,6 +212,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         run_status: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateSelectBox}`:
+      return {
+        ...state,
+        select_box: action.payload,
       }
     default:
       return state;

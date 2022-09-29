@@ -5,6 +5,7 @@ import HeaderLeft from './headerLeft';
 import HeaderRight from './headerRight';
 import Bus from '@utils/eventBus';
 import { global$ } from '@hooks/useGlobal/global';
+import SvgLogo from '@assets/logo/runner_go';
 
 const Header = () => {
     // const team_id = useSelector((store) => store.user.team_id);
@@ -18,6 +19,7 @@ const Header = () => {
         <div className='header-menus-panel'>
             {/* <div className='header-left'> */}
                 <HeaderLeft />
+                <SvgLogo className="logo" />
             {/* </div> */}
             {/* <div className='header-right'> */}
                 <HeaderRight />
