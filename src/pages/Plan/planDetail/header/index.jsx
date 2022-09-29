@@ -51,8 +51,8 @@ const DetailHeader = () => {
     }
 
     const statusList = {
-        '1': '未开始',
-        '2': <p style={{ color: '#3CC071' }}>进行中</p>,
+        '1': '未运行',
+        '2': <p style={{ color: '#3CC071' }}>运行中</p>,
     }
 
     const onConfigChange = (type, value) => {
@@ -117,7 +117,7 @@ const DetailHeader = () => {
                               </div>
                             </Tooltip>
                         </p>
-                        <p className='status'>
+                        <p className='status' style={{ color: planDetail.status === 2 ? '#3CC071' : '#C4C4C4' }}>
                             {statusList[planDetail.status]}
                         </p>
                     </div>
