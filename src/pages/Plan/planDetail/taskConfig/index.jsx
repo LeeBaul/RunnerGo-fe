@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Radio, Switch, Table, Input, Button, Message } from 'adesign-react';
-import { Save as SvgSave } from 'adesign-react/icons';
+import { Save as SvgSave, Import as SvgImport } from 'adesign-react/icons';
 import { fetchPreConfig } from '@services/plan';
 import { useSelector, useDispatch } from 'react-redux';
 import './index.less';
@@ -414,7 +414,7 @@ const TaskConfig = (props) => {
                     <p>任务配置</p>
                     <div className='btn'>
                         <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>保存</Button>
-                        <Button onClick={() => {
+                        <Button preFix={<SvgImport style={{ marginRight: '4px' }} />} onClick={() => {
                             getPreConfig(() => init(initData))
                         }}>导入预设配置</Button>
                     </div>

@@ -42,5 +42,6 @@ export const BtnAddApiItem = styled.div`
 
   .apipost-btn {
     width: 100%;
+    background-color: var(--theme-color) !important;
   }
 `;
