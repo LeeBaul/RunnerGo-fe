@@ -44,6 +44,7 @@ const ApiURLPanel = (props) => {
     const res_now = res_list[from];
 
     useEffect(() => {
+        console.log(open_res);
         if (res_now && res_now.status === 'finish') {
             setBtnName('发送');
         }

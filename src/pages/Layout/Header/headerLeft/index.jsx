@@ -6,10 +6,12 @@ import TeamProject from './teamProject';
 import GlobalConfig from './globalConfig';
 import RunningShow from './runningShow';
 import ImportApi from '@modals/ImportApi';
+import { useTranslation } from 'react-i18next';
 
 const HeaderLeft = () => {
     const refDropdown = useRef();
     const [importApi, setImportApi] = useState(false);
+    const { t } = useTranslation();
     const DropContent = () => {
         return (
             <div className='drop-content'>
@@ -18,14 +20,14 @@ const HeaderLeft = () => {
                     refDropdown.current.setPopupVisible(false);
                 }}>
                     <SvgApis />
-                    <span>同步Apipost</span>
+                    <span>{ t('header.asyncImport') }</span>
                 </div>
                 <div className='line'></div>
                 <div className='drop-content-item' onClick={() => {
                     refDropdown.current.setPopupVisible(false);
                 }}>
                     <SvgApis />
-                    <span>导入其他项目</span>
+                    <span>{ t('header.otherImport') }</span>
                 </div>
             </div>
         )
@@ -44,7 +46,7 @@ const HeaderLeft = () => {
                     </div>
                 }
             >
-                <Button className="import-btn">导入</Button>
+                <Button className="import-btn">{ t("header.import") }</Button>
             </Dropdown>
             <GlobalConfig />
             <RunningShow />

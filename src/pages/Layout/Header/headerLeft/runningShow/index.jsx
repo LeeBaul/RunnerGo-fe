@@ -5,11 +5,13 @@ import cn from 'classnames';
 import { fetchRunningPlan } from '@services/dashboard';
 import { isArray } from 'lodash';
 import { tap } from 'rxjs';
+import { useTranslation } from 'react-i18next';
 
 const RunningShow = () => {
     // const planData = useSelector((store) => store.plan.planData);
     const [planLength, setPlanLength] = useState(0);
     const dispatch = useDispatch();
+    let { t } = useTranslation();
     const renderColor = () => {
         const arr = new Array(10).fill(0);
         // if (!isArray(planData)) return;
@@ -57,7 +59,7 @@ const RunningShow = () => {
             <div className='color-show'>
                 { renderColor() }
             </div>
-            <div className='number-show'>运行中 （{planLength}）</div>
+            <div className='number-show'>{ t("header.running") } （{planLength}）</div>
         </div>
     );
 };

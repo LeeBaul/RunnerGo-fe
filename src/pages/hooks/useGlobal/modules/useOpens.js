@@ -987,8 +987,8 @@ const useOpens = () => {
             team_id: parseInt(localStorage.getItem('team_id')),
         };
         const _open_res = cloneDeep(open_res);
-        _open_res[open_api_now] = {
-            ..._open_res[open_api_now],
+        _open_res[id] = {
+            ..._open_res[id],
             status: 'running',
         };
         dispatch({
@@ -1009,7 +1009,7 @@ const useOpens = () => {
                             if (data) {
                                 clearInterval(send_api_t);
                                 const _open_res = cloneDeep(open_res);
-                                _open_res[open_api_now] = {
+                                _open_res[id] = {
                                     ...data,
                                     status: 'finish',
                                 };

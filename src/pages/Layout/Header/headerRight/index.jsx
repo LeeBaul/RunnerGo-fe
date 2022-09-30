@@ -18,6 +18,7 @@ import { tap } from 'rxjs';
 import { useSelector } from 'react-redux';
 import { global$ } from '@hooks/useGlobal/global';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 
 const HeaderRight = () => {
@@ -32,7 +33,7 @@ const HeaderRight = () => {
     const navigate = useNavigate();
     const refDropdown = useRef();
 
-
+    let { i18n, t } = useTranslation();
     useEffect(() => {
         // global$.next({
         //     action: 'INIT_APPLICATION',
@@ -137,10 +138,11 @@ const HeaderRight = () => {
                     <p>{teamMember.length}</p>
                 </div>
             </div>
-            <Button className='invite' preFix={<SvgInvite />} onClick={() => setShowModal(true)}>邀请</Button>
+            <Button className='invite' preFix={<SvgInvite />} onClick={() => setShowModal(true)}>{ t('header.invitation') }</Button>
             <div className='more-btn'>
-                <Button className='handle-log' onClick={() => setShowLog(true)}>操作日志</Button>
-                <Button className='handle-log' preFix={<SvgLogout />} onClick={() => loginOut()}>退出</Button>
+                <Button className='handle-log' onClick={() => setShowLog(true)}>{ t('header.handleLog') }</Button>
+                <Button className='handle-log' preFix={<SvgLogout />} onClick={() => loginOut()}>{ t('header.signOut') }</Button>
+                <Button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'cn' : 'en')}>中英文切换</Button>
             </div>
             {showModal && <InvitationModal onCancel={() => {
                 setShowModal(false);

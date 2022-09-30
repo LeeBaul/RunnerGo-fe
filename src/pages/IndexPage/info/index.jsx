@@ -5,34 +5,36 @@ import { Apis as SvgApis } from 'adesign-react/icons';
 import SvgPlan from '@assets/icons/Plan1';
 import SvgScene from '@assets/icons/Scene1';
 import SvgReport from '@assets/icons/Report1';
+import { useTranslation } from 'react-i18next';
 
 
 const Info = (props) => {
     const { data, user } = props;
- 
+    const { t } = useTranslation();
+
     const taskList = [
         {
             number: data.plan_num,
             icon: SvgPlan,
-            name: '计划数',
+            name: t('index.planNum'),
             color: '#3A86FF',
         },
         {
             number: data.scene_num,
             icon: SvgScene,
-            name: '场景数',
+            name: t('index.sceneNum'),
             color: '#2BA58F',
         },
         {
             number: data.report_num,
             icon: SvgReport,
-            name: '报告数',
+            name: t('index.reportNum'),
             color: '#E1A022',
         },
         {
             number: data.api_num,
             icon: SvgApis,
-            name: '接口数',
+            name: t('index.apiNum'),
             color: '#00ACD7',
         },
     ];

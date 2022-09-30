@@ -5,20 +5,22 @@ import avatar from '@assets/logo/avatar.png';
 import HandleTags from '@components/HandleTags';
 import TeamworkLogs from '@modals/TeamworkLogs';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 const HandleLog = (props) => {
     const { logList } = props;
     const [showLog, setShowLog] = useState(false);
+    const { t } = useTranslation();
 
     return (
         <div className='handle-log'>
             <div className='log-top'>
                 <div className='log-top-left'>
                     <SvgLately />
-                    <p>操作日志</p>
+                    <p>{ t('index.handleLog') }</p>
                 </div>
                 <div className='log-top-right' onClick={() => setShowLog(true)}>
-                    <p>查看更多</p>
+                    <p>{ t('index.seeMore') }</p>
                     <SvgRight />
                 </div>
             </div>
@@ -38,7 +40,7 @@ const HandleLog = (props) => {
                                 {dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
                             </div>
                         </div>
-                    )) : <p className='empty'>还没有操作日志</p>
+                    )) : <p className='empty'>{ t('index.emptyData') }</p>
                 }
             </div>
             { showLog &&  <TeamworkLogs onCancel={() => setShowLog(false)} />}

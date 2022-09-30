@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
+import { useTranslation } from 'react-i18next';
 
 const RecentReport = () => {
 
@@ -23,6 +24,7 @@ const RecentReport = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const modeList = {
         '1': '并发模式',
@@ -108,45 +110,45 @@ const RecentReport = () => {
 
     const columns = [
         {
-            title: '测试报告ID',
+            title: t('index.reportId'),
             dataIndex: 'rank',
         },
         {
-            title: '计划名称',
+            title: t('index.planName'),
             dataIndex: 'plan_name',
         },
         {
-            title: '场景名称',
+            title: t('index.sceneName'),
             dataIndex: 'scene_name',
         },
         {
-            title: '任务模式',
+            title: t('index.taskType'),
             dataIndex: 'task_type',
         },
         {
-            title: '压测模式',
+            title: t('index.mode'),
             dataIndex: 'task_mode',
         },
         {
-            title: '开始时间',
+            title: t('index.startTime'),
             dataIndex: 'run_time_sec',
             // width: 220,
         },
         {
-            title: '结束时间',
+            title: t('index.endTime'),
             dataIndex: 'last_time_sec',
             // width:
         },
         {
-            title: '执行者',
+            title: t('index.performer'),
             dataIndex: 'run_user_name',
         },
         {
-            title: '状态',
+            title: t('index.status'),
             dataIndex: 'status',
         },
         {
-            title: '操作',
+            title: t('index.handle'),
             dataIndex: 'operation'
         }
     ];
@@ -160,14 +162,14 @@ const RecentReport = () => {
 
     return (
         <div className='recent-report'>
-            <p className='title'>近期测试报告</p>
+            <p className='title'>{ t('index.recentReport') }</p>
             <div className='report-search'>
                 <Input
                     className="textBox"
                     value={keyword}
                     onChange={getNewKeyword}
                     beforeFix={<SvgSearch />}
-                    placeholder="搜索计划名称/场景名称/执行者"
+                    placeholder={ t('index.placeholder') }
                 />
                 {/* <Button className='searchBtn'>搜索</Button> */}
             </div>

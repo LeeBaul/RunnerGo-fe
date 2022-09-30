@@ -1,1 +1,45 @@
-{}
+{
+    "header": {
+        "import": "import",
+        "asyncImport": "async apipost",
+        "otherImport": "other import",
+        "globalVar": "global var",
+        "commonFunc": "common func",
+        "running": "running",
+        "invitation": "invitation",
+        "handleLog": "operation log",
+        "signOut": "sign out"
+    },
+    "leftBar": {
+        "index": "index",
+        "apis": "apis",
+        "scene": "scene",
+        "plan": "plan",
+        "report": "report",
+        "machine": "machine",
+        "docs": "docs"
+    },
+    "index": {
+        "planNum": "plan num",
+        "sceneNum": "scene num",
+        "reportNum": "report num",
+        "apiNum": "api num",
+        "running": "running",
+        "seeMore": "see more",
+        "seeDetail": "see detail",
+        "empty": "no empty",
+        "handleLog": "operation log",
+        "recentReport": "recent test report",
+        "placeholder": "search plan name/scene name/performer",
+        "reportId": "report id",
+        "planName": "plan name",
+        "sceneName": "scene name",
+        "taskType": "task type",
+        "mode": "mode",
+        "startTime": "start time",
+        "endTime": "end time",
+        "performer": "performer",
+        "status": "status",
+        "handle": "operation"
+    }
+}

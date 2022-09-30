@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { isArray } from 'lodash';
 import SvgEmpty from '@assets/img/empty';
+import { useTranslation } from 'react-i18next';
 
 const RunningPlan = () => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const RunningPlan = () => {
     const [planList, setPlanList] = useState(isArray(planData) ? planData : []);
 
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     useEffect(() => {
         setPlanList(planData || []);
@@ -59,13 +61,13 @@ const RunningPlan = () => {
         <div className='running-plan'>
             <div className='running-top'>
                 <div className='running-top-left'>
-                    运行中
+                    { t('index.running') }
                     <div className='running-icon'>
                         <SvgCaretRight />
                     </div>
                 </div>
                 <div className='running-top-right' onClick={() => navigate('/plan')}>
-                    查看更多
+                    { t('index.seeMore') }
                     <SvgRight />
                 </div>
             </div>
@@ -74,7 +76,7 @@ const RunningPlan = () => {
 
                     planList.length ? planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
-                            <p>运行中</p>
+                            <p>{ t('index.running') }</p>
                             <div className='progress'>
                                 {/* <div className='item' style={{left: '0%', animationDuration: '5s'}}></div>
                                 <div className='item' style={{left: '10%', animationDuration: '4.5s', animationDelay: '0.5s'}}></div>
@@ -87,12 +89,12 @@ const RunningPlan = () => {
                                 <div className='item' style={{left: '80%', animationDuration: '1s', animationDelay: '4s'}}></div>
                                 <div className='item' style={{left: '90%', animationDuration: '0.5s', animationDelay: '4.5s'}}></div> */}
                             </div>
-                            <p>查看详情</p>
+                            <p>{ t('index.seeDetail') }</p>
                         </div>
                     ))
                         : <div className='empty'>
                             <SvgEmpty />
-                            <p>还没有数据</p>
+                            <p>{ t('index.emptyData') }</p>
                           </div>
                 }
             </div>
