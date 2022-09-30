@@ -1,0 +1,42 @@
+{
+    "header": {
+        "import": "导入",
+        "globalVar": "全局变量",
+        "commonFunc": "公共函数",
+        "running": "运行中",
+        "invitation": "邀请",
+        "handleLog": "操作日志",
+        "signOut": "退出"
+    },
+    "leftBar": {
+        "index": "首页",
+        "apis": "接口管理",
+        "scene": "场景管理",
+        "plan": "计划管理",
+        "report": "报告管理",
+        "machine": "机器管理",
+        "docs": "使用文档"
+    },
+    "index": {
+        "planNum": "计划数",
+        "sceneNum": "场景数",
+        "reportNum": "报告数",
+        "apiNum": "接口数",
+        "running": "运行中",
+        "viewMore": "查看更多",
+        "viewDetail": "查看详情",
+        "handleLog": "操作日志",
+        "recentReport": "近期测试报告",
+        "placeholder": "搜索计划名称/场景名称/执行者",
+        "reportId": "测试报告ID",
+        "planName": "计划名称",
+        "sceneName": "场景名称",
+        "taskType": "任务模式",
+        "mode": "压测模式",
+        "startTime": "开始时间",
+        "endTime": "结束时间",
+        "performer": "执行者",
+        "status": "状态",
+        "handle": "操作"
+    }
+}

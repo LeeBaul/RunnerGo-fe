@@ -69,7 +69,7 @@ const Assert = (props) => {
                     <Input
                         size="mini"
                         value={text}
-                        disabled={ parameter[rowIndex] ?  parameter[rowIndex].response_type === 3 : false }
+                        disabled={ parameter[rowIndex] ?  (parameter[rowIndex].response_type === 3 || parameter[rowIndex].response_type === 1) : false }
                         onChange={(newVal) => {
                             handleChange(rowData, rowIndex, { var: newVal });
                         }}

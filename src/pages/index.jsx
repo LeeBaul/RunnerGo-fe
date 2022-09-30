@@ -9,6 +9,7 @@ import './reset.less';
 import './index.less';
 import './public.less';
 import './geetest.less';
+import '../locales';
 
 import App from './App';
 

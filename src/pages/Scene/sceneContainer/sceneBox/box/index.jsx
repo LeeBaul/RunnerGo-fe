@@ -408,7 +408,7 @@ const Box = (props) => {
                     // style={{ zIndex: 1050 }}
                     >
                         <div ><SvgMore className='more-svg' onClick={(e) => {
-                            console.log(e);
+
                             e.preventDefault();
                             e.stopPropagation();
                             setSelectBox(true);
@@ -578,16 +578,22 @@ const Box = (props) => {
     const clickOutSide = (e) => {
 
         let _box = document.querySelector('.selectBox');
+        let _drawer = document.querySelector('.api-config-drawer');
 
-        if (_box && !_box.contains(e.target)) {
+        // console.log(e, e.target, e.target.classList, [...e.target.classList]);
+        if (_box && !_box.contains(e.target) && _drawer && !_drawer.contains(e.target) && ![...e.target.classList].includes('drawer-save-btn') && ![...e.target.classList].includes('drawer-close-btn')) {
+
             setSelectBox(false);
         }
     }
 
     useEffect(() => {
-        if (select_box === id) {
+
+        if (select_box === id && selectBox === false) {
+
             setSelectBox(true);
-        } else {
+        } else if (select_box !== id) {
+
             setSelectBox(false);
         }
     }, [select_box]);
@@ -600,7 +606,8 @@ const Box = (props) => {
             onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                // setSelectBox(true);
+                setSelectBox(true);
+
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateSelectBox',
@@ -609,6 +616,29 @@ const Box = (props) => {
                 } else {
                     dispatch({
                         type: 'plan/updateSelectBox',
+                        payload: id,
+                    })
+                }
+
+                const api_now = cloneDeep(id_apis[id]);
+                api_now.id = id;
+        
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateApiNow',
+                        payload: api_now,
+                    })
+                    dispatch({
+                        type: 'scene/updateIdNow',
+                        payload: id,
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateApiNow',
+                        payload: api_now,
+                    })
+                    dispatch({
+                        type: 'plan/updateIdNow',
                         payload: id,
                     })
                 }

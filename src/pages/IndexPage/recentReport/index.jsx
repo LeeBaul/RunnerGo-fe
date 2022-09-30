@@ -128,12 +128,12 @@ const RecentReport = () => {
             dataIndex: 'task_mode',
         },
         {
-            title: '运行时间',
+            title: '开始时间',
             dataIndex: 'run_time_sec',
             // width: 220,
         },
         {
-            title: '最后修改时间',
+            title: '结束时间',
             dataIndex: 'last_time_sec',
             // width:
         },
