@@ -70,7 +70,7 @@ const RecentReport = () => {
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 run_user_name,
-                                status: status === 1 ? <p style={{ color: '#3CC071' }}>运行中</p> : <p>未开始</p>,
+                                status: status === 1 ? <p style={{ color: '#3CC071' }}>运行中</p> : <p>已完成</p>,
                                 operation: <HandleContent report_id={report_id} />
                             }
                         });
@@ -86,7 +86,7 @@ const RecentReport = () => {
         return (
             <div className='handle-content'>
                 <SvgEye onClick={() => navigate(`/report/detail/${report_id}`)} />
-                <SvgExport />
+                {/* <SvgExport /> */}
                 <SvgDelete className='delete' onClick={() => deleteReport(report_id)} />
             </div>
         )
@@ -130,12 +130,12 @@ const RecentReport = () => {
         {
             title: '运行时间',
             dataIndex: 'run_time_sec',
-            width: 220,
+            // width: 220,
         },
         {
             title: '最后修改时间',
             dataIndex: 'last_time_sec',
-            width: 220,
+            // width:
         },
         {
             title: '执行者',
