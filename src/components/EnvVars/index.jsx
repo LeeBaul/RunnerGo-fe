@@ -175,7 +175,7 @@ const EnvVar = (props) => {
 
   return (
     <>
-      {envVisible && (
+      {/* {envVisible && (
         <div
           className="related_env_vars"
           style={{
@@ -186,7 +186,6 @@ const EnvVar = (props) => {
           <div className="env_vars-list" id="scroll-env_vars">
             {markVarsList.map((item, index) => (
               <div
-                // eslint-disable-next-line react/no-array-index-key
                 key={`${item.key} + ${index}`}
                 className={defaultClass(item.key)}
                 onMouseEnter={(e) => {
@@ -200,7 +199,7 @@ const EnvVar = (props) => {
                   {item?.envType === 'env' ? 'E' : 'G'}
                 </div>
                 <div className="default-name text-ellips2">{item.key}</div>
-                <div className="default-icon">{/* <ReturnSvg></ReturnSvg> */}</div>
+                <div className="default-icon"></div>
               </div>
             ))}
           </div>
@@ -217,7 +216,7 @@ const EnvVar = (props) => {
             <div>{descObj?.envType === 'env' ? '环境变量' : '全局变量'}</div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };

@@ -16,7 +16,7 @@ export const API_MENUS = [
     // },
     {
         type: 'copyApi',
-        title: '复制接口',
+        title: '克隆接口',
         action: 'copyApi',
         // tips: `${ctrl} + C`,
     },
