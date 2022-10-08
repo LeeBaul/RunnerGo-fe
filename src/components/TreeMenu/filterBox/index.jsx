@@ -5,11 +5,13 @@ import {
     Location as SvgLocation
 } from 'adesign-react/icons';
 import ApiStatus from '@components/ApiStatus';
+import { useTranslation } from 'react-i18next';
 
 import './index.less';
 
 const FilterBox = (props) => {
     const { filterParams, onChange, treeRef, selectedKeys, type } = props;
+    const { t } = useTranslation();
 
     const handleFilterKey = (key) => {
         onChange({ ...filterParams, key });
@@ -46,7 +48,7 @@ const FilterBox = (props) => {
                 //         // onChange={handleFilterStatus}
                 //     />
                 // }
-                placeholder={type === 'apis' ? '搜索目录或接口' : '搜索分组或场景'}
+                placeholder={type === 'apis' ? t('placeholder.searchApis') : t('placeholder.searchScene')}
             />
             {/* {
                 (type === 'apis') &&

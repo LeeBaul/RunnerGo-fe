@@ -112,6 +112,7 @@ const RecentReport = () => {
         {
             title: t('index.reportId'),
             dataIndex: 'rank',
+            sorter:(a,b)=>a.rank - b.rank,
         },
         {
             title: t('index.planName'),
@@ -124,6 +125,8 @@ const RecentReport = () => {
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
+            filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
+            onFilter:(value, item) => item.task_type == value,
         },
         {
             title: t('index.mode'),

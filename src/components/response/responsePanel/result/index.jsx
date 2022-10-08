@@ -9,6 +9,7 @@ import Assert from './assert';
 import Preview from './preview';
 import Visualizing from './visual';
 import { ResultTabs } from './style';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 
@@ -26,6 +27,7 @@ const json = {
 
 const RealTimeResult = (props) => {
   const { tempData, target, onChange, type } = props;
+  const { t } = useTranslation();
   const { response_body, request_body } = tempData || {};
   const searchRef = useRef(null);
   const [valid, setValid] = useState('init');
@@ -34,7 +36,7 @@ const RealTimeResult = (props) => {
 
   const tabsList = [
     {
-      title: '美化',
+      title: t('btn.beautify'),
       id: '1',
       content: (
         data ?  <Beautify
@@ -46,7 +48,7 @@ const RealTimeResult = (props) => {
       ),
     },
     {
-      title: '原生',
+      title: t('btn.primitive'),
       id: '2',
       content: (
         // <div className="rawhtml">{response?.fitForShow == 'Monaco' ? response?.rawBody : ''}</div>

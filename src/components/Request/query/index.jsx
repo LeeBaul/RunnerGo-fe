@@ -9,10 +9,12 @@ import DescChoice from '@components/descChoice';
 import ApiInput from '@components/ApiInput';
 import { isString, trim } from 'lodash';
 import Importexport from '../importExport';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 const Query = (props) => {
   const { parameter, onChange, resful } = props;
+  const { t } = useTranslation();
   const [showSysHeader, setShowSysHeader] = useState(false);
 
   const handleChange = (rowData, rowIndex, newVal) => {
@@ -54,7 +56,7 @@ const Query = (props) => {
       ),
     },
     {
-      title: '参数名',
+      title: t('apis.key'),
       dataIndex: 'key',
       enableResize: true,
       width: 100,
@@ -83,7 +85,7 @@ const Query = (props) => {
       },
     },
     {
-      title: '参数值',
+      title: t('apis.value'),
       dataIndex: 'value',
       enableResize: true,
       width: 150,
@@ -99,7 +101,7 @@ const Query = (props) => {
       },
     },
     {
-      title: '必填',
+      title: t('apis.must'),
       dataIndex: 'not_null',
       width: 55,
       render: (text, rowData, rowIndex) => {
@@ -115,7 +117,7 @@ const Query = (props) => {
       },
     },
     {
-      title: '类型',
+      title: t('apis.type'),
       dataIndex: 'type',
       enableResize: false,
       width: 100,
@@ -140,7 +142,7 @@ const Query = (props) => {
       },
     },
     {
-      title: '参数描述',
+      title: t('apis.desc'),
       dataIndex: 'description',
       render: (text, rowData, rowIndex) => {
         return (
@@ -202,7 +204,7 @@ const Query = (props) => {
 
   const resfulColumn = [
     {
-      title: '参数名',
+      title: t('apis.key'),
       dataIndex: 'key',
       enableResize: true,
       width: 100,
@@ -234,7 +236,7 @@ const Query = (props) => {
       },
     },
     {
-      title: '参数值',
+      title: t('apis.value'),
       dataIndex: 'value',
       enableResize: true,
       width: 150,
@@ -252,7 +254,7 @@ const Query = (props) => {
       },
     },
     {
-      title: '参数描述',
+      title: t('apis.desc'),
       dataIndex: 'description',
       render: (text, rowData, rowIndex) => {
         return (

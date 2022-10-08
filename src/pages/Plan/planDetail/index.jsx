@@ -17,10 +17,12 @@ import ApiManage from '@pages/ApisWarper/modules/ApiManage';
 import { getPathExpressionObj } from '@constants/pathExpression';
 import ScenePicker from './scenePicker';
 import './index.less';
+import { useTranslation } from 'react-i18next';
 
 const { ScalePanel, ScaleItem } = Scale;
 
 const PlanDetail = () => {
+    const { t } = useTranslation();
 
     const { id } = useParams();
     const [sceneName, setSceneName] = useState('');
@@ -138,7 +140,7 @@ const PlanDetail = () => {
                                     setImportScene(e)
                                 }
                             }} />
-                        </> : <p className='empty'>还没有数据</p>
+                        </> : <p className='empty'>{ t('index.emptyData') }</p>
                     }
                 </ScaleItem>
                 <ScaleItem enableScale={false}>

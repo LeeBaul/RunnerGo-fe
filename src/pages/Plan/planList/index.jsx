@@ -18,9 +18,10 @@ import Bus from '@utils/eventBus';
 import SvgStop from '@assets/icons/Stop';
 import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
+import { useTranslation } from 'react-i18next';
 
 const PlanList = () => {
-
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [planList, setPlanList] = useState([]);
     const [keyword, setKeyword] = useState('');
@@ -59,10 +60,10 @@ const PlanList = () => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    Message('success', '复制成功!');
+                    Message('success', t('message.copySuccess'));
                     getPlanList();
                 } else {
-                    Message('error', '复制失败!');
+                    Message('error', t('message.copyError'));
                 }
             }
         })
@@ -75,19 +76,19 @@ const PlanList = () => {
             <div className='handle-content'>
                 {status === 2 ? <Button className='stop-btn' preFix={<SvgStop />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
                     if (code === 0) {
-                        Message('success', '停止成功!');
+                        Message('success', t('message.stopSuccess'));
                         getPlanList();
                     } else {
-                        Message('error', '停止失败!');
+                        Message('error', t('message.stopError'));
                     }
-                })}>停止</Button> :
+                })}> { t('btn.finish') } </Button> :
                     <Button className='run-btn' preFix={<SvgRun />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
                         if (code === 0) {
                             getPlanList();
                         } else {
-                            Message('error', '操作失败!');
+                            Message('error', t('message.handleError'));
                         }
-                    })}>开始</Button>}
+                    })}>{ t('btn.start') }</Button>}
                 <div className='handle-icons'>
                     <SvgEye onClick={() => {
                         dispatch({
@@ -109,14 +110,14 @@ const PlanList = () => {
                     <SvgCopy onClick={() => copyPlan(plan_id)} />
                     <SvgDelete style={{ fill: '#f00' }} onClick={() => {
                         Modal.confirm({
-                            title: '注意',
-                            content: '是否确定要删除此计划?',
+                            title: t('modal.look'),
+                            content: t('modal.deletePlan'),
                             onOk: () => {
                                 Bus.$emit('deletePlan', plan_id, (code) => {
                                     if (code === 0) {
-                                        Message('success', '删除成功!');
+                                        Message('success', t('message.deleteSuccess'));
                                     } else {
-                                        Message('error', '删除失败!');
+                                        Message('error', t('message.deleteError'));
                                     }
                                 })
                             }
@@ -185,45 +186,45 @@ const PlanList = () => {
 
     const columns = [
         {
-            title: '计划ID',
+            title: t('plan.planId'),
             dataIndex: 'rank',
         },
         {
-            title: '计划名称',
+            title: t('plan.planName'),
             dataIndex: 'name',
         },
         {
-            title: '任务类型',
+            title: t('plan.taskType'),
             dataIndex: 'task_type',
         },
         {
-            title: '压测模式',
+            title: t('plan.mode'),
             dataIndex: 'mode',
         },
         {
-            title: '创建时间',
+            title: t('plan.createTime'),
             width: 220,
             dataIndex: 'created_time_sec',
         },
         {
-            title: '最后修改时间',
+            title: t('plan.updateTime'),
             width: 220,
             dataIndex: 'updated_time_sec',
         },
         {
-            title: '状态',
+            title: t('plan.status'),
             dataIndex: 'status',
         },
         {
-            title: '操作者',
+            title: t('plan.operator'),
             dataIndex: 'created_user_name',
         },
         {
-            title: '备注',
+            title: t('plan.remark'),
             dataIndex: 'remark',
         },
         {
-            title: '操作',
+            title: t('plan.handle'),
             dataIndex: 'handle',
             width: 196,
         }
@@ -240,7 +241,7 @@ const PlanList = () => {
     return (
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} />
-            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>还没有数据</p> </div>} />
+            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>{ t('index.emptyData') }</p> </div>} />
             {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )

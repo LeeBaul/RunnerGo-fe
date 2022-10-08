@@ -3,9 +3,11 @@ import { Apis as SvgApis, Add as SvgAdd, Download as SvgDownload } from 'adesign
 import './index.less';
 import Bus from '@utils/eventBus';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const FooterConfig = (props) => {
     const { onChange, from = 'scene' } = props;
+    const { t } = useTranslation();
     const [showControl, setShowControl] = useState(false);
     const dispatch = useDispatch();
 
@@ -42,7 +44,7 @@ const FooterConfig = (props) => {
                     }
                 }}>
                     <SvgAdd />
-                    <span>等待控制器</span>
+                    <span>{ t('scene.waitControl') }</span>
                 </div>
                 <div className='condition' onClick={() => {
                     if (from ==='scene') {
@@ -58,11 +60,11 @@ const FooterConfig = (props) => {
                     }
                 }}>
                     <SvgAdd />
-                    <span>条件控制器</span>
+                    <span>{ t('scene.conditionControl') }</span>
                 </div>
             </div>
             }
-            <div className='common-config' style={{ width: from === 'plan' ? '360px' : '288px' }}>
+            <div className='common-config' style={{ 'min-width': from === 'plan' ? '360px' : '288px' }}>
                 <div className='config-item' onClick={() => {
                     if (from === 'scene') {
                         dispatch({
@@ -77,17 +79,17 @@ const FooterConfig = (props) => {
                     }
                 }}>
                     <SvgApis />
-                    <span>新建接口</span>
+                    <span>{ t('scene.createApi') }</span>
                 </div>
                 <span className='line'></span>
                 <div className='config-item' onClick={() => setShowControl(!showControl)}>
                     <SvgAdd />
-                    <span>添加控制器</span>
+                    <span>{ t('scene.createControl') }</span>
                 </div>
                 <span className='line'></span>
                 <div className='config-item' onClick={() => onChange('api', true)}>
                     <SvgDownload />
-                    <span>导入接口</span>
+                    <span>{ t('scene.importApi') }</span>
                 </div>
                 {/* {
                     from === 'plan' && (

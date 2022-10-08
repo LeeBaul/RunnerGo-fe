@@ -10,13 +10,15 @@ import Bus from '@utils/eventBus';
 import { useParams } from 'react-router-dom';
 import './index.less';
 import { cloneDeep, debounce } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 const ApiURLPanel = (props) => {
     const { data, onChange, tempData, from = 'apis' } = props;
+    const { t } = useTranslation();
     const { apiSend } = useApi();
     const { id } = useParams();
-    const [btnName, setBtnName] = useState('发送');
+    const [btnName, setBtnName] = useState(t('btn.send'));
     const dispatch = useDispatch();
     const open_api_now = useSelector((store) => store.opens.open_api_now);
     const opens = useSelector((store) => store.opens.open_apis);
@@ -46,7 +48,7 @@ const ApiURLPanel = (props) => {
     useEffect(() => {
         console.log(open_res);
         if (res_now && res_now.status === 'finish') {
-            setBtnName('发送');
+            setBtnName(t('t.send'));
         }
     }, [res_now]);
 
@@ -118,7 +120,7 @@ const ApiURLPanel = (props) => {
                 </Select>
                 {/* <MetionInput /> */}
                 <UrlInput
-                    placeholder="请输入接口地址"
+                    placeholder={ t('placeholder.apiUrl') }
                     onChange={(value) => onChange('url', value)}
                     value={data?.url || ''}
                 />
@@ -127,10 +129,10 @@ const ApiURLPanel = (props) => {
                 <Button
                     type="primary"
                     size="middle"
-                    disabled={btnName === '发送中...'}
+                    disabled={btnName === t('btn.sending')}
                     onClick={() => {
                         // apiSend(data);
-                        setBtnName('发送中...');
+                        setBtnName(t('btn.sending'));
                         if (from === 'scene') {
                             Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene_scene, () => {
                                 Bus.$emit('sendSceneApi', open_scene_scene.scene_id || open_scene_scene.target_id, id_now, open_scene_res || {}, 'scene');

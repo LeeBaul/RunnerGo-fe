@@ -6,6 +6,7 @@ import DebugLog from './debugLog';
 import PressMonitor from './pressMonitor';
 import { useParams } from 'react-router-dom';
 import { fetchReportDetail } from '@services/report';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 
@@ -58,6 +59,7 @@ const reportResult = {
 
 const ReportDetail = (props) => {
 	const { data: configData, stopDebug, onStatus, status, onRunTime } = props;
+	const { t } = useTranslation();
 
     const [data, setData] = useState([]);
 	const { id: report_id } = useParams();
@@ -102,10 +104,10 @@ const ReportDetail = (props) => {
 
 
     const defaultList = [
-        { id: '1', title: '测试详情页', content: <ReportContent data={data} config={configData}  />  },
-        { id: '2', title: 'debug日志', content: <DebugLog status={status} end={end} stopDebug={stopDebug} />},
-        { id: '3', title: '压力机监控', content: <PressMonitor status={status} /> },
-        { id: '4', title: '被服务器监控', content: '被服务器监控' }
+        { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} config={configData}  />  },
+        { id: '2', title: t('report.tabList.1'), content: <DebugLog status={status} end={end} stopDebug={stopDebug} />},
+        { id: '3', title: t('report.tabList.2'), content: <PressMonitor status={status} /> },
+        { id: '4', title: t('report.tabList.3'), content: '被服务器监控' }
     ];
 
     return (

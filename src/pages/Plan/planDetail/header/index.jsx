@@ -16,8 +16,10 @@ import { fetchPlanDetail, fetchSavePlan, fetchRunPlan, fetchStopPlan, fetchCreat
 import dayjs from 'dayjs';
 import SvgSendEmail from '@assets/icons/SendEmail';
 import SvgStop from '@assets/icons/Stop';
+import { useTranslation } from 'react-i18next';
 
 const DetailHeader = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [preSet, setPreSet] = useState(false);
     const [mode, setMode] = useState(1);
@@ -51,8 +53,8 @@ const DetailHeader = () => {
     }
 
     const statusList = {
-        '1': '未运行',
-        '2': <p style={{ color: '#3CC071' }}>运行中</p>,
+        '1': t('plan.notRun'),
+        '2': <p style={{ color: '#3CC071' }}>{ t('plan.running') }</p>,
     }
 
     const onConfigChange = (type, value) => {
@@ -81,7 +83,7 @@ const DetailHeader = () => {
             next: (res) => {
                 const { code } = res;
                 if (code !== 0) {
-                    Message('error', '修改失败!');
+                    Message('error', t('message.updateError'));
                 }
             }
         })
@@ -91,11 +93,11 @@ const DetailHeader = () => {
         <div className='detail-header'>
             {
                 preSet && (
-                    <Modal title='预设配置' okText='保存' onOk={() => {
+                    <Modal title={ t('plan.preinstall') } okText={ t('btn.save') } cancelText={ t('btn.cancel') } onOk={() => {
                         const { task_type, mode, cron_expr, mode_conf } = task_config;
                         Bus.$emit('savePreConfig', { task_type, mode, cron_expr, mode_conf }, () => {
                             setPreSet(false);
-                            Message('success', '保存成功!');
+                            Message('success', t('message.saveSuccess'));
                         })
                     }} visible onCancel={() => setPreSet(false)}>
                         <TaskConfig onChange={(type, value) => onConfigChange(type, value)} from="preset" />
@@ -107,7 +109,7 @@ const DetailHeader = () => {
                 <div className='detail'>
                     <div className='detail-top'>
                         <p className='name'>
-                            计划管理/
+                            { t('plan.planManage') }
                             <Tooltip
                                 placement="top"
                                 content={<div>{planDetail.name}</div>}
@@ -123,43 +125,43 @@ const DetailHeader = () => {
                     </div>
                     <div className='detail-bottom'>
                         <div className='item'>
-                            <p>创建人：{planDetail.created_user_name}</p>
+                            <p>{ t('plan.createdBy') }：{planDetail.created_user_name}</p>
                             <img src={avatar} />
                             <p style={{ marginLeft: '4px' }}></p>
                         </div>
                         <div className='item'>
-                            创建时间：{dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                            { t('plan.createTime') }：{dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
                         </div>
                         <div className='item'>
-                            最后修改时间：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                            { t('plan.updateTime') }：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
                         </div>
                         <div className='item'>
-                            计划描述: 
+                            { t('plan.planDesc') }: 
                             <Input value={planDetail.remark} onBlur={(e) => changePlanInfo('remark', e.target.value)} />
                         </div>
                     </div>
                 </div>
             </div>
             <div className='detail-header-right'>
-                <Button className='notice' onClick={() => setPreSet(true)}>预设配置</Button>
-                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
+                <Button className='notice' onClick={() => setPreSet(true)}>{ t('plan.preinstall') }</Button>
+                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>{ t('btn.notifyEmail') }</Button>
                 {
                     planDetail.status === 1
                         ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
                             if (code === 0) {
                                 getReportDetail();
                             } else {
-                                Message('error', '操作失败!');
+                                Message('error', t('message.handleError'));
                             }
-                        })}>开始运行</Button>
+                        })}>{ t('btn.run') }</Button>
                         : <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
                             if (code === 0) {
-                                Message('success', '停止成功!');
+                                Message('success', t('message.stopSuccess'));
                                 getReportDetail();
                             } else {
-                                Message('error', '停止失败!');
+                                Message('error', t('message.stopError'));
                             }
-                        })} >停止运行</Button>
+                        })} >{ t('btn.stopRun') }</Button>
                 }
             </div>
         </div>

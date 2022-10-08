@@ -13,12 +13,14 @@ import DescChoice from '@components/descChoice';
 import { isString, trim } from 'lodash';
 import { REQUEST_HEADER } from '@constants/api';
 import Importexport from '../importExport';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 const Header = (props) => {
   const { parameter = [], onChange } = props;
   const { apipostHeaders } = useSelector((d) => d?.opens);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleChange = (rowData, rowIndex, newVal) => {
     const newList = [...parameter];
@@ -59,7 +61,7 @@ const Header = (props) => {
       ),
     },
     {
-      title: '参数名',
+      title: t('apis.key'),
       dataIndex: 'key',
       enableResize: true,
       width: 100,
@@ -68,6 +70,7 @@ const Header = (props) => {
           <SearchInput
             size="mini"
             value={text}
+            placeholder={ t('placeholder.plsInput') }
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { key: newVal });
             }}
@@ -90,7 +93,7 @@ const Header = (props) => {
       },
     },
     {
-      title: '参数值',
+      title: t('apis.value'),
       dataIndex: 'value',
       enableResize: true,
       width: 150,
@@ -107,7 +110,7 @@ const Header = (props) => {
       },
     },
     {
-      title: '必填',
+      title: t('apis.must'),
       dataIndex: 'not_null',
       width: 55,
       render: (text, rowData, rowIndex) => {
@@ -123,7 +126,7 @@ const Header = (props) => {
       },
     },
     {
-      title: '类型',
+      title: t('apis.type'),
       dataIndex: 'type',
       enableResize: false,
       width: 100,
@@ -147,7 +150,7 @@ const Header = (props) => {
       },
     },
     {
-      title: '参数描述',
+      title: t('apis.desc'),
       dataIndex: 'description',
       render: (text, rowData, rowIndex) => {
         return (
@@ -222,14 +225,14 @@ const Header = (props) => {
       ),
     },
     {
-      title: '参数名称',
+      title: t('apis.key'),
       dataIndex: 'key',
       render: (text, rowData, rowIndex) => (
         <span className="table-cell-span">{text}</span>
       ),
     },
     {
-      title: '参数值',
+      title: t('apis.value'),
       dataIndex: 'value',
       render: (text, rowData, rowIndex) => (
         <span className="table-cell-span">{text}</span>

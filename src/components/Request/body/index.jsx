@@ -21,6 +21,7 @@ import Importexport from '../importExport';
 import Example from '../../Example';
 import { MODE, RAWMODE } from '../constant';
 import './body.less';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 
@@ -29,6 +30,7 @@ const RadioGroup = Radio.Group;
 const Body = (props) => {
   const readonly = useSelector((store) => store?.user?.readonly);
   const { value, onChange, direction = 'horizontal', defaultHideTable = false } = props;
+  const { t } = useTranslation();
 
   const refRequest = useRef(null);
   const { config } = useSelector((d) => d?.user);
@@ -125,7 +127,7 @@ const Body = (props) => {
       ),
     },
     {
-      title: '参数名',
+      title: t('apis.key'),
       dataIndex: 'key',
       enableResize: true,
       width: 220,
@@ -133,7 +135,7 @@ const Body = (props) => {
         if (value.mode === 'form-data') {
           return (
             <ApiInput
-              placeholder="参数名"
+              placeholder={ t('apis.key') }
               className="request-key"
               value={text}
               readonly={readonly == 1}
@@ -180,7 +182,7 @@ const Body = (props) => {
         }
         return (
           <ApiInput
-            placeholder="参数名"
+            placeholder={ t('apis.key') }
             value={text}
             readonly={readonly == 1}
             onChange={(newVal) => {
@@ -204,7 +206,7 @@ const Body = (props) => {
       },
     },
     {
-      title: '参数值',
+      title: t('apis.value'),
       dataIndex: 'value',
       enableResize: true,
       width: 150,
@@ -241,7 +243,7 @@ const Body = (props) => {
         }
         return (
           <ApiInput
-            placeholder="参数值,支持mock字段变量"
+            placeholder={ t('placeholder.bodyValue') }
             value={text}
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { value: newVal });
@@ -251,7 +253,7 @@ const Body = (props) => {
       },
     },
     {
-      title: '必填',
+      title: t('apis.must'),
       dataIndex: 'not_null',
       width: 55,
       render: (text, rowData, rowIndex) => {
@@ -268,7 +270,7 @@ const Body = (props) => {
       },
     },
     {
-      title: '类型',
+      title: t('apis.type'),
       dataIndex: 'type',
       enableResize: false,
       width: 100,
@@ -293,7 +295,7 @@ const Body = (props) => {
       },
     },
     {
-      title: '参数描述',
+      title: t('apis.desc'),
       dataIndex: 'description',
       render: (text, rowData, rowIndex) => {
         return (
@@ -404,7 +406,7 @@ const Body = (props) => {
                 }}
               >
                 <BeautifySvg width={16} />
-                <>美化</>
+                <>{ t('btn.beautify') }</>
               </Button>
               <Button
                 onClick={() => {
@@ -413,7 +415,7 @@ const Body = (props) => {
                 }}
               >
                 <SimplifySvg width={16} />
-                <>简化</>
+                <>{ t('btn.simplify') }</>
               </Button>
             </div>
           )}
@@ -422,7 +424,7 @@ const Body = (props) => {
           <Importexport data={[...value?.parameter]} type="bodyParameter" onChange={onChange} />
         )}
       </div>
-      {value?.mode === 'none' && <div className="body-none">该请求暂时没有正文</div>}
+      {value?.mode === 'none' && <div className="body-none">{ t('apis.emptyBody') }</div>}
       {['urlencoded', 'form-data'].includes(value?.mode) && (
         <Table hasPadding={false} showBorder columns={columns} data={tableDataList} />
       )}

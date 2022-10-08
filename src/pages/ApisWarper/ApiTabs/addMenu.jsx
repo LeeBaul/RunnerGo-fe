@@ -4,13 +4,31 @@ import { isPlainObject, isString } from 'lodash';
 import { Add as SvgAdd } from 'adesign-react/icons';
 import { getClipboardText, getSafeJSON } from '@utils';
 import Bus from '@utils/eventBus';
-import { TABITEMMENULIST } from './constant';
+// import { TABITEMMENULIST } from './constant';
 import { pushAction } from './subject';
 import './dropdown.less';
+import { useTranslation } from 'react-i18next';
+import {
+    Apis as SvgApis,
+    Doc as SvgDoc,
+    Project as SvgProject,
+    WS as SvgSocket,
+    Copy as SvgCopy,
+    Code as SvgCode,
+} from 'adesign-react/icons';
 
 const AddMenu = (props) => {
     const [visible, setVisible] = useState (false);
     const refDropdown = useRef(null);
+    const { t } = useTranslation();
+    const TABITEMMENULIST = [
+        {
+            title: t('apis.createApi'),
+            type: 'api',
+            icon: SvgApis,
+            action: 'addOpenItem'
+        }
+    ];
     const handleMenuClick = (action, type) => {
         if (action === 'pasteApiOrDoc') {
             // 粘贴接口/文本

@@ -7,9 +7,11 @@ import {
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
 import CreatePlan from '@modals/CreatePlan';
+import { useTranslation } from 'react-i18next';
 
 const PlanHeader = (props) => {
     const { onChange } = props;
+    const { t } = useTranslation();
     const [showPlan, setShowPlan] = useState(false);
     const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
@@ -27,12 +29,12 @@ const PlanHeader = (props) => {
                         onChange(e);
                     }}
                     beforeFix={<SvgSearch />}
-                    placeholder="搜索计划名称/执行者"
+                    placeholder={ t('placeholder.searchPlan') }
                 />
                 {/* <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button> */}
             </div>
             <div className='plan-header-right'>
-                <Button className='createBtn' preFix={<SvgAdd />} onClick={() => setShowPlan(true)}>新建计划</Button>
+                <Button className='createBtn' preFix={<SvgAdd />} onClick={() => setShowPlan(true)}>{ t('btn.createPlan') }</Button>
             </div>
         </div>
     )

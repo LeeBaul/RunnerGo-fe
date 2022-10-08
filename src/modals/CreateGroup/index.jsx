@@ -22,6 +22,7 @@ import { findSon } from '@utils';
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -29,6 +30,7 @@ const Textarea = Input.Textarea;
 
 const CreateGroup = (props) => {
     const { onCancel, group, from } = props;
+    const { t } = useTranslation();
 
     const { id: plan_id  } = useParams();
 
@@ -329,14 +331,15 @@ const CreateGroup = (props) => {
 
     return (
         <Modal
-            title={isPlainObject(group) ? '编辑分组' : '新建分组'}
+            title={isPlainObject(group) ? t('scene.editGroup') : t('scene.createGroup')}
             visible={true}
             onCancel={onCancel}
             className={FolderModal}
-            okText='保存'
+            okText={ t('btn.save') }
+            cancelText={ t('btn.cancel') }
             onOk={() => {
                 if (trim(groupName).length <= 0) {
-                    Message('error', '分组名称不能为空');
+                    Message('error', t('message.groupNameEmpty'));
                     return;
                 }
                 if (isPlainObject(group)) {
@@ -357,7 +360,7 @@ const CreateGroup = (props) => {
                         },
                         () => {
                             onCancel();
-                            Message('success', '保存成功');
+                            Message('success', t('message.saveSuccess'));
                         }
                     );
                 } else {
@@ -377,7 +380,7 @@ const CreateGroup = (props) => {
                         },
                         () => {
                             onCancel();
-                            Message('success', '新建分组成功');
+                            Message('success', t('message.createGroupSuccess'));
                         }
                     );
                 }
@@ -386,14 +389,14 @@ const CreateGroup = (props) => {
             <FolderWrapper>
                 <div className="article">
                     <div className="article-item">
-                        <p>分组名称</p>
-                        <Input value={groupName} placeholder='请输入分组名称' onChange={(val) => setGroupName(val)} />
+                        <p>{ t('scene.groupName') }</p>
+                        <Input value={groupName} placeholder={ t('placeholder.groupName') } onChange={(val) => setGroupName(val)} />
                     </div>
                     <div className="article-item">
-                        <p>分组描述</p>
+                        <p>{ t('scene.groupDesc') }</p>
                         <Textarea 
                             value={description || ''} 
-                            placeholder='请输入分组描述' 
+                            placeholder={ t('placeholder.groupDesc') } 
                             onChange={(val) => {
                                 setDescription(val);
                             }}

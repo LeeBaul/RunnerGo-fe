@@ -13,12 +13,14 @@ import DescChoice from '@components/descChoice';
 import { isString, trim } from 'lodash';
 import { REQUEST_HEADER } from '@constants/api';
 import Importexport from '../importExport';
-import { COMPARE_IF_TYPE } from '@constants/compare';
+// import { COMPARE_IF_TYPE } from '@constants/compare';
+import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
 const Assert = (props) => {
     const { parameter, onChange } = props;
+    const { t } = useTranslation();
     const [unKey, setUnKey] = useState(false);
     const [unValue, setUnValue] = useState(false);
 
@@ -40,6 +42,19 @@ const Assert = (props) => {
         onChange('assert', [...newList]);
     }
 
+    const COMPARE_IF_TYPE = [
+        { type: 'eq', title: t('apis.compareSelect.eq') },
+        { type: 'uneq', title: t('apis.compareSelect.uneq') },
+        { type: 'gt', title: t('apis.compareSelect.gt') },
+        { type: 'gte', title: t('apis.compareSelect.gte') },
+        { type: 'lt', title: t('apis.compareSelect.lt') },
+        { type: 'lte', title: t('apis.compareSelect.lte') },
+        { type: 'includes', title: t('apis.compareSelect.includes') },
+        { type: 'unincludes', title: t('apis.compareSelect.unincludes') },
+        { type: 'null', title: t('apis.compareSelect.null') },
+        { type: 'notnull', title: t('apis.compareSelect.notnull') },
+    ];
+
     const columns = [
         {
             title: '',
@@ -49,18 +64,19 @@ const Assert = (props) => {
             render: (text, rowData, rowIndex) => (
                 <Select
                     value={rowData.response_type || null}
+                    placeholder={ t('placeholder.plsSelect') }
                     onChange={(e) => {
                         handleChange(rowData, rowIndex, { response_type: e });
                     }}
                 >
-                    <Option value={1}>响应头</Option>
-                    <Option value={2}>响应体</Option>
-                    <Option value={3}>响应码</Option>
+                    <Option value={1}>{ t('apis.assertSelect.resHeader') }</Option>
+                    <Option value={2}>{ t('apis.assertSelect.resBody') }</Option>
+                    <Option value={3}>{ t('apis.resCode') }</Option>
                 </Select>
             ),
         },
         {
-            title: '字段',
+            title: t('apis.field'),
             dataIndex: 'var',
             // enableResize: true,
             width: 120,
@@ -86,6 +102,7 @@ const Assert = (props) => {
                 return (
                     <Select
                         value={rowData.compare || null}
+                        placeholder={ t('placeholder.plsSelect') }
                         onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
@@ -96,7 +113,7 @@ const Assert = (props) => {
             },
         },
         {
-            title: '值',
+            title: t('apis.val'),
             dataIndex: 'val',
             // enableResize: true,
             render: (text, rowData, rowIndex) => {

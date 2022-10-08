@@ -7,6 +7,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { isArray } from 'lodash';
 import TabItem from './tabItem';
 import { global$ } from '@hooks/useGlobal/global';
+import { useTranslation } from 'react-i18next';
 
 const SortableItem = SortableElement(({ activeTabId, onTabChange, item, handleCloseItem }) => {
     return <TabItem {...{ activeTabId, onTabChange, item, handleCloseItem }} />;
@@ -36,15 +37,16 @@ const SortableList = SortableContainer(
 const HeadTabs = (props) => {
     const { tabItemList, activeTabId, onTabChange, onRemoveTabItem } = props;
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     const handleCloseItem = (item, e) => {
         e.stopPropagation();
         if (item?.ifChanged && item?.ifChanged > 0) {
             Modal.confirm({
-                title: '提示',
-                content: '当前标签未保存是否确认关闭？',
-                okText: '不保存',
-                diyText: '保存并关闭',
+                title: t('apis.tips'),
+                content: t('apis.closeConfirm'),
+                okText: t('apis.notSave'),
+                diyText: t('apis.saveAndClose'),
                 onDiy: async () => {
                     Bus.$emit('saveTargetById', {
                         id: item.id,
@@ -53,9 +55,9 @@ const HeadTabs = (props) => {
                         },
                     }, {}, (code) => {
                         if (code === 0) {
-                            Message('success', '保存成功!');
+                            Message('success', t('message.saveSuccess'));
                         } else {
-                            Message('error', '保存失败!');
+                            Message('error', t('message.saveError'));
                         }
                     });
                 },

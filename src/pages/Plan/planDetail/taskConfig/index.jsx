@@ -8,9 +8,11 @@ import { cloneDeep } from 'lodash';
 // import { fetchPlanDetail } from '@services/plan';
 import { fetchPlanDetail, fetchSavePlan } from '@services/plan';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const TaskConfig = (props) => {
     const { from, onChange } = props;
+    const { t } = useTranslation();
     const column = [
         {
             title: '机器IP',
@@ -164,7 +166,7 @@ const TaskConfig = (props) => {
 
 
 
-    const modeList = ['并发模式', '阶梯模式', '错误率模式', '响应时间模式', '每秒请求数模式'];
+    const modeList = [t('plan.modeList.1'), t('plan.modeList.2'), t('plan.modeList.3'), t('plan.modeList.4'), t('plan.modeList.5')];
     // 模式
     const [mode, setMode] = useState(1);
     // 普通任务1 定时任务2
@@ -238,7 +240,7 @@ const TaskConfig = (props) => {
                     }
                 }}>
                     <Radio value="duration">
-                        <span className='label'>持续时长: </span>
+                        <span className='label'>{ t('plan.duration') }: </span>
                         <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.duration = parseInt(e.target.value);
@@ -250,7 +252,7 @@ const TaskConfig = (props) => {
                         }} disabled={default_mode === 'round_num'} /> s
                     </Radio>
                     <Radio value="round_num">
-                        <span className='label'>轮次: </span>
+                        <span className='label'>{ t('plan.roundNum') }: </span>
                         <Input size="mini" value={mode_conf.round_num} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.round_num = parseInt(e.target.value);
@@ -259,12 +261,12 @@ const TaskConfig = (props) => {
                             // from === 'preset' && onChange('round_num', parseInt(e.target.value));
                             // from === 'default' && 
                             updateTaskConfig('round_num', parseInt(e.target.value));
-                        }} disabled={default_mode === 'duration'} /> 次
+                        }} disabled={default_mode === 'duration'} /> { t('plan.second') }
                     </Radio>
                 </Radio.Group>
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
-                        <span>并发数: </span>
+                        <span>{ t('plan.concurrency') }: </span>
                         <Input size="mini" value={mode_conf.concurrency} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.concurrency = parseInt(e.target.value);
@@ -276,7 +278,7 @@ const TaskConfig = (props) => {
                         }} />
                     </div>
                     <div className='config-detail-item'>
-                        <span>预热: </span>
+                        <span>{ t('plan.reheatTime') }: </span>
                         <Input size="mini" value={mode_conf.reheat_time} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.reheat_time = parseInt(e.target.value);
@@ -297,7 +299,7 @@ const TaskConfig = (props) => {
             <div className='other-config-item'>
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
-                        <span>起始并发数: </span>
+                        <span>{ t('plan.startConcurrency') }: </span>
                         <Input size="mini" value={mode_conf.start_concurrency} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.start_concurrency = parseInt(e.target.value);
@@ -309,7 +311,7 @@ const TaskConfig = (props) => {
                         }} />
                     </div>
                     <div className='config-detail-item'>
-                        <span>并发数步长: </span>
+                        <span>{ t('plan.step') }: </span>
                         <Input size="mini" value={mode_conf.step} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.step = parseInt(e.target.value);
@@ -321,7 +323,7 @@ const TaskConfig = (props) => {
                         }} />
                     </div>
                     <div className='config-detail-item'>
-                        <span>步长执行时长: </span>
+                        <span>{ t('plan.stepRunTime') }: </span>
                         <Input size="mini" value={mode_conf.step_run_time} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.step_run_time = parseInt(e.target.value);
@@ -333,7 +335,7 @@ const TaskConfig = (props) => {
                         }} />s
                     </div>
                     <div className='config-detail-item'>
-                        <span>最大并发数: </span>
+                        <span>{ t('plan.maxConcurrency') }: </span>
                         <Input size="mini" value={mode_conf.max_concurrency} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.max_concurrency = parseInt(e.target.value);
@@ -342,10 +344,10 @@ const TaskConfig = (props) => {
                             // from === 'preset' && onChange('max_concurrency', parseInt(e.target.value));
                             // from === 'default' && 
                             updateTaskConfig('max_concurrency', parseInt(e.target.value));
-                        }} />次
+                        }} />{ t('plan.second') }
                     </div>
                     <div className='config-detail-item'>
-                        <span>稳定持续时长: </span>
+                        <span>{ t('plan.duration') }: </span>
                         <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.duration = parseInt(e.target.value);
@@ -411,12 +413,12 @@ const TaskConfig = (props) => {
         <div className='task-config'>
             {
                 from !== 'preset' && <div className='task-config-header'>
-                    <p>任务配置</p>
+                    <p>{ t('plan.taskConfig') }</p>
                     <div className='btn'>
-                        <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>保存</Button>
+                        <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>{ t('btn.save') }</Button>
                         <Button preFix={<SvgImport style={{ marginRight: '4px' }} />} onClick={() => {
                             getPreConfig(() => init(initData))
-                        }}>导入预设配置</Button>
+                        }}>{ t('plan.importPre') }</Button>
                     </div>
                 </div>
             }
@@ -429,26 +431,26 @@ const TaskConfig = (props) => {
                     </Radio.Group>
                 </div> */}
                 <div className='item' style={{ marginBottom: '30px' }}>
-                    <p>任务类型: </p>
+                    <p>{ t('plan.taskType') }: </p>
                     <Radio.Group value={task_type} onChange={(e) => {
                         setTaskType(e);
                         // from === 'preset' && onChange('task_type', e);
                         // from === 'default' && 
                         updateTaskConfig('task_type', parseInt(e));
                     }}>
-                        <Radio value={1}>普通任务</Radio>
-                        <Radio value={2}>定时任务</Radio>
+                        <Radio value={1}>{ t('plan.taskList.commonTask') }</Radio>
+                        <Radio value={2}>{ t('plan.taskList.cronTask') }</Radio>
                     </Radio.Group>
                 </div>
                 {
                     task_type === 2 && <div className='item' style={{ marginBottom: '20px' }}>
-                        <p style={{ marginRight: '5px' }}>填写cron表达式: </p>
+                        <p style={{ marginRight: '5px' }}>{ t('plan.fillInCron') }: </p>
                         <Input value={cron_expr} onChange={(e) => {
                             setCronExpr(e);
                             // from === 'preset' && onChange('cron_expr', e);
                             // from === 'default' && 
                             updateTaskConfig('cron_expr', e);
-                        }} placeholder="每隔5秒执行一次: */5 * * * * ?" />
+                        }} placeholder={ t('placeholder.cronContent') } />
                     </div>
                 }
                 {/* <div className='item'>
@@ -457,7 +459,7 @@ const TaskConfig = (props) => {
                 </div>
                 <Table showBorder columns={column} data={data} /> */}
                 <div className='item'>
-                    <p style={{ marginBottom: 'auto', marginTop: '5px' }}>压测模式: </p>
+                    <p style={{ marginBottom: 'auto', marginTop: '5px' }}>{ t('plan.mode') }: </p>
                     <Radio.Group value={mode} onChange={(e) => {
                         setMode(e);
                         // from === 'preset' && onChange('mode', e);
@@ -468,7 +470,7 @@ const TaskConfig = (props) => {
                     </Radio.Group>
                 </div>
                 <div className='other-config'>
-                    <p className='mode-config-title'>{modeList[mode - 1]}设置</p>
+                    <p className='mode-config-title'>{modeList[mode - 1]}{ t('plan.set') }</p>
                     {
                         modeContentList[mode]
                     }

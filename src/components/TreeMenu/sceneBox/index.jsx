@@ -4,9 +4,11 @@ import { Apis as SvgApis, NewFolder as SvgNewFolder, Download as SvgDownload } f
 import SvgScene from '@assets/icons/Scene1';
 import CreateGroup from '@modals/CreateGroup';
 import CreateScene from '@modals/CreateScene';
+import { useTranslation } from 'react-i18next';
 
 const SceneBox = (props) => {
     const { from, onChange } = props;
+    const { t } = useTranslation();
     const [showCreateGroup, setCreateGroup] = useState(false);
     const [showCreateScene, setCreateScene] = useState(false);
 
@@ -14,12 +16,12 @@ const SceneBox = (props) => {
         <div className='scene-box' style={{ justifyContent: from === 'plan' ? 'center' : 'flex-start' }}>
             <div className='scene-box-item' onClick={() => setCreateGroup(true)}>
                 <SvgNewFolder width="18" height="18" />
-                <p>{from !== 'plan' ? '新建' : ''}分组</p>
+                <p>{from !== 'plan' ? t('scene.new') : ''}{ t('scene.group') }</p>
             </div>
             <div className='line' style={{ margin: from === 'plan' ? '0 4px' : '0 14px' }}></div>
             <div className='scene-box-item' onClick={() => setCreateScene(true)}>
                 <SvgScene width="18" height="18" />
-                <p>新建场景</p>
+                <p>{ t('scene.createScene') }</p>
             </div>
             {
                 from === 'plan' &&
@@ -27,7 +29,7 @@ const SceneBox = (props) => {
                     <div className='line' style={{ margin: from === 'plan' ? '0 4px' : '0 14px' }}></div>
                     <div className='scene-box-item' onClick={() => onChange(true)}>
                         <SvgDownload width="18" height="18" />
-                        <p>导入场景</p>
+                        <p>{ t('plan.importScene') }</p>
                     </div>
                 </>
             }

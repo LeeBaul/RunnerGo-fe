@@ -9,9 +9,11 @@ import { fetchImportVar, fetchImportList, fetchSceneVar, fetchChangeVar, fetchDe
 import { useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import PreviewFile from '../PreviewFile';
+import { useTranslation } from 'react-i18next';
 
 const SceneConfig = (props) => {
     const { onCancel, from } = props;
+    const { t } = useTranslation();
     const open_scene_scene = useSelector((store) => store.scene.open_scene);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
 
@@ -66,7 +68,7 @@ const SceneConfig = (props) => {
     }, []);
     const columns = [
         {
-            title: '变量名',
+            title: t('scene.varName'),
             dataIndex: 'var',
             width: 211,
             render: (text, rowData, rowIndex) => {
@@ -95,7 +97,7 @@ const SceneConfig = (props) => {
             }
         },
         {
-            title: '变量值',
+            title: t('scene.varVal'),
             dataIndex: 'val',
             render: (text, rowData, rowIndex) => {
                 return (
@@ -109,7 +111,7 @@ const SceneConfig = (props) => {
             }
         },
         {
-            title: '变量描述',
+            title: t('scene.varDesc'),
             dataIndex: 'description',
             render: (text, rowData, rowIndex) => {
                 return (
@@ -180,15 +182,15 @@ const SceneConfig = (props) => {
         const { originFile: { size, name } } = files[0];
         const nameType = name.split('.')[1];
         if (fileLists.length === 5) {
-            Message('error', '最多上传5个文件!');
+            Message('error', t('message.maxFileNum'));
             return;
         }
         if (size / 1024 > fileMaxSize) {
-            Message('error', '文件过大!');
+            Message('error', t('message.maxFileSize'));
             return;
         };
         if (!fileType.includes(nameType)) {
-            Message('error', '只支持csv和txt格式文件!');
+            Message('error', t('message.FileType'));
             return;
         }
         const ossConfig = {
@@ -222,7 +224,7 @@ const SceneConfig = (props) => {
                     const _fileList = cloneDeep(fileList);
                     _fileList.push(importFile);
                     setFileList(_fileList)
-                    Message('success', '上传成功!');
+                    Message('success', t('message.uploadSuccess'));
                 }
             }
         })
@@ -250,12 +252,12 @@ const SceneConfig = (props) => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    Message('success', '保存成功!');
+                    Message('success', t('message.saveSuccess'));
                     onCancel();
                 }
             },
             err: (err) => {
-                Message('error', '保存失败!');
+                Message('error', t('message.saveError'));
             }
         });
     };
@@ -270,13 +272,13 @@ const SceneConfig = (props) => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    Message('success', '删除成功!');
+                    Message('success', t('message.deleteSuccess'));
                     const _fileList = cloneDeep(fileList);
                     const _index = _fileList.findIndex(item => item.path === name);
                     _fileList.splice(_index, 1);
                     setFileList(_fileList);
                 } else {
-                    Message('error', '删除失败!');
+                    Message('error', t('message.deleteError'));
                 }
             }
         })
@@ -317,9 +319,9 @@ const SceneConfig = (props) => {
     }
 
     return (
-        <Modal className={GlobalVarModal} visible={true} title="场景设置" okText='保存' onOk={() => saveGlobalVar()} onCancel={onCancel} >
-            <p className='container-title'>添加文件</p>
-            <span>支持添加10M以内的csv、txt文件</span>
+        <Modal className={GlobalVarModal} visible={true} title={ t('scene.sceneConfig') } okText={ t('btn.save') } cancelText={ t('btn.cancel') } onOk={() => saveGlobalVar()} onCancel={onCancel} >
+            <p className='container-title'>{ t('scene.addFile') }</p>
+            <span>{ t('scene.fileSize') }</span>
             <div className='file-list'>
                 {
                     fileList.map(item => (
@@ -328,18 +330,18 @@ const SceneConfig = (props) => {
                                 {item.name}
                             </div>
                             <div className='file-list-item-right'>
-                                <p onClick={() => previewFile(item.url)}>预览</p>
-                                <p onClick={() => downloadFile(item.name, item.url)}>下载</p>
-                                <p className='delete' onClick={() => deleteFile(item.path)}>删除</p>
+                                <p onClick={() => previewFile(item.url)}>{ t('scene.preview') }</p>
+                                <p onClick={() => downloadFile(item.name, item.url)}>{ t('scene.download') }</p>
+                                <p className='delete' onClick={() => deleteFile(item.path)}>{ t('scene.delete') }</p>
                             </div>
                         </div>
                     ))
                 }
             </div>
             <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
-                <Button style={{ backgroundColor: 'var(--theme-color)' }} preFix={<SvgAdd />}>添加文件</Button>
+                <Button style={{ backgroundColor: 'var(--theme-color)' }} preFix={<SvgAdd />}>{ t('scene.addFile') }</Button>
             </Upload>
-            <p className='container-title'>添加变量</p>
+            <p className='container-title'>{ t('scene.addVar') }</p>
             <Table showBorder columns={columns} data={varList} />
             { showPreview && <PreviewFile fileType={fileType} data={previewData} onCancel={() => setPreview(false)} /> }
         </Modal>

@@ -23,6 +23,7 @@ import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -30,6 +31,7 @@ const Textarea = Input.Textarea;
 
 const CreateScene = (props) => {
     const { onCancel, scene, from } = props;
+    const { t } = useTranslation();
 
     const { id: plan_id } = useParams();
     const dispatch = useDispatch();
@@ -335,14 +337,15 @@ const CreateScene = (props) => {
 
     return (
         <Modal
-            title={isPlainObject(scene) ? '编辑场景' : '新建场景'}
+            title={isPlainObject(scene) ? t('scene.editScene') : t('scene.createScene')}
             visible={true}
             onCancel={onCancel}
             className={FolderModal}
-            okText='保存'
+            okText={ t('btn.save') }
+            cancelText={ t('btn.cancel') }
             onOk={() => {
                 if (trim(sceneName).length <= 0) {
-                    Message('error', '场景名称不能为空');
+                    Message('error', t('message.SceneNameEmpty'));
                     return;
                 }
                 if (isPlainObject(scene)) {
@@ -363,7 +366,7 @@ const CreateScene = (props) => {
                         },
                         () => {
                             onCancel();
-                            Message('success', '保存成功');
+                            Message('success', t('message.saveSuccess'));
                         }
                     );
                 } else {
@@ -384,7 +387,7 @@ const CreateScene = (props) => {
                         (code, data) => {
                             onCancel();
                             if (code === 0) {
-                                Message('success', '新建场景成功');
+                                Message('success', t('message.createSceneSuccess'));
                                 dispatch({
                                     type: 'scene/updateOpenName',
                                     payload: data.target_name,
@@ -395,7 +398,7 @@ const CreateScene = (props) => {
                                     Bus.$emit('addOpenPlanScene', data, id_apis_plan, node_config_plan);
                                 }
                             } else {
-                                Message('fail', '新建场景失败');
+                                Message('error', t('message.createSceneError'));
                             }
                         }
                     );
@@ -405,14 +408,14 @@ const CreateScene = (props) => {
             <FolderWrapper>
                 <div className="article">
                     <div className="article-item">
-                        <p>场景名称</p>
-                        <Input value={sceneName} placeholder='请输入场景名称' onChange={(val) => setSceneName(val)} />
+                        <p>{ t('scene.sceneName') }</p>
+                        <Input value={sceneName} placeholder={ t('placeholder.sceneName') } onChange={(val) => setSceneName(val)} />
                     </div>
                     <div className="article-item">
-                        <p>场景描述</p>
+                        <p>{ t('scene.sceneDesc') }</p>
                         <Textarea
                             value={description || ''} 
-                            placeholder='请输入场景描述'
+                            placeholder={ t('placeholder.sceneDesc') }
                             onChange={(val) => {
                                 setDescription(val);
                             }}

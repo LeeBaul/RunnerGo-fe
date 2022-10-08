@@ -6,9 +6,11 @@ import {
     Add as SvgAdd
 } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const ReportListHeader = (props) => {
     const { onChange } = props;
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [keyword, setKeyword] = useState('');
     return (
@@ -18,7 +20,7 @@ const ReportListHeader = (props) => {
                     value={keyword}
                     className="textBox"
                     beforeFix={<SvgSearch />}
-                    placeholder="搜索计划名称/执行者"
+                    placeholder={ t('placeholder.searchPlan') }
                     onChange={(e) => {
                         setKeyword(e);
                         onChange(e);

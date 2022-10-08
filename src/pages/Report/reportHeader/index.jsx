@@ -13,9 +13,11 @@ import SvgSendEmail from '@assets/icons/SendEmail';
 import SvgStop from '@assets/icons/Stop';
 import Bus from '@utils/eventBus';
 import { fetchStopReport } from '@services/report';
+import { useTranslation } from 'react-i18next';
 
 const ReportHeader = (props) => {
     const { data: { plan_name }, status } = props;
+    const { t } = useTranslation();
     const [showSendEmail, setSendEmail] = useState(false);
     const navigate = useNavigate();
     const ref1 = useRef(null);
@@ -133,9 +135,9 @@ const ReportHeader = (props) => {
                 const { code } = res;
                 console.log(code);
                 if (code === 0) {
-                    Message('success', '停止成功!');
+                    Message('success', t('message.stopSuccess'));
                 } else {
-                    Message('error', '停止失败!');
+                    Message('error', t('message.stopError'));
                 }
             }
         })
@@ -146,15 +148,15 @@ const ReportHeader = (props) => {
             <div className='report-header-left'>
                 <SvgLeft onClick={() => navigate('/report/list')} />
                 <div className='report-name'>{plan_name}</div>
-                <div className='report-status'>{ status === 1 ? '进行中' : '已完成'}</div>
+                <div className='report-status'>{ status === 1 ? t('btn.running') : t('btn.done')}</div>
             </div>
             <div className='report-header-right'>
-                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>通知收件人</Button>
+                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>{ t('btn.notifyEmail') }</Button>
                 {/* <Button className='download' onClick={() => donwloadReport()}>下载</Button> */}
                 {
                     status === 1 
-                    ? <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => stopReport() }  >中止任务</Button>
-                    : <Button disabled={true}>已完成</Button>
+                    ? <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => stopReport() }  >{ t('btn.breakTask') }</Button>
+                    : <Button disabled={true}>{ t('btn.done') }</Button>
                 }
             </div>
             {showSendEmail && <SendEmail onCancel={() => setSendEmail(false)} />}

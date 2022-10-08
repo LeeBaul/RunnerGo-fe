@@ -5,28 +5,12 @@ import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import { cloneDeep } from 'lodash';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
-const modeMap = {
-    'duration': '持续时长',
-    'round_num': '轮次',
-    'concurrency': '并发数',
-    'reheat_time': '预热',
-    'start_concurrency': '起始并发数',
-    'step': '并发数步长',
-    'step_run_time': '步长执行时长',
-    'max_concurrency': '最大并发数',
-}
-
-const modeList = {
-    '1': '并发模式',
-    '2': '阶梯模式',
-    '3': '错误率模式',
-    '4': '响应时间模式',
-    '5': '每秒请求数模式'
-}
 
 const ReportContent = (props) => {
     const { data: datas, config: { task_mode, task_type, mode_conf }  } = props;
+    const { t } = useTranslation();
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);
     // 每秒事务数
@@ -42,6 +26,26 @@ const ReportContent = (props) => {
     const [concurrencyList, setConcurrencyList] = useState([]);
     const [configColumn, setConfigColumn] = useState([]);
     const [configData, setConfigData] = useState([]);
+
+    
+const modeMap = {
+    'duration': t('plan.duration'),
+    'round_num': t('plan.roundNum'),
+    'concurrency': t('plan.concurrency'),
+    'reheat_time': t('plan.reheatTime'),
+    'start_concurrency': t('plan.startConcurrency'),
+    'step': t('plan.step'),
+    'step_run_time': t('plan.stepRunTime'),
+    'max_concurrency': t('plan.maxConcurrency'),
+}
+
+const modeList = {
+    '1': t('plan.modeList.1'),
+    '2': t('plan.modeList.2'),
+    '3': t('plan.modeList.3'),
+    '4': t('plan.modeList.4'),
+    '5': t('plan.modeList.5'),
+}
 
     useEffect(() => {
         setTableData1(datas);
@@ -164,42 +168,42 @@ const ReportContent = (props) => {
                 _columns = [
                     duration ?
                     {
-                        title: '持续时长',
+                        title: t('plan.duration'),
                         dataIndex: 'duration',
                     } : 
                     {
-                        title: '轮次',
+                        title: t('plan.roundNum'),
                         dataIndex: 'round_num',
                     },
                     {
-                        title: '并发数',
+                        title: t('plan.concurrency'),
                         dataIndex: 'concurrency',
                     },
                     {
-                        title: '预热时长',
+                        title: t('plan.reheatTime'),
                         dataIndex: 'reheat_time',
                     }
                 ];
             } else {
                 _columns = [
                     {
-                        title: '起始并发数',
+                        title: t('plan.startConcurrency'),
                         dataIndex: 'start_concurrency',
                     },
                     {
-                        title: '并发数步长',
+                        title: t('plan.step'),
                         dataIndex: 'step',
                     },
                     {
-                        title: '步长执行时长',
+                        title: t('plan.stepRunTime'),
                         dataIndex: 'step_run_time',
                     },
                     {
-                        title: '最大并发数',
+                        title: t('plan.maxConcurrency'),
                         dataIndex: 'max_concurrency',
                     },
                     {
-                        title: '稳定持续时长',
+                        title: t('plan.duration'),
                         dataIndex: 'duration'
                     }
                 ];
@@ -301,15 +305,15 @@ const ReportContent = (props) => {
 
     const columns1 = [
         {
-            title: '接口名称',
+            title: t('report.apiName'),
             dataIndex: 'api_name',
         },
         {
-            title: '总请求数',
+            title: t('report.totalReqNum'),
             dataIndex: 'total_request_num',
         },
         {
-            title: '总响应时间(s)',
+            title: t('report.totalResTime'),
             dataIndex: 'total_request_time',
             width: 150,
         },
@@ -338,23 +342,23 @@ const ReportContent = (props) => {
             dataIndex: 'ninety_nine_request_time_line_value',
         },
         {
-            title: '吞吐量',
+            title: t('report.qps'),
             dataIndex: 'qps',
         },
         {
-            title: '错误数',
+            title: t('report.errNum'),
             dataIndex: 'error_num',
         },
         {
-            title: '错误率',
+            title: t('report.errRate'),
             dataIndex: 'error_rate',
         },
         {
-            title: '接受字节数',
+            title: t('report.acceptByte'),
             dataIndex: 'received_bytes',
         },
         {
-            title: '发送字节数',
+            title: t('report.sendByte'),
             dataIndex: 'send_bytes',
         },
     ];
@@ -413,20 +417,20 @@ const ReportContent = (props) => {
         <div className='report-content'>
             <div className='report-content-top'>
                 <div className='top-type'>
-                    <span>任务类型: { task_type === 1 ? '普通任务' : '定时任务' }</span>
-                    <span>分布式: 是</span>
+                    <span>{ t('report.taskType') }: { task_type === 1 ? '普通任务' : '定时任务' }</span>
+                    {/* <span>分布式: 是</span> */}
                 </div>
                 <div className='top-mode'>
-                    <span>压测模式: { modeList[task_mode] }</span>
+                    <span>{ t('report.mode') }: { modeList[task_mode] }</span>
                 </div>
             </div>
             <Table showBorder columns={configColumn} data={configData} />
             <Table showBorder columns={columns1} data={tableData1} />
             <div className='echarts-list'>
-                <ReactEcharts className='echarts' option={getOption('每秒事务数', qpsList)} />
-                <ReactEcharts className='echarts' option={getOption('每秒请求数', qpsList)} />
-                <ReactEcharts className='echarts' option={getOption('并发数', concurrencyList)} />
-                <ReactEcharts className='echarts' option={getOption('错误数', errList)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.tps'), qpsList)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.qpsNum'), qpsList)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.concurrency'), concurrencyList)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.errNum'), errList)} />
             </div>
         </div>
     )

@@ -17,6 +17,7 @@ import useListData from './hooks/useListData';
 import { ApiTreePanel, BtnAddApiItem, ApiPickerStyle } from './style';
 import { useParams } from 'react-router-dom';
 import './index.less';
+import { useTranslation } from 'react-i18next';
 
 const NodeType = {
   api: SvgApis,
@@ -27,6 +28,7 @@ const NodeType = {
 
 const ScenePicker = (props) => {
   const { onCancel, onAddApiItems } = props;
+  const { t } = useTranslation();
 
   const refTree = useRef(null);
   const sceneDatas = useSelector((store) => store?.scene?.sceneDatas);
@@ -158,14 +160,14 @@ const ScenePicker = (props) => {
   return (
     <Drawer
       visible
-      title="场景添加器"
+      title={ t('plan.importScene') }
       className='api-config-drawer'
       onCancel={onCancel}
       mask={false}
       footer={
         <BtnAddApiItem>
           <Button onClick={handleAddApiItems} className="apipost-blue-btn" type="primary">
-            添加场景
+            { t('btn.addScene') }
           </Button>
         </BtnAddApiItem>
       }
@@ -174,11 +176,11 @@ const ScenePicker = (props) => {
         <div className="search-box">
           <Input
             value={filterParams?.key}
-            placeholder="搜索目录"
+            placeholder={ t('placeholder.searchScene') }
             onChange={handleChangeParams.bind(null, 'key')}
           />
           <div className="check-all-panel">
-            <span>全选</span>
+            <span>{ t('btn.selectAll') }</span>
             <CheckBox
               size="small"
               checked={checkAll}

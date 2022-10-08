@@ -22,9 +22,11 @@ import {
   NetworkPanel,
 } from './style';
 import CreateExample from './coms/createExample';
+import { useTranslation } from 'react-i18next';
 
 const ResponseStatus = (props) => {
   const { data, tempData, onChange, response, diyExampleKey, setDiyExampleKey } = props;
+  const { t } = useTranslation();
 
   const [exampleVisible, setExamepleVisible] = useState(false);
   const [example, setExample] = useState(null);
@@ -75,7 +77,7 @@ const ResponseStatus = (props) => {
               <span className="success">{data?.resposneAt}</span>
             </div> */}
             <div className="status-group">
-              <div>响应码：</div>
+              <div>{ t('apis.assertSelect.resCode') }：</div>
               <span className={response?.request_code === 200 ? 'success' : 'error'}>{response?.request_code}</span>
             </div>
 

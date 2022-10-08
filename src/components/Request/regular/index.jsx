@@ -15,10 +15,13 @@ import { REQUEST_HEADER } from '@constants/api';
 import Importexport from '../importExport';
 import { COMPARE_IF_TYPE } from '@constants/compare';
 
+import { useTranslation } from 'react-i18next';
 const { Option } = Select;
 
 const Regular = (props) => {
     const { parameter, onChange } = props;
+
+    const { t } = useTranslation();
 
     const handleTableDelete = (index) => {
         console.log(index);
@@ -43,7 +46,7 @@ const Regular = (props) => {
 
     const columns = [
         {
-            title: '变量名',
+            title: t('apis.varName'),
             dataIndex: 'var',
             // enableResize: true,
             render: (text, rowData, rowIndex) => (
@@ -57,7 +60,7 @@ const Regular = (props) => {
             ),
         },
         {
-            title: '表达式',
+            title: t('apis.expression'),
             dataIndex: 'express',
             // enableResize: true,
             render: (text, rowData, rowIndex) => {
@@ -73,7 +76,7 @@ const Regular = (props) => {
             },
         },
         {
-            title: '描述',
+            title: t('apis.desc'),
             dataIndex: 'val',
             // enableResize: true,
             render: (text, rowData, rowIndex) => {

@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import SvgClose from '@assets/apis/close.svg';
 import isUndefined from 'lodash/isUndefined';
 import { handleShowContextMenu } from './contextMenu';
+import { useTranslation } from 'react-i18next';
 
 const methodDic = {
     OPTIONS: 'OPT',
@@ -41,6 +42,7 @@ const HeadTabItem = (props) => {
     const { activeTabId, onTabChange, item, handleCloseItem } = props;
 
     const refTooltip = useRef(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const listener = () => {
@@ -102,13 +104,13 @@ const HeadTabItem = (props) => {
                         </div>
                         {!isUndefined(item?.createTime) && (
                             <div>
-                                创建于：
+                                { t('apis.createOn') }：
                                 {dayjs(item.createTime * 1000).format('YYYY-MM-DD')}
                             </div>
                         )}
                         {!isUndefined(item?.lastUpdate) && (
                             <div>
-                                修改于：
+                                { t('apis.updateOn') }：
                                 {dayjs(item.lastUpdate * 1000).format('YYYY-MM-DD')}
                             </div>
                         )}

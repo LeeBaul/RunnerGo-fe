@@ -12,6 +12,7 @@ import HawkAuth from './modules/hawkAuth';
 import NtlmAuth from './modules/ntlmAuth';
 import EdgeridAuth from './modules/edgeridAuth';
 import './index.less';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 
@@ -19,6 +20,7 @@ const PERFIXNAME = 'apipost-auth';
 
 const Authen = (props) => {
   const { value = {}, onChange = () => undefined } = props;
+  const { t } = useTranslation();
 
   useEffect(() => {
     let isDifferent = false;
@@ -79,14 +81,26 @@ const Authen = (props) => {
         return <OAuth1 value={value} type={type} handleAttrChange={handleAttrChange}></OAuth1>;
 
       default:
-        return '该接口不需要认证';
+        return t('apis.notAuth');
     }
+  };
+  const authList = {
+    noauth: t('apis.authList.noauth'),
+    kv: t('apis.authList.kv'),
+    bearer:t('apis.authList.bearer'),
+    basic: t('apis.authList.basic'),
+    digest: t('apis.authList.digest'),
+    oauth1: t('apis.authList.oauth1'),
+    hawk: t('apis.authList.hawk'),
+    awsv4: t('apis.authList.awsv4'),
+    ntlm: t('apis.authList.ntlm'),
+    edgegrid: t('apis.authList.edgegrid')
   };
 
   return (
     <AuthWrapper className={PERFIXNAME}>
       <Select className={`${PERFIXNAME}-select`} value={type} onChange={handleAuthTypeChange}>
-        {Object.entries(AUTH).map((item) => (
+        {Object.entries(authList).map((item) => (
           <Option value={item[0]} key={item[0]}>
             {item[1]}
           </Option>

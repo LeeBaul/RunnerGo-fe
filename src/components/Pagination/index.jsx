@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './index.less';
 import { Button, Select, Input } from 'adesign-react';
 const { Option } = Select;
+import { useTranslation } from 'react-i18next';
 
 const Pagination = (props) => {
     const { current, size, onChange, total } = props;
@@ -10,6 +11,7 @@ const Pagination = (props) => {
     const [currentPage, setCurrentPage] = useState(current);
     const [sizeList, setSizeList] = useState([5, 10, 15, 20]);
     const [maxPage, setMaxPage] = useState(0);
+    const { t } = useTranslation();
     useEffect(() => {
         if (typeof total !== 'number' ||
             typeof pageSize !== 'number' ||
@@ -46,7 +48,7 @@ const Pagination = (props) => {
                     onChange && onChange(currentPage - 1, pageSize);
                     setCurrentPage(currentPage - 1);
                 }
-            }}>上一页</Button>
+            }}>{ t('btn.prePage') }</Button>
             <div className='paging-content'>
                 <Input value={currentPage} onChange={(e) => setCurrentPage(parseInt(e))} />
             </div>
@@ -55,8 +57,8 @@ const Pagination = (props) => {
                     onChange && onChange(currentPage + 1, pageSize);
                     setCurrentPage(currentPage + 1);
                 }
-            }}>下一页</Button>
-            <Button onClick={() => onChange && onChange(currentPage, pageSize)}>跳转</Button>
+            }}>{ t('btn.nextPage') }</Button>
+            <Button onClick={() => onChange && onChange(currentPage, pageSize)}>{ t('jump') }</Button>
             {/* <Button onClick={() => onChange(pageNum.length, pageSize)}>尾页</Button> */}
         </div>
     )

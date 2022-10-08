@@ -17,6 +17,7 @@ import FooterToolbar from '@components/Footer';
 import AddMenu from './addMenu';
 import MoreMenu from './moreMenu';
 import HeadTabs from './headTabs';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponents;
 const ApiTabs = (props) => {
@@ -29,6 +30,7 @@ const ApiTabs = (props) => {
         contentRender = () => undefined,
     } = props;
 
+    const { t } = useTranslation();
 
     const [activeId, setActiveId] = useState(defaultTabId);
     const mergedActiveId = 'defaultTabId' in props ? defaultTabId : activeId;
@@ -123,7 +125,7 @@ const ApiTabs = (props) => {
                     }}
                 >
                     <SvgHttp />
-                    <h3>新建 Http 接口</h3>
+                    <h3>{ t('apis.createHttp') }</h3>
                 </Button>
                 {/* <Button
                     type="primary"

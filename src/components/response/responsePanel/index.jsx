@@ -17,11 +17,13 @@ import DiyExample from './diyExample';
 import ResAssert from './assert';
 import ResRegex from './regex';
 import Bus from '@utils/eventBus';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
 const ResPonsePanel = (props) => {
   let { data, tempData, onChange, direction, from = 'apis' } = props;
+  const { t } = useTranslation();
   const open_res = useSelector((store) => store.opens.open_res);
   const open_scene_res = useSelector((store) => store.scene.run_api_res);
   const open_plan_res = useSelector((store) => store.plan.run_api_res);
@@ -72,7 +74,7 @@ const ResPonsePanel = (props) => {
   const defaultList = [
     {
       id: '1',
-      title: '实时响应',
+      title: t('apis.response'),
       content: (
         <RealTimeResult type="response_body" target={data} tempData={response_data || scene_result || {}} onChange={onChange}></RealTimeResult>
       ),
@@ -81,7 +83,7 @@ const ResPonsePanel = (props) => {
       id: '2',
       title: (
         <>
-          请求头
+          { t('apis.reqHeader') }
           {/* {numberDom(tempData?.request?.header)} */}
         </>
       ),
@@ -91,7 +93,7 @@ const ResPonsePanel = (props) => {
       id: '3',
       title: (
         <>
-          请求体
+          { t('apis.reqBody') }
           {/* {numberDom(tempData?.request?.header)} */}
         </>
       ),
@@ -101,7 +103,7 @@ const ResPonsePanel = (props) => {
       id: '4',
       title: (
         <>
-          响应头
+          { t('apis.resHeader') }
           {/* {numberDom(tempData?.response?.header)} */}
         </>
       ),
@@ -109,12 +111,12 @@ const ResPonsePanel = (props) => {
     },
     {
       id: '5',
-      title: '断言结果',
+      title: t('apis.resAssert'),
       content: <ResAssert data={response_data || scene_result  || {}}></ResAssert>
     },
     {
       id: '6',
-      title: '正则结果',
+      title: t('apis.resRegular'),
       content: <ResRegex data={response_data || scene_result || {}}></ResRegex>
     }
     // { id: '6', title: '失败响应示例', content: <Example></Example> },
@@ -221,7 +223,7 @@ const ResPonsePanel = (props) => {
         <div className={ResponseSendWrapper}>
           <div className="loading_bar_tram"></div>
           <div className="apt_sendLoading_con">
-            <div className="apt_sendLoading_con_text">发送中...</div>
+            <div className="apt_sendLoading_con_text">{ t('btn.sending') }</div>
             <Button
               type="primary"
               onClick={() => {
@@ -237,7 +239,7 @@ const ResPonsePanel = (props) => {
                 // });
               }}
             >
-              取消发送
+              { t('btn.cancelSend') }
             </Button>
           </div>
         </div>
@@ -246,14 +248,14 @@ const ResPonsePanel = (props) => {
         <div className={ResponseErrorWrapper}>
           <Resclose className="close-error-wrapper" onClick={() => setSpecialStatus('none')} />
           <div className="container">
-            无法访问以下内容
+            { t('apis.cantVisit') }
             <p className="error_str">{tempData.message}</p>
             <p className="err_desc_go_index">
-              去&nbsp;
+              { t('apis.go') }&nbsp;
               <span onClick={() => openUrl('https://www.apipost.cn/')}>
                 https://www.apipost.cn/
               </span>
-              &nbsp;官网，了解更多信息或寻求帮助
+              &nbsp;{ t('apis.askHelp') }
             </p>
           </div>
         </div>

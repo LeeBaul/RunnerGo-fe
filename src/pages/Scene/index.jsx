@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Scale } from 'adesign-react';
+import { Scale, Button } from 'adesign-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isObject } from 'lodash';
 import Bus from '@utils/eventBus';
@@ -9,10 +9,13 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import SceneHeader from './sceneHeader';
 import SceneContainer from './sceneContainer';
 import SvgEmpty from '@assets/img/empty';
+import SvgScene from '@assets/icons/Scene1';
+import { useTranslation } from 'react-i18next';
 
 const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
+    const { t } = useTranslation();
     const open_scene = useSelector((store) => store.scene.open_scene);
 
     return (
@@ -30,8 +33,9 @@ const Scene = () => {
                         <SceneHeader from='scene' />
                         <SceneContainer from='scene' />
                     </> : <div className='empty'>
-                            <SvgEmpty />
-                            <p>没有数据</p>
+                            {/* <SvgEmpty />
+                            <p>没有数据</p> */}
+                            <Button preFix={<SvgScene />}>{ t('btn.createScene') }</Button>
                           </div>
                 }
             </ScaleItem>

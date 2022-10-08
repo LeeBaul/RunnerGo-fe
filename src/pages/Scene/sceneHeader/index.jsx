@@ -15,9 +15,11 @@ import { useParams } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
 import { MarkerType } from 'react-flow-renderer';
 import SvgStop from '@assets/icons/Stop';
+import { useTranslation } from 'react-i18next';
 
 const SceneHeader = (props) => {
     const { from } = props;
+    const { t } = useTranslation();
     const [showSceneConfig, setSceneConfig] = useState(false);
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -209,17 +211,17 @@ const SceneHeader = (props) => {
             <div className='scene-header-right'>
                 <div className='config' onClick={() => setSceneConfig(true)}>
                     <SvgSetting />
-                    <span>场景设置</span>
+                    <span>{ t('scene.sceneConfig') }</span>
                 </div>
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene(() => {
-                            Message('success', '保存成功!');
-                        })}>保存</Button>
+                            Message('success', t('message.saveSuccess'));
+                        })}>{ t('btn.save') }</Button>
                 {
                     run_status === 'running'
                         ? <Button className='stopBtn' preFix={<SvgStop />} onClick={() => Bus.$emit('stopScene', open_scene.scene_id, from, () => {
-                            Message('success', '停止成功!');
-                        })}>停止运行</Button>
-                        : <Button className='runBtn' style={{ background: from === 'plan' ? '#2BA58F' : '#3CC071' }} preFix={<SvgCaretRight />} onClick={() => runScene()}>{ from === 'scene' ? '开始运行' : '运行场景' }</Button>
+                            Message('success', t('message.stopSuccess'));
+                        })}>{ t('btn.stopRun') }</Button>
+                        : <Button className='runBtn' style={{ background: from === 'plan' ? '#2BA58F' : '#3CC071' }} preFix={<SvgCaretRight />} onClick={() => runScene()}>{ from === 'scene' ? t('btn.run') : t('btn.runScene') }</Button>
                 }
             </div>
             {showSceneConfig && <SceneConfig from={from} onCancel={() => setSceneConfig(false)} />}

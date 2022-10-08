@@ -15,10 +15,12 @@ import Bus from '@utils/eventBus';
 import { DropWrapper } from './style';
 import FolderCreate from '@modals/folder/create';
 import ImportApi from "@modals/ImportApi";
+import { useTranslation } from 'react-i18next';
 
 const ButtonBox = (props) => {
 
     const { treeRef, showModal } = props;
+    const { t } = useTranslation();
 
     const [isExpandAll, setIsExpandAll] = useState(false);
     const [showFolder, setShowFolder] = useState(false);
@@ -45,19 +47,19 @@ const ButtonBox = (props) => {
             <div className="buttons-box">
                 <div className="project-title">{currentTeamName}</div>
                 <div className="button-list">
-                    <Tooltip content="新建接口" placement="top">
+                    <Tooltip content={ t('apis.createApi') } placement="top">
                         <Button size="mini" onClick={() => {
                             Bus.$emit('addOpenItem', { type: 'api' })
                         }}>
                             <SvgNewApis width="18px" height="18px" />
                         </Button>
                     </Tooltip>
-                    <Tooltip content="新建目录" placement="top">
+                    <Tooltip content={ t('apis.createFolder') } placement="top">
                         <Button size="mini" onClick={() => setShowFolder(true)}>
                             <SvgNewFolder width="18px" height="18px" />
                         </Button>
                     </Tooltip>
-                    <Tooltip content="导入接口 | 项目" placement="top">
+                    <Tooltip content={ t('apis.import') } placement="top">
                         <Dropdown
                             placement="bottom-end"
                             content={
@@ -67,13 +69,13 @@ const ButtonBox = (props) => {
                                         onClick={() => setImport(true)}
                                     >
                                         <SvgNewApis width="18px" height="18px" />
-                                        <span>导入接口</span>
+                                        <span>{ t('apis/importApi') }</span>
                                     </div>
                                     <div
                                         className="drop-item"
                                     >
                                         <SvgNewWindow width="18px" height="18px" />
-                                        <span>导入项目</span>
+                                        <span>{ t('apis/importProject') }</span>
                                     </div>
                                 </div>
                             }
@@ -83,7 +85,7 @@ const ButtonBox = (props) => {
                             </Button>
                         </Dropdown>
                     </Tooltip>
-                    <Tooltip content="全部展开 | 收起" placement="top">
+                    <Tooltip content={ t('apis.expand') } placement="top">
                         <Button size="mini" onClick={handleExpandAll}>
                             {isExpandAll ? (
                                 <SvgOpen width="18px" height="18px" />

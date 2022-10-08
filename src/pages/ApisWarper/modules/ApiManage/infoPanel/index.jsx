@@ -12,12 +12,14 @@ import { fetchHandleApi } from '@services/apis';
 import { cloneDeep } from 'lodash';
 import { tap } from 'rxjs';
 import { global$ } from '@hooks/useGlobal/global';
+import { useTranslation } from 'react-i18next';
 
 const ApiInfoPanel = (props) => {
     const { data, showGenetateCode, onChange, from = 'apis', onSave } = props;
 
     const [modalType, setModalType] = useState('');
     const { open_apis, open_api_now } = useSelector((store) => store.opens);
+    const { t } = useTranslation();
     const {
         id_apis: id_apis_scene,
         id_now: id_now_scene,
@@ -55,7 +57,7 @@ const ApiInfoPanel = (props) => {
             }, {}, (code, id) => {
 
                 if (code === 0) {
-                    Message('success', '保存成功!');
+                    Message('success', t('message.saveSuccess'));
                     // onSave(id);
                     dispatch({
                         type: 'opens/updateSaveId',
@@ -66,7 +68,7 @@ const ApiInfoPanel = (props) => {
                         payload: id,
                     })
                 } else {
-                    Message('error', '保存失败!');
+                    Message('error', t('message.saveError'));
                 }
             });
             return;
@@ -137,7 +139,7 @@ const ApiInfoPanel = (props) => {
                         <Input
                             size="mini"
                             className="api-name"
-                            placeholder="请输入接口名称"
+                            placeholder={ t('placeholder.apiName') }
                             value={data?.name || ''}
                             onChange={(value) => {
                                 onChange('name', value);
@@ -155,7 +157,7 @@ const ApiInfoPanel = (props) => {
                     {/* <ManageGroup target={data} showGenetateCode={showGenetateCode} /> */}
                 </div>
                 <Button className='save-btn' onClick={() => saveApi()}
-                >保存</Button>
+                >{ t('btn.save') }</Button>
             </div>
         </>
     );

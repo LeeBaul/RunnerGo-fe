@@ -15,9 +15,11 @@ import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
+import { useTranslation } from 'react-i18next';
 
 const ReportList = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [reportList, setReportList] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [total, setTotal] = useState(0);
@@ -51,8 +53,8 @@ const ReportList = () => {
                 {/* <SvgCopy /> */}
                 <SvgDelete className='delete-svg' onClick={() => {
                     Modal.confirm({
-                        title: '注意',
-                        content: '是否确定删除此报告?',
+                        title: t('modal.look'),
+                        content: t('modal.deleteReport'),
                         onOk: () => {
                             deleteReport(report_id);
                         }
@@ -70,7 +72,7 @@ const ReportList = () => {
 
         fetchDeleteReport(params).subscribe({
             next: (res) => {
-                Message('success', '删除成功!');
+                Message('success', t('message.deleteSuccess'));
                 getReportData();
             }
         });
@@ -186,47 +188,49 @@ const ReportList = () => {
 
     const columns = [
         {
-            title: '测试报告ID',
+            title: t('index.reportId'),
             dataIndex: 'rank',
+            sorter:(a,b)=>a.rank - b.rank,
         },
         {
-            title: '计划名称',
+            title: t('index.planName'),
             dataIndex: 'plan_name',
         },
         {
-            title: '场景名称',
+            title: t('index.sceneName'),
             dataIndex: 'scene_name',
         },
         {
-            title: '任务模式',
+            title: t('index.taskType'),
             dataIndex: 'task_type',
+            filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
+            onFilter:(value, item) => item.task_type == value,
         },
         {
-            title: '压测模式',
+            title: t('index.mode'),
             dataIndex: 'task_mode',
         },
         {
-            title: '开始时间',
+            title: t('index.startTime'),
             dataIndex: 'run_time_sec',
-            width: 220,
+            // width: 220,
         },
         {
-            title: '结束时间',
+            title: t('index.endTime'),
             dataIndex: 'last_time_sec',
-            width: 220,
+            // width:
         },
         {
-            title: '执行者',
+            title: t('index.performer'),
             dataIndex: 'run_user_name',
         },
         {
-            title: '状态',
+            title: t('index.status'),
             dataIndex: 'status',
         },
         {
-            title: '操作',
-            dataIndex: 'handle',
-            width: 96,
+            title: t('index.handle'),
+            dataIndex: 'handle'
         }
     ];
 
