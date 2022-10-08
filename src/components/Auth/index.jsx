@@ -34,9 +34,9 @@ const Authen = (props) => {
       }
     }
     if (isDifferent) {
-      setTimeout(() => {
+      // setTimeout(() => {
         // onChange('auth', { ...newValue });
-      }, 300);
+      // }, 300);
     }
   }, []);
 

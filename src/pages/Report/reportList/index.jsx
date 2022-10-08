@@ -23,8 +23,8 @@ const ReportList = () => {
     const [reportList, setReportList] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [total, setTotal] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('report_page')) || 1);
+    const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('report_pagesize')) || 10);
 
     const modeList = {
         '1': '并发模式',
@@ -237,6 +237,10 @@ const ReportList = () => {
     const getNewkeyword = debounce((e) => setKeyword(e), 500);
 
     const pageChange = (page, size) => {
+        if (size !== pageSize) {
+            localStorage.setItem('report_pagesize', size);
+        }
+        sessionStorage.setItem('report_page', page);
         page !== currentPage && setCurrentPage(page);
         size !== pageSize && setPageSize(size);
     }

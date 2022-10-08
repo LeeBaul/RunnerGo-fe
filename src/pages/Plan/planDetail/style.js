@@ -27,6 +27,23 @@ export const ApisWrapper = css`
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  .create-btn {
+      min-width: 159px;
+      height: 45px;
+      background-color: var(--theme-color);
+      color: #fff;
+      font-size: 24px;
+      box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+
+      svg {
+        width: 23px;
+        height: 23px;
+        fill: #fff;
+        margin-right: 10px;
+      }
+  }
 `;
 
 export const ApiManageWrapper = css`

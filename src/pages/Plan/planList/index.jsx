@@ -26,8 +26,8 @@ const PlanList = () => {
     const [planList, setPlanList] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [total, setTotal] = useState(0);
-    const [pageSize, setPageSize] = useState(10);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('plan_pagesize')) || 10);
+    const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('plan_page')) || 1);
     const dispatch = useDispatch();
     const refreshList = useSelector((store) => store.plan.refreshList);
     const id_apis_plan = useSelector((d) => d.plan.id_apis);
@@ -233,6 +233,10 @@ const PlanList = () => {
     const getNewkeyword = debounce((e) => setKeyword(e), 500);
 
     const pageChange = (page, size) => {
+        if (size !== pageSize) {
+            localStorage.setItem('plan_pagesize', size);
+        }
+        sessionStorage.setItem('plan_page', page)
         page !== currentPage && setCurrentPage(page);
         size !== pageSize && setPageSize(size);
     }

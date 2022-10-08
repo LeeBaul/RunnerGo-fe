@@ -14,7 +14,7 @@ const BasicAuth = (props) => {
             <AuthInput
               size="mini"
               placeholder="用户名（支持变量）"
-              value={value?.basic?.username}
+              // value={value?.basic?.username}
               onChange={(val) => {
                 handleAttrChange(type, 'username', val);
               }}
@@ -25,7 +25,7 @@ const BasicAuth = (props) => {
             <AuthInput
               size="mini"
               placeholder="密码（支持变量）"
-              value={value?.basic?.password}
+              // value={value?.basic?.password}
               onChange={(val) => {
                 handleAttrChange(type, 'password', val);
               }}

@@ -34,7 +34,8 @@
         "bodyValue": "Parameter values, support mock field variables",
         "plsSelect": "Please select",
         "plsInput": "Please enter",
-        "cronContent": "Execute every 5 seconds: */5 * * * *?"
+        "cronContent": "Execute every 5 seconds: */5 * * * *?",
+        "invitedEmail": "Please enter the email address of the invitee"
     },
     "btn": {
         "cancel": "cancel",
@@ -61,7 +62,10 @@
         "stopRun": "Stop operation",
         "addScene": "Add Scene",
         "selectAll": "Select All",
-        "running": "Running"
+        "running": "Running",
+        "ok": "Confirm",
+        "addMem": "Add People",
+        "close": "Close"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -82,12 +86,27 @@
         "copySuccess": "Copy succeeded!",
         "copyError": "Copy failed!",
         "handleError": "operation failed!",
-        "updateError": "Modification failed!"
+        "updateError": "Modification failed!",
+        "setSuccess": "Setting succeeded!",
+        "setError": "Setting failed!"
     },
     "modal": {
         "look": "be careful",
         "deletePlan": "Are you sure you want to delete this schedule?",
-        "deleteReport": "Are you sure you want to delete this report?"
+        "deleteReport": "Are you sure you want to delete this report?",
+        "invitation": "invitation",
+        "roleList": {
+            "0": "member",
+            "1": "admin"
+        },
+        "addTeamMem": "Add an existing team member",
+        "teamMem": "Team members",
+        "logTitle": "Collaboration log (only two days of records are saved)",
+        "operator": "Operator",
+        "operateTarget": "Operational Objectives",
+        "operateDate": "Operation time",
+        "today": "Today",
+        "yesterday": "Yesterday"
     },
     "index": {
         "planNum": "Number of plans",

@@ -11,14 +11,17 @@ import SceneContainer from './sceneContainer';
 import SvgEmpty from '@assets/img/empty';
 import SvgScene from '@assets/icons/Scene1';
 import { useTranslation } from 'react-i18next';
+import CreateScene from '@modals/CreateScene';
 
 const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
     const { t } = useTranslation();
     const open_scene = useSelector((store) => store.scene.open_scene);
+    const [showCreate, setShowCreate] = useState(false);
 
     return (
+        <>
         <ScalePanel
             realTimeRender
             className={ApisWrapper}
@@ -33,14 +36,15 @@ const Scene = () => {
                         <SceneHeader from='scene' />
                         <SceneContainer from='scene' />
                     </> : <div className='empty'>
-                            {/* <SvgEmpty />
+                        {/* <SvgEmpty />
                             <p>没有数据</p> */}
-                            <Button preFix={<SvgScene />}>{ t('btn.createScene') }</Button>
-                          </div>
+                        <Button preFix={<SvgScene />} onClick={() => setShowCreate(true)}>{t('btn.createScene')}</Button>
+                    </div>
                 }
             </ScaleItem>
-
         </ScalePanel>
+        { showCreate && <CreateScene from="scene" onCancel={() => setShowCreate(false)} /> }
+        </>
     )
 };
 

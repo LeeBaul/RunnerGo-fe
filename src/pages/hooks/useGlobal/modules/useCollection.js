@@ -41,13 +41,14 @@ const useCollection = () => {
         return _list.length + 1;
     };
     // 重新排序
-    const targetReorder = async (target) => {
+    const targetReorder = (target) => {
         if (isObject(target) && target.hasOwnProperty('parent_id')) {
             const parentKey = target.parent_id || '0';
             const project_id = target?.project_id;
-            const projectNodes = await Collection.where('project_id').anyOf(project_id).toArray();
+            // const projectNodes = await Collection.where('project_id').anyOf(project_id).toArray();
+            const projectNodes = Object.values(apiDatas);
             let sort = 0;
-            const rootNodes = projectNodes.filter((item) => item.parent_id === parentKey);
+            const rootNodes = projectNodes.filter((item) => `${item.parent_id}` === `${parentKey}`);
             const nodeSort = rootNodes.map((item) => item.sort);
             sort = max(nodeSort) || 0;
             target.sort = sort + 1;
@@ -206,6 +207,7 @@ const useCollection = () => {
         // 上传服务器 失败走异步任务
         newCollection['team_id'] = parseInt(localStorage.getItem('team_id'));
         delete newCollection['target_id'];
+        console.log(newCollection, data);
         // return;
         fetchHandleFolder(newCollection).subscribe({
             next: async (resp) => {

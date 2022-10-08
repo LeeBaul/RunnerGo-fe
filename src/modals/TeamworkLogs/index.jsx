@@ -12,6 +12,7 @@ import { TeamworkLosWrapper } from './style';
 import { fetchOperationLog } from '@services/dashboard';
 import { tap } from 'rxjs';
 import avatar from '@assets/logo/avatar.png';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 
@@ -19,6 +20,7 @@ const pageSizeList = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
 const TeamworkLogs = (props) => {
   const { onCancel } = props;
+  const { t } = useTranslation();
   const project_id = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
 
   const [init, setInit] = useState(true);
@@ -169,7 +171,7 @@ const TeamworkLogs = (props) => {
             style={page === 1 ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: '#999999' } : {}}
             onClick={() => setPage((pre) => pre - 1)}
           >
-            上一页
+            { t('btn.prePage') }
           </Button>
           <Input
             value={tempPage}
@@ -189,10 +191,10 @@ const TeamworkLogs = (props) => {
             }
             onClick={() => setPage((pre) => pre + 1)}
           >
-            下一页
+            { t('btn.nextPage') }
           </Button>
           <Button style={{ backgroundColor: 'var(--theme-color)' }} onClick={handleJumpPage}>
-            跳转
+            { t('btn.jump') }
           </Button>
         </div>
         <div className="log_reload">
@@ -200,13 +202,13 @@ const TeamworkLogs = (props) => {
           {/* 刷新 */}
         </div>
       </div>
-      <Button onClick={onCancel} style={{backgroundColor: 'var(--theme-color)'}}>关闭</Button>
+      <Button onClick={onCancel} style={{backgroundColor: 'var(--theme-color)'}}>{ t('btn.close') }</Button>
     </div>
   );
 
   const TitleTime = (time) => {
     const dayIndex = dayjs().diff(dayjs(time), 'day');
-    const currentTime = dayIndex === 0 ? '今天' : dayIndex === 1 ? '昨天' : time;
+    const currentTime = dayIndex === 0 ? t('modal.today') : dayIndex === 1 ? t('modal.yesterday') : time;
     return (
       <div>
         <span>{currentTime}</span>
@@ -232,15 +234,15 @@ const TeamworkLogs = (props) => {
     <Modal
       className={TeamworkLosWrapper}
       visible
-      title="协作日志（仅保存两天记录）"
+      title={ t('modal.logTitle') }
       onCancel={onCancel}
       footer={<>{LogsFooter()}</>}
     >
       <div className="teamwork-log">
         <div className="teamwork-log-title">
-          <div className="operator">操作人</div>
-          <div className="action">操作目标</div>
-          <div className="time">操作时间</div>
+          <div className="operator">{ t('modal.operator') }</div>
+          <div className="action">{ t('modal.operateTarget') }</div>
+          <div className="time">{ t('modal.operateDate') }</div>
         </div>
         <div className="teamwork-log-content">
           {list?.map((it, index) => (

@@ -15,7 +15,7 @@ const NtlmAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                value={value?.ntlm[k]}
+                // value={value?.ntlm[k]}
                 placeholder={ntlmPlacrholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
@@ -30,7 +30,7 @@ const NtlmAuth = (props) => {
 
   return (
     <>
-      {value?.ntlm && (
+      {(
         <div className="apipost-auth-content">
           {renderDom(Object.keys(ntlmPlacrholder).splice(0, 2))}
           {renderDom(Object.keys(ntlmPlacrholder).splice(2, 4))}

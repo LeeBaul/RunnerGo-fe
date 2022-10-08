@@ -15,7 +15,7 @@ const AWSAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                value={value?.awsv4[k]}
+                // value={value?.awsv4[k]}
                 placeholder={awsPlaceholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
@@ -30,7 +30,7 @@ const AWSAuth = (props) => {
 
   return (
     <>
-      {value?.awsv4 && (
+      { (
         <div className="apipost-auth-content">
           {renderDom(Object.keys(awsPlaceholder).splice(0, 2))}
           {renderDom(Object.keys(awsPlaceholder).splice(2, 4))}

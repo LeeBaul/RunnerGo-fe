@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, Dropdown, Message } from 'adesign-react';
+import { Button, Dropdown, Message, Tooltip } from 'adesign-react';
 import { isPlainObject, isString } from 'lodash';
 import { Add as SvgAdd } from 'adesign-react/icons';
 import { getClipboardText, getSafeJSON } from '@utils';
@@ -68,17 +68,19 @@ const AddMenu = (props) => {
 
     return (
         <>
-            <Dropdown
+            {/* <Dropdown
                 ref={refDropdown}
                 className="api-tabs-dropdown"
                 onVisibleChange={setVisible}
                 placement="bottom-end"
                 content={<div data-module="dropdown-example">{AddMenus}</div>}
             >
-                <Button size="mini" className="btn-dropdown add-request-btn">
+            </Dropdown> */}
+            <Tooltip content={ t('apis.createApi') }>
+                <Button size="mini" className="btn-dropdown add-request-btn" onClick={handleMenuClick.bind(null, 'addOpenItem', 'api')}>
                     <SvgAdd width="16px" height="16px" />
                 </Button>
-            </Dropdown>
+            </Tooltip>
         </>
     );
 };

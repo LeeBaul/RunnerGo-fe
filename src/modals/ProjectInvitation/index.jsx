@@ -24,9 +24,11 @@ import PayAddSuccessModal from './PayAddSuccessModal';
 import { fetchInviteMember } from '@services/user';
 import Bus from '@utils/eventBus';
 import { tap } from 'rxjs';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 const InvitationModal = (props) => {
+  const { t } = useTranslation();
   const project_id = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
   const team_id = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
   const userInfo = useSelector((store) => store.user.userInfo);
@@ -470,29 +472,29 @@ const InvitationModal = (props) => {
         >
           {/* <Spin loading={spinning}></Spin> */}
           <div className="modal-inviation-title">
-            <div>邀请协作者</div>
-            <div>添加现有团队成员</div>
+            <div>{ t('modal.invitation') }</div>
+            <div>{ t('modal.addTeamMem') }</div>
           </div>
           <div className="team-inviation-content">
             <div className="team-inviation-add">
               <div className="team-inviation-add-operation">
                 <Input
                   value={inputValue}
-                  placeholder="请输入被邀请人邮箱"
+                  placeholder={ t('placeholder.invitedEmail') }
                   // inputStyle={{ width: '80%' }}
                   onChange={(val) => setInputValue(val)}
                   maxLength={30}
                   // onPressEnter={() => changeTeamInvitation('add')}
                 />
                 <Select value={selectValue}  onChange={(key) => setSelectValue(key)}>
-                  <Option value={3}>管理员</Option>
-                  <Option value={2}>成员</Option>
+                  <Option value={3}>{ t('modal.roleList.1') }</Option>
+                  <Option value={2}>{ t('modal.roleList.0') }</Option>
                 </Select>
                 <Button
                   // className="apipost-blue-btn"
                   onClick={() => changeTeamInvitation('add')}
                 >
-                  确定
+                  { t('btn.ok') }
                 </Button>
               </div>
               <div className="team-invitation-add-list">
@@ -530,8 +532,8 @@ const InvitationModal = (props) => {
                         }}
                       >
                         {/* {renderOptions()} */}
-                        <Option value={3}>管理员</Option>
-                        <Option value={2}>成员</Option>
+                        <Option value={3}>{ t('modal.roleList.1') }</Option>
+                        <Option value={2}>{ t('modal.roleList.0') }</Option>
                       </Select>
                     </span>
                     {/* {computeStation(item)} */}
@@ -541,8 +543,8 @@ const InvitationModal = (props) => {
             </div>
             <div className="team-inviation-project-list">
               <div className="team-inviation-project-list-header">
-                <span>团队人员</span>
-                <span onClick={teamPersonnelCheckAll}>全选</span>
+                <span>{ t('modal.teamMem') }</span>
+                <span onClick={teamPersonnelCheckAll}>{ t('btn.selectAll') }</span>
               </div>
               <div className="team-invitation-project-list-content">
                 {projectList &&
@@ -615,7 +617,7 @@ const InvitationModal = (props) => {
               </span> */}
               <Button onClick={onSubmit}>
                 {/* {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'} */}
-                添加人员
+                { t('btn.addMem') }
               </Button>
             </div>
           </div>

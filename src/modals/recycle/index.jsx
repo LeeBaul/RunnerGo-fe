@@ -159,7 +159,7 @@ const Recycle = (props) => {
         footer={
           <>
             <div className="recycle-modal-footer">
-              <Button className="refresh-btn" onClick={getDeleteFolder}>
+              <Button className="refresh-btn" onClick={getDeleteFolder(1, 100)}>
                 <RefreshSvg width={16} />
                 刷新
               </Button>

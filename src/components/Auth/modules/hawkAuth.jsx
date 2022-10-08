@@ -7,6 +7,7 @@ const Option = Select.Option;
 
 const HawkAuth = (props) => {
   const { value, type, handleAttrChange } = props;
+  console.log(123123123, hawkPlaceholder);
 
   const renderDom = (renderList) => {
     return (
@@ -17,7 +18,7 @@ const HawkAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                value={value?.hawk[k]}
+                // value={value?.hawk[k]}
                 placeholder={hawkPlaceholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
@@ -29,7 +30,7 @@ const HawkAuth = (props) => {
               <div className="title">{k}</div>
               <Select
                 size="mini"
-                value={value?.hawk[k]}
+                // value={value?.hawk[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
                 }}
@@ -49,7 +50,7 @@ const HawkAuth = (props) => {
 
   return (
     <>
-      {value?.hawk && (
+      { (
         <div className="apipost-auth-content">
           {renderDom(Object.keys(hawkPlaceholder).splice(0, 3))}
           {renderDom(Object.keys(hawkPlaceholder).splice(3, 9))}

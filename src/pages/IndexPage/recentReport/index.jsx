@@ -21,8 +21,8 @@ const RecentReport = () => {
     const [reportList, setReportList] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [total, setTotal] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('index_page')) || 1);
+    const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('index_pagesize')) || 10 );
     const navigate = useNavigate();
     const { t } = useTranslation();
 
@@ -89,7 +89,15 @@ const RecentReport = () => {
             <div className='handle-content'>
                 <SvgEye onClick={() => navigate(`/report/detail/${report_id}`)} />
                 {/* <SvgExport /> */}
-                <SvgDelete className='delete' onClick={() => deleteReport(report_id)} />
+                <SvgDelete className='delete' onClick={() => {
+                    Modal.confirm({
+                        title: t('modal.look'),
+                        content: t('modal.deleteReport'),
+                        onOk: () => {
+                            deleteReport(report_id);
+                        }
+                    })
+                }} />
             </div>
         )
     };
@@ -159,6 +167,10 @@ const RecentReport = () => {
     const getNewKeyword = debounce((e) => setKeyword(e), 500);
 
     const pageChange = (page, size) => {
+        if (size !== pageSize) {
+            localStorage.setItem('index_pagesize', size);
+        }
+        sessionStorage.setItem('index_page', page);
         page!== currentPage && setCurrentPage(page);
         size !== pageSize && setPageSize(size);
     };

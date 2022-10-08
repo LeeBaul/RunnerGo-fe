@@ -22,7 +22,7 @@ const PreviewFile = (props) => {
     }, []);
 
     return (
-        <Modal className='preview-modal' title='预览文件' visible={true} onCancel={() => onCancel()}>
+        <Modal className='preview-modal' title='预览文件' visible={true} onOk={() => onCancel()} onCancel={() => onCancel()}>
             {
                 fileType === 'csv' ? <Table columns={tableColumn} data={tableData} /> : <div>{ data }</div>
             }

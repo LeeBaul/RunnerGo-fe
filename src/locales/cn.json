@@ -34,7 +34,8 @@
         "bodyValue": "参数值,支持mock字段变量",
         "plsSelect": "请选择",
         "plsInput": "请输入",
-        "cronContent": "每隔5秒执行一次: */5 * * * * ?"
+        "cronContent": "每隔5秒执行一次: */5 * * * * ?",
+        "invitedEmail": "请输入被邀请人邮箱"
     },
     "btn": {
         "cancel": "取消",
@@ -61,7 +62,10 @@
         "stopRun": "停止运行",
         "addScene": "添加场景",
         "selectAll": "全选",
-        "running": "进行中"
+        "running": "进行中",
+        "ok": "确认",
+        "addMem": "添加人员",
+        "close": "关闭"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -89,7 +93,20 @@
     "modal": {
         "look": "注意",
         "deletePlan": "是否确定要删除此计划？",
-        "deleteReport": "是否确定要删除此报告？"
+        "deleteReport": "是否确定要删除此报告？",
+        "invitation": "邀请",
+        "roleList": {
+            "0": "成员",
+            "1": "管理员"
+        },
+        "addTeamMem": "添加现有团队成员",
+        "teamMem": "团队人员",
+        "logTitle": "协作日志(仅保存两天记录)",
+        "operator": "操作人",
+        "operateTarget": "操作目标",
+        "operateDate": "操作时间",
+        "today": "今天",
+        "yesterday": "昨天"
     },
     "index": {
         "planNum": "计划数",

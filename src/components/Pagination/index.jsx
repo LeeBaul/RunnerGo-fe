@@ -58,7 +58,7 @@ const Pagination = (props) => {
                     setCurrentPage(currentPage + 1);
                 }
             }}>{ t('btn.nextPage') }</Button>
-            <Button onClick={() => onChange && onChange(currentPage, pageSize)}>{ t('jump') }</Button>
+            <Button onClick={() => onChange && onChange(currentPage, pageSize)}>{ t('btn.jump') }</Button>
             {/* <Button onClick={() => onChange(pageNum.length, pageSize)}>尾页</Button> */}
         </div>
     )

@@ -7,7 +7,6 @@ const Option = Select.Option;
 
 const DigestAuth = (props) => {
   const { value, type, handleAttrChange } = props;
-
   const renderDom = (renderList) => {
     return (
       <>
@@ -17,7 +16,8 @@ const DigestAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                value={value?.digest[k]}
+                // value={value?.digest[k]}
+                value={value.basic.username}
                 placeholder={digestPlaceholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
@@ -29,7 +29,8 @@ const DigestAuth = (props) => {
               <div className="title">{k}</div>
               <Select
                 size="mini"
-                value={value?.digest[k]}
+                // value={value?.digest[k]}
+                value={value.basic.password}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
                 }}

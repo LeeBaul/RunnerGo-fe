@@ -84,11 +84,11 @@ const HeadTabItem = (props) => {
                 active: item.id === activeTabId,
             })}
             onClick={onTabChange.bind(null, item.id)}
-            onContextMenu={(e) => {
-                handleShowContextMenu({ ...item }, e, item.data);
-                e.preventDefault();
-                e.stopPropagation();
-            }}
+            // onContextMenu={(e) => {
+            //     handleShowContextMenu({ ...item }, e, item.data);
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            // }}
         >
             <Tooltip
                 ref={refTooltip}

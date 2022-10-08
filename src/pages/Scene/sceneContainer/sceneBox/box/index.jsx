@@ -137,7 +137,7 @@ const Box = (props) => {
     // 3. 每秒事务数模式
     // 4. 响应时间模式
     // 5. 每秒请求数模式
-    const [mode, setMode] = useState('1');
+    const [mode, setMode] = useState(1);
     const [menuList, setMenuList] = useState([90, 95, 100]);
     // 接口权重
     const [weight, setWeight] = useState(0);
@@ -156,12 +156,14 @@ const Box = (props) => {
     useEffect(() => {
         const my_config = node_config[id];
         if (my_config) {
-            const { weight, error_threshold, response_threshold, request_threshold, percent_age } = my_config;
+            console.log(my_config);
+            const { weight, error_threshold, response_threshold, request_threshold, percent_age, mode } = my_config;
             weight && setWeight(weight);
             error_threshold && setError(error_threshold);
             response_threshold && setRes(response_threshold);
             request_threshold && setReq(request_threshold);
             percent_age && setPercent(percent_age);
+            mode && setMode(mode);
         }
     }, [node_config]);
 
@@ -676,19 +678,22 @@ const Box = (props) => {
                                 <span style={{ paddingLeft: '10px' }}>{text}</span>
                             </>
                         )}
-                        defaultValue="1"
-                        onChange={(e) => setMode(e)}
+                        value={mode}
+                        onChange={(e) => {
+                            setMode(parseInt(e));
+                            onTargetChange('mode', parseInt(e));
+                        }}
                     >
-                        <Option value="1">默认模式</Option>
-                        <Option value="3">错误率模式</Option>
+                        <Option value={1}>默认模式</Option>
+                        <Option value={3}>错误率模式</Option>
                         {/* <Option value="3">每秒事务数模式</Option> */}
-                        <Option value="4">响应时间模式</Option>
-                        <Option value="5">每秒请求数模式</Option>
+                        <Option value={4}>响应时间模式</Option>
+                        <Option value={5}>每秒请求数模式</Option>
                     </Select>
                     {/* {<RenderContent />} */}
                     {/* todo: 高阶组件input onchange导致失焦 */}
                     {
-                        mode === "3" && <div className='common-flex'>
+                        mode === 3 && <div className='common-flex'>
                             <span>错误率阈值</span>
                             <Input size="mini" value={error_threshold} onChange={(e) => {
                                 setError(parseInt(e));
@@ -697,7 +702,7 @@ const Box = (props) => {
                         </div>
                     }
                     {
-                        mode === "4" && <div className='time-mode'>
+                        mode === 4 && <div className='time-mode'>
                             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                                 <span>线: </span>
                                 <Select
@@ -762,7 +767,7 @@ const Box = (props) => {
                         </div>
                     }
                     {
-                        mode === "5" && <div className='common-flex'>
+                        mode === 5 && <div className='common-flex'>
                             <span>请求数阈值</span>
                             <Input size="mini" placeholder="阈值" onChange={(e) => {
                                 setReq(parseInt(e));

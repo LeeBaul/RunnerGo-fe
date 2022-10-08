@@ -17,7 +17,9 @@ import ApiManage from '@pages/ApisWarper/modules/ApiManage';
 import { getPathExpressionObj } from '@constants/pathExpression';
 import ScenePicker from './scenePicker';
 import './index.less';
+import SvgScene from '@assets/icons/Scene1';
 import { useTranslation } from 'react-i18next';
+import CreateScene from '@modals/CreateScene';
 
 const { ScalePanel, ScaleItem } = Scale;
 
@@ -36,6 +38,7 @@ const PlanDetail = () => {
     const node_config_plan = useSelector((store) => store.plan.node_config);
 
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
+    const [showCreate, setShowCreate] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         global$.next({
@@ -140,13 +143,14 @@ const PlanDetail = () => {
                                     setImportScene(e)
                                 }
                             }} />
-                        </> : <p className='empty'>{ t('index.emptyData') }</p>
+                        </> : <div className='empty'><Button className="create-btn" preFix={<SvgScene />} onClick={() => setShowCreate(true)}>{t('btn.createScene')}</Button></div>
                     }
                 </ScaleItem>
                 <ScaleItem enableScale={false}>
                     <TaskConfig from='default' refresh={true} />
                 </ScaleItem>
             </ScalePanel>
+            { showCreate && <CreateScene from="plan" onCancel={() => setShowCreate(false)} /> }
         </div>
     )
 };

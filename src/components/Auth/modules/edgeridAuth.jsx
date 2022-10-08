@@ -15,7 +15,7 @@ const EdgeridAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                value={value?.edgegrid[k]}
+                // value={value?.edgegrid[k]}
                 placeholder={edgegridPlaceholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
@@ -30,7 +30,7 @@ const EdgeridAuth = (props) => {
 
   return (
     <>
-      {value?.edgegrid && (
+      {(
         <div className="apipost-auth-content">
           {renderDom(Object.keys(edgegridPlaceholder).splice(0, 3))}
           {renderDom(Object.keys(edgegridPlaceholder).splice(3, 6))}
