@@ -69,13 +69,13 @@ const ButtonBox = (props) => {
                                         onClick={() => setImport(true)}
                                     >
                                         <SvgNewApis width="18px" height="18px" />
-                                        <span>{ t('apis/importApi') }</span>
+                                        <span>{ t('apis.importApi') }</span>
                                     </div>
                                     <div
                                         className="drop-item"
                                     >
                                         <SvgNewWindow width="18px" height="18px" />
-                                        <span>{ t('apis/importProject') }</span>
+                                        <span>{ t('apis.importProject') }</span>
                                     </div>
                                 </div>
                             }

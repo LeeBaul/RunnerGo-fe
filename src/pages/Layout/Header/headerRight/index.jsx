@@ -7,6 +7,9 @@ import {
     Userhome as SvgUserhome,
     Docs as SvgDocs,
     Customer as SvgCustomer,
+    Setting1 as SvgSetting,
+    Right as SvgRight,
+    Down as SvgDown
 } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png'
 import InvitationModal from '@modals/ProjectInvitation';
@@ -25,6 +28,10 @@ const HeaderRight = () => {
     const [showModal, setShowModal] = useState(false);
     const [showMember, setMemberModal] = useState(false);
     const [showLog, setShowLog] = useState(false);
+    // 切换语言
+    const [showLge, setShowLge] = useState(false);
+    // 切换主题
+    const [showTheme, setShowTheme] = useState(false);
     const [memberList, setMemberList] = useState([]);
 
     const [outsideClose, setOutsideClose] = useState(true);
@@ -121,6 +128,49 @@ const HeaderRight = () => {
         ))
     };
 
+    const MenuList = () => {
+        return (
+            <div className='menu-list'>
+                <div className='menu-list-item'>
+                   <div className='default' onClick={() => setShowLge(!showLge)}>
+                        {
+                            showLge ? <SvgDown /> : <SvgRight />
+                        }
+                        <p>{ t('header.changeLge') }</p>
+                   </div>
+                    {
+                        showLge &&  
+                        <div className='drop-content'>
+                            <p style={{ color: i18n.language === 'cn' ? '#EC663C' : ''}} onClick={() => i18n.changeLanguage('cn')}>中文</p>
+                            <p style={{ color: i18n.language === 'en' ? '#EC663C' : '' }} onClick={() => i18n.changeLanguage('en')}>English</p>
+                        </div>
+                    }
+                </div>
+                <div className='menu-list-item'>
+                    <div className='default' onClick={() => setShowTheme(!showLge)}>
+                        {
+                            showTheme ? <SvgDown /> : <SvgRight />
+                        }
+                        <p>{ t('header.changeTheme') }</p>
+                    </div>
+                    {
+                        showTheme &&
+                        <div className='drop-content theme'>
+                            <p className='theme-white'></p>
+                            <p className='theme-black'></p>
+                        </div>
+                    }
+                </div>
+                <div className='menu-list-item'>
+                    <div className='default' onClick={() => loginOut()}>
+                        <SvgLogout />
+                        <p>{ t('header.signOut') }</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     const loginOut = () => {
         localStorage.removeItem('kunpeng-token');
         localStorage.removeItem('expire_time_sec');
@@ -141,8 +191,15 @@ const HeaderRight = () => {
             <Button className='invite' preFix={<SvgInvite />} onClick={() => setShowModal(true)}>{ t('header.invitation') }</Button>
             <div className='more-btn'>
                 <Button className='handle-log' onClick={() => setShowLog(true)}>{ t('header.handleLog') }</Button>
-                <Button className='handle-log' preFix={<SvgLogout />} onClick={() => loginOut()}>{ t('header.signOut') }</Button>
-                <Button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'cn' : 'en')}>中英文切换</Button>
+                {/* <Button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'cn' : 'en')}>中英文切换</Button> */}
+                <Dropdown
+                    placement="bottom-end"
+                    content={
+                        <div><MenuList /></div>
+                    }
+                >
+                    <Button className='handle-log' preFix={<SvgSetting />}>{ t('header.menu') }</Button>
+                </Dropdown>
             </div>
             {showModal && <InvitationModal onCancel={() => {
                 setShowModal(false);

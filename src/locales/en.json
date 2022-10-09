@@ -8,7 +8,10 @@
         "running": "Running",
         "invitation": "invitation",
         "handleLog": "Operation Log",
-        "signOut": "Exit"
+        "signOut": "Exit",
+        "menu": "Menu",
+        "changeLge": "Language switch",
+        "changeTheme": "Theme switch"
     },
     "leftBar": {
         "index": "Home",

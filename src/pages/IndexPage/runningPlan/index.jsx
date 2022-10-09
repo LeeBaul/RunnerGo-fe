@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
+import { Tooltip } from 'adesign-react';
 import { Right as SvgRight, CaretRight as SvgCaretRight } from 'adesign-react/icons';
 import { useNavigate } from 'react-router-dom';
 import { tap } from 'rxjs';
@@ -20,6 +21,8 @@ const RunningPlan = () => {
     useEffect(() => {
         setPlanList(planData || []);
     }, [planData]);
+
+    console.log(planData);
 
     // useEffect(() => {
 
@@ -76,7 +79,9 @@ const RunningPlan = () => {
 
                     planList.length ? planList.map((item, index) => (
                         <div className='plan-detail' key={item.plan_id}>
-                            <p>{ t('index.running') }</p>
+                            <Tooltip content={ item.name }>
+                                <p className='plan-name'>{ item.name }</p>
+                            </Tooltip>
                             <div className='progress'>
                                 {/* <div className='item' style={{left: '0%', animationDuration: '5s'}}></div>
                                 <div className='item' style={{left: '10%', animationDuration: '4.5s', animationDelay: '0.5s'}}></div>
@@ -89,7 +94,7 @@ const RunningPlan = () => {
                                 <div className='item' style={{left: '80%', animationDuration: '1s', animationDelay: '4s'}}></div>
                                 <div className='item' style={{left: '90%', animationDuration: '0.5s', animationDelay: '4.5s'}}></div> */}
                             </div>
-                            <p>{ t('index.seeDetail') }</p>
+                            <p className='to-detail' onClick={() => navigate(`/plan/detail/${item.plan_id}`)}>{ t('index.seeDetail') }</p>
                         </div>
                     ))
                         : <div className='empty'>

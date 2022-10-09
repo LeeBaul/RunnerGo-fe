@@ -77,6 +77,14 @@
             justify-content: center;
             background-color: #222226;
 
+            .plan-name {
+                max-width: 61px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                cursor: pointer;
+            }
+
             // background-color: #39393D;
             .progress {
                 width: 75%;
@@ -104,6 +112,10 @@
                     animation-iteration-count: infinite;
                     // animation: runProgress 5s linear infinite;
                 }
+            }
+
+            .to-detail {
+                cursor: pointer;
             }
         }
     }

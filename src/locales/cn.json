@@ -8,7 +8,10 @@
         "running": "运行中",
         "invitation": "邀请",
         "handleLog": "操作日志",
-        "signOut": "退出"
+        "signOut": "退出",
+        "menu": "菜单",
+        "changeLge": "语言切换",
+        "changeTheme": "主题切换"
     },
     "leftBar": {
         "index": "首页",
