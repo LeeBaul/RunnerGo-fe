@@ -17,8 +17,24 @@ const { ScalePanel, ScaleItem } = Scale;
 
 const Scene = () => {
     const { t } = useTranslation();
-    const open_scene = useSelector((store) => store.scene.open_scene);
+    const sceneDatas = useSelector((store) => store.scene.sceneDatas);
     const [showCreate, setShowCreate] = useState(false);
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        const open_scene = localStorage.getItem('open_scene');
+        if (open_scene) {
+            const val = JSON.parse(open_scene);
+            setTimeout(() => {
+                dispatch({
+                    type: 'scene/updateOpenName',
+                    payload: val.name,
+                })
+                Bus.$emit('addOpenScene', val);
+            })
+        }
+    }, []);
 
     return (
         <>
@@ -32,7 +48,7 @@ const Scene = () => {
             </ScaleItem>
             <ScaleItem className="right-apis" enableScale={false}>
                 {
-                    open_scene ? <>
+                    Object.entries(sceneDatas || {}).length > 0? <>
                         <SceneHeader from='scene' />
                         <SceneContainer from='scene' />
                     </> : <div className='empty'>

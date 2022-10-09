@@ -36,6 +36,7 @@ import { from, lastValueFrom, tap, map, concatMap, of } from 'rxjs';
 import { CONFILCTURL } from '@constants/confilct';
 import { SaveTargetRequest, saveApiBakRequest, fetchHandleApi, fetchApiDetail, fetchSendApi, fetchGetResult, fetchDeleteApi, fetchChangeSort } from '@services/apis';
 import { getBaseCollection } from '@constants/baseCollection';
+import QueryString from 'qs';
 
 // 发送api时轮询的参数
 var send_api_t = null;
@@ -481,6 +482,7 @@ const useOpens = () => {
                 fetchApiDetail(query).subscribe({
                     next: (res) => {
                         const { code, data: { targets } } = res;
+                        console.log(targets[0]);
                         if (code === 0) {
                             const tempApis = {
                                 ...open_apis
@@ -1151,6 +1153,48 @@ const useOpens = () => {
         })
     }
 
+    const recordOpenApi = () => {
+        let ids = [];
+        console.log(open_apis);
+        const _openApis = Object.values(open_apis);
+        if (_openApis.length > 0) {
+            _openApis.forEach(item => {
+                const { target_id } = item;
+                ids.push(target_id);
+            })
+            localStorage.setItem('open_apis', JSON.stringify(ids));
+        }
+    }
+
+    const openRecordApi = () => {
+        const ids = localStorage.getItem('open_apis');
+        if (ids) {
+            const _ids = JSON.parse(ids);
+            const query = {
+                team_id: localStorage.getItem('team_id'),
+                target_ids: _ids
+            };
+            fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
+                next: (res) => {
+                    const { data: { targets } } = res;
+                    const _open_apis = cloneDeep(open_apis);
+                    targets.forEach(item => {
+                        _open_apis[item.target_id] = item;
+                    });
+                    dispatch({
+                        type: 'opens/coverOpenApis',
+                        payload: _open_apis,
+                    })
+                    dispatch({
+                        type: 'opens/updateOpenApiNow',
+                        payload: targets[0].target_id,
+                    })
+                    Bus.$emit('updateTargetId', targets[0].target_id);
+                }
+            })
+        }
+    }
+
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id
     useEventBus('addOpenItem', addOpenItem, [CURRENT_PROJECT_ID, open_apis, apiDatas]);
 
@@ -1210,6 +1254,10 @@ const useOpens = () => {
     useEventBus('copyApi', copyApi, [open_apis]);
 
     useEventBus('pasteApi', pasteApi, [apiDatas]);
+
+    useEventBus('recordOpenApi', recordOpenApi, [open_apis]);
+
+    useEventBus('openRecordApi', openRecordApi, [open_apis]);
     // 初始化tabs
     useEffect(() => {
         reloadOpens();

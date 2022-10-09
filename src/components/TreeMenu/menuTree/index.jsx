@@ -203,7 +203,7 @@ const MenuTrees = (props, treeRef) => {
                     key={nodeItem.nodeKey}
                     moved={handleNodeDragEnd}
                 >
-                    <div className={cn('tree-node-inner', { 'tree-node-inner-selected': type === 'apis' ? `${nodeItem.nodeKey}` === `${open_api_now}` : `${nodeItem.nodeKey}` === `${open_scene ? open_scene.scene_id : ''}`})}>
+                    <div className={cn('tree-node-inner', { 'tree-node-inner-selected': type === 'apis' ? `${nodeItem.nodeKey}` === `${open_api_now}` : `${nodeItem.nodeKey}` === `${open_scene ? open_scene.scene_id || open_scene.target_id : ''}`})}>
                         {indent}
                         {renderIcon(nodeItem.target_type)}
                         {renderPrefix(nodeItem)}
@@ -211,7 +211,7 @@ const MenuTrees = (props, treeRef) => {
                         {/* {nodeItem?.mark !== 'developing' && (
                             <MenuStatus value={nodeItem} markObj={markObj}></MenuStatus>
                         )} */}
-                        {nodeItem?.is_example > 0 && <Example value={nodeItem}></Example>}
+                        {/* {nodeItem?.is_example > 0 && <Example value={nodeItem}></Example>} */}
                         {/* <Button
                             className="btn-more"
                             size="mini"
@@ -328,7 +328,8 @@ const MenuTrees = (props, treeRef) => {
                         if (type === 'apis') {
                             Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
                         } else if (type === 'scene') {
-                            Bus.$emit('addOpenScene', val, id_apis_scene, node_config_scene)
+                            localStorage.setItem('open_scene', JSON.stringify(val));
+                            Bus.$emit('addOpenScene', val)
                         } else if (type === 'plan') {
                             Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
                         }

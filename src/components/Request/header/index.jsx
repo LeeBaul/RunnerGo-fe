@@ -64,7 +64,7 @@ const Header = (props) => {
       title: t('apis.key'),
       dataIndex: 'key',
       enableResize: true,
-      width: 100,
+      width: 230,
       render: (text, rowData, rowIndex) => {
         return (
           <SearchInput

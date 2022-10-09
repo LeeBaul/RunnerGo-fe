@@ -21,7 +21,7 @@ const useScene = () => {
     // const nodes = useSelector((store) => store.scene.nodes);
     // const edges = useSelector((store) => store.scene.edges);
     const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
-    const { id_apis, api_now, open_scene, sceneDatas, run_api_res } = useSelector((store) => store.scene);
+    const { id_apis, node_config, api_now, open_scene, sceneDatas, run_api_res } = useSelector((store) => store.scene);
     // const scene = useScene((store) => store.scene);
     const createApiNode = () => {
         const new_node = {
@@ -437,7 +437,8 @@ const useScene = () => {
         })
     }
 
-    const addOpenScene = (id, id_apis, node_config) => {
+    const addOpenScene = (id) => {
+        console.log(id, id_apis, node_config);
         dispatch({
             type: 'scene/updateOpenScene',
             payload: null,
@@ -482,6 +483,7 @@ const useScene = () => {
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
+                console.log(data);
                 if (data && data.nodes.length > 0) {
                     const { nodes } = data;
                     const idList = [];
@@ -926,7 +928,7 @@ const useScene = () => {
     useEventBus('updateNodeConfig', updateNodeConfig);
     useEventBus('addNewSceneControl', addNewSceneControl);
     useEventBus('importApiList', importApiList);
-    useEventBus('addOpenScene', addOpenScene);
+    useEventBus('addOpenScene', addOpenScene, [id_apis, node_config]);
     useEventBus('deleteScene', deleteScene);
     useEventBus('cloneScene', cloneScene);
     useEventBus('cloneSceneFlow', cloneSceneFlow);

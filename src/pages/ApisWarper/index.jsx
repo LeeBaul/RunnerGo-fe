@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Scale, Tree } from 'adesign-react';
 import { useSelector } from 'react-redux';
 import { isObject } from 'lodash';
@@ -21,6 +21,18 @@ const Apis = (props) => {
     const handleTabChange = (target_id) => {
         Bus.$emit('updateTargetId', target_id);
     };
+
+    useEffect(() => {
+       setTimeout(() => {
+            Bus.$emit('openRecordApi');
+       })
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            Bus.$emit('recordOpenApi');
+        }
+    }, []);
 
 
     // 被打开的api数据列表
