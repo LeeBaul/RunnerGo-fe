@@ -23,14 +23,19 @@ const getChildMaxSort = async (parent_id) => {
     return 0;
 };
 
-export const pasteToRoot = ({ props }) => {
-    const targetParentId = '0';
-    const targetProjectId = props.project_id;
+export const pasteToRoot = (props) => {
+    console.log(props);
+    // const targetParentId = '0';
+    // const targetProjectId = props.project_id;
     getClipboardText().then(async (text) => {
+
         if (!isString(text) || text?.length === '') {
             Message('error', '剪贴板中暂无任何内容');
             return;
         }
+
+        Bus.$emit('pasteApi', text);
+        return;
 
         const clipboardData = await getSafeJSON(text);
         if (!isObject(clipboardData) && !isArray(clipboardData)) {
@@ -56,7 +61,8 @@ export const pasteToRoot = ({ props }) => {
             }
         }
         Message('success', '粘贴成功！');
-        Bus.$emit('bulkAddCollection', copyUseFulList, targetProjectId);
+        console.log(copyUseFulList, targetProjectId)
+        // Bus.$emit('bulkAddCollection', copyUseFulList, targetProjectId);
     });
 };
 

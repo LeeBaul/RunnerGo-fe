@@ -28,6 +28,7 @@ import {
     createUrl,
     GetUrlQueryToArray,
     completionTarget,
+    copyStringToClipboard
 } from '@utils';
 import * as jsondiffpatch from 'jsondiffpatch';
 import { urlParseLax } from '@utils/common';
@@ -62,8 +63,10 @@ const useOpens = () => {
             const parentKey = target.parent_id || '0';
             const project_id = target?.project_id;
             // const projectNodes = await Collection.where('project_id').anyOf(project_id).toArray();
+            console.log(apiDatas);
             const projectNodes = Object.values(apiDatas);
             let sort = 0;
+            console.log(projectNodes);
             const rootNodes = projectNodes.filter((item) => `${item.parent_id}` === `${parentKey}`);
             const nodeSort = rootNodes.map((item) => item.sort);
             sort = max(nodeSort) || 0;
@@ -341,44 +344,81 @@ const useOpens = () => {
     // 通过id克隆接口
     const cloneTargetById = async (id) => {
         let newTarget = null;
-        const tempOpenApis = cloneDeep(open_apis);
-        if (tempOpenApis.hasOwnProperty(id)) {
-            newTarget = cloneDeep(open_apis[id]);
-        } else {
-            const collectionTarget = await Collection.get(id);
-            newTarget = collectionTarget;
+        console.log(id);
+        const _open_apis = cloneDeep(open_apis);
+        
+        const query = {
+            team_id: localStorage.getItem('team_id'),
+            target_ids: id,
         }
-        if (!newTarget && !isObject(newTarget)) {
-            return;
-        }
-        if (newTarget) {
-            // 克隆目标
-            newTarget.target_id = uuidv4();
-            newTarget.is_changed = 1;
-            newTarget.is_example = 0;
-            if (newTarget?.name === '') newTarget.name = '新建';
-            newTarget.name += ' 副本';
-            tempOpenApis[newTarget.target_id] = newTarget;
-            // Opens.put(newTarget, newTarget.target_id).then(() => {
-            //     dispatch({
-            //         type: 'opens/coverOpenApis',
-            //         payload: tempOpenApis,
-            //     });
-            //     User.get(localStorage.getItem('uuid') || '-1').then((userInfo) => {
-            //         if (isPlainObject(userInfo?.config) && userInfo.config?.AUTO_OPEN_CLONE_NEWAPI_TAB > 0) {
-            //             Bus.$emit('updateTargetId', newTarget.target_id);
-            //         }
-            //     });
 
-            //     const openNavs =
-            //         apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
-            //     openNavs.push(newTarget.target_id);
-            //     apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
-            //         open_navs: openNavs,
-            //     });
-            // });
-            Message('success', '克隆成功');
-        }
+        fetchApiDetail(query).pipe(
+            concatMap((res) => {
+                const { data: { targets } } = res;
+                newTarget = targets[0];
+                delete newTarget.target_id;
+                newTarget.name += '副本';
+                console.log(newTarget);
+
+                return fetchHandleApi(newTarget).pipe((res) => {
+                    return res;
+                });
+            }),
+            tap((res) => {
+                const { data: { target_id }, code } = res;
+                if (code === 0) {
+                    newTarget.target_id = target_id;
+                    _open_apis[target_id] = newTarget;
+                    dispatch({
+                        type: 'opens/coverOpenApis',
+                        payload: _open_apis
+                    })
+                    if (Object.entries(_open_apis).length === 1) {
+                        dispatch({
+                            type: 'opens/updateOpenApiNow',
+                            payload: target_id
+                        })
+                    }
+                    Message('success', '克隆成功');
+                    global$.next({
+                        action: 'GET_APILIST',
+                        params: {
+                            page: 1,
+                            size: 100,
+                            team_id: localStorage.getItem('team_id'),
+                        }
+                    });
+                }
+            })
+        ).subscribe();
+
+        // if (newTarget) {
+        //     // 克隆目标
+        //     newTarget.target_id = uuidv4();
+        //     newTarget.is_changed = 1;
+        //     newTarget.is_example = 0;
+        //     if (newTarget?.name === '') newTarget.name = '新建';
+        //     newTarget.name += ' 副本';
+        //     tempOpenApis[newTarget.target_id] = newTarget;
+        //     // Opens.put(newTarget, newTarget.target_id).then(() => {
+        //     //     dispatch({
+        //     //         type: 'opens/coverOpenApis',
+        //     //         payload: tempOpenApis,
+        //     //     });
+        //     //     User.get(localStorage.getItem('uuid') || '-1').then((userInfo) => {
+        //     //         if (isPlainObject(userInfo?.config) && userInfo.config?.AUTO_OPEN_CLONE_NEWAPI_TAB > 0) {
+        //     //             Bus.$emit('updateTargetId', newTarget.target_id);
+        //     //         }
+        //     //     });
+
+        //     //     const openNavs =
+        //     //         apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        //     //     openNavs.push(newTarget.target_id);
+        //     //     apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
+        //     //         open_navs: openNavs,
+        //     //     });
+        //     // });
+        // }
     };
     // 通过对象克隆接口
     const cloneTargetByObj = async (data, showMessage = true) => {
@@ -1073,6 +1113,44 @@ const useOpens = () => {
         // })
     }
 
+    const copyApi = (target_id) => {
+        console.log(target_id);
+        const query = {
+            team_id: localStorage.getItem('team_id'),
+            target_ids: target_id
+        };
+        fetchApiDetail(query).subscribe({
+            next: (res) => {
+                const { data: { targets } } = res;
+                const newTarget = cloneDeep(targets[0]);
+                delete newTarget.target_id;
+                newTarget.parent_id = 0;
+                copyStringToClipboard(JSON.stringify(newTarget));
+            }
+        })
+    };
+
+    const pasteApi = (target) => {
+        let _target = JSON.parse(target);
+        _target = targetReorder(_target);
+
+        fetchHandleApi(_target).subscribe({
+            next: (res) => {
+                const { data, code } = res;
+                if (code === 0) {
+                    global$.next({
+                        action: 'GET_APILIST',
+                        params: {
+                            page: 1,
+                            size: 100,
+                            team_id: localStorage.getItem('team_id'),
+                        }
+                    });
+                }
+            }
+        })
+    }
+
     // 新建open tabs item   参数 type:api/doc/websocket/folder/grpc id:打开的target_id
     useEventBus('addOpenItem', addOpenItem, [CURRENT_PROJECT_ID, open_apis, apiDatas]);
 
@@ -1129,6 +1207,9 @@ const useOpens = () => {
 
     useEventBus('toDeleteFolder', toDeleteFolder, [apiDatas]);
 
+    useEventBus('copyApi', copyApi, [open_apis]);
+
+    useEventBus('pasteApi', pasteApi, [apiDatas]);
     // 初始化tabs
     useEffect(() => {
         reloadOpens();

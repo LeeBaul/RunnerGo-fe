@@ -15,10 +15,15 @@ export const API_MENUS = [
     //     tips: `${ctrl} + D`,
     // },
     {
-        type: 'copyApi',
+        type: 'cloneApi',
         title: '克隆接口',
-        action: 'copyApi',
+        action: 'cloneApi',
         // tips: `${ctrl} + C`,
+    },
+    {
+        type: 'copyApi',
+        title: '复制接口',
+        action: 'copyApi'
     },
     {
         type: 'deleteApi',

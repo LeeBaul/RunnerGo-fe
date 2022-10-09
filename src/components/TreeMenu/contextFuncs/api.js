@@ -12,21 +12,22 @@ export const shareApi = ({ props, params, showModal }) => {
     });
 };
 
-export const cloneApi = ({ params }) => {
-    Bus.$emit('cloneTargetById', params?.target_id);
-    // const cpyiedData = cloneCoverData(params, '0');
-    // copyStringToClipboard(JSON.stringify(cpyiedData));
-};
-
-export const copyApi = async ({ props, params, showModal }) => {
+export const copyApi = async ({ target_id }) => {
+    Bus.$emit('copyApi', target_id);
+    return;
     const localData = await getFullData(params);
     const cpyiedData = getCoverData(localData);
+    console.log(params, cpyiedData);
     copyStringToClipboard(JSON.stringify(cpyiedData));
+};
+
+export const cloneApi = ({ target_id }) => {
+    Bus.$emit('cloneTargetById', target_id);
 };
 
 export const cutApi = ({ props, params, showModal }) => { };
 
-export const deleteApi = (target_id) => {
+export const deleteApi = ({ target_id }) => {
     deleteMultiData(target_id);
 };
 

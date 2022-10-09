@@ -6,6 +6,7 @@ import SvgClose from '@assets/apis/close.svg';
 import isUndefined from 'lodash/isUndefined';
 import { handleShowContextMenu } from './contextMenu';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 const methodDic = {
     OPTIONS: 'OPT',
@@ -84,11 +85,11 @@ const HeadTabItem = (props) => {
                 active: item.id === activeTabId,
             })}
             onClick={onTabChange.bind(null, item.id)}
-            // onContextMenu={(e) => {
-            //     handleShowContextMenu({ ...item }, e, item.data);
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            // }}
+            onContextMenu={(e) => {
+                handleShowContextMenu({ ...item }, e, item.data);
+                e.preventDefault();
+                e.stopPropagation();
+            }}
         >
             <Tooltip
                 ref={refTooltip}

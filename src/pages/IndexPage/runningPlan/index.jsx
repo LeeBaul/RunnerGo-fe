@@ -22,8 +22,6 @@ const RunningPlan = () => {
         setPlanList(planData || []);
     }, [planData]);
 
-    console.log(planData);
-
     // useEffect(() => {
 
     //     let timer = null;

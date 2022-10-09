@@ -17,11 +17,11 @@ export const focreCloseAllTarget = ({ props, params }) => {
 };
 
 export const closeOtherTarget = ({ props, params }) => {
-    Bus.$emit('closeOtherTargetById', params?.target_id);
+    Bus.$emit('closeOtherTargetById', {}, params?.target_id);
 };
 
 export const focreCloseOtherTarget = ({ props, params }) => {
-    Bus.$emit('focreCloseOtherTargetById', params?.target_id);
+    Bus.$emit('focreCloseOtherTargetById', {}, params?.target_id);
 };
 
 export const saveAllTarget = ({ props, params }) => {

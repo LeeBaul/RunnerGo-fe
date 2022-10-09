@@ -1,14 +1,14 @@
 export const TABS_MENUS = [
-    {
-        type: 'cloneTarget',
-        title: '克隆当前标签',
-        action: 'cloneTarget',
-    },
-    {
-        type: 'closeTarget',
-        title: '关闭当前标签',
-        action: 'closeTarget',
-    },
+    // {
+    //     type: 'cloneTarget',
+    //     title: '克隆当前标签',
+    //     action: 'cloneTarget',
+    // },
+    // {
+    //     type: 'closeTarget',
+    //     title: '关闭当前标签',
+    //     action: 'closeTarget',
+    // },
     {
         type: 'closeAllTarget',
         title: '关闭所有标签',
