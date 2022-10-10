@@ -19,8 +19,10 @@ const Pagination = (props) => {
         ) {
             throw Error('total or pageSize or current must type number!')
         } else {
-            let num = Math.floor(total / pageSize) + 1;
+            let num = Math.ceil(total / pageSize);
             const numArr = new Array(num).fill(0);
+            console.log(total, pageSize, pageNum)
+            console.log(num);
             setPageNum(numArr);
             setMaxPage(num);
         }
