@@ -93,7 +93,6 @@ const SceneBox = (props) => {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-
     const onConnect = useCallback((params) => {
 
         const _params = cloneDeep(params);
@@ -140,7 +139,6 @@ const SceneBox = (props) => {
     // const connect = { source: 'c', target: 'a' }; // 不允许
     
     useEffect(() => {
-
         if (edges.length > 0 && to_loading) {
             const _edges = cloneDeep(edges);
             _edges.forEach(item => {
@@ -174,6 +172,7 @@ const SceneBox = (props) => {
 
     useEffect(() => {
         // formatSuccess();
+
         if (nodes.length > 0 || edges.length > 0) {
 
             if (from === 'scene') {
@@ -199,6 +198,7 @@ const SceneBox = (props) => {
     }, [nodes, edges]);
 
     useEffect(() => {
+
         let ids = [];
         if (import_node && import_node.length) {
             let _position = [];
@@ -237,6 +237,7 @@ const SceneBox = (props) => {
     }, [import_node]);
 
     useEffect(() => {
+
         formatSuccess();
         formatFailed();
     }, [nodes, success_edge, failed_edge])
@@ -277,8 +278,8 @@ const SceneBox = (props) => {
                 };
             });
             // edges && (edges[0].animated = true);
-            nodes && setNodes(old_nodes || []);
-            edges && setEdges(edges || []);
+            setNodes(old_nodes || []);
+            setEdges(edges || []);
 
             if (from === 'scene') {
                 dispatch({
@@ -415,7 +416,7 @@ const SceneBox = (props) => {
             // _edges.forEach(item => {
             //     if (failed_edge.includes(item.id)) {
             //         item.style = {
-            //             stroke: '#FF4C4C',
+            //             stroke: 'var(--delete-red)',
             //         };
             //         item.markerEnd = {
             //             type: MarkerType.ArrowClosed,
@@ -429,7 +430,7 @@ const SceneBox = (props) => {
                 _nds.forEach(item => {
                     if (failed_edge.includes(item.id)) {
                         item.style = {
-                            stroke: '#FF4C4C',
+                            stroke: 'var(--delete-red)',
                         };
                         item.markerEnd = {
                             type: MarkerType.ArrowClosed,
@@ -464,7 +465,7 @@ const SceneBox = (props) => {
         //     _edges.forEach(item => {
         //         if (failed_edge.includes(item.id)) {
         //             item.style = {
-        //                 stroke: '#FF4C4C',
+        //                 stroke: 'var(--delete-red)',
         //             };
         //             item.markerEnd = {
         //                 type: MarkerType.ArrowClosed,
@@ -492,7 +493,6 @@ const SceneBox = (props) => {
                 dragHandle: '.drag-content',
             }
             // const _open_data = cloneDeep(open_data);
-            // console.log(_open_data);
             // if (_open_data.nodes) {
             //     _open_data.nodes.push(new_node);
             // } else {
@@ -633,7 +633,7 @@ const SceneBox = (props) => {
                     nodeColor={(n) => {
                         if (n.style?.background) return n.style.background;
 
-                        return '#fff';
+                        return 'var(--font-1)';
                     }}
                     nodeBorderRadius={2}
                 >

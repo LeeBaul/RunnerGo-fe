@@ -81,8 +81,8 @@ export const ApiHeaderWrapper = css`
   .btn-save {
     width: 84px;
     height: 24px;
-    background: #3a86ff;
-    color: #ffffff;
+    background: var(--log-blue);
+    color: var(--font-1)fff;
     border-radius: 3px;
     display: flex;
     align-items: center;
@@ -107,7 +107,7 @@ export const ApiHeaderWrapper = css`
       border-left: 1px solid rgba(0, 0, 0, 0.06);
     }
     svg {
-      fill: #ffffff;
+      fill: var(--font-1)fff;
     }
   }
   @media screen and (max-width: 1400px) {

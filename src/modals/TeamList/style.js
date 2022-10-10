@@ -23,7 +23,7 @@ export const ProjectMemberModal = css`
     }
 
     .apipost-table-td {
-        color: #fff;
+        color: var(--font-1);
         text-align: left;
         padding: 19px 0;
         overflow: hidden;
@@ -61,7 +61,7 @@ export const HeaderLeftModal = css`
   .member-header-left {
     display: flex;
     align-items: center;
-    color: #fff;
+    color: var(--font-1);
 
     .title {
         font-size: 16px;
@@ -73,11 +73,11 @@ export const HeaderLeftModal = css`
         background-color: var(--theme-color);
         border-radius: 3px;
         padding: 5px 8px;
-        color: #fff;
+        color: var(--font-1);
         margin-left: 32px;
 
         svg {
-            fill: #fff;
+            fill: var(--font-1);
             margin-right: 6px;
         }
     }

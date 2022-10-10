@@ -19,7 +19,7 @@ export const DropWrapper = css`
       background-color: var(--highlight-background-color-primary);
     }
     svg {
-      fill: #fff;
+      fill: var(--font-1);
       margin-right: 3px;
     }
   }

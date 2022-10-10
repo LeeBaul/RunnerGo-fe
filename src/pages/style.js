@@ -104,9 +104,9 @@ export const ProjectItem = styled.div`
         props?.isActive === true &&
         `
   background-color: var(--content-color-primary);
-  color: #ffffff;
+  color: var(--font-1)fff;
   .picon {
-    fill: #ffffff;
+    fill: var(--font-1)fff;
   }
   `}
   &:hover {

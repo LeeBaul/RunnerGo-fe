@@ -12,7 +12,7 @@ export const EmptyWrapper = css`
     &-imamge {
     }
     &-text {
-      color: #666666;
+      color: var(--font-2);
       margin: 22px 0 0;
     }
   }

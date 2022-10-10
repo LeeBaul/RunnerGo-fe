@@ -66,7 +66,7 @@ const PieCharts = (props) => {
       ctx.fill();
 
       // 抹掉中间小圆部分
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = 'var(--font-1)fff';
       drawPie(ctx, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, R_FILL, 0, 360);
       ctx.fill();
     }

@@ -61,8 +61,8 @@ export const ConsoleWrapper = styled.div`
         font-size: var(--size-12px);
         cursor: pointer;
         &error {
-          background: #fff5f7;
-          color: #ff4c4c;
+          background: var(--font-1)5f7;
+          color: var(--delete-red);
         }
       }
     }

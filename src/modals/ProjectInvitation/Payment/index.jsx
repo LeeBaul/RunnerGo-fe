@@ -245,7 +245,7 @@ const Payment = (props) => {
                           height: 41,
                           borderRadius: '5px',
                           marginTop: 20,
-                          color: '#fff',
+                          color: 'var(--font-1)',
                         }}
                       >
                         {UsageList.buttons.buy}
@@ -428,7 +428,7 @@ const Payment = (props) => {
                         {item.id === 1 ? (
                           <Button
                             type="primary"
-                            style={{ width: 256, height: 44, borderRadius: '5px', color: '#fff' }}
+                            style={{ width: 256, height: 44, borderRadius: '5px', color: 'var(--font-1)' }}
                             onClick={() => {
                               // props.history.push('/apis/project/');
                               setvisible(false);
@@ -439,7 +439,7 @@ const Payment = (props) => {
                         ) : (
                           <Button
                             type="primary"
-                            style={{ width: 256, height: 44, borderRadius: '5px', color: '#fff' }}
+                            style={{ width: 256, height: 44, borderRadius: '5px', color: 'var(--font-1)' }}
                             onClick={() => {
                               handleSubmit(item);
                             }}

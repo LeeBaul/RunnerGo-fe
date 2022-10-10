@@ -107,7 +107,7 @@ export const pasteToCurrent = ({ props, params }) => {
     });
 };
 export const pasteFolderToRoot = ({ props }) => { };
-export const deleteFolder = async (target_id) => {
+export const deleteFolder = async ({ target_id }) => {
     // deleteMultiData(target_id);
     Bus.$emit('toDeleteGroup', target_id, () => {
         Message('success', '删除成功!');

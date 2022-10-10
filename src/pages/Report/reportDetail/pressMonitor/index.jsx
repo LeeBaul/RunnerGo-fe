@@ -62,7 +62,7 @@ const PressMonitor = (props) => {
                 text: name,
                 left: 'center',
                 textStyle: {
-                    color: '#fff',
+                    color: 'var(--font-1)',
                     fontSize: 14
                 },
             },
@@ -76,7 +76,7 @@ const PressMonitor = (props) => {
                 type: 'category',
                 boundaryGap: false,
                 axisLabel: {
-                    color: '#fff',
+                    color: 'var(--font-1)',
                 },
                 // axisTick: {
                 //     length: 1,
@@ -96,11 +96,11 @@ const PressMonitor = (props) => {
                 type: 'value',
                 boundaryGap: [0, '100%'],
                 axisLabel: {
-                    color: '#fff',
+                    color: 'var(--font-1)',
                 },
                 splitLine: {
                     lineStyle: {
-                        color: '#39393D'
+                        color: 'var(--bg-4)'
                     }
                 }
             },

@@ -24,7 +24,7 @@ const ProjectList = (props) => {
           <SvgProject className="picon" />
           <span className="ptitle">
             {project.name}
-            {project?.is_push === -1 && <font color="#999999">【未上传】</font>}
+            {project?.is_push === -1 && <font color="var(--font-3)">【未上传】</font>}
           </span>
         </ProjectItem>
       ))}

@@ -15,7 +15,7 @@ export const EnvModalWrapper = css`
   .env-table-wrapper {
     margin: 16px 0 0 0;
     .title {
-      color: #666666;
+      color: var(--font-2);
       font-size: var(--size-14px);
       font-weight: 600;
       margin: 0 0 8px 0;

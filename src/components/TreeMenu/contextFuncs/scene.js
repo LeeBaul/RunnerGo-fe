@@ -105,7 +105,7 @@ export const pasteToCurrent = ({ props, params }) => {
     });
 };
 export const pasteFolderToRoot = ({ props }) => { };
-export const deleteFolder = async (target_id, props, open_scene, from) => {
+export const deleteFolder = async ({ target_id }, props, open_scene, from) => {
     // deleteMultiData(target_id);
     Bus.$emit('deleteScene', target_id, open_scene, from, (code) => {
         if (code === 0) {

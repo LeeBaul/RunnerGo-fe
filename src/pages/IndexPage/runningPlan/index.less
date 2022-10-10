@@ -1,8 +1,8 @@
 .running-plan {
     width: 36%;
     height: 229px;
-    border: 1px solid #39393D;
-    background-color: #222226;
+    border: 1px solid var(--bg-4);
+    background-color:  var(--bg-2);
     border-radius: 5px;
     padding: 16px;
     box-sizing: border-box;
@@ -11,14 +11,14 @@
     .running-top {
         display: flex;
         justify-content: space-between;
-        color: #fff;
+        color: var(--font-1);
         &-left {
             display: flex;
             align-items: center;
             .running-icon {
                 width: 16px;
                 height: 16px;
-                background: #3CC071;
+                background: var(--run-green);
                 border-radius: 3px;
                 display: flex;
                 justify-content: center;
@@ -36,7 +36,7 @@
             display: flex;
             cursor: pointer;
             svg {
-                fill: #fff;
+                fill: var(--font-1);
                 width: 12px;
                 height: 12px;
                 margin-left: 9px;
@@ -46,7 +46,7 @@
     .running-bottom {
         display: flex;
         flex-direction: column;
-        color: #fff;
+        color: var(--font-1);
         // justify-content: ;
         align-items: center;
         position: relative;
@@ -59,13 +59,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #fff;
+            color: var(--font-1);
             display: flex;
             flex-direction: column;
             
             p {
                 margin-top: 8px;
-                color: #666666;
+                color: var(--font-2);
             }
         }
 
@@ -75,7 +75,7 @@
             width: 100%;
             height: 30px;
             justify-content: center;
-            background-color: #222226;
+            background-color:  var(--bg-2);
 
             .plan-name {
                 max-width: 61px;
@@ -85,11 +85,11 @@
                 cursor: pointer;
             }
 
-            // background-color: #39393D;
+            // background-color: var(--bg-4);
             .progress {
                 width: 75%;
                 height: 11px;
-                background-color: #3cc071;
+                background-color: var(--run-green);
                 border-radius: 17px;
                 margin: 0 5px;
                 position: relative;

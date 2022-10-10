@@ -74,9 +74,9 @@ export const RecycleModalWrapper = css`
     display: flex;
     justify-content: space-around;
     .btn-delete {
-      color: #ff4c4c;
+      color: var(--delete-red);
       svg {
-        fill: #ff4c4c;
+        fill: var(--delete-red);
       }
     }
   }
@@ -87,7 +87,7 @@ export const RecycleModalWrapper = css`
     justify-content: space-between;
     .refresh-btn {
       svg {
-        fill: #666666;
+        fill: var(--font-2);
         margin-right: 8px;
       }
     }

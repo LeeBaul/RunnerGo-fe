@@ -14,6 +14,7 @@ const initialState = {
         role_id: null,
     },
     team_id: null,
+    theme: 'dark',
 };
 
 // action名称
@@ -21,6 +22,7 @@ const actionTypes = {
     updateConfig: 'updateConfig',
     updateUserInfo: 'updateUserInfo',
     updateTeamId: 'updateTeamId',
+    updateTheme: 'updateTheme'
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -30,7 +32,12 @@ export const userReducer = (state = initialState, action) => {
         case `${NAMESPACE}/${actionTypes.updateUserInfo}`:
             return { ...state, userInfo: action.payload };
         case `${NAMESPACE}/${actionTypes.updateTeamId}`:
-            return { ...state, team_id: action.team_id }    
+            return { ...state, team_id: action.team_id };
+        case `${NAMESPACE}/${actionTypes.updateTheme}`:
+            return {
+                ...state,
+                theme: action.payload
+            }
         default:
             return state;
     }

@@ -18,7 +18,7 @@ import TeamworkLogs from '@modals/TeamworkLogs';
 import SingleUser from './SingleUser';
 import { fetchTeamMemberList } from '@services/user';
 import { tap } from 'rxjs';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { global$ } from '@hooks/useGlobal/global';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +39,9 @@ const HeaderRight = () => {
     const teamMember = useSelector((store) => store.teams.teamMember);
     const navigate = useNavigate();
     const refDropdown = useRef();
+    const refMenu = useRef();
+    const dispatch = useDispatch();
+    const theme = useSelector((store) => store.user.theme);
 
     let { i18n, t } = useTranslation();
     useEffect(() => {
@@ -128,6 +131,17 @@ const HeaderRight = () => {
         ))
     };
 
+    const changeTheme = (color) => {
+        const url = `/skins/${color}.css`;
+        document.querySelector(`link[name="apt-template-link"]`).setAttribute('href', url);
+        localStorage.setItem('theme_color', color);
+        dispatch({
+            type: 'user/updateTheme',
+            payload: color
+        });
+        refMenu.current.setPopupVisible(false);
+    }
+
     const MenuList = () => {
         return (
             <div className='menu-list'>
@@ -141,8 +155,14 @@ const HeaderRight = () => {
                     {
                         showLge &&  
                         <div className='drop-content'>
-                            <p style={{ color: i18n.language === 'cn' ? '#EC663C' : ''}} onClick={() => i18n.changeLanguage('cn')}>中文</p>
-                            <p style={{ color: i18n.language === 'en' ? '#EC663C' : '' }} onClick={() => i18n.changeLanguage('en')}>English</p>
+                            <p style={{ color: i18n.language === 'cn' ? 'var(--theme-color)' : ''}} onClick={() => {
+                                i18n.changeLanguage('cn');
+                                refMenu.current.setPopupVisible(false);
+                            }}>中文</p>
+                            <p style={{ color: i18n.language === 'en' ? 'var(--theme-color)' : '' }} onClick={() => {
+                                i18n.changeLanguage('en');
+                                refMenu.current.setPopupVisible(false);
+                            }}>English</p>
                         </div>
                     }
                 </div>
@@ -156,8 +176,8 @@ const HeaderRight = () => {
                     {
                         showTheme &&
                         <div className='drop-content theme'>
-                            <p className='theme-white'></p>
-                            <p className='theme-black'></p>
+                            <p className='theme-white' style={{ border: theme === 'white' ? '1px solid var(--theme-color)' : '' }} onClick={() => changeTheme('white')}></p>
+                            <p className='theme-black' style={{ border: theme === 'dark' ? '1px solid var(--theme-color)' : '' }} onClick={() => changeTheme('dark')}></p>
                         </div>
                     }
                 </div>
@@ -193,6 +213,7 @@ const HeaderRight = () => {
                 <Button className='handle-log' onClick={() => setShowLog(true)}>{ t('header.handleLog') }</Button>
                 {/* <Button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'cn' : 'en')}>中英文切换</Button> */}
                 <Dropdown
+                    ref={refMenu}
                     placement="bottom-end"
                     content={
                         <div><MenuList /></div>

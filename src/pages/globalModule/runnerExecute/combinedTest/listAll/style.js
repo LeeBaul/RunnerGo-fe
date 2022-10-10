@@ -71,10 +71,10 @@ export const LeftListItem = styled.div`
     }
 
     .pass-number {
-      color: #3cc071;
+      color: var(--run-green);
 
       .error {
-        color: #ff4c4c;
+        color: var(--delete-red);
       }
     }
   }

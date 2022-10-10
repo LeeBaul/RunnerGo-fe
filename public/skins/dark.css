@@ -48,4 +48,45 @@
     
     /* New apipost css reset end */
 
+      /* 删除红 */
+      --delete-red: #FF4C4C;
+      /* 运行绿 */
+      --run-green: #3CC071;
+      /* 一致白 */
+      --common-white: #FFFFFF;
+      /* 主题橙 */
+      --theme-color: #EC663C;
+      /* 操作日志 */
+      /* 标签蓝 */
+      --log-blue: #3A86FF;
+      /* 标签绿 */
+      --log-green: #3CC071;
+      /* 标签橘 */
+      --log-orange: #EC663C;
+      /* 标签青 */
+      --log-cyan: #35CAAF;
+      /* 首页数据 */
+      /* 数字1 */
+      --index-1: #4D91FF;
+      /* 数字2 */
+      --index-2: #35CAAF;
+      /* 数字3 */
+      --index-3: #FF7043;
+      /* 数字4 */
+      --index-4: #00ACD7;
+  
+      /* 暗黑模式 */
+  
+      --bg-1: #1A1A1D;
+      --bg-2: #1F2023;
+      --bg-3: #27272B;
+      --bg-4: #39393D;
+      /* 字体 */
+      --font-color: #C4C4C4;
+      /* icon */
+      --icon-color: #C4C4C4;
+      --font-1: #FFFFFF;
+      --font-2: #666666;
+      --font-3: #999999;
+      --select: rgba(255, 255, 255, 0.08);
 }

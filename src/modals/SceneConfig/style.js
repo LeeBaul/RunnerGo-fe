@@ -9,10 +9,10 @@ export const GlobalVarModal = css`
         ${'' /* padding: 32px 32px 24px 32px; */}
     }
     .apipost-table-th {
-        background-color: #39393D;
+        background-color: var(--bg-4);
     }
     .apipost-table-td {
-        color: #fff;
+        color: var(--font-1);
         height: 30px;
     }
     .apipost-table-cell {
@@ -32,14 +32,14 @@ export const GlobalVarModal = css`
     .apipost-btn {
         width: 84px;
         height: 25px;
-        background: #3A86FF;
+        background: var(--log-blue);
         border-radius: 3px;
         padding: 4px 8px;
-        color: #fff;
+        color: var(--font-1);
         margin: 20px auto;
     }
     .apipost-btn > svg {
-        fill: #fff;
+        fill: var(--font-1);
         margin-right: 6px;
     }
     .delete-svg {
@@ -84,14 +84,14 @@ export const GlobalVarModal = css`
         height: 40px;
     }
     .apipost-btn-default {
-        background-color: #39393D;
+        background-color: var(--bg-4);
     }
 `;
 
 export const HeaderTitleStyle = css`
     p {
         font-size: 16px;
-        color: #fff;
+        color: var(--font-1);
     }
 `;
 
@@ -104,7 +104,7 @@ export const VarNameStyle = css`
     svg {
         width: 16px;
         height: 16px;
-        fill: #fff;
+        fill: var(--font-1);
         cursor: pointer;
     }
 `

@@ -66,7 +66,7 @@ const ProxyChoose = (props) => {
                                     height: '40px',
                                     borderRadius: '5px',
                                     fontSize: '12px',
-                                    color: '#fff',
+                                    color: 'var(--font-1)',
                                 }}
                                 onClick={() => {
                                     // window.location.href = proxyDownloadUrl;
@@ -92,7 +92,7 @@ const ProxyChoose = (props) => {
                                 浏览器插件代理
                                 <span>（推荐）</span>
                                 <span
-                                    style={{ color: '#3A86FF' }}
+                                    style={{ color: 'var(--log-blue)' }}
                                     onClick={() =>
                                         openUrl('https://rhl469webu.feishu.cn/docs/doccnUb1AAvX1lqT0jLKcfCjegg')
                                     }
@@ -103,7 +103,7 @@ const ProxyChoose = (props) => {
                             <div>通过浏览器插件代理解决跨域问题 </div>
                             <div>
                                 <a
-                                    style={{ color: '#3A86FF' }}
+                                    style={{ color: 'var(--log-blue)' }}
                                     href="https://img.cdn.apipost.cn/dl/chrome_agent.zip"
                                     download="chrome proxy"
                                 >

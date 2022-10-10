@@ -8,13 +8,13 @@ export const ConditionItem = styled.div`
   .btn-add{
     width: 16px;
     height: 16px;
-    fill: #FF4C4C;
+    fill: var(--delete-red);
     cursor:pointer;
   }
   .btn-delete{
     width: 16px;
     height: 16px;
-    fill: #3A86FF;
+    fill: var(--log-blue);
     cursor:pointer;
   }
 

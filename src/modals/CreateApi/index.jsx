@@ -8,7 +8,7 @@ const CreateApi = (props) => {
         <Modal
           visible={true}
           className={CreateApiModal}
-          title={<p style={{color: '#fff', fontSize: '16px'}}>新建接口</p>}
+          title={<p style={{color: 'var(--font-1)', fontSize: '16px'}}>新建接口</p>}
           onCancel={onCancel}
         >
             <p className="container-title">接口名称</p>

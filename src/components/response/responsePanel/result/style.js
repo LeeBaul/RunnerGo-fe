@@ -133,15 +133,15 @@ export const CheckAndAssertWrapper = css`
         }
       }
       .check-true {
-        color: #3cc071;
+        color: var(--run-green);
         svg {
-          fill: #3cc071;
+          fill: var(--run-green);
         }
       }
       .check-false {
-        color: #ff4c4c;
+        color: var(--delete-red);
         svg {
-          fill: #ff4c4c;
+          fill: var(--delete-red);
         }
       }
     }

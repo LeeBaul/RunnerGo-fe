@@ -2,7 +2,7 @@
     height: 100%;
     width: 78px;
     box-sizing: content-box;
-    background-color: var(--background-color-secondary);
+    background-color: var(--bg1);
     border-right: 1px solid var(--border-color-default);
     padding: 0;
 
@@ -18,32 +18,32 @@
         position: relative;
         // color: var(--content-color-secondary);
         // background: var(--background-color-secondary);
-        color: var(--content-color-primary);
-        background-color: var(--highlight-background-color-primary);
+        color: var(--font-color);
+        background-color: var(--bg1);
 
         &:hover {
-            color: var(--content-color-primary);
-            background-color: var(--highlight-background-color-primary);
+            color: var(--font-1);
+            background-color: var(--select);
 
             svg {
-                fill: var(--content-color-primary)
+                fill: var(--font-1)
             }
 
             .item-text {
-                color: var(--content-color-primary);
+                color: var(--font-1);
             }
         }
 
         &.active {
-            color: var(--content-color-primary) !important;
-            background-color: var(--highlight-background-color-tertiary);
+            color: var(--font-1) !important;
+            background-color: var(--select);
 
             svg {
                 // fill: var(--content-color-primary)
             }
 
             .item-text {
-                color: var(--content-color-primary);
+                color: var(--font-1);
             }
         }
 
@@ -60,13 +60,13 @@
         .svg-item {
             width: 16px;
             height: 16px;
-            fill: var(--content-color-secondary);
+            fill: var(--font-color);
         }
 
 
         .item-text {
             padding-top: 4px;
-            color: var(--content-color-secondary);
+            color: var(--font-color);
             // color: var(--content-color-primary);
 
             text-decoration: none;

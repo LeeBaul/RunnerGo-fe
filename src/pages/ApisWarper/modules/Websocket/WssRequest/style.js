@@ -22,7 +22,7 @@ export const WssConfigWrapper = styled.div`
 
       .desc {
         font-weight: 400;
-        color: #c4c4c4;
+        color: var(--font-color);
       }
     }
   }

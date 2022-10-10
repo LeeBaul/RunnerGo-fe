@@ -168,7 +168,7 @@ const TeamworkLogs = (props) => {
           <Button
             type="primary"
             disabled={page === 1}
-            style={page === 1 ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: '#999999' } : {}}
+            style={page === 1 ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: 'var(--font-3)' } : {}}
             onClick={() => setPage((pre) => pre - 1)}
           >
             { t('btn.prePage') }
@@ -187,7 +187,7 @@ const TeamworkLogs = (props) => {
           <Button
             disabled={page === maxPage}
             style={
-              page === maxPage ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: '#999999' } : { }
+              page === maxPage ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: 'var(--font-3)' } : { }
             }
             onClick={() => setPage((pre) => pre + 1)}
           >

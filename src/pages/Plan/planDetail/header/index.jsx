@@ -54,7 +54,7 @@ const DetailHeader = () => {
 
     const statusList = {
         '1': t('plan.notRun'),
-        '2': <p style={{ color: '#3CC071' }}>{ t('plan.running') }</p>,
+        '2': <p style={{ color: 'var(--run-green)' }}>{ t('plan.running') }</p>,
     }
 
     const onConfigChange = (type, value) => {
@@ -119,7 +119,7 @@ const DetailHeader = () => {
                               </div>
                             </Tooltip>
                         </p>
-                        <p className='status' style={{ color: planDetail.status === 2 ? '#3CC071' : '#C4C4C4' }}>
+                        <p className='status' style={{ color: planDetail.status === 2 ? 'var(--run-green)' : 'var(--font-color)' }}>
                             {statusList[planDetail.status]}
                         </p>
                     </div>

@@ -18,7 +18,7 @@ export const CreateModalWrapper = css`
   .create-hope {
     height: 190px;
     display: flex;
-    color: #999999;
+    color: var(--font-3);
     flex-direction: column;
     justify-content: space-between;
     &-code {

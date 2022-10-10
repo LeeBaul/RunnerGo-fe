@@ -12,7 +12,7 @@ const ResAssert = (props) => {
                     <div className='assert-item'
                         style={{
                             backgroundColor: item.isSucceed ? 'rgba(60, 192, 113, 0.1)' : 'rgba(255, 76, 76, 0.1)',
-                            color: item.isSucceed ? '#3CC071' : '#FF4C4C'
+                            color: item.isSucceed ? 'var(--run-green)' : 'var(--delete-red)'
                         }}
                     >
                         {item.msg}

@@ -369,7 +369,7 @@ const modeList = {
                 text: name,
                 left: 'center',
                 textStyle: {
-                    color: '#fff',
+                    color: 'var(--font-1)',
                     fontSize: 14
                 },
             },
@@ -387,17 +387,17 @@ const modeList = {
                 boundaryGap: false,
                 data: data[0] ? data[0].x_data : [],
                 axisLabel: {
-                    color: '#fff',
+                    color: 'var(--font-1)',
                 },
             },
             yAxis: {
                 type: 'value',
                 axisLabel: {
-                    color: '#fff',
+                    color: 'var(--font-1)',
                 },
                 splitLine: {
                     lineStyle: {
-                        color: '#39393D'
+                        color: 'var(--bg-4)'
                     }
                 }
             },

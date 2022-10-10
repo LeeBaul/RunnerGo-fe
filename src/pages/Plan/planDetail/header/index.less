@@ -2,9 +2,9 @@
   width: 100%;
   height: 72px;
   padding: 10px;
-  background: #222226;
+  background: var(--bg-2);
   border-radius: 5px 5px 0px 0px;
-  color: #fff;
+  color: var(--font-1);
   display: flex;
   justify-content: space-between;
 
@@ -14,7 +14,7 @@
     svg {
       width: 16px;
       height: 16px;
-      fill: #fff;
+      fill: var(--font-1);
       cursor: pointer;
     }
 
@@ -42,11 +42,11 @@
           min-width: 52px;
           height: 21px;
           padding: 2px 8px;
-          background: rgba(255, 255, 255, 0.08);
+          background: var(--select);
           border-radius: 3px;
           margin-left: 8px;
           line-height: 17px;
-          color: #3cc071;
+          color: var(--run-green);
           white-space: nowrap;
         }
       }
@@ -82,17 +82,17 @@
     .notice,
     .save,
     .run {
-      color: #fff;
+      color: var(--font-1);
       margin-right: 16px;
       svg {
-        fill: #fff;
+        fill: var(--font-1);
         margin-right: 6px;
       }
     }
 
     .notice {
       height: 25px;
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--select);
       border-radius: 3px;
       padding: 8px;
     }
@@ -100,7 +100,7 @@
     .save {
       width: 60px;
       height: 25px;
-      background: #3a86ff;
+      background: var(--log-blue);
       border-radius: 3px;
       padding: 8px;
     }
@@ -108,23 +108,23 @@
     .run {
       width: 84px;
       height: 25px;
-      background: #3cc071;
+      background: var(--run-green);
       border-radius: 3px;
       padding: 8px;
     }
     .stop {
       width: 84px;
       height: 25px;
-      background: #FF4C4C;
+      background: var(--delete-red);
       border-radius: 3px;
       padding: 8px;
-      color: #fff;
+      color: var(--font-1);
 
       svg {
         width: 10px;
         height: 10px;
         margin-right: 6px;
-        fill: #fff;
+        fill: var(--font-1);
       }
     }
   }

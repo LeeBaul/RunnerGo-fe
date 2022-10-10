@@ -1,9 +1,9 @@
 .controller-wait {
     max-width: 220px;
     border-radius: 3px;
-    background: #27272B;
+    background: var(--bg-3);
 
-    border: 1px solid #39393D;
+    border: 1px solid var(--bg-4);
     box-sizing: border-box;
 
     &-header {
@@ -45,13 +45,13 @@
             height: 30px;
 
             .apipost-switch default {
-                background: #27272B;
+                background: var(--bg-3);
             }
 
             svg {
                 width: 16px;
                 height: 16px;
-                fill: #fff;
+                fill: var(--font-1);
                 margin-left: 8px;
                 cursor: pointer;
             }
@@ -80,20 +80,20 @@
                 .apipost-input-number-step {
                     width: 16px;
                     height: 16px;
-                    background: rgba(255, 255, 255, 0.08);
+                    background: var(--select);
                     border-radius: 3px;
 
                     svg {
                         width: 16px;
                         height: 16px;
-                        // background: rgba(255, 255, 255, 0.08);
-                        fill: #fff !important;
+                        // background: var(--select);
+                        fill: var(--font-1) !important;
                         border-radius: 3px;
                         // rect {
                         //     fill: #000 !important;
                         // }
                         // line {
-                        //     fill: #fff !important;
+                        //     fill: var(--font-1) !important;
                         // }
                     }
                 }
@@ -113,11 +113,11 @@
 }
 
 .my_handle:hover {
-    border-color: #EC663C;
-    background-color: #fff;
+    border-color: var(--theme-color);
+    background-color: var(--font-1);
 }
 
 
 .controller-wait:hover {
-    border: 1px solid #666666;
+    border: 1px solid var(--font-2);
 }

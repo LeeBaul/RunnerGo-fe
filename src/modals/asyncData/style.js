@@ -30,7 +30,7 @@ export const GlobalModal = css`
 
                 .apipost-radio-children {
                     font-size: 14px;
-                    color: #fff;
+                    color: var(--font-1);
                 }
             }
         }
@@ -39,7 +39,7 @@ export const GlobalModal = css`
             position: absolute;
             bottom: 20px;
             left: 30px;
-            color: #fff;
+            color: var(--font-1);
             cursor: pointer;
         }
     }

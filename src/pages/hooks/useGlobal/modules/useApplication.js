@@ -203,10 +203,23 @@ const useProject = () => {
                     type: 'user/updateConfig',
                     payload: userConfig.config,
                 });
-            let linkThemeName = userConfig?.config?.SYSTHEMCOLOR || 'dark';
-            if (linkThemeName === 'white') {
-                linkThemeName = 'default';
+            // let linkThemeName = userConfig?.config?.SYSTHEMCOLOR || 'dark';
+            // if (linkThemeName === 'white') {
+            //     linkThemeName = 'default';
+            // }
+            let linkThemeName = '';
+            const theme_color = localStorage.getItem('theme_color');
+
+            if (theme_color) {
+                linkThemeName = theme_color;
+                dispatch({
+                    type: 'user/updateTheme',
+                    payload: theme_color
+                })
+            } else {
+                linkThemeName = 'dark'
             }
+
             const url = `/skins/${linkThemeName}.css`;
             document.querySelector(`link[name="apt-template-link"]`).setAttribute('href', url);
         };

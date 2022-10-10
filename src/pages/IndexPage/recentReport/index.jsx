@@ -72,7 +72,7 @@ const RecentReport = () => {
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 run_user_name,
-                                status: status === 1 ? <p style={{ color: '#3CC071' }}>运行中</p> : <p>已完成</p>,
+                                status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>运行中</p> : <p>已完成</p>,
                                 operation: <HandleContent report_id={report_id} />
                             }
                         });

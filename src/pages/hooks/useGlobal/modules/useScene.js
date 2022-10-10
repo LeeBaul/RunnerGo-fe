@@ -21,7 +21,7 @@ const useScene = () => {
     // const nodes = useSelector((store) => store.scene.nodes);
     // const edges = useSelector((store) => store.scene.edges);
     const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
-    const { id_apis, node_config, api_now, open_scene, sceneDatas, run_api_res } = useSelector((store) => store.scene);
+    const { id_apis, node_config, api_now, open_scene, open_scene_name, sceneDatas, run_api_res } = useSelector((store) => store.scene);
     // const scene = useScene((store) => store.scene);
     const createApiNode = () => {
         const new_node = {
@@ -914,7 +914,32 @@ const useScene = () => {
             type: 'scene/updateApiRes',
             payload: _run_api_res
         })
+    };
 
+    const openRecordScene = (sceneDatas) => {
+        console.log(99898)
+        const open_scene = localStorage.getItem('open_scene');
+        if (typeof open_scene === 'object' && Object.entries(open_scene || {}).length > 0) {
+            const { scene_id, name } = open_scene;
+            dispatch({
+                type: 'scene/updateOpenName',
+                payload: name,
+            })
+            console.log(111);
+            addOpenScene({ target_id: scene_id });
+        }
+        console.log(sceneDatas);
+    };
+
+    const recordOpenScene = () => {
+        console.log(open_scene, open_scene_name);
+        if (Object.entries(open_scene).length > 0) {
+            const scene = {
+                scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id,
+                name: open_scene_name,
+            }
+            localStorage.setItem('open_scene', JSON.stringify(scene));
+        }
     }
 
     useEventBus('createApiNode', createApiNode);
@@ -937,7 +962,9 @@ const useScene = () => {
     useEventBus('sendSceneApi', sendSceneApi);
     useEventBus('toDeleteGroup', toDeleteGroup, [sceneDatas]);
     useEventBus('stopScene', stopScene);
-    useEventBus('stopSceneApi', stopSceneApi, [run_api_res])
+    useEventBus('stopSceneApi', stopSceneApi, [run_api_res]);
+    useEventBus('openRecordScene', openRecordScene, [sceneDatas]);
+    useEventBus('recordOpenScene', recordOpenScene, [open_scene, open_scene_name]);
 };
 
 export default useScene;

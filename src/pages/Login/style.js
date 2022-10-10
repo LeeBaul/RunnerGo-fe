@@ -21,7 +21,7 @@ export const LoginWrapper = styled.div`
       font-weight: 600;
       font-size: var(--size-30px);
       line-height: 80px;
-      color: #fff;
+      color: var(--font-1);
     }
     .desc {
       line-height: 34px;
@@ -39,7 +39,7 @@ export const LoginWrapper = styled.div`
       height: 25px;
       width: 78px;
       line-height: 17px;
-      background: #fff;
+      background: var(--font-1);
       color: var(--text-lightmode-color);
       font-size: var(--size-12px);
       text-align: center;
@@ -102,7 +102,7 @@ export const LoginWrapper = styled.div`
     }
 
     .login-have {
-      color: #3A86FF;
+      color: var(--log-blue);
       text-align: center;
       font-size: 14px;
       cursor: pointer;
@@ -140,7 +140,7 @@ export const LoginWrapper = styled.div`
     }
     .input-error > .apipost-input-inner-wrapper {
       background: rgba(255, 76, 76, 0.1);
-      border: 1px solid #39393D;
+      border: 1px solid var(--bg-4);
     }
     .qr-code {
       .login_wx {

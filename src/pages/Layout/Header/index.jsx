@@ -1,25 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './index.less';
 import HeaderLeft from './headerLeft';
 import HeaderRight from './headerRight';
 import Bus from '@utils/eventBus';
 import { global$ } from '@hooks/useGlobal/global';
-import SvgLogo from '@assets/logo/runner_go';
+import SvgLogo1 from '@assets/logo/runner_dark';
+import SvgLogo2 from '@assets/logo/runner_white';
 
 const Header = () => {
     // const team_id = useSelector((store) => store.user.team_id);
+    const theme = useSelector((store) => store.user.theme);
 
-    useEffect(() => {
-        // global$.next({
-        //     action: 'INIT_APPLICATION',
-        // });
-    }, []);
     return (
         <div className='header-menus-panel'>
             {/* <div className='header-left'> */}
                 <HeaderLeft />
-                <SvgLogo className="logo" />
+                { theme === 'dark' ? <SvgLogo1 className="logo" /> : <SvgLogo2 className="logo" /> }
             {/* </div> */}
             {/* <div className='header-right'> */}
                 <HeaderRight />

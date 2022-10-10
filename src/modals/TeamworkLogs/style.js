@@ -125,11 +125,11 @@ export const TeamworkLosWrapper = css`
         text-align: center;
         background: #999;
         margin: 0 8px 0 0;
-        color: #ffffff;
+        color: var(--font-1)fff;
         flex-shrink: 0;
 
         &.update {
-          background-color: #3a86ff;
+          background-color: var(--log-blue);
         }
 
         &.add {

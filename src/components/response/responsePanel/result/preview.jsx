@@ -7,7 +7,7 @@ const Preview = (props) => {
 
   const [numPages, setnumPages] = useState(0);
   const setColor = (aa) => {
-    // const color = system?.SYSTHEMCOLOR === 'dark' ? '#fff' : 'var(--content-color-secondary)';
+    // const color = system?.SYSTHEMCOLOR === 'dark' ? 'var(--font-1)' : 'var(--content-color-secondary)';
     const bgcolor = 'white';
     let str = `<style>
       body{

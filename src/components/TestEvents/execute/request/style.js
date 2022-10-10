@@ -19,12 +19,12 @@ export const RequestPanel = styled.div`
       border-radius: 3px;
       &.error {
         background-color: rgba(255, 76, 76, 0.1);
-        color: #ff4c4c;
+        color: var(--delete-red);
       }
 
       &.success {
         background-color: rgba(60, 192, 113, 0.1);
-        color: #3cc071;
+        color: var(--run-green);
       }
     }
   }

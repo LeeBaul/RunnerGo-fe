@@ -32,7 +32,7 @@ export const ApisWrapper = css`
       min-width: 159px;
       height: 45px;
       background-color: var(--theme-color);
-      color: #fff;
+      color: var(--font-1);
       font-size: 24px;
       box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
       border-radius: 8px;
@@ -40,7 +40,7 @@ export const ApisWrapper = css`
       svg {
         width: 23px;
         height: 23px;
-        fill: #fff;
+        fill: var(--font-1);
         margin-right: 10px;
       }
   }
@@ -107,8 +107,8 @@ export const ApiHeaderWrapper = css`
   .btn-save {
     width: 84px;
     height: 24px;
-    background: #3a86ff;
-    color: #ffffff;
+    background: var(--log-blue);
+    color: var(--font-1)fff;
     border-radius: 3px;
     display: flex;
     align-items: center;
@@ -133,7 +133,7 @@ export const ApiHeaderWrapper = css`
       border-left: 1px solid rgba(0, 0, 0, 0.06);
     }
     svg {
-      fill: #ffffff;
+      fill: var(--font-1)fff;
     }
   }
   @media screen and (max-width: 1400px) {

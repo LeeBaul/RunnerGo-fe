@@ -41,7 +41,7 @@ const ReportList = () => {
     };
 
     const statusList = {
-        '1': <p style={{ color: '#3CC071' }}>运行中</p>,
+        '1': <p style={{ color: 'var(--run-green)' }}>运行中</p>,
         '2': '已完成',
     }
 

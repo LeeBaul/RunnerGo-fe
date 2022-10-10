@@ -22,7 +22,7 @@ export const EventType = styled.div`
     color: #d75207;
   }
   &.work-item {
-    background: #fff2fe;
+    background: var(--font-1)2fe;
     border: 1px solid #a91260;
     color: #a91260;
   }
@@ -117,9 +117,9 @@ export const EventsPanel = styled.div`
       height: 28px;
       border-radiu: 3px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--select);
       svg {
-        fill: #ffffff;
+        fill: var(--font-1)fff;
       }
     }
   }
@@ -131,8 +131,8 @@ export const ControllerWrapper = styled.div`
     align-items: center;
     width: 100%;
     height: 42px;
-    // background: #27272b;
-    // color: #ffffff;
+    // background: var(--bg-3);
+    // color: var(--font-1)fff;
     border-radius: var(--border-radius-default);
     margin: 0 0 8px 0;
     padding: 8px;
@@ -181,7 +181,7 @@ export const ControllerWrapper = styled.div`
       color: #d75207;
     }
     &.work-item {
-      background: #fff2fe;
+      background: var(--font-1)2fe;
       border: 1px solid #a91260;
       color: #a91260;
     }
@@ -209,7 +209,7 @@ export const ControllerWrapper = styled.div`
       line-height: 28px;
       border-radius: 50%;
       text-align: center;
-      color: #ffffff;
+      color: var(--font-1)fff;
       background: rgba(0, 0, 0, 0.08);
     }
     &.second {
@@ -217,8 +217,8 @@ export const ControllerWrapper = styled.div`
       height: 28px;
       line-height: 28px;
       border-radius: 50%;
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
+      color: var(--font-1)fff;
+      background: var(--select);
     }
   }
   .ctrl-news {
@@ -228,13 +228,13 @@ export const ControllerWrapper = styled.div`
     width: 200px;
     > div {
       padding: 0 0 0 8px;
-      border-left: 1px solid #39393d;
-      // color: #ffffff;
+      border-left: 1px solid var(--bg-4);
+      // color: var(--font-1)fff;
       &.success {
-        color: #3cc071;
+        color: var(--run-green);
       }
       &.error {
-        color: #ff4c4c;
+        color: var(--delete-red);
       }
     }
     > div:nth-last-of-type(1) {
@@ -275,9 +275,9 @@ export const ControllerWrapper = styled.div`
       height: 28px;
       border-radiu: 3px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--select);
       svg {
-        fill: #ffffff;
+        fill: var(--font-1)fff;
       }
     }
   }
@@ -368,10 +368,10 @@ export const ControllerWrapper = styled.div`
       cursor: pointer;
     }
     .run-item {
-      background: #3a86ff;
+      background: var(--log-blue);
       border-radius: var(--border-radius-default);
       svg {
-        fill: #ffffff;
+        fill: var(--font-1)fff;
       }
     }
   }

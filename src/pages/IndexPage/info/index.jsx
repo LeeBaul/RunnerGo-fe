@@ -17,7 +17,7 @@ const Info = (props) => {
             number: data.plan_num,
             icon: SvgPlan,
             name: t('index.planNum'),
-            color: '#3A86FF',
+            color: 'var(--log-blue)',
         },
         {
             number: data.scene_num,

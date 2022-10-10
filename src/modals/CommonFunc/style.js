@@ -9,10 +9,10 @@ export const CommonFunctionModal = css`
         padding: 32px 32px 24px 32px;
     }
     .apipost-table-th {
-        background-color: #39393D;
+        background-color: var(--bg-4);
     }
     .apipost-table-td {
-        color: #fff;
+        color: var(--font-1);
         height: 30px;
     }
 `;
@@ -20,6 +20,6 @@ export const CommonFunctionModal = css`
 export const HeaderTitleStyle = css`
     p {
         font-size: 16px;
-        color: #fff;
+        color: var(--font-1);
     }
 `;

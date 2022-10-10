@@ -337,7 +337,7 @@ const Box = (props) => {
             //     if (item.source === id) {
             //         temp = true;
             //         item.style = {
-            //             stroke: '#FF4C4C',
+            //             stroke: 'var(--delete-red)',
             //         };
             //         item.markerEnd = {
             //             type: MarkerType.ArrowClosed,

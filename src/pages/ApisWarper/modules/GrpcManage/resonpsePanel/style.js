@@ -18,8 +18,8 @@ export const ResponseStatusRight = css`
       fill: var(--content-color-secondary);
     }
     .success {
-      color: #3cc071;
-      fill: #3cc071;
+      color: var(--run-green);
+      fill: var(--run-green);
     }
     .error {
       color: #ed6a5f;
@@ -65,7 +65,7 @@ export const ResponseErrorWrapper = css`
       color: var(--main);
     }
     .chioce-btn {
-      color: #3a86ff;
+      color: var(--log-blue);
     }
     .proxy-img {
       margin: 0 0 20px 0;
@@ -89,7 +89,7 @@ export const ResponseSendWrapper = css`
     top: 0;
     width: 189px;
     height: 2px;
-    background: linear-gradient(90deg, #3a86ff 0%, rgba(40, 126, 255, 0) 100%);
+    background: linear-gradient(90deg, var(--log-blue) 0%, rgba(40, 126, 255, 0) 100%);
     transform: matrix(-1, 0, 0, 1, 0, 0);
     animation: lineLoading 2s linear infinite;
     -webkit-animation: lineLoading 2s linear infinite;

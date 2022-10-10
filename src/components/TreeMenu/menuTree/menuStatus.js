@@ -41,7 +41,7 @@ const MenuStatus = (props) => {
                                             handleStatusChange(it);
                                         }}
                                     >
-                                        <div style={{ color: markObj[it].color || '#fff' }}>{markObj[it].name}</div>
+                                        <div style={{ color: markObj[it].color || 'var(--font-1)' }}>{markObj[it].name}</div>
                                     </div>
                                 ))}
                             </>

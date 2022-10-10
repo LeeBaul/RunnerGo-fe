@@ -221,7 +221,7 @@ const SceneHeader = (props) => {
                         ? <Button className='stopBtn' preFix={<SvgStop />} onClick={() => Bus.$emit('stopScene', open_scene.scene_id, from, () => {
                             Message('success', t('message.stopSuccess'));
                         })}>{ t('btn.stopRun') }</Button>
-                        : <Button className='runBtn' style={{ background: from === 'plan' ? '#2BA58F' : '#3CC071' }} preFix={<SvgCaretRight />} onClick={() => runScene()}>{ from === 'scene' ? t('btn.run') : t('btn.runScene') }</Button>
+                        : <Button className='runBtn' style={{ background: from === 'plan' ? '#2BA58F' : 'var(--run-green)' }} preFix={<SvgCaretRight />} onClick={() => runScene()}>{ from === 'scene' ? t('btn.run') : t('btn.runScene') }</Button>
                 }
             </div>
             {showSceneConfig && <SceneConfig from={from} onCancel={() => setSceneConfig(false)} />}

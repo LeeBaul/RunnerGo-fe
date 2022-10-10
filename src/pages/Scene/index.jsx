@@ -36,6 +36,18 @@ const Scene = () => {
         }
     }, []);
 
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //          Bus.$emit('openRecordScene');
+    //     })
+    //  }, []);
+ 
+    //  useEffect(() => {
+    //      return () => {
+    //          Bus.$emit('recordOpenScene');
+    //      }
+    //  }, []);
+
     return (
         <>
         <ScalePanel

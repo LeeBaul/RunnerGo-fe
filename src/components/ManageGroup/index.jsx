@@ -107,7 +107,7 @@ const Index = (props) => {
                         onClick={() => {
                           Bus.$emit('openModal', 'LoginModal');
                         }}
-                        style={{ marginLeft: 6, color: '#3A86FF', textDecoration: 'underline' }}
+                        style={{ marginLeft: 6, color: 'var(--log-blue)', textDecoration: 'underline' }}
                       >
                         登录
                       </span>
@@ -160,7 +160,7 @@ const Index = (props) => {
                     onClick={() => {
                       Bus.$emit('openModal', 'LoginModal');
                     }}
-                    style={{ marginLeft: 6, color: '#3A86FF', textDecoration: 'underline' }}
+                    style={{ marginLeft: 6, color: 'var(--log-blue)', textDecoration: 'underline' }}
                   >
                     登录
                   </span>
@@ -228,7 +228,7 @@ const Index = (props) => {
                     onClick={() => {
                       Bus.$emit('openModal', 'LoginModal');
                     }}
-                    style={{ marginLeft: 6, color: '#3A86FF', textDecoration: 'underline' }}
+                    style={{ marginLeft: 6, color: 'var(--log-blue)', textDecoration: 'underline' }}
                   >
                     登录
                   </span>

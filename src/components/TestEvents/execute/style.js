@@ -16,7 +16,7 @@ export const SingleApiPanel = css`
       margin: 0 0 10px 0;
 
       /* 暗黑模式/3 */
-      // background: #27272B;
+      // background: var(--bg-3);
 
       /* 颜色/橙禁用 */
       // border: 1px solid rgba(58, 134, 255, 0.5);

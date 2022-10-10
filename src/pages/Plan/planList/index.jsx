@@ -48,7 +48,7 @@ const PlanList = () => {
     };
     const statusList = {
         '1': '未运行',
-        '2': <p style={{ color: '#3CC071' }}>运行中</p>,
+        '2': <p style={{ color: 'var(--run-green)' }}>运行中</p>,
     };
 
     const copyPlan = (plan_id) => {

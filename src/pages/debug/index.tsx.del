@@ -69,7 +69,7 @@ const Debug = (props) => {
   }, [])
 
   return (
-    <div style={{ width: '100%', height: '100%', background: '#ffffff' }}>
+    <div style={{ width: '100%', height: '100%', background: 'var(--font-1)fff' }}>
 
       <div style={{ width: 500 }}>
         {

@@ -3,7 +3,7 @@ export const APIMETHODS = {
   GET: '#2BA58F',
   PUT: '#5292F7',
   PATCH: 'var(--content-color-secondary)',
-  DELETE: '#FF4C4C',
+  DELETE: 'var(--delete-red)',
   COPY: 'var(--content-color-secondary)',
   HEAD: 'var(--content-color-secondary)',
   OPTIONS: 'var(--content-color-secondary);',
