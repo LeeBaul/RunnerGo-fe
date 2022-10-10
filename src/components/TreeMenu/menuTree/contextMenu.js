@@ -27,6 +27,9 @@ export const handleShowContextMenu = (props, e, params) => {
     let module = '';
     if (isUndefined(params)) {
         module = 'root';
+        if (from === 'scene' || from === 'plan') {
+            return;
+        }
     } else if (isArray(params)) {
         module = 'multi';
     } else {

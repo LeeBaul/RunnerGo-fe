@@ -1160,7 +1160,9 @@ const useOpens = () => {
         if (_openApis.length > 0) {
             _openApis.forEach(item => {
                 const { target_id } = item;
-                ids.push(target_id);
+                if (typeof target_id === 'number') {
+                   ids.push(target_id);
+                }
             })
             localStorage.setItem('open_apis', JSON.stringify(ids));
         }

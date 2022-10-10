@@ -5,7 +5,7 @@ import { isArray, isObject, isString } from 'lodash';
 import Bus from '@utils/eventBus';
 import { getCoverData } from './common';
 
-export const createApis = ({ params, props }) => {
+export const createApis = () => {
     Bus.$emit('addOpenItem', { type: 'api', pid: '0' });
 };
 
