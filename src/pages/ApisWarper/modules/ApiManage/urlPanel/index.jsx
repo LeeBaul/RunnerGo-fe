@@ -48,7 +48,7 @@ const ApiURLPanel = (props) => {
     useEffect(() => {
         console.log(open_res);
         if (res_now && res_now.status === 'finish') {
-            setBtnName(t('t.send'));
+            setBtnName(t('btn.send'));
         }
     }, [res_now]);
 
