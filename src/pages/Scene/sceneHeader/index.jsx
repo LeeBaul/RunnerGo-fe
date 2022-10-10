@@ -197,9 +197,34 @@ const SceneHeader = (props) => {
         // })
     };
 
+    const keyDown = (e) => {
+        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+            e.preventDefault();
+            saveScene(() => {
+                Message('success', t('message.saveSuccess'));
+            })
+         }
+    }
+
+    useEffect(() => {
+        return () => {
+            // saveScene();
+        }
+    }, [nodes, edges, node_config, id_apis, open_scene])
+
+    
+    useEffect(() => {
+
+        document.addEventListener('keydown', keyDown);
+
+        return () => {
+            document.removeEventListener('keydown', keyDown);
+        }
+    }, [nodes, edges, node_config, id_apis, open_scene]);
+
     const saveScene = (callback) => {
         if (from === 'scene') {
-            Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene, callback);
+            Bus.$emit('saveScene', callback);
         } else {
             Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_scene, id, callback);
         }

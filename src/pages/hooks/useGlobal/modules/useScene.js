@@ -21,7 +21,7 @@ const useScene = () => {
     // const nodes = useSelector((store) => store.scene.nodes);
     // const edges = useSelector((store) => store.scene.edges);
     const { open_apis, open_api_now, open_res } = useSelector((store) => store?.opens)
-    const { id_apis, node_config, api_now, open_scene, open_scene_name, sceneDatas, run_api_res } = useSelector((store) => store.scene);
+    const { id_apis, node_config, api_now, open_scene, open_scene_name, sceneDatas, run_api_res, nodes, edges } = useSelector((store) => store.scene);
     // const scene = useScene((store) => store.scene);
     const createApiNode = () => {
         const new_node = {
@@ -122,7 +122,7 @@ const useScene = () => {
             .subscribe();
     }
 
-    const saveScene = (nodes, edges, id_apis, node_config, open_scene, callback) => {
+    const saveScene = (callback) => {
         const get_pre = (id, edges) => {
             const pre_list = [];
             edges.forEach(item => {
@@ -946,7 +946,7 @@ const useScene = () => {
     useEventBus('updateSceneGroup', updateSceneGroup);
     useEventBus('updateSceneItem', updateSceneItem);
     useEventBus('dragUpdateScene', dragUpdateScene);
-    useEventBus('saveScene', saveScene);
+    useEventBus('saveScene', saveScene, [nodes, edges, id_apis, node_config, open_scene]);
     useEventBus('addNewSceneApi', addNewSceneApi);
     useEventBus('updateSceneApi', updateSceneApi);
     useEventBus('saveSceneApi', saveSceneApi);

@@ -23,6 +23,7 @@ import MenuStatus from './menuStatus';
 import './index.less';
 import cn from 'classnames';
 import SvgScene from '@assets/icons/Scene1';
+import { useParams } from 'react-router-dom';
 
 const NodeType = {
     api: SvgApis,
@@ -71,6 +72,10 @@ const MenuTrees = (props, treeRef) => {
     const saveId = useSelector((store) => store.opens.saveId);
     const [defaultExpandKeys, setDefaultExpandKeys] = useState([]);
     const uuid = localStorage.getItem('uuid');
+
+    const nodes_plan = useSelector((store) => store.plan.nodes);
+    const edges_plan = useSelector((store) => store.plan.edges);
+    const { id } = useParams();
 
 
     const [markObj, setMarkObj] = useState([]);
@@ -329,9 +334,17 @@ const MenuTrees = (props, treeRef) => {
                             Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
                         } else if (type === 'scene') {
                             localStorage.setItem('open_scene', JSON.stringify(val));
-                            Bus.$emit('addOpenScene', val)
+                            Bus.$emit('saveScene', () => {
+                                Bus.$emit('addOpenScene', val)
+                            })
                         } else if (type === 'plan') {
-                            Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
+                            if (Object.entries(open_plan_scene || {}).length > 0) {
+                                Bus.$emit('saveScenePlan', nodes_plan, edges_plan, id_apis_plan, node_config_plan, open_plan_scene, id, () => {
+                                    Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
+                                });
+                            } else {
+                                Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
+                            }
                         }
                     }
                 }}
