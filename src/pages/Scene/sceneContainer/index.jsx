@@ -109,6 +109,7 @@ const SceneContainer = (props) => {
             <div className='api-config-drawer'>
                 {
                     from === 'scene' ? <Drawer
+                        className='scene-drawer'
                         visible={showDrawer}
                         title={<DrawerHeader />}
                         onCancel={() => setDrawer(false)}

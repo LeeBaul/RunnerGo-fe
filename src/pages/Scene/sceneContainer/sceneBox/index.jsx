@@ -243,7 +243,8 @@ const SceneBox = (props) => {
     }, [nodes, success_edge, failed_edge])
 
     useEffect(() => {
-        if (Object.entries((open_data) || {}).length > 0) {
+        console.log(open_data);
+        if (Object.entries((open_data || {})).length > 0) {
             const { nodes, edges } = open_data;
             // 1. 对nodes进行赋值, 渲染视图
             // 2. 对id_apis进行赋值, 建立id和api的映射关系
@@ -277,6 +278,7 @@ const SceneBox = (props) => {
                     dragHandle,
                 };
             });
+            console.log(old_nodes, edges, nodes);
             // edges && (edges[0].animated = true);
             setNodes(old_nodes || []);
             setEdges(edges || []);
@@ -301,6 +303,30 @@ const SceneBox = (props) => {
                 })
             }
 
+        } else {
+            console.log(123123123);
+            setNodes([]);
+            setEdges([]);
+
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateNodes',
+                    payload: [],
+                });
+                dispatch({
+                    type: 'scene/updateEdges',
+                    payload: [],
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateNodes',
+                    payload: [],
+                });
+                dispatch({
+                    type: 'plan/updateEdges',
+                    payload: [],
+                })
+            }
         }
     }, [open_data]);
 

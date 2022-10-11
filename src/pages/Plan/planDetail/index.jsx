@@ -113,6 +113,7 @@ const PlanDetail = () => {
                 configApi &&
                 <div className='api-config'>
                     <Drawer
+                        className='plan-drawer'
                         visible={true}
                         title={<DrawerHeader />}
                         onCancel={() => setDrawer(false)}

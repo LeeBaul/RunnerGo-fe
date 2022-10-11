@@ -145,7 +145,7 @@ const useScene = () => {
             return next_list;
         };
 
-        const _nodes = nodes.map(item => {
+        const _nodes = nodes && nodes.map(item => {
             const api = id_apis[item.id];
             if (api) {
                 return {
@@ -182,7 +182,6 @@ const useScene = () => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    console.log(callback);
                     callback && callback();
                 }
             }
@@ -476,16 +475,23 @@ const useScene = () => {
             type: 'scene/updateApiConfig',
             payload: false,
         })
-        const { target_id } = id;
+        let _id = '';
+        if (typeof id === 'object') {
+            const { target_id, scene_id } = id;
+            _id = target_id ? target_id : scene_id;
+        } else {
+            _id = id;
+        }
+        const { target_id, scene_id } = id;
         const query = {
             team_id: localStorage.getItem('team_id'),
-            scene_id: target_id,
+            scene_id: _id
         };
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
                 console.log(data);
-                if (data && data.nodes.length > 0) {
+                if (data && data.nodes && data.nodes.length > 0) {
                     const { nodes } = data;
                     const idList = [];
                     const apiList = [];
@@ -545,6 +551,7 @@ const useScene = () => {
     }
 
     const deleteScene = (id, open_scene, from, callback) => {
+    
         const params = {
             target_id: parseInt(id),
         };
@@ -567,6 +574,8 @@ const useScene = () => {
                     action: 'RELOAD_LOCAL_SCENE',
                 });
                 callback && callback(res.code);
+
+                localStorage.removeItem('open_scene');
             }
         })
     }
@@ -955,7 +964,7 @@ const useScene = () => {
     useEventBus('addNewSceneControl', addNewSceneControl);
     useEventBus('importApiList', importApiList);
     useEventBus('addOpenScene', addOpenScene, [id_apis, node_config]);
-    useEventBus('deleteScene', deleteScene);
+    useEventBus('deleteScene', deleteScene, [sceneDatas]);
     useEventBus('cloneScene', cloneScene);
     useEventBus('cloneSceneFlow', cloneSceneFlow);
     useEventBus('cloneNode', cloneNode);

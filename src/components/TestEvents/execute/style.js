@@ -22,7 +22,7 @@ export const SingleApiPanel = css`
       // border: 1px solid rgba(58, 134, 255, 0.5);
       /* 常规小阴影 */
 
-      // box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+      // box-shadow: var(--shadow);
       border-radius: var(--border-radius-default);
       .status-panel {
         width: 22px;

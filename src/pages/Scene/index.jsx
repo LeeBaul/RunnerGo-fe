@@ -18,12 +18,14 @@ const { ScalePanel, ScaleItem } = Scale;
 const Scene = () => {
     const { t } = useTranslation();
     const sceneDatas = useSelector((store) => store.scene.sceneDatas);
+    const open_scene = useSelector((store) => store.scene.open_scene);
     const [showCreate, setShowCreate] = useState(false);
     const dispatch = useDispatch();
-
+    const [storageScene, setStorageScene] = useState(null);
 
     useEffect(() => {
         const open_scene = localStorage.getItem('open_scene');
+        setStorageScene(open_scene);
         if (open_scene) {
             const val = JSON.parse(open_scene);
             setTimeout(() => {
@@ -41,7 +43,7 @@ const Scene = () => {
     //          Bus.$emit('openRecordScene');
     //     })
     //  }, []);
- 
+
     //  useEffect(() => {
     //      return () => {
     //          Bus.$emit('recordOpenScene');
@@ -50,28 +52,28 @@ const Scene = () => {
 
     return (
         <>
-        <ScalePanel
-            realTimeRender
-            className={ApisWrapper}
-            defaultLayouts={{ 0: { width: 270 }, 1: { flex: 1, width: 0 } }}
-        >
-            <ScaleItem className="left-menus" minWidth={250} maxWidth={350}>
-                <TreeMenu type='scene' />
-            </ScaleItem>
-            <ScaleItem className="right-apis" enableScale={false}>
-                {
-                    Object.entries(sceneDatas || {}).length > 0? <>
-                        <SceneHeader from='scene' />
-                        <SceneContainer from='scene' />
-                    </> : <div className='empty'>
-                        {/* <SvgEmpty />
-                            <p>没有数据</p> */}
-                        <Button preFix={<SvgScene />} onClick={() => setShowCreate(true)}>{t('btn.createScene')}</Button>
-                    </div>
-                }
-            </ScaleItem>
-        </ScalePanel>
-        { showCreate && <CreateScene from="scene" onCancel={() => setShowCreate(false)} /> }
+            <ScalePanel
+                realTimeRender
+                className={ApisWrapper}
+                defaultLayouts={{ 0: { width: 270 }, 1: { flex: 1, width: 0 } }}
+            >
+                <ScaleItem className="left-menus" minWidth={250} maxWidth={350}>
+                    <TreeMenu type='scene' />
+                </ScaleItem>
+                <ScaleItem className="right-apis" enableScale={false}>
+                    {
+                        Object.entries(open_scene || {}).length > 0 ? <>
+                            <SceneHeader from='scene' />
+                            <SceneContainer from='scene' />
+                        </> : <div className='empty'>
+                            {/* <SvgEmpty />
+                                       <p>没有数据</p> */}
+                            <Button preFix={<SvgScene />} onClick={() => setShowCreate(true)}>{t('btn.createScene')}</Button>
+                        </div>
+                    }
+                </ScaleItem>
+            </ScalePanel>
+            {showCreate && <CreateScene from="scene" onCancel={() => setShowCreate(false)} />}
         </>
     )
 };

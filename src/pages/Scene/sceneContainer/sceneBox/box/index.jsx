@@ -140,7 +140,7 @@ const Box = (props) => {
     const [mode, setMode] = useState(1);
     const [menuList, setMenuList] = useState([90, 95, 100]);
     // 接口权重
-    const [weight, setWeight] = useState(0);
+    const [weight, setWeight] = useState(100);
     // 错误率阈值
     const [error_threshold, setError] = useState(0);
     // 响应时间阈值
