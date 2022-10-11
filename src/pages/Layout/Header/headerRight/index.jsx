@@ -145,7 +145,7 @@ const HeaderRight = () => {
     const MenuList = () => {
         return (
             <div className='menu-list'>
-                <div className='menu-list-item'>
+                <div className='menu-list-item' style={{ backgroundColor: showLge ? 'var(--bg-4)' : ''}}>
                    <div className='default' onClick={() => setShowLge(!showLge)}>
                         {
                             showLge ? <SvgDown /> : <SvgRight />
@@ -166,8 +166,8 @@ const HeaderRight = () => {
                         </div>
                     }
                 </div>
-                <div className='menu-list-item'>
-                    <div className='default' onClick={() => setShowTheme(!showLge)}>
+                <div className='menu-list-item' style={{ backgroundColor: showTheme ? 'var(--bg-4)' : ''}}>
+                    <div className='default' onClick={() => setShowTheme(!showTheme)}>
                         {
                             showTheme ? <SvgDown /> : <SvgRight />
                         }

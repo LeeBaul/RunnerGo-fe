@@ -416,7 +416,7 @@ const TaskConfig = (props) => {
                     <p>{ t('plan.taskConfig') }</p>
                     <div className='btn'>
                         <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>{ t('btn.save') }</Button>
-                        <Button preFix={<SvgImport style={{ marginRight: '4px' }} />} onClick={() => {
+                        <Button className='pre-btn' preFix={<SvgImport style={{ marginRight: '4px' }} />} onClick={() => {
                             getPreConfig(() => init(initData))
                         }}>{ t('plan.importPre') }</Button>
                     </div>

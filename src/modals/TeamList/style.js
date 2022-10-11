@@ -73,11 +73,11 @@ export const HeaderLeftModal = css`
         background-color: var(--theme-color);
         border-radius: 3px;
         padding: 5px 8px;
-        color: var(--font-1);
+        color: #fff;
         margin-left: 32px;
 
         svg {
-            fill: var(--font-1);
+            fill: #fff;
             margin-right: 6px;
         }
     }

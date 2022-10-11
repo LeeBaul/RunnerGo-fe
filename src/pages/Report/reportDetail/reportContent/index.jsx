@@ -6,6 +6,7 @@ import ReactEcharts from 'echarts-for-react';
 import { cloneDeep } from 'lodash';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 
 const ReportContent = (props) => {
@@ -26,6 +27,8 @@ const ReportContent = (props) => {
     const [concurrencyList, setConcurrencyList] = useState([]);
     const [configColumn, setConfigColumn] = useState([]);
     const [configData, setConfigData] = useState([]);
+
+    const theme = useSelector((store) => store.user.theme);
 
     
 const modeMap = {
@@ -369,7 +372,7 @@ const modeList = {
                 text: name,
                 left: 'center',
                 textStyle: {
-                    color: '#fff',
+                    color: theme === 'dark' ? '#fff' : '#000',
                     fontSize: 14
                 },
             },
@@ -387,17 +390,17 @@ const modeList = {
                 boundaryGap: false,
                 data: data[0] ? data[0].x_data : [],
                 axisLabel: {
-                    color: '#fff',
+                    color: theme === 'dark' ? '#fff' : '#000',
                 },
             },
             yAxis: {
                 type: 'value',
                 axisLabel: {
-                    color: '#fff',
+                    color: theme === 'dark' ? '#fff' : '#000',
                 },
                 splitLine: {
                     lineStyle: {
-                        color: '#39393D'
+                        color: theme === 'dark' ? '#39393D' : '#E9E9E9'
                     }
                 }
             },

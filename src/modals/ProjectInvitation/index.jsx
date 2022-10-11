@@ -492,6 +492,7 @@ const InvitationModal = (props) => {
                 </Select>
                 <Button
                   // className="apipost-blue-btn"
+                  style={{ color: '#fff' }}
                   onClick={() => changeTeamInvitation('add')}
                 >
                   { t('btn.ok') }

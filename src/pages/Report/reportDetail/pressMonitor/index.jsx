@@ -5,6 +5,7 @@ import ReactEcharts from 'echarts-for-react';
 import { useParams } from 'react-router-dom';
 import { fetchMachine } from '@services/report';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 
 const PressMonitor = (props) => {
     const { status } = props;
@@ -16,6 +17,7 @@ const PressMonitor = (props) => {
     const [endTime, setEndTime] = useState('');
     const [metrics, setMetrics] = useState([]);
     const { id: report_id } = useParams();
+    const theme = useSelector((store) => store.user.theme);
 
     let press_monitor_t = null;
     useEffect(() => {
@@ -62,7 +64,7 @@ const PressMonitor = (props) => {
                 text: name,
                 left: 'center',
                 textStyle: {
-                    color: 'var(--font-1)',
+                    color: theme === 'dark' ? '#fff' : '#000',
                     fontSize: 14
                 },
             },
@@ -76,7 +78,7 @@ const PressMonitor = (props) => {
                 type: 'category',
                 boundaryGap: false,
                 axisLabel: {
-                    color: 'var(--font-1)',
+                    color: theme === 'dark' ? '#fff' : '#000',
                 },
                 // axisTick: {
                 //     length: 1,
@@ -96,11 +98,11 @@ const PressMonitor = (props) => {
                 type: 'value',
                 boundaryGap: [0, '100%'],
                 axisLabel: {
-                    color: 'var(--font-1)',
+                    color: theme === 'dark' ? '#fff' : '#000',
                 },
                 splitLine: {
                     lineStyle: {
-                        color: 'var(--bg-4)'
+                        color: theme === 'dark' ? '#39393D' : '#E9E9E9'
                     }
                 }
             },

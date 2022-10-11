@@ -7,13 +7,13 @@ export const ApisWrapper = css`
   .left-menus > .scale-item-content {
     height: 100%;
     display: flex;
-    background-color: #222226;
+    background-color: var(--bg-2);
   }
   .right-apis {
     margin: 0 2px;
   }
   .right-apis > .scale-item-content {
-    background-color: #222226;
+    background-color: var(--bg-2);
     display: flex;
     height: 100%;
     max-width: 100%;
@@ -32,7 +32,7 @@ export const ApisWrapper = css`
       min-width: 159px;
       height: 45px;
       background-color: var(--theme-color);
-      color: var(--font-1);
+      color: #fff;
       font-size: 24px;
       box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
       border-radius: 8px;
@@ -40,7 +40,7 @@ export const ApisWrapper = css`
       svg {
         width: 23px;
         height: 23px;
-        fill: var(--font-1);
+        fill: #fff;
         margin-right: 10px;
       }
   }
