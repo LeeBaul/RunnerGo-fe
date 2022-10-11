@@ -27,7 +27,7 @@ export const LoginWrapper = styled.div`
       line-height: 34px;
       margin: 4px 0 100px 0;
       font-size: var(--size-18px);
-      color: var(--content-color-secondary);
+      color: #666;
     }
     .logo-box {
       display: flex;
@@ -63,6 +63,9 @@ export const LoginWrapper = styled.div`
       font-size: var(--size-24px);
       line-height: 34px;
       color: var(--content-color-secondary);
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row !important;
       &.active {
         color: var(--content-color-primary);
       }

@@ -303,30 +303,6 @@ const SceneBox = (props) => {
                 })
             }
 
-        } else {
-            console.log(123123123);
-            setNodes([]);
-            setEdges([]);
-
-            if (from === 'scene') {
-                dispatch({
-                    type: 'scene/updateNodes',
-                    payload: [],
-                });
-                dispatch({
-                    type: 'scene/updateEdges',
-                    payload: [],
-                })
-            } else {
-                dispatch({
-                    type: 'plan/updateNodes',
-                    payload: [],
-                });
-                dispatch({
-                    type: 'plan/updateEdges',
-                    payload: [],
-                })
-            }
         }
     }, [open_data]);
 

@@ -204,7 +204,7 @@ const ReportList = () => {
             title: t('index.taskType'),
             dataIndex: 'task_type',
             filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
-            onFilter:(value, item) => item.task_type == value,
+            onFilter:(key, value, item) => item.task_type == value,
         },
         {
             title: t('index.mode'),

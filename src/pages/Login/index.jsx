@@ -61,11 +61,10 @@ const Login = (props) => {
                 <div>
                     <div className='logo-box'>
                         <LogoSvg />
-                        <div className='app-version'>内测版v6.3</div>
                     </div>
-                    <div className='title'>鲲鹏性能测试平台</div>
-                    <div className='desc'>新一代jmeter测试工具</div>
-                    <BannerSvg />
+                    <div className='title'>性能测试平台</div>
+                    <div className='desc'>预见未来，轻松上线</div>
+                    <BannerSvg width="562" height="345" />
                 </div>
             </div>
             }

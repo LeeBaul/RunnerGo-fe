@@ -30,6 +30,11 @@ const ReportContent = (props) => {
 
     const theme = useSelector((store) => store.user.theme);
 
+    const colorList = [
+        '#FF5959', '#FF9559', '#FFD159', '#8EFF59', '#59FFF5', '#59AFFF', '#5D59FF', '#8E59FF', '#CA59FF', '#FF59DB',
+        '#B90000', '#B9A600', '#5CB900', '#00B9AE', '#0098B9', '#0029B9', '#7300B9', '#9F00B9', '#B9006F', '#B94E00',
+    ]
+
     
 const modeMap = {
     'duration': t('plan.duration'),
@@ -367,6 +372,7 @@ const modeList = {
     ];
 
     const getOption = (name, data) => {
+        let temp = 0;
         let option = {
             title: {
                 text: name,
@@ -404,10 +410,14 @@ const modeList = {
                     }
                 }
             },
-            series: data.length > 0 ? data.map(item => {
+            series: data.length > 0 ? data.map((item, index) => {
+                if (index >= (20 + temp * 20)) {
+                    temp ++;
+                }
                 return {
                     name: item.api_name,
                     type: 'line',
+                    color: colorList[index - temp * 20],
                     // stack: 'Total',
                     data: item.y_data
                 }

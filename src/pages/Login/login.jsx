@@ -3,7 +3,7 @@ import QRCode from 'qrcode.react';
 import cn from 'classnames';
 import { from, of } from 'rxjs';
 import { tap, filter, map, concatMap } from 'rxjs/operators';
-import { Input, Button, CheckBox, Message } from 'adesign-react';
+import { Input, Button, CheckBox, Message, Select } from 'adesign-react';
 import WxiconSvg from '@assets/login/wxicon.svg';
 import logoImg from '@assets/logo/qrlogo.png';
 import { openUrl, saveLocalData, setCookie, EamilReg } from '@utils';
@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
+const { Option } = Select;
 
 let wxCodeTimer;
 
@@ -274,7 +275,7 @@ const LoginBox = (props) => {
   return (
     <div className="right-wrapper">
       <div className="title item">
-        <div className="tabs">
+        {/* <div className="tabs">
           <div
             className={cn({ 'tabs-item': true, active: panelType === 'email' })}
             onClick={() => {
@@ -293,7 +294,12 @@ const LoginBox = (props) => {
             <WxiconSvg />
             &nbsp;微信登录
           </div>
-        </div>
+        </div> */}
+        <p>邮箱注册</p>
+        <Select defalutValue="Language">
+          <Option>中文</Option>
+          <Option>English</Option>
+        </Select>
       </div>
       {panelType === 'email' ? (
         <div>

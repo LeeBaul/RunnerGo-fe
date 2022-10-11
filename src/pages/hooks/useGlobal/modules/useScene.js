@@ -439,10 +439,10 @@ const useScene = () => {
 
     const addOpenScene = (id) => {
         console.log(id, id_apis, node_config);
-        dispatch({
-            type: 'scene/updateOpenScene',
-            payload: null,
-        })
+        // dispatch({
+        //     type: 'scene/updateOpenScene',
+        //     payload: null,
+        // })
         dispatch({
             type: 'scene/updateRunRes',
             payload: null,

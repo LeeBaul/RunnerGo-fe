@@ -42,6 +42,7 @@ const HeaderRight = () => {
     const refMenu = useRef();
     const dispatch = useDispatch();
     const theme = useSelector((store) => store.user.theme);
+    const userInfo = useSelector((store) => store.user.userInfo);
 
     let { i18n, t } = useTranslation();
     useEffect(() => {
@@ -98,8 +99,8 @@ const HeaderRight = () => {
                 placement="bottom-end"
                 content={
                     <div className='user-home'>
-                        <p className='name'>Frank</p>
-                        <p className='email'>17710709463@163.com</p>
+                        <p className='name'>{ userInfo.nickname }</p>
+                        <p className='email'>{ userInfo.email }</p>
                         <Button className='person-page' preFix={<SvgUserhome />} onClick={() => {
                             refDropdown.current.setPopupVisible(false);
                             navigate('/userhome')

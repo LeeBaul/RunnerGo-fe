@@ -188,6 +188,7 @@ const PlanList = () => {
         {
             title: t('plan.planId'),
             dataIndex: 'rank',
+            sorter:(a,b)=>a.rank - b.rank,
         },
         {
             title: t('plan.planName'),
@@ -196,10 +197,14 @@ const PlanList = () => {
         {
             title: t('plan.taskType'),
             dataIndex: 'task_type',
+            filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
+            onFilter:(key, value, item) => item.task_type == value,
         },
         {
             title: t('plan.mode'),
             dataIndex: 'mode',
+            filters: [{ key: 1, value:"并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value:"响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
+            onFilter: (key, value, item) => item.mode === value,
         },
         {
             title: t('plan.createTime'),
