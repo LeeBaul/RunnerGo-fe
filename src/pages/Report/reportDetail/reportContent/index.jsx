@@ -88,14 +88,14 @@ const modeList = {
                 api_name,
                 concurrency_list,
             } = item;
-            item.total_request_time = Math.round(total_request_time / 1000);
+            item.total_request_time = total_request_time;
             item.error_rate = `${error_rate * 100}%`
             tps.push(qps);
             rps.push(qps);
             concurrency.push(qps);
             errNum.push(qps);
             _total_request_num += total_request_num;
-            _total_request_time += Math.round(total_request_time / 1000);
+            _total_request_time += total_request_time;
             _max_request_time += max_request_time,
             _min_request_time += min_request_time;
             _ninety_request_time_line_value += ninety_request_time_line_value;
@@ -134,7 +134,7 @@ const modeList = {
         _datas.unshift({
             api_name: '汇总',
             total_request_num: _total_request_num,
-            total_request_time: _total_request_time,
+            total_request_time: _total_request_time.toFixed(2),
             max_request_time: '-',
             min_request_time: '-',
             ninety_request_time_line_value: '-',
