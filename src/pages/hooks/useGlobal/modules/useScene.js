@@ -182,6 +182,7 @@ const useScene = () => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
+                    console.log(callback);
                     callback && callback();
                 }
             }

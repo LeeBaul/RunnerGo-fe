@@ -134,7 +134,7 @@ const ApiURLPanel = (props) => {
                         // apiSend(data);
                         setBtnName(t('btn.sending'));
                         if (from === 'scene') {
-                            Bus.$emit('saveScene', nodes, edges, id_apis, node_config, open_scene_scene, () => {
+                            Bus.$emit('saveScene', () => {
                                 Bus.$emit('sendSceneApi', open_scene_scene.scene_id || open_scene_scene.target_id, id_now, open_scene_res || {}, 'scene');
                             });
                         } else if (from === 'plan') {
