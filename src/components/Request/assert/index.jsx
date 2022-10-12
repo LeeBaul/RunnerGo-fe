@@ -71,7 +71,7 @@ const Assert = (props) => {
                 >
                     <Option value={1}>{ t('apis.assertSelect.resHeader') }</Option>
                     <Option value={2}>{ t('apis.assertSelect.resBody') }</Option>
-                    <Option value={3}>{ t('apis.resCode') }</Option>
+                    <Option value={3}>{ t('apis.assertSelect.resCode') }</Option>
                 </Select>
             ),
         },

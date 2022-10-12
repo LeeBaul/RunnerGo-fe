@@ -34,7 +34,7 @@ const PlanDetail = () => {
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
     const api_now = useSelector((store) => store.plan.api_now);
     const apiConfig = useSelector((store) => store.plan.showApiConfig);
-    const id_apis = useSelector((store) => store.plan.id_apis);
+    // const id_apis = useSelector((store) => store.plan.id_apis);
     const node_config_plan = useSelector((store) => store.plan.node_config);
 
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
@@ -59,7 +59,9 @@ const PlanDetail = () => {
 
 
     useEffect(() => {
-        setConfigApi(apiConfig);
+        if (apiConfig !== configApi) {
+            setConfigApi(apiConfig);
+        }
     }, [apiConfig])
 
     useEffect(() => {
@@ -72,11 +74,11 @@ const PlanDetail = () => {
             id: api_now.id,
             pathExpression: getPathExpressionObj(type),
             value,
-        }, id_apis);
+        });
     };
 
     const closeApiConfig = () => {
-        Bus.$emit('savePlanApi', api_now, id_apis, () => {
+        Bus.$emit('savePlanApi', api_now, () => {
             // setDrawer(false)
             dispatch({
                 type: 'plan/updateApiConfig',
@@ -93,12 +95,12 @@ const PlanDetail = () => {
                         {/* <SvgClose width="16px" height="16px" /> */}
                         <p style={{ fontSize: '16px' }}>x</p>
                     </Button>
-                    <Input size="mini" value={apiName} placeholder="请输入接口名称" onChange={(e) => onTargetChange('name', e)} />
+                    <Input size="mini" value={apiName} placeholder={ t('placeholder.apiName') } onBlur={(e) => onTargetChange('name', e.target.value)} />
                 </div>
                 <div className='drawer-header-right'>
-                    <Button onClick={() => {
-                        Bus.$emit('savePlanApi', api_now, id_apis);
-                    }}>保存</Button>
+                    {/* <Button onClick={() => {
+                        Bus.$emit('savePlanApi', api_now);
+                    }}>{ t('btn.save') }</Button> */}
                 </div>
             </div>
         )
@@ -116,7 +118,7 @@ const PlanDetail = () => {
                         className='plan-drawer'
                         visible={true}
                         title={<DrawerHeader />}
-                        onCancel={() => setDrawer(false)}
+                        // onCancel={() => setDrawer(false)}
                         footer={null}
                         mask={false}
                     >

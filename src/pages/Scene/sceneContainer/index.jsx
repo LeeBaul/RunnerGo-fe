@@ -80,11 +80,11 @@ const SceneContainer = (props) => {
                     <Input size="mini" value={apiName} placeholder="请输入接口名称" onBlur={(e) => onTargetChange('name', e.target.value)} />
                 </div>
                 <div className='drawer-header-right'>
-                    <Button className='drawer-save-btn' onClick={() => {
+                    {/* <Button className='drawer-save-btn' onClick={() => {
                         Bus.$emit('saveSceneApi', api_now, id_apis, () => {
                             Message('success', '保存成功!')
                         });
-                    }}>保存</Button>
+                    }}>保存</Button> */}
                 </div>
             </div>
         )
