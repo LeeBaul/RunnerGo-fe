@@ -12,6 +12,7 @@ import Bus from '@utils/eventBus';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDashBoardInfo } from '@services/dashboard';
 import CreateTeam from '../CreateTeam';
+import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
@@ -25,28 +26,7 @@ const TeamList = (props) => {
 
     const userInfo = useSelector((store) => store.user.userInfo);
     const dispatch = useDispatch();
-
-    const removeMember = (member_id) => {
-        const params = {
-            team_id: parseInt(localStorage.getItem('team_id')),
-            member_id,
-        }
-        fetchRemoveMember(params)
-            .pipe(
-                tap((res) => {
-                    const { data, code } = res;
-
-                    if (code === 0) {
-                        Message('success', '移除成功!');
-                        fetchData();
-                        Bus.$emit('getTeamMemberList');
-                    } else {
-                        Message('error', '移除失败!');
-                    }
-                })
-            )
-            .subscribe()
-    };
+    const { t } = useTranslation();
 
     const getUserInfo = () => {
         return fetchDashBoardInfo({
@@ -56,61 +36,77 @@ const TeamList = (props) => {
         });
     }
 
-    const confirmQuit = () => {
-        setShowQuit(true);
+    const confirmQuit = (confirmTeam) => {
+
+        Modal.confirm({
+            title: t('modal.quitTeam'),
+            content: `${t('modal.confirmQuit')}${confirmTeam.name}?`,
+            cancelText: t('btn.cancel'),
+            okText: t('modal.quitTeam'),
+            onOk: () => {
+                outTeam(confirmTeam);
+            }
+        })
+        // setShowQuit(true);
     }
 
     const deleteTeam = () => {
 
     }
-    const outTeam = () => {
+    const outTeam = (confirmTeam) => {
+        console.log(confirmTeam);
+        // return;
+        const { team_id: quit_id } = confirmTeam;
         // 判断当前团队是否是该用户的私有团队
         const team_id = localStorage.getItem('team_id');
-        const team_item = data.find(item => item.team_id === confirmTeam.team_id);
+        // const team_item = data.find(item => item.team_id === confirmTeam.team_id);
 
-        // 当前团队是私有团队, 并且团队的创建者是自己
-        if (team_item.type === 1 && team_item.created_user_id === userId) {
-            Message('error', '您无法退出自己的私有团队!');
-            return;
-        }
+        // // 当前团队是私有团队, 并且团队的创建者是自己
+        // if (team_item.type === 1 && team_item.created_user_id === userId) {
+        //     Message('error', '您无法退出自己的私有团队!');
+        //     return;
+        // }
         const params = {
-            team_id: parseInt(team_id),
+            team_id: parseInt(quit_id),
         };
         fetchQuitTeam(params).subscribe({
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    Message('success', '退出成功!');
-                    const _teamList = Object.values(teamList);
-                    const myTeam = _teamList.find(item => item.type === 1 && item.created_user_id === userId);
-
-                    const settings = JSON.parse(localStorage.getItem('settings'));
-                    settings.settings.current_team_id = myTeam.team_id;
-                    fetchUpdateConfig(settings).subscribe({
-                        next: (res) => {
-                            const { code } = res;
-                            if (code === 0) {
-                                localStorage.setItem('team_id', myTeam.team_id);
-                                global$.next({
-                                    action: 'INIT_APPLICATION',
-                                });
-                                dispatch({
-                                    type: 'opens/coverOpenApis',
-                                    payload: {},
-                                })
-                                dispatch({
-                                    type: 'scene/updateOpenScene',
-                                    payload: null,
-                                })
-                                onCancel();
-                                navigate('/index');
-                            } else {
-                                Message('error', '切换团队失败!');
-                            }
-                        },
-                    })
+                    Message('success', t('message.quitSuccess'));
+                    const myTeam = data.find(item => item.type === 1 && item.created_user_id === userId);
+                    if (quit_id === myTeam.team_id) {
+                        const settings = JSON.parse(localStorage.getItem('settings'));
+                        settings.settings.current_team_id = myTeam.team_id;
+                        fetchUpdateConfig(settings).subscribe({
+                            next: (res) => {
+                                const { code } = res;
+                                if (code === 0) {
+                                    localStorage.setItem('team_id', myTeam.team_id);
+                                    global$.next({
+                                        action: 'INIT_APPLICATION',
+                                    });
+                                    dispatch({
+                                        type: 'opens/coverOpenApis',
+                                        payload: {},
+                                    })
+                                    dispatch({
+                                        type: 'scene/updateOpenScene',
+                                        payload: null,
+                                    })
+                                    onCancel();
+                                    navigate('/index');
+                                } else {
+                                    Message('error', t('message.checkTeamError'));
+                                }
+                            },
+                        })
+                    } else {
+                        getUserInfo().pipe(tap(fetchData)).subscribe();
+                    }
+                 
                 } else {
-                    Message('error', '退出失败!');
+                    Message('error', t('message.quitError'));
                 }
             }
         })
@@ -136,10 +132,10 @@ const TeamList = (props) => {
                                         deleteTeam();
                                     } else {
                                         setConfirmTeam(item);
-                                        confirmQuit();
+                                        confirmQuit(item);
                                     }
                                 }}>
-                                    {item.created_user_id === user_id ? '解散团队' : '退出团队'}
+                                    {item.created_user_id === user_id ? t('column.teamManage.dissmissTeam') : t('column.teamManage.quitTeam')}
                                 </p>,
                             }
                         });
@@ -155,21 +151,21 @@ const TeamList = (props) => {
     }, [])
     const columns = [
         {
-            title: '团队名称',
+            title: t('column.teamManage.teamName'),
             dataIndex: 'name',
             width: 220,
         },
         {
-            title: '创建日期',
+            title: t('column.teamManage.createTime'),
             dataIndex: 'created_time_sec',
             width: 220,
         },
         {
-            title: '创建人',
+            title: t('column.teamManage.creator'),
             dataIndex: 'created_user_name',
         },
         {
-            title: '操作',
+            title: t('column.teamManage.handle'),
             dataIndex: 'handle'
         }
     ];
@@ -191,12 +187,14 @@ const TeamList = (props) => {
         return (
             <div className={HeaderLeftModal}>
                 <div className='member-header-left'>
-                    <p className='title'>团队管理</p>
-                    <Button className='create-team' preFix={<SvgTeam />} onClick={() => setShowCreate(true)}>新建团队</Button>
+                    <p className='title'>{ t('modal.teamManage') }</p>
+                    <Button className='create-team' preFix={<SvgTeam />} onClick={() => setShowCreate(true)}>{ t('modal.createTeam') }</Button>
                 </div>
             </div>
         )
     }
+
+    console.log(confirmTeam);
 
     return (
         <div>
@@ -207,17 +205,25 @@ const TeamList = (props) => {
                     getUserInfo().pipe(tap(fetchData)).subscribe();
                 }
             }} />}
-            {showQuit &&
+            {/* {showQuit &&
                 <Modal
                     visible={true}
                     title="退出团队"
-                    content={`确认退出${confirmTeam.name}?`}
+                    content="`确认退出${confirmTeam.name}?`"
                     okText="退出团队"
                     onCancel={() => setShowQuit(false)}
                     onOk={() => outTeam()}
                 ></Modal>
-            }
-            <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} onCancel={onCancel} onOk={onCancel} >
+            } */}
+            <Modal 
+                className={ProjectMemberModal} 
+                visible={true} 
+                title={<HeaderLeft />} 
+                onCancel={onCancel} 
+                onOk={onCancel}
+                cancelText={ t('btn.cancel') }
+                okText={ t('btn.ok') }
+            >
                 <Table columns={columns} data={data} />
                 {/* <div className='title'>
                     <p>成员</p>

@@ -8,12 +8,14 @@ import RegisterBox from './register';
 
 import { LoginWrapper } from './style';
 import { cloneDeep } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const Login = (props) => {
     const { children } = props;
     const dispatch = useDispatch();
     const config = useSelector((store) => store.user.config);
     const [leftShow, setLeftShow] = useState(true);
+    const { t } = useTranslation();
     useEffect(() => {
         const newConfig = cloneDeep(config);
         newConfig.SYSCOMPACTVIEW = 1;
@@ -62,8 +64,8 @@ const Login = (props) => {
                     <div className='logo-box'>
                         <LogoSvg />
                     </div>
-                    <div className='title'>性能测试平台</div>
-                    <div className='desc'>预见未来，轻松上线</div>
+                    <div className='title'>{ t('sign.title') }</div>
+                    <div className='desc'>{ t('sign.slogn') }</div>
                     <BannerSvg width="562" height="345" />
                 </div>
             </div>

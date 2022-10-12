@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { Table, Input, Button, Message, Tooltip } from 'adesign-react';
+import { Table, Input, Button, Message, Tooltip, Modal } from 'adesign-react';
 import {
     Iconeye as SvgEye,
     Export as SvgExport,
@@ -177,6 +177,25 @@ const RecentReport = () => {
         size !== pageSize && setPageSize(size);
     };
 
+
+    const renderRow = (tableData, renderRowItem) => {
+        return (
+          <tbody>
+            {tableData.map((tableRowData, rowIndex) => {
+              const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
+                key: rowIndex,
+                onDoubleClick(tableRowData) {
+
+                  const { report_id } = tableData[rowIndex]
+                  navigate(`/report/detail/${report_id}`)
+                },
+              });
+              return rowComp;
+            })}
+          </tbody>
+        );
+      };
+
     return (
         <div className='recent-report'>
             <p className='title'>{ t('index.recentReport') }</p>
@@ -190,7 +209,7 @@ const RecentReport = () => {
                 />
                 {/* <Button className='searchBtn'>搜索</Button> */}
             </div>
-            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'> <SvgEmpty /> <p>还没有数据</p></div>} />
+            <Table className="report-table" showBorder renderRow={renderRow} columns={columns} data={reportList} noDataElement={<div className='empty'> <SvgEmpty /> <p>还没有数据</p></div>} />
             { total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
         </div>
     )

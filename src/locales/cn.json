@@ -1,4 +1,22 @@
 {
+    "sign": {
+        "title": "性能测试平台",
+        "slogn": "预见未来, 轻松上线",
+        "email_register": "邮箱注册",
+        "email_login": "邮箱登录",
+        "language": "语言",
+        "toRegister": "没有账号, 立即注册",
+        "tologin": "登录已有账号",
+        "forgetPwd": "忘记密码",
+        "nologin": "30天内免登录",
+        "errorEmail": "请输入正确的邮箱",
+        "errorPwd": "请输入正确的密码",
+        "confirmError": "两次密码不一致",
+        "nicknameError": "昵称最少4位",
+        "findPwd": "找回密码",
+        "resetPwd": "发送重置密码",
+        "findToLogin": "去登录"
+    },
     "header": {
         "import": "导入",
         "asyncImport": "同步Apipost",
@@ -38,7 +56,12 @@
         "plsSelect": "请选择",
         "plsInput": "请输入",
         "cronContent": "每隔5秒执行一次: */5 * * * * ?",
-        "invitedEmail": "请输入被邀请人邮箱"
+        "invitedEmail": "请输入被邀请人邮箱",
+        "email": "请输入邮箱",
+        "password": "请输入密码",
+        "confirmPwd": "请确认密码",
+        "nickname": "请输入昵称",
+        "teamName": "请输入团队名称"
     },
     "btn": {
         "cancel": "取消",
@@ -68,7 +91,12 @@
         "running": "进行中",
         "ok": "确认",
         "addMem": "添加人员",
-        "close": "关闭"
+        "close": "关闭",
+        "registerNow": "立即注册",
+        "loginNow": "立即登录",
+        "quitTeam": "退出团队",
+        "transferTeam": "移交团队",
+        "confirmDissmiss": "确认解散"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -91,7 +119,14 @@
         "handleError": "操作失败!",
         "updateError": "修改失败!",
         "setSuccess": "设置成功!",
-        "setError": "设置失败!"
+        "setError": "设置失败!",
+        "runSuccess": "运行成功!",
+        "quitSuccess": "退出成功!",
+        "quitError": "退出失败!",
+        "checkTeamError": "切换团队失败!",
+        "createSuccess": "创建成功!",
+        "createError": "创建失败!",
+        "noTeamName": "未输入团队名称!"
     },
     "modal": {
         "look": "注意",
@@ -109,7 +144,32 @@
         "operateTarget": "操作目标",
         "operateDate": "操作时间",
         "today": "今天",
-        "yesterday": "昨天"
+        "yesterday": "昨天",
+        "createTeam": "新建团队",
+        "teamManage": "团队管理",
+        "quitTeam": "退出团队",
+        "confirmQuit": "确认退出",
+        "dissmissTeam": "解散团队",
+        "dissmissContent1": "解散团队, 将会把该团队下的所有接口、场景、计划、报告等数据内容一并删除;团队内其他成员将自动退出团队。",
+        "dissmissContent2": "如需保留数据给其他团队成员, 可将团队移交给其他成员。",
+        "transferTeam": "移交团队",
+        "team": "团队"
+    },
+    "column": {
+        "teamManage": {
+            "teamName": "团队名称",
+            "createTime": "创建日期",
+            "creator": "创建人",
+            "handle": "操作",
+            "quitTeam": "退出团队",
+            "dissmissTeam": "解散团队"
+        },
+        "transferTeam": {
+            "teamMem": "团队成员",
+            "role": "成员权限",
+            "handle": "操作",
+            "transferTeam": "移交团队"
+        }
     },
     "index": {
         "planNum": "计划数",

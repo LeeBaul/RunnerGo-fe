@@ -48,6 +48,11 @@ export const fetchUserConfig = (
 export const fetchUpdateConfig = (
   params
 ) => ajax('post', '/management/api/v1/setting/set', 'json', false, params);
+// 获取成员角色
+export const fetchGetRole = (
+  query
+) => ajax('get', '/management/api/v1/team/role', 'json', false, {}, query);
+
 
 
 // 获取微信二维码

@@ -135,57 +135,6 @@ const ReportList = () => {
         })
     }
 
-    const data = [
-        {
-            id: '1',
-            name: '测试2',
-            type: '普通类型',
-            mode: '并发模式',
-            createTime: '2022.5.9 11:00:00',
-            lastUpdateTime: '2022.6.9 11:00:00',
-            status: '未开始',
-            handler: 'cici',
-            remark: '这是一个备注',
-            handle: <HandleContent />,
-        },
-        {
-            id: '2',
-            name: '测试2',
-            type: '普通类型',
-            mode: '并发模式',
-            createTime: '2022.5.9 11:00:00',
-            lastUpdateTime: '2022.6.9 11:00:00',
-            status: '未开始',
-            handler: 'cici',
-            remark: '这是一个备注',
-            handle: <HandleContent />,
-        },
-        {
-            id: '3',
-            name: '测试2',
-            type: '普通类型',
-            mode: '并发模式',
-            createTime: '2022.5.9 11:00:00',
-            lastUpdateTime: '2022.6.9 11:00:00',
-            status: '未开始',
-            handler: 'cici',
-            remark: '这是一个备注',
-            handle: <HandleContent />,
-        },
-        {
-            id: '4',
-            name: '测试2',
-            type: '普通类型',
-            mode: '并发模式',
-            createTime: '2022.5.9 11:00:00',
-            lastUpdateTime: '2022.6.9 11:00:00',
-            status: '未开始',
-            handler: 'cici',
-            remark: '这是一个备注',
-            handle: <HandleContent />,
-        },
-    ];
-
     const columns = [
         {
             title: t('index.reportId'),
@@ -245,10 +194,29 @@ const ReportList = () => {
         size !== pageSize && setPageSize(size);
     }
 
+    const renderRow = (tableData, renderRowItem) => {
+        return (
+          <tbody>
+            {tableData.map((tableRowData, rowIndex) => {
+              const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
+                key: rowIndex,
+                onDoubleClick(tableRowData) {
+
+                  const { report_id } = tableData[rowIndex]
+                  navigate(`/report/detail/${report_id}`)
+                },
+              });
+              return rowComp;
+            })}
+          </tbody>
+        );
+      };
+    
+
     return (
         <div className='report'>
             <ReportListHeader onChange={getNewkeyword} />
-            <Table className="report-table" showBorder columns={columns} data={reportList} noDataElement={<div className='empty'><SvgEmpty /><p>还没有数据</p></div>} />
+            <Table className="report-table" showBorder renderRow={renderRow} columns={columns} data={reportList} noDataElement={<div className='empty'><SvgEmpty /><p>还没有数据</p></div>} />
             { total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
         </div>
     )

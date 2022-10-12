@@ -25,6 +25,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
+import { useTranslation } from 'react-i18next';
+
 const { Option } = Select;
 
 let wxCodeTimer;
@@ -46,6 +48,8 @@ const LoginBox = (props) => {
   // 获取用户全局配置
   const config = useSelector((store) => store.user.config);
   const dispatch = useDispatch();
+
+  const { i18n, t } = useTranslation();
   // 获取极验内容
   const getVcodeUrl = async () => {
     const { result, captcha } = await getVcodefun();
@@ -295,29 +299,29 @@ const LoginBox = (props) => {
             &nbsp;微信登录
           </div>
         </div> */}
-        <p>邮箱注册</p>
-        <Select defalutValue="Language">
-          <Option>中文</Option>
-          <Option>English</Option>
+        <p>{ t('sign.email_login') }</p>
+        <Select value={ i18n.language } onChange={(e) => i18n.changeLanguage(e)}>
+          <Option value="cn">中文</Option>
+          <Option value="en">English</Option>
         </Select>
       </div>
       {panelType === 'email' ? (
         <div>
           <div className={ cn('item', { 'input-error': emailError }) }>
             <Input
-              placeholder="请输入邮箱地址"
+              placeholder={ t('placeholder.email') }
               value={email}
               onChange={(value) => {
                 setEmail(value);
               }}
               onBlur={() => checkEmail()}
             />
-            { emailError && <p className='error-tips'>邮箱格式错误</p> }
+            { emailError && <p className='error-tips'>{ t('sign.errorEmail') }</p> }
           </div>
           <div className="item">
             <Input
               type="password"
-              placeholder="请输入密码"
+              placeholder={ t('placeholder.password') }
               value={password}
               onChange={(value) => {
                 setPassword(value);
@@ -335,7 +339,7 @@ const LoginBox = (props) => {
               style={{ width: '100%' }}
               onClick={loginNow}
             >
-              立即登录
+              { t('btn.loginNow') }
             </Button>
           </div>
           <div className="remeber">
@@ -346,20 +350,20 @@ const LoginBox = (props) => {
                   setchecked(check);
                 }}
               />{' '}
-              30天内免登录
+              { t('sign.nologin') }
             </div>
             <div
               className="forget"
               onClick={() => navigate('/find')}
             >
-              忘记密码
+              { t('sign.forgetPwd') }
             </div>
           </div>
           <div
             className="resign"
             onClick={() => navigate('/register')}
           >
-            <span>没有账号，立即注册&gt;</span>
+            <span>{ t('sign.toRegister') }&gt;</span>
           </div>
         </div>
       ) : (

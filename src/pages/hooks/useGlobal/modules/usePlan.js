@@ -16,6 +16,7 @@ import { global$ } from '../global';
 
 const usePlan = () => {
     const dispatch = useDispatch();
+    const id_apis = useSelector((store) => store.plan.id_apis);
     const savePreConfig = ({ task_type, mode, cron_expr, mode_conf }, callback) => {
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -352,7 +353,7 @@ const usePlan = () => {
         ).subscribe();
     };
 
-    const updatePlanApi = (data, id_apis) => {
+    const updatePlanApi = (data) => {
         const { id, pathExpression, value } = data;
 
         set(id_apis[id], pathExpression, value);
@@ -607,7 +608,7 @@ const usePlan = () => {
         })
     };
 
-    const savePlanApi = (api_now, id_apis, callback) => {
+    const savePlanApi = (api_now, callback) => {
         const _id_apis = cloneDeep(id_apis);
         api_now.is_changed = false;
         const id = api_now.id;
@@ -659,8 +660,8 @@ const usePlan = () => {
     useEventBus('importSceneList', importSceneList);
     useEventBus('addNewPlanControl', addNewPlanControl);
     useEventBus('importSceneApi', importSceneApi);
-    useEventBus('savePlanApi', savePlanApi);
-    useEventBus('updatePlanApi', updatePlanApi);
+    useEventBus('savePlanApi', savePlanApi, [id_apis]);
+    useEventBus('updatePlanApi', updatePlanApi, [id_apis]);
     useEventBus('runPlan', runPlan);
     useEventBus('stopPlan', stopPlan);
 };

@@ -66,6 +66,9 @@ export const LoginWrapper = styled.div`
       display: flex;
       justify-content: space-between;
       flex-direction: row !important;
+      p {
+        color: var(--font-1);
+      }
       &.active {
         color: var(--content-color-primary);
       }
@@ -105,7 +108,7 @@ export const LoginWrapper = styled.div`
     }
 
     .login-have {
-      color: var(--log-blue);
+      color: var(--theme-color);
       text-align: center;
       font-size: 14px;
       cursor: pointer;
@@ -117,7 +120,7 @@ export const LoginWrapper = styled.div`
     }
   
     .resign {
-      color: var(--base-color-info);
+      color: var(--theme-color);
       text-align: center;
   
       span {
@@ -132,6 +135,7 @@ export const LoginWrapper = styled.div`
 
       .apipost-btn {
         height: 41px;
+        background-color: var(--theme-color) !important;
       }
 
       .error-tips {

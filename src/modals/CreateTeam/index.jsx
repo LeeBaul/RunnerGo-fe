@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Modal, Input, Message } from 'adesign-react';
 import { fetchCreateTeam } from '@services/user';
 import './index.less';
+import { useTranslation } from 'react-i18next';
 
 const CreateTeam = (props) => {
     const { onCancel } = props;
     const [teamName, setTeamName] = useState('');
+    const { t } = useTranslation();
 
     const createTeam = () => {
         if (teamName.trim().length < 1) {
-            Message('error', '未输入团队名称!');
+            Message('error', t('message.noTeamName'));
             return;
         }
         const params = {
@@ -20,10 +22,10 @@ const CreateTeam = (props) => {
                 const { code } = res;
 
                 if (code === 0) {
-                    Message('success', '创建成功!');
+                    Message('success', t('message.createSuccess'));
                     onCancel(true);
                 } else {
-                    Message('error', '创建失败!');
+                    Message('error', t('message.createError'));
                 }
             }
         })
@@ -31,13 +33,15 @@ const CreateTeam = (props) => {
     return (
         <>
             <Modal
-              title="新建团队"
+              title={ t('modal.createTeam') }
+              cancelText={ t('btn.cancel') }
+              okText={ t('btn.ok') }
               visible={true}
               onCancel={onCancel}c
               className='create-team-modal'
               onOk={() => createTeam()}
             >
-                <Input value={teamName} placeholder="请输入团队名称" onChange={(e) => setTeamName(e)} />
+                <Input value={teamName} placeholder={ t('placeholder.teamName') } onChange={(e) => setTeamName(e)} />
             </Modal>
         </>
     )

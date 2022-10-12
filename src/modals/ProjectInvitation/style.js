@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 
 export const InviteModalWrapper = css`
   .apipost-modal-container {
-    width: 945px;
+    width: 533px;
     height: auto;
   }
 `;

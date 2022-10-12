@@ -21,7 +21,7 @@ import './index.less';
 import PaymentModal from './Payment/modal';
 import PayAddSuccessModal from './PayAddSuccessModal';
 
-import { fetchInviteMember } from '@services/user';
+import { fetchInviteMember, fetchGetRole } from '@services/user';
 import Bus from '@utils/eventBus';
 import { tap } from 'rxjs';
 import { useTranslation } from 'react-i18next';
@@ -53,6 +53,8 @@ const InvitationModal = (props) => {
   const [spinning, setSpinning] = useState(true);
   const current_project_id = project_id;
   const current_team_id = team_id;
+
+  const [userRole, setUserRole] = useState(null);
 
   const changeTeamInvitation = (type, invitationPersonnel) => {
     const inputTempValue = invitationPersonnel?.email || inputValue.trim();
@@ -170,16 +172,24 @@ const InvitationModal = (props) => {
         }
       },
     });
-    getInviteRole({ project_id: current_project_id }).subscribe({
-      next(resp) {
-        if (resp?.code === 10000) {
-          setRole(resp.data.role);
-          if (resp.data.role && resp.data.role.length === 1 && resp.data.role[0] === 1) {
-            setSelectValue('readonly');
-          }
-        }
-      },
-    });
+    const query = {
+      team_id: localStorage.getItem('team_id'),
+    };
+    fetchGetRole(query).subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    })
+    // getInviteRole({ project_id: current_project_id }).subscribe({
+    //   next(resp) {
+    //     if (resp?.code === 10000) {
+    //       setRole(resp.data.role);
+    //       if (resp.data.role && resp.data.role.length === 1 && resp.data.role[0] === 1) {
+    //         setSelectValue('readonly');
+    //       }
+    //     }
+    //   },
+    // });
     setSpinning(false);
   }, []);
 
@@ -473,7 +483,7 @@ const InvitationModal = (props) => {
           {/* <Spin loading={spinning}></Spin> */}
           <div className="modal-inviation-title">
             <div>{ t('modal.invitation') }</div>
-            <div>{ t('modal.addTeamMem') }</div>
+            {/* <div>{ t('modal.addTeamMem') }</div> */}
           </div>
           <div className="team-inviation-content">
             <div className="team-inviation-add">
@@ -542,7 +552,7 @@ const InvitationModal = (props) => {
                 ))}
               </div>
             </div>
-            <div className="team-inviation-project-list">
+            {/* <div className="team-inviation-project-list">
               <div className="team-inviation-project-list-header">
                 <span>{ t('modal.teamMem') }</span>
                 <span onClick={teamPersonnelCheckAll}>{ t('btn.selectAll') }</span>
@@ -577,7 +587,7 @@ const InvitationModal = (props) => {
                     </div>
                   ))}
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="team-inviation-footer">
             <div className="team-inviation-footer-l">

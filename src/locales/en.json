@@ -1,4 +1,22 @@
 {
+    "sign": {
+        "title": "Performance test platform",
+        "slogn": "Anticipate the future and go online easily",
+        "email_register": "Email Registration",
+        "email_login": "Email Login",
+        "language": "language",
+        "toRegister": "No account, register now",
+        "tologin": "Log in to an existing account",
+        "forgetPwd": "Forgot password",
+        "nologin": "No login within 30 days",
+        "errorEmail": "Please enter the correct email address",
+        "errorPwd": "Please enter the correct password",
+        "confirmError": "The two passwords are inconsistent",
+        "nicknameError": "At least 4 nicknames",
+        "findPwd": "Retrieve password",
+        "resetPwd": "Send Reset Password",
+        "findToLogin": "Go to login"
+    },
     "header": {
         "import": "import",
         "asyncImport": "Sync Apipost",
@@ -38,7 +56,12 @@
         "plsSelect": "Please select",
         "plsInput": "Please enter",
         "cronContent": "Execute every 5 seconds: */5 * * * *?",
-        "invitedEmail": "Please enter the email address of the invitee"
+        "invitedEmail": "Please enter the email address of the invitee",
+        "email": "Please enter your email address",
+        "password": "Please input a password",
+        "confirmPwd": "Please confirm the password",
+        "nickname": "Please enter your nickname",
+        "teamName": "Please enter the team name"
     },
     "btn": {
         "cancel": "cancel",
@@ -68,7 +91,12 @@
         "running": "Running",
         "ok": "Confirm",
         "addMem": "Add People",
-        "close": "Close"
+        "close": "Close",
+        "registerNow": "Register Now",
+        "loginNow": "Sign in now",
+        "quitTeam": "Exit the team",
+        "transferTeam": "Handover Team",
+        "confirmDissmiss": "Confirm dissolution"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -91,7 +119,14 @@
         "handleError": "operation failed!",
         "updateError": "Modification failed!",
         "setSuccess": "Setting succeeded!",
-        "setError": "Setting failed!"
+        "setError": "Setting failed!",
+        "runSuccess": "Run successfully!",
+        "quitSuccess": "Exit succeeded!",
+        "quitError": "Exit failed!",
+        "checkTeamError": "Failed to switch teams!",
+        "createSuccess": "Created successfully!",
+        "createError": "Creation failed!",
+        "noTeamName": "No team name entered!"
     },
     "modal": {
         "look": "be careful",
@@ -109,7 +144,32 @@
         "operateTarget": "Operational Objectives",
         "operateDate": "Operation time",
         "today": "Today",
-        "yesterday": "Yesterday"
+        "yesterday": "Yesterday",
+        "createTeam": "New Team",
+        "teamManage": "Team management",
+        "quitTeam": "Exit the team",
+        "confirmQuit": "Confirm Exit",
+        "dissmissTeam": "Dismantle the team",
+        "dissmissContent1": "When a team is dismissed, all the interfaces, scenarios, plans, reports and other data under the team will be deleted; Other members of the team will automatically exit the team.",
+        "dissmissContent2": "If data needs to be retained for other team members, the team can be handed over to other members.",
+        "transferTeam": "Handover Team",
+        "team": "Team"
+    },
+    "column": {
+        "teamManage": {
+            "teamName": "Team Name",
+            "createTime": "Creation Date",
+            "creator": "Created by",
+            "handle": "operation",
+            "quitTeam": "Exit the team",
+            "dissmissTeam": "Dismantle the team"
+        },
+        "transferTeam": {
+            "teamMem": "Team members",
+            "role": "Member Permissions",
+            "handle": "operation",
+            "transferTeam": "Handover Team"
+        }
     },
     "index": {
         "planNum": "Number of plans",

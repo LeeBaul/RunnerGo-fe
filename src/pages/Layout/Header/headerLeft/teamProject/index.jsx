@@ -13,6 +13,7 @@ import { isObject, isString } from 'lodash';
 import TeamList from './teamList';
 import { TeamProjectPanel, DropdownContainer, TeamProjectWrapper } from './style';
 import TeamLists from '@modals/TeamList';
+import { useTranslation } from 'react-i18next';
 
 const TeamProject = () => {
     const [filterValue, setFilterValue] = useState('');
@@ -22,6 +23,7 @@ const TeamProject = () => {
     // const currentTeamId = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
     const CURRENT_PROJECT_ID = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
     const userTeams = useSelector((store) => store.teams.teamData);
+    const { t } = useTranslation();
 
     const currentTeamName = useMemo(() => {
         // let teamName = '离线团队';
@@ -57,11 +59,11 @@ const TeamProject = () => {
                 content={
                     <DropdownContainer>
                         <div className="header">
-                            <span>团队</span>
+                            <span>{ t('modal.team') }</span>
                             <Button onClick={() => {
                                 setTeamList(true);
                                 refDropdown.current.setPopupVisible(false);
-                            }}>团队管理</Button>
+                            }}>{ t('modal.teamManage') }</Button>
                             {/* <a href={USER_PROJECT_URL} target="_blank" rel="noreferrer">
                                 <Button
                                     preFix={<SvgStartupteam width="16" height="16" className="perfix" />}
@@ -76,7 +78,7 @@ const TeamProject = () => {
                             onChange={setFilterValue}
                             beforeFix={<SvgSearch width="16" height="16" className="perfix" />}
                             className="filter-box"
-                            placeholder="请输入项目名称"
+                            placeholder={ t('placeholder.teamName') }
                         />
                         <TeamProjectWrapper>
                             <TeamList

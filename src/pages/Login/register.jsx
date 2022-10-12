@@ -3,7 +3,7 @@ import QRCode from 'qrcode.react';
 import cn from 'classnames';
 import { from } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-import { Input, Button, CheckBox, Message } from 'adesign-react';
+import { Input, Button, CheckBox, Message, Select } from 'adesign-react';
 import WxiconSvg from '@assets/login/wxicon.svg';
 import logoImg from '@assets/logo/qrlogo.png';
 import { openUrl, saveLocalData, EamilReg } from '@utils';
@@ -18,10 +18,13 @@ import {
 
 import { global$ } from '@hooks/useGlobal/global';
 
+const { Option } = Select;
+
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 
 let wxCodeTimer;
@@ -48,6 +51,8 @@ const RegisterBox = (props) => {
     const [emailError, setEmailError] = useState(false);
     const [nameError, setNameError] = useState(false);
     const [pwdDiff, setPwdDiff] = useState(false);
+
+    const { t, i18n } = useTranslation();
     // 获取极验内容
     const getVcodeUrl = async () => {
         const { result, captcha } = await getVcodefun();
@@ -225,44 +230,29 @@ const RegisterBox = (props) => {
     return (
         <div className="right-wrapper">
             <div className="title item">
-                <div className="tabs">
-                    <div
-                        className={cn({ 'tabs-item': true, active: panelType === 'email' })}
-                        onClick={() => {
-                            //   getVcodeUrl();
-                            setPanelType('email');
-                        }}
-                    >
-                        邮箱注册
-                    </div>
-                    <div
-                        className={cn({ 'tabs-item': true, active: panelType === 'wxCode' })}
-                        onClick={() => {
-                            setPanelType('wxCode');
-                        }}
-                    >
-                        <WxiconSvg />
-                        &nbsp;微信注册
-                    </div>
-                </div>
+                <p>{ t('sign.email_register') }</p>
+                <Select value={ i18n.language } onChange={(e) => i18n.changeLanguage(e)}>
+                    <Option value="cn">中文</Option>
+                    <Option value="en">English</Option>
+                </Select>
             </div>
             {panelType === 'email' ? (
                 <div>
                     <div className={cn('item', { 'input-error': emailError })}>
                         <Input
-                            placeholder="请输入邮箱地址"
+                            placeholder={ t('placeholder.email') }
                             value={email}
                             onChange={(value) => {
                                 setEmail(value);
                             }}
                             onBlur={() => checkEmail()}
                         />
-                        { emailError && <p className='error-tips'>邮箱格式错误</p> }
+                        { emailError && <p className='error-tips'>{ t('sign.errorEmail') }</p> }
                     </div>
                     <div className="item">
                         <Input
                             type="password"
-                            placeholder="请输入密码"
+                            placeholder={ t('placeholder.password') }
                             value={password}
                             onChange={(value) => {
                                 setPassword(value);
@@ -272,25 +262,25 @@ const RegisterBox = (props) => {
                     <div className={cn('item', { 'input-error': pwdDiff })}>
                         <Input
                             type="password"
-                            placeholder="请确认密码"
+                            placeholder={ t('placeholder.confirmPwd') }
                             value={repeat_password}
                             onChange={(value) => {
                                 setRepeatPassword(value);
                             }}
                             onBlur={() => checkPwd()}
                         />
-                        { pwdDiff && <p className='error-tips'>两次密码不一致</p> }
+                        { pwdDiff && <p className='error-tips'>{ t('sign.confirmError') }</p> }
                     </div>
                     <div className={cn('item', { 'input-error': nameError })}>
                         <Input
-                            placeholder="请输入昵称"
+                            placeholder={ t('placeholder.nickname') }
                             value={nickname}
                             onChange={(value) => {
                                 setNickname(value);
                             }}
                             onBlur={() => checkName()}
                         />
-                        { nameError && <p className='error-tips'>昵称最少4位</p> }
+                        { nameError && <p className='error-tips'>{ t('sign.nicknameError') }</p> }
                     </div>
                     <div className="item">
                         <div id="captcha"></div>
@@ -303,11 +293,11 @@ const RegisterBox = (props) => {
                             style={{ width: '100%' }}
                             onClick={registerNow}
                         >
-                            立即注册
+                            { t('btn.registerNow') }
                         </Button>
                     </div>
                     <div className="login-have" onClick={() => navigate('/login')}>
-                        登录已有账号
+                        { t('sign.tologin') }
                     </div>
                 </div>
             ) : (

@@ -246,11 +246,44 @@ const PlanList = () => {
         size !== pageSize && setPageSize(size);
     }
 
+    const renderRow = (tableData, renderRowItem) => {
+        return (
+          <tbody>
+            {tableData.map((tableRowData, rowIndex) => {
+              const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
+                key: rowIndex,
+                onDoubleClick(tableRowData) {
+                  const { plan_id } = tableData[rowIndex];
+
+                  dispatch({
+                    type: 'plan/updateOpenPlan',
+                    payload: tableData[rowIndex]
+                })
+                dispatch({
+                    type: 'plan/updateOpenScene',
+                    payload: null,
+                })
+                // let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
+                // console.log(planMap);
+                // if (planMap[plan_id]) {
+                //     console.log(planMap[plan_id]);
+                //     Bus.$emit('addOpenPlanScene', { target_id: planMap[plan_id] }, id_apis_plan, node_config_plan)
+                // }
+                navigate(`/plan/detail/${plan_id}`);
+                },
+              });
+              return rowComp;
+            })}
+          </tbody>
+        );
+      };
+
+
 
     return (
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} />
-            <Table className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>{ t('index.emptyData') }</p> </div>} />
+            <Table renderRow={renderRow} className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>{ t('index.emptyData') }</p> </div>} />
             {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )
