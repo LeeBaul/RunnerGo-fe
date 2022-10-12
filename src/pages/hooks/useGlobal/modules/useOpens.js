@@ -617,9 +617,10 @@ const useOpens = () => {
 
     const saveTargetById = async (data, options = { is_socket: 1 }, callbacks) => {
         const { id, saveId ,pid, callback } = data;
-        const target_id = id || CURRENT_TARGET_ID;
+        const target_id = id;
         const tempOpenApis = cloneDeep(open_apis);
         let tempTarget = tempOpenApis[target_id];
+
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
@@ -678,7 +679,7 @@ const useOpens = () => {
             tempTarget.parent_id = parseInt(tempTarget.parent_id);
             tempTarget.team_id = parseInt(localStorage.getItem('team_id'));
 
-            if (saveId) {
+            if (saveId && typeof id === 'string') {
                 tempTarget.target_id = saveId;
             }
 
@@ -694,20 +695,22 @@ const useOpens = () => {
                             // await updateCollectionById();
                         }
 
-                        const _old = cloneDeep(tempOpenApis[id]);
-                        _old.target_id = data.target_id;
-                        delete tempOpenApis[id];
-                        tempOpenApis[data.target_id] = _old;
-
-                        dispatch({
-                            type: 'opens/coverOpenApis',
-                            payload: tempOpenApis,
-                        })
-
-                        dispatch({
-                            type: 'opens/updateOpenApiNow',
-                            payload: data.target_id,
-                        })
+                        if (typeof id === 'string') {
+                            const _old = cloneDeep(tempOpenApis[id]);
+                            _old.target_id = data.target_id;
+                            delete tempOpenApis[id];
+                            tempOpenApis[data.target_id] = _old;
+    
+                            dispatch({
+                                type: 'opens/coverOpenApis',
+                                payload: tempOpenApis,
+                            })
+    
+                            dispatch({
+                                type: 'opens/updateOpenApiNow',
+                                payload: data.target_id,
+                            })
+                        }
 
                         if (code === 0) {
                             global$.next({
@@ -990,6 +993,9 @@ const useOpens = () => {
         const targetDatas = {};
         targetList.forEach(item => {
             targetDatas[item.target_id] = item;
+            if (typeof item.parent_id === 'string') {
+                item.parent_id = parseInt(item.parent_id);
+            }
         })
         const { parent_id, sort, target_id } = targetList[0];
         const params = {

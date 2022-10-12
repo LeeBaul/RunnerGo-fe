@@ -220,17 +220,18 @@ const useOpenTabs = () => {
         // }
     };
     // 保存所有标签
-    const saveAllTarget = async (open_apis) => {
+    const saveAllTarget = async () => {
+        console.log(open_apis);
         if (Object.entries(open_apis).length > 0) {
             for (const key in open_apis) {
                 if (open_apis[key].is_changed > 0) {
                     await Bus.$asyncEmit('saveTargetById', { id: key });
                     // await Bus.$emit('saveTargetId', { id: key });
+                    dispatch({
+                        type: 'opens/updateSaveAll',
+                    })
                 }
             }
-            dispatch({
-                type: 'opens/updateSaveAll',
-            })
             Message('success', '保存所有标签成功');
         }
     };

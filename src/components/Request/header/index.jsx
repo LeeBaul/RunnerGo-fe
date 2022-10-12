@@ -154,9 +154,23 @@ const Header = (props) => {
       dataIndex: 'description',
       render: (text, rowData, rowIndex) => {
         return (
-          <AutoSizeTextArea
-            height={24}
-            bordered={false}
+          // <AutoSizeTextArea
+          //   height={24}
+          //   bordered={false}
+          //   value={text}
+          //   onChange={(newVal) => {
+          //     handleChange(rowData, rowIndex, { description: newVal });
+          //   }}
+          //   onBlur={(e) => {
+          //     // 添加临时描述
+          //     Bus.$emit('addTempParams', {
+          //       key: rowData?.key || '',
+          //       description: e?.target?.textContent || '',
+          //     });
+          //   }}
+          // />
+          <ApiInput
+            size="mini"
             value={text}
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { description: newVal });
@@ -265,11 +279,11 @@ const Header = (props) => {
             系统header {showSysHeader ? <DownSvg /> : <RightSvg />}
           </span>
         </div> */}
-        {showSysHeader && (
+        {/* {showSysHeader && (
           <div style={{ margin: '8px 0 0 0' }}>
             <Table showBorder hasPadding={false} columns={systemColumns} data={apipostHeaders} />
           </div>
-        )}
+        )} */}
       </div>
       <Table showBorder hasPadding={false} columns={columns} data={tableDataList()} />
     </div>

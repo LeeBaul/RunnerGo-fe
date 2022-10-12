@@ -9,6 +9,7 @@ const AutoSizeTextArea = (props) => {
     onBlur = () => undefined,
     onChange,
     onFocus = () => undefined,
+    readonly = false,
     ...restProps
   } = props;
 
@@ -21,19 +22,19 @@ const AutoSizeTextArea = (props) => {
     if (refTextbox.current === null) {
       return;
     }
-    const sourceOffset = refTextbox.current.getBoundingClientRect();
+    const sourceOffset = refTextbox.current?.getBoundingClientRect();
 
-    setEditStyle({
-      width: sourceOffset.width,
-      left: sourceOffset.left,
-      top: sourceOffset.top,
-    });
+    // setEditStyle({
+    //   width: sourceOffset.width,
+    //   left: sourceOffset.left,
+    //   top: sourceOffset.top,
+    // });
     setIsEditing(true);
     onFocus();
   };
 
   const handleOnBlur = (e) => {
-    setEditStyle({});
+    // setEditStyle({});
     setIsEditing(false);
     onBlur(e);
   };
@@ -45,7 +46,7 @@ const AutoSizeTextArea = (props) => {
     // };
 
     // const newContent= sanitizeHtml(e.target.value, sanitizeConf)
-    onChange(e.target.value);
+    if (!readonly) onChange(e.target.value);
   };
 
   return (
@@ -53,7 +54,7 @@ const AutoSizeTextArea = (props) => {
       {...restProps}
       html={value}
       onChange={handleChange}
-      className={cn('auto-size-textbox ', {
+      className={cn('auto-size-textbox mousetrap', {
         'edit-mode': isEditing,
       })}
       innerRef={refTextbox}

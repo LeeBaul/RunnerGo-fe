@@ -1,4 +1,3 @@
-
 .auto-size-textbox {
   width: 100%;
   flex: 1;
@@ -15,14 +14,20 @@
   display: flex;
   color: var(--content-color-primary);
 
-  &.edit-mode{
+  &.edit-mode {
     display: inline-block;
-    position:fixed;
-    border:1px solid var(--border-color-default);
+    position: absolute;
+    left: 0;
+    top: 0;
+    // border: 1px solid var(--border-color-default);
     background: var(--background-color-primary);
     // max-height:initial;
     z-index: 199;
     height: auto;
   }
 
+  &:empty:before {
+    content: attr(placeholder);
+    color: var(--content-color-tertiary);
+  }
 }

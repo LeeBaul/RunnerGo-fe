@@ -2,7 +2,11 @@ import * as React from 'react';
 import deepEqual from 'fast-deep-equal';
 
 function normalizeHtml(str) {
-  return str && str.replace(/&nbsp;|\u202F|\u00A0/g, ' ');
+  try {
+    return str && str.replace(/&nbsp;|\u202F|\u00A0/g, ' ');
+  } catch (error) {
+    return str;
+  }
 }
 
 function replaceCaret(el) {
@@ -12,9 +16,9 @@ function replaceCaret(el) {
   // do not move caret if element was not focused
   const isTargetFocused = document.activeElement === el;
   if (target !== null && target.nodeValue !== null && isTargetFocused) {
-    var sel = window.getSelection();
+    const sel = window.getSelection();
     if (sel !== null) {
-      var range = document.createRange();
+      const range = document.createRange();
       range.setStart(target, target.nodeValue.length);
       range.collapse(true);
       sel.removeAllRanges();
@@ -29,9 +33,15 @@ function replaceCaret(el) {
  */
 export default class ContentEditable extends React.Component {
   lastHtml = this.props.html;
-  el = typeof this.props.innerRef === 'function' ? { current: null } : React.createRef();
 
-  getEl = () => (this.props.innerRef && typeof this.props.innerRef !== 'function' ? this.props.innerRef : this.el).current;
+  el =
+    typeof this.props.innerRef === 'function' ? { current: null } : React.createRef();
+
+  getEl = () =>
+    (this.props.innerRef && typeof this.props.innerRef !== 'function'
+      ? this.props.innerRef
+      : this.el
+    ).current;
 
   render() {
     const { tagName, html, innerRef, ...props } = this.props;
@@ -40,18 +50,22 @@ export default class ContentEditable extends React.Component {
       tagName || 'div',
       {
         ...props,
-        ref: typeof innerRef === 'function' ? (current) => {
-          innerRef(current)
-          this.el.current = current
-        } : innerRef || this.el,
+        ref:
+          typeof innerRef === 'function'
+            ? (current) => {
+                innerRef(current);
+                this.el.current = current;
+              }
+            : innerRef || this.el,
         onInput: this.emitChange,
         onBlur: this.props.onBlur || this.emitChange,
         onKeyUp: this.props.onKeyUp || this.emitChange,
         onKeyDown: this.props.onKeyDown || this.emitChange,
         contentEditable: this.props.contentEditable,
-        dangerouslySetInnerHTML: { __html: html }
+        dangerouslySetInnerHTML: { __html: html },
       },
-      this.props.children);
+      this.props.children
+    );
   }
 
   shouldComponentUpdate(nextProps) {
@@ -65,19 +79,19 @@ export default class ContentEditable extends React.Component {
     if (!el) return true;
 
     // ...or if html really changed... (programmatically, not by user edit)
-    if (
-      normalizeHtml(nextProps.html) !== normalizeHtml(el.innerHTML)
-    ) {
+    if (normalizeHtml(nextProps.html) !== normalizeHtml(el.innerHTML)) {
       return true;
     }
 
     // Handle additional properties
-    return props.disabled !== nextProps.disabled ||
+    return (
+      props.disabled !== nextProps.disabled ||
       props.tagName !== nextProps.tagName ||
       props.className !== nextProps.className ||
       props.innerRef !== nextProps.innerRef ||
       props.placeholder !== nextProps.placeholder ||
-      !deepEqual(props.style, nextProps.style);
+      !deepEqual(props.style, nextProps.style)
+    );
   }
 
   componentDidUpdate() {
@@ -103,12 +117,12 @@ export default class ContentEditable extends React.Component {
       // "Cannot assign to read only property 'target' of object"
       const evt = Object.assign({}, originalEvt, {
         target: {
-          value: html
-        }
+          value: html,
+        },
       });
       this.props.onChange(evt);
     }
     this.lastHtml = html;
-  }
-
+  };
 }
+

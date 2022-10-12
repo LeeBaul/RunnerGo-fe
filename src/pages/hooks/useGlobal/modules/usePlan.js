@@ -124,8 +124,8 @@ const usePlan = () => {
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
-
-                if (data && data.nodes.length > 0) {
+                console.log(data);
+                if (data && data.nodes && data.nodes.length > 0) {
                     const { nodes } = data;
                     const idList = [];
                     const apiList = [];
@@ -269,7 +269,7 @@ const usePlan = () => {
             return next_list;
         };
 
-        const _nodes = nodes.map(item => {
+        const _nodes = nodes ? nodes.map(item => {
             const api = id_apis[item.id];
             if (api) {
                 return {
@@ -287,7 +287,7 @@ const usePlan = () => {
                     next_list: get_next(item.id, edges),
                 }
             }
-        });
+        }) : null;
 
         const params = {
             scene_id: parseInt(open_scene.target_id ? open_scene.target_id : open_scene.scene_id),
