@@ -139,49 +139,49 @@ const ReportList = () => {
         {
             title: t('index.reportId'),
             dataIndex: 'rank',
-            width: 84,
+            // width: 84,
         },
         {
             title: t('index.planName'),
             dataIndex: 'plan_name',
-            width: 200
+            // width: 200
         },
         {
             title: t('index.sceneName'),
             dataIndex: 'scene_name',
-            width: 200
+            // width: 200
         },
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
             filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
             onFilter:(key, value, item) => item.task_type == value,
-            width: 200
+            // width: 200
         },
         {
             title: t('index.mode'),
             dataIndex: 'task_mode',
-            width: 200
+            // width: 200
         },
         {
             title: t('index.startTime'),
             dataIndex: 'run_time_sec',
-            width: 200
+            // width: 200
         },
         {
             title: t('index.endTime'),
             dataIndex: 'last_time_sec',
-            width: 200
+            // width: 200
         },
         {
             title: t('index.performer'),
             dataIndex: 'run_user_name',
-            width: 200
+            // width: 200
         },
         {
             title: t('index.status'),
             dataIndex: 'status',
-            width: 200
+            // width: 200
         },
         {
             title: t('index.handle'),
