@@ -119,50 +119,57 @@ const RecentReport = () => {
         {
             title: t('index.reportId'),
             dataIndex: 'rank',
-            sorter:(a,b)=>a.rank - b.rank,
+            width: 84
         },
         {
             title: t('index.planName'),
             dataIndex: 'plan_name',
+            width: 200
         },
         {
             title: t('index.sceneName'),
             dataIndex: 'scene_name',
+            width: 200
         },
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
             filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
             onFilter:(key, value, item) => item.task_type === value,
+            width: 200,
         },
         {
             title: t('index.mode'),
             dataIndex: 'task_mode',
             filters: [{ key: 1, value:"并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value:"响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
             onFilter: (key, value, item) => item.task_mode === value,
+            width: 200,
         },
         {
             title: t('index.startTime'),
             dataIndex: 'run_time_sec',
-            // width: 220,
+            width: 200,
         },
         {
             title: t('index.endTime'),
             dataIndex: 'last_time_sec',
-            // width:
+            width: 200,
         },
         {
             title: t('index.performer'),
             dataIndex: 'run_user_name',
+            width: 200,
         },
         {
             title: t('index.status'),
             dataIndex: 'status',
+            width: 200,
             
         },
         {
             title: t('index.handle'),
-            dataIndex: 'operation'
+            dataIndex: 'operation',
+            width: 112,
         }
     ];
 

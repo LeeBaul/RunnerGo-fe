@@ -567,7 +567,7 @@ const useOpens = () => {
         addOpensByObj(newItem, true, callback);
     };
 
-    const removeOpenItem = async (id, open_apis) => {
+    const removeOpenItem = async (id) => {
         // 判断是否为socket 关闭连接
         // const target = await Opens.get(id);
         // if (target?.target_type === 'websocket') {
@@ -581,8 +581,6 @@ const useOpens = () => {
         // }
         // await Opens.delete(id).then(() => {
         // return;
-        
-        console.log(id, open_apis);
 
         let ids = [];
         for (let id in open_apis) {
@@ -1214,7 +1212,8 @@ const useOpens = () => {
         CURRENT_PROJECT_ID,
         CURRENT_TARGET_ID,
         desktop_proxy,
-        open_api_now
+        open_api_now,
+        open_apis
     ]);
 
     // 保存接口 ByID
