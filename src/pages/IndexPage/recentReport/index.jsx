@@ -15,17 +15,26 @@ import { debounce } from 'lodash';
 import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { isArray } from 'lodash';
+
+
+import { DatePicker } from '@arco-design/web-react';
+const { RangePicker } = DatePicker;
 
 const RecentReport = () => {
 
     const [reportList, setReportList] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [total, setTotal] = useState(0);
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
+    
     const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('index_page')) || 1);
-    const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('index_pagesize')) || 10 );
+    const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('index_pagesize')) || 10);
+    const theme = useSelector((store) => store.user.theme);
     const navigate = useNavigate();
     const { t } = useTranslation();
-
     const modeList = {
         '1': '并发模式',
         '2': '阶梯模式',
@@ -41,7 +50,8 @@ const RecentReport = () => {
 
     useEffect(() => {
         getReportData();
-    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize]);
+    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize, startTime, endTime]);
+
 
     const getReportData = () => {
         const query = {
@@ -49,8 +59,8 @@ const RecentReport = () => {
             size: pageSize,
             team_id: localStorage.getItem('team_id'),
             keyword,
-            start_time_sec: '',
-            end_time_sec: '',
+            start_time_sec: startTime,
+            end_time_sec: endTime,
         }
         fetchReportList(query)
             .pipe(
@@ -134,26 +144,26 @@ const RecentReport = () => {
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
-            filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
-            onFilter:(key, value, item) => item.task_type === value,
+            filters: [{ key: 1, value: "普通任务" }, { key: 2, value: "定时任务" }],
+            onFilter: (key, value, item) => item.task_type === value,
             // width: 200,
         },
         {
             title: t('index.mode'),
             dataIndex: 'task_mode',
-            filters: [{ key: 1, value:"并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value:"响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
+            filters: [{ key: 1, value: "并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value: "响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
             onFilter: (key, value, item) => item.task_mode === value,
             // width: 200,
         },
         {
             title: t('index.startTime'),
             dataIndex: 'run_time_sec',
-            // width: 200,
+            width: 200,
         },
         {
             title: t('index.endTime'),
             dataIndex: 'last_time_sec',
-            // width: 200,
+            width: 200,
         },
         {
             title: t('index.performer'),
@@ -164,7 +174,7 @@ const RecentReport = () => {
             title: t('index.status'),
             dataIndex: 'status',
             // width: 200,
-            
+
         },
         {
             title: t('index.handle'),
@@ -180,44 +190,78 @@ const RecentReport = () => {
             localStorage.setItem('index_pagesize', size);
         }
         sessionStorage.setItem('index_page', page);
-        page!== currentPage && setCurrentPage(page);
+        page !== currentPage && setCurrentPage(page);
         size !== pageSize && setPageSize(size);
     };
 
 
     const renderRow = (tableData, renderRowItem) => {
         return (
-          <tbody>
-            {tableData.map((tableRowData, rowIndex) => {
-              const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
-                key: rowIndex,
-                onDoubleClick(tableRowData) {
+            <tbody>
+                {tableData.map((tableRowData, rowIndex) => {
+                    const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
+                        key: rowIndex,
+                        onDoubleClick(tableRowData) {
 
-                  const { report_id } = tableData[rowIndex]
-                  navigate(`/report/detail/${report_id}`)
-                },
-              });
-              return rowComp;
-            })}
-          </tbody>
+                            const { report_id } = tableData[rowIndex]
+                            navigate(`/report/detail/${report_id}`)
+                        },
+                    });
+                    return rowComp;
+                })}
+            </tbody>
         );
-      };
+    };
 
+    // const mode = value === 'date time' ? 'date' : value;
+    // const style =
+    //     value === 'date time'
+    //         ? {
+    //             width: 380,
+    //         }
+    //         : {
+    //             width: 254,
+    //             marginBottom: 20,
+    //         };
+    const onChange = (dateString, date) => {
+        console.log('onChange: ', dateString, date);
+        if (isArray(dateString)) {
+            const [start, end] = dateString;
+            setStartTime(new Date(start).getTime() / 1000);
+            setEndTime(new Date(end).getTime() / 1000);
+        } else {
+            setStartTime('');
+            setEndTime('');
+        }
+    }
+
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.body.setAttribute('arco-theme', 'dark');
+        } else {
+            document.body.removeAttribute('arco-theme');
+        }
+    }, [theme]);
     return (
         <div className='recent-report'>
-            <p className='title'>{ t('index.recentReport') }</p>
+            <p className='title'>{t('index.recentReport')}</p>
             <div className='report-search'>
                 <Input
                     className="textBox"
                     value={keyword}
                     onChange={getNewKeyword}
                     beforeFix={<SvgSearch />}
-                    placeholder={ t('index.placeholder') }
+                    placeholder={t('index.placeholder')}
+                />
+                <RangePicker
+                    mode="date"
+                    onChange={onChange}
+                    showTime="true"
                 />
                 {/* <Button className='searchBtn'>搜索</Button> */}
             </div>
             <Table className="report-table" showBorder renderRow={renderRow} columns={columns} data={reportList} noDataElement={<div className='empty'> <SvgEmpty /> <p>还没有数据</p></div>} />
-            { total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
+            {total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )
 };

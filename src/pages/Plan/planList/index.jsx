@@ -20,6 +20,9 @@ import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
 
+import { DatePicker } from '@arco-design/web-react';
+const { RangePicker } = DatePicker;
+
 const PlanList = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -28,6 +31,9 @@ const PlanList = () => {
     const [total, setTotal] = useState(0);
     const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('plan_pagesize')) || 10);
     const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('plan_page')) || 1);
+
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
     const dispatch = useDispatch();
     const refreshList = useSelector((store) => store.plan.refreshList);
     const id_apis_plan = useSelector((d) => d.plan.id_apis);
@@ -81,14 +87,14 @@ const PlanList = () => {
                     } else {
                         Message('error', t('message.stopError'));
                     }
-                })}> { t('btn.finish') } </Button> :
+                })}> {t('btn.finish')} </Button> :
                     <Button className='run-btn' preFix={<SvgRun />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
                         if (code === 0) {
                             getPlanList();
                         } else {
                             Message('error', t('message.handleError'));
                         }
-                    })}>{ t('btn.start') }</Button>}
+                    })}>{t('btn.start')}</Button>}
                 <div className='handle-icons'>
                     <SvgEye onClick={() => {
                         dispatch({
@@ -139,7 +145,7 @@ const PlanList = () => {
         return () => {
             clearInterval(plan_t);
         }
-    }, [refreshList, keyword, currentPage, pageSize]);
+    }, [refreshList, keyword, currentPage, pageSize, startTime, endTime]);
 
     const getPlanList = () => {
         const query = {
@@ -147,8 +153,8 @@ const PlanList = () => {
             size: pageSize,
             team_id: localStorage.getItem('team_id'),
             keyword,
-            start_time_sec: '',
-            end_time_sec: '',
+            start_time_sec: startTime,
+            end_time_sec: endTime,
         };
         fetchPlanList(query).subscribe({
             next: (res) => {
@@ -198,26 +204,26 @@ const PlanList = () => {
         {
             title: t('plan.taskType'),
             dataIndex: 'task_type',
-            filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
-            onFilter:(key, value, item) => item.task_type == value,
+            filters: [{ key: 1, value: "普通任务" }, { key: 2, value: "定时任务" }],
+            onFilter: (key, value, item) => item.task_type == value,
             // width: 190,
         },
         {
             title: t('plan.mode'),
             dataIndex: 'mode',
-            filters: [{ key: 1, value:"并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value:"响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
+            filters: [{ key: 1, value: "并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value: "响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
             onFilter: (key, value, item) => item.mode === value,
             // width: 190,
         },
         {
             title: t('plan.createTime'),
             dataIndex: 'created_time_sec',
-            // width: 190,
+            width: 190,
         },
         {
             title: t('plan.updateTime'),
             dataIndex: 'updated_time_sec',
-            // width: 190,
+            width: 190,
         },
         {
             title: t('plan.status'),
@@ -243,6 +249,11 @@ const PlanList = () => {
 
     const getNewkeyword = debounce((e) => setKeyword(e), 500);
 
+    const getSelectDate = (startTime, endTime) => {
+        setStartTime(startTime);
+        setEndTime(endTime);
+    }
+
     const pageChange = (page, size) => {
         if (size !== pageSize) {
             localStorage.setItem('plan_pagesize', size);
@@ -254,42 +265,41 @@ const PlanList = () => {
 
     const renderRow = (tableData, renderRowItem) => {
         return (
-          <tbody>
-            {tableData.map((tableRowData, rowIndex) => {
-              const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
-                key: rowIndex,
-                onDoubleClick(tableRowData) {
-                  const { plan_id } = tableData[rowIndex];
+            <tbody>
+                {tableData.map((tableRowData, rowIndex) => {
+                    const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
+                        key: rowIndex,
+                        onDoubleClick(tableRowData) {
+                            const { plan_id } = tableData[rowIndex];
 
-                  dispatch({
-                    type: 'plan/updateOpenPlan',
-                    payload: tableData[rowIndex]
-                })
-                dispatch({
-                    type: 'plan/updateOpenScene',
-                    payload: null,
-                })
-                // let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
-                // console.log(planMap);
-                // if (planMap[plan_id]) {
-                //     console.log(planMap[plan_id]);
-                //     Bus.$emit('addOpenPlanScene', { target_id: planMap[plan_id] }, id_apis_plan, node_config_plan)
-                // }
-                navigate(`/plan/detail/${plan_id}`);
-                },
-              });
-              return rowComp;
-            })}
-          </tbody>
+                            dispatch({
+                                type: 'plan/updateOpenPlan',
+                                payload: tableData[rowIndex]
+                            })
+                            dispatch({
+                                type: 'plan/updateOpenScene',
+                                payload: null,
+                            })
+                            // let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
+                            // console.log(planMap);
+                            // if (planMap[plan_id]) {
+                            //     console.log(planMap[plan_id]);
+                            //     Bus.$emit('addOpenPlanScene', { target_id: planMap[plan_id] }, id_apis_plan, node_config_plan)
+                            // }
+                            navigate(`/plan/detail/${plan_id}`);
+                        },
+                    });
+                    return rowComp;
+                })}
+            </tbody>
         );
-      };
-
+    };
 
 
     return (
         <div className='plan'>
-            <PlanHeader onChange={getNewkeyword} />
-            <Table renderRow={renderRow} className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>{ t('index.emptyData') }</p> </div>} />
+            <PlanHeader onChange={getNewkeyword} onDateChange={getSelectDate} />
+            <Table renderRow={renderRow} className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>{t('index.emptyData')}</p> </div>} />
             {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )

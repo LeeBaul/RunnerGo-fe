@@ -5,6 +5,7 @@ import { HashRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import store from '../redux/store';
 import 'adesign-react/libs/style.css';
+import "@arco-design/web-react/dist/css/arco.css";
 import './reset.less';
 import './index.less';
 import './public.less';

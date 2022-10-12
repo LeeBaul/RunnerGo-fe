@@ -26,6 +26,9 @@ const ReportList = () => {
     const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('report_page')) || 1);
     const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('report_pagesize')) || 10);
 
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
+
     const modeList = {
         '1': '并发模式',
         '2': '阶梯模式',
@@ -90,7 +93,7 @@ const ReportList = () => {
         return () => {
             clearInterval(report_t);
         }
-    }, [keyword, currentPage, pageSize]);
+    }, [keyword, currentPage, pageSize, startTime, endTime]);
 
     const getReportData = () => {
         const query = {
@@ -98,8 +101,8 @@ const ReportList = () => {
             size: pageSize,
             team_id: localStorage.getItem('team_id'),
             keyword,
-            start_time_sec: '',
-            end_time_sec: '',
+            start_time_sec: startTime,
+            end_time_sec: endTime,
         };
         fetchReportList(query).subscribe({
             next: (res) => {
@@ -114,10 +117,10 @@ const ReportList = () => {
                     return {
                         ...item,
                         rank,
-                        plan_name: 
-                        <Tooltip content={<div>{plan_name}</div>}>
-                            <div className='ellipsis'>{plan_name}</div>
-                        </Tooltip>,
+                        plan_name:
+                            <Tooltip content={<div>{plan_name}</div>}>
+                                <div className='ellipsis'>{plan_name}</div>
+                            </Tooltip>,
                         task_mode: modeList[task_mode],
                         status: statusList[status],
                         task_type: taskList[task_type],
@@ -129,7 +132,7 @@ const ReportList = () => {
                 // if (!bool) {
                 //     report_t && clearInterval(report_t);
                 // }
-                
+
                 setReportList(list);
             }
         })
@@ -154,8 +157,8 @@ const ReportList = () => {
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
-            filters:[{key:1 ,value:"普通任务"},{key:2,value:"定时任务"}],
-            onFilter:(key, value, item) => item.task_type == value,
+            filters: [{ key: 1, value: "普通任务" }, { key: 2, value: "定时任务" }],
+            onFilter: (key, value, item) => item.task_type == value,
             // width: 200
         },
         {
@@ -166,12 +169,12 @@ const ReportList = () => {
         {
             title: t('index.startTime'),
             dataIndex: 'run_time_sec',
-            // width: 200
+            width: 200
         },
         {
             title: t('index.endTime'),
             dataIndex: 'last_time_sec',
-            // width: 200
+            width: 200
         },
         {
             title: t('index.performer'),
@@ -203,28 +206,33 @@ const ReportList = () => {
 
     const renderRow = (tableData, renderRowItem) => {
         return (
-          <tbody>
-            {tableData.map((tableRowData, rowIndex) => {
-              const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
-                key: rowIndex,
-                onDoubleClick(tableRowData) {
+            <tbody>
+                {tableData.map((tableRowData, rowIndex) => {
+                    const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
+                        key: rowIndex,
+                        onDoubleClick(tableRowData) {
 
-                  const { report_id } = tableData[rowIndex]
-                  navigate(`/report/detail/${report_id}`)
-                },
-              });
-              return rowComp;
-            })}
-          </tbody>
+                            const { report_id } = tableData[rowIndex]
+                            navigate(`/report/detail/${report_id}`)
+                        },
+                    });
+                    return rowComp;
+                })}
+            </tbody>
         );
-      };
-    
+    };
+
+    const getSelectDate = (startTime, endTime) => {
+        setStartTime(startTime);
+        setEndTime(endTime);
+    }
+
 
     return (
         <div className='report'>
-            <ReportListHeader onChange={getNewkeyword} />
+            <ReportListHeader onChange={getNewkeyword} onDateChange={getSelectDate} />
             <Table className="report-table" showBorder renderRow={renderRow} columns={columns} data={reportList} noDataElement={<div className='empty'><SvgEmpty /><p>还没有数据</p></div>} />
-            { total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} /> }
+            {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )
 };
