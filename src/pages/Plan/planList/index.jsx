@@ -217,7 +217,7 @@ const PlanList = () => {
                 { text: "定时任务", value: "定时任务" }
             ],
             onFilter: (value, item) => item.task_type == value,
-            // width: 190,
+            width: 135
         },
         {
             title: t('plan.mode'),

@@ -135,7 +135,7 @@ const RecentReport = () => {
         {
             title: t('index.reportId'),
             dataIndex: 'rank',
-            // width: 84
+            width: 105,
         },
         {
             title: t('index.planName'),
@@ -157,7 +157,7 @@ const RecentReport = () => {
                 { text: "定时任务", value: "定时任务" }
             ],
             onFilter: (value, item) => item.task_type === value,
-            // width: 200,
+            width: 135,
         },
         {
             title: t('index.mode'),
