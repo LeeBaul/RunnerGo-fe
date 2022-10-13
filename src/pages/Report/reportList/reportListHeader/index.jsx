@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { Input, Button } from 'adesign-react';
+import { Input, Button, Tooltip } from 'adesign-react';
 import {
     Search as SvgSearch,
     Add as SvgAdd
@@ -15,7 +15,7 @@ import { DatePicker } from '@arco-design/web-react';
 const { RangePicker } = DatePicker;
 
 const ReportListHeader = (props) => {
-    const { onChange, onDateChange } = props;
+    const { onChange, onDateChange, selectedRowKeys } = props;
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [keyword, setKeyword] = useState('');
@@ -58,7 +58,11 @@ const ReportListHeader = (props) => {
                     onChange={DateChange}
                     showTime="true"
                 />
-                {/* <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button> */}
+                <Tooltip
+                    content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
+                >
+                    <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5}>{t('btn.contrast')}</Button>
+                </Tooltip>
             </div>
             {/* <div className='report-header-right'>
                 <Button className='createBtn' preFix={<SvgAdd />} onClick={() => navigate('/plan/detail')}>新建计划</Button>

@@ -96,7 +96,8 @@
         "loginNow": "立即登录",
         "quitTeam": "退出团队",
         "transferTeam": "移交团队",
-        "confirmDissmiss": "确认解散"
+        "confirmDissmiss": "确认解散",
+        "contrast": "对比"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -206,7 +207,8 @@
         "endTime": "结束时间",
         "performer": "执行者",
         "status": "状态",
-        "handle": "操作"
+        "handle": "操作",
+        "contrastText": "请选择2-5份报告进行对比"
     },
     "apis": {
         "recycle": "回收站",

@@ -96,7 +96,8 @@
         "loginNow": "Sign in now",
         "quitTeam": "Exit the team",
         "transferTeam": "Handover Team",
-        "confirmDissmiss": "Confirm dissolution"
+        "confirmDissmiss": "Confirm dissolution",
+        "contrast": "contrast"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -206,7 +207,8 @@
         "endTime": "End time",
         "performer": "performer",
         "status": "Status",
-        "handle": "operation"
+        "handle": "operation",
+        "contrastText": "Please select 2-5 reports for comparison"
     },
     "apis": {
         "recycle": "Recycle Bin",

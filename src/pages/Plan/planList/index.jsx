@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Message, Tooltip, Modal } from 'adesign-react';
+import { Button, Message, Tooltip, Modal } from 'adesign-react';
 import './index.less';
 import PlanHeader from '../planHeader';
 import {
@@ -20,8 +20,7 @@ import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
 
-import { DatePicker } from '@arco-design/web-react';
-const { RangePicker } = DatePicker;
+import { DatePicker, Table } from '@arco-design/web-react';
 
 const PlanList = () => {
     const { t } = useTranslation();
@@ -162,7 +161,7 @@ const PlanList = () => {
                 setTotal(total);
                 // let bool = false;
                 const planList = plans.map(item => {
-                    const { task_type, mode, status, created_time_sec, updated_time_sec, name, rank } = item;
+                    const { task_type, mode, status, created_time_sec, updated_time_sec, name, rank, created_user_name, remark } = item;
                     // if (status === 1) {
                     //     bool = true;
                     // }
@@ -172,6 +171,14 @@ const PlanList = () => {
                         name:
                             <Tooltip content={<div>{name}</div>}>
                                 <div className='ellipsis'>{name}</div>
+                            </Tooltip>,
+                        created_user_name:
+                            <Tooltip content={<div>{created_user_name}</div>}>
+                                <div className='ellipsis'>{created_user_name}</div>
+                            </Tooltip>,
+                         remark:
+                            <Tooltip content={<div>{remark}</div>}>
+                                <div className='ellipsis'>{remark}</div>
                             </Tooltip>,
                         task_type: taskList[task_type],
                         mode: modeList[mode],
@@ -199,19 +206,29 @@ const PlanList = () => {
         {
             title: t('plan.planName'),
             dataIndex: 'name',
+            ellipsis: true
             // width: 190,
         },
         {
             title: t('plan.taskType'),
             dataIndex: 'task_type',
-            filters: [{ key: 1, value: "普通任务" }, { key: 2, value: "定时任务" }],
-            onFilter: (key, value, item) => item.task_type == value,
+            filters: [
+                { text: "普通任务", value: "普通任务" },
+                { text: "定时任务", value: "定时任务" }
+            ],
+            onFilter: (value, item) => item.task_type == value,
             // width: 190,
         },
         {
             title: t('plan.mode'),
             dataIndex: 'mode',
-            filters: [{ key: 1, value: "并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value: "响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
+            filters: [
+                { text: "并发模式", value: "并发模式" },
+                { text: "阶梯模式", value: "阶梯模式" },
+                { text: "错误率模式", value: "错误率模式" },
+                { text: "响应时间模式", value: "响应时间模式" },
+                { text: "每秒请求数模式", value: "每秒请求数模式" }
+            ],
             onFilter: (key, value, item) => item.mode === value,
             // width: 190,
         },
@@ -233,17 +250,19 @@ const PlanList = () => {
         {
             title: t('plan.operator'),
             dataIndex: 'created_user_name',
+            ellipsis: true
             // width: 190,
         },
         {
             title: t('plan.remark'),
             dataIndex: 'remark',
+            ellipsis: true
             // width: 190,
         },
         {
             title: t('plan.handle'),
             dataIndex: 'handle',
-            width: 196,
+            width: 226,
         }
     ];
 
@@ -299,7 +318,34 @@ const PlanList = () => {
     return (
         <div className='plan'>
             <PlanHeader onChange={getNewkeyword} onDateChange={getSelectDate} />
-            <Table renderRow={renderRow} className="plan-table" showBorder columns={columns} data={planList} noDataElement={<div className='empty'><SvgEmpty /> <p>{t('index.emptyData')}</p> </div>} />
+            <Table
+                className="plan-table"
+                border={{
+                    wrapper: true,
+                    cell: true,
+                }}
+                pagination={false}
+                columns={columns}
+                data={planList}
+                noDataElement={<div className='empty'><SvgEmpty /> <p>{t('index.emptyData')}</p> </div>} 
+                onRow={(record, index) => {
+                    return {
+                        onDoubleClick: (event) => {
+                            const { plan_id } = record;
+
+                            dispatch({
+                                type: 'plan/updateOpenPlan',
+                                payload: record
+                            })
+                            dispatch({
+                                type: 'plan/updateOpenScene',
+                                payload: null,
+                            })
+                            navigate(`/plan/detail/${plan_id}`);
+                        },
+                    };
+                }}
+            />
             {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )

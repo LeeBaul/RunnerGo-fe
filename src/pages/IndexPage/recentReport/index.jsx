@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { Table, Input, Button, Message, Tooltip, Modal } from 'adesign-react';
+import { Input, Button, Message, Tooltip, Modal } from 'adesign-react';
 import {
     Iconeye as SvgEye,
     Export as SvgExport,
@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux';
 import { isArray } from 'lodash';
 
 
-import { DatePicker } from '@arco-design/web-react';
+import { DatePicker, Table } from '@arco-design/web-react';
 const { RangePicker } = DatePicker;
 
 const RecentReport = () => {
@@ -29,7 +29,7 @@ const RecentReport = () => {
     const [total, setTotal] = useState(0);
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
-    
+
     const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('index_page')) || 1);
     const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('index_pagesize')) || 10);
     const theme = useSelector((store) => store.user.theme);
@@ -75,12 +75,18 @@ const RecentReport = () => {
                                 ...item,
                                 rank,
                                 plan_name: <Tooltip content={<div>{plan_name}</div>}><div className='ellipsis'>{plan_name}</div></Tooltip>,
-                                scene_name,
+                                scene_name:
+                                <Tooltip content={<div>{scene_name}</div>}>
+                                    <div className='ellipsis'>{scene_name}</div>
+                                </Tooltip>,
+                                run_user_name:
+                                <Tooltip content={<div>{run_user_name}</div>}>
+                                    <div className='ellipsis'>{run_user_name}</div>
+                                </Tooltip>,
                                 task_mode: modeList[task_mode],
                                 task_type: taskLit[task_type],
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 last_time_sec: dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                                run_user_name,
                                 status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>运行中</p> : <p>已完成</p>,
                                 operation: <HandleContent report_id={report_id} />
                             }
@@ -134,25 +140,36 @@ const RecentReport = () => {
         {
             title: t('index.planName'),
             dataIndex: 'plan_name',
+            ellipsis: true
             // width: 200
         },
         {
             title: t('index.sceneName'),
             dataIndex: 'scene_name',
+            ellipsis: true
             // width: 200
         },
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
-            filters: [{ key: 1, value: "普通任务" }, { key: 2, value: "定时任务" }],
-            onFilter: (key, value, item) => item.task_type === value,
+            filters: [
+                { text: "普通任务", value: "普通任务" },
+                { text: "定时任务", value: "定时任务" }
+            ],
+            onFilter: (value, item) => item.task_type === value,
             // width: 200,
         },
         {
             title: t('index.mode'),
             dataIndex: 'task_mode',
-            filters: [{ key: 1, value: "并发模式" }, { key: 2, value: "阶梯模式" }, { key: 3, value: "错误率模式" }, { key: 4, value: "响应时间模式" }, { key: 5, value: "每秒请求数模式" }],
-            onFilter: (key, value, item) => item.task_mode === value,
+            filters: [
+                { text: "并发模式", value: "并发模式" },
+                { text: "阶梯模式", value: "阶梯模式" },
+                { text: "错误率模式", value: "错误率模式" },
+                { text: "响应时间模式", value: "响应时间模式" },
+                { text: "每秒请求数模式", value: "每秒请求数模式" }
+            ],
+            onFilter: (value, item) => item.task_mode === value,
             // width: 200,
         },
         {
@@ -168,6 +185,7 @@ const RecentReport = () => {
         {
             title: t('index.performer'),
             dataIndex: 'run_user_name',
+            ellipsis: true
             // width: 200,
         },
         {
@@ -242,6 +260,9 @@ const RecentReport = () => {
             document.body.removeAttribute('arco-theme');
         }
     }, [theme]);
+
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [selectReport, setSelectReport] = useState(false);
     return (
         <div className='recent-report'>
             <p className='title'>{t('index.recentReport')}</p>
@@ -258,9 +279,42 @@ const RecentReport = () => {
                     onChange={onChange}
                     showTime="true"
                 />
-                {/* <Button className='searchBtn'>搜索</Button> */}
+                <Tooltip
+                    content={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : '' }
+                >
+                    <Button className='contrast-btn' disabled={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 }>{t('btn.contrast')}</Button>
+                </Tooltip>
             </div>
-            <Table className="report-table" showBorder renderRow={renderRow} columns={columns} data={reportList} noDataElement={<div className='empty'> <SvgEmpty /> <p>还没有数据</p></div>} />
+            <Table
+                className="report-table"
+                border={{
+                    wrapper: true,
+                    cell: true,
+                }}
+                columns={columns}
+                data={reportList}
+                pagination={false}
+                noDataElement={<div className='empty'> <SvgEmpty /> <p>{ t('index.emptyData') }</p></div>}
+                rowKey='report_id'
+                rowSelection={
+                    {
+                        type: 'checkbox',
+                        selectedRowKeys,
+                        onChange: (selectedRowKeys, selectedRows) => {
+                            console.log('onChange:', selectedRowKeys, selectedRows);
+                            setSelectedRowKeys(selectedRowKeys);
+                        },
+                    }
+                }
+                onRow={(record, index) => {
+                    return {
+                        onDoubleClick: (event) => {
+                            const { report_id } = record;
+                            navigate(`/report/detail/${report_id}`)
+                        },
+                    };
+                }}
+            />
             {total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )

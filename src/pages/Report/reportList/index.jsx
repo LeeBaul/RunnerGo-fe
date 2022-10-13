@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Message, Tooltip, Modal } from 'adesign-react';
+import { Button, Message, Tooltip, Modal } from 'adesign-react';
 import './index.less';
 import ReportListHeader from './reportListHeader';
 import {
@@ -16,6 +16,8 @@ import dayjs from 'dayjs';
 import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
+
+import { Table } from '@arco-design/web-react';
 
 const ReportList = () => {
     const navigate = useNavigate();
@@ -110,7 +112,7 @@ const ReportList = () => {
                 setTotal(total);
                 // let bool = false;
                 const list = reports.map(item => {
-                    const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id, plan_name, rank } = item;
+                    const { task_type, task_mode, status, run_time_sec, last_time_sec, report_id, plan_name, rank, scene_name, run_user_name } = item;
                     // if (status === 1) {
                     //     bool = true;
                     // }
@@ -120,6 +122,14 @@ const ReportList = () => {
                         plan_name:
                             <Tooltip content={<div>{plan_name}</div>}>
                                 <div className='ellipsis'>{plan_name}</div>
+                            </Tooltip>,
+                        scene_name:
+                            <Tooltip content={<div>{scene_name}</div>}>
+                                <div className='ellipsis'>{scene_name}</div>
+                            </Tooltip>,
+                        run_user_name:
+                            <Tooltip content={<div>{run_user_name}</div>}>
+                                <div className='ellipsis'>{run_user_name}</div>
                             </Tooltip>,
                         task_mode: modeList[task_mode],
                         status: statusList[status],
@@ -147,23 +157,36 @@ const ReportList = () => {
         {
             title: t('index.planName'),
             dataIndex: 'plan_name',
+            ellipsis: true
             // width: 200
         },
         {
             title: t('index.sceneName'),
             dataIndex: 'scene_name',
+            ellipsis: true
             // width: 200
         },
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
-            filters: [{ key: 1, value: "普通任务" }, { key: 2, value: "定时任务" }],
-            onFilter: (key, value, item) => item.task_type == value,
+            filters: [
+                { text: "普通任务", value: "普通任务" },
+                { text: "定时任务", value: "定时任务" }
+            ],
+            onFilter: (value, item) => item.task_type === value,
             // width: 200
         },
         {
             title: t('index.mode'),
             dataIndex: 'task_mode',
+            filters: [
+                { text: "并发模式", value: "并发模式" },
+                { text: "阶梯模式", value: "阶梯模式" },
+                { text: "错误率模式", value: "错误率模式" },
+                { text: "响应时间模式", value: "响应时间模式" },
+                { text: "每秒请求数模式", value: "每秒请求数模式" }
+            ],
+            onFilter: (value, item) => item.task_mode === value,
             // width: 200
         },
         {
@@ -179,12 +202,13 @@ const ReportList = () => {
         {
             title: t('index.performer'),
             dataIndex: 'run_user_name',
+            ellipsis: true
             // width: 200
         },
         {
             title: t('index.status'),
             dataIndex: 'status',
-            // width: 200
+            width: 120,
         },
         {
             title: t('index.handle'),
@@ -227,11 +251,42 @@ const ReportList = () => {
         setEndTime(endTime);
     }
 
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
 
     return (
         <div className='report'>
-            <ReportListHeader onChange={getNewkeyword} onDateChange={getSelectDate} />
-            <Table className="report-table" showBorder renderRow={renderRow} columns={columns} data={reportList} noDataElement={<div className='empty'><SvgEmpty /><p>还没有数据</p></div>} />
+            <ReportListHeader onChange={getNewkeyword} onDateChange={getSelectDate} selectedRowKeys={selectedRowKeys} />
+            <Table
+                className="report-table"
+                border={{
+                    wrapper: true,
+                    cell: true,
+                }}
+                pagination={false}
+                columns={columns}
+                data={reportList}
+                noDataElement={<div className='empty'><SvgEmpty /><p>{t('index.emptyData')}</p></div>}
+                rowKey='report_id'
+                rowSelection={
+                    {
+                        type: 'checkbox',
+                        selectedRowKeys,
+                        onChange: (selectedRowKeys, selectedRows) => {
+                            console.log('onChange:', selectedRowKeys, selectedRows);
+                            setSelectedRowKeys(selectedRowKeys);
+                        },
+                    }
+                }
+                onRow={(record, index) => {
+                    return {
+                        onDoubleClick: (event) => {
+                            const { report_id } = record;
+                            navigate(`/report/detail/${report_id}`)
+                        },
+                    };
+                }}
+            />
             {total > 0 && <Pagination total={total} size={pageSize} current={currentPage} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
         </div>
     )
