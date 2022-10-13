@@ -15,7 +15,7 @@ const NtlmAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                // value={value?.ntlm[k]}
+                value={value.ntlm[k]}
                 placeholder={ntlmPlacrholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);

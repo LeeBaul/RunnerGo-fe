@@ -16,8 +16,7 @@ const DigestAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                // value={value?.digest[k]}
-                value={value.basic.username}
+                value={value?.digest[k]}
                 placeholder={digestPlaceholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
@@ -29,8 +28,7 @@ const DigestAuth = (props) => {
               <div className="title">{k}</div>
               <Select
                 size="mini"
-                // value={value?.digest[k]}
-                value={value.basic.password}
+                value={value?.digest[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
                 }}

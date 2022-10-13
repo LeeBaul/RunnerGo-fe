@@ -14,7 +14,7 @@ const BearerAuth = (props) => {
             <AuthInput
               size="mini"
               placeholder="Token（支持变量）"
-              // value={value?.bearer?.key}
+              value={value.bearer.key}
               onChange={(val) => {
                 handleAttrChange(type, 'key', val);
               }}

@@ -15,7 +15,7 @@ const EdgeridAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                // value={value?.edgegrid[k]}
+                value={value.edgegrid[k]}
                 placeholder={edgegridPlaceholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);

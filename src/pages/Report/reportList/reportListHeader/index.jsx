@@ -61,7 +61,11 @@ const ReportListHeader = (props) => {
                 <Tooltip
                     content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
                 >
-                    <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5}>{t('btn.contrast')}</Button>
+                    <Button 
+                        className='contrast-btn' 
+                        disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5}>
+                        {t('btn.contrast')}
+                    </Button>
                 </Tooltip>
             </div>
             {/* <div className='report-header-right'>

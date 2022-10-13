@@ -18,7 +18,7 @@ const HawkAuth = (props) => {
               <div className="title">{k}</div>
               <AuthInput
                 size="mini"
-                // value={value?.hawk[k]}
+                value={value.hawk[k]}
                 placeholder={hawkPlaceholder[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
@@ -30,7 +30,7 @@ const HawkAuth = (props) => {
               <div className="title">{k}</div>
               <Select
                 size="mini"
-                // value={value?.hawk[k]}
+                value={value.hawk[k]}
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
                 }}
