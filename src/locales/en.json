@@ -19,7 +19,8 @@
         "emailSuccess": "The email with password retrieved was sent successfully! Please log in to your email to view",
         "email": "email",
         "email_tips": "If you don't receive it, please try to check your mailbox trash or try again later",
-        "send_again": "You can resend the password reset email with the following buttons"
+        "send_again": "You can resend the password reset email with the following buttons",
+        "reset": "reset password"
     },
     "header": {
         "import": "import",
@@ -65,7 +66,8 @@
         "password": "Please input a password",
         "confirmPwd": "Please confirm the password",
         "nickname": "Please enter your nickname",
-        "teamName": "Please enter the team name"
+        "teamName": "Please enter the team name",
+        "newPwd": "Please enter a new password"
     },
     "btn": {
         "cancel": "cancel",

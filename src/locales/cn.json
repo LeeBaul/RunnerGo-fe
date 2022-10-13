@@ -19,7 +19,8 @@
         "emailSuccess": "找回密码邮件发送成功! 请登录您的邮箱查看",
         "email": "邮箱",
         "email_tips": "如果没有收到, 请尝试查看您的邮箱垃圾箱或者稍后再试",
-        "send_again": "您可以通过以下按钮重新发送密码重置邮件"
+        "send_again": "您可以通过以下按钮重新发送密码重置邮件",
+        "reset": "重置密码"
     },
     "header": {
         "import": "导入",
@@ -65,7 +66,8 @@
         "password": "请输入密码",
         "confirmPwd": "请确认密码",
         "nickname": "请输入昵称",
-        "teamName": "请输入团队名称"
+        "teamName": "请输入团队名称",
+        "newPwd": "请输入新密码"
     },
     "btn": {
         "cancel": "取消",

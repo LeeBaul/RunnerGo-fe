@@ -23,7 +23,7 @@ const App = () => {
     const location = useLocation();
     const [showLayout, setLayout] = useState(false);
 
-    const ignorePage = ['/login', '/register', '/find']
+    const ignorePage = ['/login', '/register', '/find', '/reset']
 
     useEffect(() => {
         // const token = getCookie('token');

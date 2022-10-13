@@ -3,62 +3,56 @@ import { Input, Button, Message } from 'adesign-react';
 import './index.less';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import getVcodefun from '@utils/getVcode';
-import { EamilReg } from '@utils';
+
 import cn from 'classnames';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [email, setEmail] = useState('');
-    // 极验验证码
-    const [vcodeObj, setVcodeObj] = useState({});
-    const [emailError, setEmailError] = useState(false);
-    const [send, setSend] = useState(false);
+    const [pwd, setPwd] = useState('');
+    const [confirmPwd, setConfirmPwd] = useState('');
 
-    const getVcodeUrl = async () => {
-        const { result, captcha } = await getVcodefun();
-        setVcodeObj(result);
-    };
-
-    useEffect(() => {
-        getVcodeUrl();
-    }, []);
-
-    const checkEmail = () => {
-        if (!EamilReg(email)) {
-            setEmailError(true);
-        } else {
-            setEmailError(false);
-        }
-    }
-
+    const [pwdDiff, setPwdDiff] = useState(false);
 
     const resetPwd = () => {
         if (Object.keys(vcodeObj).length === 0) {
             return Message('error', t('message.check'));
         }
-        if (emailError) {
+        if (pwdDiff) {
             return;
         }
-        setSend(true);
+
+    }
+
+    const checkPwd = () => {
+        if (pwd !== confirmPwd) {
+            setPwdDiff(true);
+        } else {
+            setPwdDiff(false);
+        }
     }
     return (
-        <div className="find-password">
-            <div className='title'>{t('sign.findPwd')}</div>
+        <div className="reset-password">
+            <div className='title'>{t('sign.reset')}</div>
             <Input
-                className={cn('find-input', { 'input-error': emailError })}
-                placeholder={t('placeholder.email')}
-                value={email}
+                className="reset-input"
+                placeholder={t('placeholder.newPwd')}
+                value={pwd}
                 onChange={(value) => {
-                    setEmail(value);
+                    setPwd(value);
                 }}
-                onBlur={() => checkEmail()}
             />
-            {emailError && <p className='error-tips'>{t('sign.errorEmail')}</p>}
-            <div id="captcha"></div>
-            <Button onClick={() => resetPwd()}>{t('sign.resetPwd')}</Button>
-            <div className='to-login' onClick={() => navigate('/login')}>{t('sign.findToLogin')} &gt; </div>
+            <Input
+                className={cn('reset-input', { 'input-error': pwdDiff })}
+                placeholder={t('placeholder.confirmPwd')}
+                value={confirmPwd}
+                onChange={(value) => {
+                    setConfirmPwd(value);
+                }}
+                onBlur={() => checkPwd()}
+            />
+            { pwdDiff && <p className='error-tips'>{ t('sign.confirmError') }</p> }
+            <Button onClick={() => resetPwd()}>{t('sign.reset')}</Button>
         </div>
     )
 };

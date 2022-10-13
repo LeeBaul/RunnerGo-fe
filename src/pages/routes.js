@@ -2,6 +2,7 @@ import Login from "./Login";
 import LoginBox from "./Login/login";
 import RegisterBox from "./Login/register";
 import FindPassword from "./RetrievePassword";
+import ResetPassword from "./ResetPassword";
 import Apis from './ApisWarper';
 import IndexPage from "./IndexPage";
 import Scene from "./Scene";
@@ -29,6 +30,11 @@ const Route = [
         name: 'find',
         path: '/find',
         element: () => <Login><FindPassword /></Login>
+    },
+    {
+        name: 'reset',
+        path: '/reset',
+        element: () => <Login><ResetPassword /></Login>
     },
     {
         name: 'index',
@@ -72,7 +78,7 @@ const Route = [
     }
 ];
 
-const ignorePage = ['login', 'register', 'find', 'userhome'];
+const ignorePage = ['login', 'register', 'find', 'userhome', 'reset'];
 
 // export const RoutePages = Route;
 
