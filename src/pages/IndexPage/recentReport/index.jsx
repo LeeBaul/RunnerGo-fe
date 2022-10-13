@@ -170,7 +170,7 @@ const RecentReport = () => {
                 { text: "每秒请求数模式", value: "每秒请求数模式" }
             ],
             onFilter: (value, item) => item.task_mode === value,
-            // width: 200,
+            width: 135
         },
         {
             title: t('index.startTime'),
@@ -263,6 +263,17 @@ const RecentReport = () => {
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [selectReport, setSelectReport] = useState(false);
+
+    const toContrast = () => {
+        const _selectReport = selectReport.map(item => {
+            return {
+                report_id: item.report_id,
+                plan_name: item.plan_name.props.content.props.children,
+                scene_name: item.scene_name.props.content.props.children,
+            }
+        });
+        navigate(`/report/detail?contrast=${JSON.stringify(_selectReport)}`)
+    }
     return (
         <div className='recent-report'>
             <p className='title'>{t('index.recentReport')}</p>
@@ -282,7 +293,7 @@ const RecentReport = () => {
                 <Tooltip
                     content={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : '' }
                 >
-                    <Button className='contrast-btn' disabled={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 }>{t('btn.contrast')}</Button>
+                    <Button className='contrast-btn' disabled={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 } onClick={() => toContrast()}>{t('btn.contrast')}</Button>
                 </Tooltip>
             </div>
             <Table
@@ -303,6 +314,7 @@ const RecentReport = () => {
                         onChange: (selectedRowKeys, selectedRows) => {
                             console.log('onChange:', selectedRowKeys, selectedRows);
                             setSelectedRowKeys(selectedRowKeys);
+                            setSelectReport(selectedRows);
                         },
                     }
                 }

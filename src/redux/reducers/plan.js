@@ -37,6 +37,9 @@ const initialState = {
 
   running_scene: '',
   select_box: '',
+
+  // 对比时选中的tab
+  select_plan: 0,
 };
 
 // action名称
@@ -71,6 +74,8 @@ const actionTypes = {
   updateRunningScene: 'updateRunningScene',
   updateRunStatus: 'updateRunStatus',
   updateSelectBox: 'updateSelectBox',
+
+  updateSelectPlan: 'updateSelectPlan'
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -204,6 +209,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         select_box: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateSelectPlan}`:
+      return {
+        ...state,
+        select_plan: action.payload,
       }
     default:
       return state;

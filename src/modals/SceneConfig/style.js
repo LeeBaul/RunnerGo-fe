@@ -32,14 +32,14 @@ export const GlobalVarModal = css`
     .apipost-btn {
         width: 84px;
         height: 25px;
-        background: var(--log-blue);
+        background: var(--theme-color);
         border-radius: 3px;
         padding: 4px 8px;
-        color: var(--font-1);
+        color: var(--common-white);
         margin: 20px auto;
     }
     .apipost-btn > svg {
-        fill: var(--font-1);
+        fill: var(--common-white);
         margin-right: 6px;
     }
     .delete-svg {

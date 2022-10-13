@@ -1,37 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
 import { fetchDebugLog } from '@services/report';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+import qs from 'qs';
+import { useSelector } from 'react-redux';
 
 const DebugLog = (props) => {
     const { stopDebug, end, status } = props;
-    const { id: report_id } = useParams();
+    // const { id: report_id } = useParams();
+    const { search } = useLocation();
+    const { id: report_id, contrast } = qs.parse(search.slice(1));
     const [log, setLog] = useState([]);
+    const select_plan = useSelector((store) => (store.plan.select_plan));
 
     let debug_t = null;
 
 
     useEffect(() => {
-        getDebug();
-        if (end) {
-            clearInterval(debug_t);
-        } else {
-            debug_t = setInterval(getDebug, 1000);
-        }
-        // if (stopDebug === 'stop' && t) {
-        //     clearInterval(t);
-        // } else {
-        //     t && clearInterval(t);
-        //     stopDebug !== 'stop' && (t = setInterval(getDebug, 1000));
-        // }
-        return () => {
-            clearInterval(debug_t);
+        if (report_id) {
+            getDebug();
+            if (end) {
+                clearInterval(debug_t);
+            } else {
+                debug_t = setInterval(getDebug, 1000);
+            }
+            // if (stopDebug === 'stop' && t) {
+            //     clearInterval(t);
+            // } else {
+            //     t && clearInterval(t);
+            //     stopDebug !== 'stop' && (t = setInterval(getDebug, 1000));
+            // }
+            return () => {
+                clearInterval(debug_t);
+            }
         }
     }, [end]);
 
+    useEffect(() => {
+        if (!report_id) {
+            getDebug();
+        }
+    }, [select_plan]);
+
     const getDebug = () => {
         const query = {
-            report_id,
+            report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
             team_id: localStorage.getItem('team_id'),
         };
         fetchDebugLog(query).subscribe({
@@ -57,7 +70,7 @@ const DebugLog = (props) => {
     return (
         <div className='debug-log'>
             {
-                log.length > 0 ?  log.map(item => <p className='debug-log-item'>{ item }</p>) : (stopDebug === 'stop' && status === 1 ? '请打开debug模式' : '')
+                log.length > 0 ? log.map(item => <p className='debug-log-item'>{item}</p>) : (stopDebug === 'stop' && status === 1 ? '请打开debug模式' : '')
             }
         </div>
     )

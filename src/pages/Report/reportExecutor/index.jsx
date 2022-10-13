@@ -5,8 +5,10 @@ import { Button, Dropdown, Message } from 'adesign-react';
 import { Down as SvgDown } from 'adesign-react/icons';
 import dayjs from 'dayjs';
 import { fetchSetDebug } from '@services/report';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import qs from 'qs';
+import { useSelector } from 'react-redux';
 
 const ReportExecutor = (props) => {
     const { data: { user_avatar, user_name, created_time_sec }, onStop, status, runTime } = props;
@@ -14,7 +16,11 @@ const ReportExecutor = (props) => {
     const DropRef = useRef(null);
     const [debugName, setDebugName] = useState(t('report.debugList.0'));
     const [stop, setStop] = useState(false);
-    const { id: report_id } = useParams();
+    // const { id: report_id } = useParams();
+    const { search } = useLocation();
+    const { id: report_id, contrast } = qs.parse(search.slice(1));
+    
+    const select_plan = useSelector((store) =>(store.plan.select_plan));
     
     const DropContent = () => {
         const list = [t('report.debugList.0'), t('report.debugList.1'), t('report.debugList.2'), t('report.debugList.3')];
@@ -31,7 +37,7 @@ const ReportExecutor = (props) => {
                     DropRef.current.setPopupVisible(false);
                     const params = {
                         team_id: parseInt(localStorage.getItem('team_id')),
-                        report_id: parseInt(report_id),
+                        report_id: parseInt(report_id ? report_id : JSON.parse(contrast)[select_plan].report_id),
                         setting: itemList[item]
                     };
                     fetchSetDebug(params).subscribe({

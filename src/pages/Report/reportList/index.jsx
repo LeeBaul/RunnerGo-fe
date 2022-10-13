@@ -54,7 +54,7 @@ const ReportList = () => {
         const { report_id } = props;
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate(`/report/detail/${report_id}`)} />
+                <SvgEye onClick={() => navigate(`/report/detail?id=${report_id}`)} />
                 {/* <SvgCopy /> */}
                 <SvgDelete className='delete-svg' onClick={() => {
                     Modal.confirm({
@@ -187,7 +187,7 @@ const ReportList = () => {
                 { text: "每秒请求数模式", value: "每秒请求数模式" }
             ],
             onFilter: (value, item) => item.task_mode === value,
-            // width: 200
+            width: 135
         },
         {
             title: t('index.startTime'),
@@ -252,11 +252,12 @@ const ReportList = () => {
     }
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [selectReport, setSelectReport] = useState([])
 
 
     return (
         <div className='report'>
-            <ReportListHeader onChange={getNewkeyword} onDateChange={getSelectDate} selectedRowKeys={selectedRowKeys} />
+            <ReportListHeader onChange={getNewkeyword} onDateChange={getSelectDate} selectReport={selectReport} />
             <Table
                 className="report-table"
                 border={{
@@ -275,6 +276,7 @@ const ReportList = () => {
                         onChange: (selectedRowKeys, selectedRows) => {
                             console.log('onChange:', selectedRowKeys, selectedRows);
                             setSelectedRowKeys(selectedRowKeys);
+                            setSelectReport(selectedRows);
                         },
                     }
                 }
@@ -282,7 +284,7 @@ const ReportList = () => {
                     return {
                         onDoubleClick: (event) => {
                             const { report_id } = record;
-                            navigate(`/report/detail/${report_id}`)
+                            navigate(`/report/detail?id=${report_id}`)
                         },
                     };
                 }}

@@ -17,25 +17,25 @@ const Info = (props) => {
             number: data.plan_num,
             icon: SvgPlan,
             name: t('index.planNum'),
-            color: 'var(--log-blue)',
+            color: 'var(--index-1)',
         },
         {
             number: data.scene_num,
             icon: SvgScene,
             name: t('index.sceneNum'),
-            color: '#2BA58F',
+            color: 'var(--index-2)',
         },
         {
             number: data.report_num,
             icon: SvgReport,
             name: t('index.reportNum'),
-            color: '#E1A022',
+            color: 'var(--index-3)',
         },
         {
             number: data.api_num,
             icon: SvgApis,
             name: t('index.apiNum'),
-            color: '#00ACD7',
+            color: 'var(--index-4)',
         },
     ];
     return (

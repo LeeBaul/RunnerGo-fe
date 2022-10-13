@@ -15,7 +15,7 @@ import { DatePicker } from '@arco-design/web-react';
 const { RangePicker } = DatePicker;
 
 const ReportListHeader = (props) => {
-    const { onChange, onDateChange, selectedRowKeys } = props;
+    const { onChange, onDateChange, selectReport } = props;
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [keyword, setKeyword] = useState('');
@@ -39,6 +39,17 @@ const ReportListHeader = (props) => {
             document.body.removeAttribute('arco-theme');
         }
     }, [theme]);
+
+    const toContrast = () => {
+        const _selectReport = selectReport.map(item => {
+            return {
+                report_id: item.report_id,
+                plan_name: item.plan_name.props.content.props.children,
+                scene_name: item.scene_name.props.content.props.children,
+            }
+        });
+        navigate(`/report/detail?contrast=${JSON.stringify(_selectReport)}`)
+    }
     return (
         <div className='report-header'>
             <div className='report-header-left'>
@@ -59,11 +70,13 @@ const ReportListHeader = (props) => {
                     showTime="true"
                 />
                 <Tooltip
-                    content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
+                    content={selectReport.length < 2 || selectReport.length > 5 ? t('index.contrastText') : ''}
                 >
                     <Button 
                         className='contrast-btn' 
-                        disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5}>
+                        disabled={selectReport.length < 2 || selectReport.length > 5}
+                        onClick={() => toContrast()}
+                    >
                         {t('btn.contrast')}
                     </Button>
                 </Tooltip>

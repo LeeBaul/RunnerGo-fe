@@ -52,6 +52,10 @@ export const fetchUpdateConfig = (
 export const fetchGetRole = (
   query
 ) => ajax('get', '/management/api/v1/team/role', 'json', false, {}, query);
+// 解散团队
+export const fetchDissTeam = (
+  params
+) => ajax('post', '/management/api/v1/team/disband', 'json', false, params);
 
 
 

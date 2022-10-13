@@ -6,7 +6,7 @@ import {
     Left as SvgLeft,
 } from 'adesign-react/icons';
 import SendEmail from '@modals/SendEmail';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import SvgSendEmail from '@assets/icons/SendEmail';
@@ -14,6 +14,8 @@ import SvgStop from '@assets/icons/Stop';
 import Bus from '@utils/eventBus';
 import { fetchStopReport } from '@services/report';
 import { useTranslation } from 'react-i18next';
+import qs from 'qs';
+import { useSelector } from 'react-redux';
 
 const ReportHeader = (props) => {
     const { data: { plan_name }, status } = props;
@@ -22,7 +24,10 @@ const ReportHeader = (props) => {
     const navigate = useNavigate();
     const ref1 = useRef(null);
     const refs = [ref1];
-    const { id: report_id } = useParams();
+    // const { id: report_id } = useParams();
+    const { search } = useLocation();
+    const { id: report_id, contrast } = qs.parse(search.slice(1));
+    const select_plan = useSelector((store) =>(store.plan.select_plan));
     const handleExportPdf = async () => {
       // 根据dpi放大，防止图片模糊
       const scale = window.devicePixelRatio > 1 ? window.devicePixelRatio : 2;
@@ -127,7 +132,7 @@ const ReportHeader = (props) => {
         console.log(123);
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            report_ids: [parseInt(report_id)],
+            report_ids: [parseInt(report_id ? report_id : JSON.parse(contrast)[select_plan].report_id)],
         };
 
         fetchStopReport(params).subscribe({

@@ -114,9 +114,6 @@ const ProjectMember = (props) => {
                             const { code } = res;
                             if (code === 0) {
                                 localStorage.setItem('team_id', myTeam.team_id);
-                                global$.next({
-                                    action: 'INIT_APPLICATION',
-                                });
                                 dispatch({
                                     type: 'opens/coverOpenApis',
                                     payload: {},
@@ -125,6 +122,9 @@ const ProjectMember = (props) => {
                                     type: 'scene/updateOpenScene',
                                     payload: null,
                                 })
+                                global$.next({
+                                    action: 'INIT_APPLICATION',
+                                });
                                 onCancel();
                                 navigate('/index');
                             } else {

@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ProjectMemberModal, HeaderLeftModal } from './style';
 import avatar from '@assets/logo/avatar.png';
 import { InviteMembers as SvgInvite, Team as SvgTeam } from 'adesign-react/icons';
-import { fetchTeamMemberList, fetchRemoveMember, fetchTeamList, fetchQuitTeam } from '@services/user';
+import { fetchTeamMemberList, fetchRemoveMember, fetchTeamList, fetchQuitTeam, fetchDissTeam, fetchUpdateConfig } from '@services/user';
 import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import InvitationModal from '../ProjectInvitation';
@@ -13,6 +13,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchDashBoardInfo } from '@services/dashboard';
 import CreateTeam from '../CreateTeam';
 import { useTranslation } from 'react-i18next';
+
+import { global$ } from '@hooks/useGlobal/global';
 
 const { Option } = Select;
 
@@ -23,6 +25,8 @@ const TeamList = (props) => {
     const [showCreate, setShowCreate] = useState(false);
     const [showQuit, setShowQuit] = useState(false);
     const [confirmTeam, setConfirmTeam] = useState({});
+    const [userId, setUserId] = useState(null);
+    const [roleId, setRoleId] = useState(null);
 
     const userInfo = useSelector((store) => store.user.userInfo);
     const dispatch = useDispatch();
@@ -50,8 +54,56 @@ const TeamList = (props) => {
         // setShowQuit(true);
     }
 
-    const deleteTeam = () => {
+    const deleteTeam = (data, confirmTeam, userId) => {
+        const myTeam = data.find(item => item.type === 1 && item.created_user_id === userId);
 
+        Modal.confirm({
+            title: t('modal.dissmissTeam'),
+            content: t('modal.dissmissContent1'),
+            cancelText: t('btn.cancel'),
+            okText: t('btn.confirmDissmiss'),
+            onOk: () => {
+                const { team_id } = confirmTeam;
+                const params = {
+                    team_id: parseInt(team_id)
+                };
+                fetchDissTeam(params).subscribe({
+                    next: (res) => {
+                        console.log(team_id, localStorage.getItem('team_id'));
+                        if (`${team_id}` === `${localStorage.getItem('team_id')}`) {
+                            const settings = JSON.parse(localStorage.getItem('settings'));
+                            settings.settings.current_team_id = myTeam.team_id;
+                            fetchUpdateConfig(settings).subscribe({
+                                next: (res) => {
+                                    const { code } = res;
+                                    if (code === 0) {
+                                        localStorage.setItem('team_id', myTeam.team_id);
+                                        global$.next({
+                                            action: 'INIT_APPLICATION',
+                                        });
+                                        dispatch({
+                                            type: 'opens/coverOpenApis',
+                                            payload: {},
+                                        })
+                                        dispatch({
+                                            type: 'scene/updateOpenScene',
+                                            payload: null,
+                                        })
+                                        onCancel();
+                                        navigate('/index');
+                                    } else {
+                                        Message('error', t('message.checkTeamError'));
+                                    }
+                                },
+                            })
+                        } else {
+                            getUserInfo().pipe(tap(fetchData)).subscribe();
+                        }
+                    }
+                })
+                // deleteReport(report_id);
+            }
+        })
     }
     const outTeam = (confirmTeam) => {
         console.log(confirmTeam);
@@ -104,7 +156,7 @@ const TeamList = (props) => {
                     } else {
                         getUserInfo().pipe(tap(fetchData)).subscribe();
                     }
-                 
+
                 } else {
                     Message('error', t('message.quitError'));
                 }
@@ -113,7 +165,9 @@ const TeamList = (props) => {
     };
 
     const fetchData = (res) => {
-        const { data: { user: { user_id } } } = res;
+        const { data: { user: { user_id, role_id } } } = res;
+        setUserId(user_id);
+        setRoleId(role_id);
 
         fetchTeamList()
             .pipe(
@@ -127,16 +181,17 @@ const TeamList = (props) => {
                             return {
                                 ...item,
                                 created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                                handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
-                                    if (item.created_user_id === user_id) {
-                                        deleteTeam();
-                                    } else {
-                                        setConfirmTeam(item);
-                                        confirmQuit(item);
-                                    }
-                                }}>
-                                    {item.created_user_id === user_id ? t('column.teamManage.dissmissTeam') : t('column.teamManage.quitTeam')}
-                                </p>,
+                                handle: item.type === 1 && item.created_user_id === user_id ? ''
+                                    : <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
+                                        if (item.created_user_id === user_id) {
+                                            deleteTeam(teams, item, user_id);
+                                        } else {
+                                            setConfirmTeam(item);
+                                            confirmQuit(item);
+                                        }
+                                    }}>
+                                        {item.created_user_id === user_id ? t('column.teamManage.dissmissTeam') : t('column.teamManage.quitTeam')}
+                                    </p>,
                             }
                         });
                         setData(dataList);
@@ -187,8 +242,8 @@ const TeamList = (props) => {
         return (
             <div className={HeaderLeftModal}>
                 <div className='member-header-left'>
-                    <p className='title'>{ t('modal.teamManage') }</p>
-                    <Button className='create-team' preFix={<SvgTeam />} onClick={() => setShowCreate(true)}>{ t('modal.createTeam') }</Button>
+                    <p className='title'>{t('modal.teamManage')}</p>
+                    <Button className='create-team' preFix={<SvgTeam />} onClick={() => setShowCreate(true)}>{t('modal.createTeam')}</Button>
                 </div>
             </div>
         )
@@ -215,14 +270,14 @@ const TeamList = (props) => {
                     onOk={() => outTeam()}
                 ></Modal>
             } */}
-            <Modal 
-                className={ProjectMemberModal} 
-                visible={true} 
-                title={<HeaderLeft />} 
-                onCancel={onCancel} 
+            <Modal
+                className={ProjectMemberModal}
+                visible={true}
+                title={<HeaderLeft />}
+                onCancel={onCancel}
                 onOk={onCancel}
-                cancelText={ t('btn.cancel') }
-                okText={ t('btn.ok') }
+                cancelText={t('btn.cancel')}
+                okText={t('btn.ok')}
             >
                 <Table columns={columns} data={data} />
                 {/* <div className='title'>

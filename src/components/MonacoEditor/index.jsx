@@ -54,7 +54,7 @@ loader.init().then((monaco) => {
 const MonacoEditor = (props) => {
   const {
     language,
-    theme,
+    _theme,
     onChange,
     value,
     Height,
@@ -64,7 +64,9 @@ const MonacoEditor = (props) => {
     lineNumbers = 'on', // 关闭编辑器行号
   } = props;
 
+
   const { config } = useSelector((d) => d?.user);
+  const theme = useSelector((store) => store.user.theme);
   const { SYSTHEMCOLOR } = config || { SYSTHEMCOLOR: 'white' };
   // 切换tab时禁止触发编辑器onchange事件
   const MONOCAINIT = true;
@@ -73,12 +75,12 @@ const MonacoEditor = (props) => {
   // 编辑器主题色
   const [editotThem, seteditotThem] = useState('vs');
   useEffect(() => {
-    if (SYSTHEMCOLOR === 'white' || theme === 'white') {
+    if (theme === 'white') {
       seteditotThem('vs');
     } else {
       seteditotThem('vs-dark');
     }
-  }, [SYSTHEMCOLOR, theme]);
+  }, [theme]);
 
   const [editor, seteditor] = useState();
 

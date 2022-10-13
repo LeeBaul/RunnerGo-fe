@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './index.less';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { fetchMachine } from '@services/report';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
+import qs from 'qs';
 
 const PressMonitor = (props) => {
     const { status } = props;
@@ -16,27 +17,40 @@ const PressMonitor = (props) => {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [metrics, setMetrics] = useState([]);
-    const { id: report_id } = useParams();
+    // const { id: report_id } = useParams();
+    const { search } = useLocation();
+    const { id: report_id, contrast } = qs.parse(search.slice(1));
+
     const theme = useSelector((store) => store.user.theme);
+    const select_plan = useSelector((store) =>(store.plan.select_plan));
 
     let press_monitor_t = null;
     useEffect(() => {
-        getMonitorData();
+ 
+        if (report_id) {
+            getMonitorData();
 
-        if (status === 2) {
-            press_monitor_t && clearInterval(press_monitor_t);
-        } else {
-            press_monitor_t = setInterval(getMonitorData, 3000);   
-        }
-
-        return () => {
-            clearInterval(press_monitor_t);
+            if (status === 2) {
+                press_monitor_t && clearInterval(press_monitor_t);
+            } else {
+                press_monitor_t = setInterval(getMonitorData, 3000);   
+            }
+    
+            return () => {
+                clearInterval(press_monitor_t);
+            }
         }
     }, [status]);
 
+    useEffect(() => {
+        if (!report_id) {
+            getMonitorData();
+        }
+    }, [select_plan]);
+
     const getMonitorData = () => {
         const query = {
-            report_id,
+            report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
         };
         fetchMachine(query).subscribe({
             next: (res) => {

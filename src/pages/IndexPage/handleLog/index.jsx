@@ -5,6 +5,7 @@ import avatar from '@assets/logo/avatar.png';
 import HandleTags from '@components/HandleTags';
 import TeamworkLogs from '@modals/TeamworkLogs';
 import dayjs from 'dayjs';
+import SvgEmpty from '@assets/img/empty';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -19,10 +20,10 @@ const HandleLog = (props) => {
             <div className='log-top'>
                 <div className='log-top-left'>
                     <SvgLately />
-                    <p>{ t('index.handleLog') }</p>
+                    <p>{t('index.handleLog')}</p>
                 </div>
                 <div className='log-top-right' onClick={() => setShowLog(true)}>
-                    <p>{ t('index.seeMore') }</p>
+                    <p>{t('index.seeMore')}</p>
                     <SvgRight />
                 </div>
             </div>
@@ -42,10 +43,13 @@ const HandleLog = (props) => {
                                 {dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
                             </div>
                         </div>
-                    )) : <p className='empty'>{ t('index.emptyData') }</p>
+                    )) : <div className='empty'>
+                        <SvgEmpty />
+                        <p>{t('index.emptyData')}</p>
+                    </div>
                 }
             </div>
-            { showLog &&  <TeamworkLogs onCancel={() => setShowLog(false)} />}
+            {showLog && <TeamworkLogs onCancel={() => setShowLog(false)} />}
         </div>
     )
 };

@@ -230,7 +230,7 @@ const PlanList = () => {
                 { text: "每秒请求数模式", value: "每秒请求数模式" }
             ],
             onFilter: (key, value, item) => item.mode === value,
-            // width: 190,
+            width: 135
         },
         {
             title: t('plan.createTime'),

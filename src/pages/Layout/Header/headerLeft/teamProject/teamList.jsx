@@ -100,7 +100,7 @@ const TeamList = (props) => {
           });
           navigate('/index');
         } else {
-          Message('error', '切换失败!');
+          Message('error', t('moidal.checkTeamError'));
         }
       },
       err: (err) => {

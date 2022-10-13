@@ -172,7 +172,7 @@ svg {
 
   svg {
     // background-color: var(--highlight-background-color-tertiary);
-    fill: var(--content-color-primary);
+    // fill: var(--content-color-primary);
   }
 }
 
@@ -273,14 +273,14 @@ svg {
   border-radius: var(--border-radius-default);
   border: 1px solid var(--border-color-strong);
   background-color: transparent;
-  color: var(--content-color-secondary);
+  color: var(--font-1);
 
   svg {
-    fill: var(--content-color-secondary);
+    fill: var(--font-1);
   }
 
   input {
-    color: var(--content-color-secondary);
+    color: var(--font-1);
   }
 }
 
@@ -513,7 +513,7 @@ svg {
       // color: var(--content-color-primary);
       color: var(--font-1);
       // background: var(--highlight-background-color-tertiary);
-      background: #3b3b3b;
+      background: var(--bg-4);
 
       svg {
         fill: var(--content-color-primary);
@@ -524,13 +524,17 @@ svg {
       // color: var(--content-color-primary);
       color: var(--font-1);
       // background-color: var(--highlight-background-color-secondary) !important;
-      background-color: #3b3b3b !important;
+      background-color: var(--bg-4) !important;
 
       svg {
         fill: var(--content-color-primary);
       }
     }
   }
+}
+
+.tabs-item.active {
+  border-bottom-color: var(--theme-color) !important;
 }
 
 // .apipost-radio-wrapper

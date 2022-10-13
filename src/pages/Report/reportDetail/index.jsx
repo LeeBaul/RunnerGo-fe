@@ -4,82 +4,49 @@ import { TabStyle } from './style';
 import ReportContent from './reportContent';
 import DebugLog from './debugLog';
 import PressMonitor from './pressMonitor';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { fetchReportDetail } from '@services/report';
 import { useTranslation } from 'react-i18next';
+import qs from 'qs';
+import { useSelector } from 'react-redux';
 
 const { Tabs, TabPan } = TabComponent;
 
-const reportResult = {
-	"end": false,                                                                    // 任务是否结束
-	"report_id": "1111111",                                                 // 测试报告id
-	"report_name": "测试项目性能测试报告",                        // 测试报告名称
-	"plan_id": 1,
-	"plan_name": "测试项目",
-	"scene_id": 123,
-	"scene_name": "登录新增",
-	"results": {
-		"1111111": {                                                              // event_id
-			"total_request_num": 10,                                 // 总请求数
-			"total_request_time": 2496,                                  // 总响应时间
-			"success_num": 0,                                                 // 成功数
-			"error_num": 10,                                                   // 失败数
-			"avg_request_time": 249,                                      // 平均响应时间
-			"max_request_time": 439,                                     // 最大响应时间
-			"min_request_time": 51,                                          // 最小响应时间
-			"custom_request_time_line": 0,                               // 自定义响应时间线
-			"custom_request_time_line_value": 0,                     // 自定义响应时间线的值
-			"ninety_request_time_line": 439,                            // 90%响应时间线的值
-			"ninety_five_request_time_line": 439,       				 // 95%响应时间线的值
-			"ninety_nine_request_time_line": 439,                       // 99%响应时间线的值
-			"send_bytes": 440,                                                     // 发送的字节数
-			"received_bytes": 2300,                                              // 接收到的字节数
-			"qps": 10                                                                    // 每秒请求数
-		},
-		"333333": {
-			"total_request_num": 9,
-			"total_request_time": 2351,
-			"success_num": 9,
-			"error_num": 0,
-			"avg_request_time": 261,
-			"max_request_time": 378,
-			"min_request_time": 107,
-			"custom_request_time_line": 0,
-			"custom_request_time_line_value": 0,
-			"ninety_request_time_line": 378,
-			"ninety_five_request_time_line": 378,
-			"ninety_nine_request_time_line": 378,
-			"send_bytes": 2862,
-			"received_bytes": 450,
-			"qps": 9
-		}
-	},
-	"Machine": null
-};
 
 const ReportDetail = (props) => {
 	const { data: configData, stopDebug, onStatus, status, onRunTime } = props;
 	const { t } = useTranslation();
 
     const [data, setData] = useState([]);
-	const { id: report_id } = useParams();
+	// const { id: report_id } = useParams();
+	const { search } = useLocation();
+	const { id: report_id, contrast } = qs.parse(search.slice(1));
 	const [end, setEnd] = useState(false);
 	// const [runTime, setRunTime] = useState(0);
+	const select_plan = useSelector((store) =>(store.plan.select_plan));
 	
 	let report_detail_t = null;
 
     useEffect(() => {
-		getReportDetail();
-		report_detail_t = setInterval(getReportDetail, 1000);
-
-		return () => {
-			clearInterval(report_detail_t);
+		if (report_id) {
+			getReportDetail();
+			report_detail_t = setInterval(getReportDetail, 1000);
+	
+			return () => {
+				clearInterval(report_detail_t);
+			}
 		}
     }, []);
 
+	useEffect(() => {
+		if (!report_id) {
+			getReportDetail();
+		}
+	}, [select_plan]);
+
 	const getReportDetail = () => {
 		const query = {
-			report_id,
+			report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
 		};
 		fetchReportDetail(query).subscribe({
 			next: (res) => {
