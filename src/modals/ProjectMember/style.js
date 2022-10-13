@@ -54,6 +54,21 @@ export const ProjectMemberModal = css`
 
         }
     }
+    .default-power {
+        width: 78px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: 1px solid var(--select);
+        border-radius: 5px;
+        cursor: pointer
+    }
+
+    .apipost-select {
+        width: 78px;
+        border: 1px solid var(--select);
+        border-radius: 5px;
+    }
   }
 `;
 

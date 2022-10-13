@@ -14,6 +14,7 @@ import { fetchDashBoardInfo } from '@services/dashboard';
 
 import { global$ } from '@hooks/useGlobal/global';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
@@ -29,20 +30,21 @@ const ProjectMember = (props) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     const removeMember = (member_id, role_id) => {
-        // 当前用户是普通成员, 没有移除任何人的权限
-        if (roleId === 2) {
-            Message('error', '您没有权限移除成员!');
-            return;
-        }
-        // 当前用户是管理员, 想移除管理员或者超级管理员
-        if (roleId === 3 && (role_id === 1 || role_id === 3)) {
-            Message('error', '您没有权限移除该成员!');
-        }
+        // // 当前用户是普通成员, 没有移除任何人的权限
+        // if (roleId === 2) {
+        //     Message('error', '您没有权限移除成员!');
+        //     return;
+        // }
+        // // 当前用户是管理员, 想移除管理员或者超级管理员
+        // if (roleId === 3 && (role_id === 1 || role_id === 3)) {
+        //     Message('error', '您没有权限移除该成员!');
+        // }
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            member_id,
+            member_id: parseInt(member_id),
         }
         fetchRemoveMember(params)
             .pipe(
@@ -50,11 +52,11 @@ const ProjectMember = (props) => {
                     const { data, code } = res;
 
                     if (code === 0) {
-                        Message('success', '移除成功!');
-                        fetchData();
+                        Message('success', t('message.removeMemSuccess'));
+                        getUserInfo().pipe(tap(fetchData)).subscribe();
                         Bus.$emit('getTeamMemberList');
                     } else {
-                        Message('error', '移除失败!');
+                        Message('error', t('message.removeMemError'));
                     }
                 })
             )
@@ -89,11 +91,11 @@ const ProjectMember = (props) => {
         const team_id = localStorage.getItem('team_id');
         const team_item = teamList[team_id];
 
-        // 当前团队是私有团队, 并且团队的创建者是自己
-        if (team_item.type === 1 && team_item.created_user_id === userId) {
-            Message('error', '您无法退出自己的私有团队!');
-            return;
-        }
+        // // 当前团队是私有团队, 并且团队的创建者是自己
+        // if (team_item.type === 1 && team_item.created_user_id === userId) {
+        //     Message('error', '您无法退出自己的私有团队!');
+        //     return;
+        // }
         const params = {
             team_id: parseInt(team_id),
         };
@@ -101,7 +103,7 @@ const ProjectMember = (props) => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    Message('success', '退出成功!');
+                    Message('success', t('message.quitSuccess'));
                     const _teamList = Object.values(teamList);
                     const myTeam = _teamList.find(item => item.type === 1 && item.created_user_id === userId);
 
@@ -118,7 +120,7 @@ const ProjectMember = (props) => {
                                 dispatch({
                                     type: 'opens/coverOpenApis',
                                     payload: {},
-                                  })
+                                })
                                 dispatch({
                                     type: 'scene/updateOpenScene',
                                     payload: null,
@@ -126,12 +128,12 @@ const ProjectMember = (props) => {
                                 onCancel();
                                 navigate('/index');
                             } else {
-                                Message('error', '切换团队失败!');
+                                Message('error', t('moidal.checkTeamError'));
                             }
                         },
                     })
                 } else {
-                    Message('error', '退出失败!');
+                    Message('error', t('message.quitError'));
                 }
             }
         })
@@ -143,26 +145,36 @@ const ProjectMember = (props) => {
         // 管理员: 成员 => 管理员 true 管理员 => 成员 false
         // 超级管理员: 成员 => 管理员 true 管理员 => 成员 true
         // all： xxx => 超级管理员 false 超级管理员 => xxx false 
+
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            user_id: 'xxxx',
+            user_id: user_id,
             role_id: parseInt(role_id),
         };
         fetchUpdateRole(params).subscribe({
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    Message('success', '更改成功!');
+                    Message('success', t('message.handleSuccess'));
+                    getUserInfo().pipe(tap(fetchData)).subscribe();
                 } else {
-                    Message('error', '更改失败!');
+                    Message('error', t('message.handleError'));
                 }
             }
         })
     }
 
+    const roleList = {
+        1: t('modal.roleList.2'),
+        2: t('modal.roleList.0'),
+        3: t('modal.roleList.1')
+    }
+
     const fetchData = (res) => {
-        const { data: { user: { user_id } } } = res;
+        console.log(res);
+        const { data: { user: { user_id, role_id } } } = res;
         setUserId(user_id);
+        setRoleId(role_id);
         const query = {
             team_id: localStorage.getItem('team_id')
         }
@@ -173,6 +185,7 @@ const ProjectMember = (props) => {
                     if (code === 0) {
                         let dataList = [];
                         console.log(userInfo);
+
                         dataList = members.map((item, index) => {
                             const { avatar, email, nickname, join_time_sec, invite_user_name } = item;
                             const userInfo = {
@@ -180,101 +193,172 @@ const ProjectMember = (props) => {
                                 email,
                                 nickname
                             }
-                            if (item.user_id === user_id) {
-                                setRoleId(item.role_id);
-                            }
-                            return {
-                                member: <MemberInfo userInfo={userInfo} />,
-                                join_time_sec: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                                invite_user_name,
-                                power:
-                                    <div>
-                                        <Select
-                                            value={item.role_id}
-                                            onChange={(e) => setRole(e, item.user_id)}
-                                        >
-                                            <Option value={1}>超级管理员</Option>
-                                            <Option value={2}>成员</Option>
-                                            <Option value={3}>管理员</Option>
-                                        </Select>
-                                    </div>,
-                                handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
-                                    if (item.user_id === user_id) {
-                                        outTeam();
-                                    } else {
-                                        removeMember(item.user_id, item.role_id);
-                                    }
-                                }}>
-                                    {item.user_id === user_id ? '退出团队' : '移除成员'}
-                                </p>,
-                            }
+                            // 1. 本人是超级管理员
+                            //    自己的权限是文本，其它人的都是select
+                            // 2. 本人是管理员
+                            //    自己、超管、其它管理员的权限都是文本, 成员是select
+                            // 3. 本人是成员
+                            //    所有人的权限都是文本
+                            if (role_id === 1) {
+                                return {
+                                    member: <MemberInfo userInfo={userInfo} me={ item.user_id === user_id }  />,
+                                    join_time_sec: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                                    invite_user_name,
+                                    power:
+                                        item.role_id === 1
+                                            ?
+                                            <p className='default-power'>{roleList[item.role_id]}</p>
+                                            :
+                                            <div>
+                                                {
+                                                    <Select
+                                                        value={item.role_id}
+                                                        onChange={(e) => setRole(e, item.user_id)}
+                                                    >
+                                                        <Option value={2}>{ t('modal.roleList.0') }</Option>
+                                                        <Option value={3}>{ t('modal.roleList.1') }</Option>
+                                                    </Select>
+                                                }
+                                            </div>,
+                                    handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
+                                        if (item.user_id === user_id) {
+                                            outTeam();
+                                        } else {
+                                            removeMember(item.user_id, item.role_id);
+                                        }
+                                    }}>
+                                        {
+                                            item.role_id !== 1
+                                                ? item.user_id === user_id ? t('modal.quitTeam') : t('modal.delMem')
+                                                : ''
+                                        }
+                                    </p>,
+                                }
+                            } else if (role_id === 2) {
+                                return {
+                                    member: <MemberInfo userInfo={userInfo} me={ item.user_id === user_id }  />,
+                                    join_time_sec: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                                    invite_user_name,
+                                    power: <p className='default-power'>{roleList[item.role_id]}</p>,
+                                    handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
+                                        if (item.user_id === user_id) {
+                                            outTeam();
+                                        } else {
+                                            removeMember(item.user_id, item.role_id);
+                                        }
+                                    }}>
+                                        {
+                                            item.role_id !== 1
+                                                ? item.user_id === user_id ? t('modal.quitTeam') : ''
+                                                : ''
+                                        }
+                                    </p>,
+                                }
+                            } else if (role_id === 3) {
+                                return {
+                                    member: <MemberInfo userInfo={userInfo} me={ item.user_id === user_id }  />,
+                                    join_time_sec: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                                    invite_user_name,
+                                    power:
+                                        item.role_id === 1 || item.role_id === 3
+                                        ?
+                                            <p className='default-power'>{roleList[item.role_id]}</p>
+                                        :
+                                            <div>
+                                                {
+                                                    <Select
+                                                        value={item.role_id}
+                                                        onChange={(e) => setRole(e, item.user_id)}
+                                                    >
+                                                        <Option value={2}>{ t('modal.roleList.0') }</Option>
+                                                        <Option value={3}>{ t('modal.roleList.1') }</Option>
+                                                    </Select>
+                                                }
+                                            </div>
+                                    ,
+                                    handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
+                                        if (item.user_id === user_id) {
+                                            outTeam();
+                                        } else {
+                                            removeMember(item.user_id, item.role_id);
+                                        }
+                                    }}>
+                                        {
+                                            item.role_id === 2
+                                                ? t('modal.delMem')
+                                                : item.user_id === user_id ? t('modal.quitTeam') : ''
+                                        }
+                                    </p>,
+                                }
+                        }
+
                         });
-                        setData(dataList);
-                    }
-                })
+        setData(dataList);
+    }
+})
             )
             .subscribe();
     }
-    useEffect(() => {
-        getUserInfo().pipe(tap(fetchData)).subscribe();
-        console.log(teamList);
-        // fetchData();
-    }, [])
-    const columns = [
-        {
-            title: '成员',
-            dataIndex: 'member',
-            width: 220,
-        },
-        {
-            title: '加入日期',
-            dataIndex: 'join_time_sec',
-            width: 220,
-        },
-        {
-            title: '邀请人',
-            dataIndex: 'invite_user_name',
-        },
-        {
-            title: '人员权限',
-            dataIndex: 'power',
-        },
-        {
-            title: '操作',
-            dataIndex: 'handle'
-        }
-    ];
-
-    const MemberInfo = (props) => {
-        const { userInfo: { nickname, avatar: avatarUrl, email } } = props;
-        return (
-            <div className='member-info'>
-                <img src={avatarUrl || avatar} />
-                <div className='detail'>
-                    <p>{nickname}</p>
-                    <p>{email}</p>
-                </div>
-            </div>
-        )
+useEffect(() => {
+    getUserInfo().pipe(tap(fetchData)).subscribe();
+    console.log(teamList);
+    // fetchData();
+}, [])
+const columns = [
+    {
+        title: t('column.teamMember.member'),
+        dataIndex: 'member',
+        width: 220,
+    },
+    {
+        title: t('column.teamMember.joinTime'),
+        dataIndex: 'join_time_sec',
+        width: 220,
+    },
+    {
+        title: t('column.teamMember.inviteBy'),
+        dataIndex: 'invite_user_name',
+    },
+    {
+        title: t('column.teamMember.power'),
+        dataIndex: 'power',
+    },
+    {
+        title: t('column.teamMember.handle'),
+        dataIndex: 'handle'
     }
+];
 
-    const HeaderLeft = () => {
-        return (
-            <div className={HeaderLeftModal}>
-                <div className='member-header-left'>
-                    <p className='title'>团队成员列表</p>
-                    <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>邀请</Button>
-                </div>
-            </div>
-        )
-    }
-
+const MemberInfo = (props) => {
+    const { userInfo: { nickname, avatar: avatarUrl, email }, me } = props;
     return (
-        <div>
-            {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
-            <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} onCancel={onCancel} onOk={onCancel} >
-                <Table columns={columns} data={data} />
-                {/* <div className='title'>
+        <div className='member-info'>
+            <img src={avatarUrl || avatar} />
+            <div className='detail'>
+                <p>{nickname} { me ? `（${ t('modal.me') }）` : '' }</p>
+                <p>{email}</p>
+            </div>
+        </div>
+    )
+}
+
+const HeaderLeft = () => {
+    return (
+        <div className={HeaderLeftModal}>
+            <div className='member-header-left'>
+                <p className='title'>{ t('modal.teamMemTitle') }</p>
+                <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>邀请</Button>
+            </div>
+        </div>
+    )
+}
+
+return (
+    <div>
+        {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
+        <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} footer={null} onCancel={onCancel}>
+            <Table columns={columns} data={data} />
+            {/* <div className='title'>
                     <p>成员</p>
                     <p>加入日期</p>
                     <p>邀请人</p>
@@ -299,9 +383,9 @@ const ProjectMember = (props) => {
                         <div className='handle-member'>移除成员</div>
                     </div>
                 </div> */}
-            </Modal>
-        </div>
-    )
+        </Modal>
+    </div>
+)
 };
 
 export default ProjectMember;

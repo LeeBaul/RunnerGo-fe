@@ -116,6 +116,7 @@
         "uploadSuccess": "上传成功!",
         "copySuccess": "复制成功!",
         "copyError": "复制失败!",
+        "handleSuccess": "操作成功!",
         "handleError": "操作失败!",
         "updateError": "修改失败!",
         "setSuccess": "设置成功!",
@@ -126,7 +127,9 @@
         "checkTeamError": "切换团队失败!",
         "createSuccess": "创建成功!",
         "createError": "创建失败!",
-        "noTeamName": "未输入团队名称!"
+        "noTeamName": "未输入团队名称!",
+        "removeMemSuccess": "移除成功!",
+        "removeMemError": "移除失败!"
     },
     "modal": {
         "look": "注意",
@@ -135,7 +138,8 @@
         "invitation": "邀请",
         "roleList": {
             "0": "成员",
-            "1": "管理员"
+            "1": "管理员",
+            "2": "超管"
         },
         "addTeamMem": "添加现有团队成员",
         "teamMem": "团队人员",
@@ -153,7 +157,10 @@
         "dissmissContent1": "解散团队, 将会把该团队下的所有接口、场景、计划、报告等数据内容一并删除;团队内其他成员将自动退出团队。",
         "dissmissContent2": "如需保留数据给其他团队成员, 可将团队移交给其他成员。",
         "transferTeam": "移交团队",
-        "team": "团队"
+        "team": "团队",
+        "delMem": "移除成员",
+        "teamMemTitle": "团队成员列表",
+        "me": "本人"
     },
     "column": {
         "teamManage": {
@@ -169,6 +176,13 @@
             "role": "成员权限",
             "handle": "操作",
             "transferTeam": "移交团队"
+        },
+        "teamMember": {
+            "member": "成员",
+            "joinTime": "加入日期",
+            "inviteBy": "邀请人",
+            "power": "人员权限",
+            "handle": "操作"
         }
     },
     "index": {

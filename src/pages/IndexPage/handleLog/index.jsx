@@ -5,12 +5,14 @@ import avatar from '@assets/logo/avatar.png';
 import HandleTags from '@components/HandleTags';
 import TeamworkLogs from '@modals/TeamworkLogs';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 const HandleLog = (props) => {
-    const { logList } = props;
+    // const { logList } = props;
     const [showLog, setShowLog] = useState(false);
     const { t } = useTranslation();
+    const logList = useSelector((store) => store.teams.logList);
 
     return (
         <div className='handle-log'>

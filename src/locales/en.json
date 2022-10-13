@@ -116,6 +116,7 @@
         "uploadSuccess": "Upload succeeded!",
         "copySuccess": "Copy succeeded!",
         "copyError": "Copy failed!",
+        "handleSuccess": "Operation succeeded!",
         "handleError": "operation failed!",
         "updateError": "Modification failed!",
         "setSuccess": "Setting succeeded!",
@@ -126,7 +127,9 @@
         "checkTeamError": "Failed to switch teams!",
         "createSuccess": "Created successfully!",
         "createError": "Creation failed!",
-        "noTeamName": "No team name entered!"
+        "noTeamName": "No team name entered!",
+        "removeMemSuccess": "Removal succeeded!",
+        "removeMemError": "Removal failed!"
     },
     "modal": {
         "look": "be careful",
@@ -135,7 +138,8 @@
         "invitation": "invitation",
         "roleList": {
             "0": "member",
-            "1": "admin"
+            "1": "admin",
+            "2": "administrator"
         },
         "addTeamMem": "Add an existing team member",
         "teamMem": "Team members",
@@ -153,7 +157,10 @@
         "dissmissContent1": "When a team is dismissed, all the interfaces, scenarios, plans, reports and other data under the team will be deleted; Other members of the team will automatically exit the team.",
         "dissmissContent2": "If data needs to be retained for other team members, the team can be handed over to other members.",
         "transferTeam": "Handover Team",
-        "team": "Team"
+        "team": "Team",
+        "delMem": "Remove Members",
+        "teamMemTitle": "Team member list",
+        "me": "me"
     },
     "column": {
         "teamManage": {
@@ -169,6 +176,13 @@
             "role": "Member Permissions",
             "handle": "operation",
             "transferTeam": "Handover Team"
+        },
+        "teamMember": {
+            "member": "member",
+            "joinTime": "Joining date",
+            "inviteBy": "Inviter",
+            "power": "Personnel authority",
+            "handle": "operation"
         }
     },
     "index": {

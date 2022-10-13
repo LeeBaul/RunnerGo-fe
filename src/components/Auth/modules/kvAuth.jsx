@@ -13,7 +13,7 @@ const KvAuth = (props) => {
             <AuthInput
               size="mini"
               placeholder="键"
-              // value={value.kv.key}
+              value={value.kv.key}
               onChange={(val) => {
                 handleAttrChange(type, 'key', val);
               }}
@@ -24,7 +24,7 @@ const KvAuth = (props) => {
             <AuthInput
               size="mini"
               placeholder="值（支持变量）"
-              // value={value.kv.value}
+              value={value.kv.value}
               onChange={(val) => {
                 handleAttrChange(type, 'value', val);
               }}

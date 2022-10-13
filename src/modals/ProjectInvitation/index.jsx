@@ -177,7 +177,11 @@ const InvitationModal = (props) => {
     };
     fetchGetRole(query).subscribe({
       next: (res) => {
-        console.log(res);
+        const { data: { role_id } } = res;
+        setRole(role_id);
+        if (role_id === 2) {
+          setSelectValue(2)
+        }
       }
     })
     // getInviteRole({ project_id: current_project_id }).subscribe({
@@ -394,20 +398,20 @@ const InvitationModal = (props) => {
       })
     }
     fetchInviteMember(params)
-    .pipe(
-      tap((res) => {
-        const { code } = res;
-      
-        if (code === 0) {
-          Message('success', '邀请成功!');
-          Bus.$emit('getTeamMemberList');
-          setAddList([]);
-        } else {
-          Message('error', '邀请失败!');
-        }
-      })
-    )
-    .subscribe();
+      .pipe(
+        tap((res) => {
+          const { code } = res;
+
+          if (code === 0) {
+            Message('success', '邀请成功!');
+            Bus.$emit('getTeamMemberList');
+            setAddList([]);
+          } else {
+            Message('error', '邀请失败!');
+          }
+        })
+      )
+      .subscribe();
     return;
     const submitObj = {
       project_id: current_project_id,
@@ -482,7 +486,7 @@ const InvitationModal = (props) => {
         >
           {/* <Spin loading={spinning}></Spin> */}
           <div className="modal-inviation-title">
-            <div>{ t('modal.invitation') }</div>
+            <div>{t('modal.invitation')}</div>
             {/* <div>{ t('modal.addTeamMem') }</div> */}
           </div>
           <div className="team-inviation-content">
@@ -490,22 +494,26 @@ const InvitationModal = (props) => {
               <div className="team-inviation-add-operation">
                 <Input
                   value={inputValue}
-                  placeholder={ t('placeholder.invitedEmail') }
+                  placeholder={t('placeholder.invitedEmail')}
                   // inputStyle={{ width: '80%' }}
                   onChange={(val) => setInputValue(val)}
                   maxLength={30}
-                  // onPressEnter={() => changeTeamInvitation('add')}
+                // onPressEnter={() => changeTeamInvitation('add')}
                 />
-                <Select value={selectValue}  onChange={(key) => setSelectValue(key)}>
-                  <Option value={3}>{ t('modal.roleList.1') }</Option>
-                  <Option value={2}>{ t('modal.roleList.0') }</Option>
-                </Select>
+                {
+                  role !== 2 ?
+                    <Select value={selectValue} onChange={(key) => setSelectValue(key)}>
+                      <Option value={3}>{t('modal.roleList.1')}</Option>
+                      <Option value={2}>{t('modal.roleList.0')}</Option>
+                    </Select>
+                    : <p className='only-common'>{t('modal.roleList.0')}</p>
+                }
                 <Button
                   // className="apipost-blue-btn"
                   style={{ color: '#fff' }}
                   onClick={() => changeTeamInvitation('add')}
                 >
-                  { t('btn.ok') }
+                  {t('btn.ok')}
                 </Button>
               </div>
               <div className="team-invitation-add-list">
@@ -517,7 +525,7 @@ const InvitationModal = (props) => {
                           value={item.email}
                           readonly
                           placeholder=""
-                          // inputStyle={{ width: '90%' }}
+                        // inputStyle={{ width: '90%' }}
                         />
                         <div
                           className="api-close-btn"
@@ -534,18 +542,22 @@ const InvitationModal = (props) => {
                     )}
 
                     <span style={{ padding: '0 16px' }}>
-                      <Select
-                        value={item.power}
-                        defaultValue="common"
-                        onChange={(key) => {
-                          item.power = key;
-                          changeTeamInvitation('change', item);
-                        }}
-                      >
-                        {/* {renderOptions()} */}
-                        <Option value={3}>{ t('modal.roleList.1') }</Option>
-                        <Option value={2}>{ t('modal.roleList.0') }</Option>
-                      </Select>
+                      {
+                        role !== 2 ?
+                          <Select
+                            value={item.power}
+                            defaultValue="common"
+                            onChange={(key) => {
+                              item.power = key;
+                              changeTeamInvitation('change', item);
+                            }}
+                          >
+                            {/* {renderOptions()} */}
+                            <Option value={3}>{t('modal.roleList.1')}</Option>
+                            <Option value={2}>{t('modal.roleList.0')}</Option>
+                          </Select>
+                        : <p className='only-common'>{t('modal.roleList.0')}</p>
+                      }
                     </span>
                     {/* {computeStation(item)} */}
                   </div>
@@ -628,7 +640,7 @@ const InvitationModal = (props) => {
               </span> */}
               <Button onClick={onSubmit}>
                 {/* {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'} */}
-                { t('btn.addMem') }
+                {t('btn.addMem')}
               </Button>
             </div>
           </div>
