@@ -5,12 +5,14 @@
     width: 320px;
     color: var(--font-1);
     transform: translate(-50%, -50%);
+
     .title {
         font-size: 24px;
         margin-bottom: 40px;
         font-weight: 600;
         color: var(--font-1) !important;
     }
+
     .apipost-btn {
         height: 41px;
         color: var(--font-1);
@@ -19,6 +21,7 @@
         font-size: 14px;
         margin-top: 30px;
     }
+
     .to-login {
         margin-top: 20px;
         cursor: pointer;
@@ -41,4 +44,46 @@
         background: rgba(255, 76, 76, 0.1);
         border: 1px solid var(--bg-4);
     }
+
+    .send-success {
+        color: var(--font-1);
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .email-info {
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        color: var(--font-2);
+        margin-top: 35px;
+    }
+
+    .send-again {
+        display: flex;
+        color: var(--font-2);
+        font-size: 14px;
+        align-items: center;
+        margin-top: 51px;
+
+        &-btn {
+            min-width: 75px;
+            width: 75px;
+            height: 31px;
+            margin-top: 0;
+            background-color: var(--theme-color);
+            color: var(--common-white);
+            margin-left: 10px;
+        }
+    }
+}
+
+.send-body {
+    width: 472px;
+    height: 271px;
+    border-radius: 15px;
+    background-color: var(--bg-2);
+    padding: 45px 30px;
+    box-sizing: border-box;
 }

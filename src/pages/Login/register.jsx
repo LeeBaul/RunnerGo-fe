@@ -148,7 +148,7 @@ const RegisterBox = (props) => {
 
     const registerNow = () => {
         if (Object.keys(vcodeObj).length === 0) {
-            return Message('error', '请进行验证');
+            return Message('error', t('message.check'));
         }
         if (emailError || nameError || pwdDiff) {
             return;
@@ -165,7 +165,7 @@ const RegisterBox = (props) => {
                     if (code === 0) {
                         // localStorage.setItem('token', token);
                         // localStorage.setItem('expire_time_sec', expire_time_sec * 1000);
-                        Message('success', '注册成功!');
+                        Message('success', t('message.registerSuccess'));
                         navigate('/login');
 
                     }

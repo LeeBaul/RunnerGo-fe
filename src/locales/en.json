@@ -15,7 +15,11 @@
         "nicknameError": "At least 4 nicknames",
         "findPwd": "Retrieve password",
         "resetPwd": "Send Reset Password",
-        "findToLogin": "Go to login"
+        "findToLogin": "Go to login",
+        "emailSuccess": "The email with password retrieved was sent successfully! Please log in to your email to view",
+        "email": "email",
+        "email_tips": "If you don't receive it, please try to check your mailbox trash or try again later",
+        "send_again": "You can resend the password reset email with the following buttons"
     },
     "header": {
         "import": "import",
@@ -97,7 +101,8 @@
         "quitTeam": "Exit the team",
         "transferTeam": "Handover Team",
         "confirmDissmiss": "Confirm dissolution",
-        "contrast": "contrast"
+        "contrast": "contrast",
+        "sendAgain": "Resend"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -130,7 +135,10 @@
         "createError": "Creation failed!",
         "noTeamName": "No team name entered!",
         "removeMemSuccess": "Removal succeeded!",
-        "removeMemError": "Removal failed!"
+        "removeMemError": "Removal failed!",
+        "check": "Please verify!",
+        "loginSuccess": "Login succeeded!",
+        "registerSuccess": "login was successful!"
     },
     "modal": {
         "look": "be careful",

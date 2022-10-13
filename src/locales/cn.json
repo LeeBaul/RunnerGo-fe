@@ -15,7 +15,11 @@
         "nicknameError": "昵称最少4位",
         "findPwd": "找回密码",
         "resetPwd": "发送重置密码",
-        "findToLogin": "去登录"
+        "findToLogin": "去登录",
+        "emailSuccess": "找回密码邮件发送成功! 请登录您的邮箱查看",
+        "email": "邮箱",
+        "email_tips": "如果没有收到, 请尝试查看您的邮箱垃圾箱或者稍后再试",
+        "send_again": "您可以通过以下按钮重新发送密码重置邮件"
     },
     "header": {
         "import": "导入",
@@ -97,7 +101,8 @@
         "quitTeam": "退出团队",
         "transferTeam": "移交团队",
         "confirmDissmiss": "确认解散",
-        "contrast": "对比"
+        "contrast": "对比",
+        "sendAgain": "重新发送"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -130,7 +135,10 @@
         "createError": "创建失败!",
         "noTeamName": "未输入团队名称!",
         "removeMemSuccess": "移除成功!",
-        "removeMemError": "移除失败!"
+        "removeMemError": "移除失败!",
+        "check": "请进行验证!",
+        "loginSuccess": "登录成功!",
+        "registerSuccess": "注册成功!"
     },
     "modal": {
         "look": "注意",

@@ -146,7 +146,7 @@ const LoginBox = (props) => {
 
   const loginNow = () => {
     if (Object.keys(vcodeObj).length === 0) {
-      return Message('error', '请进行验证');
+      return Message('error', t('message.check'));
     }
     if (emailError) {
       return;
@@ -172,7 +172,7 @@ const LoginBox = (props) => {
           saveLocalData(data);
           localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
           localStorage.setItem('kunpeng-token', data.token);
-          Message('success', '登录成功!');
+          Message('success', t('message.loginSuccess'));
           // setCookie('token', userData.token);
 
           return getUserConfig$();
