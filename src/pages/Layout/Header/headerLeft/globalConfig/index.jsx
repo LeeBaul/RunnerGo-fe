@@ -19,10 +19,10 @@ const GlobalConfig = () => {
                 <SvgGlobalVar />
                 <span>{ t('header.globalVar') }</span>
             </div>
-            <div className='config-item' onClick={() => setShowFunc(true)}>
+            {/* <div className='config-item' onClick={() => setShowFunc(true)}>
                 <SvgDesc />
                 <span>{ t('header.commonFunc') }</span>
-            </div>
+            </div> */}
             { showFunc && <CommonFunction onCancel={() => setShowFunc(false)} /> }
             { showVar && <GlobalVar onCancel={() => setShowVar(false)} /> }
         </div>

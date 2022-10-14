@@ -37,7 +37,7 @@ const HeaderLeft = () => {
         <div className='header-left'>
             { importApi && <ImportApi onCancel={() => setImportApi(false)} /> }
             <TeamProject />
-            <Dropdown
+            {/* <Dropdown
                 className='import-dropdown'
                 ref={refDropdown}
                 content={
@@ -47,7 +47,7 @@ const HeaderLeft = () => {
                 }
             >
                 <Button className="import-btn">{ t("header.import") }</Button>
-            </Dropdown>
+            </Dropdown> */}
             <GlobalConfig />
             <RunningShow />
         </div>

@@ -59,7 +59,7 @@ const ButtonBox = (props) => {
                             <SvgNewFolder width="18px" height="18px" />
                         </Button>
                     </Tooltip>
-                    <Tooltip content={ t('apis.import') } placement="top">
+                    {/* <Tooltip content={ t('apis.import') } placement="top">
                         <Dropdown
                             placement="bottom-end"
                             content={
@@ -84,7 +84,7 @@ const ButtonBox = (props) => {
                                 <SvgDownload width="18px" height="18px" />
                             </Button>
                         </Dropdown>
-                    </Tooltip>
+                    </Tooltip> */}
                     <Tooltip content={ t('apis.expand') } placement="top">
                         <Button size="mini" onClick={handleExpandAll}>
                             {isExpandAll ? (

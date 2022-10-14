@@ -56,6 +56,18 @@ export const fetchGetRole = (
 export const fetchDissTeam = (
   params
 ) => ajax('post', '/management/api/v1/team/disband', 'json', false, params);
+// 修改昵称
+export const fetchUpdateName = (
+  params
+) => ajax('post', '/management/api/v1/auth/update_nickname', 'json', false, params);
+// 修改密码
+export const fetchUpdatePwd = (
+  params
+) => ajax('post', '/management/api/v1/auth/update_password', 'json', false, params);
+// 修改头像
+export const fetchUpdateAvatar = (
+  params
+) => ajax('post', '/management/api/v1/auth/update_avatar', 'json', false, params);
 
 
 

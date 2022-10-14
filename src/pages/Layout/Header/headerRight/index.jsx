@@ -107,20 +107,20 @@ const HeaderRight = () => {
                         <Button className='person-page' preFix={<SvgUserhome />} onClick={() => {
                             refDropdown.current.setPopupVisible(false);
                             setShowInfo(true);
-                        }}>我的个人资料</Button>
+                        }}>{ t('header.myInfo') }</Button>
                         <div className='line'></div>
                         <div className='person-drop'>
                             <div className='person-drop-item' onClick={() => {
                                 refDropdown.current.setPopupVisible(false);
                             }}>
                                 <SvgDocs />
-                                <span>实用文档</span>
+                                <span>{ t('header.doc') }</span>
                             </div>
                             <div className='person-drop-item' onClick={() => {
                                 refDropdown.current.setPopupVisible(false);
                             }}>
                                 <SvgCustomer />
-                                <span>企业专属客服</span>
+                                <span>{ t('header.customer') }</span>
                             </div>
                         </div>
                     </div>
@@ -200,8 +200,10 @@ const HeaderRight = () => {
         localStorage.removeItem('expire_time_sec');
         localStorage.removeItem('team_id');
         localStorage.removeItem('settings');
+        localStorage.removeItem('open_apis');
+        localStorage.removeItem('open_scene');
         navigate('/login');
-        Message('success', '退出成功!');
+        Message('success', t('message.quitSuccess'));
     };
 
     return (

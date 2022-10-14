@@ -7,6 +7,7 @@ import avatar from '@assets/logo/avatar.png'
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import EditAvatar from '../EditAvatar';
+import { fetchUpdateName, fetchUpdatePwd } from '@services/user';
 
 const InfoManage = (props) => {
     const { onCancel } = props;
@@ -33,33 +34,78 @@ const InfoManage = (props) => {
     }
 
     const editNickname = () => {
+        let nickname = '';
         Modal.confirm({
             title: t('modal.editName'),
-            content: <Input value={nickName} onChange={(e) => setNickName(e)} />,
+            content: <Input value={nickName} onChange={(e) => {
+                nickname = e;
+                setNickName(e);
+            }} />,
             cancelText: t('btn.cancel'),
             okText: t('btn.ok'),
             onOk: () => {
                 // deleteReport(report_id);
+                console.log(nickname);
+                const params = {
+                    nickname,   
+                };
+                fetchUpdateName(params).subscribe({
+                    next: (res) => {
+                        const { code } = res;
+                        if (code === 0) {
+                            Message('success', t('message.updateSuccess'));
+                        } else {
+                            Message('error', t('message.updateError'))
+                        }
+                    }
+                })
             }
         })
     }
 
     const editPwd = () => {
+        let current_password = '';
+        let new_password = '';
+        let repeat_password = '';
         Modal.confirm({
             title: t('modal.editName'),
             content: 
-            <>
-                <Input value={oldPwd} onChange={(e) => setOldPwd(e)} />
-                <Input value={newPwd} onChange={(e) => setNewPwd(e)} />
-                <Input value={confirmPwd} onChange={(e) => setConfirmPwd(e)} />
-            </>,
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <Input placeholder={ t('placeholder.currentPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }} value={oldPwd} onChange={(e) => {
+                    setOldPwd(e);
+                    current_password = e;
+                }} />
+                <Input placeholder={ t('placeholder.newPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)'}} value={newPwd} onChange={(e) => {
+                    setNewPwd(e);
+                    new_password = e;
+                }} />
+                <Input placeholder={ t('placeholder.confirmPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }} value={confirmPwd} onChange={(e) => {
+                    setConfirmPwd(e);
+                    repeat_password = e;
+                }} />
+            </div>,
             cancelText: t('btn.cancel'),
             okText: t('btn.ok'),
             onOk: () => {
-                if (newPwd !== confirmPwd) {
+                if (new_password !== repeat_password) {
                     Message('error', t('message.pwdDiff'));
                     return;
                 }
+                const params = {
+                    current_password,
+                    new_password,
+                    repeat_password,
+                }
+                fetchUpdatePwd(params).subscribe({
+                    next: (res) => {
+                        const { code } = res;
+                        if (code === 0) {
+                            Message('success', t('message.updateSuccess'));
+                        } else {
+                            Message('error', t('message.updateError'))
+                        }
+                    }
+                })
                 // deleteReport(report_id);
             }
         })

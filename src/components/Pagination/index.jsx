@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { Button, Select, Input } from 'adesign-react';
-const { Option } = Select;
+import { Button, Input } from 'adesign-react';
 import { useTranslation } from 'react-i18next';
+
+import { Select } from '@arco-design/web-react';
+const { Option } = Select;
 
 const Pagination = (props) => {
     const { current, size, onChange, total } = props;
@@ -31,6 +33,7 @@ const Pagination = (props) => {
     return (
         <div className='paging'>
             <Select
+                style={{ width: 'auto' }}
                 placement="top-start"
                 defaultValue={pageSize}
                 onChange={(e) => {

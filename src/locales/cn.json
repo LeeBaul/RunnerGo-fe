@@ -35,7 +35,10 @@
         "signOut": "退出",
         "menu": "菜单",
         "changeLge": "语言切换",
-        "changeTheme": "主题切换"
+        "changeTheme": "主题切换",
+        "myInfo": "我的个人资料",
+        "doc": "实用文档",
+        "customer": "企业专属客服"
     },
     "leftBar": {
         "index": "首页",
@@ -68,7 +71,8 @@
         "confirmPwd": "请确认密码",
         "nickname": "请输入昵称",
         "teamName": "请输入团队名称",
-        "newPwd": "请输入新密码"
+        "newPwd": "请输入新密码",
+        "currentPwd": "请输入当前密码"
     },
     "btn": {
         "cancel": "取消",
@@ -128,6 +132,7 @@
         "copyError": "复制失败!",
         "handleSuccess": "操作成功!",
         "handleError": "操作失败!",
+        "updateSuccess": "修改成功!",
         "updateError": "修改失败!",
         "setSuccess": "设置成功!",
         "setError": "设置失败!",
@@ -179,7 +184,8 @@
         "defaultAvatar": "默认头像",
         "diyAvatar": "自定义头像",
         "avatarTips": "支持jpg, jpeg, png格式的图片, 大小不超过3M",
-        "edit": "编辑"
+        "edit": "编辑",
+        "editPwd": "修改邮箱密码"
     },
     "column": {
         "teamManage": {
