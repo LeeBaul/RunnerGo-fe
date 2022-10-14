@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './index.less';
 import avatar from '@assets/logo/avatar.png';
 import { Button, Dropdown, Message } from 'adesign-react';
 import { Down as SvgDown } from 'adesign-react/icons';
 import dayjs from 'dayjs';
-import { fetchSetDebug } from '@services/report';
+import { fetchSetDebug, fetchGetDebug } from '@services/report';
 import { useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
+
 
 const ReportExecutor = (props) => {
     const { data: { user_avatar, user_name, created_time_sec }, onStop, status, runTime } = props;
@@ -21,6 +22,28 @@ const ReportExecutor = (props) => {
     const { id: report_id, contrast } = qs.parse(search.slice(1));
     
     const select_plan = useSelector((store) =>(store.plan.select_plan));
+
+    useEffect(() => {
+        const query = {
+            report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
+            team_id: localStorage.getItem('team_id')
+        };
+        fetchGetDebug(query).subscribe({
+            next: (res) => {
+                const { data } = res;
+
+                const itemList = {
+                    'stop': [t('report.debugList.0')],
+                    'all': [t('report.debugList.1')],
+                    'only_error': [t('report.debugList.2')],
+                    'only_success': [t('report.debugList.3')]
+                }
+
+                setDebugName(itemList[data])
+            }
+        })
+    }, [select_plan]);
+    
     
     const DropContent = () => {
         const list = [t('report.debugList.0'), t('report.debugList.1'), t('report.debugList.2'), t('report.debugList.3')];

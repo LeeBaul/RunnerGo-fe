@@ -39,3 +39,8 @@ export const fetchSetDebug = (
 export const fetchStopReport = (
     params
 ) => ajax('post', '/management/api/v1/report/stop', 'json', false, params);
+
+// 获取当前用户选择的debug模式
+export const fetchGetDebug = (
+    query
+) => ajax('get', '/management/api/v1/report/debug/detail', 'json', false, {}, query);
