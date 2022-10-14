@@ -68,7 +68,7 @@ export const HeaderLeftModal = css`
     }
 
     .create-team {
-        width: 86px;
+        min-width: 86px;
         height: 30px;
         background-color: var(--theme-color);
         border-radius: 3px;

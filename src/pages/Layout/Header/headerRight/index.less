@@ -3,12 +3,18 @@
   align-items: center;
 
   .handle-log {
-    width: 64px;
+    min-width: 64px;
+    width: auto !important;
     height: 30px;
     background-color: var(--select);
     border-radius: 5px;
     color: var(--font-1);
     padding: 5px 8px;
+
+    svg {
+      min-width: 13px;
+      min-height: 13px;
+    }
   }
 
   .team-person {
