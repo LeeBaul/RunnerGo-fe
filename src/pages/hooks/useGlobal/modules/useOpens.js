@@ -1159,12 +1159,12 @@ const useOpens = () => {
 
     const recordOpenApi = () => {
         let ids = [];
-        console.log(open_apis);
+        console.log(open_apis, apiDatas);
         const _openApis = Object.values(open_apis);
         if (_openApis.length > 0) {
             _openApis.forEach(item => {
                 const { target_id } = item;
-                if (typeof target_id === 'number') {
+                if (typeof target_id === 'number' && apiDatas[target_id]) {
                    ids.push(target_id);
                 }
             })
@@ -1262,7 +1262,7 @@ const useOpens = () => {
 
     useEventBus('pasteApi', pasteApi, [apiDatas]);
 
-    useEventBus('recordOpenApi', recordOpenApi, [open_apis]);
+    useEventBus('recordOpenApi', recordOpenApi, [open_apis, apiDatas]);
 
     useEventBus('openRecordApi', openRecordApi, [open_apis]);
     // 初始化tabs

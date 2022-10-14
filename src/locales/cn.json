@@ -20,7 +20,8 @@
         "email": "邮箱",
         "email_tips": "如果没有收到, 请尝试查看您的邮箱垃圾箱或者稍后再试",
         "send_again": "您可以通过以下按钮重新发送密码重置邮件",
-        "reset": "重置密码"
+        "reset": "重置密码",
+        "password": "密码"
     },
     "header": {
         "import": "导入",
@@ -104,7 +105,8 @@
         "transferTeam": "移交团队",
         "confirmDissmiss": "确认解散",
         "contrast": "对比",
-        "sendAgain": "重新发送"
+        "sendAgain": "重新发送",
+        "return": "返回"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -140,7 +142,8 @@
         "removeMemError": "移除失败!",
         "check": "请进行验证!",
         "loginSuccess": "登录成功!",
-        "registerSuccess": "注册成功!"
+        "registerSuccess": "注册成功!",
+        "pwdDiff": "新旧密码不一致!"
     },
     "modal": {
         "look": "注意",
@@ -171,7 +174,12 @@
         "team": "团队",
         "delMem": "移除成员",
         "teamMemTitle": "团队成员列表",
-        "me": "本人"
+        "me": "本人",
+        "editName": "编辑昵称",
+        "defaultAvatar": "默认头像",
+        "diyAvatar": "自定义头像",
+        "avatarTips": "支持jpg, jpeg, png格式的图片, 大小不超过3M",
+        "edit": "编辑"
     },
     "column": {
         "teamManage": {

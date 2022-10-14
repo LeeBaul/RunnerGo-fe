@@ -186,12 +186,11 @@ const RecentReport = () => {
             title: t('index.performer'),
             dataIndex: 'run_user_name',
             ellipsis: true
-            // width: 200,
         },
         {
             title: t('index.status'),
             dataIndex: 'status',
-            // width: 200,
+            width: 120,
 
         },
         {

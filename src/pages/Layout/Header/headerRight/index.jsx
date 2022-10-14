@@ -15,6 +15,7 @@ import avatar from '@assets/logo/avatar.png'
 import InvitationModal from '@modals/ProjectInvitation';
 import ProjectMember from '@modals/ProjectMember';
 import TeamworkLogs from '@modals/TeamworkLogs';
+import InfoManage from '@modals/InfoManage';
 import SingleUser from './SingleUser';
 import { fetchTeamMemberList } from '@services/user';
 import { tap } from 'rxjs';
@@ -28,6 +29,8 @@ const HeaderRight = () => {
     const [showModal, setShowModal] = useState(false);
     const [showMember, setMemberModal] = useState(false);
     const [showLog, setShowLog] = useState(false);
+    // 个人资料
+    const [showInfo, setShowInfo] = useState(false);
     // 切换语言
     const [showLge, setShowLge] = useState(false);
     // 切换主题
@@ -103,8 +106,8 @@ const HeaderRight = () => {
                         <p className='email'>{ userInfo.email }</p>
                         <Button className='person-page' preFix={<SvgUserhome />} onClick={() => {
                             refDropdown.current.setPopupVisible(false);
-                            navigate('/userhome')
-                        }}>我的个人主页</Button>
+                            setShowInfo(true);
+                        }}>我的个人资料</Button>
                         <div className='line'></div>
                         <div className='person-drop'>
                             <div className='person-drop-item' onClick={() => {
@@ -232,6 +235,11 @@ const HeaderRight = () => {
             {showLog && <TeamworkLogs onCancel={() => {
                 setShowLog(false);
             }} />}
+            {
+             showInfo && <InfoManage onCancel={() => {
+                setShowInfo(false);
+             }} />
+            }
         </div>
     )
 };

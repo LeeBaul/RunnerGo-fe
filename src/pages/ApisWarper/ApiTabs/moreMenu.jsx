@@ -35,12 +35,12 @@ const AddMenu = (props) => {
             title: t('apis.focreCloseOtherTargetById'),
             action: 'focreCloseOtherTargetById',
         },
-        {
-            type: 'saveAllTarget',
-            title: t('apis.saveAllTarget'),
-            tips: `Ctrl + shift + S`,
-            action: 'saveAllTarget',
-        },
+        // {
+        //     type: 'saveAllTarget',
+        //     title: t('apis.saveAllTarget'),
+        //     tips: `Ctrl + shift + S`,
+        //     action: 'saveAllTarget',
+        // },
     ];
     const handleMenuClick = (action) => {
         Bus.$emit(action, open_apis, open_api_now);

@@ -87,6 +87,7 @@ const TeamList = (props) => {
         if (code === 0) {
           dropRef?.current?.setPopupVisible(false)
           localStorage.setItem('team_id', team_id);
+          localStorage.removeItem('open_scene');
           dispatch({
             type: 'opens/coverOpenApis',
             payload: {},

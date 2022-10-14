@@ -1,0 +1,115 @@
+.info-modal {
+    .apipost-modal-container {
+        width: 58vw;
+    }
+
+    .info-header {
+        display: flex;
+        justify-content: space-between;
+
+        .return-btn {
+            width: 60px;
+            height: 36px;
+
+            background-color: var(--theme-color);
+            color: var(--common-white);
+            padding: 8px 8px 8px 4px;
+            margin-top: 40px;
+
+            svg {
+                fill: var(--common-white);
+                width: 16px;
+                height: 16px;
+                margin-right: 4px;
+            }
+        }
+    }
+
+    .info-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 40px 80px;
+
+        &-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .avatar {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            .name {
+                display: flex;
+                align-items: center;
+                margin-top: 15px;
+                color: var(--font-color);
+
+                p {
+                    font-size: 20px;
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                    margin-left: 14px;
+                    fill: var(--font-color);
+                }
+            }
+        }
+
+        &-right {
+            display: flex;
+            align-items: center;
+
+            .line {
+                height: 130px;
+                width: 0;
+                border: 4px solid var(--theme-color);
+            }
+
+            .right-info {
+                display: flex;
+                flex-direction: column;
+                margin-left: 52px;
+
+                &-item {
+                    display: flex;
+                    flex-direction: column;
+
+                    .label {
+                        color: var(--font-1);
+                        font-size: 16px;
+                        margin-bottom: 5px;
+                    }
+
+                    .value {
+                        color: var(--font-color);
+                        font-size: 14px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .edit {
+                            color: var(--theme-color);
+                            margin-bottom: 4px;
+                        }
+                    }
+                }
+
+                .line {
+                    width: 325px;
+                    height: 0;
+                    border: 1px solid var(--bg-4);
+                }
+            }
+        }
+    }
+
+    .apipost-modal-close {
+        display: none;
+    }
+}

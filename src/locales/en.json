@@ -20,7 +20,8 @@
         "email": "email",
         "email_tips": "If you don't receive it, please try to check your mailbox trash or try again later",
         "send_again": "You can resend the password reset email with the following buttons",
-        "reset": "reset password"
+        "reset": "reset password",
+        "password": "password"
     },
     "header": {
         "import": "import",
@@ -104,7 +105,8 @@
         "transferTeam": "Handover Team",
         "confirmDissmiss": "Confirm dissolution",
         "contrast": "contrast",
-        "sendAgain": "Resend"
+        "sendAgain": "Resend",
+        "return": "Return"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -140,7 +142,8 @@
         "removeMemError": "Removal failed!",
         "check": "Please verify!",
         "loginSuccess": "Login succeeded!",
-        "registerSuccess": "login was successful!"
+        "registerSuccess": "login was successful!",
+        "pwdDiff": "The old and new passwords are inconsistent!"
     },
     "modal": {
         "look": "be careful",
@@ -171,7 +174,12 @@
         "team": "Team",
         "delMem": "Remove Members",
         "teamMemTitle": "Team member list",
-        "me": "me"
+        "me": "me",
+        "editName": "Edit nickname",
+        "defaultAvatar": "Default avatar",
+        "diyAvatar": "Custom avatar",
+        "avatarTips": "Support jpg, jpeg, png format images, with a size of no more than 3M",
+        "edit": "Edit"
     },
     "column": {
         "teamManage": {

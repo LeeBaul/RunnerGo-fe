@@ -29,11 +29,11 @@ export const TABS_MENUS = [
         title: '强制关闭其他标签',
         action: 'focreCloseOtherTarget',
     },
-    {
-        type: 'saveAllTarget',
-        title: '保存所有标签',
-        action: 'saveAllTarget',
-    },
+    // {
+    //     type: 'saveAllTarget',
+    //     title: '保存所有标签',
+    //     action: 'saveAllTarget',
+    // },
 ];
 
 export default TABS_MENUS;
