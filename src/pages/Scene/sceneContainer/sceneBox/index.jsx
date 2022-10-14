@@ -538,6 +538,7 @@ const SceneBox = (props) => {
                 position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
+            
             // const _open_data = cloneDeep(open_data);
             // if (_open_data.nodes) {
             //     _open_data.nodes.push(new_node);
