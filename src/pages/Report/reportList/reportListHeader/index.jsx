@@ -54,8 +54,8 @@ const ReportListHeader = (props) => {
         navigate(`/report/detail?contrast=${JSON.stringify(_selectReport)}`)
     }
     return (
-        <div className='report-header'>
-            <div className='report-header-left'>
+        <div className='report-header-list'>
+            <div className='report-header-list-left'>
                 <Input
                     value={keyword}
                     className="textBox"
