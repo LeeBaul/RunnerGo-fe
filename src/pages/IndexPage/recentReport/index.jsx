@@ -17,9 +17,11 @@ import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { isArray } from 'lodash';
+import enUS from '@arco-design/web-react/es/locale/en-US';
+import cnUS from '@arco-design/web-react/es/locale/zh-CN';
 
 
-import { DatePicker, Table } from '@arco-design/web-react';
+import { DatePicker, Table, ConfigProvider } from '@arco-design/web-react';
 const { RangePicker } = DatePicker;
 
 const RecentReport = () => {
@@ -33,6 +35,7 @@ const RecentReport = () => {
     const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('index_page')) || 1);
     const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('index_pagesize')) || 10);
     const theme = useSelector((store) => store.user.theme);
+    const language = useSelector((store) => store.user.language);
     const navigate = useNavigate();
     const { t } = useTranslation();
     const modeList = {
@@ -125,7 +128,7 @@ const RecentReport = () => {
 
         fetchDeleteReport(params).subscribe({
             next: (res) => {
-                Message('success', '删除成功!');
+                Message('success', t('message.deleteSuccess'));
                 getReportData();
             }
         });
@@ -284,11 +287,13 @@ const RecentReport = () => {
                     beforeFix={<SvgSearch />}
                     placeholder={t('index.placeholder')}
                 />
-                <RangePicker
-                    mode="date"
-                    onChange={onChange}
-                    showTime="true"
-                />
+                <ConfigProvider locale={language === 'en' ? enUS : cnUS}>
+                    <RangePicker
+                        mode="date"
+                        onChange={onChange}
+                        showTime="true"
+                    />
+                </ConfigProvider>
                 <Tooltip
                     content={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : '' }
                 >

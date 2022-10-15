@@ -10,8 +10,10 @@ import CreatePlan from '@modals/CreatePlan';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { isArray } from 'lodash';
+import enUS from '@arco-design/web-react/es/locale/en-US';
+import cnUS from '@arco-design/web-react/es/locale/zh-CN';
 
-import { DatePicker } from '@arco-design/web-react';
+import { DatePicker, ConfigProvider } from '@arco-design/web-react';
 const { RangePicker } = DatePicker;
 
 const PlanHeader = (props) => {
@@ -22,6 +24,7 @@ const PlanHeader = (props) => {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const theme = useSelector((store) => store.user.theme);
+    const language = useSelector((store) => store.user.language);
     const navigate = useNavigate();
 
     const DateChange = (dateString, date) => {
@@ -58,11 +61,13 @@ const PlanHeader = (props) => {
                     beforeFix={<SvgSearch />}
                     placeholder={t('placeholder.searchPlan')}
                 />
-                <RangePicker
-                    mode="date"
-                    onChange={DateChange}
-                    showTime="true"
-                />
+                <ConfigProvider locale={ language === 'en' ? enUS : cnUS }>
+                    <RangePicker
+                        mode="date"
+                        onChange={DateChange}
+                        showTime="true"
+                    />
+                </ConfigProvider>
                 {/* <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button> */}
             </div>
             <div className='plan-header-right'>

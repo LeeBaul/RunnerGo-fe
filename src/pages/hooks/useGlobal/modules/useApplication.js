@@ -224,6 +224,14 @@ const useProject = () => {
             document.querySelector(`link[name="apt-template-link"]`).setAttribute('href', url);
         };
 
+        const initLanguage = () => {
+            const language = localStorage.getItem('i18nextLng');
+            dispatch({
+                type: 'user/updateLanGuaGe',
+                payload: language
+            })
+        }
+
         const apiListParams = {
             page: 1,
             size: 100,
@@ -235,6 +243,7 @@ const useProject = () => {
             concatMap((userConfig) => {
                 // 初始化主题色
                 ininTheme(userConfig);
+                initLanguage();
                 const team_id = localStorage.getItem('team_id');
                 return of(team_id).pipe(
                     // step1.加载团队列表

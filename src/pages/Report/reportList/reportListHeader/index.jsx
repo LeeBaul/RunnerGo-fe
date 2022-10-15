@@ -10,8 +10,10 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { isArray } from 'lodash';
+import enUS from '@arco-design/web-react/es/locale/en-US';
+import cnUS from '@arco-design/web-react/es/locale/zh-CN';
 
-import { DatePicker } from '@arco-design/web-react';
+import { DatePicker, ConfigProvider } from '@arco-design/web-react';
 const { RangePicker } = DatePicker;
 
 const ReportListHeader = (props) => {
@@ -21,6 +23,7 @@ const ReportListHeader = (props) => {
     const [keyword, setKeyword] = useState('');
 
     const theme = useSelector((store) => store.user.theme);
+    const language = useSelector((store) => store.user.language);
 
     const DateChange = (dateString, date) => {
         if (isArray(dateString)) {
@@ -64,11 +67,13 @@ const ReportListHeader = (props) => {
                     }}
                 />
 
-                <RangePicker
-                    mode="date"
-                    onChange={DateChange}
-                    showTime="true"
-                />
+                <ConfigProvider locale={ language === 'en' ? enUS : cnUS }>
+                    <RangePicker
+                        mode="date"
+                        onChange={DateChange}
+                        showTime="true"
+                    />
+                </ConfigProvider>
                 <Tooltip
                     content={selectReport.length < 2 || selectReport.length > 5 ? t('index.contrastText') : ''}
                 >

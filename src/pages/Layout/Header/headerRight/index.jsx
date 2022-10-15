@@ -161,10 +161,18 @@ const HeaderRight = () => {
                         <div className='drop-content'>
                             <p style={{ color: i18n.language === 'cn' ? 'var(--theme-color)' : ''}} onClick={() => {
                                 i18n.changeLanguage('cn');
+                                dispatch({
+                                    type: 'user/updateLanGuaGe',
+                                    payload: 'cn'
+                                })
                                 refMenu.current.setPopupVisible(false);
                             }}>中文</p>
                             <p style={{ color: i18n.language === 'en' ? 'var(--theme-color)' : '' }} onClick={() => {
                                 i18n.changeLanguage('en');
+                                dispatch({
+                                    type: 'user/updateLanGuaGe',
+                                    payload: 'en'
+                                })
                                 refMenu.current.setPopupVisible(false);
                             }}>English</p>
                         </div>

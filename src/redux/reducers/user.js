@@ -15,6 +15,7 @@ const initialState = {
     },
     team_id: null,
     theme: 'dark',
+    language: 'cn',
 };
 
 // action名称
@@ -22,7 +23,8 @@ const actionTypes = {
     updateConfig: 'updateConfig',
     updateUserInfo: 'updateUserInfo',
     updateTeamId: 'updateTeamId',
-    updateTheme: 'updateTheme'
+    updateTheme: 'updateTheme',
+    updateLanGuaGe: 'updateLanGuaGe',
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -37,6 +39,11 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 theme: action.payload
+            }
+        case `${NAMESPACE}/${actionTypes.updateLanGuaGe}`:
+            return {
+                ...state,
+                language: action.payload
             }
         default:
             return state;
