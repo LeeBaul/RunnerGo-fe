@@ -21,7 +21,7 @@ const IndexPage = () => {
     const dispatch = useDispatch();
     // 操作日志
     // const [logList, setLogList] = useState([]);
-    // const userInfo = useSelector((store) => store.user.userInfo);
+    const userInfo = useSelector((store) => store.user.userInfo);
     // const dispatch = useDispatch();
     // const userData = useSelector((store) => store.dashboard.userData);
     // const logList = useSelector((store) => store.teams.logList);
@@ -37,7 +37,7 @@ const IndexPage = () => {
                 setLog(operations);
             }
         })
-    }, []);
+    }, [userInfo]);
 
     // useEffect(() => {
     //     global$.next({

@@ -183,9 +183,11 @@ const useCollection = () => {
         let newCollection = getBaseCollection(type);
         // newCollection.project_id = CURRENT_PROJECT_ID || '-1';
         if (!newCollection) return;
+        newCollection.parent_id = pid;
         if (isString(pid) && pid.length > 0) {
             newCollection.parent_id = parseInt(pid);
         }
+        
         if (isPlainObject(param)) {
             newCollection = { ...newCollection, ...param };
         }
@@ -193,7 +195,6 @@ const useCollection = () => {
         if (newCollection.sort = -1) {
             newCollection = targetReorder(newCollection);
         }
-
         // newCollection.sort = getSort(apiDatas);
 
         // sort 排序
@@ -207,7 +208,6 @@ const useCollection = () => {
         // 上传服务器 失败走异步任务
         newCollection['team_id'] = parseInt(localStorage.getItem('team_id'));
         delete newCollection['target_id'];
-        console.log(newCollection, data);
         // return;
         fetchHandleFolder(newCollection).subscribe({
             next: async (resp) => {

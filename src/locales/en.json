@@ -110,7 +110,8 @@
         "confirmDissmiss": "Confirm dissolution",
         "contrast": "contrast",
         "sendAgain": "Resend",
-        "return": "Return"
+        "return": "Return",
+        "invitation": "Invitation"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -162,7 +163,9 @@
             "20002": "ErrMustSN!",
             "20004": "User name or password error!",
             "common": "Operation failure, try again later~"
-        }
+        },
+        "folderNameEmpty": "Directory name cannot be empty!",
+        "createFolderSuccess": "New directory succeeded!"
     },
     "modal": {
         "look": "be careful",
@@ -323,7 +326,8 @@
         "editFolder": "Edit Directory",
         "deleteFolder": "Delete Directory",
         "createHttp": "Create a new Http API",
-        "parentFolder": "parent directory",
+        "parentFolder": "Parent directory",
+        "rootFolder": "Root directory",
         "folderName": "directory name",
         "folderDesc": "Directory Description",
         "import": "Import Interface | Project",

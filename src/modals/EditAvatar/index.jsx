@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Upload, Message } from 'adesign-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import avatar from '@assets/logo/avatar.png'
 import { useTranslation } from 'react-i18next';
 import './index.less';
@@ -15,6 +15,7 @@ const EditAvatar = (props) => {
     const [selectDefault, setSelectDefault] = useState(null);
     const [avatarNow, setAvatarNow] = useState('');
     const userInfo = useSelector((store) => store.user.userInfo);
+    const dispatch = useDispatch();
     const defaultAvatar = [
         "https://apipost.oss-cn-beijing.aliyuncs.com/kunpeng/avatar/default1.png",
         "https://apipost.oss-cn-beijing.aliyuncs.com/kunpeng/avatar/default2.png",
@@ -68,6 +69,13 @@ const EditAvatar = (props) => {
                 const { code } = res;
                 if (code === 0) {
                     Message('success', t('message.updateSuccess'));
+                    dispatch({
+                        type: 'user/updateUserInfo',
+                        payload: {
+                            ...userInfo,
+                            avatar: avatarNow,
+                        }
+                    })
                     onCancel();
                 } else {
                     Message('error', t('message.updateError'))

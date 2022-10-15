@@ -4,7 +4,7 @@ import { Left as SvgLeft, Edit as SvgEdit } from 'adesign-react/icons';
 import LogoRight from '@assets/logo/info_right';
 import './index.less';
 import avatar from '@assets/logo/avatar.png'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import EditAvatar from '../EditAvatar';
 import { fetchUpdateName, fetchUpdatePwd } from '@services/user';
@@ -19,6 +19,7 @@ const InfoManage = (props) => {
 
     const [showEditAvatar, setEditAvatar] = useState(false);
 
+    const dispatch = useDispatch();
     useEffect(() => {
         setNickName(userInfo.nickname)
     }, [userInfo]);
@@ -53,6 +54,13 @@ const InfoManage = (props) => {
                     next: (res) => {
                         const { code } = res;
                         if (code === 0) {
+                            dispatch({
+                                type: 'user/updateUserInfo',
+                                payload: {
+                                    ...userInfo,
+                                    nickname,
+                                }
+                            })
                             Message('success', t('message.updateSuccess'));
                         } else {
                             Message('error', t('message.updateError'))
@@ -68,7 +76,7 @@ const InfoManage = (props) => {
         let new_password = '';
         let repeat_password = '';
         Modal.confirm({
-            title: t('modal.editName'),
+            title: t('modal.editPwd'),
             content: 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                 <Input placeholder={ t('placeholder.currentPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }} value={oldPwd} onChange={(e) => {

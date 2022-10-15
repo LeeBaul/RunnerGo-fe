@@ -15,6 +15,12 @@ export const ProjectMemberModal = css`
         display: flex;
         align-item: center;
 
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
         .detail {
             display: flex;
             flex-direction: column;
@@ -83,7 +89,7 @@ export const HeaderLeftModal = css`
     }
 
     .invite-btn {
-        width: 86px;
+        min-width: 86px;
         height: 30px;
         background-color: var(--theme-color);
         border-radius: 5px;

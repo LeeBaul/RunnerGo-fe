@@ -86,7 +86,7 @@ const HeaderRight = () => {
     }, []);
 
     const RenderMemberList = () => {
-        return teamMember.slice(0, 1).map(item => (
+        return  (
             // <Dropdown
             //     content={
             //         <div className="online-list">
@@ -128,11 +128,11 @@ const HeaderRight = () => {
             >
                 <div>
                     <div className='person-avatar'>
-                        <img className='avatar' src={item.avatar || avatar} alt="" />
+                        <img className='avatar' src={userInfo.avatar || avatar} alt="" />
                     </div>
                 </div>
             </Dropdown>
-        ))
+        )
     };
 
     const changeTheme = (color) => {

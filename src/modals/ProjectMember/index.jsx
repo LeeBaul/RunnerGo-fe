@@ -333,7 +333,7 @@ const MemberInfo = (props) => {
     const { userInfo: { nickname, avatar: avatarUrl, email }, me } = props;
     return (
         <div className='member-info'>
-            <img src={avatarUrl || avatar} />
+            <img className='avatar' src={avatarUrl || avatar} />
             <div className='detail'>
                 <p>{nickname} { me ? `（${ t('modal.me') }）` : '' }</p>
                 <p>{email}</p>
@@ -347,7 +347,7 @@ const HeaderLeft = () => {
         <div className={HeaderLeftModal}>
             <div className='member-header-left'>
                 <p className='title'>{ t('modal.teamMemTitle') }</p>
-                <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>邀请</Button>
+                <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>{ t('btn.invitation') }</Button>
             </div>
         </div>
     )

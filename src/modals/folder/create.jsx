@@ -22,6 +22,7 @@ import { findSon } from '@utils';
 import { cloneDeep, eq, isPlainObject, isString, set, trim, isArray } from 'lodash';
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -31,6 +32,7 @@ const CreateFolder = (props) => {
     const { onCancel, folder } = props;
 
     const { apiFolders } = useFolders();
+    const { t } = useTranslation();
     const [script, setScript] = useState({
         pre_script: '',
         // pre_script_switch: 1,
@@ -298,7 +300,9 @@ const CreateFolder = (props) => {
         return path[type];
     };
     const folderSelect = () => {
-        let newFolders = apiFolders.filter(i => i?.status == 1);
+        // let newFolders = apiFolders.filter(i => i?.status == 1);
+        let newFolders = apiFolders;
+        // console.log(apiFolders, newFolders);
         if (isPlainObject(folder)) {
             const res = [];
             res.push(folder);
@@ -313,13 +317,13 @@ const CreateFolder = (props) => {
             <>
                 <Select
                     popupStyle={{ maxHeight: '30vh', overflow: 'auto' }}
-                    value={parent_id || '0'}
+                    value={parent_id || 0}
                     onChange={(val) => {
-                        setParent_id(val || '0');
+                        setParent_id(val || 0);
                     }}
                 >
-                    <Option key="0" value="0">
-                        根目录
+                    <Option key={0} value={0}>
+                        { t('apis.rootFolder') }
                     </Option>
                     {newFolders.map((item) => (
                         <Option key={item?.target_id} value={item?.target_id}>
@@ -332,15 +336,15 @@ const CreateFolder = (props) => {
     };
     return (
         <Modal
-            title={isPlainObject(folder) ? '编辑目录' : '新建目录'}
+            title={isPlainObject(folder) ? t('apis.editFolder') : t('apis.createFolder')}
             visible
             onCancel={onCancel}
             className={FolderModal}
-            okText="保存"
+            okText={ t('btn.save') }
             onOk={() => {
                 // return;
                 if (trim(folderName).length <= 0) {
-                    Message('error', '目录名称不能为空');
+                    Message('error', t('message.folderNameEmpty'));
                     return;
                 }
                 if (isPlainObject(folder)) {
@@ -359,7 +363,7 @@ const CreateFolder = (props) => {
                         },
                         () => {
                             onCancel();
-                            Message('success', '保存成功');
+                            Message('success', t('message.saveSuccess'));
                         }
                     );
                 } else {
@@ -367,7 +371,7 @@ const CreateFolder = (props) => {
                         'addCollectionItem',
                         {
                             type: 'folder',
-                            pid: parent_id || '0',
+                            pid: parent_id || 0,
                             param: {
                                 name: folderName,
                                 description,
@@ -377,7 +381,7 @@ const CreateFolder = (props) => {
                         },
                         () => {
                             onCancel();
-                            Message('success', '新建目录成功');
+                            Message('success', t('message.createFolderSuccess'));
                         }
                     );
                 }
@@ -386,26 +390,26 @@ const CreateFolder = (props) => {
             <FolderWrapper>
                 <div className="article">
                     <div className="items">
-                        <div className="name">父级目录</div>
+                        <div className="name">{ t('apis.parentFolder') }</div>
                         <div className="content">{folderSelect()}</div>
                     </div>
                     <div className="items">
-                        <div className="name">目录名称</div>
+                        <div className="name">{ t('apis.folderName') }</div>
                         <div className="content">
                             <Input
                                 value={folderName}
                                 onChange={(val) => {
                                     setFolderName(val);
                                 }}
-                                placeholder="请输入目录名称"
+                                placeholder={ t('placeholder.folderName') }
                             />
                         </div>
                     </div>
                     <div className="items">
-                        <div className="name">目录描述</div>
+                        <div className="name">{ t('apis.folderDesc') }</div>
                         <div className="content">
                             <Textarea
-                                placeholder="请输入目录描述"
+                                placeholder={ t('placeholder.folderDesc') }
                                 value={ description || ''}
                                 onChange={(val) => {
                                     setDescription(val);
