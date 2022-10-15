@@ -1,17 +1,19 @@
+import i18next from "i18next";
+
 export const SCENE_MENUS = [
     {
         type: 'modifyFolder',
-        title: '编辑场景',
+        title: i18next.t('scene.editScene'),
         action: 'modifyFolder',
     },
     {
         type: 'cloneScene',
-        title: '克隆场景',
+        title: i18next.t('scene.cloneScene'),
         action: 'cloneScene',
     },
     {
         type: 'deleteFolder',
-        title: '删除场景',
+        title: i18next.t('scene.deleteScene'),
         action: 'deleteFolder',
     },
 ];

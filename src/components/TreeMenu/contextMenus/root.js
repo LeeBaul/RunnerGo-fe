@@ -1,17 +1,18 @@
 import { isMac } from '@utils/common';
 
 const ctrl = isMac() ? 'Cmd' : 'Ctrl';
+import i18next from 'i18next';
 
 export const ROOT_MENUS = [
     {
         type: 'createApis',
-        title: '新建接口',
+        title: i18next.t('apis.createApi'),
         action: 'createApis',
         tips: `${ctrl} + T`,
     },
     {
         type: 'pasteToRoot',
-        title: '粘贴接口/目录',
+        title: i18next.t('apis.pasteApi'),
         action: 'pasteToRoot',
         // tips: `${ctrl} + V`,
     },

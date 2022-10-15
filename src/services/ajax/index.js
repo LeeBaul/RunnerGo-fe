@@ -10,6 +10,7 @@ import { getCookie } from '../../utils/cookie';
 import { ContentType } from '@constants/ajax';
 import { fetchTokenRefresh } from '../user';
 import { tap } from 'rxjs';
+import i18next from 'i18next';
 
 
 // const path = isElectron() ? APP_VERSION : 'api';
@@ -57,21 +58,53 @@ export const rxAjax = (
                 if (resp.response.code === 0) {
                     return resp?.response;
                 }
-                if (resp.response.code === 20003) {
-                    Message('error', '请先登录!');
-                    window.location.href = '/login';
-                }
                 if (resp.response.code === 10001) {
-                    Message('error', '参数校验错误!');
+                    Message('error', i18next.t('message.resCode.10001'))
                 }
+                if (resp.response.code === 10002) {
+                    Message('error', i18next.t('message.resCode.10002'))
+                }
+                if (resp.response.code === 10003) {
+                    Message('error', i18next.t('message.resCode.10003'));
+                }
+                if (resp.response.code === 10004) {
+                    Message('error', i18next.t('message.resCode.10004'))
+                } 
                 if (resp.response.code === 10005) {
-                    Message('error', '请求下游服务器失败!');
+                    Message('error', i18next.t('message.resCode.10005'))
                 }
-                if (resp.response.code === 10102) {
-                    Message('error', 'mysql操作失败');
+                if (resp.response.code === 10006) {
+                    Message('error', i18next.t('message.resCode.10006'))
+                }
+                if (resp.response.code === 10007) {
+                    Message('error', i18next.t('message.resCode.10007'))
+                }
+                if (
+                      resp.response.code === 10008 ||
+                      resp.response.code === 10012 ||
+                      resp.response.code === 10013 ||
+                      resp.response.code === 10100 ||
+                      resp.response.code === 10101 ||
+                      resp.response.code === 10102 ||
+                      resp.response.code === 20003
+                   ) {
+                    Message('error', i18next.t('message.resCode.common'))
+                }
+
+                if (
+                    resp.response.code === 10011 ||
+                    resp.response.code === 10103
+                ) {
+                    Message('error', i18next.t('message.resCode.10011_10103'))
+                }
+                if (resp.response.code === 20001) {
+                    Message('error', i18next.t('message.resCode.20001'))
+                }
+                if (resp.response.code === 20002) {
+                    Message('error', i18next.t('message.resCode.20002'))
                 }
                 if (resp.response.code === 20004) {
-                    Message('error', '用户名或密码错误');
+                    Message('error', i18next.t('message.resCode.20004'));
                 }
                 // if (resp.response.code === 0000) {
                 //     fetchTokenRefresh()

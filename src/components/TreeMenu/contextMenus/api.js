@@ -2,6 +2,8 @@ import { isMac } from '@utils/common';
 
 const ctrl = isMac() ? 'Cmd' : 'Ctrl';
 
+import i18next from 'i18next';
+
 export const API_MENUS = [
     // {
     //     type: 'shareApi',
@@ -16,18 +18,18 @@ export const API_MENUS = [
     // },
     {
         type: 'cloneApi',
-        title: '克隆接口',
+        title: i18next.t('apis.cloneApi'),
         action: 'cloneApi',
         // tips: `${ctrl} + C`,
     },
     {
         type: 'copyApi',
-        title: '复制接口',
+        title: i18next.t('apis.copyApi'),
         action: 'copyApi'
     },
     {
         type: 'deleteApi',
-        title: '删除接口',
+        title: i18next.t('apis.deleteApi'),
         action: 'deleteApi',
     },
 ];

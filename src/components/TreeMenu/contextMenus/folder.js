@@ -1,4 +1,5 @@
 import Beta from '@assets/icons/beta.svg';
+import i18next, { t } from 'i18next';
 
 export const FOLDER_MENUS = [
     // {
@@ -14,7 +15,7 @@ export const FOLDER_MENUS = [
     // },
     {
         type: 'modifyFolder',
-        title: '编辑目录',
+        title: i18next.t('apis.editFolder'),
         action: 'modifyFolder',
     },
     // {
@@ -30,7 +31,7 @@ export const FOLDER_MENUS = [
     // },
     {
         type: 'deleteFolder',
-        title: '删除目录',
+        title: i18next.t('apis.deleteFolder'),
         action: 'deleteFolder',
     },
 ];

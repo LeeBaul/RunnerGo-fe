@@ -1,7 +1,9 @@
+import i18next from "i18next";
+
 export const GROUP_MENUS = [
     {
         type: 'modifyFolder',
-        title: '编辑分组',
+        title: i18next.t('scene.editGroup'),
         action: 'modifyFolder',
     },
     // {
@@ -11,7 +13,7 @@ export const GROUP_MENUS = [
     // },
     {
         type: 'deleteFolder',
-        title: '删除分组',
+        title: i18next.t('scene.deleteGroup'),
         action: 'deleteFolder',
     },
 ];

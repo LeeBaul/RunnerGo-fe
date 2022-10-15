@@ -148,7 +148,21 @@
         "check": "Please verify!",
         "loginSuccess": "Login succeeded!",
         "registerSuccess": "login was successful!",
-        "pwdDiff": "The old and new passwords are inconsistent!"
+        "pwdDiff": "The old and new passwords are inconsistent!",
+        "resCode": {
+            "10001": "Operation failure, try again later~",
+            "10002": "Operation failure, try again later~",
+            "10003": "SignError!",
+            "10004": "ErrRepeatRequest!",
+            "10005": "ErrNonce!",
+            "10006": "ErrTimeStamp!",
+            "10007": "Operation failure, try again later~",
+            "10011_10103": "Login status is invalid~",
+            "20001": "ErrMustDID!",
+            "20002": "ErrMustSN!",
+            "20004": "User name or password error!",
+            "common": "Operation failure, try again later~"
+        }
     },
     "modal": {
         "look": "be careful",
@@ -326,13 +340,18 @@
         "saveAllTarget": "Save All Labels",
         "cantVisit": "The following content cannot be accessed",
         "go": "go",
-        "askHelp": "Official website for more information or help"
+        "askHelp": "Official website for more information or help",
+        "cloneApi": "Clone Api",
+        "pasteApi": "Paste Api"
     },
     "scene": {
         "createGroup": "New Group",
         "editGroup": "Edit Group",
+        "deleteGroup": "Delete Group",
         "createScene": "New Scene",
         "editScene": "Edit Scene",
+        "deleteScene": "Delete Scene",
+        "cloneScene": "Clone Scene",
         "createApi": "Create a new interface",
         "createControl": "Add Controller",
         "waitControl": "Wait for controller",

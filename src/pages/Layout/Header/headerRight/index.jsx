@@ -128,7 +128,7 @@ const HeaderRight = () => {
             >
                 <div>
                     <div className='person-avatar'>
-                        <img src={item.avatar || avatar} alt="" />
+                        <img className='avatar' src={item.avatar || avatar} alt="" />
                     </div>
                 </div>
             </Dropdown>
