@@ -101,7 +101,10 @@ const EditAvatar = (props) => {
                        <div className='avatar-body'>
                          <img className={ cn('default-avatar-item', {
                             'select-avatar': selectDefault === index
-                         }) } key={index} src={item} onClick={() => setSelectDefault(index)} />
+                         }) } key={index} src={item} onClick={() => {
+                            setSelectDefault(index);
+                            setAvatarNow(defaultAvatar[index])
+                         }} />
                        </div>
                     ))
                 }
