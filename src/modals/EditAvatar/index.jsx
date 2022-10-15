@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Upload, Message } from 'adesign-react';
+import { Modal, Upload, Message, Button } from 'adesign-react';
 import { useSelector, useDispatch } from 'react-redux';
 import avatar from '@assets/logo/avatar.png'
 import { useTranslation } from 'react-i18next';
@@ -84,36 +84,45 @@ const EditAvatar = (props) => {
         })
     };
 
+    const Footer = () => {
+        return (
+            <div className='edit-avatar-footer'>
+                <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
+                    <Button className='select-btn'>{t('btn.selectImg')}</Button>
+                </Upload>
+                <Button className='cancel-btn' onClick={onCancel}>{t('btn.cancel')}</Button>
+                <Button className='ok-btn' onClick={() => updateAvatar()}>{t('btn.ok')}</Button>
+            </div>
+        )
+    }
+
     return (
         <Modal
             className='edit-avatar-modal'
             visible
             title={null}
-            onCancel={onCancel}
-            cancelText={ t('btn.cancel') }
-            okText={ t('btn.ok') }
-            onOk={() => updateAvatar()}
+            footer={<Footer />}
         >
-            <p className='title'>{ t('modal.defaultAvatar') }</p>
+            <p className='title'>{t('modal.defaultAvatar')}</p>
             <div className='default-avatar'>
                 {
                     defaultAvatar.map((item, index) => (
-                       <div className='avatar-body'>
-                         <img className={ cn('default-avatar-item', {
-                            'select-avatar': selectDefault === index
-                         }) } key={index} src={item} onClick={() => {
-                            setSelectDefault(index);
-                            setAvatarNow(defaultAvatar[index])
-                         }} />
-                       </div>
+                        <div className='avatar-body'>
+                            <img className={cn('default-avatar-item', {
+                                'select-avatar': selectDefault === index
+                            })} key={index} src={item} onClick={() => {
+                                setSelectDefault(index);
+                                setAvatarNow(defaultAvatar[index])
+                            }} />
+                        </div>
                     ))
                 }
             </div>
-            <p className='title' style={{ marginTop: '50px' }}>{ t('modal.diyAvatar') }</p>
+            <p className='title' style={{ marginTop: '50px' }}>{t('modal.diyAvatar')}</p>
             <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
-                <img className='avatar' src={ avatarNow ||  avatar} alt="" onClick={() => diyAvatar()} />
+                <img className='avatar' src={avatarNow || avatar} alt="" onClick={() => diyAvatar()} />
             </Upload>
-            <p className='avatar-tips'>{ t('modal.avatarTips') }</p>
+            <p className='avatar-tips'>{t('modal.avatarTips')}</p>
         </Modal>
     )
 };

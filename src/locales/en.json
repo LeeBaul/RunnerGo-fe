@@ -111,7 +111,8 @@
         "contrast": "contrast",
         "sendAgain": "Resend",
         "return": "Return",
-        "invitation": "Invitation"
+        "invitation": "Invitation",
+        "selectImg": "Select a picture"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",

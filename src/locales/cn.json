@@ -111,7 +111,8 @@
         "contrast": "对比",
         "sendAgain": "重新发送",
         "return": "返回",
-        "invitation": "邀请"
+        "invitation": "邀请",
+        "selectImg": "选择图片"
     },
     "message": {
         "saveSuccess": "保存成功!",

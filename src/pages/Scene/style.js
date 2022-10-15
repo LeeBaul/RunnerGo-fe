@@ -37,7 +37,7 @@ export const ApisWrapper = css`
       min-width: 159px;
       height: 45px;
       background-color: var(--theme-color);
-      color: var(--font-1);
+      color: var(--common-white);
       font-size: 24px;
       box-shadow: var(--shadow);
       border-radius: 8px;
@@ -45,7 +45,7 @@ export const ApisWrapper = css`
       svg {
         width: 23px;
         height: 23px;
-        fill: var(--font-1);
+        fill: var(--common-white);
         margin-right: 10px;
       }
     }

@@ -78,7 +78,7 @@ const InfoManage = (props) => {
         Modal.confirm({
             title: t('modal.editPwd'),
             content: 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', height: '160px' }}>
                 <Input placeholder={ t('placeholder.currentPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }} value={oldPwd} onChange={(e) => {
                     setOldPwd(e);
                     current_password = e;
