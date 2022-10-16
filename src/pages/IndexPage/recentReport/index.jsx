@@ -51,10 +51,20 @@ const RecentReport = () => {
         '2': '定时任务',
     };
 
+    
+    let index_report_t = null;
+
     useEffect(() => {
         getReportData();
-    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize, startTime, endTime]);
+        if (index_report_t) {
+            clearInterval(index_report_t);
+        }
+        index_report_t = setInterval(getReportData, 2000);
 
+        return () => {
+            clearInterval(index_report_t);
+        }
+    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize, startTime, endTime]);
 
     const getReportData = () => {
         const query = {
