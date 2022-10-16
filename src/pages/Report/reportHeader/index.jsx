@@ -5,7 +5,7 @@ import {
     Addcircle as SvgAddcircle,
     Left as SvgLeft,
 } from 'adesign-react/icons';
-import SendEmail from '@modals/SendEmail';
+// import SendEmail from '@modals/SendEmail';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -16,6 +16,7 @@ import { fetchStopReport } from '@services/report';
 import { useTranslation } from 'react-i18next';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
+import InvitationModal from '@modals/ProjectInvitation';
 
 const ReportHeader = (props) => {
     const { data: { plan_name }, status } = props;
@@ -164,7 +165,7 @@ const ReportHeader = (props) => {
                     : <Button disabled={true}>{ t('btn.done') }</Button>
                 }
             </div>
-            {showSendEmail && <SendEmail onCancel={() => setSendEmail(false)} />}
+            {showSendEmail && <InvitationModal email={true} onCancel={() => setSendEmail(false)} />}
         </div>
     )
 };

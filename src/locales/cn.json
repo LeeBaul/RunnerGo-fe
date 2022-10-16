@@ -166,7 +166,9 @@
             "common": "操作异常, 稍后再试~"
         },
         "folderNameEmpty": "目录名称不能为空!",
-        "createFolderSuccess": "新建目录成功!"
+        "createFolderSuccess": "新建目录成功!",
+        "invitateSuccess": "邀请成功!",
+        "invitateError": "邀请失败!"
     },
     "modal": {
         "look": "注意",

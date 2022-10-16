@@ -17,6 +17,7 @@ import dayjs from 'dayjs';
 import SvgSendEmail from '@assets/icons/SendEmail';
 import SvgStop from '@assets/icons/Stop';
 import { useTranslation } from 'react-i18next';
+import InvitationModal from '@modals/ProjectInvitation';
 
 const DetailHeader = () => {
     const { t } = useTranslation();
@@ -30,6 +31,7 @@ const DetailHeader = () => {
     const task_config = useSelector((store) => store.plan.task_config);
     const { id: plan_id } = useParams();
     const [planDetail, setPlanDetail] = useState({});
+    const [showEmail, setShowEmail] = useState(false);
 
     useEffect(() => {
         getReportDetail();
@@ -104,6 +106,9 @@ const DetailHeader = () => {
                     </Modal>
                 )
             }
+            {
+                showEmail && <InvitationModal email={true} onCancel={() => setShowEmail(false)} />
+            }
             <div className='detail-header-left'>
                 <SvgLeft onClick={() => navigate('/plan/list')} />
                 <div className='detail'>
@@ -144,7 +149,7 @@ const DetailHeader = () => {
             </div>
             <div className='detail-header-right'>
                 <Button className='notice' onClick={() => setPreSet(true)}>{ t('plan.preinstall') }</Button>
-                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>{ t('btn.notifyEmail') }</Button>
+                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setShowEmail(true)}>{ t('btn.notifyEmail') }</Button>
                 {
                     planDetail.status === 1
                         ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {

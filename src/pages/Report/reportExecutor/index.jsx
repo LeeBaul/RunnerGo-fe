@@ -83,7 +83,7 @@ const ReportExecutor = (props) => {
         <div className='report-executor'>
             <p>{ t('report.performer') }:</p>
             <div className='executor-info'>
-                <img src={user_avatar || avatar} />
+                <img className='avatar' src={user_avatar || avatar} />
                 <p>{ user_name }</p>
             </div>
             <p className='create-time'>{ t('report.createTime') }: { dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss') }</p>

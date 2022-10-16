@@ -33,7 +33,7 @@ const InvitationModal = (props) => {
   const team_id = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
   const userInfo = useSelector((store) => store.user.userInfo);
 
-  const { projectInfoAll, onCancel } = props;
+  const { projectInfoAll, onCancel, email } = props;
 
   const [projectList, setProjectList] = useState([]);
   const [addList, setAddList] = useState([]);
@@ -388,6 +388,9 @@ const InvitationModal = (props) => {
     if (addList.length < 1) {
       return;
     }
+    if (email) {
+      return;
+    }
     const params = {
       team_id: parseInt(localStorage.getItem('team_id')),
       members: addList.map(item => {
@@ -403,11 +406,11 @@ const InvitationModal = (props) => {
           const { code } = res;
 
           if (code === 0) {
-            Message('success', '邀请成功!');
+            Message('success', t('message.invitateSuccess'));
             Bus.$emit('getTeamMemberList');
             setAddList([]);
           } else {
-            Message('error', '邀请失败!');
+            Message('error', t('message.invitateError'));
           }
         })
       )
@@ -494,19 +497,21 @@ const InvitationModal = (props) => {
               <div className="team-inviation-add-operation">
                 <Input
                   value={inputValue}
-                  placeholder={t('placeholder.invitedEmail')}
+                  placeholder={!email ? t('placeholder.invitedEmail') : t('placeholder.email')}
                   // inputStyle={{ width: '80%' }}
                   onChange={(val) => setInputValue(val)}
                   maxLength={30}
                 // onPressEnter={() => changeTeamInvitation('add')}
                 />
                 {
-                  role !== 2 ?
-                    <Select value={selectValue} onChange={(key) => setSelectValue(key)}>
-                      <Option value={3}>{t('modal.roleList.1')}</Option>
-                      <Option value={2}>{t('modal.roleList.0')}</Option>
-                    </Select>
-                    : <p className='only-common'>{t('modal.roleList.0')}</p>
+                  !email ?
+                    role !== 2 ?
+                      <Select value={selectValue} onChange={(key) => setSelectValue(key)}>
+                        <Option value={3}>{t('modal.roleList.1')}</Option>
+                        <Option value={2}>{t('modal.roleList.0')}</Option>
+                      </Select>
+                      : <p className='only-common'>{t('modal.roleList.0')}</p>
+                    : ''
                 }
                 <Button
                   // className="apipost-blue-btn"
@@ -543,20 +548,22 @@ const InvitationModal = (props) => {
 
                     <span style={{ padding: '0 16px' }}>
                       {
-                        role !== 2 ?
-                          <Select
-                            value={item.power}
-                            defaultValue="common"
-                            onChange={(key) => {
-                              item.power = key;
-                              changeTeamInvitation('change', item);
-                            }}
-                          >
-                            {/* {renderOptions()} */}
-                            <Option value={3}>{t('modal.roleList.1')}</Option>
-                            <Option value={2}>{t('modal.roleList.0')}</Option>
-                          </Select>
-                        : <p className='only-common'>{t('modal.roleList.0')}</p>
+                        !email ?
+                          role !== 2 ?
+                            <Select
+                              value={item.power}
+                              defaultValue="common"
+                              onChange={(key) => {
+                                item.power = key;
+                                changeTeamInvitation('change', item);
+                              }}
+                            >
+                              {/* {renderOptions()} */}
+                              <Option value={3}>{t('modal.roleList.1')}</Option>
+                              <Option value={2}>{t('modal.roleList.0')}</Option>
+                            </Select>
+                            : <p className='only-common'>{t('modal.roleList.0')}</p>
+                          : ''
                       }
                     </span>
                     {/* {computeStation(item)} */}

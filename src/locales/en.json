@@ -166,7 +166,9 @@
             "common": "Operation failure, try again later~"
         },
         "folderNameEmpty": "Directory name cannot be empty!",
-        "createFolderSuccess": "New directory succeeded!"
+        "createFolderSuccess": "New directory succeeded!",
+        "invitateSuccess": "Invitation succeeded!",
+        "invitateError": "Invitation failed!"
     },
     "modal": {
         "look": "be careful",
