@@ -10,10 +10,14 @@ import { LoginWrapper } from './style';
 import { cloneDeep } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
+import SvgLogo1 from '@assets/logo/runner_dark';
+import SvgLogo2 from '@assets/logo/runner_white';
+
 const Login = (props) => {
     const { children } = props;
     const dispatch = useDispatch();
     const config = useSelector((store) => store.user.config);
+    const theme = useSelector((store) => store.user.theme);
     const [leftShow, setLeftShow] = useState(true);
     const { t } = useTranslation();
     useEffect(() => {
@@ -62,7 +66,9 @@ const Login = (props) => {
                 leftShow && <div className='left'>
                 <div>
                     <div className='logo-box'>
-                        <LogoSvg />
+                        {
+                            theme === 'dark' ? <SvgLogo1 className="logo" /> : <SvgLogo2 className="logo" />
+                        }
                     </div>
                     <div className='title'>{ t('sign.title') }</div>
                     <div className='desc'>{ t('sign.slogn') }</div>
