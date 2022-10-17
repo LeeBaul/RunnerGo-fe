@@ -112,7 +112,8 @@
         "sendAgain": "重新发送",
         "return": "返回",
         "invitation": "邀请",
-        "selectImg": "选择图片"
+        "selectImg": "选择图片",
+        "okDelMum": "确认移除"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -202,6 +203,7 @@
         "transferTeam": "移交团队",
         "team": "团队",
         "delMem": "移除成员",
+        "confirmDelMem": "确定移除",
         "teamMemTitle": "团队成员列表",
         "me": "本人",
         "editName": "编辑昵称",

@@ -112,7 +112,8 @@
         "sendAgain": "Resend",
         "return": "Return",
         "invitation": "Invitation",
-        "selectImg": "Select a picture"
+        "selectImg": "Select a picture",
+        "okDelMum": "Confirm Removal"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -202,6 +203,7 @@
         "transferTeam": "Handover Team",
         "team": "Team",
         "delMem": "Remove Members",
+        "confirmDelMem": "Confirm to remove",
         "teamMemTitle": "Team member list",
         "me": "me",
         "editName": "Edit nickname",

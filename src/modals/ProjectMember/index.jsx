@@ -32,7 +32,7 @@ const ProjectMember = (props) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const removeMember = (member_id, role_id) => {
+    const removeMember = (member_id, role_id, nickname) => {
         // // 当前用户是普通成员, 没有移除任何人的权限
         // if (roleId === 2) {
         //     Message('error', '您没有权限移除成员!');
@@ -42,25 +42,33 @@ const ProjectMember = (props) => {
         // if (roleId === 3 && (role_id === 1 || role_id === 3)) {
         //     Message('error', '您没有权限移除该成员!');
         // }
-        const params = {
-            team_id: parseInt(localStorage.getItem('team_id')),
-            member_id: parseInt(member_id),
-        }
-        fetchRemoveMember(params)
-            .pipe(
-                tap((res) => {
-                    const { data, code } = res;
-
-                    if (code === 0) {
-                        Message('success', t('message.removeMemSuccess'));
-                        getUserInfo().pipe(tap(fetchData)).subscribe();
-                        Bus.$emit('getTeamMemberList');
-                    } else {
-                        Message('error', t('message.removeMemError'));
-                    }
-                })
-            )
-            .subscribe()
+        Modal.confirm({
+            title: t('modal.delMem'),
+            content: `${t('modal.confirmDelMem')}${nickname}?`,
+            cancelText: t('btn.cancel'),
+            okText: t('btn.okDelMum'),
+            onOk: () => {
+                const params = {
+                    team_id: parseInt(localStorage.getItem('team_id')),
+                    member_id: parseInt(member_id),
+                }
+                fetchRemoveMember(params)
+                    .pipe(
+                        tap((res) => {
+                            const { data, code } = res;
+        
+                            if (code === 0) {
+                                Message('success', t('message.removeMemSuccess'));
+                                getUserInfo().pipe(tap(fetchData)).subscribe();
+                                Bus.$emit('getTeamMemberList');
+                            } else {
+                                Message('error', t('message.removeMemError'));
+                            }
+                        })
+                    )
+                    .subscribe()
+            }
+        })
     };
 
     const getUserInfo = () => {
@@ -224,7 +232,7 @@ const ProjectMember = (props) => {
                                         if (item.user_id === user_id) {
                                             outTeam();
                                         } else {
-                                            removeMember(item.user_id, item.role_id);
+                                            removeMember(item.user_id, item.role_id, item.nickname);
                                         }
                                     }}>
                                         {
@@ -244,7 +252,7 @@ const ProjectMember = (props) => {
                                         if (item.user_id === user_id) {
                                             outTeam();
                                         } else {
-                                            removeMember(item.user_id, item.role_id);
+                                            removeMember(item.user_id, item.role_id, item.nickname);
                                         }
                                     }}>
                                         {
@@ -280,7 +288,7 @@ const ProjectMember = (props) => {
                                         if (item.user_id === user_id) {
                                             outTeam();
                                         } else {
-                                            removeMember(item.user_id, item.role_id);
+                                            removeMember(item.user_id, item.role_id, item.nickname);
                                         }
                                     }}>
                                         {
