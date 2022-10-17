@@ -82,7 +82,7 @@ const FindPassword = () => {
                    </div>
                    <div className='send-again'>
                         <p>{ t('sign.send_again') }: </p>
-                        <Button className='send-again-btn'>{ t('btn.sendAgain') }</Button>
+                        <Button className='send-again-btn' onClick={() => setSend(false)}>{ t('btn.sendAgain') }</Button>
                    </div>
                 </>
             }
