@@ -131,7 +131,7 @@ const DetailHeader = () => {
                     <div className='detail-bottom'>
                         <div className='item'>
                             <p>{ t('plan.createdBy') }：{planDetail.created_user_name}</p>
-                            <img src={avatar} />
+                            <img src={planDetail.created_user_avatar || avatar} />
                             <p style={{ marginLeft: '4px' }}></p>
                         </div>
                         <div className='item'>
@@ -149,7 +149,7 @@ const DetailHeader = () => {
             </div>
             <div className='detail-header-right'>
                 <Button className='notice' onClick={() => setPreSet(true)}>{ t('plan.preinstall') }</Button>
-                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setShowEmail(true)}>{ t('btn.notifyEmail') }</Button>
+                <Button className='notice' disabled={ planDetail.status !== 1 } preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setShowEmail(true)}>{ t('btn.notifyEmail') }</Button>
                 {
                     planDetail.status === 1
                         ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {

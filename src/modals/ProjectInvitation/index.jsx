@@ -439,7 +439,7 @@ const InvitationModal = (props) => {
         })
       } else {
         params = {
-          report_id,
+          report_id: parseInt(report_id),
           emails: addList.map(item => item.email)
         };
         fetchSendReportEmail(params).subscribe({
