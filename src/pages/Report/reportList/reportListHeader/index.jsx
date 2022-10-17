@@ -67,24 +67,35 @@ const ReportListHeader = (props) => {
                     }}
                 />
 
-                <ConfigProvider locale={ language === 'en' ? enUS : cnUS }>
+                <ConfigProvider locale={language === 'en' ? enUS : cnUS}>
                     <RangePicker
                         mode="date"
                         onChange={DateChange}
                         showTime="true"
                     />
                 </ConfigProvider>
-                <Tooltip
-                    content={selectReport.length < 2 || selectReport.length > 5 ? t('index.contrastText') : ''}
-                >
-                    <Button 
-                        className='contrast-btn' 
-                        disabled={selectReport.length < 2 || selectReport.length > 5}
-                        onClick={() => toContrast()}
-                    >
-                        {t('btn.contrast')}
-                    </Button>
-                </Tooltip>
+                {
+                    selectReport.length < 2 || selectReport.length > 5 ?
+                        <Tooltip
+                            content={selectReport.length < 2 || selectReport.length > 5 ? t('index.contrastText') : ''}
+                        >
+                            <Button
+                                className='contrast-btn'
+                                disabled={selectReport.length < 2 || selectReport.length > 5}
+                                onClick={() => toContrast()}
+                            > 
+                                {t('btn.contrast')}
+                            </Button>
+                        </Tooltip>
+                        : <Button
+                            className='contrast-btn'
+                            disabled={selectReport.length < 2 || selectReport.length > 5}
+                            onClick={() => toContrast()}
+                        >
+                            {t('btn.contrast')}
+                        </Button>
+                }
+
             </div>
             {/* <div className='report-header-right'>
                 <Button className='createBtn' preFix={<SvgAdd />} onClick={() => navigate('/plan/detail')}>新建计划</Button>

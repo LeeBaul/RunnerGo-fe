@@ -51,7 +51,7 @@ const RecentReport = () => {
         '2': '定时任务',
     };
 
-    
+
     let index_report_t = null;
 
     useEffect(() => {
@@ -89,13 +89,13 @@ const RecentReport = () => {
                                 rank,
                                 plan_name: <Tooltip content={<div>{plan_name}</div>}><div className='ellipsis'>{plan_name}</div></Tooltip>,
                                 scene_name:
-                                <Tooltip content={<div>{scene_name}</div>}>
-                                    <div className='ellipsis'>{scene_name}</div>
-                                </Tooltip>,
+                                    <Tooltip content={<div>{scene_name}</div>}>
+                                        <div className='ellipsis'>{scene_name}</div>
+                                    </Tooltip>,
                                 run_user_name:
-                                <Tooltip content={<div>{run_user_name}</div>}>
-                                    <div className='ellipsis'>{run_user_name}</div>
-                                </Tooltip>,
+                                    <Tooltip content={<div>{run_user_name}</div>}>
+                                        <div className='ellipsis'>{run_user_name}</div>
+                                    </Tooltip>,
                                 task_mode: modeList[task_mode],
                                 task_type: taskLit[task_type],
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
@@ -304,11 +304,15 @@ const RecentReport = () => {
                         showTime="true"
                     />
                 </ConfigProvider>
-                <Tooltip
-                    content={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : '' }
-                >
-                    <Button className='contrast-btn' disabled={ selectedRowKeys.length < 2 || selectedRowKeys.length > 5 } onClick={() => toContrast()}>{t('btn.contrast')}</Button>
-                </Tooltip>
+                {
+                    selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ?
+                        <Tooltip
+                            content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
+                        >
+                            <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
+                        </Tooltip>
+                        : <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
+                }
             </div>
             <Table
                 className="report-table"
@@ -319,7 +323,7 @@ const RecentReport = () => {
                 columns={columns}
                 data={reportList}
                 pagination={false}
-                noDataElement={<div className='empty'> <SvgEmpty /> <p>{ t('index.emptyData') }</p></div>}
+                noDataElement={<div className='empty'> <SvgEmpty /> <p>{t('index.emptyData')}</p></div>}
                 rowKey='report_id'
                 rowSelection={
                     {
