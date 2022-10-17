@@ -441,6 +441,7 @@ const InvitationModal = (props) => {
         })
       } else {
         params = {
+          team_id: parseInt(localStorage.getItem('team_id')),
           report_id: parseInt(report_id),
           emails: addList.map(item => item.email)
         };
