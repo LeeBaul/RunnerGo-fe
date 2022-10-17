@@ -115,7 +115,7 @@ const RecentReport = () => {
         const { report_id } = props;
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate(`/report/detail/${report_id}`)} />
+                <SvgEye onClick={() => navigate(`/report/detail?id=${report_id}`)} />
                 {/* <SvgExport /> */}
                 <SvgDelete className='delete' onClick={() => {
                     Modal.confirm({
@@ -234,7 +234,7 @@ const RecentReport = () => {
                         onDoubleClick(tableRowData) {
 
                             const { report_id } = tableData[rowIndex]
-                            navigate(`/report/detail/?id=${report_id}`)
+                            navigate(`/report/detail?id=${report_id}`)
                         },
                     });
                     return rowComp;
@@ -340,7 +340,7 @@ const RecentReport = () => {
                     return {
                         onDoubleClick: (event) => {
                             const { report_id } = record;
-                            navigate(`/report/detail/?id=${report_id}`)
+                            navigate(`/report/detail?id=${report_id}`)
                         },
                     };
                 }}
