@@ -168,7 +168,9 @@
         "folderNameEmpty": "Directory name cannot be empty!",
         "createFolderSuccess": "New directory succeeded!",
         "invitateSuccess": "Invitation succeeded!",
-        "invitateError": "Invitation failed!"
+        "invitateError": "Invitation failed!",
+        "resetSuccess": "Reset succeeded!",
+        "resetError": "Reset failed!"
     },
     "modal": {
         "look": "be careful",

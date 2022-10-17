@@ -3,12 +3,17 @@ import { Input, Button, Message } from 'adesign-react';
 import './index.less';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { fetchResetPassword } from '@services/user';
+import { useLocation } from 'react-router-dom';
+import qs from 'qs';
 
 import cn from 'classnames';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { search } = useLocation();
+    const { u } = qs.parse(search.slice(1));
     const [pwd, setPwd] = useState('');
     const [confirmPwd, setConfirmPwd] = useState('');
 
@@ -21,6 +26,23 @@ const ResetPassword = () => {
         if (pwdDiff) {
             return;
         }
+
+        const params = {
+            u,
+            new_password: pwd,
+            repeat_password: confirmPwd,
+        };
+        fetchResetPassword(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    Message('success', t('message.resetSuccess'));
+                    navigate('/index');
+                } else {
+                    Message('error', t('message.resetError'));
+                }
+            }
+        })
 
     }
 
