@@ -16,8 +16,32 @@ const InfoManage = (props) => {
     const [oldPwd, setOldPwd] = useState('');
     const [newPwd, setNewPwd] = useState('');
     const [confirmPwd, setConfirmPwd] = useState('');
+    const [showMask, setShowMask] = useState(false);
 
     const [showEditAvatar, setEditAvatar] = useState(false);
+
+    const enter = () => {
+        console.log(123);
+        setShowMask(true);
+    }
+
+    const leave = () => {
+        console.log(123);
+
+        setShowMask(false);
+    }
+
+    useEffect(() => {
+        const avatar_item = document.querySelector('.avatar-item');
+        avatar_item.addEventListener('mouseenter', enter);
+        avatar_item.addEventListener('mouseleave', leave);
+
+        return () => {
+            avatar_item.removeEventListener('mouseenter', enter);
+            avatar_item.removeEventListener('mouseleave', leave);
+
+        }
+    }, []);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -135,7 +159,10 @@ const InfoManage = (props) => {
                 <Header />
                 <div className='info-container'>
                     <div className='info-container-left'>
-                        <img className='avatar' src={userInfo.avatar || avatar} onClick={() => editAvatar()} />
+                        <div className='avatar-item'  onClick={() => editAvatar()} >
+                            { showMask && <div className='avatar-mask'>{ t('modal.updateAvatar') }</div> }
+                            <img className='avatar' src={userInfo.avatar || avatar} />
+                        </div>
                         <div className='name'>
                             <p>{userInfo.nickname}</p>
                             <SvgEdit onClick={() => editNickname(userInfo)} />

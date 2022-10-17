@@ -211,7 +211,8 @@
         "diyAvatar": "自定义头像",
         "avatarTips": "支持jpg, jpeg, png格式的图片, 大小不超过3M",
         "edit": "编辑",
-        "editPwd": "修改邮箱密码"
+        "editPwd": "修改邮箱密码",
+        "updateAvatar": "修改头像"
     },
     "column": {
         "teamManage": {

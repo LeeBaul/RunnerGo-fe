@@ -211,7 +211,8 @@
         "diyAvatar": "Custom avatar",
         "avatarTips": "Support jpg, jpeg, png format images, with a size of no more than 3M",
         "edit": "Edit",
-        "editPwd": "Modify mailbox password"
+        "editPwd": "Modify mailbox password",
+        "updateAvatar": "Modify avatar"
     },
     "column": {
         "teamManage": {
