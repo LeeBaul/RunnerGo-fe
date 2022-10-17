@@ -34,7 +34,7 @@ const ResetPassword = () => {
                 const { code } = res;
                 if (code === 0) {
                     Message('success', t('message.resetSuccess'));
-                    navigate('/index');
+                    navigate('/login');
                 } else {
                     Message('error', t('message.resetError'));
                 }
