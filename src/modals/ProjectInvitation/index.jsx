@@ -22,9 +22,13 @@ import PaymentModal from './Payment/modal';
 import PayAddSuccessModal from './PayAddSuccessModal';
 
 import { fetchInviteMember, fetchGetRole } from '@services/user';
+import { fetchSendPlanEmail } from '@services/plan';
+import { fetchSendReportEmail } from '@services/report';
 import Bus from '@utils/eventBus';
 import { tap } from 'rxjs';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import qs from 'qs';
 
 const Option = Select.Option;
 const InvitationModal = (props) => {
@@ -33,7 +37,7 @@ const InvitationModal = (props) => {
   const team_id = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
   const userInfo = useSelector((store) => store.user.userInfo);
 
-  const { projectInfoAll, onCancel, email } = props;
+  const { projectInfoAll, onCancel, email, from } = props;
 
   const [projectList, setProjectList] = useState([]);
   const [addList, setAddList] = useState([]);
@@ -53,6 +57,9 @@ const InvitationModal = (props) => {
   const [spinning, setSpinning] = useState(true);
   const current_project_id = project_id;
   const current_team_id = team_id;
+
+  const { search } = useLocation();
+  const { id: report_id } = qs.parse(search.slice(1));
 
   const [userRole, setUserRole] = useState(null);
 
@@ -388,33 +395,67 @@ const InvitationModal = (props) => {
     if (addList.length < 1) {
       return;
     }
-    if (email) {
-      return;
-    }
-    const params = {
-      team_id: parseInt(localStorage.getItem('team_id')),
-      members: addList.map(item => {
-        return {
-          email: item.email,
-          role_id: item.power
-        }
-      })
-    }
-    fetchInviteMember(params)
-      .pipe(
-        tap((res) => {
-          const { code } = res;
-
-          if (code === 0) {
-            Message('success', t('message.invitateSuccess'));
-            Bus.$emit('getTeamMemberList');
-            setAddList([]);
-          } else {
-            Message('error', t('message.invitateError'));
+    if (!email && !from) {
+      const params = {
+        team_id: parseInt(localStorage.getItem('team_id')),
+        members: addList.map(item => {
+          return {
+            email: item.email,
+            role_id: item.power
           }
         })
-      )
-      .subscribe();
+      }
+      fetchInviteMember(params)
+        .pipe(
+          tap((res) => {
+            const { code } = res;
+  
+            if (code === 0) {
+              Message('success', t('message.invitateSuccess'));
+              Bus.$emit('getTeamMemberList');
+              setAddList([]);
+            } else {
+              Message('error', t('message.invitateError'));
+            }
+          })
+        )
+        .subscribe();
+    } else {
+      let params = {};
+      if (from === 'plan') {
+        params = {
+          emails: addList.map(item => item.email)
+        };
+        fetchSendPlanEmail(params).subscribe({
+          next: (res) => {
+            const { code } = res;
+            if (code === 0) {
+                Message('success', t('message.sendSuccess'));
+                onCancel();
+            } else {
+                Message('error', t('message.sendError'));
+            }
+          }
+        })
+      } else {
+        params = {
+          report_id,
+          emails: addList.map(item => item.email)
+        };
+        fetchSendReportEmail(params).subscribe({
+          next: (res) => {
+            const { code } = res;
+            if (code === 0) {
+              Message('success', t('message.sendSuccess'));
+              onCancel();
+            } else {
+              Message('error', t('message.sendError'));
+            }
+          }
+        })
+      }
+    }
+
     return;
     const submitObj = {
       project_id: current_project_id,

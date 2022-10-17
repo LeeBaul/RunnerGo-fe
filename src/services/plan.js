@@ -49,3 +49,8 @@ export const fetchStopPlan = (
 export const fetchCopyPlan = (
     params
 ) => ajax('post', '/management/api/v1/plan/clone', 'json', false, params);
+
+// 邮件通知
+export const fetchSendPlanEmail = (
+    params
+) => ajax('post', '/management/api/v1/plan/email_notify', 'json', false, params);

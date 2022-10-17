@@ -170,7 +170,9 @@
         "invitateSuccess": "邀请成功!",
         "invitateError": "邀请失败!",
         "resetSuccess": "重置成功!",
-        "resetError": "重置失败!"
+        "resetError": "重置失败!",
+        "sendSuccess": "发送成功!",
+        "sendError": "发送失败!"
     },
     "modal": {
         "look": "注意",

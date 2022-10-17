@@ -107,7 +107,7 @@ const DetailHeader = () => {
                 )
             }
             {
-                showEmail && <InvitationModal email={true} onCancel={() => setShowEmail(false)} />
+                showEmail && <InvitationModal from="plan" email={true} onCancel={() => setShowEmail(false)} />
             }
             <div className='detail-header-left'>
                 <SvgLeft onClick={() => navigate('/plan/list')} />

@@ -44,3 +44,8 @@ export const fetchStopReport = (
 export const fetchGetDebug = (
     query
 ) => ajax('get', '/management/api/v1/report/debug/detail', 'json', false, {}, query);
+
+// 邮件通知
+export const fetchSendReportEmail = (
+    params
+) => ajax('post', '/management/api/v1/report/email_notify', 'json', false, params);

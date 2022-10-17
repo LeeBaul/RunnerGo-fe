@@ -170,7 +170,9 @@
         "invitateSuccess": "Invitation succeeded!",
         "invitateError": "Invitation failed!",
         "resetSuccess": "Reset succeeded!",
-        "resetError": "Reset failed!"
+        "resetError": "Reset failed!",
+        "sendSuccess": "Send succeeded!!",
+        "sendError": "Send failed!"
     },
     "modal": {
         "look": "be careful",

@@ -165,7 +165,7 @@ const ReportHeader = (props) => {
                     : <Button disabled={true}>{ t('btn.done') }</Button>
                 }
             </div>
-            {showSendEmail && <InvitationModal email={true} onCancel={() => setSendEmail(false)} />}
+            {showSendEmail && <InvitationModal from="report" email={true} onCancel={() => setSendEmail(false)} />}
         </div>
     )
 };
