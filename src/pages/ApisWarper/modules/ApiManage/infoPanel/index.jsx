@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Message } from 'adesign-react';
 import { Right as SvgRight } from 'adesign-react/icons';
 import ApiStatus from '@components/ApiStatus';
@@ -46,6 +46,22 @@ const ApiInfoPanel = (props) => {
     const dispatch = useDispatch();
 
     const _saveId = useSelector((store) => store.opens.saveId);
+
+    const keyDown = (e) => {
+        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+            e.preventDefault();
+            saveApi();
+         }
+    }
+
+    useEffect(() => {
+
+        document.addEventListener('keydown', keyDown);
+
+        return () => {
+            document.removeEventListener('keydown', keyDown);
+        }
+    }, []);
 
     const saveApi = () => {
         if (from === 'scene' || from === 'plan') {

@@ -21,11 +21,12 @@ import { global$ } from '@hooks/useGlobal/global';
 import { getUserConfig$ } from '@rxUtils/user';
 
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
 import { useTranslation } from 'react-i18next';
+import qs from 'qs';
 
 const { Option } = Select;
 
@@ -50,6 +51,10 @@ const LoginBox = (props) => {
   const dispatch = useDispatch();
 
   const { i18n, t } = useTranslation();
+
+  const { search } = useLocation();
+  const { report_id } = qs.parse(search.slice(1));
+
   // 获取极验内容
   const getVcodeUrl = async () => {
     const { result, captcha } = await getVcodefun();
@@ -189,7 +194,11 @@ const LoginBox = (props) => {
             payload: team_id
           });
 
-          navigate('/index');
+          if (report_id) {
+            navigate(`/report/detail?id=${report_id}`);
+          } else {
+            navigate('/index');
+          }
           global$.next({
             action: 'INIT_APPLICATION',
           });

@@ -23,7 +23,7 @@ const App = () => {
 
     const location = useLocation();
     const { search } = location;
-    const { u } = qs.parse(search.slice(1));
+    const { u, report_id } = qs.parse(search.slice(1));
     const [showLayout, setLayout] = useState(false);
 
     const ignorePage = ['/login', '/register', '/find', '/reset']
@@ -32,27 +32,31 @@ const App = () => {
         // const token = getCookie('token');
 
         if (!u) {
-            const expire_time_sec = localStorage.getItem('expire_time_sec');
-            const token = localStorage.getItem('kunpeng-token');
-            const isExpire = new Date().getTime() > parseInt(expire_time_sec || 0);
-            // if (!token || isExpire) {
-            //     window.location.href = '/login';
-            // }
-    
-            if (!ignorePage.includes(location.pathname)) {
-                // setLayout(true);
-                if (isExpire) {
-                    // window.location.href = '/login';
-                    navigate('/login');
-                }
+            if (report_id) {
+                navigate(`/report/detail?id=${report_id}`);
             } else {
-                // setLayout(false);
-                // sessionStorage.removeItem('team_id');
-                if (!isExpire) {
-                    // if (window.location.pathname !== location.pathname) {
-                    // window.location.href = '/index';
-                    navigate('/index');
-                    // }
+                const expire_time_sec = localStorage.getItem('expire_time_sec');
+                const token = localStorage.getItem('kunpeng-token');
+                const isExpire = new Date().getTime() > parseInt(expire_time_sec || 0);
+                // if (!token || isExpire) {
+                //     window.location.href = '/login';
+                // }
+        
+                if (!ignorePage.includes(location.pathname)) {
+                    // setLayout(true);
+                    if (isExpire) {
+                        // window.location.href = '/login';
+                        navigate('/login');
+                    }
+                } else {
+                    // setLayout(false);
+                    // sessionStorage.removeItem('team_id');
+                    if (!isExpire) {
+                        // if (window.location.pathname !== location.pathname) {
+                        // window.location.href = '/index';
+                        navigate('/index');
+                        // }
+                    }
                 }
             }
         }

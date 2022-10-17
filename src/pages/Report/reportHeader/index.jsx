@@ -152,7 +152,9 @@ const ReportHeader = (props) => {
     return (
         <div className='report-header' ref={ref1}>
             <div className='report-header-left'>
-                <SvgLeft onClick={() => navigate('/report/list')} />
+                <Button onClick={() => navigate('/report/list')}>
+                    <SvgLeft  />
+                </Button>
                 <div className='report-name'>{plan_name}</div>
                 <div className='report-status'>{ status === 1 ? t('btn.running') : t('btn.done')}</div>
             </div>
