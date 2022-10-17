@@ -27,7 +27,7 @@ import { fetchSendReportEmail } from '@services/report';
 import Bus from '@utils/eventBus';
 import { tap } from 'rxjs';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import qs from 'qs';
 
 const Option = Select.Option;
@@ -60,6 +60,7 @@ const InvitationModal = (props) => {
 
   const { search } = useLocation();
   const { id: report_id } = qs.parse(search.slice(1));
+  const { id: plan_id } = useParams();
 
   const [userRole, setUserRole] = useState(null);
 
@@ -424,6 +425,7 @@ const InvitationModal = (props) => {
       let params = {};
       if (from === 'plan') {
         params = {
+          plan_id: parseInt(plan_id),
           emails: addList.map(item => item.email)
         };
         fetchSendPlanEmail(params).subscribe({

@@ -234,7 +234,7 @@ const RecentReport = () => {
                         onDoubleClick(tableRowData) {
 
                             const { report_id } = tableData[rowIndex]
-                            navigate(`/report/detail/${report_id}`)
+                            navigate(`/report/detail/?id=${report_id}`)
                         },
                     });
                     return rowComp;
@@ -340,7 +340,7 @@ const RecentReport = () => {
                     return {
                         onDoubleClick: (event) => {
                             const { report_id } = record;
-                            navigate(`/report/detail/${report_id}`)
+                            navigate(`/report/detail/?id=${report_id}`)
                         },
                     };
                 }}
