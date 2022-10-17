@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import getVcodefun from '@utils/getVcode';
 import { EamilReg } from '@utils';
 import cn from 'classnames';
+import { fetchFindPassword } from '@services/user';
 
 const FindPassword = () => {
     const navigate = useNavigate();
@@ -41,7 +42,15 @@ const FindPassword = () => {
         if (emailError) {
             return;
         }
-        setSend(true);
+        const params = {
+            email,
+        };
+        fetchFindPassword(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                setSend(true);
+            }
+        })
     }
     return (
         <div className={ cn('find-password', {

@@ -68,6 +68,14 @@ export const fetchUpdatePwd = (
 export const fetchUpdateAvatar = (
   params
 ) => ajax('post', '/management/api/v1/user/update_avatar', 'json', false, params);
+// 忘记密码
+export const fetchFindPassword = (
+  params
+)  => ajax('post', '/management/api/v1/auth/forget_password', 'json', false, params);
+// 重置密码
+export const fetchResetPassword = (
+  params
+) => ajax('post', '/management/api/v1/auth/reset_password', 'json', false, params);
 
 
 
