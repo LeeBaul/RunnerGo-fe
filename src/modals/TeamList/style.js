@@ -77,9 +77,10 @@ export const HeaderLeftModal = css`
         margin-left: 32px;
 
         svg {
-            fill: #fff;
+            fill: var(--common-white);
             margin-right: 6px;
         }
+
     }
   }
 `
