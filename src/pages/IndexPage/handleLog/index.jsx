@@ -32,7 +32,7 @@ const HandleLog = (props) => {
                     logList.length > 0 ? logList.map((item, index) => (
                         <div className='log-item' key={index}>
                             <div className='log-item-left'>
-                                <img src={item.avatarUrl || avatar} alt="" />
+                                <img src={item.user_avatar || avatar} alt="" />
                                 <p>{item.user_name}</p>
                             </div>
                             <div className='log-item-mid'>
