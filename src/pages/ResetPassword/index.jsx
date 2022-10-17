@@ -20,9 +20,6 @@ const ResetPassword = () => {
     const [pwdDiff, setPwdDiff] = useState(false);
 
     const resetPwd = () => {
-        if (Object.keys(vcodeObj).length === 0) {
-            return Message('error', t('message.check'));
-        }
         if (pwdDiff) {
             return;
         }
