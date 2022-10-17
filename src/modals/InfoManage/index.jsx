@@ -34,7 +34,7 @@ const InfoManage = (props) => {
         )
     }
 
-    const editNickname = () => {
+    const editNickname = (userInfo) => {
         let nickname = '';
         Modal.confirm({
             title: t('modal.editName'),
@@ -45,10 +45,8 @@ const InfoManage = (props) => {
             cancelText: t('btn.cancel'),
             okText: t('btn.ok'),
             onOk: () => {
-                // deleteReport(report_id);
-                console.log(nickname);
                 const params = {
-                    nickname,   
+                    nickname: nickname ? nickname : nickName,   
                 };
                 fetchUpdateName(params).subscribe({
                     next: (res) => {
@@ -58,10 +56,12 @@ const InfoManage = (props) => {
                                 type: 'user/updateUserInfo',
                                 payload: {
                                     ...userInfo,
-                                    nickname,
+                                    nickname: nickname ? nickname : nickName,
                                 }
                             })
-                            Message('success', t('message.updateSuccess'));
+                            if (nickname) {
+                                Message('success', t('message.updateSuccess'));
+                            }
                         } else {
                             Message('error', t('message.updateError'))
                         }
@@ -138,7 +138,7 @@ const InfoManage = (props) => {
                         <img className='avatar' src={userInfo.avatar || avatar} onClick={() => editAvatar()} />
                         <div className='name'>
                             <p>{userInfo.nickname}</p>
-                            <SvgEdit onClick={() => editNickname()} />
+                            <SvgEdit onClick={() => editNickname(userInfo)} />
                         </div>
                     </div>
                     <div className='info-container-right'>
