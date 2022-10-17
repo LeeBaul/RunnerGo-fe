@@ -25,7 +25,7 @@ const ResetPassword = () => {
         }
 
         const params = {
-            u,
+            u: parseInt(u),
             new_password: pwd,
             repeat_password: confirmPwd,
         };
