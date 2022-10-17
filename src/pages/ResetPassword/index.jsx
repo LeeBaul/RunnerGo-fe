@@ -20,7 +20,7 @@ const ResetPassword = () => {
     const [pwdDiff, setPwdDiff] = useState(false);
 
     const resetPwd = () => {
-        if (pwdDiff) {
+        if (pwdDiff) { 
             return;
         }
 
