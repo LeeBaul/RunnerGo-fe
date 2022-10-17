@@ -18,6 +18,7 @@ import AddMenu from './addMenu';
 import MoreMenu from './moreMenu';
 import HeadTabs from './headTabs';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 const { Tabs, TabPan } = TabComponents;
 const ApiTabs = (props) => {
@@ -31,6 +32,7 @@ const ApiTabs = (props) => {
     } = props;
 
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     const [activeId, setActiveId] = useState(defaultTabId);
     const mergedActiveId = 'defaultTabId' in props ? defaultTabId : activeId;
@@ -83,6 +85,10 @@ const ApiTabs = (props) => {
     };
 
     const handleTabChange = useCallback((newActiveId) => {
+        dispatch({
+            type: 'opens/updateSaveId',
+            payload: '',
+        })
         onChange(newActiveId);
     }, []);
 

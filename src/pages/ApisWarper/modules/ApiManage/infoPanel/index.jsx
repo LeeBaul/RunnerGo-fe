@@ -79,10 +79,10 @@ const ApiInfoPanel = (props) => {
                         type: 'opens/updateSaveId',
                         payload: id,
                     })
-                    dispatch({
-                        type: 'opens/updateOpenApiNow',
-                        payload: id,
-                    })
+                    // dispatch({
+                    //     type: 'opens/updateOpenApiNow',
+                    //     payload: id,
+                    // })
                 } else {
                     Message('error', t('message.saveError'));
                 }
