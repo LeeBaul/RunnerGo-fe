@@ -55,7 +55,7 @@ const LoginBox = (props) => {
   const { i18n, t } = useTranslation();
 
   const { search } = useLocation();
-  const { report_id, role_id, team_id } = qs.parse(search.slice(1));
+  const { report_id, role_id, team_id: url_team_id } = qs.parse(search.slice(1));
 
   // 获取极验内容
   const getVcodeUrl = async () => {
@@ -201,7 +201,7 @@ const LoginBox = (props) => {
           } else if (role_id) {
             const params ={
               role_id: parseInt(role_id),
-              team_id: parseInt(team_id)
+              team_id: parseInt(url_team_id)
             };
             fetchOpenLink(params).subscribe({
               next: (res) => {
@@ -395,7 +395,13 @@ const LoginBox = (props) => {
           </div>
           <div
             className="resign"
-            onClick={() => navigate('/register')}
+            onClick={() => {
+              if (role_id) {
+                navigate(`/register?role_id=${role_id}}&team_id=${url_team_id}`)
+              } else {
+                navigate('/register')
+              }
+            }}
           >
             <span>{ t('sign.toRegister') }&gt;</span>
           </div>

@@ -21,7 +21,7 @@ import { global$ } from '@hooks/useGlobal/global';
 const { Option } = Select;
 
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -53,6 +53,8 @@ const RegisterBox = (props) => {
     const [pwdDiff, setPwdDiff] = useState(false);
 
     const { t, i18n } = useTranslation();
+    const { search } = useLocation();
+    const { role_id, team_id } = qs.parse(search.slice(1));
     // 获取极验内容
     const getVcodeUrl = async () => {
         const { result, captcha } = await getVcodefun();
@@ -166,7 +168,11 @@ const RegisterBox = (props) => {
                         // localStorage.setItem('token', token);
                         // localStorage.setItem('expire_time_sec', expire_time_sec * 1000);
                         Message('success', t('message.registerSuccess'));
-                        navigate('/login');
+                        if (role_id) {
+                            navigate(`/login?role_id=${role_id}&team_id=${team_id}`)
+                        } else {
+                            navigate('/login')
+                        }
 
                     }
                     // if (resp.code !== 10000) {
@@ -296,7 +302,13 @@ const RegisterBox = (props) => {
                             { t('btn.registerNow') }
                         </Button>
                     </div>
-                    <div className="login-have" onClick={() => navigate('/login')}>
+                    <div className="login-have" onClick={() => {
+                        if (role_id) {
+                            navigate(`/login?role_id=${role_id}&team_id=${team_id}`)
+                        } else {
+                            navigate('/login')
+                        }
+                    }}>
                         { t('sign.tologin') }
                     </div>
                 </div>
