@@ -41,7 +41,7 @@ const App = () => {
                 localStorage.removeItem('open_apis');
                 localStorage.removeItem('open_scene');
                 localStorage.removeItem('open_plan');
-                navigate('/login'); 
+                navigate(`/login?email=${email}`); 
             }
         }
 
