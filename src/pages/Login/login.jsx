@@ -199,9 +199,9 @@ const LoginBox = (props) => {
           if (report_id) {
             navigate(`/report/detail?id=${report_id}`);
           } else if (role_id) {
-            const query ={
-              role_id,
-              team_id
+            const params ={
+              role_id: parseInt(role_id),
+              team_id: parseInt(team_id)
             };
             fetchOpenLink(query).subscribe({
               next: (res) => {
