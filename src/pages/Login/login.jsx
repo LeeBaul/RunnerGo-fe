@@ -203,12 +203,15 @@ const LoginBox = (props) => {
               role_id: parseInt(role_id),
               team_id: parseInt(url_team_id)
             };
+            console.log(params);
             fetchOpenLink(params).subscribe({
               next: (res) => {
                 const { code } = res;
+                console.log(res);
                 if (code === 0) {
                   getUserConfig$().pipe(
                     tap(res => {
+                      console.log(res);
                       const team_id = res.data.settings.current_team_id;
                       localStorage.setItem('team_id', team_id);
                       dispatch({

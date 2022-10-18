@@ -30,6 +30,7 @@ const App = () => {
 
     useEffect(() => {
         // const token = getCookie('token');
+        console.log(role_id, email, u);
 
         if (role_id) {
             const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
