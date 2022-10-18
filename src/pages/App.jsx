@@ -37,7 +37,7 @@ const App = () => {
                 localStorage.removeItem('kunpeng-token');
                 localStorage.removeItem('expire_time_sec');
                 localStorage.removeItem('team_id');
-                localStorage.removeItem('settings');
+                localStorage.removeItem('settings');  
                 localStorage.removeItem('open_apis');
                 localStorage.removeItem('open_scene');
                 navigate('/login'); 
