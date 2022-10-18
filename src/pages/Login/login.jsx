@@ -207,35 +207,63 @@ const LoginBox = (props) => {
               team_id: parseInt(url_team_id)
             };
             console.log(params);
-            fetchOpenLink(params).subscribe({
-              next: (res) => {
-                const { code } = res;
-                console.log(res);
-                if (code === 0) {
-                  getUserConfig$().pipe(
-                    tap(res => {
-                      console.log(res);
-                      const team_id = res.data.settings.current_team_id;
-                      localStorage.setItem('team_id', team_id);
-                      dispatch({
-                        type: 'user/updateTeamId',
-                        payload: team_id
-                      });
-                      console.log(team_id);
-                      navigate('/index');
-                      global$.next({ 
-                        action: 'INIT_APPLICATION',
-                      });
-                    })
-                  )
+            return fetchOpenLink(params).pipe(
+              tap(res => {
+                  return res;
                 }
-              }
-            })
+              ) 
+            )
+            // fetchOpenLink(params).subscribe({
+            //   next: (res) => {
+            //     const { code } = res;
+            //     console.log(res);
+            //     if (code === 0) {
+            //       getUserConfig$().pipe(
+            //         tap(res => {
+            //           console.log(res);
+            //           const team_id = res.data.settings.current_team_id;
+            //           localStorage.setItem('team_id', team_id);
+            //           dispatch({
+            //             type: 'user/updateTeamId',
+            //             payload: team_id
+            //           });
+            //           console.log(team_id);
+            //           navigate('/index');
+            //           global$.next({ 
+            //             action: 'INIT_APPLICATION',
+            //           });
+            //         })
+            //       )
+            //     }
+            //   }
+            // })
           } else  {
             navigate('/index'); 
             global$.next({ 
               action: 'INIT_APPLICATION',
             });
+          }
+        }),
+        tap((res) => {
+          const { code } = res;
+          console.log(res);
+          if (code === 0) {
+            getUserConfig$().pipe(
+              tap(res => {
+                console.log(res);
+                const team_id = res.data.settings.current_team_id;
+                localStorage.setItem('team_id', team_id);
+                dispatch({
+                  type: 'user/updateTeamId',
+                  payload: team_id
+                });
+                console.log(team_id);
+                navigate('/index');
+                global$.next({ 
+                  action: 'INIT_APPLICATION',
+                });
+              })
+            )
           }
         }),
         tap(() => {
