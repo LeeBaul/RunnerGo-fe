@@ -547,7 +547,9 @@ const useOpens = () => {
         // const uuid = localStorage.getItem('uuid');
         // User.update(uuid, { 'workspace.CURRENT_TARGET_ID': id }).then(() => {
         const team_id = localStorage.getItem('team_id');
-        apGlobalConfigStore.set(`project_current:${team_id}`, { CURRENT_TARGET_ID: id });
+        if (typeof id === 'number') {
+            apGlobalConfigStore.set(`project_current:${team_id}`, { CURRENT_TARGET_ID: id });
+        }
         dispatch({
             type: 'workspace/updateWorkspaceState',
             payload: { CURRENT_TARGET_ID: id },
@@ -964,7 +966,7 @@ const useOpens = () => {
         if (openNavs && openNavs.length > 0) {
             const query = {
                 team_id: localStorage.getItem('team_id'),
-                target_ids: openNavs
+                target_ids: openNavs.filter(item => typeof item === 'number')
             };
             fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
                 next: (res) => {

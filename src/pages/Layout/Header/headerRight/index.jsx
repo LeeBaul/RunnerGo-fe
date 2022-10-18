@@ -210,6 +210,7 @@ const HeaderRight = () => {
         localStorage.removeItem('settings');
         localStorage.removeItem('open_apis');
         localStorage.removeItem('open_scene');
+        localStorage.removeItem('open_plan');
         navigate('/login');
         Message('success', t('message.quitSuccess'));
     };
