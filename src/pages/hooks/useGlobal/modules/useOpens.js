@@ -961,24 +961,26 @@ const useOpens = () => {
             apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
 
         console.log(openNavs);
-        const query = {
-            team_id: localStorage.getItem('team_id'),
-            target_ids: openNavs
-        };
-        fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
-            next: (res) => {
-                const { data: { targets } } = res;
-                console.log(targets);
-                // const _open_apis = cloneDeep(open_apis);
-                // targets.forEach(item => {
-                //     _open_apis[item.target_id] = item;
-                // });
-                dispatch({
-                    type: 'opens/coverOpenApis',
-                    payload: targets,
-                })
-            }
-        })
+        if (openNavs && openNavs.length > 0) {
+            const query = {
+                team_id: localStorage.getItem('team_id'),
+                target_ids: openNavs
+            };
+            fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
+                next: (res) => {
+                    const { data: { targets } } = res;
+                    console.log(targets);
+                    // const _open_apis = cloneDeep(open_apis);
+                    // targets.forEach(item => {
+                    //     _open_apis[item.target_id] = item;
+                    // });
+                    dispatch({
+                        type: 'opens/coverOpenApis',
+                        payload: targets,
+                    })
+                }
+            })
+        }
         // Opens.bulkGet(openNavs).then((res) => {
         //     const open_init_apis = {};
         //     if (res && res.length > 0) {
@@ -999,14 +1001,16 @@ const useOpens = () => {
         const current_target_id = apGlobalConfigStore.get(
             `project_current:${team_id}`
         )?.CURRENT_TARGET_ID;
-        dispatch({
-            type: 'opens/updateOpenApiNow',
-            payload: current_target_id,
-        })
-        dispatch({
-            type: 'workspace/updateWorkspaceState',
-            payload: { CURRENT_TARGET_ID: current_target_id },
-        });
+        if (current_target_id) {
+            dispatch({
+                type: 'opens/updateOpenApiNow',
+                payload: current_target_id,
+            })
+            dispatch({
+                type: 'workspace/updateWorkspaceState',
+                payload: { CURRENT_TARGET_ID: current_target_id },
+            });
+        }
     };
 
     const dragUpdateTarget = ({ ids, targetList }) => {
