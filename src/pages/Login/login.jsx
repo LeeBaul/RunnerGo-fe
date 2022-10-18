@@ -207,17 +207,17 @@ const LoginBox = (props) => {
               next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                  getUserConfig$().subscribe({
-                    next: (res) => {
-                      const team_id = data.settings.current_team_id;
+                  getUserConfig$().pipe(
+                    tap(res => {
+                      const team_id = res.data.settings.current_team_id;
                       localStorage.setItem('team_id', team_id);
                       dispatch({
                         type: 'user/updateTeamId',
                         payload: team_id
                       });
                       navigate('/index');
-                    }
-                  })
+                    })
+                  )
                 }
               }
             })
