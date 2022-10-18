@@ -40,6 +40,7 @@ const App = () => {
                 localStorage.removeItem('settings');
                 localStorage.removeItem('open_apis');
                 localStorage.removeItem('open_scene');
+                navigate('/login'); 
             }
         }
 
