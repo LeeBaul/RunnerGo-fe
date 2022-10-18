@@ -211,7 +211,6 @@ const HeaderRight = () => {
         localStorage.removeItem('open_apis');
         localStorage.removeItem('open_scene');
         localStorage.removeItem('open_plan');
-        localStorage.removeItem('userInfo');
         navigate('/login');
         Message('success', t('message.quitSuccess'));
     };

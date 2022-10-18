@@ -334,7 +334,7 @@ const useOpens = () => {
             } else {
                 url = url.split('?')[0];
                 set(tempOpenApis[target_id], 'url', url);
-                set(tempOpenApis[target_id], 'request.url', url);       
+                set(tempOpenApis[target_id], 'request.url', url);
             }
         }
         // 小红点判断
@@ -348,7 +348,7 @@ const useOpens = () => {
         let newTarget = null;
         console.log(id);
         const _open_apis = cloneDeep(open_apis);
-        
+
         const query = {
             team_id: localStorage.getItem('team_id'),
             target_ids: id,
@@ -467,7 +467,7 @@ const useOpens = () => {
             type: 'opens/updateSaveId',
             payload: null,
         })
-        
+
         if (id) {
             Bus.$emit('updateTargetId', id);
             dispatch({
@@ -623,7 +623,7 @@ const useOpens = () => {
     };
 
     const saveTargetById = async (data, options = { is_socket: 1 }, callbacks) => {
-        const { id, saveId ,pid, callback } = data;
+        const { id, saveId, pid, callback } = data;
         const target_id = id;
         const tempOpenApis = cloneDeep(open_apis);
         let tempTarget = tempOpenApis[target_id];
@@ -653,7 +653,7 @@ const useOpens = () => {
             // return;
             // sort 排序
             if (tempTarget.sort == -1) {
-                tempTarget =  targetReorder(tempTarget);
+                tempTarget = targetReorder(tempTarget);
             }
 
             // 过滤key为空的数据
@@ -695,7 +695,7 @@ const useOpens = () => {
                     tap((res) => {
                         const { code, data } = res;
 
-                        
+
 
                         if (callbacks) {
                             callbacks && callbacks(code, data.target_id);
@@ -707,12 +707,12 @@ const useOpens = () => {
                             _old.target_id = data.target_id;
                             delete tempOpenApis[id];
                             tempOpenApis[data.target_id] = _old;
-    
+
                             dispatch({
                                 type: 'opens/coverOpenApis',
                                 payload: tempOpenApis,
                             })
-    
+
                             dispatch({
                                 type: 'opens/updateOpenApiNow',
                                 payload: data.target_id,
@@ -855,7 +855,7 @@ const useOpens = () => {
             // 执行接口 失败添加异步任务
             if (tempTarget?.target_type) {
                 from(SaveTargetRequest({ ...tempTarget, is_socket: 1 })).subscribe({
-                    next (resp) {
+                    next(resp) {
                         if (resp?.code === 10000) {
                             // 更新本地数据库版本
                             updateCollectionById({
@@ -888,7 +888,7 @@ const useOpens = () => {
                             );
                         }
                     },
-                    error () {
+                    error() {
                         // 添加异步任务
                         pushTask(
                             {
@@ -917,7 +917,7 @@ const useOpens = () => {
             target_id: id,
             project_id: CURRENT_PROJECT_ID,
         }).subscribe({
-            next (resp) {
+            next(resp) {
                 if (resp?.code === 10000) Message('success', '备份成功');
             },
         });
@@ -959,29 +959,46 @@ const useOpens = () => {
 
     const reloadOpens = () => {
         const team_id = localStorage.getItem('team_id');
-        const openNavs =
-            apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
+        if (team_id) {
+            const openNavs =
+                apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
 
-        console.log(openNavs);
-        if (openNavs && openNavs.length > 0) {
-            const query = {
-                team_id: localStorage.getItem('team_id'),
-                target_ids: openNavs.filter(item => typeof item === 'number')
-            };
-            fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
-                next: (res) => {
-                    const { data: { targets } } = res;
-                    console.log(targets);
-                    // const _open_apis = cloneDeep(open_apis);
-                    // targets.forEach(item => {
-                    //     _open_apis[item.target_id] = item;
-                    // });
-                    dispatch({
-                        type: 'opens/coverOpenApis',
-                        payload: targets,
-                    })
-                }
-            })
+            console.log(openNavs);
+            if (openNavs && openNavs.length > 0) {
+                const query = {
+                    team_id: localStorage.getItem('team_id'),
+                    target_ids: openNavs.filter(item => typeof item === 'number')
+                };
+                fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
+                    next: (res) => {
+                        const { data: { targets } } = res;
+                        console.log(targets);
+                        // const _open_apis = cloneDeep(open_apis);
+                        // targets.forEach(item => {
+                        //     _open_apis[item.target_id] = item;
+                        // });
+                        dispatch({
+                            type: 'opens/coverOpenApis',
+                            payload: targets,
+                        })
+                    }
+                })
+            }
+
+            // 恢复上次打开的targetID
+            const current_target_id = apGlobalConfigStore.get(
+                `project_current:${team_id}`
+            )?.CURRENT_TARGET_ID;
+            if (current_target_id) {
+                dispatch({
+                    type: 'opens/updateOpenApiNow',
+                    payload: current_target_id,
+                })
+                dispatch({
+                    type: 'workspace/updateWorkspaceState',
+                    payload: { CURRENT_TARGET_ID: current_target_id },
+                });
+            }
         }
         // Opens.bulkGet(openNavs).then((res) => {
         //     const open_init_apis = {};
@@ -998,21 +1015,6 @@ const useOpens = () => {
         //         payload: open_init_apis,
         //     });
         // });
-
-        // 恢复上次打开的targetID
-        const current_target_id = apGlobalConfigStore.get(
-            `project_current:${team_id}`
-        )?.CURRENT_TARGET_ID;
-        if (current_target_id) {
-            dispatch({
-                type: 'opens/updateOpenApiNow',
-                payload: current_target_id,
-            })
-            dispatch({
-                type: 'workspace/updateWorkspaceState',
-                payload: { CURRENT_TARGET_ID: current_target_id },
-            });
-        }
     };
 
     const dragUpdateTarget = ({ ids, targetList }) => {
@@ -1143,15 +1145,15 @@ const useOpens = () => {
         // };
 
         // const _res = deleteIds.concat(loopGetChild(target_id, _apiDatas))
-        
+
         // _res.forEach(item => {
-            fetchDeleteApi({ target_id: parseInt(target_id) }).subscribe({
-                next: (res) => {
-                    if (res.code === 0) {
-                        callback && callback();
-                    } 
+        fetchDeleteApi({ target_id: parseInt(target_id) }).subscribe({
+            next: (res) => {
+                if (res.code === 0) {
+                    callback && callback();
                 }
-            }); 
+            }
+        });
         // })
     }
 
@@ -1201,7 +1203,7 @@ const useOpens = () => {
             _openApis.forEach(item => {
                 const { target_id } = item;
                 if (typeof target_id === 'number' && apiDatas[target_id]) {
-                   ids.push(target_id);
+                    ids.push(target_id);
                 }
             })
             localStorage.setItem('open_apis', JSON.stringify(ids));
