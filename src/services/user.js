@@ -80,6 +80,10 @@ export const fetchResetPassword = (
 export const fetchCheckPassword = (
   params
 ) => ajax('post', '/management/api/v1/user/verify_password', 'json', false, params);
+// 获取邀请链接
+export const fetchGetLink = (
+  query
+) => ajax('get', '/management/api/v1/team/invite/url', 'json', false, {}, query);
 
 
 

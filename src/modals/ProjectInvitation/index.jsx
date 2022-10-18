@@ -21,7 +21,7 @@ import './index.less';
 import PaymentModal from './Payment/modal';
 import PayAddSuccessModal from './PayAddSuccessModal';
 
-import { fetchInviteMember, fetchGetRole } from '@services/user';
+import { fetchInviteMember, fetchGetRole, fetchGetLink } from '@services/user';
 import { fetchSendPlanEmail } from '@services/plan';
 import { fetchSendReportEmail } from '@services/report';
 import Bus from '@utils/eventBus';
@@ -52,7 +52,7 @@ const InvitationModal = (props) => {
   const [ifSelectAll, setIfSelectAll] = useState(false);
   const [usedStation, setUsedStation] = useState(0);
   const [remainderStation, setRemainderStation] = useState(0);
-  const [linkPower, setLinkPower] = useState('readonly');
+  const [linkPower, setLinkPower] = useState(3);
   const [role, setRole] = useState([]);
   const [spinning, setSpinning] = useState(true);
   const current_project_id = project_id;
@@ -410,7 +410,7 @@ const InvitationModal = (props) => {
         .pipe(
           tap((res) => {
             const { code } = res;
-  
+
             if (code === 0) {
               Message('success', t('message.invitateSuccess'));
               Bus.$emit('getTeamMemberList');
@@ -432,10 +432,10 @@ const InvitationModal = (props) => {
           next: (res) => {
             const { code } = res;
             if (code === 0) {
-                Message('success', t('message.sendSuccess'));
-                onCancel();
+              Message('success', t('message.sendSuccess'));
+              onCancel();
             } else {
-                Message('error', t('message.sendError'));
+              Message('error', t('message.sendError'));
             }
           }
         })
@@ -654,33 +654,35 @@ const InvitationModal = (props) => {
           </div>
           <div className="team-inviation-footer">
             <div className="team-inviation-footer-l">
-              {/* <span className="know-link-people">知道链接的人</span>
-              <Select defaultValue="common" value={linkPower} onChange={(key) => setLinkPower(key)}>
-                <Option value="admin">管理员</Option>
-                <Option value="common">成员</Option>
-              </Select> */}
-              {/* <div
+              <span className="know-link-people">知道链接的人</span>
+              <Select defaultValue={3} value={linkPower} onChange={(key) => setLinkPower(key)}>
+                <Option value={3}>{t('modal.roleList.1')}</Option>
+                <Option value={2}>{t('modal.roleList.0')}</Option>
+              </Select>
+              <div
                 className="team-inviation-link"
                 type="link"
                 onClick={() => {
-                  getProjectInviteUrl({
-                    project_id: current_project_id,
-                    role: linkPower === 'readonly' ? 1 : 2,
-                  }).subscribe({
-                    next(resp) {
-                      if (resp?.code === 10000) {
+                  const params = {
+                    team_id: localStorage.getItem('team_id'),
+                    role_id: linkPower
+                  };
+                  fetchGetLink(params).subscribe({
+                    next: (res) => {
+                      const { code, data: { url } } = res;
+                      if (code === 0) {
                         copyStringToClipboard(
-                          `${FE_BASEURL}/linkinvitation?invitation_code=${resp.data.code}`,
+                          url,
                           true
                         );
                       }
-                    },
-                  });
+                    }
+                  })
                 }}
               >
                 <ConnectIcon></ConnectIcon>
                 复制邀请链接
-              </div> */}
+              </div>
             </div>
             <div className="team-inviation-footer-r">
               {/* <span className="team-inviation-footer-need-buy-span">
