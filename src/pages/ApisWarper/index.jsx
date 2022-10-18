@@ -22,17 +22,17 @@ const Apis = (props) => {
         Bus.$emit('updateTargetId', target_id);
     };
 
-    useEffect(() => {
-       setTimeout(() => {
-            Bus.$emit('openRecordApi');
-       })
-    }, []);
+    // useEffect(() => {
+    //    setTimeout(() => {
+    //         Bus.$emit('openRecordApi');
+    //    })
+    // }, []);
 
-    useEffect(() => {
-        return () => {
-            Bus.$emit('recordOpenApi');
-        }
-    }, []);
+    // useEffect(() => {
+    //     return () => {
+    //         Bus.$emit('recordOpenApi');
+    //     }
+    // }, []);
 
 
     // 被打开的api数据列表

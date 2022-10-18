@@ -185,10 +185,11 @@ const useOpens = () => {
         });
         selected && Bus.$emit('updateTargetId', Obj.target_id);
         callback && callback();
+        const team_id = localStorage.getItem('team_id');
         const openNavs =
-            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+            apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
         openNavs.push(Obj.target_id);
-        apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
+        apGlobalConfigStore.set(`project_current:${team_id}`, {
             open_navs: openNavs,
         });
         // });
@@ -500,10 +501,11 @@ const useOpens = () => {
                             })
 
                             Bus.$emit('updateTargetId', tempApis[id].target_id);
+                            const team_id = localStorage.getItem('team_id');
                             const openNavs =
-                                apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+                                apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
                             openNavs.push(tempApis[id].target_id);
-                            apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, {
+                            apGlobalConfigStore.set(`project_current:${team_id}`, {
                                 open_navs: openNavs,
                             });
                         }
@@ -544,7 +546,8 @@ const useOpens = () => {
         // console.log('updateTargetId', id);
         // const uuid = localStorage.getItem('uuid');
         // User.update(uuid, { 'workspace.CURRENT_TARGET_ID': id }).then(() => {
-        // apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { CURRENT_TARGET_ID: id });
+        const team_id = localStorage.getItem('team_id');
+        apGlobalConfigStore.set(`project_current:${team_id}`, { CURRENT_TARGET_ID: id });
         dispatch({
             type: 'workspace/updateWorkspaceState',
             payload: { CURRENT_TARGET_ID: id },
@@ -587,8 +590,10 @@ const useOpens = () => {
             ids.push(typeof open_apis[id].parent_id === 'number' ? parseInt(id) : id);
         }
 
-        // const openNavs =
-        //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+        const team_id = localStorage.getItem('team_id');
+
+        const openNavs =
+            apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
         const index_1 = ids.indexOf(id);
         if (`${id}` === `${open_api_now}`) {
             let newId = '';
@@ -610,8 +615,8 @@ const useOpens = () => {
             payload: { target_id: id },
         });
 
-        // index_1 > -1 && openNavs.splice(index_1, 1);
-        // apGlobalConfigStore.set(`project_current:${CURRENT_PROJECT_ID}`, { open_navs: openNavs });
+        index_1 > -1 && openNavs.splice(index_1, 1);
+        apGlobalConfigStore.set(`project_current:${team_id}`, { open_navs: openNavs });
         // });
     };
 
@@ -951,8 +956,29 @@ const useOpens = () => {
     };
 
     const reloadOpens = () => {
+        const team_id = localStorage.getItem('team_id');
         const openNavs =
-            apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
+            apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
+
+        console.log(openNavs);
+        const query = {
+            team_id: localStorage.getItem('team_id'),
+            target_ids: openNavs
+        };
+        fetchApiDetail(QueryString.stringify(query, { indices: false })).subscribe({
+            next: (res) => {
+                const { data: { targets } } = res;
+                console.log(targets);
+                // const _open_apis = cloneDeep(open_apis);
+                // targets.forEach(item => {
+                //     _open_apis[item.target_id] = item;
+                // });
+                dispatch({
+                    type: 'opens/coverOpenApis',
+                    payload: targets,
+                })
+            }
+        })
         // Opens.bulkGet(openNavs).then((res) => {
         //     const open_init_apis = {};
         //     if (res && res.length > 0) {
@@ -971,8 +997,12 @@ const useOpens = () => {
 
         // 恢复上次打开的targetID
         const current_target_id = apGlobalConfigStore.get(
-            `project_current:${CURRENT_PROJECT_ID}`
+            `project_current:${team_id}`
         )?.CURRENT_TARGET_ID;
+        dispatch({
+            type: 'opens/updateOpenApiNow',
+            payload: current_target_id,
+        })
         dispatch({
             type: 'workspace/updateWorkspaceState',
             payload: { CURRENT_TARGET_ID: current_target_id },

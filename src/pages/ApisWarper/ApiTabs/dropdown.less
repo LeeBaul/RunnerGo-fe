@@ -7,42 +7,41 @@
     background-color: var(--background-color-primary);
     border: 1px solid var(--border-color-default);
     box-shadow: inset 0 -1px 0 var(--border-color-strong);
-
+  
     &-item {
-        height: 32px;
-        padding: 6px 8px 6px 8px;
-        border-radius: 0;
-        white-space: nowrap;
-        display: flex;
-        font-size: var(--size-12px);
-        align-items: center;
-        cursor: pointer;
-
-        .menu-icon {
-            margin-right: 12px;
-            width: 16px;
-            height: 16px;
-            vertical-align: text-bottom;
+      height: 32px;
+      padding: 6px 8px 6px 8px;
+      border-radius: 0;
+      white-space: nowrap;
+      display: flex;
+      font-size: var(--size-12px);
+      align-items: center;
+      cursor: pointer;
+  
+      .menu-icon {
+        margin-right: 12px;
+        width: 16px;
+        height: 16px;
+        vertical-align: text-bottom;
+      }
+  
+      svg{
+        fill:var(--content-color-secondary)
+      }
+  
+      &:hover {
+        color: var(--content-color-primary);
+        background-color: var(--highlight-background-color-secondary);
+        svg{
+          fill:var(--content-color-primary)
         }
-
-        svg {
-            fill: var(--content-color-secondary)
-        }
-
-        &:hover {
-            color: var(--content-color-primary);
-            background-color: var(--highlight-background-color-secondary);
-
-            svg {
-                fill: var(--content-color-primary)
-            }
-        }
-
-        &:last-child {
-            margin: 0;
-        }
-
+      }
+  
+      &:last-child {
+        margin: 0;
+      }
+  
     }
-
-
-}
+  
+  
+  }

@@ -77,17 +77,17 @@ const ApiTabs = (props) => {
     const apiTabsRef = useRef(null);
 
     const handleMoveLeft = () => {
-        apiTabsRef?.current?.handleMoveLeft();
+        apiTabsRef.current.handleMoveLeft();
     };
 
     const handleMoveRight = () => {
-        apiTabsRef?.current?.handleMoveRight();
+        apiTabsRef.current.handleMoveRight();
     };
 
     const handleTabChange = useCallback((newActiveId) => {
         dispatch({
             type: 'opens/updateSaveId',
-            payload: '',
+            payload: null,
         })
         onChange(newActiveId);
     }, []);
