@@ -203,7 +203,7 @@ const LoginBox = (props) => {
               role_id: parseInt(role_id),
               team_id: parseInt(team_id)
             };
-            fetchOpenLink(query).subscribe({
+            fetchOpenLink(params).subscribe({
               next: (res) => {
                 const { code } = res;
                 if (code === 0) {
