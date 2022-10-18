@@ -31,6 +31,11 @@ const PlanList = () => {
     const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('plan_pagesize')) || 10);
     const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('plan_page')) || 1);
 
+    const [taskType, setTaskType] = useState('');
+    const [taskMode, setTaskMode] = useState('');
+    const [status, setStatus] = useState('');
+    const [sort, setSort] = useState(0);
+
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const dispatch = useDispatch();
@@ -144,7 +149,7 @@ const PlanList = () => {
         return () => {
             clearInterval(plan_t);
         }
-    }, [refreshList, keyword, currentPage, pageSize, startTime, endTime]);
+    }, [refreshList, keyword, currentPage, pageSize, startTime, endTime, taskMode, taskType, status, sort]);
 
     const getPlanList = () => {
         const query = {
@@ -154,6 +159,10 @@ const PlanList = () => {
             keyword,
             start_time_sec: startTime,
             end_time_sec: endTime,
+            task_type: taskType,
+            task_mode: taskMode,
+            status,
+            sort
         };
         fetchPlanList(query).subscribe({
             next: (res) => {
@@ -176,7 +185,7 @@ const PlanList = () => {
                             <Tooltip content={<div>{created_user_name}</div>}>
                                 <div className='ellipsis'>{created_user_name}</div>
                             </Tooltip>,
-                         remark:
+                        remark:
                             <Tooltip content={<div>{remark}</div>}>
                                 <div className='ellipsis'>{remark}</div>
                             </Tooltip>,
@@ -212,39 +221,58 @@ const PlanList = () => {
         {
             title: t('plan.taskType'),
             dataIndex: 'task_type',
+            filterMultiple: false,
             filters: [
-                { text: "普通任务", value: "普通任务" },
-                { text: "定时任务", value: "定时任务" }
+                { text: "普通任务", value: 1 },
+                { text: "定时任务", value: 2 }
             ],
-            onFilter: (value, item) => item.task_type == value,
+            onFilter: (value, item) => {
+                setTaskType(value);
+                return true;
+            },
             width: 135
         },
         {
             title: t('plan.mode'),
             dataIndex: 'mode',
+            filterMultiple: false,
             filters: [
-                { text: "并发模式", value: "并发模式" },
-                { text: "阶梯模式", value: "阶梯模式" },
-                { text: "错误率模式", value: "错误率模式" },
-                { text: "响应时间模式", value: "响应时间模式" },
-                { text: "每秒请求数模式", value: "每秒请求数模式" }
+                { text: "并发模式", value: 1 },
+                { text: "阶梯模式", value: 2 },
+                { text: "错误率模式", value: 3 },
+                { text: "响应时间模式", value: 4 },
+                { text: "每秒请求数模式", value: 5 }
             ],
-            onFilter: (key, value, item) => item.mode === value,
+            onFilter: (value, item) => {
+                setTaskMode(value);
+                return true;
+            },
             width: 135
         },
         {
             title: t('plan.createTime'),
             dataIndex: 'created_time_sec',
             width: 190,
+            sorter: true
         },
         {
             title: t('plan.updateTime'),
             dataIndex: 'updated_time_sec',
             width: 190,
+            sorter: true
         },
         {
             title: t('plan.status'),
             dataIndex: 'status',
+            filterMultiple: false,
+            filters: [
+                { text: "未运行", value: 1 },
+                { text: "运行中", value: 2 }
+            ],
+            onFilter: (value, item) => {
+                setStatus(value);
+                return true;
+            },
             // width: 190,
         },
         {
@@ -327,7 +355,29 @@ const PlanList = () => {
                 pagination={false}
                 columns={columns}
                 data={planList}
-                noDataElement={<div className='empty'><SvgEmpty /> <p>{t('index.emptyData')}</p> </div>} 
+                noDataElement={<div className='empty'><SvgEmpty /> <p>{t('index.emptyData')}</p> </div>}
+                onChange={(a, sort, filter, c) => {
+                    console.log(a, sort, c);
+                    if (!filter.hasOwnProperty('mode')) {
+                        setTaskMode('');
+                    }
+                    if (!filter.hasOwnProperty('task_type')) {
+                        setTaskType('');
+                    }
+                    if (!filter.hasOwnProperty('status')) {
+                        setStatus('');
+                    }
+                    if (sort.hasOwnProperty('field') && sort.hasOwnProperty('direction') && sort.direction) {
+                        if (sort.field === 'created_time_sec') {
+                            setSort(sort.direction === 'ascend' ? 2 : 1);
+                        } else if (sort.field === 'updated_time_sec') {
+                            setSort(sort.direction === 'ascend' ? 4 : 3);
+                        }
+                    } else {
+                        console.log(123123123);
+                        setSort(0);
+                    }
+                }}
                 onRow={(record, index) => {
                     return {
                         onDoubleClick: (event) => {

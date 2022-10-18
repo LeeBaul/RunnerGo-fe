@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Scale, Drawer, Input, Button } from 'adesign-react';
 import { Close as SvgClose } from 'adesign-react/icons'
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,8 +34,6 @@ const PlanDetail = () => {
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
     const api_now = useSelector((store) => store.plan.api_now);
     const apiConfig = useSelector((store) => store.plan.showApiConfig);
-    // const id_apis = useSelector((store) => store.plan.id_apis);
-    const node_config_plan = useSelector((store) => store.plan.node_config);
 
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
     const [showCreate, setShowCreate] = useState(false);
@@ -48,14 +46,19 @@ const PlanDetail = () => {
     }, []);
 
     useEffect(() => {
-        return () => {
-            let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
+
+        const open_plan = JSON.parse(localStorage.getItem('open_plan') || '{}');
+        if (open_plan && open_plan[id]) {
+            console.log(open_plan, open_plan_scene, id)
             if (open_plan_scene) {
-                planMap[id] = open_plan_scene.scene_id || open_plan_scene.target_id;
+                if (`${open_plan_scene.scene_id}` !== `${open_plan[id]}`) {
+                    Bus.$emit('addOpenPlanScene', { target_id: open_plan[id] })
+                }
+            } else {
+                Bus.$emit('addOpenPlanScene', { target_id: open_plan[id] })
             }
-            localStorage.setItem('planMap', JSON.stringify(planMap));
         }
-    }, [open_plan_scene])
+    }, [open_plan_scene]);
 
 
     useEffect(() => {
@@ -95,7 +98,7 @@ const PlanDetail = () => {
                         {/* <SvgClose width="16px" height="16px" /> */}
                         <p style={{ fontSize: '16px' }}>x</p>
                     </Button>
-                    <Input size="mini" value={apiName} placeholder={ t('placeholder.apiName') } onBlur={(e) => onTargetChange('name', e.target.value)} />
+                    <Input size="mini" value={apiName} placeholder={t('placeholder.apiName')} onBlur={(e) => onTargetChange('name', e.target.value)} />
                 </div>
                 <div className='drawer-header-right'>
                     {/* <Button onClick={() => {
@@ -153,7 +156,7 @@ const PlanDetail = () => {
                     <TaskConfig from='default' refresh={true} />
                 </ScaleItem>
             </ScalePanel>
-            { showCreate && <CreateScene from="plan" onCancel={() => setShowCreate(false)} /> }
+            {showCreate && <CreateScene from="plan" onCancel={() => setShowCreate(false)} />}
         </div>
     )
 };

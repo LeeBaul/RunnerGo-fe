@@ -31,6 +31,10 @@ const RecentReport = () => {
     const [total, setTotal] = useState(0);
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
+    const [taskType, setTaskType] = useState('');
+    const [taskMode, setTaskMode] = useState('');
+    const [status, setStatus] = useState('');
+    const [sort, setSort] = useState(0);
 
     const [currentPage, setCurrentPage] = useState(parseInt(sessionStorage.getItem('index_page')) || 1);
     const [pageSize, setPageSize] = useState(parseInt(localStorage.getItem('index_pagesize')) || 10);
@@ -64,7 +68,7 @@ const RecentReport = () => {
         return () => {
             clearInterval(index_report_t);
         }
-    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize, startTime, endTime]);
+    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize, startTime, endTime, taskType, taskMode, status, sort]);
 
     const getReportData = () => {
         const query = {
@@ -74,6 +78,10 @@ const RecentReport = () => {
             keyword,
             start_time_sec: startTime,
             end_time_sec: endTime,
+            task_type: taskType,
+            task_mode: taskMode,
+            status,
+            sort
         }
         fetchReportList(query)
             .pipe(
@@ -165,35 +173,45 @@ const RecentReport = () => {
         {
             title: t('index.taskType'),
             dataIndex: 'task_type',
+            filterMultiple: false,
             filters: [
-                { text: "普通任务", value: "普通任务" },
-                { text: "定时任务", value: "定时任务" }
+                { text: "普通任务", value: 1 },
+                { text: "定时任务", value: 2 }
             ],
-            onFilter: (value, item) => item.task_type === value,
+            onFilter: (value, item) => {
+                setTaskType(value);
+                return true;
+            },
             width: 135,
         },
         {
             title: t('index.mode'),
             dataIndex: 'task_mode',
+            filterMultiple: false,
             filters: [
-                { text: "并发模式", value: "并发模式" },
-                { text: "阶梯模式", value: "阶梯模式" },
-                { text: "错误率模式", value: "错误率模式" },
-                { text: "响应时间模式", value: "响应时间模式" },
-                { text: "每秒请求数模式", value: "每秒请求数模式" }
+                { text: "并发模式", value: 1 },
+                { text: "阶梯模式", value: 2 },
+                { text: "错误率模式", value: 3 },
+                { text: "响应时间模式", value: 4 },
+                { text: "每秒请求数模式", value: 5 }
             ],
-            onFilter: (value, item) => item.task_mode === value,
+            onFilter: (value, item) => {
+                setTaskMode(value);
+                return true;
+            },
             width: 135
         },
         {
             title: t('index.startTime'),
             dataIndex: 'run_time_sec',
             width: 200,
+            sorter: true
         },
         {
             title: t('index.endTime'),
             dataIndex: 'last_time_sec',
             width: 200,
+            sorter: true
         },
         {
             title: t('index.performer'),
@@ -204,7 +222,15 @@ const RecentReport = () => {
             title: t('index.status'),
             dataIndex: 'status',
             width: 120,
-
+            filterMultiple: false,
+            filters: [
+                { text: "运行中", value: 1 },
+                { text: "已完成", value: 2 }
+            ],
+            onFilter: (value, item) => {
+                setStatus(value);
+                return true;
+            },
         },
         {
             title: t('index.handle'),
@@ -336,6 +362,27 @@ const RecentReport = () => {
                         },
                     }
                 }
+                onChange={(a, sort, filter, c) => {
+                    console.log(a, sort, c);
+                    if (!filter.hasOwnProperty('task_mode')) {
+                        setTaskMode('');
+                    }
+                    if (!filter.hasOwnProperty('task_type')) {
+                        setTaskType('');
+                    }
+                    if (!filter.hasOwnProperty('status')) {
+                        setStatus('');
+                    }
+                    if (sort.hasOwnProperty('field') && sort.hasOwnProperty('direction') && sort.direction) {
+                        if (sort.field === 'run_time_sec') {
+                            setSort(sort.direction === 'ascend' ? 2 : 1);
+                        } else if (sort.field === 'last_time_sec') {
+                            setSort(sort.direction === 'ascend' ? 4 : 3);
+                        }
+                    } else {
+                        setSort(0);
+                    }
+                }}
                 onRow={(record, index) => {
                     return {
                         onDoubleClick: (event) => {

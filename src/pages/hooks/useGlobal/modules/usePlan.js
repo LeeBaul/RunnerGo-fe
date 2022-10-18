@@ -17,6 +17,7 @@ import { global$ } from '../global';
 const usePlan = () => {
     const dispatch = useDispatch();
     const id_apis = useSelector((store) => store.plan.id_apis);
+    const node_config = useSelector((store) => store.plan.node_config);
     const savePreConfig = ({ task_type, mode, cron_expr, mode_conf }, callback) => {
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -75,15 +76,15 @@ const usePlan = () => {
         })
     };
 
-    const addOpenPlanScene = (id, id_apis, node_config) => {
+    const addOpenPlanScene = (id) => {
         // dispatch({
         //     type: 'plan/updateOpenScene',
         //     payload: {},
         // })
-        dispatch({
-            type: 'plan/updateOpenScene',
-            payload: null,
-        })
+        // dispatch({
+        //     type: 'plan/updateOpenScene',
+        //     payload: null,
+        // })
         dispatch({
             type: 'plan/updateRunRes',
             payload: null,

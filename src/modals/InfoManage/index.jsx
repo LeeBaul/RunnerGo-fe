@@ -7,7 +7,8 @@ import avatar from '@assets/logo/avatar.png'
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import EditAvatar from '../EditAvatar';
-import { fetchUpdateName, fetchUpdatePwd } from '@services/user';
+import EditPwd from '../EditPwd';
+import { fetchUpdateName, fetchUpdatePwd, fetchCheckPassword } from '@services/user';
 
 const InfoManage = (props) => {
     const { onCancel } = props;
@@ -19,6 +20,7 @@ const InfoManage = (props) => {
     const [showMask, setShowMask] = useState(false);
 
     const [showEditAvatar, setEditAvatar] = useState(false);
+    const [showEditPwd, setEditPwd] = useState(false);
 
     const enter = () => {
         console.log(123);
@@ -52,7 +54,7 @@ const InfoManage = (props) => {
     const Header = () => {
         return (
             <div className='info-header'>
-                <Button preFix={<SvgLeft/ >} className='return-btn' onClick={onCancel}>{ t('btn.return') }</Button>
+                <Button preFix={<SvgLeft />} className='return-btn' onClick={onCancel}>{t('btn.return')}</Button>
                 <LogoRight />
             </div>
         )
@@ -70,7 +72,7 @@ const InfoManage = (props) => {
             okText: t('btn.ok'),
             onOk: () => {
                 const params = {
-                    nickname: nickname ? nickname : nickName,   
+                    nickname: nickname ? nickname : nickName,
                 };
                 fetchUpdateName(params).subscribe({
                     next: (res) => {
@@ -96,37 +98,87 @@ const InfoManage = (props) => {
     }
 
     const editPwd = () => {
-        let current_password = '';
-        let new_password = '';
-        let repeat_password = '';
+        const [pwdError, setPwdError] = useState(false);
+        const [newPwdError, setNewPwdError] = useState(false);
+        const [pwdDiff, setPwdDiff] = useState(false);
+        const [cantUpdate, setCantUpdate] = useState(false);
         Modal.confirm({
             title: t('modal.editPwd'),
-            content: 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', height: '160px' }}>
-                <Input placeholder={ t('placeholder.currentPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }} value={oldPwd} onChange={(e) => {
-                    setOldPwd(e);
-                    current_password = e;
-                }} />
-                <Input placeholder={ t('placeholder.newPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)'}} value={newPwd} onChange={(e) => {
-                    setNewPwd(e);
-                    new_password = e;
-                }} />
-                <Input placeholder={ t('placeholder.confirmPwd') } style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }} value={confirmPwd} onChange={(e) => {
-                    setConfirmPwd(e);
-                    repeat_password = e;
-                }} />
-            </div>,
+            content: (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', height: '200px' }}>
+                    <Input
+                        placeholder={t('placeholder.currentPwd')}
+                        style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }}
+                        value={oldPwd}
+                        onChange={(e) => {
+                            setOldPwd(e);
+                        }}
+                        onBlur={(e) => {
+                            console.log(e);
+                            const params = {
+                                password: e.target.value
+                            };
+                            console.log(params);
+                            fetchCheckPassword(params).subscribe({
+                                next: (res) => {
+                                    const { data: { is_match } } = res;
+                                    if (is_match) {
+                                        setPwdError(false);
+                                    } else {
+                                        setPwdError(true);
+                                        setCantUpdate(true);
+                                    }
+                                }
+                            })
+                        }}
+                    />
+                    {pwdError && <p className='input-error' style={{ color: '#f00', marginRight: 'auto', marginLeft: '40px' }}>密码错误</p>}
+                    <Input
+                        placeholder={t('placeholder.newPwd')}
+                        style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }}
+                        value={newPwd}
+                        onChange={(e) => {
+                            setNewPwd(e);
+                        }}
+                        onBlur={(e) => {
+                            if (e.target.value.length < 6) {
+                                setNewPwdError(true);
+                                setCantUpdate(true);
+                            } else {
+                                setNewPwdError(false);
+                            }
+                        }}
+                    />
+                    {newPwdError && <p className='input-error' style={{ color: '#f00', marginRight: 'auto', marginLeft: '40px' }}>密码长度至少为6位</p>}
+                    <Input
+                        placeholder={t('placeholder.confirmPwd')}
+                        style={{ width: '320px', height: '44px', border: '1px solid var(--bg-4)' }}
+                        value={confirmPwd}
+                        onChange={(e) => {
+                            setConfirmPwd(e);
+                        }}
+                        onBlur={(e) => {
+                            if (newPwd !== confirmPwd) {
+                                setPwdDiff(true);
+                                setCantUpdate(true);
+                            } else {
+                                setPwdDiff(false);
+                            }
+                        }}
+                    />
+                    {pwdDiff && <p className='input-error' style={{ color: '#f00', marginRight: 'auto', marginLeft: '40px' }}>输入的密码不匹配</p>}
+                </div>
+            ),
             cancelText: t('btn.cancel'),
             okText: t('btn.ok'),
             onOk: () => {
-                if (new_password !== repeat_password) {
-                    Message('error', t('message.pwdDiff'));
+                if (cantUpdate) {
                     return;
                 }
                 const params = {
-                    current_password,
-                    new_password,
-                    repeat_password,
+                    current_password: oldPwd,
+                    new_password: newPwd,
+                    repeat_password: confirmPwd,
                 }
                 fetchUpdatePwd(params).subscribe({
                     next: (res) => {
@@ -159,8 +211,8 @@ const InfoManage = (props) => {
                 <Header />
                 <div className='info-container'>
                     <div className='info-container-left'>
-                        <div className='avatar-item'  onClick={() => editAvatar()} >
-                            { showMask && <div className='avatar-mask'>{ t('modal.updateAvatar') }</div> }
+                        <div className='avatar-item' onClick={() => editAvatar()} >
+                            {showMask && <div className='avatar-mask'>{t('modal.updateAvatar')}</div>}
                             <img className='avatar' src={userInfo.avatar || avatar} />
                         </div>
                         <div className='name'>
@@ -172,15 +224,15 @@ const InfoManage = (props) => {
                         <div className='line'></div>
                         <div className='right-info'>
                             <div className='right-info-item'>
-                                <p className='label'>{ t('sign.email') }</p>
-                                <p className='value'>{ userInfo.email }</p>
+                                <p className='label'>{t('sign.email')}</p>
+                                <p className='value'>{userInfo.email}</p>
                             </div>
                             <div className='right-info-item' style={{ marginTop: '48px' }}>
-                                <p className='label'>{ t('sign.password') }</p>
+                                <p className='label'>{t('sign.password')}</p>
                                 <p className='value'>
                                     <span>********</span>
-                                    <span className='edit' onClick={() => editPwd()}>
-                                        { t('modal.edit') }
+                                    <span className='edit' onClick={() => setEditPwd(true)}>
+                                        {t('modal.edit')}
                                     </span>
                                 </p>
                             </div>
@@ -192,6 +244,9 @@ const InfoManage = (props) => {
 
             {
                 showEditAvatar && <EditAvatar onCancel={() => setEditAvatar(false)} />
+            }
+            {
+                showEditPwd && <EditPwd onCancel={() => setEditPwd(false)} />
             }
         </div>
     )

@@ -345,12 +345,13 @@ const MenuTrees = (props, treeRef) => {
                             if (Object.entries(open_plan_scene || {}).length > 0) {
                                 Bus.$emit('saveScenePlan', nodes_plan, edges_plan, id_apis_plan, node_config_plan, open_plan_scene, id, () => {
                                     Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
-                                    let open_plan = localStorage.getItem('open_plan');
-                                    open_plan[id] = val.target_id;
                                 });
                             } else {
                                 Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
                             }
+                            let open_plan = JSON.parse(localStorage.getItem('open_plan') || '{}');
+                            open_plan[id] = val.target_id;
+                            localStorage.setItem('open_plan', JSON.stringify(open_plan));
                         }
                     }
                 }}

@@ -76,6 +76,10 @@ export const fetchFindPassword = (
 export const fetchResetPassword = (
   params
 ) => ajax('post', '/management/api/v1/auth/reset_password', 'json', false, params);
+// 密码是否正确
+export const fetchCheckPassword = (
+  params
+) => ajax('post', '/management/api/v1/user/verify_password', 'json', false, params);
 
 
 
