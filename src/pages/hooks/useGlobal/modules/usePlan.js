@@ -275,6 +275,7 @@ const usePlan = () => {
                 return {
                     ...item,
                     api,
+                    weight: 100,
                     ...node_config[item.id],
                     pre_list: get_pre(item.id, edges),
                     next_list: get_next(item.id, edges),
@@ -296,7 +297,7 @@ const usePlan = () => {
             nodes: _nodes,
             edges,
             source: 2,
-            plan_id: id,
+            plan_id: parseInt(id),
             // multi_level_nodes: JSON.stringify(formatSceneData(nodes, edges))
             // songsong: formatSceneData(nodes, edges),
         };
@@ -474,6 +475,9 @@ const usePlan = () => {
                         type: 'plan/updatePlanMenu',
                         payload: tempPlanList
                     })
+                }),
+                tap(() => {
+
                 })
             )
             .subscribe();
