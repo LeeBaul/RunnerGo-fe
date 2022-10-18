@@ -23,13 +23,27 @@ const App = () => {
 
     const location = useLocation();
     const { search } = location;
-    const { u, report_id, email } = qs.parse(search.slice(1));
+    const { u, report_id, email, role_id, team_id } = qs.parse(search.slice(1));
     const [showLayout, setLayout] = useState(false);
 
     const ignorePage = ['/login', '/register', '/find', '/reset']
 
     useEffect(() => {
         // const token = getCookie('token');
+
+        if (role_id) {
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            if (userInfo.email !== email) {
+                localStorage.removeItem('kunpeng-token');
+                localStorage.removeItem('expire_time_sec');
+                localStorage.removeItem('team_id');
+                localStorage.removeItem('settings');  
+                localStorage.removeItem('open_apis');
+                localStorage.removeItem('open_scene');
+                localStorage.removeItem('open_plan');
+                navigate(`/login?team_id${team_id}&role_id=${role_id}`); 
+            }
+        }
 
         if (email) {
             const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');

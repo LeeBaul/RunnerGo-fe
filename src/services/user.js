@@ -84,7 +84,10 @@ export const fetchCheckPassword = (
 export const fetchGetLink = (
   query
 ) => ajax('get', '/management/api/v1/team/invite/url', 'json', false, {}, query);
-
+// 打开邀请链接
+export const fetchOpenLink = (
+  params
+) => ajax('post', '/management/api/v1/team/invite/url', 'json', false, params);
 
 
 // 获取微信二维码

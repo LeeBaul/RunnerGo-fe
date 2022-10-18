@@ -13,7 +13,8 @@ import {
   fetchUserLoginForEmailRequest,
   fetchGetWxCodeRequest,
   fetchCheckUserWxCodeRequest,
-  fetchUserConfig
+  fetchUserConfig,
+  fetchOpenLink
 } from '@services/user';
 import Bus from '@utils/eventBus';
 
@@ -50,10 +51,11 @@ const LoginBox = (props) => {
   const config = useSelector((store) => store.user.config);
   const dispatch = useDispatch();
 
+
   const { i18n, t } = useTranslation();
 
   const { search } = useLocation();
-  const { report_id } = qs.parse(search.slice(1));
+  const { report_id, role_id, team_id } = qs.parse(search.slice(1));
 
   // 获取极验内容
   const getVcodeUrl = async () => {
@@ -196,7 +198,30 @@ const LoginBox = (props) => {
 
           if (report_id) {
             navigate(`/report/detail?id=${report_id}`);
-          } else {
+          } else if (role_id) {
+            const query ={
+              role_id,
+              team_id
+            };
+            fetchOpenLink(query).subscribe({
+              next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                  getUserConfig$().subscribe({
+                    next: (res) => {
+                      const team_id = data.settings.current_team_id;
+                      localStorage.setItem('team_id', team_id);
+                      dispatch({
+                        type: 'user/updateTeamId',
+                        payload: team_id
+                      });
+                      navigate('/index');
+                    }
+                  })
+                }
+              }
+            })
+          } else  {
             navigate('/index');
           }
           global$.next({
