@@ -224,7 +224,7 @@ const LoginBox = (props) => {
           } else  {
             navigate('/index'); 
           }
-          global$.next({
+          global$.next({ 
             action: 'INIT_APPLICATION',
           });
         }),
