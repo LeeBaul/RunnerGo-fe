@@ -23,13 +23,25 @@ const App = () => {
 
     const location = useLocation();
     const { search } = location;
-    const { u, report_id } = qs.parse(search.slice(1));
+    const { u, report_id, email } = qs.parse(search.slice(1));
     const [showLayout, setLayout] = useState(false);
 
     const ignorePage = ['/login', '/register', '/find', '/reset']
 
     useEffect(() => {
         // const token = getCookie('token');
+
+        if (email) {
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            if (userInfo.email !== email) {
+                localStorage.removeItem('kunpeng-token');
+                localStorage.removeItem('expire_time_sec');
+                localStorage.removeItem('team_id');
+                localStorage.removeItem('settings');
+                localStorage.removeItem('open_apis');
+                localStorage.removeItem('open_scene');
+            }
+        }
 
         if (!u) {
             if (report_id) {
