@@ -215,6 +215,7 @@ const LoginBox = (props) => {
                         type: 'user/updateTeamId',
                         payload: team_id
                       });
+                      console.log(team_id);
                       navigate('/index');
                     })
                   )

@@ -66,6 +66,7 @@ const App = () => {
                 const expire_time_sec = localStorage.getItem('expire_time_sec');
                 const token = localStorage.getItem('kunpeng-token');
                 const isExpire = new Date().getTime() > parseInt(expire_time_sec || 0);
+                console.log(111111111111111);
                 // if (!token || isExpire) {
                 //     window.location.href = '/login';
                 // }
