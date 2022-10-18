@@ -244,29 +244,25 @@ const LoginBox = (props) => {
             });
           }
         }),
-        tap((res) => {
+        concatMap((res) => {
           const { code } = res;
           console.log(res);
-          if (code === 0) {
-            getUserConfig$().pipe(
-              tap(res => {
-                console.log(res);
-                const team_id = res.data.settings.current_team_id;
-                localStorage.setItem('team_id', team_id);
-                dispatch({
-                  type: 'user/updateTeamId',
-                  payload: team_id
-                });
-                console.log(team_id);
-                navigate('/index');
-                global$.next({ 
-                  action: 'INIT_APPLICATION',
-                });
-              })
-            )
-          }
+
+          return getUserConfig$();
         }),
-        tap(() => {
+        tap((res) => {
+          console.log(res);
+          const team_id = res.data.settings.current_team_id;
+          localStorage.setItem('team_id', team_id);
+          dispatch({
+            type: 'user/updateTeamId',
+            payload: team_id
+          });
+          console.log(team_id);
+          navigate('/index');
+          global$.next({ 
+            action: 'INIT_APPLICATION',
+          });
         })
         // tap(() => {
         //   navigate('/index')
