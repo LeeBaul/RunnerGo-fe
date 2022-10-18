@@ -222,7 +222,7 @@ const LoginBox = (props) => {
               }
             })
           } else  {
-            navigate('/index');
+            navigate('/index'); 
           }
           global$.next({
             action: 'INIT_APPLICATION',
