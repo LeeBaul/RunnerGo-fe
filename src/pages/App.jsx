@@ -42,6 +42,7 @@ const App = () => {
                 localStorage.removeItem('open_apis');
                 localStorage.removeItem('open_scene');
                 localStorage.removeItem('open_plan');
+                localStorage.removeItem('userInfo');
                 navigate(`/login?team_id=${team_id}&role_id=${role_id}`); 
             }
         }
@@ -56,6 +57,7 @@ const App = () => {
                 localStorage.removeItem('open_apis');
                 localStorage.removeItem('open_scene');
                 localStorage.removeItem('open_plan');
+                localStorage.removeItem('userInfo');
                 navigate(`/login?email=${email}`); 
             }
         }
