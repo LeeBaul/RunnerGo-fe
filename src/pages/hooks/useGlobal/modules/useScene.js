@@ -151,6 +151,7 @@ const useScene = () => {
                 return {
                     ...item,
                     api,
+                    weight: 100,
                     ...node_config[item.id],
                     pre_list: get_pre(item.id, edges),
                     next_list: get_next(item.id, edges),
