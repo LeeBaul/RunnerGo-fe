@@ -198,6 +198,9 @@ const LoginBox = (props) => {
 
           if (report_id) {
             navigate(`/report/detail?id=${report_id}`);
+            global$.next({ 
+              action: 'INIT_APPLICATION',
+            });
           } else if (role_id) {
             const params ={
               role_id: parseInt(role_id),
@@ -220,6 +223,9 @@ const LoginBox = (props) => {
                       });
                       console.log(team_id);
                       navigate('/index');
+                      global$.next({ 
+                        action: 'INIT_APPLICATION',
+                      });
                     })
                   )
                 }
@@ -227,10 +233,10 @@ const LoginBox = (props) => {
             })
           } else  {
             navigate('/index'); 
+            global$.next({ 
+              action: 'INIT_APPLICATION',
+            });
           }
-          global$.next({ 
-            action: 'INIT_APPLICATION',
-          });
         }),
         tap(() => {
         })
