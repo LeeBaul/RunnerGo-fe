@@ -47,7 +47,7 @@ const App = () => {
             }
         }
 
-        if (email) {
+        if (email && !u) {
             const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
             if (userInfo.email !== email) {
                 localStorage.removeItem('kunpeng-token');

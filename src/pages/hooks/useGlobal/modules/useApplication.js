@@ -244,6 +244,7 @@ const useProject = () => {
                 // 初始化主题色
                 ininTheme(userConfig);
                 initLanguage();
+                Bus.$emit('reloadOpens');
                 const team_id = localStorage.getItem('team_id');
                 return of(team_id).pipe(
                     // step1.加载团队列表

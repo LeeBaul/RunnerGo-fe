@@ -42,7 +42,7 @@ const EditAvatar = (props) => {
             return;
         };
         if (!fileType.includes(nameType)) {
-            Message('error', t('message.FileType'));
+            Message('error', t('message.AvatarType'));
             return;
         }
         const ossConfig = {

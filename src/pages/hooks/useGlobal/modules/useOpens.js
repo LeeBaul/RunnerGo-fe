@@ -959,6 +959,7 @@ const useOpens = () => {
 
     const reloadOpens = () => {
         const team_id = localStorage.getItem('team_id');
+        console.log(team_id);
         if (team_id) {
             const openNavs =
                 apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
@@ -982,6 +983,11 @@ const useOpens = () => {
                             payload: targets,
                         })
                     }
+                })
+            } else {
+                dispatch({
+                    type: 'opens/coverOpenApis',
+                    payload: null,
                 })
             }
 
@@ -1304,9 +1310,9 @@ const useOpens = () => {
 
     useEventBus('openRecordApi', openRecordApi, [open_apis]);
     // 初始化tabs
-    useEffect(() => {
-        reloadOpens();
-    }, [CURRENT_PROJECT_ID]);
+    // useEffect(() => {
+    //     reloadOpens();
+    // }, [CURRENT_PROJECT_ID]);
 };
 
 export default useOpens;

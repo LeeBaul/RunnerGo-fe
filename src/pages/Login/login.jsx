@@ -245,24 +245,28 @@ const LoginBox = (props) => {
           }
         }),
         concatMap((res) => {
-          const { code } = res;
-          console.log(res);
-
-          return getUserConfig$();
+          if (res) {
+            const { code } = res;
+            console.log(res);
+  
+            return getUserConfig$();
+          }
         }),
         tap((res) => {
-          console.log(res);
-          const team_id = res.data.settings.current_team_id;
-          localStorage.setItem('team_id', team_id);
-          dispatch({
-            type: 'user/updateTeamId',
-            payload: team_id
-          });
-          console.log(team_id);
-          navigate('/index');
-          global$.next({ 
-            action: 'INIT_APPLICATION',
-          });
+          if (res) {
+            console.log(res);
+            const team_id = res.data.settings.current_team_id;
+            localStorage.setItem('team_id', team_id);
+            dispatch({
+              type: 'user/updateTeamId',
+              payload: team_id
+            });
+            console.log(team_id);
+            navigate('/index');
+            global$.next({ 
+              action: 'INIT_APPLICATION',
+            });
+          }
         })
         // tap(() => {
         //   navigate('/index')

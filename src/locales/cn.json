@@ -128,6 +128,7 @@
         "maxFileNum": "最多上传5个文件!",
         "maxFileSize": "文件过大!",
         "FileType": "只支持csv和txt格式文件!",
+        "AvatarType": "只支持jpg, jpeg, png格式的图片",
         "deleteSuccess": "删除成功!",
         "deleteError": "删除失败!",
         "uploadSuccess": "上传成功!",

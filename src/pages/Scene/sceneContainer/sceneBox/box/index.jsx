@@ -129,6 +129,8 @@ const Box = (props) => {
     const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
 
     const select_box = from === 'scene' ? select_box_scene : select_box_plan;
+
+    const theme = useSelector((store) => store.user.theme);
     const [showApi, setShowApi] = useState(true);
     const [showMode, setShowMode] = useState(false);
     const [showModeTime, setShowModeTime] = useState(false);
@@ -384,7 +386,7 @@ const Box = (props) => {
 
     const Header = () => {
         return (
-            <div className={ cn('box-item', { 'white-run-color': status === 'success' || status === 'failed' }) } style={{ backgroundColor: topBgStyle[status] }}>
+            <div className={ cn('box-item', { 'white-run-color': theme === 'white' ? status === 'success' || status === 'failed' : false}) } style={{ backgroundColor: topBgStyle[status] }}>
                 <div className='box-item-left'>
                     <SvgApi />
                     <span>{id_apis[id] ? id_apis[id]?.name : '新建接口'}</span>

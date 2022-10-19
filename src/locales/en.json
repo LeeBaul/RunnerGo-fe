@@ -128,6 +128,7 @@
         "maxFileNum": "Upload up to 5 files!",
         "maxFileSize": "File is too large!",
         "FileType": "Only csv and txt files are supported!",
+        "AvatarType": "Only jpg, jpeg and png images are supported",
         "deleteSuccess": "Deletion succeeded!",
         "deleteError": "Delete failed!",
         "uploadSuccess": "Upload succeeded!",

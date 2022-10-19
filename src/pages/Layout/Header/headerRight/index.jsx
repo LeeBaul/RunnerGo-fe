@@ -188,8 +188,8 @@ const HeaderRight = () => {
                     {
                         showTheme &&
                         <div className='drop-content theme'>
-                            <p className='theme-white' style={{ border: theme === 'white' ? '1px solid var(--theme-color)' : '' }} onClick={() => changeTheme('white')}></p>
-                            <p className='theme-black' style={{ border: theme === 'dark' ? '1px solid var(--theme-color)' : '' }} onClick={() => changeTheme('dark')}></p>
+                            <p className='theme-white' style={{ border: theme === 'white' ? '2px solid var(--theme-color)' : '' }} onClick={() => changeTheme('white')}></p>
+                            <p className='theme-black' style={{ border: theme === 'dark' ? '2px solid var(--theme-color)' : '' }} onClick={() => changeTheme('dark')}></p>
                         </div>
                     }
                 </div>
