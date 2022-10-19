@@ -15,6 +15,7 @@ import jsonpath from 'jsonpath';
 import { VARTYPES } from '@constants/typeList';
 import { Message } from 'adesign-react';
 import { global$ } from '@hooks/useGlobal/global';
+import i18next from 'i18next';
 
 import {
     isArray,
@@ -43,7 +44,7 @@ export const copyStringToClipboard = (str, showMessage = true) => {
         // 读取内容到剪贴板
         clipboardObj.writeText(str).then(
             () => {
-                showMessage && Message('success', '已成功将内容复制到剪贴板');
+                showMessage && Message('success', i18next.t('message.copyClipboard'));
             },
             () => {
                 try {

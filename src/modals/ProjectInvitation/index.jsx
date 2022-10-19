@@ -32,7 +32,7 @@ import qs from 'qs';
 
 const Option = Select.Option;
 const InvitationModal = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const project_id = useSelector((store) => store?.workspace?.CURRENT_PROJECT_ID);
   const team_id = useSelector((store) => store?.workspace?.CURRENT_TEAM_ID);
   const userInfo = useSelector((store) => store.user.userInfo);
@@ -550,7 +550,7 @@ const InvitationModal = (props) => {
                 {
                   !email ?
                     role !== 2 ?
-                      <Select value={selectValue} onChange={(key) => setSelectValue(key)}>
+                      <Select style={{ right: i18n.language === 'en' ? '72px': '52px' }} value={selectValue} onChange={(key) => setSelectValue(key)}>
                         <Option value={3}>{t('modal.roleList.1')}</Option>
                         <Option value={2}>{t('modal.roleList.0')}</Option>
                       </Select>

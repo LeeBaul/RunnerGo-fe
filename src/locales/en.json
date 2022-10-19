@@ -174,7 +174,8 @@
         "resetSuccess": "Reset succeeded!",
         "resetError": "Reset failed!",
         "sendSuccess": "Send succeeded!!",
-        "sendError": "Send failed!"
+        "sendError": "Send failed!",
+        "copyClipboard": "Successfully copied content to clipboard"
     },
     "modal": {
         "look": "be careful",

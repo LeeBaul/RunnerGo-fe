@@ -174,7 +174,8 @@
         "resetSuccess": "重置成功!",
         "resetError": "重置失败!",
         "sendSuccess": "发送成功!",
-        "sendError": "发送失败!"
+        "sendError": "发送失败!",
+        "copyClipboard": "已成功将内容复制到剪贴板"
     },
     "modal": {
         "look": "注意",
