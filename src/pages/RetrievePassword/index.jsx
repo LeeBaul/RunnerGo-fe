@@ -27,7 +27,7 @@ const FindPassword = () => {
     }, []);
 
     const checkEmail = () => {
-        if (!EamilReg(email)) {
+        if (email.trim().length <= 0 && !EamilReg(email)) {
             setEmailError(true);
         } else {
             setEmailError(false);
@@ -40,6 +40,10 @@ const FindPassword = () => {
             return Message('error', t('message.check'));
         }
         if (emailError) {
+            return;
+        }
+        if (email.trim.length <= 0) {
+            setEmailError(true);
             return;
         }
         const params = {
