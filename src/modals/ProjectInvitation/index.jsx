@@ -654,38 +654,42 @@ const InvitationModal = (props) => {
           </div>
           <div className="team-inviation-footer">
             <div className="team-inviation-footer-l">
-              <span className="know-link-people">知道链接的人</span>
-              <Select defaultValue={3} disabled={ role === 2 } value={linkPower} onChange={(key) => setLinkPower(key)}>
-                <Option value={3}>{t('modal.roleList.1')}</Option>
-                <Option value={2}>{t('modal.roleList.0')}</Option>
-              </Select>
-              <div
-                className="team-inviation-link"
-                type="link"
-                onClick={() => {
-                  if (role === 2) {
-                    return;
-                  }
-                  const params = {
-                    team_id: localStorage.getItem('team_id'),
-                    role_id: linkPower
-                  };
-                  fetchGetLink(params).subscribe({
-                    next: (res) => {
-                      const { code, data: { url } } = res;
-                      if (code === 0) {
-                        copyStringToClipboard(
-                          url,
-                          true
-                        );
+              {
+                !from ? <>
+                  <span className="know-link-people">知道链接的人</span>
+                  <Select defaultValue={3} disabled={role === 2} value={linkPower} onChange={(key) => setLinkPower(key)}>
+                    <Option value={3}>{t('modal.roleList.1')}</Option>
+                    <Option value={2}>{t('modal.roleList.0')}</Option>
+                  </Select>
+                  <div
+                    className="team-inviation-link"
+                    type="link"
+                    onClick={() => {
+                      if (role === 2) {
+                        return;
                       }
-                    }
-                  })
-                }}
-              >
-                <ConnectIcon></ConnectIcon>
-                复制邀请链接
-              </div>
+                      const params = {
+                        team_id: localStorage.getItem('team_id'),
+                        role_id: linkPower
+                      };
+                      fetchGetLink(params).subscribe({
+                        next: (res) => {
+                          const { code, data: { url } } = res;
+                          if (code === 0) {
+                            copyStringToClipboard(
+                              url,
+                              true
+                            );
+                          }
+                        }
+                      })
+                    }}
+                  >
+                    <ConnectIcon></ConnectIcon>
+                    复制邀请链接
+                  </div>
+                </> : ''
+              }
             </div>
             <div className="team-inviation-footer-r">
               {/* <span className="team-inviation-footer-need-buy-span">

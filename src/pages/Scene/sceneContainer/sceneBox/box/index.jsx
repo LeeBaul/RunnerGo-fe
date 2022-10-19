@@ -244,8 +244,8 @@ const Box = (props) => {
 
     const topBgStyle = {
         'default': '',
-        'success': '#11811C',
-        'failed': '#892020',
+        'success': 'var(--run-green)',
+        'failed': 'var(--run-red)',
         'running': '',
         'not-run': '',
         'not-hit': '',
@@ -384,7 +384,7 @@ const Box = (props) => {
 
     const Header = () => {
         return (
-            <div className='box-item' style={{ backgroundColor: topBgStyle[status] }}>
+            <div className={ cn('box-item', { 'white-run-color': status === 'success' || status === 'failed' }) } style={{ backgroundColor: topBgStyle[status] }}>
                 <div className='box-item-left'>
                     <SvgApi />
                     <span>{id_apis[id] ? id_apis[id]?.name : '新建接口'}</span>

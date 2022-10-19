@@ -269,8 +269,8 @@ const WaitController = (props) => {
 
     const topBgStyle =  {
         'default': '',
-        'success': '#11811C',
-        'failed': '#892020',
+        'success': 'var(--run-green)',
+        'failed': 'var(--run-red)',
         'running': '',
     }
 

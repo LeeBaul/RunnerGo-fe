@@ -275,8 +275,8 @@ const ConditionController = (props) => {
 
     const topBgStyle = {
         'default': '',
-        'success': '#11811C',
-        'failed': '#892020',
+        'success': 'var(--run-green)',
+        'failed': 'var(--run-red)',
         'running': '',
     };
 
@@ -324,7 +324,7 @@ const ConditionController = (props) => {
             }}
             >
 
-                <div className='controller-condition-header' style={{ backgroundColor: topBgStyle[status] }} >
+                <div className={ cn('controller-condition-header', { 'white-run-color': status === 'success' || status === 'failed' }) } style={{ backgroundColor: topBgStyle[status] }} >
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='type'>
                             条件控制器
