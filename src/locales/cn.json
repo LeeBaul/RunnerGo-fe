@@ -213,7 +213,9 @@
         "avatarTips": "支持jpg, jpeg, png格式的图片, 大小不超过3M",
         "edit": "编辑",
         "editPwd": "修改邮箱密码",
-        "updateAvatar": "修改头像"
+        "updateAvatar": "修改头像",
+        "knowUrl": "知道链接的人",
+        "copyUrl": "复制邀请链接"
     },
     "column": {
         "teamManage": {

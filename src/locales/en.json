@@ -30,7 +30,7 @@
         "globalVar": "Global Var",
         "commonFunc": "Common Func",
         "running": "Running",
-        "invitation": "Invitation",
+        "invitation": "Invite",
         "handleLog": "Log",
         "signOut": "Exit",
         "menu": "Settings",
@@ -213,7 +213,9 @@
         "avatarTips": "Support jpg, jpeg, png format images, with a size of no more than 3M",
         "edit": "Edit",
         "editPwd": "Modify mailbox password",
-        "updateAvatar": "Modify avatar"
+        "updateAvatar": "Modify avatar",
+        "knowUrl": "Invite by link",
+        "copyUrl": "Copy invitation link"
     },
     "column": {
         "teamManage": {

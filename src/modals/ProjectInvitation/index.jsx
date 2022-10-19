@@ -656,7 +656,7 @@ const InvitationModal = (props) => {
             <div className="team-inviation-footer-l">
               {
                 !from ? <>
-                  <span className="know-link-people">知道链接的人</span>
+                  <span className="know-link-people">{ t('modal.knowUrl') }</span>
                   <Select defaultValue={3} disabled={role === 2} value={linkPower} onChange={(key) => setLinkPower(key)}>
                     <Option value={3}>{t('modal.roleList.1')}</Option>
                     <Option value={2}>{t('modal.roleList.0')}</Option>
@@ -686,7 +686,7 @@ const InvitationModal = (props) => {
                     }}
                   >
                     <ConnectIcon></ConnectIcon>
-                    复制邀请链接
+                    { t('modal.copyUrl') }
                   </div>
                 </> : ''
               }
