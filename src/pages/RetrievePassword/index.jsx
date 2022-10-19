@@ -42,7 +42,7 @@ const FindPassword = () => {
         if (emailError) {
             return;
         }
-        if (email.trim.length <= 0) {
+        if (email.trim().length <= 0) {
             setEmailError(true);
             return;
         }
