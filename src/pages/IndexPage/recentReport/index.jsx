@@ -196,6 +196,7 @@ const RecentReport = () => {
                 { text: "每秒请求数模式", value: 5 }
             ],
             onFilter: (value, item) => {
+                console.log(value);
                 setTaskMode(value);
                 return true;
             },
@@ -363,15 +364,21 @@ const RecentReport = () => {
                     }
                 }
                 onChange={(a, sort, filter, c) => {
-                    console.log(a, sort, c);
+                    console.log(a, sort, filter, c);
                     if (!filter.hasOwnProperty('task_mode')) {
                         setTaskMode('');
+                    } else {
+                        setTaskMode(filter.task_mode[0]);
                     }
                     if (!filter.hasOwnProperty('task_type')) {
                         setTaskType('');
+                    } else {
+                        setTaskType(filter.task_type[0]);
                     }
                     if (!filter.hasOwnProperty('status')) {
                         setStatus('');
+                    } else {
+                        setStatus(filter.status[0]);
                     }
                     if (sort.hasOwnProperty('field') && sort.hasOwnProperty('direction') && sort.direction) {
                         if (sort.field === 'run_time_sec') {
