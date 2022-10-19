@@ -470,6 +470,10 @@
         "sendByte": "Number of bytes sent",
         "tps": "Transactions per second",
         "qpsNum": "Requests per second",
-        "concurrency": "concurrency"
+        "concurrency": "concurrency",
+        "avgList": "Average response time",
+        "90%List": "90% Response Timeline",
+        "95%List": "95% Response Timeline",
+        "99%List": "99% Response Timeline"
     }
 }

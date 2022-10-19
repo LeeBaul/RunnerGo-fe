@@ -25,6 +25,11 @@ const ReportContent = (props) => {
     const [qpsList, setQpsList] = useState([]);
     const [errList, setErrList] = useState([]);
     const [concurrencyList, setConcurrencyList] = useState([]);
+    const [avgList, setAvgList] = useState([]);
+    const [ninetyList, setNinetyList] = useState([]);
+    const [ninetyFive, setNinetyFive] = useState([]);
+    const [ninetyNine, setNinetyNine] = useState([]);
+
     const [configColumn, setConfigColumn] = useState([]);
     const [configData, setConfigData] = useState([]);
 
@@ -77,6 +82,10 @@ const modeList = {
         let _qps_list = [];
         let _err_list = [];
         let _concurrency_list = [];
+        let _avg_list = [];
+        let _ninety = [];
+        let _ninety_five = [];
+        let _ninety_nine = [];
         datas && datas.forEach(item => {
             const {
                 total_request_num,
@@ -95,6 +104,10 @@ const modeList = {
                 error_num_list,
                 api_name,
                 concurrency_list,
+                avg_list,
+                ninety_list,
+                ninety_five_list,
+                ninety_nine_list,
             } = item;
             item.total_request_time = total_request_time;
             item.error_rate = `${error_rate * 100}%`
@@ -124,12 +137,32 @@ const modeList = {
                 api_name,
                 x_data: error_num_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
                 y_data: error_num_list.map(item => item.value),
-            })
+            });
             _concurrency_list.push({
                 api_name,
                 x_data: concurrency_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
                 y_data: concurrency_list.map(item => item.value),
-            })
+            });
+            _avg_list.push({
+                api_name,
+                x_data: avg_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
+                y_data: avg_list.map(item => item.value)
+            });
+            _ninety.push({
+                api_name,
+                x_data: ninety_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
+                y_data: ninety_list.map(item => item.value)
+            });
+            _ninety_five.push({
+                api_name,
+                x_data: ninety_five_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
+                y_data: ninety_five_list.map(item => item.value)
+            });
+            _ninety_nine.push({
+                api_name,
+                x_data: ninety_nine_list.map(item => dayjs(item.time_stamp * 1000).format('HH:mm:ss')),
+                y_data: ninety_nine_list.map(item => item.value)
+            });
         });
         setTps(tps);
         setRps(rps);
@@ -138,6 +171,10 @@ const modeList = {
         setQpsList(_qps_list);
         setErrList(_err_list);
         setConcurrencyList(_concurrency_list);
+        setAvgList(_avg_list);
+        setNinetyList(_ninety);
+        setNinetyFive(_ninety_five);
+        setNinetyNine(_ninety_nine);
         let _datas = cloneDeep(datas);
         _datas.unshift({
             api_name: '汇总',
@@ -444,6 +481,10 @@ const modeList = {
                 <ReactEcharts className='echarts' option={getOption(t('report.qpsNum'), qpsList)} />
                 <ReactEcharts className='echarts' option={getOption(t('report.concurrency'), concurrencyList)} />
                 <ReactEcharts className='echarts' option={getOption(t('report.errNum'), errList)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.avgList'), avgList)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.90%List'), ninetyList)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.95%List'), ninetyFive)} />
+                <ReactEcharts className='echarts' option={getOption(t('report.99%List'), ninetyNine)} />
             </div>
         </div>
     )
