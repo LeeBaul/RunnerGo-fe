@@ -533,7 +533,7 @@ const InvitationModal = (props) => {
         >
           {/* <Spin loading={spinning}></Spin> */}
           <div className="modal-inviation-title">
-            <div>{t('modal.invitation')}</div>
+            <div>{ from ? t('btn.notifyEmail') : t('modal.invitation')}</div>
             {/* <div>{ t('modal.addTeamMem') }</div> */}
           </div>
           <div className="team-inviation-content">
@@ -700,7 +700,7 @@ const InvitationModal = (props) => {
               </span> */}
               <Button onClick={onSubmit}>
                 {/* {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'} */}
-                {t('btn.addMem')}
+                { from ? t('btn.send') : t('btn.addMem') }
               </Button>
             </div>
           </div>
