@@ -175,7 +175,7 @@ const useOpens = () => {
     };
 
     const addOpensByObj = async (Obj, selected = false, callback) => {
-        const tempOpenApis = cloneDeep(open_apis);
+        const tempOpenApis = cloneDeep(open_apis || {});
         tempOpenApis[Obj.target_id] = Obj;
 
         // await Opens.put(Obj, Obj.target_id).then(() => {
@@ -965,7 +965,7 @@ const useOpens = () => {
                 apGlobalConfigStore.get(`project_current:${team_id}`)?.open_navs || [];
 
             console.log(openNavs);
-            if (openNavs && openNavs.length > 0) {
+            if (openNavs && openNavs.length > 0 && openNavs.filter(item => typeof item === 'number').length > 0) {
                 const query = {
                     team_id: localStorage.getItem('team_id'),
                     target_ids: openNavs.filter(item => typeof item === 'number')
@@ -987,7 +987,7 @@ const useOpens = () => {
             } else {
                 dispatch({
                     type: 'opens/coverOpenApis',
-                    payload: null,
+                    payload: {},
                 })
             }
 
