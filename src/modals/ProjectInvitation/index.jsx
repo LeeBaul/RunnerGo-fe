@@ -657,10 +657,12 @@ const InvitationModal = (props) => {
               {
                 !from ? <>
                   <span className="know-link-people">{ t('modal.knowUrl') }</span>
-                  <Select defaultValue={3} disabled={role === 2} value={linkPower} onChange={(key) => setLinkPower(key)}>
+                  {
+                    role !== 2 ?                 <Select defaultValue={3} disabled={role === 2} value={linkPower} onChange={(key) => setLinkPower(key)}>
                     <Option value={3}>{t('modal.roleList.1')}</Option>
                     <Option value={2}>{t('modal.roleList.0')}</Option>
-                  </Select>
+                  </Select> : <p className='only-common'>{t('modal.roleList.0')}</p>
+                  }
                   <div
                     className="team-inviation-link"
                     type="link"
