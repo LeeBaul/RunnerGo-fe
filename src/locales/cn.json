@@ -72,7 +72,13 @@
         "nickname": "请输入昵称",
         "teamName": "请输入团队名称",
         "newPwd": "请输入新密码",
-        "currentPwd": "请输入当前密码"
+        "currentPwd": "请输入当前密码",
+        "planName": "请输入计划名称",
+        "planDesc": "请输入计划描述",
+        "varName": "变量: name",
+        "varVal": "变量值",
+        "remark": "备注",
+        "line": "大于等于50, 小于100"
     },
     "btn": {
         "cancel": "取消",
@@ -113,7 +119,9 @@
         "return": "返回",
         "invitation": "邀请",
         "selectImg": "选择图片",
-        "okDelMum": "确认移除"
+        "okDelMum": "确认移除",
+        "add": "添加",
+        "seeResult": "查看结果"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -175,7 +183,10 @@
         "resetError": "重置失败!",
         "sendSuccess": "发送成功!",
         "sendError": "发送失败!",
-        "copyClipboard": "已成功将内容复制到剪贴板"
+        "copyClipboard": "已成功将内容复制到剪贴板",
+        "varRepeat": "变量名重复!",
+        "apiWeight": "接口权重范围在0-100之间!",
+        "lineError": "输入数字只能大于等于50, 小于100"
     },
     "modal": {
         "look": "注意",
@@ -216,7 +227,8 @@
         "editPwd": "修改邮箱密码",
         "updateAvatar": "修改头像",
         "knowUrl": "知道链接的人",
-        "copyUrl": "复制邀请链接"
+        "copyUrl": "复制邀请链接",
+        "previewTitle": "预览文件"
     },
     "column": {
         "teamManage": {
@@ -239,6 +251,13 @@
             "inviteBy": "邀请人",
             "power": "人员权限",
             "handle": "操作"
+        },
+        "globalVar": {
+            "title": "全局变量",
+            "preVar": "预定义全局变量",
+            "varName": "变量名",
+            "varVal": "变量值",
+            "varDesc": "变量描述"
         }
     },
     "index": {
@@ -384,7 +403,22 @@
         "fileSize": "支持添加10M以内的csv、txt文件",
         "preview": "预览",
         "download": "下载",
-        "delete": "删除"
+        "delete": "删除",
+        "condition": "条件控制器",
+        "wait": "等待控制器",
+        "weight": "接口权重",
+        "value": "数值",
+        "errorValue": "错误率阈值",
+        "threshold": "阈值",
+        "line": "线",
+        "resTime": "响应时间阈值",
+        "reqValue": "请求数阈值",
+        "modeList": {
+            "1": "默认模式",
+            "3": "错误率模式",
+            "4": "响应时间模式",
+            "5": "每秒请求数模式"
+        }
     },
     "plan": {
         "planId": "计划ID",
@@ -429,7 +463,9 @@
         "maxConcurrency": "最大并发数",
         "fillInCron": "填写cron表达式",
         "set": "设置",
-        "second": "次"
+        "second": "次",
+        "editPlan": "编辑计划",
+        "createPlan": "新建计划"
     },
     "report": {
         "done": "已完成",

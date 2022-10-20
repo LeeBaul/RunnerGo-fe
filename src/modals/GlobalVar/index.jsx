@@ -5,6 +5,7 @@ import { GlobalVarModal, HeaderTitleStyle, VarNameStyle } from './style';
 import { copyStringToClipboard } from '@utils';
 import { fetchGlobalVar, fetchCreateVar, fetchSaveVar } from '@services/dashboard';
 import { cloneDeep } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const GlobalVar = (props) => {
     const { onCancel } = props;
@@ -14,6 +15,7 @@ const GlobalVar = (props) => {
     const [val, setVal] = useState('');
     const [description, setDescription] = useState('');
     const [checkName, setCheckName] = useState([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const query = {
@@ -52,7 +54,7 @@ const GlobalVar = (props) => {
 
     const columns = [
         {
-            title: '变量名',
+            title: t('column.globalVar.varName'),
             dataIndex: 'var',
             width: 211,
             render: (text, rowData, rowIndex) => {
@@ -81,7 +83,7 @@ const GlobalVar = (props) => {
             }
         },
         {
-            title: '变量值',
+            title: t('column.globalVar.varVal'),
             dataIndex: 'val',
             render: (text, rowData, rowIndex) => {
                 return (
@@ -95,7 +97,7 @@ const GlobalVar = (props) => {
             }
         },
         {
-            title: '变量描述',
+            title: t('column.globalVar.varDesc'),
             dataIndex: 'description',
             render: (text, rowData, rowIndex) => {
                 return (
@@ -136,12 +138,12 @@ const GlobalVar = (props) => {
             next: (res) => {
                 const { code } = res;
                 if (code === 0) {
-                    Message('success', '保存成功!');
+                    Message('success', t('message.saveSuccess'));
                     onCancel();
                 }
             },
             err: (err) => {
-                Message('error', '保存失败!');
+                Message('error', t('message.saveError'));
             }
         })
 
@@ -188,15 +190,15 @@ const GlobalVar = (props) => {
     const HeaderTitle = () => {
         return (
             <div className={HeaderTitleStyle}>
-                <p className='header-title'>全局变量</p>
+                <p className='header-title'>{ t('column.globalVar.title') }</p>
             </div>
         )
     }
 
 
     return (
-        <Modal className={GlobalVarModal} onOk={() => saveGlobalVar()} okText='保存' visible={true} title="全局变量" onCancel={onCancel} >
-            <p className='container-title'>预定义全局变量</p>
+        <Modal className={GlobalVarModal} onOk={() => saveGlobalVar()} okText={ t('btn.save') } visible={true} title={ t('column.globalVar.title') } cancelText={ t('btn.cancel') } onCancel={onCancel} >
+            <p className='container-title'>{ t('column.globalVar.preVar') }</p>
             <Table showBorder columns={columns} data={list} />
         </Modal>
     )

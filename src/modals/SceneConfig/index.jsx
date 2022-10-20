@@ -83,7 +83,7 @@ const SceneConfig = (props) => {
                                     const length = _list[checkName[0]].var.length;
                                     _list[checkName[0]].var = _list[checkName[0]].var.substring(0, length - 1);
                                     setVarList(_list);
-                                    Message('error', '变量名重复!');
+                                    Message('error', t('message.varRepeat'));
                                 }
                             }}
                             onChange={(newVal) => {

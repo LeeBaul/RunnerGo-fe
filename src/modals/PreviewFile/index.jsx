@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Modal } from 'adesign-react';
 import './index.less';
+import { useTranslation } from 'react-i18next';
 
 const PreviewFile = (props) => {
     const { onCancel, data, fileType } = props;
     const [tableData, setTableData] = useState([]);
     const [tableColumn, setTableColumn] = useState([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const column = [];
@@ -22,7 +24,7 @@ const PreviewFile = (props) => {
     }, []);
 
     return (
-        <Modal className='preview-modal' title='预览文件' visible={true} onOk={() => onCancel()} onCancel={() => onCancel()}>
+        <Modal className='preview-modal' title={ t('modal.previewTitle') } visible={true} cancelText={ t('btn.cancel') } okText={ t('btn.ok') } onOk={() => onCancel()} onCancel={() => onCancel()}>
             {
                 fileType === 'csv' ? <Table columns={tableColumn} data={tableData} /> : <div>{ data }</div>
             }

@@ -22,6 +22,7 @@ import SvgSuccess from '@assets/logo/success';
 import SvgFailed from '@assets/logo/failed';
 import SvgRunning from '@assets/logo/running';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 const { CollapseItem, Collapse } = Col;
 
@@ -57,6 +58,7 @@ const Box = (props) => {
     const dispatch = useDispatch();
     const refInput = useRef(null);
     const refDropdown = useRef(null);
+    const { t } = useTranslation();
     // const {
     //     nodes: nodes_scene,
     //     id_apis: id_apis_scene,
@@ -659,10 +661,10 @@ const Box = (props) => {
                 <Header />
                 {showApi && <div className='collapse-body'>
                     <div className='api-weight'>
-                        <span>接口权重</span>
+                        <span>{ t('scene.weight') }</span>
                         <Input size="mini" value={weight} onChange={(e) => {
                             if (parseInt(e) > 100 || parseInt(e) < 0) {
-                                Message('error', '接口权重范围在0-100之间!');
+                                Message('error', t('message.apiWeight'));
                                 setWeight(parseInt(e) > 100 ? '100' : '0');
                                 onTargetChange('weight', parseInt(e) > 100 ? 100 : 0);
                                 // setWeight();
@@ -671,7 +673,7 @@ const Box = (props) => {
                                 setWeight(parseInt(e));
                                 onTargetChange('weight', parseInt(e));
                             }
-                        }} placeholder="数值" />
+                        }} placeholder={ t('scene.value') } />
                     </div>
                     <Select
                         formatRender={(value, childList, text) => (
@@ -686,27 +688,27 @@ const Box = (props) => {
                             onTargetChange('mode', parseInt(e));
                         }}
                     >
-                        <Option value={1}>默认模式</Option>
-                        <Option value={3}>错误率模式</Option>
+                        <Option value={1}>{ t('scene.modeList.1') }</Option>
+                        <Option value={3}>{ t('scene.modeList.3') }</Option>
                         {/* <Option value="3">每秒事务数模式</Option> */}
-                        <Option value={4}>响应时间模式</Option>
-                        <Option value={5}>每秒请求数模式</Option>
+                        <Option value={4}>{ t('scene.modeList.4') }</Option>
+                        <Option value={5}>{ t('scene.modeList.5') }</Option>
                     </Select>
                     {/* {<RenderContent />} */}
                     {/* todo: 高阶组件input onchange导致失焦 */}
                     {
                         mode === 3 && <div className='common-flex'>
-                            <span>错误率阈值</span>
+                            <span>{ t('scene.errorValue') }</span>
                             <Input size="mini" value={error_threshold} onChange={(e) => {
                                 setError(parseInt(e));
                                 onTargetChange('error_threshold', parseInt(e));
-                            }} placeholder="阈值" />
+                            }} placeholder={ t('scene.threshold') } />
                         </div>
                     }
                     {
                         mode === 4 && <div className='time-mode'>
                             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                                <span>线: </span>
+                                <span>{ t('scene.line') }: </span>
                                 <Select
                                     className='config-line'
                                     data-module="select-diy-example"
@@ -714,7 +716,7 @@ const Box = (props) => {
                                         <>
                                             <div className="menulist">{menu}</div>
                                             <div className="diybox">
-                                                <input size="mini" placeholder='大于等于50, 小于100' ref={refInput} className="input" />
+                                                <input size="mini" placeholder={ t('placeholder.line') } ref={refInput} className="input" />
                                                 <Button
                                                     size="mini"
                                                     type="primary"
@@ -724,7 +726,7 @@ const Box = (props) => {
                                                             return;
                                                         }
                                                         if (refInput.current.value < 50 || refInput.current.value > 99) {
-                                                            Message('error', '输入数字只能大于等于50, 小于100');
+                                                            Message('error', t('message.lineError'));
                                                             return;
                                                         }
                                                         setMenuList([...menuList, refInput?.current?.value]);
@@ -733,7 +735,7 @@ const Box = (props) => {
                                                         }
                                                     }}
                                                 >
-                                                    添加
+                                                    { t('btn.add') }
                                                 </Button>
                                             </div>
                                         </>
@@ -753,11 +755,11 @@ const Box = (props) => {
                                 </Select>
                             </div>
                             <div className='common-flex'>
-                                <span>响应时间阈值</span>
+                                <span>{ t('scene.resTime') }</span>
                                 <Input size="mini" value={response_threshold} onChange={(e) => {
                                     setRes(parseInt(e));
                                     onTargetChange('response_threshold', parseInt(e));
-                                }} placeholder="阈值" />
+                                }} placeholder={ t('scene.threshold') } />
                             </div>
                             {/* <div className='common-flex'>
                             <span>请求数阈值</span>
@@ -770,8 +772,8 @@ const Box = (props) => {
                     }
                     {
                         mode === 5 && <div className='common-flex'>
-                            <span>请求数阈值</span>
-                            <Input size="mini" placeholder="阈值" onChange={(e) => {
+                            <span>{ t('scene.reqValue') }</span>
+                            <Input size="mini" placeholder={ t('scene.threshold') } onChange={(e) => {
                                 setReq(parseInt(e));
                                 onTargetChange('request_threshold', parseInt(e));
                             }} />
@@ -781,7 +783,7 @@ const Box = (props) => {
                 {
                     (status === 'success' || status === 'failed') &&
                     <div className='show-result'>
-                        <Button onClick={() => changeApiConfig(id)}>查看结果</Button>
+                        <Button onClick={() => changeApiConfig(id)}>{ t('btn.seeResult') }</Button>
                     </div>
                 }
             </div>

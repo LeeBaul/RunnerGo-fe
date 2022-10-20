@@ -72,12 +72,18 @@
         "nickname": "Nickname",
         "teamName": "Please enter the team name",
         "newPwd": "Please enter a new password",
-        "currentPwd": "Please enter the current password"
+        "currentPwd": "Please enter the current password",
+        "planName": "Please enter the plan name",
+        "planDesc": "Please enter the plan description",
+        "varName": "var: name",
+        "varVal": "Value",
+        "remark": "Remark",
+        "line": "≥50 & ≤100"
     },
     "btn": {
         "cancel": "cancel",
         "save": "save",
-        "run": "Start running",
+        "run": "Start",
         "start": "Start",
         "finish": "stop",
         "createPlan": "Create a new plan",
@@ -86,7 +92,7 @@
         "nextPage": "Page down",
         "jump": "go",
         "switchLanguage": "Chinese English switch",
-        "notifyEmail": "Notify recipients",
+        "notifyEmail": "Notify",
         "breakTask": "Abort Task",
         "done": "done",
         "sending": "Sending...",
@@ -96,7 +102,7 @@
         "primitive": "Primitive",
         "cancelSend": "Cancel sending",
         "createScene": "Create a new scene",
-        "stopRun": "Stop operation",
+        "stopRun": "Stop",
         "addScene": "Add Scene",
         "selectAll": "Select All",
         "running": "Running",
@@ -113,7 +119,9 @@
         "return": "Return",
         "invitation": "Invitation",
         "selectImg": "Select a picture",
-        "okDelMum": "Confirm Removal"
+        "okDelMum": "Confirm Removal",
+        "add": "Add",
+        "seeResult": "Response"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -175,7 +183,10 @@
         "resetError": "Reset failed!",
         "sendSuccess": "Send succeeded!!",
         "sendError": "Send failed!",
-        "copyClipboard": "Successfully copied content to clipboard"
+        "copyClipboard": "Successfully copied content to clipboard",
+        "varRepeat": "Variable name duplication!",
+        "apiWeight": "Api weight range is 0-100!",
+        "lineError": "The input number can only be greater than or equal to 50 and less than 100, 小于100"
     },
     "modal": {
         "look": "be careful",
@@ -216,7 +227,8 @@
         "editPwd": "Modify mailbox password",
         "updateAvatar": "Modify avatar",
         "knowUrl": "Invite by link",
-        "copyUrl": "Copy invitation link"
+        "copyUrl": "Copy invitation link",
+        "previewTitle": "File preview"
     },
     "column": {
         "teamManage": {
@@ -239,6 +251,13 @@
             "inviteBy": "Inviter",
             "power": "Personnel authority",
             "handle": "operation"
+        },
+        "globalVar": {
+            "title": "Global variable",
+            "preVar": "Predefined Global variable",
+            "varName": "Variable key",
+            "varVal": "Variable values",
+            "varDesc": "variable description"
         }
     },
     "index": {
@@ -301,16 +320,16 @@
         },
         "field": "field",
         "compareSelect": {
-            "eq": "equal to",
-            "uneq": "not equal to",
+            "eq": "Equal to",
+            "uneq": "Not equal to",
             "gt": "Greater than",
-            "gte": "greater than or equal to",
-            "lt": "less than",
-            "lte": "less than or equal to",
-            "includes": "contains",
-            "unincludes": "not included",
-            "null": "equal to null",
-            "notnull": "not equal to null"
+            "gte": "Greater than or equal to",
+            "lt": "Less than",
+            "lte": "Less than or equal to",
+            "includes": "Contains",
+            "unincludes": "Not included",
+            "null": "Equal to null",
+            "notnull": "Not equal to null"
         },
         "val": "Value",
         "varName": "variable name",
@@ -390,13 +409,28 @@
         "fileSize": "Support adding csv and txt files within 10M",
         "preview": "preview",
         "download": "download",
-        "delete": "delete"
+        "delete": "delete",
+        "condition": "If Controlletr",
+        "wait": "Delay Controller",
+        "weight": "API Weight",
+        "value": "value",
+        "errorValue": "Error rate  threshold",
+        "threshold": "Threshold",
+        "line": "Line",
+        "resTime": "Res time threshold",
+        "reqValue": "Requests Threshold",
+        "modeList": {
+            "1": "Default mode",
+            "3": "Error rate  Mode",
+            "4": "Res Time mode",
+            "5": "RPS request mode"
+        }
     },
     "plan": {
         "planId": "Plan ID",
         "planName": "Plan name",
         "taskType": "Task Mode",
-        "mode": "Stress Mode",
+        "mode": "Stress mode",
         "createTime": "Created on",
         "updateTime": "Last modified by",
         "status": "State",
@@ -408,34 +442,36 @@
         "createdBy": "Created by",
         "notRun": "Not running",
         "running": "Running",
-        "preinstall": "preset configuration",
+        "preinstall": "Default",
         "group": "grouping",
         "createScene": "New Scene",
         "importScene": "Import Scene",
-        "taskConfig": "Task Configuration",
-        "importPre": "Import preset configuration",
+        "taskConfig": "Task allocation",
+        "importPre": "Importing Default",
         "taskList": {
-            "commonTask": "Normal Task",
-            "cronTask": "Scheduled Task"
+            "commonTask": "Common tasks",
+            "cronTask": "Timed tasks"
         },
         "modeList": {
-            "1": "Concurrency Mode",
+            "1": "QPS Mode",
             "2": "Ladder Mode",
             "3": "Error Rate Mode",
-            "4": "Response Time Mode",
-            "5": "Requests per Second Mode"
+            "4": "Res Time Mode",
+            "5": "RPS Mode"
         },
         "duration": "Duration",
         "roundNum": "Round",
         "concurrency": "concurrency",
         "reheatTime": "preheating",
-        "startConcurrency": "Start Concurrency",
-        "step": "Concurrency number step size",
+        "startConcurrency": "Start concurrency",
+        "step": "Step",
         "stepRunTime": "Step Duration",
-        "maxConcurrency": "Maximum Concurrency",
+        "maxConcurrency": "Maximum concurrency",
         "fillInCron": "Fill in cron expression",
         "set": "set up",
-        "second": "second"
+        "second": "Round",
+        "editPlan": "Edit Plan",
+        "createPlan": "New Plan"
     },
     "report": {
         "done": "completed",

@@ -116,12 +116,12 @@ const DetailHeader = () => {
                 <div className='detail'>
                     <div className='detail-top'>
                         <p className='name'>
-                            { t('plan.planManage') }
+                            { t('plan.planManage') } / 
                             <Tooltip
                                 placement="top"
                                 content={<div>{planDetail.name}</div>}
                             >
-                              <div>
+                              <div style={{ marginLeft: '8px' }}>
                                  <Input value={planDetail.name} onBlur={(e) => changePlanInfo('name', e.target.value)} />
                               </div>
                             </Tooltip>

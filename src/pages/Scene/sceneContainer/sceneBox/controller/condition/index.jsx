@@ -12,12 +12,14 @@ import SvgFailed from '@assets/logo/failed';
 import SvgRunning from '@assets/logo/running';
 import { cloneDeep } from 'lodash';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
 const ConditionController = (props) => {
     const { data: { id, from } } = props;
     const refDropdown = useRef(null);
+    const { t } = useTranslation();
     // const dispatch = useDispatch();
     // const node_config = useSelector((store) => store.scene.node_config);
 
@@ -327,7 +329,7 @@ const ConditionController = (props) => {
                 <div className={ cn('controller-condition-header', { 'white-run-color': status === 'success' || status === 'failed' }) } style={{ backgroundColor: topBgStyle[status] }} >
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='type'>
-                            条件控制器
+                            { t('scene.condition') }
                         </div>
                         {
                             topStatus[status]
@@ -366,7 +368,7 @@ const ConditionController = (props) => {
                 <div className='controller-condition-main'>
                     <div className='item'>
                         <p>if</p>
-                        <Input value={_var} size="mini" placeholder="变量：name" onChange={(e) => {
+                        <Input value={_var} size="mini" placeholder={ t('placeholder.varName') } onChange={(e) => {
                             onTargetChange('var', e);
                             setVar(e);
                         }} />
@@ -374,6 +376,7 @@ const ConditionController = (props) => {
                     <div className='item'>
                         <Select
                             value={compare}
+                            placeholder={ t('placeholder.plsSelect') }
                             onChange={(e) => {
                                 onTargetChange('compare', e);
                                 setCompare(e);
@@ -390,13 +393,13 @@ const ConditionController = (props) => {
                         <Input size="mini" disabled={compare === 'null' || compare === 'notnull'} value={val} onChange={(e) => {
                             setVal(e);
                             onTargetChange('val', e);
-                        }} placeholder="变量值" />
+                        }} placeholder={ t('placeholder.varVal') } />
                     </div>
                     <div className='item'>
                         <Input size="mini" value={remark} onChange={(e) => {
                             setRemark(e);
                             onTargetChange('remark', e);
-                        }} placeholder="备注" />
+                        }} placeholder={ t('placeholder.remark') } />
                     </div>
                 </div>
             </div>

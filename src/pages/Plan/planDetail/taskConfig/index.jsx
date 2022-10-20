@@ -470,7 +470,7 @@ const TaskConfig = (props) => {
                     </Radio.Group>
                 </div>
                 <div className='other-config'>
-                    <p className='mode-config-title'>{modeList[mode - 1]}{ t('plan.set') }</p>
+                    <p className='mode-config-title'>{modeList[mode - 1]}  { t('plan.set') }</p>
                     {
                         modeContentList[mode]
                     }

@@ -23,6 +23,7 @@ import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { t } from "i18next";
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -331,11 +332,12 @@ const CreatePlan = (props) => {
 
     return (
         <Modal
-            title={isPlainObject(group) ? '编辑计划' : '新建计划'}
+            title={isPlainObject(group) ? t('plan.editPlan') : t('plan.createPlan')}
             visible={true}
             onCancel={onCancel}
             className={FolderModal}
-            okText='保存'
+            cancelText={ t('btn.cancel') }
+            okText={ t('btn.save') }
             onOk={() => {
                 if (trim(planName).length <= 0) {
                     Message('error', '计划名称不能为空');
@@ -386,14 +388,14 @@ const CreatePlan = (props) => {
             <FolderWrapper>
                 <div className="article">
                     <div className="article-item">
-                        <p>计划名称</p>
-                        <Input value={planName} placeholder='请输入计划名称' onChange={(val) => setPlanName(val)} />
+                        <p>{ t('plan.planName') }</p>
+                        <Input value={planName} placeholder={ t('placeholder.planName') } onChange={(val) => setPlanName(val)} />
                     </div>
                     <div className="article-item">
-                        <p>计划描述</p>
+                        <p>{ t('plan.planDesc') }</p>
                         <Textarea
                             value={planDesc}
-                            placeholder='请输入计划描述'
+                            placeholder={ t('placeholder.planDesc') }
                             onChange={(val) => {
                                 // setRequest((lastState) => {
                                 //     lastState.description = val;

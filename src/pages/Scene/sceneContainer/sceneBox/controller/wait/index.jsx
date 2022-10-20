@@ -10,6 +10,7 @@ import { cloneDeep } from 'lodash';
 import SvgSuccess from '@assets/logo/success';
 import SvgFailed from '@assets/logo/failed';
 import SvgRunning from '@assets/logo/running';
+import { useTranslation } from 'react-i18next';
 
 import cn from 'classnames';
 
@@ -47,6 +48,8 @@ const WaitController = (props) => {
     const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
     const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
     const dispatch = useDispatch();
+
+    const { t } = useTranslation();
 
     // 当前节点状态
     const [status, setStatus] = useState('default');
@@ -323,7 +326,7 @@ const WaitController = (props) => {
                 <div className='controller-wait-header' style={{ backgroundColor: topBg }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='type'>
-                            等待控制器
+                            { t('scene.wait') }
                         </div>
                         {
                             topStatus[status]
