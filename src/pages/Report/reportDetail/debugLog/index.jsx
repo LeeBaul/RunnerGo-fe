@@ -4,6 +4,7 @@ import { fetchDebugLog } from '@services/report';
 import { useParams, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const DebugLog = (props) => {
     const { stopDebug, end, status } = props;
@@ -12,6 +13,7 @@ const DebugLog = (props) => {
     const { id: report_id, contrast } = qs.parse(search.slice(1));
     const [log, setLog] = useState([]);
     const select_plan = useSelector((store) => (store.plan.select_plan));
+    const { t } = useTranslation();
 
     let debug_t = null;
 
@@ -70,7 +72,7 @@ const DebugLog = (props) => {
     return (
         <div className='debug-log'>
             {
-                log.length > 0 ? log.map(item => <p className='debug-log-item'>{item}</p>) : (stopDebug === 'stop' && status === 1 ? '请打开debug模式' : '')
+                log.length > 0 ? log.map(item => <p className='debug-log-item'>{item}</p>) : (stopDebug === 'stop' && status === 1 ? t('report.debugEmpty') : '')
             }
         </div>
     )

@@ -61,7 +61,7 @@ export const ProjectMemberModal = css`
         }
     }
     .default-power {
-        width: 78px;
+        width: 90px;
         height: 36px;
         text-align: center;
         line-height: 36px;

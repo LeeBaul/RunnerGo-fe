@@ -38,7 +38,8 @@
         "changeTheme": "主题切换",
         "myInfo": "我的个人资料",
         "doc": "实用文档",
-        "customer": "企业专属客服"
+        "customer": "企业专属客服",
+        "offline": "离线团队"
     },
     "leftBar": {
         "index": "首页",
@@ -443,7 +444,10 @@
             "3": "错误率模式",
             "4": "响应时间模式",
             "5": "每秒请求数模式"
-        }
+        },
+        "editApi": "编辑接口",
+        "deleteApi": "删除接口",
+        "copyApi": "复制接口"
     },
     "plan": {
         "planId": "计划ID",
@@ -537,6 +541,7 @@
         "90%List": "90%响应时间线",
         "95%List": "95%响应时间线",
         "99%List": "99%响应时间线",
-        "collect": "汇总"
+        "collect": "汇总",
+        "debugEmpty": "请打开debug模式"
     }
 }

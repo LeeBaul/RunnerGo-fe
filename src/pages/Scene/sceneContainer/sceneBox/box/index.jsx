@@ -201,7 +201,7 @@ const Box = (props) => {
                 <p onClick={() => {
                     changeApiConfig(id);
                     refDropdown.current.setPopupVisible(false);
-                }}>编辑接口</p>
+                }}>{ t('scene.editApi') }</p>
                 <p onClick={() => {
                     // const _open_scene = cloneDeep(open_scene);
                     // const index = _open_scene.nodes.findIndex(item => item.id === id);
@@ -238,11 +238,11 @@ const Box = (props) => {
 
 
                     refDropdown.current.setPopupVisible(false);
-                }}>删除接口</p>
+                }}>{ t('scene.deleteApi') }</p>
                 <p onClick={() => {
                     Bus.$emit('cloneNode', id, nodes, node_config, id_apis, open_scene, from);
                     refDropdown.current.setPopupVisible(false);
-                }}>复制接口</p>
+                }}>{ t('scene.copyApi') }</p>
             </div>
         )
     };

@@ -27,7 +27,7 @@
         "import": "import",
         "asyncImport": "Sync Apipost",
         "otherImport": "Import other projects",
-        "globalVar": "Global Var",
+        "globalVar": "Global variable",
         "commonFunc": "Common Func",
         "running": "Running",
         "invitation": "Invite",
@@ -38,7 +38,8 @@
         "changeTheme": "Theme",
         "myInfo": "Homepage",
         "doc": "Usage documents",
-        "customer": "Customer service"
+        "customer": "Customer service",
+        "offline": "Off-line team"
     },
     "leftBar": {
         "index": "Home",
@@ -199,9 +200,9 @@
         "deleteReport": "Are you sure you want to delete this report?",
         "invitation": "invitation",
         "roleList": {
-            "0": "member",
-            "1": "admin",
-            "2": "administrator"
+            "0": "Member",
+            "1": "Admin",
+            "2": "Super Admin"
         },
         "addTeamMem": "Add an existing team member",
         "teamMem": "Team members",
@@ -449,7 +450,10 @@
             "3": "Error rate  Mode",
             "4": "Res Time mode",
             "5": "RPS request mode"
-        }
+        },
+        "editApi": "Edit",
+        "deleteApi": "Delete",
+        "copyApi": "Copy"
     },
     "plan": {
         "planId": "Plan ID",
@@ -543,6 +547,7 @@
         "90%List": "90% Response Timeline",
         "95%List": "95% Response Timeline",
         "99%List": "99% Response Timeline",
-        "collect": "Collect"
+        "collect": "Collect",
+        "debugEmpty": "Please turn on Debug mode"
     }
 }

@@ -28,7 +28,7 @@ const TeamProject = () => {
     const currentTeamName = useMemo(() => {
         // let teamName = '离线团队';
         let team_id = localStorage.getItem('team_id');
-        let teamName = userTeams[team_id] ? userTeams[team_id].name : '离线团队';
+        let teamName = userTeams[team_id] ? userTeams[team_id].name : t('header.offline');
         // if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
         //     teamName = userTeams?.[currentTeamId]?.name;
         // }

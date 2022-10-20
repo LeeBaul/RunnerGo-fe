@@ -554,7 +554,7 @@ const InvitationModal = (props) => {
                         <Option value={3}>{t('modal.roleList.1')}</Option>
                         <Option value={2}>{t('modal.roleList.0')}</Option>
                       </Select>
-                      : <p className='only-common'>{t('modal.roleList.0')}</p>
+                      : <p className='only-common' style={{ right: i18n.language === 'en' ? '72px': '52px' }}>{t('modal.roleList.0')}</p>
                     : ''
                 }
                 <Button
