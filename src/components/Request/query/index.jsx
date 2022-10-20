@@ -62,7 +62,7 @@ const Query = (props) => {
       width: 100,
       render: (text, rowData, rowIndex) => {
         return (
-          <Input
+          <ApiInput
             value={text}
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { key: newVal });
@@ -91,7 +91,7 @@ const Query = (props) => {
       width: 150,
       render: (text, rowData, rowIndex) => {
         return (
-          <Input
+          <ApiInput
             value={text}
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { value: newVal });
@@ -146,7 +146,7 @@ const Query = (props) => {
       dataIndex: 'description',
       render: (text, rowData, rowIndex) => {
         return (
-          <AutoSizeTextArea
+          <ApiInput
             height={24}
             value={text}
             bordered={false}
