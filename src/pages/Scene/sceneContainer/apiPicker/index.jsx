@@ -16,6 +16,7 @@ import Bus from '@utils/eventBus';
 import useListData from './hooks/useListData';
 import { ApiTreePanel, BtnAddApiItem, ApiPickerStyle } from './style';
 import './index.less';
+import { useTranslation } from 'react-i18next';
 
 const NodeType = {
   api: SvgApis,
@@ -29,6 +30,7 @@ const ApiPicker = (props) => {
 
   const refTree = useRef(null);
   const apiDatas = useSelector((store) => store?.apis?.apiDatas);
+  const { t } = useTranslation();
 
 
   const [checkAll, setCheckAll] = useState('unCheck');
@@ -160,14 +162,14 @@ const ApiPicker = (props) => {
   return (
     <Drawer
       visible
-      title="API添加器"
+      title={ t('scene.importApiTitle') }
       className='api-config-drawer'
       onCancel={onCancel}
       mask={false}
       footer={
         <BtnAddApiItem>
           <Button onClick={handleAddApiItems} className="apipost-blue-btn" type="primary">
-            添加接口
+            { t('scene.addApi') }
           </Button>
         </BtnAddApiItem>
       }
@@ -176,11 +178,11 @@ const ApiPicker = (props) => {
         <div className="search-box">
           <Input
             value={filterParams?.key}
-            placeholder="搜索目录"
+            placeholder={ t('placeholder.searchFolder') }
             onChange={handleChangeParams.bind(null, 'key')}
           />
           <div className="check-all-panel">
-            <span>全选</span>
+            <span>{ t('btn.selectAll') }</span>
             <CheckBox
               size="small"
               checked={checkAll}

@@ -324,13 +324,11 @@ const RecentReport = () => {
                     beforeFix={<SvgSearch />}
                     placeholder={t('index.placeholder')}
                 />
-                <ConfigProvider locale={language === 'en' ? enUS : cnUS}>
-                    <RangePicker
-                        mode="date"
-                        onChange={onChange}
-                        showTime="true"
-                    />
-                </ConfigProvider>
+                <RangePicker
+                    mode="date"
+                    onChange={onChange}
+                    showTime="true"
+                />
                 {
                     selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ?
                         <Tooltip

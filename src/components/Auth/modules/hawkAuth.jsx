@@ -2,12 +2,13 @@ import React from 'react';
 import { Input, Select } from 'adesign-react';
 import { hawkPlaceholder, hawkAlgotithOptions } from '@constants/auth';
 import AuthInput from '../authInput';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 
 const HawkAuth = (props) => {
   const { value, type, handleAttrChange } = props;
-  console.log(123123123, hawkPlaceholder);
+  const { t } = useTranslation();
 
   const renderDom = (renderList) => {
     return (
@@ -31,6 +32,7 @@ const HawkAuth = (props) => {
               <Select
                 size="mini"
                 value={value.hawk[k]}
+                placeholder={ t('placeholder.plsSelect') }
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
                 }}

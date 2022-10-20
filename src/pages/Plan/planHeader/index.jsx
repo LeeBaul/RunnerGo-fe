@@ -61,13 +61,11 @@ const PlanHeader = (props) => {
                     beforeFix={<SvgSearch />}
                     placeholder={t('placeholder.searchPlan')}
                 />
-                <ConfigProvider locale={ language === 'en' ? enUS : cnUS }>
-                    <RangePicker
-                        mode="date"
-                        onChange={DateChange}
-                        showTime="true"
-                    />
-                </ConfigProvider>
+                <RangePicker
+                    mode="date"
+                    onChange={DateChange}
+                    showTime="true"
+                />
                 {/* <Button className='searchBtn' onClick={() => onChange(keyword)}>搜索</Button> */}
             </div>
             <div className='plan-header-right'>

@@ -17,11 +17,11 @@
         "resetPwd": "Send Reset Password",
         "findToLogin": "Go to login",
         "emailSuccess": "The email with password retrieved was sent successfully! Please log in to your email to view",
-        "email": "email",
+        "email": "Email",
         "email_tips": "If you don't receive it, please try to check your mailbox trash or try again later",
         "send_again": "You can resend the password reset email with the following buttons",
         "reset": "reset password",
-        "password": "password"
+        "password": "Password"
     },
     "header": {
         "import": "import",
@@ -52,6 +52,7 @@
     },
     "placeholder": {
         "searchApis": "Search for Directory/API",
+        "searchFolder": "Search for Directory",
         "searchScene": "Search groups or scenes",
         "searchPlan": "Search Plan Name/Performer",
         "groupName": "Please enter a group name",
@@ -79,7 +80,14 @@
         "varName": "var: name",
         "varVal": "Value",
         "remark": "Remark",
-        "line": "≥50 & ≤100"
+        "line": "≥50 & ≤100",
+        "auth": {
+            "key": "Key",
+            "value": "Value (support variable)",
+            "token": "Token (supporting variables)",
+            "username": "User name (variable supported)",
+            "password": "Password (support variable)"
+        }
     },
     "btn": {
         "cancel": "cancel",
@@ -91,7 +99,7 @@
         "runScene": "Running Scene",
         "prePage": "Page up",
         "nextPage": "Page down",
-        "jump": "go",
+        "jump": "Go",
         "switchLanguage": "Chinese English switch",
         "notifyEmail": "Notify",
         "breakTask": "Abort Task",
@@ -405,7 +413,8 @@
         "go": "go",
         "askHelp": "Official website for more information or help",
         "cloneApi": "Clone Api",
-        "pasteApi": "Paste Api"
+        "pasteApi": "Paste Api",
+        "more": "More"
     },
     "scene": {
         "createGroup": "New Group",
@@ -453,7 +462,9 @@
         },
         "editApi": "Edit",
         "deleteApi": "Delete",
-        "copyApi": "Copy"
+        "copyApi": "Copy",
+        "importApiTitle": "SingK AddIt",
+        "addApi": "Add API"
     },
     "plan": {
         "planId": "Plan ID",

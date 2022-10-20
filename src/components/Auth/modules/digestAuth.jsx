@@ -2,11 +2,13 @@ import React from 'react';
 import { Input, Select } from 'adesign-react';
 import { digestPlaceholder, digestAlgorithmOptions } from '@constants/auth';
 import AuthInput from '../authInput';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 
 const DigestAuth = (props) => {
   const { value, type, handleAttrChange } = props;
+  const { t } = useTranslation();
   const renderDom = (renderList) => {
     return (
       <>
@@ -29,6 +31,7 @@ const DigestAuth = (props) => {
               <Select
                 size="mini"
                 value={value?.digest[k]}
+                placeholder={ t('placeholder.plsSelect') }
                 onChange={(val) => {
                   handleAttrChange(type, k, val);
                 }}

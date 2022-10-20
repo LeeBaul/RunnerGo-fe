@@ -3,6 +3,7 @@ import { Select, Input, CheckBox } from 'adesign-react';
 import { Down as DownSvg, Right as RightSvg } from 'adesign-react/icons';
 import { OAuth1MethodsOptions } from '@constants/auth';
 import AuthInput from '../authInput';
+import { useTranslation } from 'react-i18next';
 
 const Option = Select.Option;
 const Textarea = Input.Textarea;
@@ -12,6 +13,7 @@ const OAuth1 = (props) => {
   console.log(value)
   const [isRSA, setIsRSA] = useState(true);
   const [moreVisible, setMoreVisible] = useState(true);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -19,7 +21,8 @@ const OAuth1 = (props) => {
         <div className="auth-item">
           <div className="title">Signature Method</div>
           <Select
-            value={value.oAuth1.signatureMethod}
+            value={value.oauth1.signatureMethod}
+            placeholder={ t('placeholder.plsSelect') }
             onChange={(val) => {
               if (['RSA-SHA1', 'RSA-SHA256', 'RSA-SHA512'].includes(val)) {
                 setIsRSA(false);
@@ -38,7 +41,7 @@ const OAuth1 = (props) => {
           <div className="title">Consumer Key</div>
           <AuthInput
             size="mini"
-            value={value.oAuth1.consumerKey}
+            value={value.oauth1.consumerKey}
             onChange={(val) => {
               handleAttrChange('oauth1', 'consumerKey', val);
             }}
@@ -50,7 +53,7 @@ const OAuth1 = (props) => {
               <div className="title">Consumer Secret</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.consumerSecret}
+                value={value.oauth1.consumerSecret}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'consumerSecret', val);
                 }}
@@ -60,7 +63,7 @@ const OAuth1 = (props) => {
               <div className="title">Access Secret</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.AccessSecret}
+                value={value.oauth1.AccessSecret}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'AccessSecret', val);
                 }}
@@ -70,7 +73,7 @@ const OAuth1 = (props) => {
               <div className="title">Token Secret</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.tokenSecret}
+                value={value.oauth1.tokenSecret}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'tokenSecret', val);
                 }}
@@ -83,7 +86,7 @@ const OAuth1 = (props) => {
               <div className="title">Access Token</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.token}
+                value={value.oauth1.token}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'token', val);
                 }}
@@ -97,7 +100,7 @@ const OAuth1 = (props) => {
               <div style={{ width: 500 }}>
                 <div>select File</div>
                 <Textarea
-                  value={value.oAuth1.Consumer}
+                  value={value.oauth1.Consumer}
                   onChange={(val) => {
                     handleAttrChange('oauth1', 'Consumer', val);
                   }}
@@ -113,7 +116,7 @@ const OAuth1 = (props) => {
             setMoreVisible(!moreVisible);
           }}
         >
-          更多
+          { t('apis.more') }
           {moreVisible ? <DownSvg width={16} /> : <RightSvg width={16} />}
         </div>
         {moreVisible && (
@@ -122,7 +125,7 @@ const OAuth1 = (props) => {
               <div className="title">Callback Url</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.callback}
+                value={value.oauth1.callback}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'callback', val);
                 }}
@@ -132,7 +135,7 @@ const OAuth1 = (props) => {
               <div className="title">Verifier</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.verifier}
+                value={value.oauth1.verifier}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'verifier', val);
                 }}
@@ -142,7 +145,7 @@ const OAuth1 = (props) => {
               <div className="title">Timestamp</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.timestamp}
+                value={value.oauth1.timestamp}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'timestamp', val);
                 }}
@@ -152,7 +155,7 @@ const OAuth1 = (props) => {
               <div className="title">Nonce</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.nonce}
+                value={value.oauth1.nonce}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'nonce', val);
                 }}
@@ -162,7 +165,7 @@ const OAuth1 = (props) => {
               <div className="title">Version</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.version}
+                value={value.oauth1.version}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'version', val);
                 }}
@@ -172,7 +175,7 @@ const OAuth1 = (props) => {
               <div className="title">Realm</div>
               <AuthInput
                 size="mini"
-                value={value.oAuth1.realm}
+                value={value.oauth1.realm}
                 onChange={(val) => {
                   handleAttrChange('oauth1', 'realm', val);
                 }}

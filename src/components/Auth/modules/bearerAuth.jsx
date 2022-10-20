@@ -1,9 +1,11 @@
 import React from 'react';
 // import { Input } from 'adesign-react';
 import AuthInput from '../authInput';
+import { useTranslation } from 'react-i18next';
 
 const BearerAuth = (props) => {
   const { value, type, handleAttrChange } = props;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -13,7 +15,7 @@ const BearerAuth = (props) => {
             <div className="title">token</div>
             <AuthInput
               size="mini"
-              placeholder="Token（支持变量）"
+              placeholder={ t('placeholder.auth.token') }
               value={value.bearer.key}
               onChange={(val) => {
                 handleAttrChange(type, 'key', val);

@@ -67,6 +67,7 @@ const ApiInfoPanel = (props) => {
         if (from === 'scene' || from === 'plan') {
             Bus.$emit('saveSceneApi', apiNow, apiData)
         } else {
+            console.log(123123);
             Bus.$emit('saveTargetById', {
                 id: apiNow,
                 saveId: _saveId

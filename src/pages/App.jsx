@@ -15,6 +15,11 @@ import { getCookie } from '@utils';
 import { Message } from 'adesign-react';
 import { useNavigate } from 'react-router-dom'
 import qs from 'qs';
+import { useTranslation } from 'react-i18next';
+
+import { ConfigProvider } from '@arco-design/web-react';
+import enUS from '@arco-design/web-react/es/locale/en-US';
+import cnUS from '@arco-design/web-react/es/locale/zh-CN';
 
 const App = () => {
     // 精简模式
@@ -25,6 +30,7 @@ const App = () => {
     const { search } = location;
     const { u, report_id, email, role_id, team_id } = qs.parse(search.slice(1));
     const [showLayout, setLayout] = useState(false);
+    const { i18n } = useTranslation();
 
     const ignorePage = ['/login', '/register', '/find', '/reset']
 
@@ -38,12 +44,12 @@ const App = () => {
                 localStorage.removeItem('kunpeng-token');
                 localStorage.removeItem('expire_time_sec');
                 localStorage.removeItem('team_id');
-                localStorage.removeItem('settings');  
+                localStorage.removeItem('settings');
                 localStorage.removeItem('open_apis');
                 localStorage.removeItem('open_scene');
                 localStorage.removeItem('open_plan');
                 localStorage.removeItem('userInfo');
-                navigate(`/login?team_id=${team_id}&role_id=${role_id}`); 
+                navigate(`/login?team_id=${team_id}&role_id=${role_id}`);
             }
         }
 
@@ -53,12 +59,12 @@ const App = () => {
                 localStorage.removeItem('kunpeng-token');
                 localStorage.removeItem('expire_time_sec');
                 localStorage.removeItem('team_id');
-                localStorage.removeItem('settings');  
+                localStorage.removeItem('settings');
                 localStorage.removeItem('open_apis');
                 localStorage.removeItem('open_scene');
                 localStorage.removeItem('open_plan');
                 localStorage.removeItem('userInfo');
-                navigate(`/login?email=${email}`); 
+                navigate(`/login?email=${email}`);
             }
         }
 
@@ -73,7 +79,7 @@ const App = () => {
                 // if (!token || isExpire) {
                 //     window.location.href = '/login';
                 // }
-        
+
                 if (!ignorePage.includes(location.pathname)) {
                     // setLayout(true);
                     if (isExpire) {
@@ -99,12 +105,14 @@ const App = () => {
     useApt();
     return (
         <>
-            <Routes>
-                {RoutePages.map((d) => (
-                    <Route key={d.name} path={d.path} element={<d.element />}></Route>
-                ))}
-                <Route path='/' element={<Navigate to="login" />} />
-            </Routes>
+            <ConfigProvider locale={i18n.language === 'en' ? enUS : cnUS}>
+                <Routes>
+                    {RoutePages.map((d) => (
+                        <Route key={d.name} path={d.path} element={<d.element />}></Route>
+                    ))}
+                    <Route path='/' element={<Navigate to="login" />} />
+                </Routes>
+            </ConfigProvider>
         </>
     )
 };

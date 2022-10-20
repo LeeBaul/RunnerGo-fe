@@ -52,6 +52,7 @@
     },
     "placeholder": {
         "searchApis": "搜索目录或接口",
+        "searchFolder": "搜索目录",
         "searchScene": "搜索分组或场景",
         "searchPlan": "搜索计划名称/执行者",
         "groupName": "请输入分组名称",
@@ -79,7 +80,14 @@
         "varName": "变量: name",
         "varVal": "变量值",
         "remark": "备注",
-        "line": "大于等于50, 小于100"
+        "line": "大于等于50, 小于100",
+        "auth": {
+            "key": "键",
+            "value": "值(支持变量)",
+            "token": "Token(支持变量)",
+            "username": "用户名(支持变量)",
+            "password": "密码(支持变量)"
+        }
     },
     "btn": {
         "cancel": "取消",
@@ -399,7 +407,8 @@
         "go": "去",
         "askHelp": "官网，了解更多信息或寻求帮助",
         "cloneApi": "克隆接口",
-        "pasteApi": "粘贴接口"
+        "pasteApi": "粘贴接口",
+        "more": "更多"
     },
     "scene": {
         "createGroup": "新建分组",
@@ -447,7 +456,9 @@
         },
         "editApi": "编辑接口",
         "deleteApi": "删除接口",
-        "copyApi": "复制接口"
+        "copyApi": "复制接口",
+        "importApiTitle": "API添加器",
+        "addApi": "添加接口"
     },
     "plan": {
         "planId": "计划ID",

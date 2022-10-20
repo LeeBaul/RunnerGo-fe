@@ -1,9 +1,11 @@
 import React from 'react';
 // import { Input } from 'adesign-react';
 import AuthInput from '../authInput';
+import { useTranslation } from 'react-i18next';
 
 const BasicAuth = (props) => {
   const { value, type, handleAttrChange } = props;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -13,7 +15,7 @@ const BasicAuth = (props) => {
             <div className="title">username</div>
             <AuthInput
               size="mini"
-              placeholder="用户名（支持变量）"
+              placeholder={ t('placeholder.auth.username') }
               value={value.basic.username}
               onChange={(val) => {
                 handleAttrChange(type, 'username', val);
@@ -24,7 +26,7 @@ const BasicAuth = (props) => {
             <div className="title">password</div>
             <AuthInput
               size="mini"
-              placeholder="密码（支持变量）"
+              placeholder={ t('placeholder.auth.password') }
               value={value.basic.password}
               onChange={(val) => {
                 handleAttrChange(type, 'password', val);

@@ -67,13 +67,12 @@ const ReportListHeader = (props) => {
                     }}
                 />
 
-                <ConfigProvider locale={language === 'en' ? enUS : cnUS}>
-                    <RangePicker
-                        mode="date"
-                        onChange={DateChange}
-                        showTime="true"
-                    />
-                </ConfigProvider>
+
+                <RangePicker
+                    mode="date"
+                    onChange={DateChange}
+                    showTime="true"
+                />
                 {
                     selectReport.length < 2 || selectReport.length > 5 ?
                         <Tooltip
@@ -83,7 +82,7 @@ const ReportListHeader = (props) => {
                                 className='contrast-btn'
                                 disabled={selectReport.length < 2 || selectReport.length > 5}
                                 onClick={() => toContrast()}
-                            > 
+                            >
                                 {t('btn.contrast')}
                             </Button>
                         </Tooltip>
