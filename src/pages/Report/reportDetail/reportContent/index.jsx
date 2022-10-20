@@ -177,7 +177,7 @@ const modeList = {
         setNinetyNine(_ninety_nine);
         let _datas = cloneDeep(datas);
         _datas.unshift({
-            api_name: '汇总',
+            api_name: t('report.collect'),
             total_request_num: _total_request_num,
             total_request_time: _total_request_time.toFixed(2),
             max_request_time: '-',
@@ -467,7 +467,7 @@ const modeList = {
         <div className='report-content'>
             <div className='report-content-top'>
                 <div className='top-type'>
-                    <span>{ t('report.taskType') }: { task_type === 1 ? '普通任务' : '定时任务' }</span>
+                    <span>{ t('report.taskType') }: { task_type === 1 ? t('report.taskList.1') : t('report.taskList.2') }</span>
                     {/* <span>分布式: 是</span> */}
                 </div>
                 <div className='top-mode'>

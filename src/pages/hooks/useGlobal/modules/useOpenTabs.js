@@ -7,6 +7,7 @@ import { Message } from 'adesign-react';
 import { asyncModalConfirm } from '@modals/asyncModalConfirm';
 import Bus, { useEventBus } from '@utils/eventBus';
 import { isArray, isPlainObject } from 'lodash';
+import i18next, { t } from 'i18next';
 
 // 新建接口
 const useOpenTabs = () => {
@@ -27,12 +28,12 @@ const useOpenTabs = () => {
                 const target = open_apis[id];
                 if (target.hasOwnProperty('is_changed') && (target.is_changed > 0)) {
                     const res = await asyncModalConfirm({
-                        title: '提示',
-                        content: `当前${target?.name || '标签'
-                            }未保存是否确认关闭？如果您选择关闭它，这些更改将丢失`,
-                        cancelText: '取消',
-                        diyText: '保存并关闭',
-                        okText: '不保存',
+                        title: i18next.t('modal.tips'),
+                        content: `${i18next.t('modal.now')}${target?.name || i18next.t('modal.tag')
+                            }${i18next.t('modal.notSave')}`,
+                        cancelText: i18next.t('btn.cancel'),
+                        diyText: i18next.t('apis.saveAndClose'),
+                        okText: i18next.t('apis.notSave'),
                     });
                     if (res === undefined) {
                         // 保存并关闭
@@ -94,10 +95,10 @@ const useOpenTabs = () => {
         //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
         if (Object.entries(open_apis).length > 0) {
             const res = await asyncModalConfirm({
-                title: '强制关闭？',
-                content: `确定关闭当前${Object.entries(open_apis).length}个标签吗。如果有未保存的更改，这些更改将丢失`,
-                cancelText: '取消',
-                okText: '强制关闭',
+                title: `${i18next.t('modal.forceClose')}？`,
+                content: `${i18next.t('modal.closeNow')}${Object.entries(open_apis).length}${i18next.t('modal.closeNowLast')}`,
+                cancelText: i18next.t('btn.cancel'),
+                okText: i18next.t('modal.forceClose'),
             });
             if (res) {
                 dispatch({
@@ -155,12 +156,12 @@ const useOpenTabs = () => {
                 const target = open_apis[id];
                 if (target.hasOwnProperty('is_changed') && target.is_changed > 0) {
                     const res = await asyncModalConfirm({
-                        title: '提示',
-                        content: `当前${target?.name || '标签'
-                            }未保存是否确认关闭？如果您选择关闭它，这些更改将丢失`,
-                        cancelText: '取消',
-                        diyText: '保存并关闭',
-                        okText: '不保存',
+                        title: i18next.t('modal.tips'),
+                        content: `${i18next.t('modal.now')}${target?.name || i18next.t('modal.tag')
+                            }${i18next.t('modal.notSave')}`,
+                        cancelText: i18next.t('btn.cancel'),
+                        diyText: i18next.t('apis.saveAndClose'),
+                        okText: i18next.t('apis.notSave'),
                     });
                     if (res === undefined) {
                         // 保存并关闭
@@ -190,10 +191,10 @@ const useOpenTabs = () => {
         //     apGlobalConfigStore.get(`project_current:${CURRENT_PROJECT_ID}`)?.open_navs || [];
         if (Object.entries(open_apis).length > 1) {
             const res = await asyncModalConfirm({
-                title: '强制关闭？',
-                content: `确定关闭其他${Object.entries(open_apis).length - 1}个标签吗。如果有未保存的更改，这些更改将丢失`,
-                cancelText: '取消',
-                okText: '强制关闭',
+                title: `${i18next.t('modal.forceClose')}？`,
+                content: `${i18next.t('modal.closeOther')}${Object.entries(open_apis).length - 1}${i18next.t('modal.closeNowLast')}`,
+                cancelText: i18next.t('btn.cancel'),
+                okText: i18next.t('modal.forceClose'),
             });
             if (res) {
                 for (const id in open_apis) {
@@ -232,7 +233,7 @@ const useOpenTabs = () => {
                     })
                 }
             }
-            Message('success', '保存所有标签成功');
+            Message('success', i18next.t('message.saveTagSuccess'));
         }
     };
     // 关闭所有标签

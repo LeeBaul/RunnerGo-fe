@@ -2,9 +2,11 @@ import React from 'react';
 import { Modal, Button } from 'adesign-react';
 import { Delete as SvgDelete, Recovery as SvgRecovery } from 'adesign-react/icons';
 import { APIMETHODS, APIMETHODENUMS } from '@constants/api';
+import { useTranslation } from 'react-i18next';
 
 const Apis = (props) => {
   const { data, filter, onRestoreDestory } = props;
+  const { t } = useTranslation();
 
   const dataList = data.filter(
     (d) => `${d.name}`.toLowerCase().indexOf(filter.toLowerCase()) !== -1
@@ -12,8 +14,8 @@ const Apis = (props) => {
 
   const handleDelete = (folder) => {
     Modal.confirm({
-      title: '提示',
-      content: '确定要彻底删除该API/文本信息？将不可恢复',
+      title: t('modal.tips'),
+      content: t('modal.shiftDelApi'),
       onOk() {
         onRestoreDestory && onRestoreDestory(folder.target_id, 2);
       },
@@ -22,8 +24,8 @@ const Apis = (props) => {
 
   const handleRestore = (folder) => {
     Modal.confirm({
-      title: '提示',
-      content: '是否需要恢复API/文本信息？',
+      title: t('modal.tips'),
+      content: t('modal.restoreApi'),
       onOk() {
         onRestoreDestory && onRestoreDestory(folder.target_id, 1);
       },
@@ -69,7 +71,7 @@ const Apis = (props) => {
                 }}
               >
                 <SvgDelete width={16} />
-                彻底删除
+                { t('modal.shiftDel') }
               </Button>
               <Button
                 onClick={() => {
@@ -77,7 +79,7 @@ const Apis = (props) => {
                 }}
               >
                 <SvgRecovery width={16} />
-                恢复接口/文本
+                { t('modal.restoreApi') }
               </Button>
             </div>
           </div>

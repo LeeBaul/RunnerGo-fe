@@ -34,9 +34,11 @@ export const FolderWrapper = styled.div`
       flex-direction: row;
       align-items: center;
       .name {
-        width: 60px;
+        min-width: 60px;
         color: var(--content-color-primary);
         font-size: var(--size-12px);
+        white-space: nowrap;
+        margin-right: 10px;
       }
       .content {
         flex: 1;
@@ -45,5 +47,8 @@ export const FolderWrapper = styled.div`
     .apipost-select {
       width: 300px;
     }
+  }
+  .english-name {
+    min-width: 116px !important;
   }
 `;

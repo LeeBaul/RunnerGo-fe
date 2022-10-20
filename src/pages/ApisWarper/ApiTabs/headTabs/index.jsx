@@ -47,6 +47,7 @@ const HeadTabs = (props) => {
                 content: t('apis.closeConfirm'),
                 okText: t('apis.notSave'),
                 diyText: t('apis.saveAndClose'),
+                cancelText: t('btn.cancel'),
                 onDiy: async () => {
                     Bus.$emit('saveTargetById', {
                         id: item.id,

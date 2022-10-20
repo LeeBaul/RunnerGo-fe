@@ -1,3 +1,5 @@
+import i18next from "i18next";
+
 export const TABS_MENUS = [
     // {
     //     type: 'cloneTarget',
@@ -11,22 +13,22 @@ export const TABS_MENUS = [
     // },
     {
         type: 'closeAllTarget',
-        title: '关闭所有标签',
+        title: i18next.t('apis.closeAllTarget'),
         action: 'closeAllTarget',
     },
     {
         type: 'focreCloseAllTarget',
-        title: '强制关闭所有标签',
+        title: i18next.t('apis.focreCloseAllTarget'),
         action: 'focreCloseAllTarget',
     },
     {
         type: 'closeOtherTarget',
-        title: '关闭其他标签',
+        title: i18next.t('apis.closeOtherTargetById'),
         action: 'closeOtherTarget',
     },
     {
         type: 'focreCloseOtherTarget',
-        title: '强制关闭其他标签',
+        title: i18next.t('apis.focreCloseOtherTargetById'),
         action: 'focreCloseOtherTarget',
     },
     // {

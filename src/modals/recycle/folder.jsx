@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'adesign-react';
 import { Delete as SvgDelete, Recovery as SvgRecovery } from 'adesign-react/icons';
+import { useTranslation } from 'react-i18next';
 
 const Folders = (props) => {
   const { data, filter, onRestoreDestory } = props;
@@ -10,8 +11,8 @@ const Folders = (props) => {
 
   const handleDelete = (folder) => {
     Modal.confirm({
-      title: '提示',
-      content: '确定要彻底删除该目录？将不可恢复',
+      title: t('modal.tips'),
+      content: t('modal.shiftDelFolder'),
       onOk() {
         onRestoreDestory && onRestoreDestory(folder.target_id, 2);
       },
@@ -20,13 +21,15 @@ const Folders = (props) => {
 
   const handleRestore = (folder) => {
     Modal.confirm({
-      title: '提示',
-      content: '确定要恢复目录吗？',
+      title: t('modal.tips'),
+      content: t('modal.restoreFolder'),
       onOk() {
         onRestoreDestory(folder.target_id, 1);
       },
     });
   };
+
+  const { t } = useTranslation();
 
   return (
     <>
@@ -42,7 +45,7 @@ const Folders = (props) => {
                 }}
               >
                 <SvgDelete width={16} />
-                彻底删除目录
+                { t('modal.shiftDelFolder') }
               </Button>
               <Button
                 onClick={() => {
@@ -50,7 +53,7 @@ const Folders = (props) => {
                 }}
               >
                 <SvgRecovery width={16} />
-                恢复目录
+                { t('modal.restoreFolder') }
               </Button>
             </div>
           </div>

@@ -186,7 +186,12 @@
         "copyClipboard": "已成功将内容复制到剪贴板",
         "varRepeat": "变量名重复!",
         "apiWeight": "接口权重范围在0-100之间!",
-        "lineError": "输入数字只能大于等于50, 小于100"
+        "lineError": "输入数字只能大于等于50, 小于100",
+        "shiftDelFolder": "确定要彻底删除该目录？将不可恢复",
+        "restoreFolder": "确定要恢复目录吗？",
+        "shiftDelApi": "确定要彻底删除该API？将不可恢复",
+        "restoreApi": "是否需要恢复API",
+        "saveTagSuccess": "保存所有标签成功"
     },
     "modal": {
         "look": "注意",
@@ -228,7 +233,23 @@
         "updateAvatar": "修改头像",
         "knowUrl": "知道链接的人",
         "copyUrl": "复制邀请链接",
-        "previewTitle": "预览文件"
+        "previewTitle": "预览文件",
+        "trash": "回收站",
+        "delFolder": "已删除目录",
+        "delApi": "已删除API",
+        "shiftDelFolder": "彻底删除目录",
+        "restoreFolder": "恢复目录",
+        "shiftDel": "彻底删除",
+        "restoreApi": "恢复接口",
+        "refresh": "刷新",
+        "tips": "提示",
+        "now": "当前",
+        "tag": "标签",
+        "notSave": "未保存是否确认关闭？如果您选择关闭它，这些更改将丢失",
+        "forceClose": "强制关闭",
+        "closeNow": "确定关闭当前",
+        "closeOther": "确定关闭其它",
+        "closeNowLast": "个标签吗。如果有未保存的更改，这些更改将丢失"
     },
     "column": {
         "teamManage": {
@@ -282,7 +303,11 @@
         "performer": "执行者",
         "status": "状态",
         "handle": "操作",
-        "contrastText": "请选择2-5份报告进行对比"
+        "contrastText": "请选择2-5份报告进行对比",
+        "create": "新建",
+        "update": "修改",
+        "delete": "删除",
+        "run": "运行"
     },
     "apis": {
         "recycle": "回收站",
@@ -472,6 +497,10 @@
         "performer": "执行者",
         "createTime": "创建时间",
         "runTime": "执行时长",
+        "taskList": {
+            "1": "普通任务",
+            "2": "定时任务"
+        },
         "debugList": {
             "0": "关闭debug模式",
             "1": "debug模式: 全部日志",
@@ -507,6 +536,7 @@
         "avgList": "平均响应时间",
         "90%List": "90%响应时间线",
         "95%List": "95%响应时间线",
-        "99%List": "99%响应时间线"
+        "99%List": "99%响应时间线",
+        "collect": "汇总"
     }
 }

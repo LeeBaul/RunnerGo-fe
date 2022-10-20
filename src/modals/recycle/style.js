@@ -91,5 +91,8 @@ export const RecycleModalWrapper = css`
         margin-right: 8px;
       }
     }
+    .cancel-btn {
+      background-color: var(--theme-color);
+    }
   }
 `;

@@ -11,6 +11,7 @@ import Folder from './folder';
 import { RecycleModalWrapper } from './style';
 import { tap } from 'rxjs';
 import { cloneDeep } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 
@@ -21,7 +22,8 @@ const Recycle = (props) => {
 
   const [dataList, setDataList] = useState([]);
   const [filter, setFilter] = useState('');
-
+  const { t } = useTranslation();
+ 
   const getDeleteFolder = async (page, size, dataList = []) => {
     const query = {
       page,
@@ -107,7 +109,7 @@ const Recycle = (props) => {
         }).subscribe({
           next (resp) {
             if (resp?.code === 0) {
-              Message('success', '删除成功');
+              Message('success', t('message.deleteSuccess'));
               const _dataList = cloneDeep(dataList);
               const _index = _dataList.findIndex(item => item.target_id === target_id);
               _dataList.splice(_index, 1);
@@ -156,14 +158,15 @@ const Recycle = (props) => {
       <Modal
         visible
         onCancel={onCancel}
+        title={ t('modal.trash') }
         footer={
           <>
             <div className="recycle-modal-footer">
               <Button className="refresh-btn" onClick={() => getDeleteFolder(1, 100)}>
                 <RefreshSvg width={16} />
-                刷新
+                { t('modal.refresh') }
               </Button>
-              <Button onClick={onCancel}>关闭</Button>
+              <Button className='cancel-btn' onClick={onCancel}>{ t('btn.cancel') }</Button>
             </div>
           </>
         }
@@ -171,14 +174,14 @@ const Recycle = (props) => {
       >
         <div>
           <Tabs defaultActiveId="0" headerRender={renderTabPanel}>
-            <TabPan id="0" title="已删除目录">
+            <TabPan id="0" title={ t('modal.delFolder') }>
               <Folder
                 data={dataList.filter((item) => item.target_type === 'folder')}
                 filter={filter}
                 onRestoreDestory={handleRestoreDestory}
               />
             </TabPan>
-            <TabPan id="1" title="已删除API/文档">
+            <TabPan id="1" title={ t('modal.delApi') }>
               <Api
                 data={dataList.filter((item) => item.target_type !== 'folder')}
                 filter={filter}

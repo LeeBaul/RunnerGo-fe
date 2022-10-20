@@ -23,6 +23,8 @@ import { cloneDeep, eq, isPlainObject, isString, set, trim, isArray } from 'loda
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
+import cn from 'classnames';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -340,6 +342,7 @@ const CreateFolder = (props) => {
             visible
             onCancel={onCancel}
             className={FolderModal}
+            cancelText={  t('btn.cancel')}
             okText={ t('btn.save') }
             onOk={() => {
                 // return;
@@ -390,11 +393,11 @@ const CreateFolder = (props) => {
             <FolderWrapper>
                 <div className="article">
                     <div className="items">
-                        <div className="name">{ t('apis.parentFolder') }</div>
+                        <div className={ cn('name', { 'english-name': i18next.language === 'en' }) }>{ t('apis.parentFolder') }</div>
                         <div className="content">{folderSelect()}</div>
                     </div>
                     <div className="items">
-                        <div className="name">{ t('apis.folderName') }</div>
+                        <div className={ cn('name', { 'english-name': i18next.language === 'en' }) }>{ t('apis.folderName') }</div>
                         <div className="content">
                             <Input
                                 value={folderName}
@@ -406,7 +409,7 @@ const CreateFolder = (props) => {
                         </div>
                     </div>
                     <div className="items">
-                        <div className="name">{ t('apis.folderDesc') }</div>
+                        <div className={ cn('name', { 'english-name': i18next.language === 'en' }) }>{ t('apis.folderDesc') }</div>
                         <div className="content">
                             <Textarea
                                 placeholder={ t('placeholder.folderDesc') }
