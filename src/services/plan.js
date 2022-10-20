@@ -54,3 +54,8 @@ export const fetchCopyPlan = (
 export const fetchSendPlanEmail = (
     params
 ) => ajax('post', '/management/api/v1/plan/email_notify', 'json', false, params);
+
+// 查询计划任务
+export const fetchGetTask = (
+    query
+) => ajax('get', '/management/api/v1/plan/task/detail', 'json', false, {}, query);

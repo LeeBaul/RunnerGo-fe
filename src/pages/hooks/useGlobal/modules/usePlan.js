@@ -18,13 +18,14 @@ const usePlan = () => {
     const dispatch = useDispatch();
     const id_apis = useSelector((store) => store.plan.id_apis);
     const node_config = useSelector((store) => store.plan.node_config);
-    const savePreConfig = ({ task_type, mode, cron_expr, mode_conf }, callback) => {
+    const savePreConfig = ({ task_type, mode, cron_expr, mode_conf }, callback, plan_id) => {
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
             task_type,
             mode,
             cron_expr,
-            mode_conf
+            mode_conf,
+            plan_id
         };
 
         fetchCreatePre(params).subscribe({

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './index.less';
 import { cloneDeep } from 'lodash';
 // import { fetchPlanDetail } from '@services/plan';
-import { fetchPlanDetail, fetchSavePlan } from '@services/plan';
+import { fetchPlanDetail, fetchSavePlan, fetchGetTask } from '@services/plan';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -56,55 +56,61 @@ const TaskConfig = (props) => {
     const dispatch = useDispatch();
     const [planDetail, setPlanDetail] = useState({});
     const task_config = useSelector((store) => store.plan.task_config);
+    const open_scene = useSelector((store) => store.plan.open_plan_scene);
+    console.log(open_scene);
     const { id: plan_id } = useParams();
 
     useEffect(() => {
-        const query = {
-            team_id: localStorage.getItem('team_id'),
-            plan_id,
-        };
-        fetchPlanDetail(query).subscribe({
-            next: (res) => {
-                const { data: { plan } } = res;
-                if (from === 'default') {
-                    const {
-                        mode,
-                        cron_expr,
-                        mode_conf,
-                        task_type
-                    } = plan;
-                    mode && setMode(mode);
-                    cron_expr && setCronExpr(cron_expr);
-                    const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = cron_expr;
-                    concurrency && setConcurrency(concurrency);
-                    duration && setDuration(duration);
-                    max_concurrency && setMaxConcurrency(max_concurrency);
-                    reheat_time && setReheatTime(reheat_time);
-                    round_num && setRoundNum(round_num);
-                    start_concurrency && setStartConcurrency(start_concurrency);
-                    step && setStep(step);
-                    step_run_time && setStepRunTime(step_run_time);
-                    setModeConf(mode_conf);
-                    task_type && setTaskType(task_type);
-                    if (mode_conf.round_num !== 0) {
-                        setDefaultMode('round_num');
-                    } else {
-                        setDefaultMode('duration');
-                    }
-                    dispatch({
-                        type: 'plan/updateTaskConfig',
-                        payload: {
+        if (open_scene) {
+            const query = {
+                team_id: localStorage.getItem('team_id'),
+                plan_id,
+                scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id
+            };
+            fetchGetTask(query).subscribe({
+                next: (res) => {
+                    const { data: { plan_task } } = res;
+                    if (from === 'default') {
+                        const {
                             mode,
                             cron_expr,
-                            task_type,
                             mode_conf,
-                        },
-                    })
+                            task_type
+                        } = plan_task;
+                        mode && setMode(mode);
+                        cron_expr && setCronExpr(cron_expr);
+                        const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = mode_conf;
+                        concurrency && setConcurrency(concurrency);
+                        duration && setDuration(duration);
+                        max_concurrency && setMaxConcurrency(max_concurrency);
+                        reheat_time && setReheatTime(reheat_time);
+                        round_num && setRoundNum(round_num);
+                        start_concurrency && setStartConcurrency(start_concurrency);
+                        step && setStep(step);
+                        step_run_time && setStepRunTime(step_run_time);
+                        setModeConf(mode_conf);
+                        task_type && setTaskType(task_type);
+                        console.log(plan, mode, concurrency, duration, task_type);
+                        if (mode_conf.round_num !== 0) {
+                            setDefaultMode('round_num');
+                        } else {
+                            setDefaultMode('duration');
+                        }
+                        dispatch({
+                            type: 'plan/updateTaskConfig',
+                            payload: {
+                                mode,
+                                cron_expr,
+                                task_type,
+                                mode_conf,
+                            },
+                        })
+                    }
+                    setPlanDetail(plan);
                 }
-                setPlanDetail(plan);
-            }
-        })
-    }, [plan_id]);
+            })
+        }
+    }, [open_scene]);
 
     const init = (preinstall = initData) => {
         const {
@@ -150,6 +156,7 @@ const TaskConfig = (props) => {
     const getPreConfig = (callback) => {
         const query = {
             team_id: localStorage.getItem('team_id'),
+            plan_id,
         };
         fetchPreConfig(query).subscribe({
             next: (res) => {
@@ -372,23 +379,23 @@ const TaskConfig = (props) => {
     };
 
     const savePlan = () => {
-        if (mode === 1) {
-            const { mode_conf: { duration, round_num, concurrency, reheat_time } } = task_config;
-            if (!duration && !round_num) {
-                Message('error', '未填必填项!');
-                return;
-            } else if (!concurrency) {
-                Message('error', '未填必填项!');
-                return;
-            }
-        } else {
-            const { mode_conf: { start_concurrency, step, step_run_time, max_concurrency, duration } } = task_config;
-            console.log(start_concurrency, step, step_run_time, max_concurrency, duration);
-            if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
-                Message('error', '未填必填项!');
-                return;
-            }
-        }
+        // if (mode === 1) {
+        //     const { mode_conf: { duration, round_num, concurrency, reheat_time } } = task_config;
+        //     if (!duration && !round_num) {
+        //         Message('error', '未填必填项!');
+        //         return;
+        //     } else if (!concurrency) {
+        //         Message('error', '未填必填项!');
+        //         return;
+        //     }
+        // } else {
+        //     const { mode_conf: { start_concurrency, step, step_run_time, max_concurrency, duration } } = task_config;
+        //     console.log(start_concurrency, step, step_run_time, max_concurrency, duration);
+        //     if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
+        //         Message('error', '未填必填项!');
+        //         return;
+        //     }
+        // }
         const params = {
             plan_id: parseInt(plan_id),
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -401,9 +408,9 @@ const TaskConfig = (props) => {
                 const { code } = res;
 
                 if (code === 0) {
-                    Message('success', '保存成功!');
+                    Message('success', t('message.saveSuccess'));
                 } else {
-                    Message('error', '保存失败!');
+                    Message('error', t('message.saveError'));
                 }
             }
         })

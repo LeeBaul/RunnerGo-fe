@@ -100,7 +100,7 @@ const DetailHeader = () => {
                         Bus.$emit('savePreConfig', { task_type, mode, cron_expr, mode_conf }, () => {
                             setPreSet(false);
                             Message('success', t('message.saveSuccess'));
-                        })
+                        }, plan_id)
                     }} visible onCancel={() => setPreSet(false)}>
                         <TaskConfig onChange={(type, value) => onConfigChange(type, value)} from="preset" />
                     </Modal>
