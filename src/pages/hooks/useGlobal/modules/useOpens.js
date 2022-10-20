@@ -629,6 +629,7 @@ const useOpens = () => {
         let tempTarget = tempOpenApis[target_id];
 
         if (pid && isObject(tempTarget)) tempTarget.parent_id = pid;
+        console.log(tempTarget, tempOpenApis, target_id);
         if (!isUndefined(tempTarget) && isObject(tempTarget)) {
             // tempTarget.update_day = new Date(new Date().toLocaleDateString()).getTime();
             // tempTarget.update_dtime = ~~(new Date().getTime() / 1000);
@@ -689,6 +690,8 @@ const useOpens = () => {
             if (saveId && typeof id === 'string') {
                 tempTarget.target_id = saveId;
             }
+
+            console.log(tempTarget);
 
             fetchHandleApi(tempTarget)
                 .pipe(
@@ -978,9 +981,13 @@ const useOpens = () => {
                         // targets.forEach(item => {
                         //     _open_apis[item.target_id] = item;
                         // });
+                        const tempApiList = {};
+                        for (let i = 0; i < targets.length; i++) {
+                            tempApiList[targets[i].target_id] = targets[i];
+                        }
                         dispatch({
                             type: 'opens/coverOpenApis',
-                            payload: targets,
+                            payload: tempApiList,
                         })
                     }
                 })
