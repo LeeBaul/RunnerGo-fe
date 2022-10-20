@@ -416,7 +416,7 @@
         "cloneScene": "Clone Scene",
         "createApi": "New API",
         "createControl": "Add Controller",
-        "waitControl": "Wait for controller",
+        "waitControl": "Delay controller",
         "conditionControl": "Condition Controller",
         "importApi": "Add API",
         "groupName": "GroupName",
