@@ -1,10 +1,11 @@
 .left-toolbars {
-    height: 100%;
+    height: calc(100vh - 50px);
     width: 78px;
     box-sizing: content-box;
     background-color: var(--bg1);
     border-right: 1px solid var(--border-color-default);
     padding: 0;
+    position: relative;
 
     .toolbar-item {
         width: 78px;
@@ -84,4 +85,120 @@
         background-color: var(--border-color-strong);
     }
 
+    .left-settings{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        bottom: 48px;
+        color: var(--font-1);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        width: 78px;
+        height: 60px;
+    
+        svg {
+          width: 16px;
+          height: 16px;
+          fill: var(--font-1);
+          
+          margin-bottom: 4px;
+        }
+    }
+    
+    .left-settings:hover {
+        color: var(--font-1) !important;
+        background-color: var(--select);
+
+        svg {
+            // fill: var(--content-color-primary)
+        }
+
+        .item-text {
+            color: var(--font-1);
+        }
+    }
+
 }
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    min-width: 93px;
+    background-color: var(--bg-2);
+    position: absolute;
+    bottom: 89px;
+    left: 78px;
+    background-color: var(--bg-3);
+    z-index: 999;
+    padding: 15px 0 10px 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    &-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 10px;
+      padding: 4px 10px;
+      .default {
+        display: flex;
+        color: var(--font-1);
+        cursor: pointer;
+  
+        svg {
+          width: 16px;
+          height: 16px;
+          margin-right: 6px;
+          fill: var(--font-1);
+        }
+  
+        p {
+          margin-top: 2px;
+        }
+      }
+  
+      .drop-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 7px;
+
+        p {
+            margin: 0;
+            margin-top: 7px !important;
+        }
+      }
+  
+      .theme {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+  
+        p {
+          flex: none;
+        }
+  
+        &-white, &-black {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          border: 2px solid var(--bg-4);
+          margin: 0;
+        }
+  
+        &-white {
+          background-color: #fff;
+        }
+  
+        &-black {
+          background-color: #000;
+        }
+      }
+    }
+  }
+
+
+ 

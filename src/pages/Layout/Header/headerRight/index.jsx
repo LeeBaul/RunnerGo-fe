@@ -227,7 +227,8 @@ const HeaderRight = () => {
             <div className='more-btn'>
                 <Button className='handle-log' onClick={() => setShowLog(true)}>{ t('header.handleLog') }</Button>
                 {/* <Button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'cn' : 'en')}>中英文切换</Button> */}
-                <Dropdown
+                <Button className='handle-log' preFix={<SvgLogout />} onClick={() => loginOut()}>{  t('header.signOut')  }</Button>
+                {/* <Dropdown
                     ref={refMenu}
                     placement="bottom-end"
                     content={
@@ -235,7 +236,7 @@ const HeaderRight = () => {
                     }
                 >
                     <Button className='handle-log' preFix={<SvgSetting />}>{ t('header.menu') }</Button>
-                </Dropdown>
+                </Dropdown> */}
             </div>
             {showModal && <InvitationModal onCancel={() => {
                 setShowModal(false);

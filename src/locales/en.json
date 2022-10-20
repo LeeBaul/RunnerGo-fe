@@ -32,10 +32,10 @@
         "running": "Running",
         "invitation": "Invite",
         "handleLog": "Log",
-        "signOut": "Exit",
+        "signOut": "Quit",
         "menu": "Settings",
-        "changeLge": "Language switch",
-        "changeTheme": "Theme switch",
+        "changeLge": "Language",
+        "changeTheme": "Theme",
         "myInfo": "Homepage",
         "doc": "Usage documents",
         "customer": "Customer service"
