@@ -158,6 +158,7 @@ const Box = (props) => {
     useEffect(() => {
         const my_config = node_config[id];
         if (my_config) {
+            console.log(my_config);
             const { weight, error_threshold, response_threshold, request_threshold, percent_age, mode } = my_config;
             weight && setWeight(weight);
             error_threshold && setError(error_threshold);

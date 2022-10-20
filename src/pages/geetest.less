@@ -9,11 +9,11 @@
   }
   .geetest_holder {
     background: transparent;
-    .geetest_logo {
-      background-image: url(../assets/logo/logo.png);
-      background-size: 100% 100%;
-      pointer-events: none;
-    }
+    // .geetest_logo {
+    //   background-image: url(../assets/logo/logo.png);
+    //   background-size: 100% 100%;
+    //   pointer-events: none;
+    // }
     .geetest_btn_click {
      border-radius:var(--border-radius-default);
       &:hover {
@@ -51,23 +51,25 @@
       display: none;
     }
     .geetest_box_logo {
-      background-image: url(https://img.cdn.apipost.cn/v6/docs/img/logov6.svg);
+      background-image: url(https://apipost.oss-cn-beijing.aliyuncs.com/kunpeng/logo_black.png);
       background-size: 100% 100%;
       pointer-events: none;
+      width: 102px;
+      height: 16px;
     }
     .geetest_header {
-      background-color: var(--font-1);
+      background-color: var(--common-white);
       .geetest_text_tips {
         color: var(--content-color-secondary);
       }
     }
     .geetest_container {
-      background-color: var(--font-1);
+      background-color: var(--common-white);
       // transform: none;
     }
     .geetest_footer {
       padding: 48px 0 0 0;
-      background: var(--font-1);
+      background: var(--common-white);
       border-top: 1px solid #F2F2F2;
     }
   }
@@ -80,4 +82,8 @@
       background-image: url(https://static.geetest.com/v4/static/v1.4.7/css/sprite@2x.png);
     }
   }
+}
+
+.geetest_logo {
+  display: none !important;
 }

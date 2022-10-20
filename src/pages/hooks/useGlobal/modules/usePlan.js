@@ -125,9 +125,10 @@ const usePlan = () => {
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
-                console.log(data);
+                console.log(data, target_id);
                 if (data && data.nodes && data.nodes.length > 0) {
                     const { nodes } = data;
+                    console.log(nodes);
                     const idList = [];
                     const apiList = [];
                     const configList = [];

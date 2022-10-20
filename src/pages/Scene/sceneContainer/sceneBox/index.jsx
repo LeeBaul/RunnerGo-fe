@@ -255,7 +255,6 @@ const SceneBox = (props) => {
     }, [nodes, success_edge, failed_edge])
 
     useEffect(() => {
-        console.log(open_data);
         if (Object.entries((open_data || {})).length > 0) {
             const { nodes, edges } = open_data;
             // 1. 对nodes进行赋值, 渲染视图
@@ -290,7 +289,6 @@ const SceneBox = (props) => {
                     dragHandle,
                 };
             });
-            console.log(old_nodes, edges, nodes);
             // edges && (edges[0].animated = true);
             setNodes(old_nodes || []);
             setEdges(edges || []);
@@ -513,6 +511,7 @@ const SceneBox = (props) => {
                 _open_data.nodes = [new_node];
                 _open_data.edges = [];
             }
+            console.log(_open_data);
             if (from === 'scene') {
                 Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config, { id }, { id }, from);
                 // dispatch({

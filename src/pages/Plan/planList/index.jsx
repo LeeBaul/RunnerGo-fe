@@ -19,6 +19,7 @@ import SvgStop from '@assets/icons/Stop';
 import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
+import { global$ } from '@hooks/useGlobal/global';
 
 import { DatePicker, Table } from '@arco-design/web-react';
 
@@ -116,6 +117,10 @@ const PlanList = () => {
                         //     Bus.$emit('addOpenPlanScene', { target_id: planMap[plan_id] }, id_apis_plan, node_config_plan)
                         // }
                         navigate(`/plan/detail/${plan_id}`);
+                        // global$.next({
+                        //     action: 'RELOAD_LOCAL_PLAN',
+                        //     id: plan_id,
+                        // });
                     }} />
                     <SvgCopy onClick={() => copyPlan(plan_id)} />
                     <SvgDelete style={{ fill: '#f00' }} onClick={() => {
@@ -398,6 +403,10 @@ const PlanList = () => {
                                 payload: null,
                             })
                             navigate(`/plan/detail/${plan_id}`);
+                            // global$.next({
+                            //     action: 'RELOAD_LOCAL_PLAN',
+                            //     id: plan_id,
+                            // });
                         },
                     };
                 }}
