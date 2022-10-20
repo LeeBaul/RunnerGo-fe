@@ -13,23 +13,24 @@ const SceneBox = (props) => {
     const [showCreateScene, setCreateScene] = useState(false);
 
     return (
-        <div className='scene-box' style={{ justifyContent: from === 'plan' ? 'center' : 'flex-start' }}>
+        <div className='scene-box' style={{ justifyContent: from === 'plan' ? 'space-between' : 'flex-start' }}>
             <div className='scene-box-item' onClick={() => setCreateGroup(true)}>
                 <SvgNewFolder width="18" height="18" />
-                <p>{from !== 'plan' ? t('scene.new') : ''}{ t('scene.group') }</p>
+                <p>{from !== 'plan' ? t('scene.new') : ''}{t('scene.group')}</p>
+                <div className='line' style={{ margin: from === 'plan' ? '0 8px' : '0 24px' }}></div>
             </div>
-            <div className='line' style={{ margin: from === 'plan' ? '0 4px' : '0 14px' }}></div>
             <div className='scene-box-item' onClick={() => setCreateScene(true)}>
                 <SvgScene width="18" height="18" />
-                <p>{ t('scene.createScene') }</p>
+                <p>{t('scene.createScene')}</p>
             </div>
             {
                 from === 'plan' &&
                 <>
-                    <div className='line' style={{ margin: from === 'plan' ? '0 4px' : '0 14px' }}></div>
+
                     <div className='scene-box-item' onClick={() => onChange(true)}>
+                        <div className='line' style={{ margin: from === 'plan' ? '0 8px' : '0 14px' }}></div>
                         <SvgDownload width="18" height="18" />
-                        <p>{ t('plan.importScene') }</p>
+                        <p>{t('plan.importScene')}</p>
                     </div>
                 </>
             }
