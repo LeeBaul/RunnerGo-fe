@@ -12,7 +12,7 @@
         "errorEmail": "Please enter the correct email address",
         "errorPwd": "Please enter the correct password",
         "confirmError": "The two passwords are inconsistent",
-        "nicknameError": "At least 4 nicknames",
+        "nicknameError": "At least 2 nicknames",
         "findPwd": "Retrieve password",
         "resetPwd": "Send Reset Password",
         "findToLogin": "Go to login",
@@ -71,7 +71,7 @@
         "email": "Email",
         "password": "Password",
         "confirmPwd": "Confirm password",
-        "nickname": "Nickname",
+        "nickname": "Please enter a nickname of at least 2 digits",
         "teamName": "Please enter the team name",
         "newPwd": "Please enter a new password",
         "currentPwd": "Please enter the current password",
@@ -258,7 +258,10 @@
         "forceClose": "Force close",
         "closeNow": "",
         "closeOther": "Confirm to close other",
-        "closeNowLast": " tabs unsaved changes. Your changes will be lost if you force close this tab. Are you sure you want to force close?"
+        "closeNowLast": " tabs unsaved changes. Your changes will be lost if you force close this tab. Are you sure you want to force close?",
+        "pwdError": "Password error",
+        "pwdLength": "Password length shall be at least 6 digits",
+        "pwdDiff": "The passwords entered do not match"
     },
     "column": {
         "teamManage": {

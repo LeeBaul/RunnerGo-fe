@@ -19,7 +19,8 @@ import { useSelector } from 'react-redux';
 import InvitationModal from '@modals/ProjectInvitation';
 
 const ReportHeader = (props) => {
-    const { data: { plan_name }, status } = props;
+    console.log(props);
+    const { data: { plan_name, scene_name }, status } = props;
     const { t } = useTranslation();
     const [showSendEmail, setSendEmail] = useState(false);
     const navigate = useNavigate();
@@ -155,7 +156,7 @@ const ReportHeader = (props) => {
                 <Button onClick={() => navigate('/report/list')}>
                     <SvgLeft  />
                 </Button>
-                <div className='report-name'>{plan_name}</div>
+                <div className='report-name'>{plan_name} / {scene_name}</div>
                 <div className='report-status'>{ status === 1 ? t('btn.running') : t('btn.done')}</div>
             </div>
             <div className='report-header-right'>

@@ -55,9 +55,10 @@ const ReportContent = () => {
         };
         fetchReportInfo(query).subscribe({
             next: (res) => {
-                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status } } } = res;
+                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status, scene_name } } } = res;
                 setHeaderData({
                     plan_name,
+                    scene_name
                 })
                 setInfoData({
                     user_avatar,

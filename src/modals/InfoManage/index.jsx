@@ -18,6 +18,8 @@ const InfoManage = (props) => {
     const [newPwd, setNewPwd] = useState('');
     const [confirmPwd, setConfirmPwd] = useState('');
     const [showMask, setShowMask] = useState(false);
+    const [showEditName, setEditName] = useState(false);
+    const [nameError, setNameError] = useState(false);
 
     const [showEditAvatar, setEditAvatar] = useState(false);
     const [showEditPwd, setEditPwd] = useState(false);
@@ -64,10 +66,15 @@ const InfoManage = (props) => {
         let nickname = '';
         Modal.confirm({
             title: t('modal.editName'),
-            content: <Input value={nickName} onChange={(e) => {
-                nickname = e;
-                setNickName(e);
-            }} />,
+            content:
+                <>
+                    <Input placeholder={t('placeholder.nickname')} value={nickName} onChange={(e) => {
+                        nickname = e;
+                        setNickName(e);
+                    }} />
+                    <p className='input-error' style={{ color: '#f00', marginRight: 'auto', marginLeft: '40px' }}>{t('sign.nicknameError')}</p>
+                </>
+            ,
             cancelText: t('btn.cancel'),
             okText: t('btn.ok'),
             onOk: () => {
@@ -200,6 +207,61 @@ const InfoManage = (props) => {
     }
     return (
         <div className='info-manage'>
+            {
+                showEditName && <Modal
+                    className='edit-name-modal'
+                    visible
+                    title={null}
+                    okText={t('btn.ok')}
+                    cancelText={t('btn.cancel')}
+                    onCancel={ () => setEditName(false) }
+                    onOk={() => {
+                        if (nameError) {
+                            return;
+                        }
+                        const params = {
+                            nickname: nickName,
+                        };
+                        fetchUpdateName(params).subscribe({
+                            next: (res) => {
+                                const { code } = res;
+                                if (code === 0) {
+                                    dispatch({
+                                        type: 'user/updateUserInfo',
+                                        payload: {
+                                            ...userInfo,
+                                            nickname: nickName,
+                                        }
+                                    })
+                                    if (nickName) {
+                                        Message('success', t('message.updateSuccess'));
+                                        setEditName(false)
+                                    }
+                                } else {
+                                    Message('error', t('message.updateError'))
+                                }
+                            }
+                        })
+                    }}
+                >
+                    <p className='edit-name-title'>{ t('modal.editName') }</p>
+                    <Input
+                        placeholder={t('placeholder.nickname')}
+                        value={nickName}
+                        onChange={(e) => {
+                            setNickName(e);
+                        }}
+                        onBlur={(e) => {
+                            if (nickName.length < 2) {
+                                setNameError(true);
+                            } else {
+                                setNameError(false);
+                            }
+                        }}
+                    />
+                    {nameError && <p className='input-error' style={{ color: '#f00', marginRight: 'auto' }}>{t('sign.nicknameError')}</p>}
+                </Modal>
+            }
             <Modal
                 className='info-modal'
                 visible
@@ -217,7 +279,7 @@ const InfoManage = (props) => {
                         </div>
                         <div className='name'>
                             <p>{userInfo.nickname}</p>
-                            <SvgEdit onClick={() => editNickname(userInfo)} />
+                            <SvgEdit onClick={() => setEditName(true)} />
                         </div>
                     </div>
                     <div className='info-container-right'>

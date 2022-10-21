@@ -533,7 +533,7 @@ const InvitationModal = (props) => {
         >
           {/* <Spin loading={spinning}></Spin> */}
           <div className="modal-inviation-title">
-            <div>{ from ? t('btn.notifyEmail') : t('modal.invitation')}</div>
+            <div>{from ? t('btn.notifyEmail') : t('modal.invitation')}</div>
             {/* <div>{ t('modal.addTeamMem') }</div> */}
           </div>
           <div className="team-inviation-content">
@@ -550,11 +550,11 @@ const InvitationModal = (props) => {
                 {
                   !email ?
                     role !== 2 ?
-                      <Select style={{ right: i18n.language === 'en' ? '72px': '52px' }} value={selectValue} onChange={(key) => setSelectValue(key)}>
+                      <Select style={{ right: i18n.language === 'en' ? '72px' : '52px' }} value={selectValue} onChange={(key) => setSelectValue(key)}>
                         <Option value={3}>{t('modal.roleList.1')}</Option>
                         <Option value={2}>{t('modal.roleList.0')}</Option>
                       </Select>
-                      : <p className='only-common' style={{ right: i18n.language === 'en' ? '72px': '52px' }}>{t('modal.roleList.0')}</p>
+                      : <p className='only-common' style={{ right: i18n.language === 'en' ? '72px' : '52px' }}>{t('modal.roleList.0')}</p>
                     : ''
                 }
                 <Button
@@ -656,12 +656,12 @@ const InvitationModal = (props) => {
             <div className="team-inviation-footer-l">
               {
                 !from ? <>
-                  <span className="know-link-people">{ t('modal.knowUrl') }</span>
+                  <span className="know-link-people">{t('modal.knowUrl')}</span>
                   {
-                    role !== 2 ?                 <Select defaultValue={3} disabled={role === 2} value={linkPower} onChange={(key) => setLinkPower(key)}>
-                    <Option value={3}>{t('modal.roleList.1')}</Option>
-                    <Option value={2}>{t('modal.roleList.0')}</Option>
-                  </Select> : <p className='only-common'>{t('modal.roleList.0')}</p>
+                    role !== 2 ? <Select defaultValue={3} disabled={role === 2} value={linkPower} onChange={(key) => setLinkPower(key)}>
+                      <Option value={3}>{t('modal.roleList.1')}</Option>
+                      <Option value={2}>{t('modal.roleList.0')}</Option>
+                    </Select> : <p className='only-common'>{t('modal.roleList.0')}</p>
                   }
                   <div
                     className="team-inviation-link"
@@ -688,7 +688,7 @@ const InvitationModal = (props) => {
                     }}
                   >
                     <ConnectIcon></ConnectIcon>
-                    { t('modal.copyUrl') }
+                    {t('modal.copyUrl')}
                   </div>
                 </> : ''
               }
@@ -702,7 +702,7 @@ const InvitationModal = (props) => {
               </span> */}
               <Button onClick={onSubmit}>
                 {/* {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'} */}
-                { from ? t('btn.send') : t('btn.addMem') }
+                {from ? t('btn.send') : t('btn.addMem')}
               </Button>
             </div>
           </div>
