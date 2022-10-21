@@ -41,7 +41,6 @@ const ReportList = () => {
         '3': t('plan.modeList.3'),
         '4': t('plan.modeList.4'),
         '5': t('plan.modeList.5'),
-        '6': t('plan.modeList.6'),
         '7': t('plan.modeList.7')
     };
 

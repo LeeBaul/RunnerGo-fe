@@ -201,7 +201,6 @@ const RecentReport = () => {
                 { text: t('plan.modeList.3'), value: 3 },
                 { text: t('plan.modeList.4'), value: 4 },
                 { text: t('plan.modeList.5'), value: 5 },
-                { text: t('plan.modeList.6'), value: 6 },
                 { text: t('plan.modeList.7'), value: 7 }
             ],
             onFilter: (value, item) => {
