@@ -52,6 +52,7 @@ const RegisterBox = (props) => {
     const [emailError, setEmailError] = useState(false);
     const [nameError, setNameError] = useState(false);
     const [pwdDiff, setPwdDiff] = useState(false);
+    const [pwdError, setPwdError] = useState(false);
 
     const { t, i18n } = useTranslation();
     const { search } = useLocation();
@@ -153,7 +154,7 @@ const RegisterBox = (props) => {
         if (Object.keys(vcodeObj).length === 0) {
             return Message('error', t('message.check'));
         }
-        if (emailError || nameError || pwdDiff) {
+        if (emailError || nameError || pwdDiff || pwdError) {
             return;
         }
         fetchUserRegisterForEmailRequest({
@@ -219,7 +220,7 @@ const RegisterBox = (props) => {
     }
 
     const checkName = () => {
-        if (nickname.length < 4) {
+        if (nickname.length < 2) {
             setNameError(true);
         } else {
             setNameError(false);
@@ -264,7 +265,15 @@ const RegisterBox = (props) => {
                             onChange={(value) => {
                                 setPassword(value);
                             }}
+                            onBlur={() => {
+                                if (password.length < 6) {
+                                    setPwdError(true);
+                                } else {
+                                    setPwdError(false);
+                                }
+                            }}
                         />
+                        { pwdError && <p className='error-tips'>{ t('sign.passwordError') }</p> }
                     </div>
                     <div className={cn('item', { 'input-error': pwdDiff })}>
                         <Input
