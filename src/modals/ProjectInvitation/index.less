@@ -188,7 +188,7 @@
       text-align: center;
       line-height: 28px;
       position: absolute;
-      right: 52px;
+      right: 56px;
       top: 50%;
       transform: translateY(-50%);
     }
@@ -202,12 +202,18 @@
     }
 
     .apipost-select {
-      width: 74px;
-      height: 24px;
+      min-width: 74px;
+      height: 28px;
       font-size: var(--size-12px);
       position: absolute;
-      right: 52px;
-      top: 4px;
+      right: 56px !important;
+      top: 50%;
+      transform: translateY(-50%);
+
+      svg {
+        width: 12px !important;
+        height: 12px !important;
+      }
     }
 
     .apipost-btn {
