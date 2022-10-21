@@ -55,7 +55,7 @@ const LoginBox = (props) => {
   const { i18n, t } = useTranslation();
 
   const { search } = useLocation();
-  const { report_id, role_id, team_id: url_team_id } = qs.parse(search.slice(1));
+  const { report_id, role_id, team_id: url_team_id, email: url_email } = qs.parse(search.slice(1));
 
   // 获取极验内容
   const getVcodeUrl = async () => {
@@ -435,7 +435,7 @@ const LoginBox = (props) => {
             className="resign"
             onClick={() => {
               if (role_id) {
-                navigate(`/register?role_id=${role_id}}&team_id=${url_team_id}`)
+                navigate(`/register?role_id=${role_id}}&team_id=${url_team_id}&email=${url_email}`)
               } else {
                 navigate('/register')
               }
