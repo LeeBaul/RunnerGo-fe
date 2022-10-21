@@ -50,6 +50,60 @@ const Scene = () => {
     //      }
     //  }, []);
 
+    const EmptyContent = () => {
+        return <div className="welcome-page">
+            <div className="newTarget">
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        setShowCreate(true)
+                    }}
+                >
+                    <SvgScene />
+                    <h3>{t('btn.createScene')}</h3>
+                </Button>
+                {/* <Button
+                type="primary"
+                onClick={() => {
+                    Bus.$emit('addOpenItem', { type: 'doc' });
+                }}
+            >
+                <SvgMarkdown />
+                <h3>新建 Markdown 文本</h3>
+            </Button>
+            <Button
+                type="primary"
+                onClick={() => {
+                    Bus.$emit('addOpenItem', { type: 'grpc' });
+                }}
+            >
+                <SvgGrpc />
+                <h3>新建 Grpc 接口</h3>
+            </Button> */}
+                {/* <Button
+                type="primary"
+                onClick={() => {
+                    Bus.$emit('addOpenItem', { type: 'websocket' });
+                }}
+            >
+                <SvgWebsocket />
+                <h3>新建 WebSocket 接口</h3>
+            </Button> */}
+            </div>
+            {/* <div className="importProject">
+            <Button
+                type="primary"
+                className="apipost-blue-btn"
+                onClick={() => {
+                    Bus.$emit('openModal', 'ImportProject');
+                }}
+            >
+                快速导入项目
+            </Button>
+        </div> */}
+        </div>
+    };
+
     return (
         <>
             <ScalePanel
@@ -65,11 +119,7 @@ const Scene = () => {
                         Object.entries(open_scene || {}).length > 0 ? <>
                             <SceneHeader from='scene' />
                             <SceneContainer from='scene' />
-                        </> : <div className='empty'>
-                            {/* <SvgEmpty />
-                                       <p>没有数据</p> */}
-                            <Button preFix={<SvgScene />} onClick={() => setShowCreate(true)}>{t('btn.createScene')}</Button>
-                        </div>
+                        </> : <EmptyContent />
                     }
                 </ScaleItem>
             </ScalePanel>

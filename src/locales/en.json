@@ -314,8 +314,8 @@
         "handle": "Operation",
         "contrastText": "Please select 2-5 reports for comparison",
         "create": "New",
-        "update": "Modify",
-        "delete": "Delete",
+        "update": "Mod",
+        "delete": "Del",
         "run": "Run"
     },
     "apis": {
@@ -376,7 +376,7 @@
         "resAssert": "Assertion results",
         "resRegular": "Regular Result",
         "resEmpty": "Enter the url and click the Send button to get the response result",
-        "createApi": "Create a new interface",
+        "createApi": "New API",
         "createFolder": "Create a new directory",
         "importApi": "Import Interface",
         "importProject": "Import Project",
@@ -392,7 +392,7 @@
         "deleteApi": "Delete Interface",
         "editFolder": "Edit Directory",
         "deleteFolder": "Delete Directory",
-        "createHttp": "Create a new Http API",
+        "createHttp": "New HTTP Request",
         "parentFolder": "Parent directory",
         "rootFolder": "Root directory",
         "folderName": "Directory name",

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Scale, Drawer, Input, Button } from 'adesign-react';
-import { Close as SvgClose } from 'adesign-react/icons'
+import { Close as SvgClose, Download as SvgDownload } from 'adesign-react/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import { isObject } from 'lodash';
 import Bus from '@utils/eventBus';
@@ -111,6 +111,60 @@ const PlanDetail = () => {
         )
     };
 
+    const EmptyContent = () => {
+        return <div className="welcome-page">
+            <div className="newTarget">
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        setShowCreate(true)
+                    }}
+                >
+                    <SvgScene />
+                    <h3>{t('btn.createScene')}</h3>
+                </Button>
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        setImportScene(true)
+                    }}
+                >
+                    <SvgDownload />
+                    <h3>{ t('plan.importScene') }</h3>
+                </Button>
+                {/* <Button
+                    type="primary"
+                    onClick={() => {
+                        Bus.$emit('addOpenItem', { type: 'grpc' });
+                    }}
+                >
+                    <SvgGrpc />
+                    <h3>新建 Grpc 接口</h3>
+                </Button> */}
+                {/* <Button
+                type="primary"
+                onClick={() => {
+                    Bus.$emit('addOpenItem', { type: 'websocket' });
+                }}
+            >
+                <SvgWebsocket />
+                <h3>新建 WebSocket 接口</h3>
+            </Button> */}
+            </div>
+            {/* <div className="importProject">
+            <Button
+                type="primary"
+                className="apipost-blue-btn"
+                onClick={() => {
+                    Bus.$emit('openModal', 'ImportProject');
+                }}
+            >
+                快速导入项目
+            </Button>
+        </div> */}
+        </div>
+    };
+
     return (
         <div className='plan-detail'>
             <DetailHeader />
@@ -135,7 +189,7 @@ const PlanDetail = () => {
                 style={{ marginTop: '2px' }}
                 realTimeRender
                 className={ApisWrapper}
-                defaultLayouts={ Object.entries(open_plan_scene || {}).length > 0 ? { 0: { width: 325 }, 1: { width: 905, flex: 1 }, 2: { width: 420 } } : { 0: { width: 325 }, 1: { width: 0, flex: 1 } }}
+                defaultLayouts={Object.entries(open_plan_scene || {}).length > 0 ? { 0: { width: 325 }, 1: { width: 905, flex: 1 }, 2: { width: 420 } } : { 0: { width: 325 }, 1: { width: 0, flex: 1 } }}
             >
                 <ScaleItem className="left-menus" minWidth={325} maxWidth={350}>
                     <TreeMenu type='plan' getSceneName={(e) => setSceneName(e)} onChange={(e) => setImportScene(e)} />
@@ -151,12 +205,12 @@ const PlanDetail = () => {
                                     setImportScene(e)
                                 }
                             }} />
-                        </> : <div className='empty'><Button className="create-btn" preFix={<SvgScene />} onClick={() => setShowCreate(true)}>{t('btn.createScene')}</Button></div>
+                        </> : <EmptyContent />
                     }
                 </ScaleItem>
                 <ScaleItem enableScale={false}>
                     {
-                        open_plan_scene && <TaskConfig from='default' refresh={ open_plan_scene }/>
+                        open_plan_scene && <TaskConfig from='default' refresh={open_plan_scene} />
                     }
                 </ScaleItem>
             </ScalePanel>
