@@ -115,14 +115,7 @@ const Example = (props, forwardsRef) => {
   return (
     <>
       <div ref={refPanel} className="response-example-scale">
-        <ScalePanel
-          ref={forwardsRef}
-          onLayoutsChange={handleLayoutsChange}
-          layouts={contentLayouts}
-          direction={direction}
-        >
-          <ScaleItem minWidth={40} minHeight={40}>
-            {leftMiniMode ? (
+      {leftMiniMode ? (
               <div
                 className={cn('scale-toggle-box', { vertical: direction !== 'horizontal' })}
                 onClick={handleResetLayouts}
@@ -138,25 +131,6 @@ const Example = (props, forwardsRef) => {
                 onChange={handleRawChange}
               />
             )}
-          </ScaleItem>
-          <ScaleItem minWidth={40} minHeight={40} enableScale={false}>
-            {rightMiniMode ? (
-              <div
-                className={cn('scale-toggle-box', { vertical: direction !== 'horizontal' })}
-                onClick={handleResetLayouts}
-              >
-                字段描述
-              </div>
-            ) : (
-              <div
-                className="api_response_panel"
-                style={{ height: '100%', overflowY: 'auto', paddingLeft: '16px' }}
-              >
-                <MarkList list={parameter || []} onChange={onChange.bind(null, 'Parameter')} />
-              </div>
-            )}
-          </ScaleItem>
-        </ScalePanel>
       </div>
     </>
   );
