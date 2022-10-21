@@ -24,6 +24,7 @@ import SvgRunning from '@assets/logo/running';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
+
 const { CollapseItem, Collapse } = Col;
 
 const { Option } = Select;

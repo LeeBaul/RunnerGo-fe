@@ -13,6 +13,7 @@ import SvgRunning from '@assets/logo/running';
 import { cloneDeep } from 'lodash';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import SvgClose from '@assets/logo/close';
 
 const { Option } = Select;
 
@@ -350,7 +351,7 @@ const ConditionController = (props) => {
                         >
                             <div><SvgMore className='more-svg' /></div>
                         </Dropdown> */}
-                        <Button onClick={() => {
+                        <SvgClose onClick={() => {
                               if (from === 'scene') {
                                 dispatch({
                                     type: 'scene/updateDeleteNode',
@@ -362,7 +363,7 @@ const ConditionController = (props) => {
                                     payload: id,
                                 });
                             }
-                        }}>X</Button>
+                        }} />
                     </div>
                 </div>
                 <div className='controller-condition-main'>

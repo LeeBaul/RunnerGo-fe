@@ -11,6 +11,7 @@ import SvgSuccess from '@assets/logo/success';
 import SvgFailed from '@assets/logo/failed';
 import SvgRunning from '@assets/logo/running';
 import { useTranslation } from 'react-i18next';
+import SvgClose from '@assets/logo/close';
 
 import cn from 'classnames';
 
@@ -270,7 +271,7 @@ const WaitController = (props) => {
     //     'running': '',
     // }
 
-    const topBgStyle =  {
+    const topBgStyle = {
         'default': '',
         'success': 'var(--run-green)',
         'failed': 'var(--run-red)',
@@ -316,7 +317,7 @@ const WaitController = (props) => {
             />
             <div className={cn('controller-wait', {
                 selectBox: selectBox
-            })} 
+            })}
                 onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -326,7 +327,7 @@ const WaitController = (props) => {
                 <div className='controller-wait-header' style={{ backgroundColor: topBg }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='type'>
-                            { t('scene.wait') }
+                            {t('scene.wait')}
                         </div>
                         {
                             topStatus[status]
@@ -347,8 +348,8 @@ const WaitController = (props) => {
                         >
                             <div><SvgMore className='more-svg' /></div>
                         </Dropdown> */}
-                        <Button onClick={() => {
-                              if (from === 'scene') {
+                        <SvgClose className='close-icon' onClick={() => {
+                            if (from === 'scene') {
                                 dispatch({
                                     type: 'scene/updateDeleteNode',
                                     payload: id,
@@ -359,7 +360,7 @@ const WaitController = (props) => {
                                     payload: id,
                                 });
                             }
-                        }}>X</Button>
+                        }} />
                     </div>
                 </div>
                 <div className='controller-wait-main'>
