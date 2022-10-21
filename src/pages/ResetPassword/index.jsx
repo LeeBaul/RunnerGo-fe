@@ -15,12 +15,13 @@ const ResetPassword = () => {
     const { search } = useLocation();
     const { u } = qs.parse(search.slice(1));
     const [pwd, setPwd] = useState('');
+    const [pwdError, setPwdError] = useState(false);
     const [confirmPwd, setConfirmPwd] = useState('');
 
     const [pwdDiff, setPwdDiff] = useState(false);
 
     const resetPwd = () => {
-        if (pwdDiff) { 
+        if (pwdDiff || pwdError) {
             return;
         }
 
@@ -53,24 +54,36 @@ const ResetPassword = () => {
     return (
         <div className="reset-password">
             <div className='title'>{t('sign.reset')}</div>
-            <Input
-                className="reset-input"
-                placeholder={t('placeholder.newPwd')}
-                value={pwd}
-                onChange={(value) => {
-                    setPwd(value);
-                }}
-            />
-            <Input
-                className={cn('reset-input', { 'input-error': pwdDiff })}
-                placeholder={t('placeholder.confirmPwd')}
-                value={confirmPwd}
-                onChange={(value) => {
-                    setConfirmPwd(value);
-                }}
-                onBlur={() => checkPwd()}
-            />
-            { pwdDiff && <p className='error-tips'>{ t('sign.confirmError') }</p> }
+            <div>
+                <Input
+                    className="reset-input"
+                    placeholder={t('placeholder.newPwd')}
+                    value={pwd}
+                    onChange={(value) => {
+                        setPwd(value);
+                    }}
+                    onBlur={() => {
+                        if (pwd.length < 6) {
+                            setPwdError(true);
+                        } else {
+                            setPwdError(false);
+                        }
+                    }}
+                />
+                {pwdError && <p className='error-tips'>{t('sign.passwordError')}</p>}
+            </div>
+            <div>
+                <Input
+                    className={cn('reset-input', { 'input-error': pwdDiff })}
+                    placeholder={t('placeholder.confirmPwd')}
+                    value={confirmPwd}
+                    onChange={(value) => {
+                        setConfirmPwd(value);
+                    }}
+                    onBlur={() => checkPwd()}
+                />
+                {pwdDiff && <p className='error-tips'>{t('sign.confirmError')}</p>}
+            </div>
             <Button onClick={() => resetPwd()}>{t('sign.reset')}</Button>
         </div>
     )
