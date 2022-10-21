@@ -23,12 +23,12 @@ export const createGrpc = ({ props, params }) => {
 export const createChildFolder = ({ params, showModal, action }) => {
     Bus.$emit('addOpenItem', { type: 'folder', pid: params.target_id });
 };
-export const modifyFolder = async (target_id, props) => {
+export const modifyFolder = async ({ target_id }, props) => {
     // const folder = await Collection.get(params.target_id);
     // if (!isUndefined(folder) && isPlainObject(folder)) {
     fetchFolderDetail({
         team_id: localStorage.getItem('team_id'),
-        target_id
+        target_id,
     }).subscribe({
         next(res) {
             const { data: { folder } } = res;

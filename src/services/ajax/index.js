@@ -106,6 +106,9 @@ export const rxAjax = (
                 if (resp.response.code === 20004) {
                     Message('error', i18next.t('message.resCode.20004'));
                 }
+                if (resp.response.code === 20005) {
+                    Message('error', i18next.t('message.resCode.20005'));
+                }
                 // if (resp.response.code === 0000) {
                 //     fetchTokenRefresh()
                 //     .pipe(
