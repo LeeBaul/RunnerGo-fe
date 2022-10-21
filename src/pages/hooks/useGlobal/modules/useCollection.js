@@ -18,6 +18,7 @@ import { pushTask } from '@asyncTasks/index';
 import dayjs from 'dayjs';
 import { global$ } from '../global';
 import { fetchSceneList } from '@services/scene';
+import { useParams } from 'react-router-dom';
 
 const useCollection = () => {
     const dispatch = useDispatch();
@@ -127,7 +128,7 @@ const useCollection = () => {
                     } else {
                         global$.next({
                             action: 'RELOAD_LOCAL_PLAN',
-                            id: plan_id,
+                            id: plan_id
                         });
                     }
                 }

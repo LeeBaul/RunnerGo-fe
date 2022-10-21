@@ -281,7 +281,8 @@ const MenuTrees = (props, treeRef) => {
                     ...props,
                     project_id: CURRENT_PROJECT_ID,
                     open_scene,
-                    from: type
+                    from: type,
+                    plan_id: id
                 })}
                 defaultExpandKeys={defaultExpandKeys}
                 onExpandKeysChange={handleExpandsChange}

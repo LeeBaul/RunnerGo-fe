@@ -36,8 +36,8 @@ export const modifyFolder = async ({target_id}, props) => {
     })
     // }
 };
-export const cloneScene = async ({target_id}, props) => {
-    Bus.$emit('cloneScene', target_id);
+export const cloneScene = async ({target_id}, props, a, from, plan_id) => {
+    Bus.$emit('cloneScene', target_id, from, plan_id);
 };
 export const shareFolder = ({ props, params, showModal }) => {
     Bus.$emit('openModal', 'CreateShare', {

@@ -24,6 +24,7 @@ import { APP_VERSION } from '@config/base';
 import { fetchTeamMemberList, fetchTeamList, fetchUserConfig } from '@services/user';
 import Bus, { useEventBus } from '@utils/eventBus';
 import { useNavigate } from 'react-router-dom';
+import { getSceneList$ } from '@rxUtils/scene';
 
 import { fetchDashBoardInfo, fetchRunningPlan } from '@services/dashboard';
 import { fetchApiList } from '@services/apis';
@@ -470,6 +471,36 @@ const useProject = () => {
             .pipe(
                 filter((d) => d.action === 'GET_APILIST'),
                 concatMap(({ params }) => getApiList$(params).pipe(tap(handleInitApiList)))
+            )
+            .subscribe();
+
+        global$
+            .pipe(
+                filter((d) => d.action === 'RELOAD_LOCAL_PLAN'),
+                map((d) => {
+                    return {
+                        params: d.payload,
+                        id: d.id
+                    }
+                }),
+                concatMap((e) => getSceneList$(e.params, 'plan', e.id)),
+                // tap(e => console.log(e)),
+                tap(e => {
+                    const { data: { targets } } = e;
+                    const tempPlanList = {};
+                    if (targets instanceof Array) {
+                        for (let i = 0; i < targets.length; i++) {
+                            tempPlanList[targets[i].target_id] = targets[i];
+                        }
+                    }
+                    dispatch({
+                        type: 'plan/updatePlanMenu',
+                        payload: tempPlanList
+                    })
+                }),
+                tap(() => {
+
+                })
             )
             .subscribe();
 

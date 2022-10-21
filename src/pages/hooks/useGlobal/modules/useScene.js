@@ -580,7 +580,7 @@ const useScene = () => {
             }
         })
     }
-    const cloneScene = (id) => {
+    const cloneScene = (id, from, plan_id) => {
         const query = {
             team_id: localStorage.getItem('team_id'),
             target_id: id,
@@ -597,9 +597,10 @@ const useScene = () => {
                     type: 'scene',
                     pid: 0,
                     param: new_scene,
-                    from: 'scene',
+                    from,
                     clone: true,
                     clone_id,
+                    plan_id
                 })
                 // return from(fetchCreateScene(new_scene));
             }),

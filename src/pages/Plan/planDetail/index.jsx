@@ -34,7 +34,8 @@ const PlanDetail = () => {
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
     const api_now = useSelector((store) => store.plan.api_now);
     const apiConfig = useSelector((store) => store.plan.showApiConfig);
-    console.log(1, open_plan_scene, api_now, apiConfig);
+    const id_apis = useSelector((store) => store.plan.id_apis);
+    // const node_config = useSelector((store) => store.plan.node_config);
 
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
     const [showCreate, setShowCreate] = useState(false);
@@ -79,7 +80,7 @@ const PlanDetail = () => {
             id: api_now.id,
             pathExpression: getPathExpressionObj(type),
             value,
-        });
+        }, id_apis);
     };
 
     const closeApiConfig = () => {
@@ -89,7 +90,7 @@ const PlanDetail = () => {
                 type: 'plan/updateApiConfig',
                 payload: false
             })
-        });
+        }, id_apis);
     };
 
     const DrawerHeader = () => {

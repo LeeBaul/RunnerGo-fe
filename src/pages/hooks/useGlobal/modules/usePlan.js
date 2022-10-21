@@ -16,8 +16,6 @@ import { global$ } from '../global';
 
 const usePlan = () => {
     const dispatch = useDispatch();
-    const id_apis = useSelector((store) => store.plan.id_apis);
-    const node_config = useSelector((store) => store.plan.node_config);
     const savePreConfig = ({ task_type, mode, cron_expr, mode_conf }, callback, plan_id) => {
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -77,7 +75,7 @@ const usePlan = () => {
         })
     };
 
-    const addOpenPlanScene = (id) => {
+    const addOpenPlanScene = (id, id_apis, node_config) => {
         // dispatch({
         //     type: 'plan/updateOpenScene',
         //     payload: {},
@@ -357,7 +355,7 @@ const usePlan = () => {
         ).subscribe();
     };
 
-    const updatePlanApi = (data) => {
+    const updatePlanApi = (data, id_apis) => {
         const { id, pathExpression, value } = data;
 
         set(id_apis[id], pathExpression, value);
@@ -453,38 +451,6 @@ const usePlan = () => {
             payload: _api_now
         });
     }
-
-    useEffect(() => {
-        global$
-            .pipe(
-                filter((d) => d.action === 'RELOAD_LOCAL_PLAN'),
-                map((d) => {
-                    return {
-                        params: d.payload,
-                        id: d.id
-                    }
-                }),
-                concatMap((e) => getSceneList$(e.params, 'plan', e.id)),
-                // tap(e => console.log(e)),
-                tap(e => {
-                    const { data: { targets } } = e;
-                    const tempPlanList = {};
-                    if (targets instanceof Array) {
-                        for (let i = 0; i < targets.length; i++) {
-                            tempPlanList[targets[i].target_id] = targets[i];
-                        }
-                    }
-                    dispatch({
-                        type: 'plan/updatePlanMenu',
-                        payload: tempPlanList
-                    })
-                }),
-                tap(() => {
-
-                })
-            )
-            .subscribe();
-    }, []);
 
     const dragUpdatePlan = ({ ids, targetList }) => {
         const query = {
@@ -615,7 +581,7 @@ const usePlan = () => {
         })
     };
 
-    const savePlanApi = (api_now, callback) => {
+    const savePlanApi = (api_now, callback, id_apis) => {
         const _id_apis = cloneDeep(id_apis);
         api_now.is_changed = false;
         const id = api_now.id;
@@ -667,8 +633,8 @@ const usePlan = () => {
     useEventBus('importSceneList', importSceneList);
     useEventBus('addNewPlanControl', addNewPlanControl);
     useEventBus('importSceneApi', importSceneApi);
-    useEventBus('savePlanApi', savePlanApi, [id_apis]);
-    useEventBus('updatePlanApi', updatePlanApi, [id_apis]);
+    useEventBus('savePlanApi', savePlanApi);
+    useEventBus('updatePlanApi', updatePlanApi);
     useEventBus('runPlan', runPlan);
     useEventBus('stopPlan', stopPlan);
 };

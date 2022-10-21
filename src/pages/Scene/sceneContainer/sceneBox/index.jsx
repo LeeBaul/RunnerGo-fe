@@ -520,10 +520,10 @@ const SceneBox = (props) => {
                 // })
             } else {
                 Bus.$emit('addNewPlanApi', new_node.id, id_apis, node_config, { id }, { id }, from);
-                dispatch({
-                    type: 'plan/updateOpenScene',
-                    payload: _open_data,
-                })
+                // dispatch({
+                //     type: 'plan/updateOpenScene',
+                //     payload: _open_data,
+                // })
             }
             setNodes((nds) => nds.concat(new_node));
         } else if (action === 'add' && type === 'condition_controller') {
