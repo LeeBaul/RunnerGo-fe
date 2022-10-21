@@ -35,6 +35,11 @@ const Scene = () => {
                 })
                 Bus.$emit('addOpenScene', val);
             })
+        } else {
+            dispatch({
+                type: 'scene/updateOpenScene',
+                payload: null
+            })
         }
     }, []);
 
