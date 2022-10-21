@@ -221,12 +221,12 @@ const SceneBox = (props) => {
                 setNodes((nds) => nds.concat(new_node));
 
 
-                if (_open_data.nodes) {
-                    _open_data.nodes.push(new_node);
-                } else {
-                    _open_data.nodes = [new_node];
-                    _open_data.edges = [];
-                }
+                // if (_open_data.nodes) {
+                //     _open_data.nodes.push(new_node);
+                // } else {
+                //     _open_data.nodes = [new_node];
+                //     _open_data.edges = [];
+                // }
             });
             if (from === 'scene') {
                 Bus.$emit('addNewSceneApi', ids, id_apis, node_config, import_node, {}, from);
@@ -240,10 +240,10 @@ const SceneBox = (props) => {
                     type: 'plan/updateImportNode',
                     payload: [],
                 })
-                dispatch({
-                    type: 'plan/updateOpenScene',
-                    payload: _open_data,
-                })
+                // dispatch({
+                //     type: 'plan/updateOpenScene',
+                //     payload: _open_data,
+                // })
             }
         }
     }, [import_node]);

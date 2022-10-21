@@ -573,6 +573,7 @@ const usePlan = () => {
                 const { code, data: { targets } } = res;
                 // 1. 添加nodes节点
                 // 2. 添加id_apis映射
+                console.log(targets);
                 dispatch({
                     type: 'plan/updateImportNode',
                     payload: targets,
