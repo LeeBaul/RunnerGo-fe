@@ -57,11 +57,13 @@ const TaskConfig = (props) => {
     const [planDetail, setPlanDetail] = useState({});
     const task_config = useSelector((store) => store.plan.task_config);
     const open_scene = useSelector((store) => store.plan.open_plan_scene);
+    const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     console.log(open_scene);
     const { id: plan_id } = useParams();
 
     useEffect(() => {
         if (open_scene) {
+            console.log(open_scene);
             const query = {
                 team_id: localStorage.getItem('team_id'),
                 plan_id,
@@ -71,42 +73,56 @@ const TaskConfig = (props) => {
                 next: (res) => {
                     const { data: { plan_task } } = res;
                     if (from === 'default') {
-                        const {
-                            mode,
-                            cron_expr,
-                            mode_conf,
-                            task_type
-                        } = plan_task;
-                        mode && setMode(mode);
-                        cron_expr && setCronExpr(cron_expr);
-                        const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = mode_conf;
-                        concurrency && setConcurrency(concurrency);
-                        duration && setDuration(duration);
-                        max_concurrency && setMaxConcurrency(max_concurrency);
-                        reheat_time && setReheatTime(reheat_time);
-                        round_num && setRoundNum(round_num);
-                        start_concurrency && setStartConcurrency(start_concurrency);
-                        step && setStep(step);
-                        step_run_time && setStepRunTime(step_run_time);
-                        setModeConf(mode_conf);
-                        task_type && setTaskType(task_type);
-                        console.log(plan, mode, concurrency, duration, task_type);
-                        if (mode_conf.round_num !== 0) {
-                            setDefaultMode('round_num');
-                        } else {
-                            setDefaultMode('duration');
-                        }
-                        dispatch({
-                            type: 'plan/updateTaskConfig',
-                            payload: {
+                        if (plan_task) {
+                            const {
                                 mode,
                                 cron_expr,
-                                task_type,
                                 mode_conf,
-                            },
-                        })
+                                task_type
+                            } = plan_task;
+                            mode && setMode(mode);
+                            cron_expr && setCronExpr(cron_expr);
+                            const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = mode_conf;
+                            concurrency && setConcurrency(concurrency);
+                            duration && setDuration(duration);
+                            max_concurrency && setMaxConcurrency(max_concurrency);
+                            reheat_time && setReheatTime(reheat_time);
+                            round_num && setRoundNum(round_num);
+                            start_concurrency && setStartConcurrency(start_concurrency);
+                            step && setStep(step);
+                            step_run_time && setStepRunTime(step_run_time);
+                            setModeConf(mode_conf);
+                            console.log(mode_conf);
+                            task_type && setTaskType(task_type);
+                            if (mode_conf.round_num !== 0) {
+                                setDefaultMode('round_num');
+                            } else {
+                                setDefaultMode('duration');
+                            }
+                            dispatch({
+                                type: 'plan/updateTaskConfig',
+                                payload: {
+                                    mode,
+                                    cron_expr,
+                                    task_type,
+                                    mode_conf,
+                                },
+                            })
+                        } else {
+                            setModeConf({
+                                concurrency: 0,
+                                duration: 0,
+                                max_concurrency: 0,
+                                reheat_time: 0,
+                                round_num: 0,
+                                start_concurrency: 0,
+                                step: 0,
+                                step_run_time: 0,
+                                threshold_value: 0,
+                            })
+                        }
                     }
-                    setPlanDetail(plan);
+                    setPlanDetail(plan_task);
                 }
             })
         }
@@ -247,7 +263,7 @@ const TaskConfig = (props) => {
                     }
                 }}>
                     <Radio value="duration">
-                        <span className='label'>{ t('plan.duration') }: </span>
+                        <span className='label'>{t('plan.duration')}: </span>
                         <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.duration = parseInt(e.target.value);
@@ -259,7 +275,7 @@ const TaskConfig = (props) => {
                         }} disabled={default_mode === 'round_num'} /> s
                     </Radio>
                     <Radio value="round_num">
-                        <span className='label'>{ t('plan.roundNum') }: </span>
+                        <span className='label'>{t('plan.roundNum')}: </span>
                         <Input size="mini" value={mode_conf.round_num} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.round_num = parseInt(e.target.value);
@@ -268,12 +284,12 @@ const TaskConfig = (props) => {
                             // from === 'preset' && onChange('round_num', parseInt(e.target.value));
                             // from === 'default' && 
                             updateTaskConfig('round_num', parseInt(e.target.value));
-                        }} disabled={default_mode === 'duration'} /> { t('plan.second') }
+                        }} disabled={default_mode === 'duration'} /> {t('plan.second')}
                     </Radio>
                 </Radio.Group>
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
-                        <span>{ t('plan.concurrency') }: </span>
+                        <span>{t('plan.concurrency')}: </span>
                         <Input size="mini" value={mode_conf.concurrency} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.concurrency = parseInt(e.target.value);
@@ -285,7 +301,7 @@ const TaskConfig = (props) => {
                         }} />
                     </div>
                     <div className='config-detail-item'>
-                        <span>{ t('plan.reheatTime') }: </span>
+                        <span>{t('plan.reheatTime')}: </span>
                         <Input size="mini" value={mode_conf.reheat_time} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.reheat_time = parseInt(e.target.value);
@@ -306,7 +322,7 @@ const TaskConfig = (props) => {
             <div className='other-config-item'>
                 <div className='other-config-detail'>
                     <div className='config-detail-item'>
-                        <span>{ t('plan.startConcurrency') }: </span>
+                        <span>{t('plan.startConcurrency')}: </span>
                         <Input size="mini" value={mode_conf.start_concurrency} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.start_concurrency = parseInt(e.target.value);
@@ -318,7 +334,7 @@ const TaskConfig = (props) => {
                         }} />
                     </div>
                     <div className='config-detail-item'>
-                        <span>{ t('plan.step') }: </span>
+                        <span>{t('plan.step')}: </span>
                         <Input size="mini" value={mode_conf.step} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.step = parseInt(e.target.value);
@@ -330,7 +346,7 @@ const TaskConfig = (props) => {
                         }} />
                     </div>
                     <div className='config-detail-item'>
-                        <span>{ t('plan.stepRunTime') }: </span>
+                        <span>{t('plan.stepRunTime')}: </span>
                         <Input size="mini" value={mode_conf.step_run_time} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.step_run_time = parseInt(e.target.value);
@@ -342,7 +358,7 @@ const TaskConfig = (props) => {
                         }} />s
                     </div>
                     <div className='config-detail-item'>
-                        <span>{ t('plan.maxConcurrency') }: </span>
+                        <span>{t('plan.maxConcurrency')}: </span>
                         <Input size="mini" value={mode_conf.max_concurrency} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.max_concurrency = parseInt(e.target.value);
@@ -351,10 +367,10 @@ const TaskConfig = (props) => {
                             // from === 'preset' && onChange('max_concurrency', parseInt(e.target.value));
                             // from === 'default' && 
                             updateTaskConfig('max_concurrency', parseInt(e.target.value));
-                        }} />{ t('plan.second') }
+                        }} />{t('plan.second')}
                     </div>
                     <div className='config-detail-item'>
-                        <span>{ t('plan.duration') }: </span>
+                        <span>{t('plan.duration')}: </span>
                         <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
                             const _mode_conf = cloneDeep(mode_conf);
                             _mode_conf.duration = parseInt(e.target.value);
@@ -396,10 +412,12 @@ const TaskConfig = (props) => {
         //         return;
         //     }
         // }
+        console.log(open_scene);
         const params = {
             plan_id: parseInt(plan_id),
+            name: open_scene_name,
             team_id: parseInt(localStorage.getItem('team_id')),
-            name: planDetail.name,
+            scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id,
             ...task_config,
         };
 
@@ -420,12 +438,12 @@ const TaskConfig = (props) => {
         <div className='task-config'>
             {
                 from !== 'preset' && <div className='task-config-header'>
-                    <p>{ t('plan.taskConfig') }</p>
+                    <p>{t('plan.taskConfig')}</p>
                     <div className='btn'>
-                        <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>{ t('btn.save') }</Button>
+                        <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>{t('btn.save')}</Button>
                         <Button className='pre-btn' preFix={<SvgImport style={{ marginRight: '4px' }} />} onClick={() => {
                             getPreConfig(() => init(initData))
-                        }}>{ t('plan.importPre') }</Button>
+                        }}>{t('plan.importPre')}</Button>
                     </div>
                 </div>
             }
@@ -438,26 +456,26 @@ const TaskConfig = (props) => {
                     </Radio.Group>
                 </div> */}
                 <div className='item' style={{ marginBottom: '30px' }}>
-                    <p>{ t('plan.taskType') }: </p>
+                    <p>{t('plan.taskType')}: </p>
                     <Radio.Group value={task_type} onChange={(e) => {
                         setTaskType(e);
                         // from === 'preset' && onChange('task_type', e);
                         // from === 'default' && 
                         updateTaskConfig('task_type', parseInt(e));
                     }}>
-                        <Radio value={1}>{ t('plan.taskList.commonTask') }</Radio>
-                        <Radio value={2}>{ t('plan.taskList.cronTask') }</Radio>
+                        <Radio value={1}>{t('plan.taskList.commonTask')}</Radio>
+                        <Radio value={2}>{t('plan.taskList.cronTask')}</Radio>
                     </Radio.Group>
                 </div>
                 {
                     task_type === 2 && <div className='item' style={{ marginBottom: '20px' }}>
-                        <p style={{ marginRight: '5px' }}>{ t('plan.fillInCron') }: </p>
+                        <p style={{ marginRight: '5px' }}>{t('plan.fillInCron')}: </p>
                         <Input value={cron_expr} onChange={(e) => {
                             setCronExpr(e);
                             // from === 'preset' && onChange('cron_expr', e);
                             // from === 'default' && 
                             updateTaskConfig('cron_expr', e);
-                        }} placeholder={ t('placeholder.cronContent') } />
+                        }} placeholder={t('placeholder.cronContent')} />
                     </div>
                 }
                 {/* <div className='item'>
@@ -466,7 +484,7 @@ const TaskConfig = (props) => {
                 </div>
                 <Table showBorder columns={column} data={data} /> */}
                 <div className='item'>
-                    <p style={{ marginBottom: 'auto', marginTop: '5px' }}>{ t('plan.mode') }: </p>
+                    <p style={{ marginBottom: 'auto', marginTop: '5px' }}>{t('plan.mode')}: </p>
                     <Radio.Group value={mode} onChange={(e) => {
                         setMode(e);
                         // from === 'preset' && onChange('mode', e);
@@ -477,7 +495,7 @@ const TaskConfig = (props) => {
                     </Radio.Group>
                 </div>
                 <div className='other-config'>
-                    <p className='mode-config-title'>{modeList[mode - 1]}  { t('plan.set') }</p>
+                    <p className='mode-config-title'>{modeList[mode - 1]}  {t('plan.set')}</p>
                     {
                         modeContentList[mode]
                     }

@@ -25,7 +25,7 @@ const usePlan = () => {
             mode,
             cron_expr,
             mode_conf,
-            plan_id
+            plan_id: parseInt(plan_id)
         };
 
         fetchCreatePre(params).subscribe({

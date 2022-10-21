@@ -51,6 +51,10 @@ export const DropdownContainer = styled.div`
     height: 32px;
     padding-left: 8px;
     border-radius: 16px;
+
+    .apipost-input {
+      margin-left: 6px;
+    }
   }
 
   .datalist {

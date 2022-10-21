@@ -156,7 +156,7 @@ const PlanDetail = () => {
                 </ScaleItem>
                 <ScaleItem enableScale={false}>
                     {
-                        open_plan_scene && <TaskConfig from='default'/>
+                        open_plan_scene && <TaskConfig from='default' refresh={ open_plan_scene }/>
                     }
                 </ScaleItem>
             </ScalePanel>
