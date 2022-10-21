@@ -36,22 +36,24 @@ const ReportList = () => {
     const [sort, setSort] = useState(0);
 
     const modeList = {
-        '1': '并发模式',
-        '2': '阶梯模式',
-        '3': '错误率模式',
-        '4': '响应时间模式',
-        '5': '每秒请求数模式',
-        '6': '每秒事务数模式',
+        '1': t('plan.modeList.1'),
+        '2': t('plan.modeList.2'),
+        '3': t('plan.modeList.3'),
+        '4': t('plan.modeList.4'),
+        '5': t('plan.modeList.5'),
+        '6': t('plan.modeList.6'),
+        '7': t('plan.modeList.7')
     };
 
     const taskList = {
-        '1': '普通任务',
-        '2': '定时任务',
+        '0': '-',
+        '1': t('plan.taskList.commonTask'),
+        '2': t('plan.taskList.cronTask'),
+        '3': t('plan.taskList.mixTask')
     };
-
     const statusList = {
-        '1': <p style={{ color: 'var(--run-green)' }}>运行中</p>,
-        '2': '已完成',
+        '1': <p style={{ color: 'var(--run-green)' }}>{ t('report.statusList.1') }</p>,
+        '2': t('report.statusList.2'),
     }
 
     const HandleContent = (props) => {
@@ -181,8 +183,9 @@ const ReportList = () => {
             dataIndex: 'task_type',
             filterMultiple: false,
             filters: [
-                { text: "普通任务", value: 1 },
-                { text: "定时任务", value: 2 }
+                { text: t('plan.taskList.commonTask'), value: 1 },
+                { text: t('plan.taskList.cronTask'), value: 2 },
+                { text: t('plan.taskList.mixTask'), value: 3 },
             ],
             onFilter: (value, item) => {
                 setTaskType(value);
@@ -195,11 +198,13 @@ const ReportList = () => {
             dataIndex: 'task_mode',
             filterMultiple: false,
             filters: [
-                { text: "并发模式", value: 1 },
-                { text: "阶梯模式", value: 2 },
-                { text: "错误率模式", value: 3 },
-                { text: "响应时间模式", value: 4 },
-                { text: "每秒请求数模式", value: 5 }
+                { text: t('plan.modeList.1'), value: 1 },
+                { text: t('plan.modeList.2'), value: 2 },
+                { text: t('plan.modeList.3'), value: 3 },
+                { text: t('plan.modeList.4'), value: 4 },
+                { text: t('plan.modeList.5'), value: 5 },
+                { text: t('plan.modeList.6'), value: 6 },
+                { text: t('plan.modeList.7'), value: 7 },
             ],
             onFilter: (value, item) => {
                 setTaskMode(value);
@@ -231,8 +236,8 @@ const ReportList = () => {
             width: 120,
             filterMultiple: false,
             filters: [
-                { text: "运行中", value: 1 },
-                { text: "已完成", value: 2 }
+                { text: t('report.statusList.1'), value: 1 },
+                { text: t('report.statusList.2'), value: 2 }
             ],
             onFilter: (value, item) => {
                 setStatus(value);

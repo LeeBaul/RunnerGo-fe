@@ -43,16 +43,20 @@ const RecentReport = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const modeList = {
-        '1': '并发模式',
-        '2': '阶梯模式',
-        '3': '错误率模式',
-        '4': '响应时间模式',
-        '5': '每秒请求数模式'
+        '1': t('plan.modeList.1'),
+        '2': t('plan.modeList.2'),
+        '3': t('plan.modeList.3'),
+        '4': t('plan.modeList.4'),
+        '5': t('plan.modeList.5'),
+        '6': t('plan.modeList.6'),
+        '7': t('plan.modeList.7')
     };
 
-    const taskLit = {
-        '1': '普通任务',
-        '2': '定时任务',
+    const taskList = {
+        '0': '-',
+        '1': t('plan.taskList.commonTask'),
+        '2': t('plan.taskList.cronTask'),
+        '3': t('plan.taskList.mixTask')
     };
 
 
@@ -105,10 +109,10 @@ const RecentReport = () => {
                                         <div className='ellipsis'>{run_user_name}</div>
                                     </Tooltip>,
                                 task_mode: modeList[task_mode],
-                                task_type: taskLit[task_type],
+                                task_type: taskList[task_type],
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 last_time_sec: status === 1 ? '-' : dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                                status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>运行中</p> : <p>已完成</p>,
+                                status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>{ t('report.statusList.1') }</p> : <p>{ t('report.statusList.2') }</p>,
                                 operation: <HandleContent report_id={report_id} />
                             }
                         });
@@ -177,8 +181,9 @@ const RecentReport = () => {
             dataIndex: 'task_type',
             filterMultiple: false,
             filters: [
-                { text: "普通任务", value: 1 },
-                { text: "定时任务", value: 2 }
+                { text: t('plan.taskList.commonTask'), value: 1 },
+                { text: t('plan.taskList.cronTask'), value: 2 },
+                { text: t('plan.taskList.mixTask'), value: 3 },
             ],
             onFilter: (value, item) => {
                 setTaskType(value);
@@ -191,11 +196,13 @@ const RecentReport = () => {
             dataIndex: 'task_mode',
             filterMultiple: false,
             filters: [
-                { text: "并发模式", value: 1 },
-                { text: "阶梯模式", value: 2 },
-                { text: "错误率模式", value: 3 },
-                { text: "响应时间模式", value: 4 },
-                { text: "每秒请求数模式", value: 5 }
+                { text: t('plan.modeList.1'), value: 1 },
+                { text: t('plan.modeList.2'), value: 2 },
+                { text: t('plan.modeList.3'), value: 3 },
+                { text: t('plan.modeList.4'), value: 4 },
+                { text: t('plan.modeList.5'), value: 5 },
+                { text: t('plan.modeList.6'), value: 6 },
+                { text: t('plan.modeList.7'), value: 7 }
             ],
             onFilter: (value, item) => {
                 console.log(value);
@@ -227,8 +234,8 @@ const RecentReport = () => {
             width: 120,
             filterMultiple: false,
             filters: [
-                { text: "运行中", value: 1 },
-                { text: "已完成", value: 2 }
+                { text: t('report.statusList.1'), value: 1 },
+                { text: t('report.statusList.2'), value: 2 }
             ],
             onFilter: (value, item) => {
                 setStatus(value);

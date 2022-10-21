@@ -168,7 +168,7 @@ const TeamworkLogs = (props) => {
           <Button
             type="primary"
             disabled={page === 1}
-            style={page === 1 ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: 'var(--font-3)' } : {}}
+            style={page === 1 ? { backgroundColor: 'rgba(0, 0, 0, 0.06)', color: 'var(--common-white)' } : { color: 'var(--common-white)' }}
             onClick={() => setPage((pre) => pre - 1)}
           >
             { t('btn.prePage') }

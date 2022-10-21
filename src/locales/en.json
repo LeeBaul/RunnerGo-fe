@@ -106,9 +106,9 @@
         "done": "done",
         "sending": "Sending...",
         "send": "send",
-        "beautify": "beautify",
+        "beautify": "Pretty",
         "simplify": "simplify",
-        "primitive": "Primitive",
+        "primitive": "Raw",
         "cancelSend": "Cancel sending",
         "createScene": "New scene",
         "stopRun": "Stop",
@@ -377,7 +377,7 @@
         "resRegular": "Regular Result",
         "resEmpty": "Enter the url and click the Send button to get the response result",
         "createApi": "New API",
-        "createFolder": "Create a new directory",
+        "createFolder": "New directory",
         "importApi": "Import Interface",
         "importProject": "Import Project",
         "expand": "Expand | Collapse All",
@@ -490,14 +490,17 @@
         "importPre": "Importing Default",
         "taskList": {
             "commonTask": "Common tasks",
-            "cronTask": "Timed tasks"
+            "cronTask": "Timed tasks",
+            "mixTask": "Mixed Tasks"
         },
         "modeList": {
             "1": "QPS Mode",
             "2": "Ladder Mode",
             "3": "Error Rate Mode",
             "4": "Res Time Mode",
-            "5": "RPS Mode"
+            "5": "RPS Mode",
+            "6": "TPS Mode",
+            "7": "Mixed Mode"
         },
         "duration": "Duration",
         "roundNum": "Round",
