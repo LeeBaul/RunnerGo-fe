@@ -129,6 +129,8 @@ const RecentReport = () => {
                     Modal.confirm({
                         title: t('modal.look'),
                         content: t('modal.deleteReport'),
+                        okText: t('btn.ok'),
+                        cancelText: t('btn.cancel'),
                         onOk: () => {
                             deleteReport(report_id);
                         }

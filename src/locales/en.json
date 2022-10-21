@@ -110,7 +110,7 @@
         "simplify": "simplify",
         "primitive": "Primitive",
         "cancelSend": "Cancel sending",
-        "createScene": "Create a new scene",
+        "createScene": "New scene",
         "stopRun": "Stop",
         "addScene": "Add Scene",
         "selectAll": "Select All",
@@ -252,13 +252,13 @@
         "restoreApi": "Restore API",
         "refresh": "Refresh",
         "tips": "Prompt",
-        "now": "current",
+        "now": "",
         "tag": "label",
-        "notSave": "Are you sure to close without saving? If you choose to turn it off, these changes will be lost",
-        "forceClose": "Forced shutdown",
-        "closeNow": "Confirm to close the current",
+        "notSave": "is not saved. Do you want to close it? If you choose to turn it off, these changes will be lost.",
+        "forceClose": "Force close",
+        "closeNow": "",
         "closeOther": "Confirm to close other",
-        "closeNowLast": "A label. If there are unsaved changes, they will be lost"
+        "closeNowLast": " tabs unsaved changes. Your changes will be lost if you force close this tab. Are you sure you want to force close?"
     },
     "column": {
         "teamManage": {
@@ -402,7 +402,7 @@
         "updateOn": "Update on",
         "tips": "Tips",
         "closeConfirm": "Are you sure to close the unsaved current label?",
-        "notSave": "Don't save",
+        "notSave": "Discard Changes",
         "saveAndClose": "Save and Close",
         "closeAllTarget": "Close All Labels",
         "focreCloseAllTarget": "Force Close All Labels",
