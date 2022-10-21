@@ -258,8 +258,8 @@ const Box = (props) => {
 
     const topStatus = {
         'default': <></>,
-        'success': <SvgSuccess className='default' />,
-        'failed': <SvgFailed className='default' />,
+        'success': <SvgSuccess  className='default' />,
+        'failed': <SvgFailed  className='default' />,
         'running': <SvgRunning className='default' />,
         'not-run': <></>,
         'not-hit': <></>,
