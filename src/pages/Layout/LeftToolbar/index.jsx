@@ -39,6 +39,7 @@ const LeftToolbar = () => {
     const [showTheme, setShowTheme] = useState(false);
     const dispatch = useDispatch();
     const theme = useSelector((store) => store.user.theme);
+    const [visible, setVisible] = useState(false);
 
     const leftBarItems = [
         {
@@ -140,6 +141,7 @@ const LeftToolbar = () => {
                                     type: 'user/updateLanGuaGe',
                                     payload: 'en'
                                 })
+                                console.log(refMenu);
                                 refMenu.current.setPopupVisible(false);
                             }}>English</p>
                         </div>
@@ -164,6 +166,8 @@ const LeftToolbar = () => {
         )
     }
 
+    console.log(refMenu);
+
     return (
         <>
             <div className="left-toolbars">
@@ -172,11 +176,12 @@ const LeftToolbar = () => {
                 <Dropdown
                     ref={refMenu}
                     placement="top-left"
+                    onVisibleChange={setVisible}
                     content={
                         <div><MenuList /></div>
                     }
                 >
-                    <div className="left-settings">
+                    <div className={ cn('left-settings', { 'menu-list-active': visible }) }>
                         <SvgSetting />
                         <p>{t('header.menu')}</p>
                     </div>
