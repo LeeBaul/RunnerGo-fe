@@ -321,7 +321,25 @@
         "create": "New",
         "update": "Mod",
         "delete": "Del",
-        "run": "Run"
+        "run": "Run",
+        "logType": {
+            "1": "New Folder",
+            "2": "New API",
+            "3": "New Group",
+            "4": "New Plan",
+            "5": "New Scene",
+            "6": "Modify Folder",
+            "7": "Modify API",
+            "8": "Modify Group",
+            "9": "Modify Plan",
+            "10": "Modify Scene",
+            "11": "Clone Plan",
+            "12": "Delete Report",
+            "13": "Delete Scene",
+            "14": "Delete Plan",
+            "15": "Run Scene",
+            "16": "Run Plan"
+        }
     },
     "apis": {
         "recycle": "Recycle Bin",

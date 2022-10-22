@@ -14,6 +14,24 @@ const HandleLog = (props) => {
     const [showLog, setShowLog] = useState(false);
     const { t } = useTranslation();
     const logList = useSelector((store) => store.teams.logList);
+    const logType = {
+        "1": t('index.logType.1'),
+        "2": t('index.logType.2'),
+        "3": t('index.logType.3'),
+        "4": t('index.logType.4'),
+        "5": t('index.logType.5'),
+        "6": t('index.logType.6'),
+        "7": t('index.logType.7'),
+        "8": t('index.logType.8'),
+        "9": t('index.logType.9'),
+        "10": t('index.logType.10'),
+        "11": t('index.logType.11'),
+        "12": t('index.logType.12'),
+        "13": t('index.logType.13'),
+        "14": t('index.logType.14'),
+        "15": t('index.logType.15'),
+        "16": t('index.logType.16'),
+    }
 
     return (
         <div className='handle-log'>
@@ -37,7 +55,7 @@ const HandleLog = (props) => {
                             </div>
                             <div className='log-item-mid'>
                                 <HandleTags type={item.category} />
-                                <p>{item.name}</p>
+                                <p>{logType[item.operate]} - {item.name}</p>
                             </div>
                             <div className='log-item-right'>
                                 {dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
