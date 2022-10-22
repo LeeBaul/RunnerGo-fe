@@ -569,6 +569,7 @@
         "95%List": "95%响应时间线",
         "99%List": "99%响应时间线",
         "collect": "汇总",
-        "debugEmpty": "请打开debug模式"
+        "debugEmpty": "请打开debug模式",
+        "title": "测试报告"
     }
 }

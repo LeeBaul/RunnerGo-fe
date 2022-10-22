@@ -70,7 +70,7 @@ const App = () => {
 
         if (!u) {
             if (report_id) {
-                navigate(`/report/detail?id=${report_id}`);
+                // navigate(`/report/detail?id=${report_id}`);
             } else {
                 const expire_time_sec = localStorage.getItem('expire_time_sec');
                 const token = localStorage.getItem('kunpeng-token');

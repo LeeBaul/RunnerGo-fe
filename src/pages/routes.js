@@ -11,6 +11,7 @@ import Report from "./Report";
 import Machine from "./Machine";
 import Doc from "./Doc";
 import UserHome from "./UserHome";
+import EmailReport from "./EmailReport";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -75,10 +76,15 @@ const Route = [
         name: 'userhome',
         path: '/userhome/*',
         element: UserHome,
+    },
+    {
+        name: 'emailReport',
+        path: '/email/report',
+        element: EmailReport,
     }
 ];
 
-const ignorePage = ['login', 'register', 'find', 'userhome', 'reset'];
+const ignorePage = ['login', 'register', 'find', 'userhome', 'reset', 'emailReport'];
 
 // export const RoutePages = Route;
 

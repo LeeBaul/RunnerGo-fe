@@ -575,6 +575,7 @@
         "95%List": "95% Response Timeline",
         "99%List": "99% Response Timeline",
         "collect": "Collect",
-        "debugEmpty": "Please turn on Debug mode"
+        "debugEmpty": "Please turn on Debug mode",
+        "title": "Test report"
     }
 }
