@@ -507,6 +507,10 @@
             "6": "TPS Mode",
             "7": "Mixed Mode"
         },
+        "statusList": {
+            "1": "Not running",
+            "2": "Running"
+        },
         "duration": "Duration",
         "roundNum": "Round",
         "concurrency": "concurrency",
@@ -541,6 +545,10 @@
             "1": "debug log",
             "2": "press monitoring",
             "3": "monitored by service"
+        },
+        "statusList": {
+            "1": "Running",
+            "2": "Completed"
         },
         "taskType": "Task Type",
         "dcs": "Distributed",
