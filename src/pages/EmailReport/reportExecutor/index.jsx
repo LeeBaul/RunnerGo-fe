@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 
 const ReportExecutor = (props) => {
     const { data: { user_avatar, user_name, created_time_sec }, onStop, status, runTime } = props;
-    const { t } = useTranslation();
+    const { t } = useTranslation(); 
     const DropRef = useRef(null);
     const [debugName, setDebugName] = useState(t('report.debugList.0'));
     const [stop, setStop] = useState(false);
