@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { fetchDebugLog } from '@services/report';
+import { fetchEmailDebugLog } from '@services/report';
 import { useParams, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
@@ -49,7 +49,7 @@ const DebugLog = (props) => {
             report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
             team_id: sessionStorage.getItem('team_id'),
         };
-        fetchDebugLog(query).subscribe({
+        fetchEmailDebugLog(query).subscribe({
             next: (res) => {
                 const { data } = res;
                 let _data = [];

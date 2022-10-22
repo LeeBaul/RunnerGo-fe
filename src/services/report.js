@@ -49,3 +49,31 @@ export const fetchGetDebug = (
 export const fetchSendReportEmail = (
     params
 ) => ajax('post', '/management/api/v1/report/email_notify', 'json', false, params);
+
+
+
+// 通过邮箱看报告
+
+// 获取当前用户选择的debug模式
+export const fetchEmailGetDebug = (
+    query
+) => ajax('get', '/html/api/v1/report/debug/detail', 'json', false, {}, query);
+
+// 获取debug日志
+export const fetchEmailDebugLog = (
+    query
+) => ajax('get', '/html/api/v1/report/debug', 'json', false, {}, query);
+
+// 获取报告详情
+export const fetchEmailReportDetail = (
+    query
+) => ajax('get', '/html/api/v1/report/detail', 'json', false, {}, query);
+
+// 压力机监控
+export const fetchEmailMachine = (
+    query
+) => ajax('get', '/html/api/v1/report/machine', 'json', false, {}, query);
+// 获取报告任务详情
+export const fetchEmailReportInfo = (
+    query
+) => ajax('get', '/html/api/v1/report/task_detail', 'json', false, {}, query);

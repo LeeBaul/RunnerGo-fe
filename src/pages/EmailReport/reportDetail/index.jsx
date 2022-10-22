@@ -5,7 +5,7 @@ import ReportContent from './reportContent';
 import DebugLog from './debugLog';
 import PressMonitor from './pressMonitor';
 import { useParams, useLocation } from 'react-router-dom';
-import { fetchReportDetail } from '@services/report';
+import { fetchEmailReportDetail } from '@services/report';
 import { useTranslation } from 'react-i18next';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
@@ -48,7 +48,7 @@ const ReportDetail = (props) => {
 		const query = {
 			report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
 		};
-		fetchReportDetail(query).subscribe({
+		fetchEmailReportDetail(query).subscribe({
 			next: (res) => {
 				const { data: { results, end } } = res;
 				const dataList = [];

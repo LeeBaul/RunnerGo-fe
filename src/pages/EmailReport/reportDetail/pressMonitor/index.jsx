@@ -3,7 +3,7 @@ import './index.less';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import { useParams, useLocation } from 'react-router-dom';
-import { fetchMachine } from '@services/report';
+import { fetchEmailMachine } from '@services/report';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import qs from 'qs';
@@ -52,7 +52,7 @@ const PressMonitor = (props) => {
         const query = {
             report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
         };
-        fetchMachine(query).subscribe({
+        fetchEmailMachine(query).subscribe({
             next: (res) => {
                 const { data: { start_time_sec, end_time_sec, metrics } } = res;
                 setStartTime(start_time_sec);

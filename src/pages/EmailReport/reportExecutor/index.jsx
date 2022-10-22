@@ -4,7 +4,7 @@ import avatar from '@assets/logo/avatar.png';
 import { Button, Dropdown, Message } from 'adesign-react';
 import { Down as SvgDown } from 'adesign-react/icons';
 import dayjs from 'dayjs';
-import { fetchSetDebug, fetchGetDebug } from '@services/report';
+import { fetchSetDebug, fetchEmailGetDebug } from '@services/report';
 import { useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import qs from 'qs';
@@ -28,7 +28,7 @@ const ReportExecutor = (props) => {
             report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
             team_id: sessionStorage.getItem('team_id')
         };
-        fetchGetDebug(query).subscribe({
+        fetchEmailGetDebug(query).subscribe({
             next: (res) => {
                 const { data } = res;
 

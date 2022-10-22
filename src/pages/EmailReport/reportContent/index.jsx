@@ -5,7 +5,7 @@ import ReportExecutor from '../reportExecutor';
 import ReportDetail from '../reportDetail';
 import { Tabs as TabList } from 'adesign-react';
 import { TabStyle } from './style';
-import { fetchReportInfo } from '@services/report';
+import { fetchEmailReportInfo } from '@services/report';
 import { useParams, useMatch, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
@@ -58,7 +58,7 @@ const ReportContent = () => {
             report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
             team_id: sessionStorage.getItem('team_id'),
         };
-        fetchReportInfo(query).subscribe({
+        fetchEmailReportInfo(query).subscribe({
             next: (res) => {
                 const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status } } } = res;
                 setHeaderData({
