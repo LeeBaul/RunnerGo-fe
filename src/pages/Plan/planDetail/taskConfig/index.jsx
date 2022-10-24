@@ -609,7 +609,7 @@ const TaskConfig = (props) => {
                         <Radio value="B">全局配置</Radio>
                     </Radio.Group>
                 </div> */}
-                <div className='item' style={{ marginBottom: '30px' }}>
+                {/* <div className='item' style={{ marginBottom: '30px' }}>
                     <p>{t('plan.taskType')}: </p>
                     <Radio.Group value={task_type} onChange={(e) => {
                         setTaskType(e);
@@ -620,8 +620,8 @@ const TaskConfig = (props) => {
                         <Radio value={1}>{t('plan.taskList.commonTask')}</Radio>
                         <Radio value={2}>{t('plan.taskList.cronTask')}</Radio>
                     </Radio.Group>
-                </div>
-                {
+                </div> */}
+                {/* {
                     task_type === 2 && <div className='item' style={{ marginBottom: '20px' }}>
                         <p style={{ marginRight: '5px' }}>{t('plan.fillInCron')}: </p>
                         <Input value={cron_expr} onChange={(e) => {
@@ -631,7 +631,7 @@ const TaskConfig = (props) => {
                             updateTaskConfig('cron_expr', e);
                         }} placeholder={t('placeholder.cronContent')} />
                     </div>
-                }
+                } */}
                 {/* <div className='item'>
                     <p>区域配置: </p>
                     <Switch />
