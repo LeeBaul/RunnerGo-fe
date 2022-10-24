@@ -18,7 +18,7 @@ const Machine = () => {
             <div className="right">
                 <div className="delta"></div>
                 <div className="right-container">
-                    <Group className='radio-group'>
+                    {/* <Group className='radio-group'>
                         <Radio className='radio-group-item'>
                             <span>持续时长</span>
                             <Input />
@@ -35,9 +35,9 @@ const Machine = () => {
                     <div className="right-item">
                         <span>预热</span>
                         <Input />
-                    </div>
+                    </div> */}
 
-                    {/* <div className="right-item">
+                    <div className="right-item">
                         <span>起始并发数</span>
                         <Input />
                     </div>
@@ -56,7 +56,7 @@ const Machine = () => {
                     <div className="right-item" style={{ marginBottom: 0 }}>
                         <span>最大并发数</span>
                         <Input />
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>

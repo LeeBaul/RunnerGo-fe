@@ -63,7 +63,7 @@
         //     z-index: 999;
         // }
 
-        &-container {
+        &-container, &-container-first {
             width: 300px;
             min-height: 220px;
             background-color: var(--bg-3);
@@ -87,6 +87,23 @@
                     width: 130px;
                     height: 29px;
                     margin-left: 10px;
+                }
+            }
+        }
+
+        &-container-first {
+            min-height: 130px !important;
+            align-items: flex-start;
+            padding-left: 16px;
+
+            .right-item {
+                span {
+                    width: 37px;
+                }
+                .apipost-input-inner-wrapper {
+                    width: 130px;
+                    height: 29px;
+                    margin-left: 8px !important;
                 }
             }
         }
