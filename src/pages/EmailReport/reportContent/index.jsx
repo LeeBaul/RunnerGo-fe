@@ -9,7 +9,8 @@ import { fetchEmailReportInfo } from '@services/report';
 import { useParams, useMatch, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
-import SvgLogo from '@assets/logo/runner_dark';
+import SvgLogo1 from '@assets/logo/runner_dark';
+import SvgLogo2 from '@assets/logo/runner_white';
 import LogoRight from '@assets/logo/info_right';
 import SvgRight from '@assets/logo/right';
 import { useTranslation } from 'react-i18next';
@@ -33,6 +34,7 @@ const ReportContent = () => {
     const select_plan = useSelector((store) => (store.plan.select_plan));
     const { t } = useTranslation();
 
+    const theme = useSelector((store) => store.user.theme);
 
     let report_info_t = null;
 
@@ -100,9 +102,9 @@ const ReportContent = () => {
         <div className='report'>
             <LogoRight className='logo-right' />
             <div className='report-logo'>
-                <SvgLogo />
+                {theme === 'dark' ? <SvgLogo1 /> : <SvgLogo2 />}
                 <SvgRight className='svg-right' />
-                <p className='report-logo-title'>{ t('report.title') }</p>
+                <p className='report-logo-title'>{t('report.title')}</p>
             </div>
             <ReportHeader data={headerData} status={reportStatus} />
             <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
