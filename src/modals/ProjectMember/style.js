@@ -61,19 +61,30 @@ export const ProjectMemberModal = css`
         }
     }
     .default-power {
-        width: 90px;
+        // width: 90px;
+        // padding: 0 8px;
         height: 36px;
         text-align: center;
         line-height: 36px;
         border: 1px solid var(--select);
         border-radius: 5px;
-        cursor: pointer
+        cursor: pointer;
+        font-size: 12px;
     }
 
     .apipost-select {
-        width: 78px;
+        // width: 78px;
+        width: 100%;
         border: 1px solid var(--select);
         border-radius: 5px;
+
+        .apipost-select-view-text {
+            display: flex;
+            justify-content: center;
+        }
+    }
+    .apipost-table-td {
+        text-align: center;
     }
   }
 `;
