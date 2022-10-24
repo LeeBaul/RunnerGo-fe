@@ -9,6 +9,8 @@ import { cloneDeep } from 'lodash';
 import { fetchPlanDetail, fetchSavePlan, fetchGetTask } from '@services/plan';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
+const { Group } = Radio;
 
 const TaskConfig = (props) => {
     const { from, onChange } = props;
@@ -244,75 +246,226 @@ const TaskConfig = (props) => {
         })
     }
 
+
     // 并发模式
-    const ConcurrentMode = () => {
+    const TaskConfig = () => {
         return (
-            <div className='other-config-item'>
-                <Radio.Group value={default_mode} onChange={(e) => {
-                    setDefaultMode(e);
-                    // console.log(e);
-                    const _mode_conf = cloneDeep(mode_conf);
-                    if (e === 'duration') {
-                        _mode_conf.round_num = 0;
-                        setModeConf(_mode_conf);
-                        updateTaskConfig('round_num', 0);
-                    } else if (e === 'round_num') {
-                        _mode_conf.duration = 0;
-                        setModeConf(_mode_conf);
-                        updateTaskConfig('duration', 0);
-                    }
-                }}>
-                    <Radio value="duration">
-                        <span className='label'>{t('plan.duration')}: </span>
-                        <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
-                            const _mode_conf = cloneDeep(mode_conf);
-                            _mode_conf.duration = parseInt(e.target.value);
-                            // setDuration(parseInt(e.target.value));
-                            setModeConf(_mode_conf);
-                            // from === 'preset' && onChange('duration', parseInt(e.target.value));
-                            // from === 'default' && 
-                            updateTaskConfig('duration', parseInt(e.target.value));
-                        }} disabled={default_mode === 'round_num'} /> s
-                    </Radio>
-                    <Radio value="round_num">
-                        <span className='label'>{t('plan.roundNum')}: </span>
-                        <Input size="mini" value={mode_conf.round_num} onBlur={(e) => {
-                            const _mode_conf = cloneDeep(mode_conf);
-                            _mode_conf.round_num = parseInt(e.target.value);
-                            // setRoundNum(_mode_conf);
-                            setModeConf(_mode_conf);
-                            // from === 'preset' && onChange('round_num', parseInt(e.target.value));
-                            // from === 'default' && 
-                            updateTaskConfig('round_num', parseInt(e.target.value));
-                        }} disabled={default_mode === 'duration'} /> {t('plan.second')}
-                    </Radio>
-                </Radio.Group>
-                <div className='other-config-detail'>
-                    <div className='config-detail-item'>
-                        <span>{t('plan.concurrency')}: </span>
-                        <Input size="mini" value={mode_conf.concurrency} onBlur={(e) => {
-                            const _mode_conf = cloneDeep(mode_conf);
-                            _mode_conf.concurrency = parseInt(e.target.value);
-                            // setConcurrency(_mode_conf);
-                            setModeConf(_mode_conf);
-                            // from === 'preset' && onChange('concurrency', parseInt(e.target.value));
-                            // from === 'default' && 
-                            updateTaskConfig('concurrency', parseInt(e.target.value));
-                        }} />
-                    </div>
-                    <div className='config-detail-item'>
-                        <span>{t('plan.reheatTime')}: </span>
-                        <Input size="mini" value={mode_conf.reheat_time} onBlur={(e) => {
-                            const _mode_conf = cloneDeep(mode_conf);
-                            _mode_conf.reheat_time = parseInt(e.target.value);
-                            setModeConf(_mode_conf);
-                            // from === 'preset' && onChange('reheat_time', parseInt(e.target.value));
-                            // from === 'default' && 
-                            updateTaskConfig('reheat_time', parseInt(e.target.value));
-                        }} />s
+            <div className="task-config-detail">
+                <div className="left">
+                    <div className="left-container">
+                        {
+                            modeList.map((item, index) => (
+                                <p 
+                                    className={ cn({ select: parseInt(mode) === index + 1 })} 
+                                    key={index}
+                                    onClick={() => {
+                                        setMode(index + 1);
+                                        updateTaskConfig('mode', index + 1);
+                                    }}
+                                >
+                                    { item }
+                                </p>
+                            ))
+                        }
                     </div>
                 </div>
+                <div className="right">
+                    {
+                        mode === 1 ? <div className="right-container-first">
+                            <Group className='radio-group' value={default_mode} onChange={(e) => {
+                                setDefaultMode(e);
+                                // console.log(e);
+                                const _mode_conf = cloneDeep(mode_conf);
+                                if (e === 'duration') {
+                                    _mode_conf.round_num = 0;
+                                    setModeConf(_mode_conf);
+                                    updateTaskConfig('round_num', 0);
+                                } else if (e === 'round_num') {
+                                    _mode_conf.duration = 0;
+                                    setModeConf(_mode_conf);
+                                    updateTaskConfig('duration', 0);
+                                }
+                            }}>
+                                <Radio className='radio-group-item' value="duration">
+                                    <span>{t('plan.duration')}: </span>
+                                    <Input value={mode_conf.duration} onBlur={(e) => {
+                                        const _mode_conf = cloneDeep(mode_conf);
+                                        _mode_conf.duration = parseInt(e.target.value);
+                                        // setDuration(parseInt(e.target.value));
+                                        setModeConf(_mode_conf);
+                                        // from === 'preset' && onChange('duration', parseInt(e.target.value));
+                                        // from === 'default' && 
+                                        updateTaskConfig('duration', parseInt(e.target.value));
+                                    }} disabled={default_mode === 'round_num'} />
+                                </Radio>
+                                <Radio className='radio-group-item' value="round_num">
+                                    <span>{t('plan.roundNum')}: </span>
+                                    <Input value={mode_conf.round_num} onBlur={(e) => {
+                                        const _mode_conf = cloneDeep(mode_conf);
+                                        _mode_conf.round_num = parseInt(e.target.value);
+                                        // setRoundNum(_mode_conf);
+                                        setModeConf(_mode_conf);
+                                        // from === 'preset' && onChange('round_num', parseInt(e.target.value));
+                                        // from === 'default' && 
+                                        updateTaskConfig('round_num', parseInt(e.target.value));
+                                    }} disabled={default_mode === 'duration'} />
+                                </Radio>
+                            </Group>
+                            <div className="right-item">
+                                <span>{t('plan.concurrency')}: </span>
+                                <Input value={mode_conf.concurrency} onBlur={(e) => {
+                                    const _mode_conf = cloneDeep(mode_conf);
+                                    _mode_conf.concurrency = parseInt(e.target.value);
+                                    // setConcurrency(_mode_conf);
+                                    setModeConf(_mode_conf);
+                                    // from === 'preset' && onChange('concurrency', parseInt(e.target.value));
+                                    // from === 'default' && 
+                                    updateTaskConfig('concurrency', parseInt(e.target.value));
+                                }} />
+                            </div>
+                            <div className="right-item">
+                                <span>{t('plan.reheatTime')}: </span>
+                                <Input value={mode_conf.reheat_time} onBlur={(e) => {
+                                    const _mode_conf = cloneDeep(mode_conf);
+                                    _mode_conf.reheat_time = parseInt(e.target.value);
+                                    setModeConf(_mode_conf);
+                                    // from === 'preset' && onChange('reheat_time', parseInt(e.target.value));
+                                    // from === 'default' && 
+                                    updateTaskConfig('reheat_time', parseInt(e.target.value));
+                                }} />
+                            </div>
+                        </div>
+                            : <div className="right-container">
+                                <div className="right-item">
+                                    <span>{t('plan.startConcurrency')}: </span>
+                                    <Input value={mode_conf.start_concurrency} onBlur={(e) => {
+                                        const _mode_conf = cloneDeep(mode_conf);
+                                        _mode_conf.start_concurrency = parseInt(e.target.value);
+                                        // setStartConcurrency(parseInt(e.target.value));
+                                        setModeConf(_mode_conf);
+                                        // from === 'preset' && onChange('start_concurrency', parseInt(e.target.value));
+                                        // from === 'default' && 
+                                        updateTaskConfig('start_concurrency', parseInt(e.target.value));
+                                    }} />
+                                </div>
+                                <div className="right-item">
+                                    <span>{t('plan.step')}: </span>
+                                    <Input value={mode_conf.step} onBlur={(e) => {
+                                        const _mode_conf = cloneDeep(mode_conf);
+                                        _mode_conf.step = parseInt(e.target.value);
+                                        // setStep(parseInt(e.target.value));
+                                        setModeConf(_mode_conf);
+                                        // from === 'preset' && onChange('step', parseInt(e.target.value));
+                                        // from === 'default' && 
+                                        updateTaskConfig('step', parseInt(e.target.value));
+                                    }} />
+                                </div>
+                                <div className="right-item">
+                                    <span>{t('plan.stepRunTime')}: </span>
+                                    <Input value={mode_conf.step_run_time} onBlur={(e) => {
+                                        const _mode_conf = cloneDeep(mode_conf);
+                                        _mode_conf.step_run_time = parseInt(e.target.value);
+                                        // setStepRunTime(parseInt(e.target.value));
+                                        setModeConf(_mode_conf);
+                                        // from === 'preset' && onChange('step_run_time', parseInt(e.target.value));
+                                        // from === 'default' && 
+                                        updateTaskConfig('step_run_time', parseInt(e.target.value));
+                                    }} />
+                                </div>
+                                <div className="right-item">
+                                    <span>{t('plan.maxConcurrency')}: </span>
+                                    <Input value={mode_conf.max_concurrency} onBlur={(e) => {
+                                        const _mode_conf = cloneDeep(mode_conf);
+                                        _mode_conf.max_concurrency = parseInt(e.target.value);
+                                        // setMaxConcurrency(parseInt(e.target.value));
+                                        setModeConf(_mode_conf);
+                                        // from === 'preset' && onChange('max_concurrency', parseInt(e.target.value));
+                                        // from === 'default' && 
+                                        updateTaskConfig('max_concurrency', parseInt(e.target.value));
+                                    }} />
+                                </div>
+                                <div className="right-item" style={{ marginBottom: 0 }}>
+                                    <span>{t('plan.duration')}: </span>
+                                    <Input value={mode_conf.duration} onBlur={(e) => {
+                                        const _mode_conf = cloneDeep(mode_conf);
+                                        _mode_conf.duration = parseInt(e.target.value);
+                                        // setDuration(parseInt(e.target.value));
+                                        setModeConf(_mode_conf);
+                                        // from === 'preset' && onChange('duration', parseInt(e.target.value));
+                                        // from === 'default' && 
+                                        updateTaskConfig('duration', parseInt(e.target.value));
+                                    }} />
+                                </div>
+                            </div>
+                    }
+                </div>
             </div>
+            // <div className='other-config-item'>
+            //     <Radio.Group value={default_mode} onChange={(e) => {
+            //         setDefaultMode(e);
+            //         // console.log(e);
+            //         const _mode_conf = cloneDeep(mode_conf);
+            //         if (e === 'duration') {
+            //             _mode_conf.round_num = 0;
+            //             setModeConf(_mode_conf);
+            //             updateTaskConfig('round_num', 0);
+            //         } else if (e === 'round_num') {
+            //             _mode_conf.duration = 0;
+            //             setModeConf(_mode_conf);
+            //             updateTaskConfig('duration', 0);
+            //         }
+            //     }}>
+            //         <Radio value="duration">
+            //             <span className='label'>{t('plan.duration')}: </span>
+            //             <Input size="mini" value={mode_conf.duration} onBlur={(e) => {
+            //                 const _mode_conf = cloneDeep(mode_conf);
+            //                 _mode_conf.duration = parseInt(e.target.value);
+            //                 // setDuration(parseInt(e.target.value));
+            //                 setModeConf(_mode_conf);
+            //                 // from === 'preset' && onChange('duration', parseInt(e.target.value));
+            //                 // from === 'default' && 
+            //                 updateTaskConfig('duration', parseInt(e.target.value));
+            //             }} disabled={default_mode === 'round_num'} /> s
+            //         </Radio>
+            //         <Radio value="round_num">
+            //             <span className='label'>{t('plan.roundNum')}: </span>
+            //             <Input size="mini" value={mode_conf.round_num} onBlur={(e) => {
+            //                 const _mode_conf = cloneDeep(mode_conf);
+            //                 _mode_conf.round_num = parseInt(e.target.value);
+            //                 // setRoundNum(_mode_conf);
+            //                 setModeConf(_mode_conf);
+            //                 // from === 'preset' && onChange('round_num', parseInt(e.target.value));
+            //                 // from === 'default' && 
+            //                 updateTaskConfig('round_num', parseInt(e.target.value));
+            //             }} disabled={default_mode === 'duration'} /> {t('plan.second')}
+            //         </Radio>
+            //     </Radio.Group>
+            //     <div className='other-config-detail'>
+            //         <div className='config-detail-item'>
+            //             <span>{t('plan.concurrency')}: </span>
+            //             <Input size="mini" value={mode_conf.concurrency} onBlur={(e) => {
+            //                 const _mode_conf = cloneDeep(mode_conf);
+            //                 _mode_conf.concurrency = parseInt(e.target.value);
+            //                 // setConcurrency(_mode_conf);
+            //                 setModeConf(_mode_conf);
+            //                 // from === 'preset' && onChange('concurrency', parseInt(e.target.value));
+            //                 // from === 'default' && 
+            //                 updateTaskConfig('concurrency', parseInt(e.target.value));
+            //             }} />
+            //         </div>
+            //         <div className='config-detail-item'>
+            //             <span>{t('plan.reheatTime')}: </span>
+            //             <Input size="mini" value={mode_conf.reheat_time} onBlur={(e) => {
+            //                 const _mode_conf = cloneDeep(mode_conf);
+            //                 _mode_conf.reheat_time = parseInt(e.target.value);
+            //                 setModeConf(_mode_conf);
+            //                 // from === 'preset' && onChange('reheat_time', parseInt(e.target.value));
+            //                 // from === 'default' && 
+            //                 updateTaskConfig('reheat_time', parseInt(e.target.value));
+            //             }} />s
+            //         </div>
+            //     </div>
+            // </div>
         )
     }
 
@@ -386,13 +539,13 @@ const TaskConfig = (props) => {
         )
     }
 
-    const modeContentList = {
-        '1': <ConcurrentMode />,
-        '2': <CommonMode />,
-        '3': <CommonMode />,
-        '4': <CommonMode />,
-        '5': <CommonMode />,
-    };
+    // const modeContentList = {
+    //     '1': <ConcurrentMode />,
+    //     '2': <CommonMode />,
+    //     '3': <CommonMode />,
+    //     '4': <CommonMode />,
+    //     '5': <CommonMode />,
+    // };
 
     const savePlan = () => {
         // if (mode === 1) {
@@ -485,19 +638,18 @@ const TaskConfig = (props) => {
                 <Table showBorder columns={column} data={data} /> */}
                 <div className='item'>
                     <p style={{ marginBottom: 'auto', marginTop: '5px' }}>{t('plan.mode')}: </p>
-                    <Radio.Group value={mode} onChange={(e) => {
+                    {/* <Radio.Group value={mode} onChange={(e) => {
                         setMode(e);
                         // from === 'preset' && onChange('mode', e);
                         // from === 'default' && 
                         updateTaskConfig('mode', parseInt(e));
                     }} >
                         {modeList.map((item, index) => (<Radio value={index + 1} style={{ marginBottom: '16px' }}>{item}</Radio>))}
-                    </Radio.Group>
+                    </Radio.Group> */}
                 </div>
                 <div className='other-config'>
-                    <p className='mode-config-title'>{modeList[mode - 1]}  {t('plan.set')}</p>
                     {
-                        modeContentList[mode]
+                        <TaskConfig />
                     }
                 </div>
             </div>

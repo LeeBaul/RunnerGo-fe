@@ -1,24 +1,28 @@
 .task-config {
   padding: 16px;
-  min-width: 420px;
+  min-width: 454px;
   width: 420px;
   // height: 533px;
   height: 100%;
-  color: var(--font-1);
+  color: var(--font-1) !important;
   background: var(--bg-2);
   border-radius: 0px 5px 5px 0px;
+
   &-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 35px;
+
     p {
       font-size: 14px;
       font-weight: 600;
     }
+
     .btn {
       display: flex;
       align-items: center;
+
       .save {
         width: 60px;
         height: 25px;
@@ -27,6 +31,7 @@
         padding: 8px;
         color: #fff;
         margin-right: 16px;
+
         svg {
           fill: #fff;
           margin-right: 6px;
@@ -34,6 +39,7 @@
       }
     }
   }
+
   &-container {
     display: flex;
     flex-direction: column;
@@ -54,8 +60,8 @@
     .other-config {
       box-sizing: border-box;
       padding: 10px;
-      border: 1px solid var(--bg-4);
-      border-radius: 5px;
+      // border: 1px solid var(--bg-4);
+      // border-radius: 5px;
       display: flex;
       flex-direction: column;
       // height: 94px;
@@ -68,6 +74,7 @@
 
       &-item {
         margin-top: 15px;
+
         .apipost-radio-group {
           display: flex;
           flex-wrap: wrap;
@@ -100,10 +107,12 @@
             display: flex;
             align-items: center;
             margin-top: 15px;
+
             span {
               white-space: nowrap;
               width: 130px;
             }
+
             .apipost-input-inner-wrapper {
               width: 180px;
               margin-left: 20px;
@@ -117,16 +126,139 @@
     .apipost-table-th {
       background-color: var(--bg-3);
     }
+
     .apipost-table-td {
       color: var(--font-1);
       height: 30px;
     }
+
     .apipost-radio-group,
     .apipost-switch {
       margin-left: 4px;
     }
+
     .apipost-radio-wrapper {
       // margin-top: 18px;
     }
   }
+}
+
+
+.task-config-detail {
+  display: flex;
+
+  .left {
+    display: flex;
+    align-items: center;
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 220px;
+      padding-top: 16px;
+
+      p {
+        margin-bottom: 34px;
+        cursor: pointer;
+      }
+
+      .select {
+        color: var(--theme-color);
+      }
+    }
+  }
+
+  .right {
+    margin-left: 15px;
+    position: relative;
+
+    .radio-group {
+      display: flex;
+      margin-bottom: 12px;
+
+      &-item {
+        display: flex;
+        align-items: center;
+
+        .apipost-radio-children {
+          display: flex;
+          align-items: center;
+        }
+
+        span {
+          white-space: nowrap;
+        }
+
+        .apipost-input-inner-wrapper {
+          width: 60px;
+          height: 29px;
+          margin-left: 2px;
+        }
+      }
+    }
+
+    // .delta {
+    //     position: absolute;
+    //     width: 0;
+    //     height: 0;
+    //     border: 20px solid;
+    //     border-color: transparent #f00 transparent transparent;
+    //     // border-right: #f00;
+    //     top: 0;
+    //     z-index: 999;
+    // }
+
+    &-container,
+    &-container-first {
+      width: 300px;
+      min-height: 220px;
+      background-color: var(--bg-3);
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+      border-radius: 6px;
+
+      .right-item {
+        display: flex;
+        margin-bottom: 16px;
+        align-items: center;
+
+        span {
+          width: 73px;
+          white-space: nowrap;
+        }
+
+        .apipost-input-inner-wrapper {
+          width: 130px;
+          height: 29px;
+          margin-left: 10px;
+        }
+      }
+    }
+
+    &-container-first {
+      min-height: 130px !important;
+      align-items: flex-start;
+      padding-left: 16px;
+
+      .right-item {
+        span {
+          width: 37px;
+        }
+
+        .apipost-input-inner-wrapper {
+          width: 130px;
+          height: 29px;
+          margin-left: 8px !important;
+        }
+      }
+    }
+  }
+}
+
+.apipost-radio-wrapper {
+  color: var(--font-1) !important;
 }
