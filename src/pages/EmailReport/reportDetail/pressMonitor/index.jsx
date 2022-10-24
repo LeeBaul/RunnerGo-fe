@@ -69,10 +69,12 @@ const PressMonitor = (props) => {
         // let x_data = [];
         // let y_data = [];
         data.forEach(item => {
-            if (`${item[0].length === 10}`) {
+            if (`${item[0]}`.length === 10) {
                 item[0] = item[0] * 1000;
+                console.log(item[0]);
             }
         })
+        console.log(data);
         let option = {
             title: {
                 text: name,
@@ -96,6 +98,7 @@ const PressMonitor = (props) => {
                 },
                 axisLabel: {
                     formatter: function (val) {
+                        console.log(val);
                        return dayjs(val).format('HH:mm')
                     }
                 }

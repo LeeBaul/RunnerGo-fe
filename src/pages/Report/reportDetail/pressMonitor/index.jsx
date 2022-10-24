@@ -69,9 +69,10 @@ const PressMonitor = (props) => {
         // let x_data = [];
         // let y_data = [];
         data.forEach(item => {
-            item[0] = item[0] * 1000;
+            if (`${item[0]}`.length === 10) {
+                item[0] = item[0] * 1000;
+            }
         })
-        console.log(data);
         let option = {
             title: {
                 text: name,
