@@ -200,7 +200,6 @@ const useScene = () => {
     }
 
     const addNewSceneApi = (id, id_apis = {}, node_config = {}, api = {}, config = {}, from) => {
-
         let _id = isArray(id) ? id : [id];
         let _api = isArray(api) ? api : [api];
         let _config = isArray(config) ? config : [config];
@@ -439,7 +438,6 @@ const useScene = () => {
     }
 
     const addOpenScene = (id) => {
-        console.log(id, id_apis, node_config);
         // dispatch({
         //     type: 'scene/updateOpenScene',
         //     payload: null,
@@ -491,7 +489,6 @@ const useScene = () => {
         fetchSceneFlowDetail(query).subscribe({
             next: (res) => {
                 const { data } = res;
-                console.log(data);
                 if (data && data.nodes && data.nodes.length > 0) {
                     const { nodes } = data;
                     const idList = [];
@@ -929,7 +926,6 @@ const useScene = () => {
     };
 
     const openRecordScene = (sceneDatas) => {
-        console.log(99898)
         const open_scene = localStorage.getItem('open_scene');
         if (typeof open_scene === 'object' && Object.entries(open_scene || {}).length > 0) {
             const { scene_id, name } = open_scene;
@@ -937,14 +933,11 @@ const useScene = () => {
                 type: 'scene/updateOpenName',
                 payload: name,
             })
-            console.log(111);
             addOpenScene({ target_id: scene_id });
         }
-        console.log(sceneDatas);
     };
 
     const recordOpenScene = () => {
-        console.log(open_scene, open_scene_name);
         if (Object.entries(open_scene).length > 0) {
             const scene = {
                 scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id,
