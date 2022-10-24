@@ -95,6 +95,7 @@ const PressMonitor = (props) => {
                 },
                 axisLabel: {
                     formatter: function (val) {
+                        console.log(val);
                        return dayjs(val).format('HH:mm')
                     }
                 }

@@ -48,22 +48,31 @@ const Pagination = (props) => {
                 }
             </Select>
             {/* <Button onClick={() => onChange && onChange(1, pageSize)}>首页</Button> */}
-            <Button onClick={() => {
-                if (currentPage - 1 > 0) {
-                    onChange && onChange(currentPage - 1, pageSize);
-                    setCurrentPage(currentPage - 1);
-                }
-            }}>{ t('btn.prePage') }</Button>
+            <Button
+                disabled={ currentPage === 1 }
+                style={currentPage === 1 ? { backgroundColor: 'var(--select)', color: 'var(--font-1)' } : { backgroundColor: 'var(--theme-color)', color: 'var(--common-white)' }}
+                onClick={() => {
+                    if (currentPage - 1 > 0) {
+                        onChange && onChange(currentPage - 1, pageSize);
+                        setCurrentPage(currentPage - 1);
+                    }
+                }}
+            >{t('btn.prePage')}</Button>
             <div className='paging-content'>
                 <Input value={currentPage} onChange={(e) => setCurrentPage(parseInt(e))} />
             </div>
-            <Button onClick={() => {
-                if (currentPage + 1 <= maxPage) {
-                    onChange && onChange(currentPage + 1, pageSize);
-                    setCurrentPage(currentPage + 1);
+            <Button
+                disabled={ currentPage === maxPage }
+                style={
+                    currentPage === maxPage ? { backgroundColor: 'var(--select)', color: 'var(--font-1)' } : { backgroundColor: 'var(--theme-color)', color: 'var(--common-white)' }
                 }
-            }}>{ t('btn.nextPage') }</Button>
-            <Button onClick={() => onChange && onChange(currentPage, pageSize)}>{ t('btn.jump') }</Button>
+                onClick={() => {
+                    if (currentPage + 1 <= maxPage) {
+                        onChange && onChange(currentPage + 1, pageSize);
+                        setCurrentPage(currentPage + 1);
+                    }
+                }}>{t('btn.nextPage')}</Button>
+            <Button onClick={() => onChange && onChange(currentPage, pageSize)}>{t('btn.jump')}</Button>
             {/* <Button onClick={() => onChange(pageNum.length, pageSize)}>尾页</Button> */}
         </div>
     )
