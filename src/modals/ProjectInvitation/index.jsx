@@ -64,6 +64,11 @@ const InvitationModal = (props) => {
 
   const [userRole, setUserRole] = useState(null);
 
+  const [addLength, setAddLength] = useState(0);
+  const [unRegister, setUnRegister] = useState(0);
+  const [unEmail, setUnEmail] = useState([]);
+  const [invitateSuccess, setInvitateSuccess] = useState(false);
+
   const changeTeamInvitation = (type, invitationPersonnel) => {
     const inputTempValue = invitationPersonnel?.email || inputValue.trim();
     const selectTempValue = selectValue;
@@ -409,9 +414,13 @@ const InvitationModal = (props) => {
       fetchInviteMember(params)
         .pipe(
           tap((res) => {
-            const { code } = res;
+            const { code, data: { register_num, un_register_emails, un_register_num } } = res;
 
             if (code === 0) {
+              setAddLength(addList.length);
+              setUnRegister(un_register_num);
+              setUnEmail(un_register_emails);
+              setInvitateSuccess(true);
               Message('success', t('message.invitateSuccess'));
               Bus.$emit('getTeamMemberList');
               setAddList([]);
@@ -511,6 +520,27 @@ const InvitationModal = (props) => {
           onCancel={PayAddSuccessModalClose}
         />
       )}
+      {
+        invitateSuccess &&
+        <Modal
+          className='invitate-result'
+          visible
+          title={null}
+          footer={null}
+        >
+          <p className='title'>添加结果通过</p>
+          <p className='message'>成功添加{addLength}人 | 未注册{unRegister}人, 已邮箱通知全部受邀人</p>
+          <div className='container'>
+            <div className='un-register-email'>
+              <p className='title'>未注册邮箱地址: </p>
+              {
+                unEmail.map((item, index) => <p className='email' key={index}>{item}</p>)
+              }
+            </div>
+            <Button onClick={() => setInvitateSuccess(false)}>确定</Button>
+          </div>
+        </Modal>
+      }
       <PaymentModal
         visible={payvisible}
         setvisible={() => {
