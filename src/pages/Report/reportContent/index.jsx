@@ -26,6 +26,7 @@ const ReportContent = () => {
     const [stopDebug, setStopDebug] = useState('stop');
     const [reportStatus, setReportStatus] = useState(1);
     const [runTime, setRunTime] = useState(0);
+    const [planId, setPlanId] = useState(null);
     const select_plan = useSelector((store) => (store.plan.select_plan));
 
 
@@ -55,7 +56,8 @@ const ReportContent = () => {
         };
         fetchReportInfo(query).subscribe({
             next: (res) => {
-                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status, scene_name } } } = res;
+                const { data: { report: { plan_name, plan_id, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status, scene_name } } } = res;
+                setPlanId(plan_id);
                 setHeaderData({
                     plan_name,
                     scene_name
@@ -68,7 +70,8 @@ const ReportContent = () => {
                 setConfigData({
                     task_mode,
                     task_type,
-                    mode_conf
+                    mode_conf,
+                    plan_id,
                 });
                 setReportStatus(task_status);
                 if (task_status === 2) {
@@ -100,7 +103,7 @@ const ReportContent = () => {
                         <ReportHeader data={headerData} status={reportStatus} />
                         <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
 
-                        <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} />
+                        <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={planId} />
                     </>
                     : <Tabs defaultActiveId={0} onChange={(e) => dispatch({
                         type: 'plan/updateSelectPlan',
@@ -112,7 +115,7 @@ const ReportContent = () => {
                                 <ReportHeader data={headerData} status={reportStatus} />
                                 <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
 
-                                <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} />
+                                <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={planId} />
                             </TabPan>
                         ))}
                     </Tabs>

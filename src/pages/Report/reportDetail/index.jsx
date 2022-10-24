@@ -14,7 +14,7 @@ const { Tabs, TabPan } = TabComponent;
 
 
 const ReportDetail = (props) => {
-	const { data: configData, stopDebug, onStatus, status, onRunTime } = props;
+	const { data: configData, stopDebug, onStatus, status, onRunTime, plan_id } = props;
 	const { t } = useTranslation();
 
     const [data, setData] = useState([]);
@@ -26,6 +26,7 @@ const ReportDetail = (props) => {
 	const select_plan = useSelector((store) =>(store.plan.select_plan));
 	
 	let report_detail_t = null;
+	console.log(plan_id);
 
     useEffect(() => {
 		if (report_id) {
@@ -45,8 +46,11 @@ const ReportDetail = (props) => {
 	}, [select_plan]);
 
 	const getReportDetail = () => {
+		console.log(plan_id);
 		const query = {
 			report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
+			plan_id,
+			team_id: localStorage.getItem('team_id')
 		};
 		fetchReportDetail(query).subscribe({
 			next: (res) => {

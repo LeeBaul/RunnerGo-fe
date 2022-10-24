@@ -80,6 +80,7 @@ const ReportListHeader = (props) => {
                         >
                             <Button
                                 className='contrast-btn'
+                                style={{ backgroundColor: selectReport.length < 2 || selectReport.length > 5  ? 'var(--bg-4)' : '', color: selectReport.length < 2 || selectReport.length > 5  > 5 ? 'var(--font-1)' : '' }} 
                                 disabled={selectReport.length < 2 || selectReport.length > 5}
                                 onClick={() => toContrast()}
                             >

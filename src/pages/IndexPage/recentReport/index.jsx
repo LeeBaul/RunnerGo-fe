@@ -342,7 +342,7 @@ const RecentReport = () => {
                         <Tooltip
                             content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
                         >
-                            <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
+                            <Button className='contrast-btn' style={{ backgroundColor: selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? 'var(--bg-4)' : '', color: selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? 'var(--font-1)' : '' }} disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
                         </Tooltip>
                         : <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
                 }

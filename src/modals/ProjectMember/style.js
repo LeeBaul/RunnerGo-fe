@@ -83,8 +83,13 @@ export const ProjectMemberModal = css`
             justify-content: center;
         }
     }
-    .apipost-table-td {
-        text-align: center;
+    .apipost-table-th {
+        .apipost-table-td {
+            text-align: center;
+        }
+    }
+    .apipost-select-popup {
+        width: 133px;
     }
   }
 `;
