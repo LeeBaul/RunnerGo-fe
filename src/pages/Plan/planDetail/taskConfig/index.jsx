@@ -262,6 +262,7 @@ const TaskConfig = (props) => {
                                         setMode(index + 1);
                                         updateTaskConfig('mode', index + 1);
                                     }}
+                                    style={{ marginBottom: index === modeList.length -1 ? '0' : '' }}
                                 >
                                     { item }
                                 </p>

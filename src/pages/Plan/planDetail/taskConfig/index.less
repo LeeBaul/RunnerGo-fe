@@ -146,21 +146,24 @@
 
 .task-config-detail {
   display: flex;
+  justify-content: flex-start;
 
   .left {
     display: flex;
     align-items: center;
+    height: 229px;
 
     &-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 220px;
+      // height: 220px;
       padding-top: 16px;
 
       p {
-        margin-bottom: 34px;
+        margin-bottom: 32px;
         cursor: pointer;
+        height: 12px;
       }
 
       .select {
@@ -172,6 +175,7 @@
   .right {
     margin-left: 15px;
     position: relative;
+    height: 229px;
 
     .radio-group {
       display: flex;
@@ -212,7 +216,7 @@
     &-container,
     &-container-first {
       width: 300px;
-      min-height: 220px;
+      min-height: 229px;
       background-color: var(--bg-3);
       padding: 10px 0;
       display: flex;
