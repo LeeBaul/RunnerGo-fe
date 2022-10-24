@@ -69,10 +69,9 @@ const PressMonitor = (props) => {
         // let x_data = [];
         // let y_data = [];
         data.forEach(item => {
-            item[0] = dayjs(item[0] * 1000).format('HH:mm');
-            // x_data.push(item[0] * 1000);
-            // y_data.push(item[1]);
+            item[0] = item[0] * 1000;
         })
+        console.log(data);
         let option = {
             title: {
                 text: name,
@@ -89,11 +88,16 @@ const PressMonitor = (props) => {
                 }
             },
             xAxis: {
-                type: 'category',
+                type: 'time',
                 boundaryGap: false,
                 axisLabel: {
                     color: theme === 'dark' ? '#fff' : '#000',
                 },
+                axisLabel: {
+                    formatter: function (val) {
+                       return dayjs(val).format('HH:mm')
+                    }
+                }
                 // axisTick: {
                 //     length: 1,
                 //     lineStyle: {
