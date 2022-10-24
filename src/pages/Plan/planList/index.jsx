@@ -230,15 +230,15 @@ const PlanList = () => {
             title: t('plan.taskType'),
             dataIndex: 'task_type',
             filterMultiple: false,
-            filters: [
-                { text: t('plan.taskList.commonTask'), value: 1 },
-                { text: t('plan.taskList.cronTask'), value: 2 },
-                { text: t('plan.taskList.mixTask'), value: 3 },
-            ],
-            onFilter: (value, item) => {
-                setTaskType(value);
-                return true;
-            },
+            // filters: [
+            //     { text: t('plan.taskList.commonTask'), value: 1 },
+            //     { text: t('plan.taskList.cronTask'), value: 2 },
+            //     { text: t('plan.taskList.mixTask'), value: 3 },
+            // ],
+            // onFilter: (value, item) => {
+            //     setTaskType(value);
+            //     return true;
+            // },
             width: 135
         },
         {
