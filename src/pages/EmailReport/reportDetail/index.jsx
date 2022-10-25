@@ -14,7 +14,7 @@ const { Tabs, TabPan } = TabComponent;
 
 
 const ReportDetail = (props) => {
-	const { data: configData, stopDebug, onStatus, status, onRunTime } = props;
+	const { data: configData, stopDebug, onStatus, status, onRunTime, plan_id } = props;
 	const { t } = useTranslation();
 
     const [data, setData] = useState([]);
@@ -29,24 +29,28 @@ const ReportDetail = (props) => {
 
     useEffect(() => {
 		if (report_id) {
-			getReportDetail();
-			report_detail_t = setInterval(getReportDetail, 1000);
+			getReportDetail(plan_id);
+			report_detail_t = setInterval(() => {
+				getReportDetail(plan_id);
+			}, 1000);
 	
 			return () => {
 				clearInterval(report_detail_t);
 			}
 		}
-    }, []);
+    }, [plan_id]);
 
 	useEffect(() => {
 		if (!report_id) {
-			getReportDetail();
+			getReportDetail(plan_id);
 		}
-	}, [select_plan]);
+	}, [select_plan, plan_id]);
 
-	const getReportDetail = () => {
+	const getReportDetail = (plan_id) => {
 		const query = {
 			report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
+			plan_id,
+			team_id: sessionStorage.getItem('team_id')
 		};
 		fetchEmailReportDetail(query).subscribe({
 			next: (res) => {

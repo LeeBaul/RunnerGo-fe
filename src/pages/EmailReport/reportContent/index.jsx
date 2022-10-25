@@ -31,6 +31,7 @@ const ReportContent = () => {
     const [stopDebug, setStopDebug] = useState('stop');
     const [reportStatus, setReportStatus] = useState(1);
     const [runTime, setRunTime] = useState(0);
+    const [planId, setPlanId] = useState(0);
     const select_plan = useSelector((store) => (store.plan.select_plan));
     const { t } = useTranslation();
 
@@ -62,7 +63,8 @@ const ReportContent = () => {
         };
         fetchEmailReportInfo(query).subscribe({
             next: (res) => {
-                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status } } } = res;
+                const { data: { report: { plan_name, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status, plan_id } } } = res;
+                setPlanId(planId);
                 setHeaderData({
                     plan_name,
                 })
@@ -108,7 +110,7 @@ const ReportContent = () => {
             </div>
             <ReportHeader data={headerData} status={reportStatus} />
             <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
-            <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} />
+            <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={plan_id} />
         </div>
     )
 };
