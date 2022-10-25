@@ -208,7 +208,7 @@
         "look": "be careful",
         "deletePlan": "Are you sure you want to delete this schedule?",
         "deleteReport": "Are you sure you want to delete this report?",
-        "invitation": "invitation",
+        "invitation": "Invitation",
         "roleList": {
             "0": "Member",
             "1": "Admin",
@@ -281,11 +281,11 @@
             "transferTeam": "Handover Team"
         },
         "teamMember": {
-            "member": "member",
+            "member": "Member",
             "joinTime": "Joining date",
             "inviteBy": "Inviter",
             "power": "Personnel authority",
-            "handle": "operation"
+            "handle": "Operation"
         },
         "globalVar": {
             "title": "Global variable",
@@ -342,7 +342,7 @@
         }
     },
     "apis": {
-        "recycle": "Recycle Bin",
+        "recycle": "Trash",
         "save": "save",
         "send": "send",
         "header": "Header",

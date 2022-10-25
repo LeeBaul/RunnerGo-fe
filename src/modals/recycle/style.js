@@ -70,7 +70,7 @@ export const RecycleModalWrapper = css`
   }
 
   .btns {
-    width: 190px;
+    min-width: 190px;
     display: flex;
     justify-content: space-around;
     .btn-delete {
