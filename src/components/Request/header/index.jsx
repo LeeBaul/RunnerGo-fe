@@ -99,7 +99,7 @@ const Header = (props) => {
       width: 150,
       render: (text, rowData, rowIndex) => {
         return (
-          <ApiInput
+          <Input
             size="mini"
             value={text}
             onChange={(newVal) => {
@@ -169,7 +169,7 @@ const Header = (props) => {
           //     });
           //   }}
           // />
-          <ApiInput
+          <Input
             size="mini"
             value={text}
             onChange={(newVal) => {

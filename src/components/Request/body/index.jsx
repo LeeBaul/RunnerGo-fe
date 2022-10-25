@@ -134,7 +134,7 @@ const Body = (props) => {
       render: (text, rowData, rowIndex) => {
         if (value.mode === 'form-data') {
           return (
-            <ApiInput
+            <Input
               placeholder={ t('apis.key') }
               className="request-key"
               value={text}
@@ -181,7 +181,7 @@ const Body = (props) => {
           );
         }
         return (
-          <ApiInput
+          <Input
             placeholder={ t('apis.key') }
             value={text}
             readonly={readonly == 1}
@@ -242,7 +242,7 @@ const Body = (props) => {
           );
         }
         return (
-          <ApiInput
+          <Input
             placeholder={ t('placeholder.bodyValue') }
             value={text}
             onChange={(newVal) => {

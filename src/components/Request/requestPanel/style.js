@@ -23,6 +23,10 @@ export const RequestWrapper = styled.div`
         .apipost-select {
           height: 24px;
         }
+
+        .apipost-textarea-wrapper, .apipost-textarea {
+          width: 100%;
+        }
     }
 }
   .tabs-item {
