@@ -528,16 +528,18 @@ const InvitationModal = (props) => {
           title={null}
           footer={null}
         >
-          <p className='title'>添加结果通过</p>
-          <p className='message'>成功添加{addLength}人 | 未注册{unRegister}人, 已邮箱通知全部受邀人</p>
+          <p className='title'>{ t('modal.invitateSuccess.title') }</p>
+          <p className='message'>{ t('modal.invitateSuccess.message-1') }{addLength}{ t('modal.invitateSuccess.message-2') } | { t('modal.invitateSuccess.message-3') }{unRegister}{ t('modal.invitateSuccess.message-2') }, { t('modal.invitateSuccess.message-4') }</p>
           <div className='container'>
-            <div className='un-register-email'>
-              <p className='title'>未注册邮箱地址: </p>
-              {
-                unEmail.map((item, index) => <p className='email' key={index}>{item}</p>)
-              }
-            </div>
-            <Button onClick={() => setInvitateSuccess(false)}>确定</Button>
+            {
+              unRegister > 0 && <div className='un-register-email'>
+                <p className='title'>{ t('modal.invitateSuccess.unRegister') }: </p>
+                {
+                  unEmail.map((item, index) => <p className='email' key={index}>{item}</p>)
+                }
+              </div>
+            }
+            <Button onClick={() => setInvitateSuccess(false)}>{ t('btn.ok') }</Button>
           </div>
         </Modal>
       }
@@ -580,11 +582,11 @@ const InvitationModal = (props) => {
                 {
                   !email ?
                     role !== 2 ?
-                      <Select style={{ right: i18n.language === 'en' ? '72px' : '52px' }} value={selectValue} onChange={(key) => setSelectValue(key)}>
+                      <Select style={{ right: '85px' }} value={selectValue} onChange={(key) => setSelectValue(key)}>
                         <Option value={3}>{t('modal.roleList.1')}</Option>
                         <Option value={2}>{t('modal.roleList.0')}</Option>
                       </Select>
-                      : <p className='only-common' style={{ right: i18n.language === 'en' ? '72px' : '52px' }}>{t('modal.roleList.0')}</p>
+                      : <p className='only-common' style={{ right: '85px' }}>{t('modal.roleList.0')}</p>
                     : ''
                 }
                 <Button

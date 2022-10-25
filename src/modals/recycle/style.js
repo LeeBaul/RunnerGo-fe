@@ -86,6 +86,7 @@ export const RecycleModalWrapper = css`
     align-items: center;
     justify-content: space-between;
     .refresh-btn {
+      margin-left: 0;
       svg {
         fill: var(--font-2);
         margin-right: 8px;

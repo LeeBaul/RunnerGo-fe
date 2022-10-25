@@ -24,6 +24,7 @@ import './index.less';
 import cn from 'classnames';
 import SvgScene from '@assets/icons/Scene1';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const NodeType = {
     api: SvgApis,
@@ -79,6 +80,122 @@ const MenuTrees = (props, treeRef) => {
 
 
     const [markObj, setMarkObj] = useState([]);
+    const { t } = useTranslation();
+
+    const api = [
+        // {
+        //     type: 'shareApi',
+        //     title: '分享接口',
+        //     action: 'shareApi',
+        // },
+        // {
+        //     type: 'cloneApi',
+        //     title: '克隆接口',
+        //     action: 'cloneApi',
+        //     tips: `${ctrl} + D`,
+        // },
+        {
+            type: 'cloneApi',
+            title: t('apis.cloneApi'),
+            action: 'cloneApi',
+            // tips: `${ctrl} + C`,
+        },
+        {
+            type: 'copyApi',
+            title: t('apis.copyApi'),
+            action: 'copyApi'
+        },
+        {
+            type: 'deleteApi',
+            title: t('apis.deleteApi'),
+            action: 'deleteApi',
+        },
+    ];
+
+    const folder = [
+        // {
+        //     type: 'create',
+        //     title: '新建',
+        //     action: '',
+        // },
+        // {
+        //     type: 'pasteToCurrent',
+        //     title: '粘贴至该目录',
+        //     action: 'pasteToCurrent',
+        //     // tips: `${ctrl} + V`,
+        // },
+        {
+            type: 'modifyFolder',
+            title: t('apis.editFolder'),
+            action: 'modifyFolder',
+        },
+        // {
+        //     type: 'shareFolder',
+        //     title: '分享目录',
+        //     action: 'shareFolder',
+        // },
+        // {
+        //     type: 'copyFolder',
+        //     title: '复制目录',
+        //     action: 'copyFolder',
+        //     // tips: `${ctrl} + C`,
+        // },
+        {
+            type: 'deleteFolder',
+            title: t('apis.deleteFolder'),
+            action: 'deleteFolder',
+        },
+    ];
+
+    const group = [
+        {
+            type: 'modifyFolder',
+            title: t('scene.editGroup'),
+            action: 'modifyFolder',
+        },
+        // {
+        //     type: 'cloneGroup',
+        //     title: '克隆分组',
+        //     action: 'cloneGroup',
+        // },
+        {
+            type: 'deleteFolder',
+            title: t('scene.deleteGroup'),
+            action: 'deleteFolder',
+        },
+    ];
+
+    const scene = [
+        {
+            type: 'modifyFolder',
+            title: t('scene.editScene'),
+            action: 'modifyFolder',
+        },
+        {
+            type: 'cloneScene',
+            title: t('scene.cloneScene'),
+            action: 'cloneScene',
+        },
+        {
+            type: 'deleteFolder',
+            title: t('scene.deleteScene'),
+            action: 'deleteFolder',
+        },
+    ];
+
+    const root = [
+        {
+            type: 'createApis',
+            title: t('apis.createApi'),
+            action: 'createApis',
+        },
+        {
+            type: 'pasteToRoot',
+            title: t('apis.pasteApi'),
+            action: 'pasteToRoot',
+        },
+    ];
+    
 
     const statusListInit = async () => {
         // const currentProjectInfo = await UserProjects.get(`${CURRENT_PROJECT_ID}/${uuid}`);
@@ -282,7 +399,14 @@ const MenuTrees = (props, treeRef) => {
                     project_id: CURRENT_PROJECT_ID,
                     open_scene,
                     from: type,
-                    plan_id: id
+                    plan_id: id,
+                    menu: {
+                        api,
+                        folder,
+                        scene,
+                        group,
+                        root
+                    }
                 })}
                 defaultExpandKeys={defaultExpandKeys}
                 onExpandKeysChange={handleExpandsChange}

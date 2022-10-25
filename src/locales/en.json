@@ -263,7 +263,15 @@
         "closeNowLast": " tabs unsaved changes. Your changes will be lost if you force close this tab. Are you sure you want to force close?",
         "pwdError": "Password error",
         "pwdLength": "Password length shall be at least 6 digits",
-        "pwdDiff": "The passwords entered do not match"
+        "pwdDiff": "The passwords entered do not match",
+        "invitateSuccess": {
+            "title": "Adding a result Notification",
+            "message-1": "Successfully added",
+            "message-2": "people",
+            "message-3": "unregistered",
+            "message-4": "All invitees have been notified by email",
+            "unRegister": "Unregistered email address"
+        }
     },
     "column": {
         "teamManage": {
@@ -411,8 +419,8 @@
             "Force Close Other Labels",
             "Save All Labels"
         ],
-        "copyApi": "Copy Interface",
-        "deleteApi": "Delete Interface",
+        "copyApi": "Copy Api",
+        "deleteApi": "Delete Api",
         "editFolder": "Edit Directory",
         "deleteFolder": "Delete Directory",
         "createHttp": "New HTTP Request",
@@ -531,12 +539,12 @@
         },
         "duration": "Duration",
         "roundNum": "Round",
-        "concurrency": "concurrency",
-        "reheatTime": "preheating",
+        "concurrency": "Concurrency",
+        "reheatTime": "Preheating",
         "startConcurrency": "Start concurrency",
         "step": "Step",
         "stepRunTime": "Step Duration",
-        "maxConcurrency": "Maximum concurrency",
+        "maxConcurrency": "Max concurrency",
         "fillInCron": "Fill in cron expression",
         "set": "set up",
         "second": "Round",

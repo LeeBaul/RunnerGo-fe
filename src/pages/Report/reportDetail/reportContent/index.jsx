@@ -363,15 +363,15 @@ const modeList = {
             width: 150,
         },
         {
-            title: 'max(ms)',
+            title: 'Max(ms)',
             dataIndex: 'max_request_time',
         },
         {
-            title: 'min(ms)',
+            title: 'Min(ms)',
             dataIndex: 'min_request_time',
         },
         {
-            title: 'avg(ms)',
+            title: 'Avg(ms)',
             dataIndex: 'avg_request_time',
         },
         {

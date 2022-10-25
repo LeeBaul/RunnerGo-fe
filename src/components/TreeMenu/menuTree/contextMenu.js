@@ -22,7 +22,7 @@ export const handleShowContextMenu = (props, e, params) => {
     if (params) {
         target_id = params;
     }
-    const { open_scene, from, plan_id } = props;
+    const { open_scene, from, plan_id, menu } = props;
 
     let module = '';
     if (isUndefined(params)) {
@@ -39,7 +39,7 @@ export const handleShowContextMenu = (props, e, params) => {
         return;
     }
     const contextMenuRef = React.createRef(null);
-    const menuList = contextMenus?.[module];
+    const menuList = menu?.[module];
 
     const HoverMenu = (
         <div>

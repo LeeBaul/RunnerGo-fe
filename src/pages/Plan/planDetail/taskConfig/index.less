@@ -61,7 +61,7 @@
 
     .other-config {
       box-sizing: border-box;
-      padding: 10px;
+      padding: 10px 0;
       // border: 1px solid var(--bg-4);
       // border-radius: 5px;
       display: flex;
@@ -153,12 +153,14 @@
   .left {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     height: 229px;
 
     &-container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       // height: 220px;
       // padding-top: 16px;
 
@@ -166,6 +168,7 @@
         margin-bottom: 32px;
         cursor: pointer;
         height: 12px;
+        margin-right: auto;
       }
 
       .select {
@@ -233,7 +236,7 @@
         align-items: center;
 
         span {
-          width: 73px;
+          width: 100px;
           white-space: nowrap;
         }
 
@@ -241,6 +244,8 @@
           width: 130px;
           height: 29px;
           margin-left: 10px;
+          background-color: var(--bg-1);
+          font-size: 12px;
         }
       }
     }
@@ -250,15 +255,22 @@
       align-items: flex-start;
       padding-left: 16px;
 
+      .apipost-input-inner-wrapper {
+        font-size: 12px;
+        background-color: var(--bg-1);
+      }
+
       .right-item {
         span {
-          width: 37px;
+          width: 100px;
         }
 
         .apipost-input-inner-wrapper {
           width: 130px;
           height: 29px;
           margin-left: 8px !important;
+          background-color: var(--bg-1);
+          font-size: 12px;
         }
       }
     }
