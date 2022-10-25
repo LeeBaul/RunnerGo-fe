@@ -127,7 +127,7 @@
         "contrast": "Contrast",
         "sendAgain": "Resend",
         "return": "Return",
-        "invitation": "Invitate",
+        "invitation": "Invite",
         "selectImg": "Select a picture",
         "okDelMum": "Confirm Removal",
         "add": "Add",
@@ -202,7 +202,10 @@
         "restoreFolder": "Are you sure you want to restore the directory?",
         "shiftDelApi": "Are you sure you want to delete this API completely? Will not be recoverable",
         "restoreApi": "Whether API recovery is required",
-        "saveTagSuccess": "Successfully saved all labels"
+        "saveTagSuccess": "Successfully saved all labels",
+        "NewSuccess": "New successfully!",
+        "NewError": "New Failed!",
+        "PlanNameEmpty": "Plan name cannot be empty!"
     },
     "modal": {
         "look": "Be careful",

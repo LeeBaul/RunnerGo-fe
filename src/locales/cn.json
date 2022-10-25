@@ -202,7 +202,10 @@
         "restoreFolder": "确定要恢复目录吗？",
         "shiftDelApi": "确定要彻底删除该API？将不可恢复",
         "restoreApi": "是否需要恢复API",
-        "saveTagSuccess": "保存所有标签成功"
+        "saveTagSuccess": "保存所有标签成功",
+        "NewSuccess": "新建成功!",
+        "NewError": "新建失败!",
+        "PlanNameEmpty": "计划名称不能为空!"
     },
     "modal": {
         "look": "注意",

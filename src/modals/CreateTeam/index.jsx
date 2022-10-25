@@ -20,7 +20,7 @@ const CreateTeam = (props) => {
         fetchCreateTeam(params).subscribe({
             next: (res) => {
                 const { code } = res;
-
+                
                 if (code === 0) {
                     Message('success', t('message.createSuccess'));
                     onCancel(true);

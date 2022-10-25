@@ -22,8 +22,7 @@ import { findSon } from '@utils';
 import DescChoice from '@components/descChoice';
 import { FolderWrapper, FolderModal } from './style';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { t } from "i18next";
+import { useTranslation } from 'react-i18next';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -41,6 +40,7 @@ const CreatePlan = (props) => {
         test: '',
         // test_switch: 1,
     });
+    const { t } = useTranslation();
 
     const [request, setRequest] = useState(
         group?.request || {
@@ -340,7 +340,7 @@ const CreatePlan = (props) => {
             okText={ t('btn.save') }
             onOk={() => {
                 if (trim(planName).length <= 0) {
-                    Message('error', '计划名称不能为空');
+                    Message('error', t('message.PlanNameEmpty'));
                     return;
                 }
                 if (isPlainObject(group)) {
@@ -358,7 +358,7 @@ const CreatePlan = (props) => {
                         },
                         () => {
                             onCancel();
-                            Message('success', '保存成功');
+                            Message('success', t('message.saveSuccess'));
                         }
                     );
                 } else {
@@ -375,10 +375,10 @@ const CreatePlan = (props) => {
                                     payload: null,
                                 })
                                 onCancel();
-                                Message('success', '新建成功');
+                                Message('success', t('message.NewSuccess'));
                                 navigate(`/plan/detail/${id}`);
                             } else {
-                                Message('error', '新建失败');
+                                Message('error', t('message.NewError'));
                             }
                         }
                     );
