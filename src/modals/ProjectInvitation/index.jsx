@@ -528,18 +528,20 @@ const InvitationModal = (props) => {
           title={null}
           footer={null}
         >
-          <p className='title'>{ t('modal.invitateSuccess.title') }</p>
-          <p className='message'>{ t('modal.invitateSuccess.message-1') }{addLength}{ t('modal.invitateSuccess.message-2') } | { t('modal.invitateSuccess.message-3') }{unRegister}{ t('modal.invitateSuccess.message-2') }, { t('modal.invitateSuccess.message-4') }</p>
+          <p className='title'>{t('modal.invitateSuccess.title')}</p>
+          <p className='message'>{t('modal.invitateSuccess.message-1')}{addLength}{t('modal.invitateSuccess.message-2')} | {t('modal.invitateSuccess.message-3')}{unRegister}{t('modal.invitateSuccess.message-2')}, {t('modal.invitateSuccess.message-4')}</p>
           <div className='container'>
-            {
-              unRegister > 0 && <div className='un-register-email'>
-                <p className='title'>{ t('modal.invitateSuccess.unRegister') }: </p>
-                {
-                  unEmail.map((item, index) => <p className='email' key={index}>{item}</p>)
-                }
-              </div>
-            }
-            <Button onClick={() => setInvitateSuccess(false)}>{ t('btn.ok') }</Button>
+            <div className='un-register-email'>
+              {
+                unRegister > 0 && <>
+                  <p className='title'>{t('modal.invitateSuccess.unRegister')}: </p>
+                  {
+                    unEmail.map((item, index) => <p className='email' key={index}>{item}</p>)
+                  }
+                </>
+              }
+            </div>
+            <Button onClick={() => setInvitateSuccess(false)}>{t('btn.ok')}</Button>
           </div>
         </Modal>
       }
