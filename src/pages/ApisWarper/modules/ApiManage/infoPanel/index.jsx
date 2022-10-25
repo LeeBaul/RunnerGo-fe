@@ -13,6 +13,8 @@ import { cloneDeep } from 'lodash';
 import { tap } from 'rxjs';
 import { global$ } from '@hooks/useGlobal/global';
 import { useTranslation } from 'react-i18next';
+import Mousetrap from 'mousetrap';
+import 'mousetrap-global-bind';
 
 const ApiInfoPanel = (props) => {
     const { data, showGenetateCode, onChange, from = 'apis', onSave } = props;
@@ -47,21 +49,28 @@ const ApiInfoPanel = (props) => {
 
     const _saveId = useSelector((store) => store.opens.saveId);
 
-    const keyDown = (e) => {
-        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
-            e.preventDefault();
-            saveApi();
-         }
-    }
+    Mousetrap.bindGlobal(['command+s', 'ctrl+s'], () => {
+        saveApi();
+        return false;
+      });
+  
 
-    useEffect(() => {
+    // const keyDown = (e) => {
+    //     if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+    //         e.preventDefault();
+    //         console.log(111);
+    //         saveApi();
+    //      }
+    // }
 
-        document.addEventListener('keydown', keyDown);
+    // useEffect(() => {
 
-        return () => {
-            document.removeEventListener('keydown', keyDown);
-        }
-    }, []);
+    //     document.addEventListener('keydown', keyDown);
+
+    //     return () => {
+    //         document.removeEventListener('keydown', keyDown);
+    //     }
+    // }, []);
 
     const saveApi = () => {
         if (from === 'scene' || from === 'plan') {

@@ -36,6 +36,12 @@ const ApiURLPanel = (props) => {
 
     const _saveId = useSelector((store) => store.opens.saveId);
 
+    const language = useSelector((store) => store.user.language);
+
+    useEffect(() => {
+        setBtnName(t('btn.send'));
+    }, language);
+
 
     const res_list = {
         'apis': open_res && open_res[open_api_now],

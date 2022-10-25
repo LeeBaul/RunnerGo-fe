@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Scale, Drawer, Input, Button } from 'adesign-react';
-import { Close as SvgClose, Download as SvgDownload } from 'adesign-react/icons'
+import { Download as SvgDownload } from 'adesign-react/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import { isObject } from 'lodash';
 import Bus from '@utils/eventBus';
@@ -20,6 +20,8 @@ import './index.less';
 import SvgScene from '@assets/icons/Scene1';
 import { useTranslation } from 'react-i18next';
 import CreateScene from '@modals/CreateScene';
+
+import SvgClose from '@assets/logo/close';
 
 const { ScalePanel, ScaleItem } = Scale;
 
@@ -97,9 +99,10 @@ const PlanDetail = () => {
         return (
             <div className='drawer-header'>
                 <div className='drawer-header-left'>
-                    <Button style={{ marginRight: '8px' }} onClick={(() => closeApiConfig())} >
+                    <Button className='drawer-close-btn' style={{ marginRight: '8px'}} onClick={(() => closeApiConfig())} >
                         {/* <SvgClose width="16px" height="16px" /> */}
-                        <p style={{ fontSize: '16px' }}>x</p>
+                        {/* <p style={{ fontSize: '16px' }}>x</p> */}
+                        <SvgClose />
                     </Button>
                     <Input size="mini" value={apiName} placeholder={t('placeholder.apiName')} onBlur={(e) => onTargetChange('name', e.target.value)} />
                 </div>

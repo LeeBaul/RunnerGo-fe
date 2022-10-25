@@ -299,12 +299,9 @@ const Body = (props) => {
       dataIndex: 'description',
       render: (text, rowData, rowIndex) => {
         return (
-          <AutoSizeTextArea
-            placeholder="参数描述,用于生成文档"
-            height={24}
+          <Input
+            placeholder={ t('placeholder.bodyDesc') }
             value={text}
-            bordered={false}
-            readonly={readonly == 1}
             onChange={(newVal) => {
               handleChange(rowData, rowIndex, { description: newVal });
             }}

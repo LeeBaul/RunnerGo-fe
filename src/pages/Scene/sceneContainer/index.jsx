@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
 import { Drawer, Button, Input, Modal, Message } from 'adesign-react';
-import { Close as SvgClose } from 'adesign-react/icons';
+// import { Close as SvgClose } from 'adesign-react/icons';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SceneBox from './sceneBox';
@@ -11,6 +11,9 @@ import FooterConfig from './footerConfig';
 import Bus from '@utils/eventBus';
 import { useSelector, useDispatch } from 'react-redux';
 import ApiPicker from './apiPicker';
+
+
+import SvgClose from '@assets/logo/close';
 
 const SceneContainer = (props) => {
     const { from, onChange } = props;
@@ -75,9 +78,9 @@ const SceneContainer = (props) => {
                 <div className='drawer-header-left'>
                     <Button className='drawer-close-btn' style={{ marginRight: '8px' }} onClick={(() => closeApiConfig())} >
                         {/* <SvgClose width="16px" height="16px" /> */}
-                        <p className='drawer-close-btn' style={{ fontSize: '16px' }}>x</p>
+                        <SvgClose />
                     </Button>
-                    <Input size="mini" value={apiName} placeholder="请输入接口名称" onBlur={(e) => onTargetChange('name', e.target.value)} />
+                    <Input  size="mini" value={apiName} placeholder="请输入接口名称" onBlur={(e) => onTargetChange('name', e.target.value)} />
                 </div>
                 <div className='drawer-header-right'>
                     {/* <Button className='drawer-save-btn' onClick={() => {

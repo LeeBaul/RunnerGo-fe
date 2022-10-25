@@ -64,7 +64,8 @@
         "folderDesc": "Please enter a directory description",
         "apiName": "Please enter the interface name",
         "apiUrl": "Enter Request URL",
-        "bodyValue": "Parameter values, support mock field variables",
+        "bodyValue": "Value",
+        "bodyDesc": "Description",
         "plsSelect": "Please select",
         "plsInput": "Please enter",
         "cronContent": "Execute every 5 seconds: */5 * * * *?",
@@ -366,7 +367,7 @@
         "value": "Value",
         "must": "Required",
         "type": "Type",
-        "desc": "Description",
+        "desc": "Desc",
         "emptyBody": "The request has no body temporarily",
         "notAuth": "This interface does not require authentication",
         "authList": {

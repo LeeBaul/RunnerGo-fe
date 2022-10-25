@@ -98,8 +98,9 @@ export const SearchInput = (props) => {
 
   return (
     <>
-      <div ref={setRefInput}>
+      <div ref={setRefInput} style={{ width: '100%' }}>
         <Input
+          style={{ width: '100%' }}
           readonly={readonly}
           value={filterValue}
           placeholder={placeholder}
