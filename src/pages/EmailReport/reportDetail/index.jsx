@@ -41,7 +41,7 @@ const ReportDetail = (props) => {
     }, [plan_id]);
 
 	useEffect(() => {
-		if (!report_id) {  
+		if (!report_id) {
 			getReportDetail(plan_id);
 		}
 	}, [select_plan, plan_id]); 
