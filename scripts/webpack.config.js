@@ -46,5 +46,8 @@ module.exports = {
             '@busLogics': path.resolve(__dirname, '../src/busLogics'),
             '@modals': path.resolve(__dirname, '../src/modals'),
         }
+    },
+    performance: {
+        hints: false
     }
 }
