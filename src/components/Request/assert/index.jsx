@@ -99,6 +99,7 @@ const Assert = (props) => {
             // enableResize: true,
             width: 150,
             render: (text, rowData, rowIndex) => {
+                let compare = cloneDeep(COMPARE_IF_TYPE);
                 return (
                     <Select
                         value={rowData.compare || null}
@@ -106,7 +107,7 @@ const Assert = (props) => {
                         onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
-                            COMPARE_IF_TYPE.splice(0, 6).map(item => <Option value={item.type}>{item.title}</Option>)
+                            compare.splice(6, 10).map(item => <Option value={item.type}>{item.title}</Option>)
                         }
                     </Select>
                 );

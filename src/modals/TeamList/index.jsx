@@ -256,6 +256,7 @@ const TeamList = (props) => {
             {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
             {showCreate && <CreateTeam onCancel={(e) => {
                 setShowCreate(false);
+                onCancel();
                 if (e) {
                     getUserInfo().pipe(tap(fetchData)).subscribe();
                 }

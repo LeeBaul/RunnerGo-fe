@@ -425,6 +425,7 @@ const MenuTrees = (props, treeRef) => {
                 dataList={filteredTreeList}
                 render={renderTreeNode}
                 onNodeClick={(val) => {
+                    console.log(val);
                     if (type !== 'apis' && val.target_type !== 'group') {
                         // getSceneName(val.name);
                         dispatch({
