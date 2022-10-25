@@ -432,6 +432,10 @@ const MenuTrees = (props, treeRef) => {
                             type: 'scene/updateOpenName',
                             payload: val.name,
                         })
+                        dispatch({
+                            type: 'scene/updateOpenDesc',
+                            payload: val.description
+                        })
                     }
                     if (val?.target_type == 'folder' || val.target_type === 'group') {
                         // User.get(uuid || '-1')

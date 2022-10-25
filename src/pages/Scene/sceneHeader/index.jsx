@@ -98,6 +98,7 @@ const SceneHeader = (props) => {
     }, []);
 
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
+    const open_scene_desc = useSelector((store) => store.scene.open_scene_desc);
     const runScene = () => {
         const { scene_id, target_id } = open_scene;
         if (from === 'scene') {
@@ -230,9 +231,14 @@ const SceneHeader = (props) => {
         }
     };
 
+    console.log(open_scene_name, open_scene_desc);
+
     return (
         <div className='scene-header'>
-            <div className='scene-header-left'>{open_scene_name}</div>
+            <div className='scene-header-left'>
+                <p className='name'>{open_scene_name}</p>
+                <p className='desc'>{ t('scene.sceneDesc') }：{open_scene_desc}</p>
+            </div>
             <div className='scene-header-right'>
                 <div className='config' onClick={() => setSceneConfig(true)}>
                     <SvgSetting />

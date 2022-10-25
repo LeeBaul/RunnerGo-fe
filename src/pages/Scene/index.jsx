@@ -33,6 +33,10 @@ const Scene = () => {
                     type: 'scene/updateOpenName',
                     payload: val.name,
                 })
+                dispatch({
+                    type: 'scene/updateOpenDesc',
+                    payload: val.description
+                })
                 Bus.$emit('addOpenScene', val);
             })
         } else {

@@ -4,6 +4,7 @@ const initialState = {
   sceneDatas: {}, // 场景管理菜单列表
   open_scene: null, // 打开的场景
   open_scene_name: '', // 打开的场景的名字
+  open_scene_desc: '', //打开的场景的描述
   isLoading: false, // 目录列表是否正在加载中,
   nodes: [], // 节点
   edges: [], // 线,
@@ -71,6 +72,7 @@ const actionTypes = {
   updateRunningScene: 'updateRunningScene',
   updateRunStatus: 'updateRunStatus',
   updateSelectBox: 'updateSelectBox',
+  updateOpenDesc: 'updateOpenDesc'
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -217,6 +219,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         select_box: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateOpenDesc}`:
+      return {
+        ...state,
+        open_scene_desc: action.payload
       }
     default:
       return state;

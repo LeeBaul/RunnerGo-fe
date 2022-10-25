@@ -4,9 +4,27 @@
     height: 57px;
     align-items: center;
     box-sizing: border-box;
-    padding: 16px;
+    padding: 9px 16px;
     color: var(--font-1);
     border-bottom: 1px solid var(--bg-4);
+    &-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        .name {
+            font-size: 14px;
+        }
+        
+        .desc {
+            margin-top: 4px;
+            color: var(--font-2);
+            max-width: 62vw;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
     &-right {
         display: flex;
         align-items: center;
