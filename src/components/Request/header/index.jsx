@@ -96,7 +96,7 @@ const Header = (props) => {
       title: t('apis.value'),
       dataIndex: 'value',
       enableResize: true,
-      width: 150,
+      width: 120,
       render: (text, rowData, rowIndex) => {
         return (
           <Input
@@ -152,6 +152,7 @@ const Header = (props) => {
     {
       title: t('apis.desc'),
       dataIndex: 'description',
+      width: 80,
       render: (text, rowData, rowIndex) => {
         return (
           // <AutoSizeTextArea

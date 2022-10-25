@@ -10,7 +10,8 @@ export const RequestWrapper = styled.div`
     }
   }
   .apipost-req-wrapper {
-    padding: 0 8px;
+    // padding: 0 8px;
+    // padding-left: 0;
     height: 100%;
     overflow: auto;
     // overflow-y: hidden;
