@@ -44,6 +44,8 @@ const PlanList = () => {
     const id_apis_plan = useSelector((d) => d.plan.id_apis);
     const node_config_plan = useSelector((d) => d.plan.node_config);
 
+    const language = useSelector((d) => d.user.language);
+
     const modeList = {
         '1': t('plan.modeList.1'),
         '2': t('plan.modeList.2'),
@@ -159,7 +161,7 @@ const PlanList = () => {
         return () => {
             clearInterval(plan_t);
         }
-    }, [refreshList, keyword, currentPage, pageSize, startTime, endTime, taskMode, taskType, status, sort]);
+    }, [refreshList, keyword, currentPage, pageSize, startTime, endTime, taskMode, taskType, status, sort, language]);
 
     const getPlanList = () => {
         const query = {

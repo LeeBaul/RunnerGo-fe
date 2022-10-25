@@ -480,15 +480,24 @@
   }
 
   .apipost-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .apipost-modal-close {
       display: none;
     }
     width: 450px;
-    height: 278px;
+    height: 300px;
     border-radius: 15px;
     background-color: var(--bg-2);
     // box-sizing: border-box;
-    padding-top: 30px;
-    padding-left: 43px;
+    // padding-top: 30px;
+    // padding-left: 43px;
+
+    .apipost-modal-body {
+      display: flex;
+      // align-items: center;
+      justify-content: center;
+    }
   }
 }

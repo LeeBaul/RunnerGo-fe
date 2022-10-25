@@ -18,6 +18,7 @@ import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
 
 import { Table } from '@arco-design/web-react';
+import { useSelector } from 'react-redux';
 
 const ReportList = () => {
     const navigate = useNavigate();
@@ -34,6 +35,8 @@ const ReportList = () => {
     const [taskMode, setTaskMode] = useState('');
     const [status, setStatus] = useState('');
     const [sort, setSort] = useState(0);
+
+    const language = useSelector((d) => d.user.language);
 
     const modeList = {
         '1': t('plan.modeList.1'),
@@ -102,7 +105,7 @@ const ReportList = () => {
         return () => {
             clearInterval(report_t);
         }
-    }, [keyword, currentPage, pageSize, startTime, endTime, taskType, taskMode, status, sort]);
+    }, [keyword, currentPage, pageSize, startTime, endTime, taskType, taskMode, status, sort, language]);
 
     const getReportData = () => {
         const query = {

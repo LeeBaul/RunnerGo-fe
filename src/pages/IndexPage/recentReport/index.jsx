@@ -72,7 +72,7 @@ const RecentReport = () => {
         return () => {
             clearInterval(index_report_t);
         }
-    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize, startTime, endTime, taskType, taskMode, status, sort]);
+    }, [keyword, localStorage.getItem('team_id'), currentPage, pageSize, startTime, endTime, taskType, taskMode, status, sort, language]);
 
     const getReportData = () => {
         const query = {
