@@ -288,7 +288,7 @@ const TaskConfig = (props) => {
                                 }
                             }}>
                                 <Radio className='radio-group-item' value="duration">
-                                    <span>{t('plan.duration')}: </span>
+                                    <span style={{ marginTop: '5px' }}>{t('plan.duration')}: </span>
                                     <Input value={mode_conf.duration} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e.target.value);
@@ -300,7 +300,7 @@ const TaskConfig = (props) => {
                                     }} disabled={default_mode === 'round_num'} />
                                 </Radio>
                                 <Radio className='radio-group-item' value="round_num">
-                                    <span>{t('plan.roundNum')}: </span>
+                                    <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}: </span>
                                     <Input value={mode_conf.round_num} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.round_num = parseInt(e.target.value);
@@ -609,8 +609,8 @@ const TaskConfig = (props) => {
                         <Radio value="B">全局配置</Radio>
                     </Radio.Group>
                 </div> */}
-                {/* <div className='item' style={{ marginBottom: '30px' }}>
-                    <p>{t('plan.taskType')}: </p>
+                <div className='item' style={{ marginBottom: '30px' }}>
+                    <p style={{ marginTop: '2px' }}>{t('plan.taskType')}： </p>
                     <Radio.Group value={task_type} onChange={(e) => {
                         setTaskType(e);
                         // from === 'preset' && onChange('task_type', e);
@@ -618,9 +618,9 @@ const TaskConfig = (props) => {
                         updateTaskConfig('task_type', parseInt(e));
                     }}>
                         <Radio value={1}>{t('plan.taskList.commonTask')}</Radio>
-                        <Radio value={2}>{t('plan.taskList.cronTask')}</Radio>
+                        {/* <Radio value={2}>{t('plan.taskList.cronTask')}</Radio> */}
                     </Radio.Group>
-                </div> */}
+                </div>
                 {/* {
                     task_type === 2 && <div className='item' style={{ marginBottom: '20px' }}>
                         <p style={{ marginRight: '5px' }}>{t('plan.fillInCron')}: </p>

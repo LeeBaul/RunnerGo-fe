@@ -1,5 +1,5 @@
 import React from "react";
-import SvgInvitate from '@assets/logo/InvitateExpire';
+import SvgInvitate from '@assets/logo/invitateExpire.svg';
 import './index.less';
 
 const InvitateExpire = () => {

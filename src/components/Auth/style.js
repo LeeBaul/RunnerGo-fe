@@ -19,6 +19,8 @@ export const AuthWrapper = styled.div`
       flex: 1;
       padding-left: 8px;
       max-width: 500px;
+      display: flex;
+      align-items: center;
       .apipost-auth-content {
         width: 100%;
         display: flex;
@@ -37,6 +39,8 @@ export const AuthWrapper = styled.div`
             align-items: start;
             justify-content: start;
             margin-right: 8px;
+            display: flex;
+            align-items: center;
           }
           .apipost-input-inner-wrapper {
             flex: 1;
