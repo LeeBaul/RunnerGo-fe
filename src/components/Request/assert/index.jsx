@@ -106,7 +106,7 @@ const Assert = (props) => {
                         onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
-                            parameter[rowIndex]?.response_type === 1 ? COMPARE_IF_TYPE.splice(0, 6).map(item => <Option value={item.type}>{item.title}</Option>) : COMPARE_IF_TYPE.map(item => <Option value={item.type}>{item.title}</Option>)
+                            COMPARE_IF_TYPE.splice(0, 6).map(item => <Option value={item.type}>{item.title}</Option>)
                         }
                     </Select>
                 );
