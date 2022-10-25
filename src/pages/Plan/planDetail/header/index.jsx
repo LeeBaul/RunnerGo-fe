@@ -157,6 +157,8 @@ const DetailHeader = () => {
                         ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
                             if (code === 0) {
                                 getReportDetail();
+                                Message('success', t('message.runSuccess'))
+                                navigate('/report/list');
                             } else {
                                 Message('error', t('message.handleError'));
                             }
