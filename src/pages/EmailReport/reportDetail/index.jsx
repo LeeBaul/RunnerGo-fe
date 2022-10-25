@@ -44,7 +44,7 @@ const ReportDetail = (props) => {
 		if (!report_id) {
 			getReportDetail(plan_id);
 		}
-	}, [select_plan, plan_id]);
+	}, [select_plan, plan_id]); 
 
 	const getReportDetail = (plan_id) => {
 		const query = {
