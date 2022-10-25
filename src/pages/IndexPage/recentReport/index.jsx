@@ -112,7 +112,7 @@ const RecentReport = () => {
                                 task_type: taskList[task_type],
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 last_time_sec: status === 1 ? '-' : dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                                status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>{ t('report.statusList.1') }</p> : <p>{ t('report.statusList.2') }</p>,
+                                status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>{t('report.statusList.1')}</p> : <p>{t('report.statusList.2')}</p>,
                                 operation: <HandleContent report_id={report_id} />
                             }
                         });
@@ -340,6 +340,7 @@ const RecentReport = () => {
                 {
                     selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ?
                         <Tooltip
+                            className='tooltip-diy'
                             content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
                         >
                             <Button className='contrast-btn' style={{ backgroundColor: selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? 'var(--bg-4)' : '', color: selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? 'var(--font-1)' : '' }} disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>

@@ -205,10 +205,10 @@
         "saveTagSuccess": "Successfully saved all labels"
     },
     "modal": {
-        "look": "be careful",
+        "look": "Be careful",
         "deletePlan": "Are you sure you want to delete this schedule?",
         "deleteReport": "Are you sure you want to delete this report?",
-        "invitation": "Invitate",
+        "invitation": "Invite",
         "roleList": {
             "0": "Member",
             "1": "Admin",

@@ -76,11 +76,12 @@ const ReportListHeader = (props) => {
                 {
                     selectReport.length < 2 || selectReport.length > 5 ?
                         <Tooltip
+                            className='tooltip-diy'
                             content={selectReport.length < 2 || selectReport.length > 5 ? t('index.contrastText') : ''}
                         >
                             <Button
                                 className='contrast-btn'
-                                style={{ backgroundColor: selectReport.length < 2 || selectReport.length > 5  ? 'var(--bg-4)' : '', color: selectReport.length < 2 || selectReport.length > 5  > 5 ? 'var(--font-1)' : '' }} 
+                                style={{ backgroundColor: selectReport.length < 2 || selectReport.length > 5 ? 'var(--bg-4)' : '', color: selectReport.length < 2 || selectReport.length > 5 > 5 ? 'var(--font-1)' : '' }}
                                 disabled={selectReport.length < 2 || selectReport.length > 5}
                                 onClick={() => toContrast()}
                             >

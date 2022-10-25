@@ -130,6 +130,8 @@ const PlanList = () => {
                         Modal.confirm({
                             title: t('modal.look'),
                             content: t('modal.deletePlan'),
+                            okText: t('btn.ok'),
+                            cancelText: t('btn.cancel'),
                             onOk: () => {
                                 Bus.$emit('deletePlan', plan_id, (code) => {
                                     if (code === 0) {
