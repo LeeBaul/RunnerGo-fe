@@ -72,12 +72,12 @@ const LeftToolbar = () => {
             icon: SvgReport,
             link: '/report',
         },
-        {
-            type: 'machine',
-            title: t('leftBar.machine'),
-            icon: SvgMachine,
-            link: '/machine',
-        },
+        // {
+        //     type: 'machine',
+        //     title: t('leftBar.machine'),
+        //     icon: SvgMachine,
+        //     link: '/machine',
+        // },
         {
             type: 'doc',
             title: t('leftBar.docs'),
@@ -135,7 +135,7 @@ const LeftToolbar = () => {
                                 })
                                 refMenu.current.setPopupVisible(false);
                             }}>中文</p>
-                            <p style={{ color: i18n.language === 'en' ? 'var(--theme-color)' : '' }} onClick={() => {
+                            <p style={{ color: i18n.language === 'en' ? 'var(--theme-color)' : '', marginTop: '14px' }} onClick={() => {
                                 i18n.changeLanguage('en');
                                 dispatch({
                                     type: 'user/updateLanGuaGe',

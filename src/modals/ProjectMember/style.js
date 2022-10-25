@@ -30,7 +30,7 @@ export const ProjectMemberModal = css`
 
     .apipost-table-td {
         color: var(--font-1);
-        text-align: left;
+        // text-align: left;
         padding: 19px 0;
         overflow: hidden;
         white-space: nowrap;
@@ -56,8 +56,13 @@ export const ProjectMemberModal = css`
                 width: 25%;
                 overflow: hidden;
             }
-
-
+        }
+    }
+    .member-info {
+        .detail {
+            p {
+                text-align: left !important;
+            }
         }
     }
     .default-power {
@@ -84,9 +89,9 @@ export const ProjectMemberModal = css`
         }
     }
     .apipost-table-th {
-        .apipost-table-td {
-            text-align: center;
-        }
+    }
+    .apipost-table-td {
+        text-align: center;
     }
     .apipost-select-popup {
         width: 133px;

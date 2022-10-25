@@ -99,13 +99,13 @@ const RecentReport = () => {
                             return {
                                 ...item,
                                 rank,
-                                plan_name: <Tooltip content={<div>{plan_name}</div>}><div className='ellipsis'>{plan_name}</div></Tooltip>,
+                                plan_name: <Tooltip className='tooltip-diy' content={<div>{plan_name}</div>}><div className='ellipsis'>{plan_name}</div></Tooltip>,
                                 scene_name:
-                                    <Tooltip content={<div>{scene_name}</div>}>
+                                    <Tooltip className='tooltip-diy' content={<div>{scene_name}</div>}>
                                         <div className='ellipsis'>{scene_name}</div>
                                     </Tooltip>,
                                 run_user_name:
-                                    <Tooltip content={<div>{run_user_name}</div>}>
+                                    <Tooltip className='tooltip-diy' content={<div>{run_user_name}</div>}>
                                         <div className='ellipsis'>{run_user_name}</div>
                                     </Tooltip>,
                                 task_mode: modeList[task_mode],

@@ -4,6 +4,27 @@ import { css } from '@emotion/css';
 export const RequestWrapper = styled.div`
   height: 100%;
   width: 100%;
+  .apipost-table-td {
+    color: var(--font-1);
+    height: 24px;
+    .apipost-table-cell {
+        overflow:hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        height: 24px;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .apipost-input-inner-wrapper {
+            height: 24px;
+        }
+        .apipost-select {
+          height: 24px;
+        }
+    }
+}
   .tabs-item {
     width: auto !important;
   }

@@ -12,6 +12,7 @@ import Machine from "./Machine";
 import Doc from "./Doc";
 import UserHome from "./UserHome";
 import EmailReport from "./EmailReport";
+import InvitateExpire from "./InvitateExpire";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -81,10 +82,15 @@ const Route = [
         name: 'emailReport',
         path: '/email/report',
         element: EmailReport,
+    },
+    {
+        name: 'invitateExpire',
+        path: '/invitateExpire',
+        element: InvitateExpire
     }
 ];
 
-const ignorePage = ['login', 'register', 'find', 'userhome', 'reset', 'emailReport'];
+const ignorePage = ['login', 'register', 'find', 'userhome', 'reset', 'emailReport', 'invitateExpire'];
 
 // export const RoutePages = Route;
 

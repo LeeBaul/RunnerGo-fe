@@ -186,15 +186,15 @@ const PlanList = () => {
                         ...item,
                         rank,
                         name:
-                            <Tooltip content={<div>{name}</div>}>
+                            <Tooltip className='tooltip-diy' content={<div>{name}</div>}>
                                 <div className='ellipsis'>{name}</div>
                             </Tooltip>,
                         created_user_name:
-                            <Tooltip content={<div>{created_user_name}</div>}>
+                            <Tooltip  className='tooltip-diy' content={<div>{created_user_name}</div>}>
                                 <div className='ellipsis'>{created_user_name}</div>
                             </Tooltip>,
                         remark:
-                            <Tooltip content={<div>{remark}</div>}>
+                            <Tooltip className='tooltip-diy' content={<div>{remark}</div>}>
                                 <div className='ellipsis'>{remark}</div>
                             </Tooltip>,
                         task_type: taskList[task_type],

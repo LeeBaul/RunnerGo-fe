@@ -26,7 +26,7 @@ const ReportContent = () => {
     const [stopDebug, setStopDebug] = useState('stop');
     const [reportStatus, setReportStatus] = useState(1);
     const [runTime, setRunTime] = useState(0);
-    const [planId, setPlanId] = useState(null);
+    const [planId, setPlanId] = useState(0);
     const select_plan = useSelector((store) => (store.plan.select_plan));
 
 

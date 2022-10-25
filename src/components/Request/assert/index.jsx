@@ -27,8 +27,8 @@ const Assert = (props) => {
     const handleTableDelete = (index) => {
         const newList = [...parameter];
         if (newList.length > 0) {
-          newList.splice(index, 1);
-          onChange('assert', [...newList]);
+            newList.splice(index, 1);
+            onChange('assert', [...newList]);
         }
     };
 
@@ -64,14 +64,14 @@ const Assert = (props) => {
             render: (text, rowData, rowIndex) => (
                 <Select
                     value={rowData.response_type || null}
-                    placeholder={ t('placeholder.plsSelect') }
+                    placeholder={t('placeholder.plsSelect')}
                     onChange={(e) => {
                         handleChange(rowData, rowIndex, { response_type: e });
                     }}
                 >
-                    <Option value={1}>{ t('apis.assertSelect.resHeader') }</Option>
-                    <Option value={2}>{ t('apis.assertSelect.resBody') }</Option>
-                    <Option value={3}>{ t('apis.assertSelect.resCode') }</Option>
+                    <Option value={1}>{t('apis.assertSelect.resHeader')}</Option>
+                    <Option value={2}>{t('apis.assertSelect.resBody')}</Option>
+                    <Option value={3}>{t('apis.assertSelect.resCode')}</Option>
                 </Select>
             ),
         },
@@ -82,10 +82,10 @@ const Assert = (props) => {
             width: 120,
             render: (text, rowData, rowIndex) => {
                 return (
-                    <Input
+                    <ApiInput
                         size="mini"
                         value={text}
-                        disabled={ parameter[rowIndex] ?  (parameter[rowIndex].response_type === 3 || parameter[rowIndex].response_type === 1) : false }
+                        disabled={parameter[rowIndex] ? (parameter[rowIndex].response_type === 3 || parameter[rowIndex].response_type === 1) : false}
                         onChange={(newVal) => {
                             handleChange(rowData, rowIndex, { var: newVal });
                         }}
@@ -102,11 +102,11 @@ const Assert = (props) => {
                 return (
                     <Select
                         value={rowData.compare || null}
-                        placeholder={ t('placeholder.plsSelect') }
+                        placeholder={t('placeholder.plsSelect')}
                         onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
-                            COMPARE_IF_TYPE.map(item => <Option value={item.type}>{item.title}</Option>)
+                            parameter[rowIndex]?.response_type === 1 ? COMPARE_IF_TYPE.splice(0, 6).map(item => <Option value={item.type}>{item.title}</Option>) : COMPARE_IF_TYPE.map(item => <Option value={item.type}>{item.title}</Option>)
                         }
                     </Select>
                 );
@@ -118,10 +118,10 @@ const Assert = (props) => {
             // enableResize: true,
             render: (text, rowData, rowIndex) => {
                 return (
-                    <Input
+                    <ApiInput
                         size="mini"
                         value={text}
-                        disabled={ parameter[rowIndex] ? (parameter[rowIndex].compare === 'notnull' || parameter[rowIndex].compare === 'null') : false }
+                        disabled={parameter[rowIndex] ? (parameter[rowIndex].compare === 'notnull' || parameter[rowIndex].compare === 'null') : false}
                         onChange={(newVal) => {
                             handleChange(rowData, rowIndex, { val: newVal });
                         }}

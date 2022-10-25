@@ -17,7 +17,18 @@ export const GlobalVarModal = css`
     }
     .apipost-table-td {
         color: var(--font-1);
-        height: 30px;
+        height: 24px;
+        .apipost-table-cell {
+            overflow:hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            height: 24px;
+            font-size: 12px;
+    
+            .apipost-input-inner-wrapper {
+                height: 24px
+            }
+        }
     }
     .container-title {
         font-size: 16px;
