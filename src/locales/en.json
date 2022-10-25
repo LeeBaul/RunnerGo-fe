@@ -385,7 +385,7 @@
         "assertSelect": {
             "resHeader": "Response Header",
             "resBody": "Response Body",
-            "resCode": "Response Code"
+            "resCode": "Code"
         },
         "field": "field",
         "compareSelect": {
@@ -403,13 +403,13 @@
         "val": "Value",
         "varName": "variable name",
         "expression": "expression",
-        "response": "Response",
+        "response": "Res",
         "reqHeader": "Req Header",
         "reqBody": "Req Body",
         "resHeader": "Res Header",
         "resBody": "Res Body",
-        "resAssert": "Assertion results",
-        "resRegular": "Regular Result",
+        "resAssert": "Assert",
+        "resRegular": "Regular",
         "resEmpty": "Enter the url and click the Send button to get the response result",
         "createApi": "New API",
         "createFolder": "New directory",
