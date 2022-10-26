@@ -31,6 +31,7 @@ const TeamList = (props) => {
     const [showEditName, setEditName] = useState(false);
     const [teamName, setTeamName] = useState('');
     const [nameError, setNameError] = useState(false);
+    const [editTeamId, setEditTeamId] = useState(0);
 
     const userInfo = useSelector((store) => store.user.userInfo);
     const dispatch = useDispatch();
@@ -181,7 +182,7 @@ const TeamList = (props) => {
                         let dataList = [];
                         // console.log(userInfo);
                         dataList = teams.map((item, index) => {
-                            const { name, created_time_sec } = item;
+                            const { name, created_time_sec, team_id } = item;
                             return {
                                 ...item,
                                 name:
@@ -190,6 +191,7 @@ const TeamList = (props) => {
                                         <SvgEdit onClick={() => {
                                             setEditName(true);
                                             setTeamName(name);
+                                            setEditTeamId(team_id);
                                         }} />
                                     </div>,
                                 created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
@@ -294,7 +296,7 @@ const TeamList = (props) => {
                             return;
                         }
                         const params = {
-                            team_id: parseInt(localStorage.getItem('team_id')),
+                            team_id: parseInt(editTeamId),
                             name: teamName,
                         };
                         fetchCreateTeam(params).subscribe({
