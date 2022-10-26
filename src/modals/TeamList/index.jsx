@@ -272,6 +272,52 @@ const TeamList = (props) => {
         )
     }
 
+    const renderRow = (tableData, renderRowItem) => {
+        return (
+          <tbody>
+            {tableData.map((tableRowData, rowIndex) => {
+              const rowComp = React.cloneElement(renderRowItem(tableRowData, rowIndex), {
+                key: rowIndex,
+                onDoubleClick(tableRowData) {
+                  const { team_id } =  tableData[rowIndex]
+                  const settings = JSON.parse(localStorage.getItem('settings'));
+                  settings.settings.current_team_id = team_id;
+                  localStorage.setItem('settings', settings);
+                  fetchUpdateConfig(settings).subscribe({
+                      next: (res) => {
+                          const { code } = res;
+                          if (code === 0) {
+                              localStorage.setItem('team_id', team_id);
+                              localStorage.removeItem('open_scene');
+                              dispatch({
+                                  type: 'opens/coverOpenApis',
+                                  payload: {},
+                              })
+                              dispatch({
+                                  type: 'scene/updateOpenScene',
+                                  payload: null,
+                              })
+                              global$.next({
+                                  action: 'INIT_APPLICATION',
+                              });
+                              onCancel();
+                              navigate('/index');
+                          } else {
+                              Message('error', t('moidal.checkTeamError'));
+                          }
+                      },
+                      err: (err) => {
+
+                      }
+                  })
+                },
+              });
+              return rowComp;
+            })}
+          </tbody>
+        );
+      };
+
     return (
         <div>
             {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
@@ -351,7 +397,7 @@ const TeamList = (props) => {
                 cancelText={t('btn.cancel')}
                 okText={t('btn.ok')}
             >
-                <Table columns={columns} data={data} />
+                <Table columns={columns} data={data} renderRow={renderRow}  />
                 {/* <div className='title'>
                     <p>成员</p>
                     <p>加入日期</p>
