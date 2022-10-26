@@ -31,6 +31,25 @@ const TeamworkLogs = (props) => {
 
   const [list, setList] = useState([]);
 
+  const logType = {
+    "1": t('index.logType.1'),
+    "2": t('index.logType.2'),
+    "3": t('index.logType.3'),
+    "4": t('index.logType.4'),
+    "5": t('index.logType.5'),
+    "6": t('index.logType.6'),
+    "7": t('index.logType.7'),
+    "8": t('index.logType.8'),
+    "9": t('index.logType.9'),
+    "10": t('index.logType.10'),
+    "11": t('index.logType.11'),
+    "12": t('index.logType.12'),
+    "13": t('index.logType.13'),
+    "14": t('index.logType.14'),
+    "15": t('index.logType.15'),
+    "16": t('index.logType.16'),
+}
+
   const refTooltip = useRef(null);
 
   useEffect(() => {
@@ -290,7 +309,7 @@ const TeamworkLogs = (props) => {
                                   logItem?.message?.subject?.modify_subject.length - 3
                                 )
                                 : Intercept(logItem?.message?.subject?.modify_subject)} */}
-                                { logItem.name }
+                                { logType[logItem.operate] } - {logItem.name }
                             </div>
                           {/* </Tooltip> */}
                         </div>

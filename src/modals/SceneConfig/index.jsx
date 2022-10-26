@@ -89,6 +89,9 @@ const SceneConfig = (props) => {
                             onChange={(newVal) => {
                                 handleChange(rowData, rowIndex, { var: newVal });
                                 setCheckName([rowIndex, newVal]);
+                                if (newVal.length === 0 && varList[rowIndex].val.length === 0 && varList[rowIndex].description.length === 0) {
+                                    deleteItem(rowIndex);
+                                }
                             }}
                         />
                         {rowIndex !== varList.length - 1 && <SvgCopy onClick={() => copyStringToClipboard(varList[rowIndex].var)} />}
