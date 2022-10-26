@@ -125,7 +125,6 @@ const ScenePicker = (props) => {
       type: 'scene/updateOpenDesc',
       payload: dataList[0].desc
     })
-    Bus.$emit('addOpenPlanScene', { target_id: dataList[0].id }, id_apis_plan, node_config_plan);
 
     onCancel();
   };

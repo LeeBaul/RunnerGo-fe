@@ -179,6 +179,8 @@ const usePlan = () => {
                     Bus.$emit('addNewPlanApi', idList, id_apis, node_config, apiList, configList, 'plan');
                 }
 
+                console.log('-----', data);
+
                 dispatch({
                     type: 'plan/updateOpenScene',
                     payload: data || { target_id, },
@@ -488,7 +490,7 @@ const usePlan = () => {
             .subscribe();
     };
 
-    const importSceneList = (ids, plan_id) => {
+    const importSceneList = (ids, plan_id, id_apis, node_config) => {
         console.log(ids);
         const query = {
             team_id: localStorage.getItem('team_id'),
@@ -519,7 +521,7 @@ const usePlan = () => {
                 )
             }),
             concatMap(res => {
-                _scenes.forEach(item => {
+                _scenes.forEach((item, index) => {
                     const _target_id = item.target_id;
                     const _scene = cloneDeep(item);
                     delete _scene['target_id'];
@@ -535,6 +537,10 @@ const usePlan = () => {
                             flow_item.nodes.forEach(item => {
                                 item.data.from = 'plan';
                             });
+
+                            if (index === 0) {
+                                Bus.$emit('addOpenPlanScene', { target_id  }, id_apis, node_config);
+                            }
 
                             const new_flow = {
                                 ...flow_item,

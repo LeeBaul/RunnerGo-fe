@@ -60,6 +60,8 @@ const MenuTrees = (props, treeRef) => {
 
     const open_scene = type === 'scene' ? open_scene_scene : open_plan_scene;
 
+    console.log(open_scene);
+
     const planData = useSelector((d) => d.plan.planMenu);
     const treeDataList = {
         'apis': apiData,
@@ -317,6 +319,7 @@ const MenuTrees = (props, treeRef) => {
     };
 
     const renderTreeNode = (nodeItem, { indent, nodeTitle }) => {
+        console.log(nodeItem);
         return (
             <MenuTreeNode>
                 <DragNode
