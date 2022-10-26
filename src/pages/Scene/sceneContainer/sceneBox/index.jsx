@@ -116,6 +116,7 @@ const SceneBox = (props) => {
 
         for (let i = 0; i < edges.length; i++) {
             if (edges[i].source === target && (edges.findIndex(item => item.target === source) !== -1)) {
+                console.log(source, target, edges[i], edges.findIndex(item => item.target === source), edges);
                 return false;
             }
             if (edges[i].target === source) {

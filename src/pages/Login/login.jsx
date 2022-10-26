@@ -179,7 +179,7 @@ const LoginBox = (props) => {
           saveLocalData(data);
           localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
           localStorage.setItem('kunpeng-token', data.token);
-          Message('success', t('message.loginSuccess'));
+
           // setCookie('token', userData.token);
 
           return getUserConfig$();
@@ -238,6 +238,7 @@ const LoginBox = (props) => {
             //   }
             // })
           } else  {
+            Message('success', t('message.loginSuccess'));
             navigate('/index'); 
             global$.next({ 
               action: 'INIT_APPLICATION',
@@ -266,6 +267,7 @@ const LoginBox = (props) => {
               payload: team_id
             });
             console.log(team_id);
+            Message('success', t('message.loginSuccess'));
             navigate('/index');
             global$.next({ 
               action: 'INIT_APPLICATION',
