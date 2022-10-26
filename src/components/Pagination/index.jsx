@@ -33,7 +33,7 @@ const Pagination = (props) => {
     return (
         <div className='paging'>
             <Select
-                style={{ width: 'auto' }}
+                style={{ width: 'auto', marginRight: '5px' }}
                 placement="top-start"
                 defaultValue={pageSize}
                 onChange={(e) => {
