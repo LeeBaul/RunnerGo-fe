@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.less';
 import { Apis as SvgApis, Right as SvgRight, Lately as SvgLately } from 'adesign-react/icons';
 import avatar from '@assets/logo/avatar.png';
@@ -8,12 +8,59 @@ import dayjs from 'dayjs';
 import SvgEmpty from '@assets/img/empty';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { fetchOperationLog } from '@services/dashboard';
+import { tap } from 'rxjs';
 
 const HandleLog = (props) => {
     // const { logList } = props;
     const [showLog, setShowLog] = useState(false);
     const { t } = useTranslation();
     const logList = useSelector((store) => store.teams.logList);
+    const [list, setList] = useState([]);
+    let index_log_list = null;
+
+    useEffect(() => {
+        setList(logList);
+        index_log_list = setInterval(() => {
+            getLogList();
+        }, 1000);
+
+        return () => {
+            clearInterval(index_log_list);
+        }
+    }, [])
+
+    const getLogList = () => {
+        // const listener1 = () => {
+        //   refTooltip?.current?.setPopupVisible(false);
+        // };
+    
+        const query = {
+          team_id: localStorage.getItem('team_id'),
+          page: 1,
+          size: 5
+        }
+    
+        fetchOperationLog(query)
+          .pipe(
+            tap((res) => {
+              const { code, data } = res;
+    
+              if (code === 0) {
+                const { operations, total } = data;
+
+                console.log(operations);
+                setList(operations);
+                // setList(list);
+              }
+            })
+          )
+          .subscribe();
+    
+      };
+
+    // console.log(logList);
+
     const logType = {
         "1": t('index.logType.1'),
         "2": t('index.logType.2'),
@@ -47,7 +94,7 @@ const HandleLog = (props) => {
             </div>
             <div className='log-bottom'>
                 {
-                    logList.length > 0 ? logList.map((item, index) => (
+                    list.length > 0 ? logList.map((item, index) => (
                         <div className='log-item' key={index}>
                             <div className='log-item-left'>
                                 <img src={item.user_avatar || avatar} alt="" />

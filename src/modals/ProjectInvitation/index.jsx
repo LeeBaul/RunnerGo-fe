@@ -30,6 +30,8 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import qs from 'qs';
 
+import InvitateSuccess from '../InvitateSuccess';
+
 const Option = Select.Option;
 const InvitationModal = (props) => {
   const { t, i18n } = useTranslation();
@@ -424,7 +426,6 @@ const InvitationModal = (props) => {
               Message('success', t('message.invitateSuccess'));
               Bus.$emit('getTeamMemberList');
               setAddList([]);
-              onCancel();
             } else {
               Message('error', t('message.invitateError'));
             }
@@ -521,30 +522,10 @@ const InvitationModal = (props) => {
           onCancel={PayAddSuccessModalClose}
         />
       )}
+      
       {
         invitateSuccess &&
-        <Modal
-          className='invitate-result'
-          visible
-          title={null}
-          footer={null}
-        >
-          <p className='title'>{t('modal.invitateSuccess.title')}</p>
-          <p className='message'>{t('modal.invitateSuccess.message-1')}{addLength}{t('modal.invitateSuccess.message-2')} | {t('modal.invitateSuccess.message-3')}{unRegister}{t('modal.invitateSuccess.message-2')}, {t('modal.invitateSuccess.message-4')}</p>
-          <div className='container'>
-            <div className='un-register-email'>
-              {
-                unRegister > 0 && <>
-                  <p className='title'>{t('modal.invitateSuccess.unRegister')}: </p>
-                  {
-                    unEmail.map((item, index) => <p className='email' key={index}>{item}</p>)
-                  }
-                </>
-              }
-            </div>
-            <Button onClick={() => setInvitateSuccess(false)}>{t('btn.ok')}</Button>
-          </div>
-        </Modal>
+          <InvitateSuccess addLength={addLength} unRegister={unRegister} unEmail={unEmail}  onCancel={() => setInvitateSuccess(false)} />
       }
       <PaymentModal
         visible={payvisible}
