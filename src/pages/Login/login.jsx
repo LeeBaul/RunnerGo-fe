@@ -248,8 +248,12 @@ const LoginBox = (props) => {
           if (res) {
             const { code } = res;
             console.log(res);
-  
-            return getUserConfig$();
+
+            if (code === 20006) {
+              navigate('/invitateExpire');
+            } else {
+              return getUserConfig$();
+            }
           }
         }),
         tap((res) => {
