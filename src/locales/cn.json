@@ -75,6 +75,7 @@
         "confirmPwd": "请确认密码",
         "nickname": "请输入不少于2位的昵称",
         "teamName": "请输入1-25位的团队名称",
+        "searchTeam": "搜索团队名称",
         "newPwd": "请输入新密码",
         "currentPwd": "请输入当前密码",
         "planName": "请输入计划名称",

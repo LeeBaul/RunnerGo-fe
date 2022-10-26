@@ -76,6 +76,7 @@
         "confirmPwd": "Confirm password",
         "nickname": "Please enter a nickname of at least 2 digits",
         "teamName": "Please enter a 1-25 digit team name",
+        "searchTeam": "Search Team Name",
         "newPwd": "Please enter a new password",
         "currentPwd": "Please enter the current password",
         "planName": "Please enter the plan name",

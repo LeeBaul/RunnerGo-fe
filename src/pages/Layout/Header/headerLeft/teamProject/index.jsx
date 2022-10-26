@@ -78,7 +78,7 @@ const TeamProject = () => {
                             onChange={setFilterValue}
                             beforeFix={<SvgSearch width="16" height="16" className="perfix" />}
                             className="filter-box"
-                            placeholder={t('placeholder.teamName')}
+                            placeholder={t('placeholder.searchTeam')}
                         />
                         <TeamProjectWrapper>
                             <TeamList
