@@ -119,7 +119,7 @@ const ApisContent = (props) => {
         (APIS_TAB_DIRECTION !== 1 && contentLayouts?.[1]?.height === MIN_SIZE);
 
     return (
-        <ApisContentWarper ref={refWrapper} style={{ marginLeft: from === 'apis' ? '16px' : '' }}>
+        <ApisContentWarper ref={refWrapper} style={{ margin: from === 'apis' ? '0 16px' : '' }}>
             <ScalePanel
                 direction={APIS_TAB_DIRECTION > 0 ? 'horizontal' : 'vertical'}
                 layouts={contentLayouts}

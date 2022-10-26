@@ -152,7 +152,6 @@ const Header = (props) => {
     {
       title: t('apis.desc'),
       dataIndex: 'description',
-      width: 80,
       render: (text, rowData, rowIndex) => {
         return (
           // <AutoSizeTextArea
