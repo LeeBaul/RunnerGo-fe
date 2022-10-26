@@ -344,8 +344,8 @@ const MemberInfo = (props) => {
         <div className='member-info'>
             <img className='avatar' src={avatarUrl || avatar} />
             <div className='detail'>
-                <p>{nickname} { me ? `（${ t('modal.me') }）` : '' }</p>
-                <p>{email}</p>
+                <p class='name'><p className='common'>{nickname} </p><p>{ me ? `(${ t('modal.me') })` : '' }</p></p>
+                <p className='email'>{email}</p>
             </div>
         </div>
     )

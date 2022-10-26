@@ -25,6 +25,23 @@ export const ProjectMemberModal = css`
             display: flex;
             flex-direction: column;
             margin-left: 8px;
+
+            .email {
+                max-width: 175px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .name {
+                display: flex;
+                .common {
+                    max-width: 110px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
         }
     }
 

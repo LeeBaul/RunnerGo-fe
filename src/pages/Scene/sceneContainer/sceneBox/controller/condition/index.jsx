@@ -3,7 +3,7 @@ import { Switch, Input, Select, Dropdown, Button } from 'adesign-react';
 import { More as SvgMore } from 'adesign-react/icons';
 import './index.less';
 import { Handle, MarkerType } from 'react-flow-renderer';
-import { COMPARE_IF_TYPE } from '@constants/compare';
+// import { COMPARE_IF_TYPE } from '@constants/compare';
 import { useSelector, useDispatch } from 'react-redux';
 import Bus from '@utils/eventBus';
 
@@ -21,6 +21,19 @@ const ConditionController = (props) => {
     const { data: { id, from } } = props;
     const refDropdown = useRef(null);
     const { t } = useTranslation();
+
+    const COMPARE_IF_TYPE = [
+        { type: 'eq', title: t('apis.compareSelect.eq') },
+        { type: 'uneq', title: t('apis.compareSelect.uneq') },
+        { type: 'gt', title: t('apis.compareSelect.gt') },
+        { type: 'gte', title: t('apis.compareSelect.gte') },
+        { type: 'lt', title: t('apis.compareSelect.lt') },
+        { type: 'lte', title: t('apis.compareSelect.lte') },
+        { type: 'includes', title: t('apis.compareSelect.includes') },
+        { type: 'unincludes', title: t('apis.compareSelect.unincludes') },
+        { type: 'null', title: t('apis.compareSelect.null') },
+        { type: 'notnull', title: t('apis.compareSelect.notnull') },
+    ];
     // const dispatch = useDispatch();
     // const node_config = useSelector((store) => store.scene.node_config);
 

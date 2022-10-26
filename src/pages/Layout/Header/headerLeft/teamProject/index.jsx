@@ -54,17 +54,16 @@ const TeamProject = () => {
 
     return (
         <TeamProjectPanel>
-            <SvgTeam />
             <Dropdown
                 ref={refDropdown}
                 content={
                     <DropdownContainer>
                         <div className="header">
-                            <span>{ t('modal.team') }</span>
+                            <span>{t('modal.team')}</span>
                             <Button onClick={() => {
                                 setTeamList(true);
                                 refDropdown.current.setPopupVisible(false);
-                            }}>{ t('modal.teamManage') }</Button>
+                            }}>{t('modal.teamManage')}</Button>
                             {/* <a href={USER_PROJECT_URL} target="_blank" rel="noreferrer">
                                 <Button
                                     preFix={<SvgStartupteam width="16" height="16" className="perfix" />}
@@ -79,7 +78,7 @@ const TeamProject = () => {
                             onChange={setFilterValue}
                             beforeFix={<SvgSearch width="16" height="16" className="perfix" />}
                             className="filter-box"
-                            placeholder={ t('placeholder.teamName') }
+                            placeholder={t('placeholder.teamName')}
                         />
                         <TeamProjectWrapper>
                             <TeamList
@@ -93,12 +92,13 @@ const TeamProject = () => {
                 }
             >
                 <Button
+                    preFix={<SvgTeam style={{ marginRight: '6px' }} />}
                     afterFix={<SvgDown width="16" height="16" className="afterfix" />}
                 >
                     {currentTeamName}
                 </Button>
             </Dropdown>
-            { showTeamList && <TeamLists onCancel={() => setTeamList(false)} /> }
+            {showTeamList && <TeamLists onCancel={() => setTeamList(false)} />}
         </TeamProjectPanel>
     )
 };

@@ -5,8 +5,8 @@ export const TeamProjectPanel = styled.div`
   align-items: center;
   padding-left: 8px;
   svg {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     fill: var(--content-color-secondary);
   }
   .apipost-btn {

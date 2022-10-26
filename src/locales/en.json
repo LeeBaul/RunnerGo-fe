@@ -451,7 +451,8 @@
         "askHelp": "Official website for more information or help",
         "cloneApi": "Clone Api",
         "pasteApi": "Paste Api",
-        "more": "More"
+        "more": "More",
+        "selectFile": "Upload files"
     },
     "scene": {
         "createGroup": "New Group",

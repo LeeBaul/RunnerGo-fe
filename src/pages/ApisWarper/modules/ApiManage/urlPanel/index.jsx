@@ -108,7 +108,7 @@ const ApiURLPanel = (props) => {
     const [saveId, setSaveId] = useState(null);
 
     return (
-        <div className="api-url-panel">
+        <div className="api-url-panel" style={{ marginLeft: from === 'apis' ? '16px' : '' }}>
             <div className="api-url-panel-group">
                 <Select
                     className="api-status"
@@ -135,6 +135,7 @@ const ApiURLPanel = (props) => {
                 <Button
                     type="primary"
                     size="middle"
+                    style={{ marginRight: from === 'apis' ? '16px' : '' }}
                     disabled={btnName === t('btn.sending')}
                     onClick={() => {
                         // apiSend(data);

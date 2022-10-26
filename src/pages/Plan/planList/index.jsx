@@ -15,11 +15,13 @@ import { fetchPlanList, fetchCopyPlan } from '@services/plan';
 import { debounce } from 'lodash';
 import dayjs from 'dayjs';
 import Bus from '@utils/eventBus';
-import SvgStop from '@assets/icons/Stop';
+// import SvgStop from '@assets/icons/Stop';
 import Pagination from '@components/Pagination';
 import SvgEmpty from '@assets/img/empty';
 import { useTranslation } from 'react-i18next';
 import { global$ } from '@hooks/useGlobal/global';
+import SvgStart from '@assets/icons/Start';
+import SvgStop from '@assets/icons/Stop';
 
 import { DatePicker, Table } from '@arco-design/web-react';
 
@@ -90,22 +92,22 @@ const PlanList = () => {
         const { status, plan_id } = data;
         return (
             <div className='handle-content'>
-                {status === 2 ? <Button className='stop-btn' preFix={<SvgStop />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
+                {status === 2 ? <Button className='stop-btn' onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
                     if (code === 0) {
                         Message('success', t('message.stopSuccess'));
                         getPlanList();
                     } else {
                         Message('error', t('message.stopError'));
                     }
-                })}> {t('btn.finish')} </Button> :
-                    <Button className='run-btn' preFix={<SvgRun />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
+                })}> <SvgStop /></Button> :
+                    <Button className='run-btn' onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
                         if (code === 0) {
                             getPlanList();
                         } else {
                             Message('error', t('message.handleError'));
                         }
-                    })}>{t('btn.start')}</Button>}
-                <div className='handle-icons'>
+                    })}><SvgStart /></Button>}
+                {/* <div className='handle-icons'> */}
                     <SvgEye onClick={() => {
                         dispatch({
                             type: 'plan/updateOpenPlan',
@@ -128,7 +130,7 @@ const PlanList = () => {
                         // });
                     }} />
                     <SvgCopy onClick={() => copyPlan(plan_id)} />
-                    <SvgDelete style={{ fill: '#f00' }} onClick={() => {
+                    <SvgDelete style={{ fill: '#f00', marginRight: 0 }} onClick={() => {
                         Modal.confirm({
                             title: t('modal.look'),
                             content: t('modal.deletePlan'),
@@ -145,7 +147,7 @@ const PlanList = () => {
                             }
                         })
                     }} />
-                </div>
+                {/* </div> */}
             </div>
         )
     }
@@ -304,7 +306,7 @@ const PlanList = () => {
         {
             title: t('plan.handle'),
             dataIndex: 'handle',
-            width: 226,
+            width: 124,
         }
     ];
 

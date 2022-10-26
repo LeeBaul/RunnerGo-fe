@@ -8,6 +8,7 @@ import ProjectList from './projectList';
 import { fetchTeamList, fetchUpdateConfig } from '@services/user';
 import { tap } from 'rxjs';
 import { useDispatch } from 'react-redux';
+// import SvgTeam from '@assets/icons/team';
 
 import { global$ } from '@hooks/useGlobal/global';
 import { useNavigate } from 'react-router-dom';
