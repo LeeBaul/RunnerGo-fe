@@ -424,6 +424,7 @@ const InvitationModal = (props) => {
               Message('success', t('message.invitateSuccess'));
               Bus.$emit('getTeamMemberList');
               setAddList([]);
+              onCancel();
             } else {
               Message('error', t('message.invitateError'));
             }
