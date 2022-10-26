@@ -524,6 +524,7 @@ const usePlan = () => {
                     _scene.parent_id = 0;
                     _scene.source = 2;
                     _scene.plan_id = parseInt(plan_id);
+                    _scene.import_scene_id = parseInt(item.target_id);
 
                     fetchCreateScene(_scene).pipe(
                         tap(res => {
