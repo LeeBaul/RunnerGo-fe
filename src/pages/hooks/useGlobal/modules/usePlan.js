@@ -84,6 +84,7 @@ const usePlan = () => {
         //     type: 'plan/updateOpenScene',
         //     payload: null,
         // })
+        console.log(id);
         dispatch({
             type: 'plan/updateRunRes',
             payload: null,
@@ -488,6 +489,7 @@ const usePlan = () => {
     };
 
     const importSceneList = (ids, plan_id) => {
+        console.log(ids);
         const query = {
             team_id: localStorage.getItem('team_id'),
             target_id: ids,

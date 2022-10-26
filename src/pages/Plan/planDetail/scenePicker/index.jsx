@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Input, Tree, Drawer, Button, CheckBox } from 'adesign-react';
-import { useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 // import ApiStatus from '@components/ApiStatus';
 import produce from 'immer';
 import { cloneDeep, isArray, isObject, isUndefined, sortBy } from 'lodash';
@@ -34,12 +34,17 @@ const ScenePicker = (props) => {
   const sceneDatas = useSelector((store) => store?.scene?.sceneDatas);
   const { id } = useParams();
 
+  const dispatch = useDispatch();
+
   const [checkAll, setCheckAll] = useState('unCheck');
   const [checkedApiKeys, setCheckedApiKeys] = useState([]);
   const [filterParams, setFilterParams] = useState({
     key: '',
     status: 'all',
   });
+
+  const id_apis_plan = useSelector((d) => d.plan.id_apis);
+  const node_config_plan = useSelector((d) => d.plan.node_config);
 
   const handleChangeParams = (key, newVal) => {
     setFilterParams(
@@ -83,7 +88,12 @@ const ScenePicker = (props) => {
       const sortedList = sortBy(nodeList, ['sort']);
       for (const nodeItem of sortedList) {
         if (checkedData[nodeItem.target_id] === true && ['scene'].includes(nodeItem.target_type)) {
-          apiIds.push(nodeItem.target_id);
+          console.log(nodeItem);
+          apiIds.push({
+            id: nodeItem.target_id,
+            name: nodeItem.name,
+            desc: nodeItem.description
+          });
         }
         if (nodeItem.target_type === 'group') {
           digTree(nodeItem.children);
@@ -103,7 +113,19 @@ const ScenePicker = (props) => {
 
     const dataList = await getApiDataItems(sceneDatas, checkedApiKeys);
 
-    Bus.$emit('importSceneList', dataList, id);
+    console.log(dataList, sceneDatas, checkedApiKeys);
+
+    Bus.$emit('importSceneList', dataList.map(item => item.id), id);
+
+    dispatch({
+      type: 'scene/updateOpenName',
+      payload: dataList[0].name,
+    })
+    dispatch({
+      type: 'scene/updateOpenDesc',
+      payload: dataList[0].desc
+    })
+    Bus.$emit('addOpenPlanScene', { target_id: dataList[0].id }, id_apis_plan, node_config_plan);
 
     onCancel();
   };
@@ -160,14 +182,14 @@ const ScenePicker = (props) => {
   return (
     <Drawer
       visible
-      title={ t('plan.importScene') }
+      title={t('plan.importScene')}
       className='api-config-drawer'
       onCancel={onCancel}
       mask={false}
       footer={
         <BtnAddApiItem>
           <Button onClick={handleAddApiItems} className="apipost-blue-btn" type="primary">
-            { t('btn.addScene') }
+            {t('btn.addScene')}
           </Button>
         </BtnAddApiItem>
       }
@@ -176,11 +198,11 @@ const ScenePicker = (props) => {
         <div className="search-box">
           <Input
             value={filterParams?.key}
-            placeholder={ t('placeholder.searchScene') }
+            placeholder={t('placeholder.searchScene')}
             onChange={handleChangeParams.bind(null, 'key')}
           />
           <div className="check-all-panel">
-            <span>{ t('btn.selectAll') }</span>
+            <span>{t('btn.selectAll')}</span>
             <CheckBox
               size="small"
               checked={checkAll}
