@@ -32,6 +32,7 @@ const TeamProject = () => {
         // if (isString(currentTeamId) && isObject(userTeams) && currentTeamId !== '-1') {
         //     teamName = userTeams?.[currentTeamId]?.name;
         // }
+        console.log(123123);
         return teamName;
     }, [userTeams, currentTeamId]);
 

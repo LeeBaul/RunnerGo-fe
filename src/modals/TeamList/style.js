@@ -50,8 +50,24 @@ export const ProjectMemberModal = css`
                 width: 25%;
                 overflow: hidden;
             }
+        }
+    }
+    .team-name {
+        display: flex;
 
+        span {
+            max-width: 165px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
 
+        svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--font-1);
+            margin-left: 8px;
+            cursor: pointer;
         }
     }
   }

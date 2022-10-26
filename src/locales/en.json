@@ -22,7 +22,8 @@
         "email_tips": "If you don't receive it, please try to check your mailbox trash or try again later",
         "send_again": "You can resend the password reset email with the following buttons",
         "reset": "reset password",
-        "password": "Password"
+        "password": "Password",
+        "teamNameError": "The team name needs 1-25 characters"
     },
     "header": {
         "import": "import",
@@ -74,7 +75,7 @@
         "password": "Please enter a password of at least 6 digits",
         "confirmPwd": "Confirm password",
         "nickname": "Please enter a nickname of at least 2 digits",
-        "teamName": "Please enter the team name",
+        "teamName": "Please enter a 1-25 digit team name",
         "newPwd": "Please enter a new password",
         "currentPwd": "Please enter the current password",
         "planName": "Please enter the plan name",
@@ -275,7 +276,8 @@
             "message-3": "unregistered",
             "message-4": "All invitees have been notified by email",
             "unRegister": "Unregistered email address"
-        }
+        },
+        "editTeamName": "Edit Team Name"
     },
     "column": {
         "teamManage": {

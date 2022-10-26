@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Table, Message, Select } from 'adesign-react';
+import { Modal, Button, Table, Message, Select, Input } from 'adesign-react';
 import cn from 'classnames';
 import { ProjectMemberModal, HeaderLeftModal } from './style';
 import avatar from '@assets/logo/avatar.png';
-import { InviteMembers as SvgInvite, Team as SvgTeam } from 'adesign-react/icons';
-import { fetchTeamMemberList, fetchRemoveMember, fetchTeamList, fetchQuitTeam, fetchDissTeam, fetchUpdateConfig } from '@services/user';
+import { InviteMembers as SvgInvite, Team as SvgTeam, Edit as SvgEdit } from 'adesign-react/icons';
+import { fetchTeamMemberList, fetchRemoveMember, fetchTeamList, fetchQuitTeam, fetchDissTeam, fetchUpdateConfig, fetchCreateTeam } from '@services/user';
 import { tap } from 'rxjs';
 import dayjs from 'dayjs';
 import InvitationModal from '../ProjectInvitation';
@@ -15,6 +15,7 @@ import CreateTeam from '../CreateTeam';
 import { useTranslation } from 'react-i18next';
 
 import { global$ } from '@hooks/useGlobal/global';
+import { setModalConfig } from '@arco-design/web-react/es/Modal/config';
 
 const { Option } = Select;
 
@@ -27,6 +28,9 @@ const TeamList = (props) => {
     const [confirmTeam, setConfirmTeam] = useState({});
     const [userId, setUserId] = useState(null);
     const [roleId, setRoleId] = useState(null);
+    const [showEditName, setEditName] = useState(false);
+    const [teamName, setTeamName] = useState('');
+    const [nameError, setNameError] = useState(false);
 
     const userInfo = useSelector((store) => store.user.userInfo);
     const dispatch = useDispatch();
@@ -180,6 +184,14 @@ const TeamList = (props) => {
                             const { name, created_time_sec } = item;
                             return {
                                 ...item,
+                                name:
+                                    <div className='team-name'>
+                                        <span>{name}</span>
+                                        <SvgEdit onClick={() => {
+                                            setEditName(true);
+                                            setTeamName(name);
+                                        }} />
+                                    </div>,
                                 created_time_sec: dayjs(created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 handle: item.type === 1 && item.created_user_id === user_id ? ''
                                     : <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
@@ -195,6 +207,15 @@ const TeamList = (props) => {
                             }
                         });
                         setData(dataList);
+                        let teamData = {};
+                        teams.length && teams.forEach((data) => {
+                            teamData[data.team_id] = data;
+                        });
+                        console.log(teamData);
+                        dispatch({
+                            type: 'teams/updateTeamData',
+                            payload: teamData,
+                        });
                     }
                 })
             )
@@ -249,8 +270,6 @@ const TeamList = (props) => {
         )
     }
 
-    console.log(confirmTeam);
-
     return (
         <div>
             {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
@@ -261,6 +280,56 @@ const TeamList = (props) => {
                     getUserInfo().pipe(tap(fetchData)).subscribe();
                 }
             }} />}
+
+            {
+                showEditName && <Modal
+                    className='edit-name-modal'
+                    visible
+                    title={null}
+                    okText={t('btn.ok')}
+                    cancelText={t('btn.cancel')}
+                    onCancel={() => setEditName(false)}
+                    onOk={() => {
+                        if (nameError) {
+                            return;
+                        }
+                        const params = {
+                            team_id: parseInt(localStorage.getItem('team_id')),
+                            name: teamName,
+                        };
+                        fetchCreateTeam(params).subscribe({
+                            next: (res) => {
+                                const { code } = res;
+                                if (code === 0) {
+                                    Message('success', t('message.updateSuccess'));
+                                    setEditName(false);
+                                    getUserInfo().pipe(tap(fetchData)).subscribe();
+                                } else {
+                                    Message('error', t('message.updateError'))
+                                }
+                            }
+                        })
+                    }}
+                >
+                    <p className='edit-name-title'>{t('modal.editTeamName')}</p>
+                    <Input
+                        placeholder={t('placeholder.teamName')}
+                        value={teamName}
+                        onChange={(e) => {
+                            setTeamName(e);
+                        }}
+                        onBlur={(e) => {
+                            if (teamName.length === 0 || teamName.length > 25) {
+                                setNameError(true);
+                            } else {
+                                setNameError(false);
+                            }
+                        }}
+                    />
+                    {nameError && <p className='input-error' style={{ color: '#f00', marginRight: 'auto' }}>{t('sign.teamNameError')}</p>}
+                </Modal>
+            }
+
             {/* {showQuit &&
                 <Modal
                     visible={true}

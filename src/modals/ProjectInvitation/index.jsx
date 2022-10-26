@@ -417,7 +417,7 @@ const InvitationModal = (props) => {
             const { code, data: { register_num, un_register_emails, un_register_num } } = res;
 
             if (code === 0) {
-              setAddLength(addList.length);
+              setAddLength(register_num);
               setUnRegister(un_register_num);
               setUnEmail(un_register_emails);
               setInvitateSuccess(true);
