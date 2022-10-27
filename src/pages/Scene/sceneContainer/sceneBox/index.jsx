@@ -127,17 +127,17 @@ const SceneBox = (props) => {
         return true;
     };
 
-    // const _nodes = [
-    //     { id: 'a' },
-    //     { id: 'b' },
-    //     { id: 'c' },
-    // ];
-    // const _edges = [
-    //     { source: 'a', target: 'b' },
-    //     { source: 'b', target: 'c' },
-    // ];
+    const _nodes = [
+        { id: 'a' },
+        { id: 'b' },
+        { id: 'c' },
+    ];
+    const _edges = [
+        { source: 'a', target: 'b' },
+        { source: 'b', target: 'c' },
+    ];
 
-    // const connect = { source: 'c', target: 'a' }; // 不允许
+    const connect = { source: 'c', target: 'a' }; // 不允许
     
     useEffect(() => {
         if (edges.length > 0 && to_loading) {

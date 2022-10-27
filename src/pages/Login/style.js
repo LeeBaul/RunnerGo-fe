@@ -136,6 +136,7 @@ export const LoginWrapper = styled.div`
       .agreement {
         span {
           color: var(--theme-color);
+          cursor: pointer;
         }
       }
 

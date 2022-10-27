@@ -154,7 +154,7 @@ const RegisterBox = (props) => {
         if (Object.keys(vcodeObj).length === 0) {
             return Message('error', t('message.check'));
         }
-        if (emailError || nameError || pwdDiff || pwdError) {
+        if (emailError || nameError || pwdDiff || pwdError || checked === 'uncheck') {
             return;
         }
         fetchUserRegisterForEmailRequest({
@@ -235,11 +235,18 @@ const RegisterBox = (props) => {
         }
     }
 
+    const openHtml = (name) => {
+        const hrefStr = window.location.href;
+        const urlParams = new URL(hrefStr);
+        const rootPath = urlParams.origin;
+        window.open(`${rootPath}/${name}.html`, '_blank');
+    }
+
     return (
         <div className="right-wrapper">
             <div className="title item">
-                <p>{ t('sign.email_register') }</p>
-                <Select value={ i18n.language } onChange={(e) => i18n.changeLanguage(e)}>
+                <p>{t('sign.email_register')}</p>
+                <Select value={i18n.language} onChange={(e) => i18n.changeLanguage(e)}>
                     <Option value="cn">中文</Option>
                     <Option value="en">English</Option>
                 </Select>
@@ -248,19 +255,19 @@ const RegisterBox = (props) => {
                 <div>
                     <div className={cn('item', { 'input-error': emailError })}>
                         <Input
-                            placeholder={ t('placeholder.email') }
+                            placeholder={t('placeholder.email')}
                             value={email}
                             onChange={(value) => {
                                 setEmail(value);
                             }}
                             onBlur={() => checkEmail()}
                         />
-                        { emailError && <p className='error-tips'>{ t('sign.errorEmail') }</p> }
+                        {emailError && <p className='error-tips'>{t('sign.errorEmail')}</p>}
                     </div>
                     <div className="item">
                         <Input
                             type="password"
-                            placeholder={ t('placeholder.password') }
+                            placeholder={t('placeholder.password')}
                             value={password}
                             onChange={(value) => {
                                 setPassword(value);
@@ -273,37 +280,44 @@ const RegisterBox = (props) => {
                                 }
                             }}
                         />
-                        { pwdError && <p className='error-tips'>{ t('sign.passwordError') }</p> }
+                        {pwdError && <p className='error-tips'>{t('sign.passwordError')}</p>}
                     </div>
                     <div className={cn('item', { 'input-error': pwdDiff })}>
                         <Input
                             type="password"
-                            placeholder={ t('placeholder.confirmPwd') }
+                            placeholder={t('placeholder.confirmPwd')}
                             value={repeat_password}
                             onChange={(value) => {
                                 setRepeatPassword(value);
                             }}
                             onBlur={() => checkPwd()}
                         />
-                        { pwdDiff && <p className='error-tips'>{ t('sign.confirmError') }</p> }
+                        {pwdDiff && <p className='error-tips'>{t('sign.confirmError')}</p>}
                     </div>
                     <div className={cn('item', { 'input-error': nameError })}>
                         <Input
-                            placeholder={ t('placeholder.nickname') }
+                            placeholder={t('placeholder.nickname')}
                             value={nickname}
                             onChange={(value) => {
                                 setNickname(value);
                             }}
                             onBlur={() => checkName()}
                         />
-                        { nameError && <p className='error-tips'>{ t('sign.nicknameError') }</p> }
+                        {nameError && <p className='error-tips'>{t('sign.nicknameError')}</p>}
                     </div>
                     <div className="item">
                         <div id="captcha"></div>
                     </div>
-                    {/* <div className='item'>
-                        <p className='agreement'>阅读并同意<span> 服务协议 </span>和<span> 隐私协议 </span></p>
-                    </div> */}
+                    <div className='item' style={{ flexDirection: 'row', height: 'auto', marginBottom: '24px' }}>
+                        <CheckBox
+                            checked={checked}
+                            onChange={(check) => {
+                                console.log(check);
+                                setchecked(check);
+                            }}
+                        />
+                        <p className='agreement'>{ t('sign.read') }<span onClick={() => openHtml('ServiceAgreement')}> { t('sign.service') } </span>{ t('sign.and') }<span onClick={() => openHtml('PrivacyAgreement')}> { t('sign.privacy') } </span></p>
+                    </div>
                     <div className="item">
                         <Button
                             type="primary"
@@ -312,7 +326,7 @@ const RegisterBox = (props) => {
                             style={{ width: '100%' }}
                             onClick={registerNow}
                         >
-                            { t('btn.registerNow') }
+                            {t('btn.registerNow')}
                         </Button>
                     </div>
                     <div className="login-have" onClick={() => {
@@ -322,7 +336,7 @@ const RegisterBox = (props) => {
                             navigate('/login')
                         }
                     }}>
-                        { t('sign.tologin') }
+                        {t('sign.tologin')}
                     </div>
                 </div>
             ) : (

@@ -23,7 +23,11 @@
         "send_again": "You can resend the password reset email with the following buttons",
         "reset": "reset password",
         "password": "Password",
-        "teamNameError": "The team name needs 1-25 characters"
+        "teamNameError": "The team name needs 1-25 characters",
+        "read": "Read and agree",
+        "service": "Service Agreement",
+        "privacy": "Privacy Agreement",
+        "and": "and"
     },
     "header": {
         "import": "import",
