@@ -133,6 +133,12 @@ export const LoginWrapper = styled.div`
       display: flex;
       flex-direction: column;
 
+      .agreement {
+        span {
+          color: var(--theme-color);
+        }
+      }
+
       .apipost-btn {
         height: 41px;
         background-color: var(--theme-color) !important;

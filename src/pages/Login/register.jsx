@@ -301,6 +301,9 @@ const RegisterBox = (props) => {
                     <div className="item">
                         <div id="captcha"></div>
                     </div>
+                    {/* <div className='item'>
+                        <p className='agreement'>阅读并同意<span> 服务协议 </span>和<span> 隐私协议 </span></p>
+                    </div> */}
                     <div className="item">
                         <Button
                             type="primary"
