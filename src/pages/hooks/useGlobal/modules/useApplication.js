@@ -227,6 +227,7 @@ const useProject = () => {
 
         const initLanguage = () => {
             const language = localStorage.getItem('i18nextLng');
+            console.log(language);
             dispatch({
                 type: 'user/updateLanGuaGe',
                 payload: language

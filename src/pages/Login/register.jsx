@@ -53,8 +53,11 @@ const RegisterBox = (props) => {
     const [nameError, setNameError] = useState(false);
     const [pwdDiff, setPwdDiff] = useState(false);
     const [pwdError, setPwdError] = useState(false);
+    const dispatch = useDispatch();
 
     const language = useSelector((store) => store.user.language);
+
+    console.log(language);
 
     const { t, i18n } = useTranslation();
     const { search } = useLocation();
@@ -116,6 +119,13 @@ const RegisterBox = (props) => {
                 )
                 .subscribe();
         }
+        const language = localStorage.getItem('i18nextLng');
+        console.log(language);
+        dispatch({
+            type: 'user/updateLanGuaGe',
+            payload: language
+        })
+
         return () => clearInterval(wxCodeTimer);
     }, [panelType]);
 
