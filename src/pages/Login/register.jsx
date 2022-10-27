@@ -54,6 +54,8 @@ const RegisterBox = (props) => {
     const [pwdDiff, setPwdDiff] = useState(false);
     const [pwdError, setPwdError] = useState(false);
 
+    const language = useSelector((store) => store.user.language);
+
     const { t, i18n } = useTranslation();
     const { search } = useLocation();
     const { role_id, team_id } = qs.parse(search.slice(1));
@@ -308,7 +310,7 @@ const RegisterBox = (props) => {
                     <div className="item">
                         <div id="captcha"></div>
                     </div>
-                    <div className='item' style={{ flexDirection: 'row', height: 'auto', marginBottom: '24px', alignItems: 'center' }}>
+                    <div className='item' style={{ flexDirection: 'row', height: 'auto', marginBottom: '24px', alignItems: language === 'cn' ? 'center' : 'flex-start' }}>
                         <CheckBox
                             checked={checked}
                             onChange={(check) => {
