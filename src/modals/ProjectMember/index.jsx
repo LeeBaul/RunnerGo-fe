@@ -95,7 +95,7 @@ const ProjectMember = (props) => {
     // 2: 成员
     // 3: 管理员
 
-    const outTeam = () => {
+    const outTeam = (userId) => {
         // 判断当前团队是否是该用户的私有团队
         const team_id = localStorage.getItem('team_id');
         const team_item = teamList[team_id];
@@ -114,8 +114,9 @@ const ProjectMember = (props) => {
                 if (code === 0) {
                     Message('success', t('message.quitSuccess'));
                     const _teamList = Object.values(teamList);
+                    console.log(_teamList, userId);
                     const myTeam = _teamList.find(item => item.type === 1 && item.created_user_id === userId);
-
+                    console.log(myTeam);
                     const settings = JSON.parse(localStorage.getItem('settings'));
                     settings.settings.current_team_id = myTeam.team_id;
                     fetchUpdateConfig(settings).subscribe({
@@ -231,7 +232,7 @@ const ProjectMember = (props) => {
                                             </div>,
                                     handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
                                         if (item.user_id === user_id) {
-                                            outTeam();
+                                            outTeam(user_id);
                                         } else {
                                             removeMember(item.user_id, item.role_id, item.nickname);
                                         }
@@ -251,7 +252,7 @@ const ProjectMember = (props) => {
                                     power: <p className='default-power'>{roleList[item.role_id]}</p>,
                                     handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
                                         if (item.user_id === user_id) {
-                                            outTeam();
+                                            outTeam(user_id);
                                         } else {
                                             removeMember(item.user_id, item.role_id, item.nickname);
                                         }
@@ -287,7 +288,7 @@ const ProjectMember = (props) => {
                                     ,
                                     handle: <p style={{ cursor: 'pointer', color: '#f00' }} onClick={() => {
                                         if (item.user_id === user_id) {
-                                            outTeam();
+                                            outTeam(user_id);
                                         } else {
                                             removeMember(item.user_id, item.role_id, item.nickname);
                                         }
