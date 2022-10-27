@@ -54,7 +54,7 @@ const InvitationModal = (props) => {
   const [ifSelectAll, setIfSelectAll] = useState(false);
   const [usedStation, setUsedStation] = useState(0);
   const [remainderStation, setRemainderStation] = useState(0);
-  const [linkPower, setLinkPower] = useState(3);
+  const [linkPower, setLinkPower] = useState(2);
   const [role, setRole] = useState([]);
   const [spinning, setSpinning] = useState(true);
   const current_project_id = project_id;
@@ -689,9 +689,6 @@ const InvitationModal = (props) => {
                     className="team-inviation-link"
                     type="link"
                     onClick={() => {
-                      if (role === 2) {
-                        return;
-                      }
                       const params = {
                         team_id: localStorage.getItem('team_id'),
                         role_id: linkPower
