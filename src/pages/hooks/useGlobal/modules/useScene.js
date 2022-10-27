@@ -886,31 +886,39 @@ const useScene = () => {
 
     const toDeleteGroup = (target_id, callback) => {
 
-        const deleteIds = [target_id];
-        const _sceneDatas = cloneDeep(sceneDatas);
-
-        const loopGetChild = (parent_id, _sceneDatas) => {
-            let arr = [];
-            let resArr = [];
-            for (let i in _sceneDatas) {
-
-                if (`${_sceneDatas[i].parent_id}` === `${parent_id}`) {
-                    arr.push(_sceneDatas[i].target_id);
-                    if (_sceneDatas[i].target_type === 'folder') {
-                        resArr = loopGetChild(_sceneDatas[i].target_id, _sceneDatas);
-                    }
+        fetchDeleteApi({ target_id: parseInt(target_id) }).subscribe({
+            next: (res) => {
+                if (res.code === 0) {
+                    callback && callback();
                 }
             }
-            return arr.concat(resArr);
-        };
+        });
 
-        const _res = deleteIds.concat(loopGetChild(target_id, _sceneDatas))
+        // const deleteIds = [target_id];
+        // const _sceneDatas = cloneDeep(sceneDatas);
+
+        // const loopGetChild = (parent_id, _sceneDatas) => {
+        //     let arr = [];
+        //     let resArr = [];
+        //     for (let i in _sceneDatas) {
+
+        //         if (`${_sceneDatas[i].parent_id}` === `${parent_id}`) {
+        //             arr.push(_sceneDatas[i].target_id);
+        //             if (_sceneDatas[i].target_type === 'folder') {
+        //                 resArr = loopGetChild(_sceneDatas[i].target_id, _sceneDatas);
+        //             }
+        //         }
+        //     }
+        //     return arr.concat(resArr);
+        // };
+
+        // const _res = deleteIds.concat(loopGetChild(target_id, _sceneDatas))
         
-        _res.forEach(item => {
-            fetchDeleteApi({ target_id: parseInt(item) }).subscribe(); 
-        })
+        // _res.forEach(item => {
+        //     fetchDeleteApi({ target_id: parseInt(item) }).subscribe(); 
+        // })
 
-        callback && callback();
+        // callback && callback();
     };
 
     const stopScene = (scene_id, from, callback) => {
