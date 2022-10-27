@@ -93,11 +93,24 @@ const SceneBox = (props) => {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+    const getFather = (a, b) => {
+        let obj = {};
+        a.forEach(item => {
+            obj[item.id] = [];
+        })
+        b.forEach(item => {
+            obj[item.target].push(item.source);
+        })
+    
+        return obj;
+    }
+
     const onConnect = useCallback((params) => {
 
         const _params = cloneDeep(params);
         _params.type = 'common';
-        const res = checkConnect(_params.source, _params.target);
+        let id_obj = getFather(nodes, edges);
+        const res = check([_params.source], _params.target, id_obj);
         if (res) {
             return setEdges((eds) => {
 
@@ -107,25 +120,39 @@ const SceneBox = (props) => {
             Message('error', '无法实现闭环, 请在下方新建节点')
         }
 
-    }, [edges]);
-    
-    const checkConnect = (source, target) => {
-        if (source === target) {
-            return false;
-        }
+    }, [nodes, edges]);
 
-        for (let i = 0; i < edges.length; i++) {
-            if (edges[i].source === target && (edges.findIndex(item => item.target === source) !== -1)) {
-                console.log(source, target, edges[i], edges.findIndex(item => item.target === source), edges);
-                return false;
+    const check = (sources, target, id_obj) => {
+        for (const source of sources) {
+            if (id_obj[source].length > 0) {
+                if (id_obj[source].includes(target)) {
+                    return false;
+                } else {
+                    return check(id_obj[source], target, id_obj);
+                }
+            } else {
+                return true;
             }
-            if (edges[i].target === source) {
-                // arr.push(edges[i].source);
-                checkConnect(edges[i].source, target);
-            }
-        };
-        return true;
-    };
+        }
+    }
+    
+    // const checkConnect = (source, target) => {
+    //     if (source === target) {
+    //         return false;
+    //     }
+
+    //     for (let i = 0; i < edges.length; i++) {
+    //         if (edges[i].source === target && (edges.findIndex(item => item.target === source) !== -1)) {
+    //             console.log(source, target, edges[i], edges.findIndex(item => item.target === source), edges);
+    //             return false;
+    //         }
+    //         if (edges[i].target === source) {
+    //             // arr.push(edges[i].source);
+    //             checkConnect(edges[i].source, target);
+    //         }
+    //     };
+    //     return true;
+    // };
 
     const _nodes = [
         { id: 'a' },
