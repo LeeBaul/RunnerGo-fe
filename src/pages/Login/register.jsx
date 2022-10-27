@@ -308,7 +308,7 @@ const RegisterBox = (props) => {
                     <div className="item">
                         <div id="captcha"></div>
                     </div>
-                    <div className='item' style={{ flexDirection: 'row', height: 'auto', marginBottom: '24px' }}>
+                    <div className='item' style={{ flexDirection: 'row', height: 'auto', marginBottom: '24px', alignItems: 'center' }}>
                         <CheckBox
                             checked={checked}
                             onChange={(check) => {

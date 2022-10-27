@@ -12,7 +12,7 @@ const Folders = (props) => {
   const handleDelete = (folder) => {
     Modal.confirm({
       title: t('modal.tips'),
-      content: t('modal.shiftDelFolder'),
+      content: t('modal.DelFolderContent'),
       onOk() {
         onRestoreDestory && onRestoreDestory(folder.target_id, 2);
       },
@@ -22,7 +22,7 @@ const Folders = (props) => {
   const handleRestore = (folder) => {
     Modal.confirm({
       title: t('modal.tips'),
-      content: t('modal.restoreFolder'),
+      content: t('modal.restoreFolderContent'),
       onOk() {
         onRestoreDestory(folder.target_id, 1);
       },

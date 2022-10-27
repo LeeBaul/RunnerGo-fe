@@ -15,7 +15,7 @@ const Apis = (props) => {
   const handleDelete = (folder) => {
     Modal.confirm({
       title: t('modal.tips'),
-      content: t('modal.shiftDelApi'),
+      content: t('message.shiftDelApi'),
       onOk() {
         onRestoreDestory && onRestoreDestory(folder.target_id, 2);
       },
@@ -25,7 +25,7 @@ const Apis = (props) => {
   const handleRestore = (folder) => {
     Modal.confirm({
       title: t('modal.tips'),
-      content: t('modal.restoreApi'),
+      content: t('message.restoreApi'),
       onOk() {
         onRestoreDestory && onRestoreDestory(folder.target_id, 1);
       },
