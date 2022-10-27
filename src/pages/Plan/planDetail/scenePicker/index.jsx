@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Input, Tree, Drawer, Button, CheckBox } from 'adesign-react';
-import {  useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import ApiStatus from '@components/ApiStatus';
 import produce from 'immer';
 import { cloneDeep, isArray, isObject, isUndefined, sortBy } from 'lodash';
@@ -57,6 +57,7 @@ const ScenePicker = (props) => {
   const { filteredTreeList } = useListData({ filterParams });
 
   const getApiDataItems = async (sceneDatas, ckdkeys) => {
+    console.log(sceneDatas, checkedApiKeys);
     // step1.深克隆，防止串数据
     const treeData = cloneDeep(sceneDatas);
 
@@ -87,12 +88,13 @@ const ScenePicker = (props) => {
     const digTree = (nodeList) => {
       const sortedList = sortBy(nodeList, ['sort']);
       for (const nodeItem of sortedList) {
-        if (checkedData[nodeItem.target_id] === true && ['scene'].includes(nodeItem.target_type)) {
+        if (checkedData[nodeItem.target_id] === true && ['scene', 'group'].includes(nodeItem.target_type)) {
           console.log(nodeItem);
           apiIds.push({
             id: nodeItem.target_id,
             name: nodeItem.name,
-            desc: nodeItem.description
+            desc: nodeItem.description,
+            type: nodeItem.target_type
           });
         }
         if (nodeItem.target_type === 'group') {
@@ -113,18 +115,46 @@ const ScenePicker = (props) => {
 
     const dataList = await getApiDataItems(sceneDatas, checkedApiKeys);
 
-    console.log(dataList, sceneDatas, checkedApiKeys);
+    let _dataList = [...dataList];
 
-    Bus.$emit('importSceneList', dataList.map(item => item.id), id);
+    dataList.forEach(elem => {
+      if (elem.type === 'group') {
+        let fn = (id) => {
+          let _ = Object.values(sceneDatas).find(item => `${item.target_id}` === `${id}`);
+          if (_dataList.findIndex(_item => `${_item.id}` === `${_.parent_id}`) === -1) {
 
-    dispatch({
-      type: 'scene/updateOpenName',
-      payload: dataList[0].name,
+            if (`${_.parent_id}` !== '0') {
+              _dataList.push({
+                id: _.parent_id,
+                name: _.name,
+                desc: _.description,
+                type: _.target_type
+              });
+              console.log(_);
+              fn(_.parent_id);
+            }
+          }
+        }
+        fn(elem.id);
+      }
     })
-    dispatch({
-      type: 'scene/updateOpenDesc',
-      payload: dataList[0].desc
-    })
+
+
+    Bus.$emit('importSceneList', _dataList.map(item => item.id), id, (scene_id_list) => {
+
+      console.log('------------------');
+
+      dispatch({
+        type: 'scene/updateOpenName',
+        payload: scene_id_list[0].name,
+      })
+      dispatch({
+        type: 'scene/updateOpenDesc',
+        payload: scene_id_list[0].desc
+      })
+
+      Bus.$emit('addOpenPlanScene', { target_id: scene_id_list[0].id }, id_apis_plan, node_config_plan);
+    });
 
     onCancel();
   };

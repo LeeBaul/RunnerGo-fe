@@ -4,7 +4,7 @@ import { cloneDeep, isArray, set, findIndex } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { tap, filter, map, concatMap, switchMap, from } from 'rxjs';
 import { fetchSceneFlowDetail, fetchCreateSceneFlow, fetchSceneDetail, fetchCreateScene, fetchBatchFlowDetail } from '@services/scene';
-import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan, fetchRunPlan, fetchStopPlan } from '@services/plan';
+import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan, fetchRunPlan, fetchStopPlan, fetchImportScene } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail, fetchChangeSort } from '@services/apis';
@@ -518,8 +518,30 @@ const usePlan = () => {
             .subscribe();
     };
 
-    const importSceneList = (ids, plan_id, id_apis, node_config) => {
+    const importSceneList = (ids, plan_id, callback) => {
         console.log(ids);
+
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            plan_id: parseInt(plan_id),
+            target_id_list: ids.map(item => parseInt(item))
+        };
+
+        fetchImportScene(params).subscribe({
+            next: (res) => {
+                const { code, data: { scenes } } = res;
+                if (code === 0) {
+                    global$.next({
+                        action: 'RELOAD_LOCAL_PLAN',
+                        id: plan_id,
+                    });
+                    callback && callback(scenes);
+                }
+            }
+        })
+
+
+        return;
         const query = {
             team_id: localStorage.getItem('team_id'),
             target_id: ids,

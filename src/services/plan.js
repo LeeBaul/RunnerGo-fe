@@ -59,3 +59,8 @@ export const fetchSendPlanEmail = (
 export const fetchGetTask = (
     query
 ) => ajax('get', '/management/api/v1/plan/task/detail', 'json', false, {}, query);
+
+// 导入场景
+export const fetchImportScene = (
+    params
+) => ajax('post', '/management/api/v1/plan/import_scene', 'json', false, params);
