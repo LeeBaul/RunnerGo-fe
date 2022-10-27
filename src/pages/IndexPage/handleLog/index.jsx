@@ -48,8 +48,6 @@ const HandleLog = (props) => {
     
               if (code === 0) {
                 const { operations, total } = data;
-
-                console.log(operations);
                 setList(operations);
                 // setList(list);
               }
@@ -58,8 +56,6 @@ const HandleLog = (props) => {
           .subscribe();
     
       };
-
-    // console.log(logList);
 
     const logType = {
         "1": t('index.logType.1'),

@@ -247,11 +247,15 @@ const HeaderRight = () => {
             </div>
             {showModal && <InvitationModal onCancel={({ addLength, unRegister, unEmail }) => {
                 setShowModal(false);
+                setAddLength(0);
+                setUnRegister(0);
+                setUnEmail(0);
                 addLength && setAddLength(addLength);
                 unRegister && setUnRegister(unRegister);
                 unEmail && setUnEmail(unEmail);
                 console.log(addLength, unRegister, unEmail);
                 if (addLength || unRegister || unEmail) {
+                    console.log(addLength, unRegister, unEmail);
                     setShowInvitate(true);
                 }
             }} />}

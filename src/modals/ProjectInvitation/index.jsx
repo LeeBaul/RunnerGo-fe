@@ -426,6 +426,7 @@ const InvitationModal = (props) => {
               Message('success', t('message.invitateSuccess'));
               Bus.$emit('getTeamMemberList');
               setAddList([]);
+              console.log(register_num, un_register_num, un_register_emails);
               onCancel({
                 addLength: register_num,
                 unRegister: un_register_num,
@@ -528,10 +529,10 @@ const InvitationModal = (props) => {
         />
       )}
       
-      {
+      {/* {
         invitateSuccess &&
           <InvitateSuccess addLength={addLength} unRegister={unRegister} unEmail={unEmail}  onCancel={() => setInvitateSuccess(false)} />
-      }
+      } */}
       <PaymentModal
         visible={payvisible}
         setvisible={() => {
