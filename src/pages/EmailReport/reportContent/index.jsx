@@ -110,7 +110,7 @@ const ReportContent = () => {
             </div>
             <ReportHeader data={headerData} status={reportStatus} />
             <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
-            <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={plan_id} />
+            <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={planId} />
         </div>
     )
 };
