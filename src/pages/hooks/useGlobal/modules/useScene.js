@@ -3,7 +3,7 @@ import Bus, { useEventBus } from '@utils/eventBus';
 import { cloneDeep, isArray, set, findIndex } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { concatMap, map, tap, from } from 'rxjs';
-import { fetchDeleteApi } from '@services/apis';
+import { fetchDeleteApi, fetchChangeSort } from '@services/apis';
 import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi, fetchStopScene } from '@services/scene';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
@@ -88,15 +88,41 @@ const useScene = () => {
     };
 
     const dragUpdateScene = ({ ids, targetList }) => {
+
+        const _ids = cloneDeep(ids);
+        _ids.forEach(item => {
+            if (typeof item.parent_id === 'string') {
+                item.parent_id = parseInt(item.parent_id);
+            }
+        })
+
         const query = {
             team_id: localStorage.getItem('team_id'),
-            target_id: ids,
+            target_id: _ids,
             // source: 1,
         };
         const targetDatas = {};
         targetList.forEach(item => {
             targetDatas[item.target_id] = item;
+            if (typeof item.parent_id === 'string') {
+                item.parent_id = parseInt(item.parent_id);
+            }
         })
+        const params = {
+            // parent_id: parseInt(parent_id),
+            // sort: parseInt(sort),
+            // target_id: parseInt(target_id),
+            targets: targetList,
+            // team_id: parseInt(localStorage.getItem('team_id')),
+        };
+        fetchChangeSort(params).subscribe({
+            next: (res) => {
+                global$.next({
+                    action: 'RELOAD_LOCAL_SCENE',
+                });
+            }
+        });
+        return;
         fetchSceneDetail(query).pipe(
             tap((res) => {
                 const { code, data: { scenes } } = res;

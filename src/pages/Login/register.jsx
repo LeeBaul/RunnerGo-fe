@@ -323,7 +323,7 @@ const RegisterBox = (props) => {
                             type="primary"
                             className="modal-userreg-btn apipost-blue-btn"
                             size="large"
-                            style={{ width: '100%' }}
+                            style={{ width: '100%', fontSize: '14px' }}
                             onClick={registerNow}
                         >
                             {t('btn.registerNow')}

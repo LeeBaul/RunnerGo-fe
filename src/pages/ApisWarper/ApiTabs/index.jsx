@@ -179,7 +179,7 @@ const ApiTabs = (props) => {
             <Tabs
                 type="card"
                 ref={apiTabsRef}
-                activeIndex={`${activeIndex}`}
+                activeIndex={parseInt(activeIndex)}
                 className="api-page-warper"
                 headerAutoScroll
                 onChange={handleTabChange}

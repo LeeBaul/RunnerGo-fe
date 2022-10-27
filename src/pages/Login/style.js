@@ -134,6 +134,7 @@ export const LoginWrapper = styled.div`
       flex-direction: column;
 
       .agreement {
+        font-size: 14px;
         span {
           color: var(--theme-color);
           cursor: pointer;
