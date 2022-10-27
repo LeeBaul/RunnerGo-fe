@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Radio, Switch, Table, Input, Button, Message } from 'adesign-react';
+import { Radio, Switch, Table, Input, Button, Message, Select } from 'adesign-react';
 import { Save as SvgSave, Import as SvgImport } from 'adesign-react/icons';
 import { fetchPreConfig } from '@services/plan';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +11,8 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 const { Group } = Radio;
+
+const { Option } = Select;
 
 const TaskConfig = (props) => {
     const { from, onChange } = props;
@@ -254,19 +256,28 @@ const TaskConfig = (props) => {
                 <div className="left">
                     <div className="left-container">
                         {
-                            modeList.map((item, index) => (
-                                <p 
-                                    className={ cn({ select: parseInt(mode) === index + 1 })} 
-                                    key={index}
-                                    onClick={() => {
-                                        setMode(index + 1);
-                                        updateTaskConfig('mode', index + 1);
-                                    }}
-                                    style={{ marginBottom: index === modeList.length -1 ? '0' : '' }}
-                                >
-                                    { item }
-                                </p>
-                            ))
+                            // <Select onChange={(e) => {
+                            //     setMode(e);
+                            // }}>
+                            //     {
+                            //         modeList.map((item, index) => (
+                            //             <Option key={index} value={index + 1}>{ item }</Option>
+                            //         ))
+                            //     }
+                            // </Select>
+                            // modeList.map((item, index) => (
+                            //     <p 
+                            //         className={ cn({ select: parseInt(mode) === index + 1 })} 
+                            //         key={index}
+                            //         onClick={() => {
+                            //             setMode(index + 1);
+                            //             updateTaskConfig('mode', index + 1);
+                            //         }}
+                            //         style={{ marginBottom: index === modeList.length -1 ? '0' : '' }}
+                            //     >
+                            //         { item }
+                            //     </p>
+                            // ))
                         }
                     </div>
                 </div>
@@ -637,8 +648,17 @@ const TaskConfig = (props) => {
                     <Switch />
                 </div>
                 <Table showBorder columns={column} data={data} /> */}
-                <div className='item'>
-                    <p style={{ marginBottom: 'auto', marginTop: '5px' }}>{t('plan.mode')}: </p>
+                <div className='item' style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+                    <p >{t('plan.mode')}:</p>
+                    <Select value={ mode } style={{ width: '300px', height: '32px', marginLeft: '14px' }} onChange={(e) => {
+                        setMode(e);
+                    }}>
+                        {
+                            modeList.map((item, index) => (
+                                <Option key={index} value={index + 1}>{item}</Option>
+                            ))
+                        }
+                    </Select>
                     {/* <Radio.Group value={mode} onChange={(e) => {
                         setMode(e);
                         // from === 'preset' && onChange('mode', e);
