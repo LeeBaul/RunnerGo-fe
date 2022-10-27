@@ -7,7 +7,7 @@ import { fetchSceneFlowDetail, fetchCreateSceneFlow, fetchSceneDetail, fetchCrea
 import { fetchCreatePre, fetchCreatePlan, fetchDeletePlan, fetchRunPlan, fetchStopPlan } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
-import { fetchApiDetail } from '@services/apis';
+import { fetchApiDetail, fetchChangeSort } from '@services/apis';
 import { getSceneList$ } from '@rxUtils/scene';
 import { getUserConfig$ } from '@rxUtils/user';
 import QueryString from 'qs';
@@ -455,16 +455,44 @@ const usePlan = () => {
         });
     }
 
-    const dragUpdatePlan = ({ ids, targetList }) => {
+    const dragUpdatePlan = ({ ids, targetList, id }) => {
+
+
+        const _ids = cloneDeep(ids);
+        _ids.forEach(item => {
+            if (typeof item.parent_id === 'string') {
+                item.parent_id = parseInt(item.parent_id);
+            }
+        })
+
         const query = {
             team_id: localStorage.getItem('team_id'),
-            target_id: ids,
+            target_id: _ids,
             // source: 2,
         };
         const targetDatas = {};
         targetList.forEach(item => {
             targetDatas[item.target_id] = item;
+            if (typeof item.parent_id === 'string') {
+                item.parent_id = parseInt(item.parent_id);
+            }
         })
+        const params = {
+            // parent_id: parseInt(parent_id),
+            // sort: parseInt(sort),
+            // target_id: parseInt(target_id),
+            targets: targetList,
+            // team_id: parseInt(localStorage.getItem('team_id')),
+        };
+        fetchChangeSort(params).subscribe({
+            next: (res) => {
+                global$.next({
+                    action: 'RELOAD_LOCAL_PLAN',
+                    id,
+                });
+            }
+        });
+        return;
         fetchSceneDetail(query).pipe(
             tap((res) => {
                 const { code, data: { scenes } } = res;

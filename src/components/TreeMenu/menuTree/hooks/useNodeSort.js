@@ -8,7 +8,7 @@ import { pushTask } from '@asyncTasks/index';
 import Bus from '@utils/eventBus';
 
 const useNodeSort = (props) => {
-    const { treeData, type } = props;
+    const { treeData, type, id } = props;
     const dispatch = useDispatch();
     const sceneDatas = useSelector((store) => store.scene.sceneDatas);
     const apiDatas = useSelector((store) => store?.apis?.apiDatas);
@@ -183,6 +183,7 @@ const useNodeSort = (props) => {
                         Bus.$emit('dragUpdatePlan', {
                             ids,
                             targetList,
+                            id
                         })
                     }
                 })

@@ -15,6 +15,7 @@ import { fetchDashBoardInfo } from '@services/dashboard';
 import { global$ } from '@hooks/useGlobal/global';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import InvitateSuccess from '@modals/InvitateSuccess';
 // import { Select } from '@arco-design/web-react';
 
 const { Option } = Select;
@@ -32,6 +33,12 @@ const ProjectMember = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
+
+    const [showInvitateSuccess, setShowInvitate] = useState(false);
+
+    const [addLength, setAddLength] = useState(0);
+    const [unRegister, setUnRegister] = useState(0);
+    const [unEmail, setUnEmail] = useState(0);
 
     const removeMember = (member_id, role_id, nickname) => {
         // // 当前用户是普通成员, 没有移除任何人的权限
@@ -57,7 +64,7 @@ const ProjectMember = (props) => {
                     .pipe(
                         tap((res) => {
                             const { data, code } = res;
-        
+
                             if (code === 0) {
                                 Message('success', t('message.removeMemSuccess'));
                                 getUserInfo().pipe(tap(fetchData)).subscribe();
@@ -211,7 +218,7 @@ const ProjectMember = (props) => {
                             //    所有人的权限都是文本
                             if (role_id === 1) {
                                 return {
-                                    member: <MemberInfo userInfo={userInfo} me={ item.user_id === user_id }  />,
+                                    member: <MemberInfo userInfo={userInfo} me={item.user_id === user_id} />,
                                     join_time_sec: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                     invite_user_name,
                                     power:
@@ -225,8 +232,8 @@ const ProjectMember = (props) => {
                                                         value={item.role_id}
                                                         onChange={(e) => setRole(e, item.user_id)}
                                                     >
-                                                        <Option value={2}>{ t('modal.roleList.0') }</Option>
-                                                        <Option value={3}>{ t('modal.roleList.1') }</Option>
+                                                        <Option value={2}>{t('modal.roleList.0')}</Option>
+                                                        <Option value={3}>{t('modal.roleList.1')}</Option>
                                                     </Select>
                                                 }
                                             </div>,
@@ -246,7 +253,7 @@ const ProjectMember = (props) => {
                                 }
                             } else if (role_id === 2) {
                                 return {
-                                    member: <MemberInfo userInfo={userInfo} me={ item.user_id === user_id }  />,
+                                    member: <MemberInfo userInfo={userInfo} me={item.user_id === user_id} />,
                                     join_time_sec: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                     invite_user_name,
                                     power: <p className='default-power'>{roleList[item.role_id]}</p>,
@@ -266,22 +273,22 @@ const ProjectMember = (props) => {
                                 }
                             } else if (role_id === 3) {
                                 return {
-                                    member: <MemberInfo userInfo={userInfo} me={ item.user_id === user_id }  />,
+                                    member: <MemberInfo userInfo={userInfo} me={item.user_id === user_id} />,
                                     join_time_sec: dayjs(join_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                     invite_user_name,
                                     power:
                                         item.role_id === 1 || item.role_id === 3
-                                        ?
+                                            ?
                                             <p className='default-power'>{roleList[item.role_id]}</p>
-                                        :
+                                            :
                                             <div>
                                                 {
                                                     <Select
                                                         value={item.role_id}
                                                         onChange={(e) => setRole(e, item.user_id)}
                                                     >
-                                                        <Option value={2}>{ t('modal.roleList.0') }</Option>
-                                                        <Option value={3}>{ t('modal.roleList.1') }</Option>
+                                                        <Option value={2}>{t('modal.roleList.0')}</Option>
+                                                        <Option value={3}>{t('modal.roleList.1')}</Option>
                                                     </Select>
                                                 }
                                             </div>
@@ -300,75 +307,92 @@ const ProjectMember = (props) => {
                                         }
                                     </p>,
                                 }
-                        }
+                            }
 
                         });
-        setData(dataList);
-    }
-})
+                        setData(dataList);
+                    }
+                })
             )
             .subscribe();
     }
-useEffect(() => {
-    getUserInfo().pipe(tap(fetchData)).subscribe();
-    console.log(teamList);
-    // fetchData();
-}, [])
-const columns = [
-    {
-        title: t('column.teamMember.member'),
-        dataIndex: 'member',
-        width: 220,
-    },
-    {
-        title: t('column.teamMember.joinTime'),
-        dataIndex: 'join_time_sec',
-        width: 220,
-    },
-    {
-        title: t('column.teamMember.inviteBy'),
-        dataIndex: 'invite_user_name',
-    },
-    {
-        title: t('column.teamMember.power'),
-        dataIndex: 'power',
-    },
-    {
-        title: t('column.teamMember.handle'),
-        dataIndex: 'handle'
+    useEffect(() => {
+        getUserInfo().pipe(tap(fetchData)).subscribe();
+        console.log(teamList);
+        // fetchData();
+    }, [])
+    const columns = [
+        {
+            title: t('column.teamMember.member'),
+            dataIndex: 'member',
+            width: 220,
+        },
+        {
+            title: t('column.teamMember.joinTime'),
+            dataIndex: 'join_time_sec',
+            width: 220,
+        },
+        {
+            title: t('column.teamMember.inviteBy'),
+            dataIndex: 'invite_user_name',
+        },
+        {
+            title: t('column.teamMember.power'),
+            dataIndex: 'power',
+        },
+        {
+            title: t('column.teamMember.handle'),
+            dataIndex: 'handle'
+        }
+    ];
+
+    const MemberInfo = (props) => {
+        const { userInfo: { nickname, avatar: avatarUrl, email }, me } = props;
+        return (
+            <div className='member-info'>
+                <img className='avatar' src={avatarUrl || avatar} />
+                <div className='detail'>
+                    <p class='name'><p className='common' style={{ maxWidth: me ? '110px' : '175px' }}>{nickname} </p><p>{me ? `(${t('modal.me')})` : ''}</p></p>
+                    <p className='email'>{email}</p>
+                </div>
+            </div>
+        )
     }
-];
 
-const MemberInfo = (props) => {
-    const { userInfo: { nickname, avatar: avatarUrl, email }, me } = props;
-    return (
-        <div className='member-info'>
-            <img className='avatar' src={avatarUrl || avatar} />
-            <div className='detail'>
-                <p class='name'><p className='common' style={{ maxWidth: me ? '110px' : '175px' }}>{nickname} </p><p>{ me ? `(${ t('modal.me') })` : '' }</p></p>
-                <p className='email'>{email}</p>
+    const HeaderLeft = () => {
+        return (
+            <div className={HeaderLeftModal}>
+                <div className='member-header-left'>
+                    <p className='title'>{t('modal.teamMemTitle')}</p>
+                    <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>{t('btn.invitation')}</Button>
+                </div>
             </div>
-        </div>
-    )
-}
+        )
+    }
 
-const HeaderLeft = () => {
     return (
-        <div className={HeaderLeftModal}>
-            <div className='member-header-left'>
-                <p className='title'>{ t('modal.teamMemTitle') }</p>
-                <Button className='invite-btn' preFix={<SvgInvite />} onClick={() => setShowInvite(true)}>{ t('btn.invitation') }</Button>
-            </div>
-        </div>
-    )
-}
-
-return (
-    <div>
-        {showInvite && <InvitationModal onCancel={() => setShowInvite(false)} />}
-        <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} footer={null} onCancel={onCancel}>
-            <Table columns={columns} data={data} />
-            {/* <div className='title'>
+        <div>
+            {showInvite && <InvitationModal onCancel={({ addLength, unRegister, unEmail }) => {
+                setShowInvite(false);
+                setAddLength(0);
+                setUnRegister(0);
+                setUnEmail(0);
+                addLength && setAddLength(addLength);
+                unRegister && setUnRegister(unRegister);
+                unEmail && setUnEmail(unEmail);
+                console.log(addLength, unRegister, unEmail);
+                getUserInfo().pipe(tap(fetchData)).subscribe();
+                if (addLength || unRegister || unEmail) {
+                    console.log(addLength, unRegister, unEmail);
+                    setShowInvitate(true);
+                }
+            }} />}
+            {
+                showInvitateSuccess && <InvitateSuccess addLength={addLength} unRegister={unRegister} unEmail={unEmail} onCancel={() => setShowInvitate(false)} />
+            }
+            <Modal className={ProjectMemberModal} visible={true} title={<HeaderLeft />} footer={null} onCancel={onCancel}>
+                <Table columns={columns} data={data} />
+                {/* <div className='title'>
                     <p>成员</p>
                     <p>加入日期</p>
                     <p>邀请人</p>
@@ -393,9 +417,9 @@ return (
                         <div className='handle-member'>移除成员</div>
                     </div>
                 </div> */}
-        </Modal>
-    </div>
-)
+            </Modal>
+        </div>
+    )
 };
 
 export default ProjectMember;

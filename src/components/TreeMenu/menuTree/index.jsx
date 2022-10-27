@@ -290,7 +290,7 @@ const MenuTrees = (props, treeRef) => {
         statusListInit();
     }, [CURRENT_PROJECT_ID]);
 
-    const { handleNodeDragEnd } = useNodeSort({ treeData, type });
+    const { handleNodeDragEnd } = useNodeSort({ treeData, type, id });
 
     const renderIcon = (icon) => {
         const NodeIcon = NodeType?.[icon];
