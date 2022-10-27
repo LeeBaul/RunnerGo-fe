@@ -169,24 +169,24 @@ const InvitationModal = (props) => {
   };
 
   useEffect(() => {
-    getTeamPlaceCount({ team_id: current_team_id }).subscribe({
-      next(resp) {
-        if (resp?.code === 10000) {
-          setRemainderStation(resp.data.write);
-          setUsedStation(parseInt(resp.data.write, 10) - parseInt(resp.data.reste_write, 10));
-        }
-      },
-    });
-    getTeamListWithProject({
-      team_id: current_team_id,
-      project_id: current_project_id,
-    }).subscribe({
-      next(res) {
-        if (res?.code === 10000) {
-          setProjectList(res.data);
-        }
-      },
-    });
+    // getTeamPlaceCount({ team_id: current_team_id }).subscribe({
+    //   next(resp) {
+    //     if (resp?.code === 10000) {
+    //       setRemainderStation(resp.data.write);
+    //       setUsedStation(parseInt(resp.data.write, 10) - parseInt(resp.data.reste_write, 10));
+    //     }
+    //   },
+    // });
+    // getTeamListWithProject({
+    //   team_id: current_team_id,
+    //   project_id: current_project_id,
+    // }).subscribe({
+    //   next(res) {
+    //     if (res?.code === 10000) {
+    //       setProjectList(res.data);
+    //     }
+    //   },
+    // });
     const query = {
       team_id: localStorage.getItem('team_id'),
     };
