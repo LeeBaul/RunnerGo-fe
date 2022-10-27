@@ -442,8 +442,8 @@ const LoginBox = (props) => {
             onClick={() => {
               if (role_id) {
                 navigate(`/register?role_id=${role_id}&team_id=${url_team_id}`)
-              } else if (email) {
-                navigate(`/register?email=${email}`)
+              } else if (url_email) {
+                navigate(`/register?email=${url_email}`)
               } else {
                 navigate('/register')
               }
