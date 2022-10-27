@@ -426,6 +426,11 @@ const InvitationModal = (props) => {
               Message('success', t('message.invitateSuccess'));
               Bus.$emit('getTeamMemberList');
               setAddList([]);
+              onCancel({
+                addLength: register_num,
+                unRegister: un_register_num,
+                unEmail: un_register_emails
+              })
             } else {
               Message('error', t('message.invitateError'));
             }

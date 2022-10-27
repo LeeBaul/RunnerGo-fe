@@ -23,6 +23,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { global$ } from '@hooks/useGlobal/global';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import InvitateSuccess from '@modals/InvitateSuccess';
 
 
 const HeaderRight = () => {
@@ -38,6 +39,12 @@ const HeaderRight = () => {
     const [memberList, setMemberList] = useState([]);
 
     const [outsideClose, setOutsideClose] = useState(true);
+
+    const [showInvitate, setShowInvitate] = useState(false);
+
+    const [addLength, setAddLength] = useState(0);
+    const [unRegister, setUnRegister] = useState(0);
+    const [unEmail, setUnEmail] = useState(0);
 
     const teamMember = useSelector((store) => store.teams.teamMember);
     const navigate = useNavigate();
@@ -238,8 +245,15 @@ const HeaderRight = () => {
                     <Button className='handle-log' preFix={<SvgSetting />}>{ t('header.menu') }</Button>
                 </Dropdown> */}
             </div>
-            {showModal && <InvitationModal onCancel={() => {
+            {showModal && <InvitationModal onCancel={({ addLength, unRegister, unEmail }) => {
                 setShowModal(false);
+                addLength && setAddLength(addLength);
+                unRegister && setUnRegister(unRegister);
+                unEmail && setUnEmail(unEmail);
+                console.log(addLength, unRegister, unEmail);
+                if (addLength || unRegister || unEmail) {
+                    setShowInvitate(true);
+                }
             }} />}
             {showMember && <ProjectMember onCancel={() => {
                 setMemberModal(false);
@@ -251,6 +265,9 @@ const HeaderRight = () => {
              showInfo && <InfoManage onCancel={() => {
                 setShowInfo(false);
              }} />
+            }
+            {
+                showInvitate && <InvitateSuccess addLength={addLength} unRegister={unRegister} unEmail={unEmail} onCancel={() => setShowInvitate(false)}  />
             }
         </div>
     )
