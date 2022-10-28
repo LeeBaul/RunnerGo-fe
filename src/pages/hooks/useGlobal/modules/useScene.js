@@ -783,6 +783,7 @@ const useScene = () => {
 
                             if (data.scenes) {
                                 const { scenes } = data;
+                                console.log(scenes);
 
                                 if (from === 'scene') {
                                     dispatch({
@@ -796,6 +797,7 @@ const useScene = () => {
                                     })
                                 }
 
+                                
                                 if (data.scenes.length === length) {
                                     clearInterval(scene_t);
                                     if (from === 'scene') {

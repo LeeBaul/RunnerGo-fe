@@ -63,6 +63,7 @@ const TaskConfig = (props) => {
     const open_scene = useSelector((store) => store.plan.open_plan_scene);
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     console.log(open_scene);
+    const language = useSelector((store) => store.user.language);
     const { id: plan_id } = useParams();
 
     useEffect(() => {
@@ -249,10 +250,10 @@ const TaskConfig = (props) => {
     }
 
 
-    // 并发模式
+    // 并发模式 60 82
     const TaskConfig = () => {
         return (
-            <div className="task-config-detail">
+            <div className="task-config-detail" style={{ marginLeft: language === 'cn' ? '60px' : '82px' }}>
                 <div className="left">
                     <div className="left-container">
                         {

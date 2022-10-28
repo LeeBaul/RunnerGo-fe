@@ -102,6 +102,8 @@ const Box = (props) => {
     const running_scene_plan = useSelector((store) => store.plan.running_scene);
     const select_box_plan = useSelector((store) => store.plan.select_box);
 
+    console.log(run_res_scene, run_res_plan);
+
     // 这样写, store.plan里有任何值更新, 都会刷新组件
     // const {
     //     nodes: nodes_plan,
@@ -177,6 +179,7 @@ const Box = (props) => {
     }, [init_scene]);
 
     useEffect(() => {
+        console.log(run_res);
         if (run_res) {
             const now_res = run_res.filter(item => item.event_id === id)[0];
             if (now_res) {

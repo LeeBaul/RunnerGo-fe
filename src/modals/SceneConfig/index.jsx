@@ -248,10 +248,11 @@ const SceneConfig = (props) => {
                 description
             };
         });
+        console.log(variables);
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
             scene_id: parseInt(open_scene.scene_id ? open_scene.scene_id : open_scene.target_id),
-            variables
+            variables: variables.filter(item => item.var.trim().length > 0 && item.val.trim().length > 0)
         };
         fetchChangeVar(params).subscribe({
             next: (res) => {
