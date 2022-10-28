@@ -69,11 +69,12 @@ const CreateFolder = (props) => {
     useEffect(() => {
         const init = () => {
             if (isPlainObject(folder)) {
-                const { request, name, script: folderScript, parent_id } = folder;
+                const { request, name, script: folderScript, parent_id, description } = folder;
                 parent_id && setParent_id(parent_id);
                 folderScript && setScript(folderScript);
                 name && setFolderName(name);
                 request && setRequest(request);
+                description && setDescription(description);
             } else {
                 setRequest({
                     header: [],
