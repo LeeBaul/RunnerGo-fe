@@ -3,14 +3,15 @@ import { Modal, Table, Upload, Button, Input, Message } from 'adesign-react';
 import { Copy as SvgCopy, Add as SvgAdd, Delete as SvgDelete } from 'adesign-react/icons';
 import { GlobalVarModal, HeaderTitleStyle, VarNameStyle } from './style';
 import { copyStringToClipboard, str2testData } from '@utils';
-import OSS from 'ali-oss';
-import { v4 } from 'uuid';
+
 import { fetchImportVar, fetchImportList, fetchSceneVar, fetchChangeVar, fetchDeleteImport } from '@services/scene';
 import { useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import PreviewFile from '../PreviewFile';
 import { useTranslation } from 'react-i18next';
-import { OSS_Config } from '@config';
+
+import { RD_FileURL } from '@config';
+
 
 const SceneConfig = (props) => {
     const { onCancel, from } = props;
@@ -207,8 +208,8 @@ const SceneConfig = (props) => {
         let formData = new FormData();
         formData.append('file', files[0].originFile);
 
-        const res = await axios.post('http://localhost:20004/api/upload', formData);
-        const url = `http://localhost:20004/${res.data[0].filename}`;
+        const res = await axios.post(`${RD_FileURL}/api/upload`, formData);
+        const url = `${RD_FileURL}/${res.data[0].filename}`;
         
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
@@ -234,8 +235,6 @@ const SceneConfig = (props) => {
                 }
             }
         })
-        // const { originFile: { size, name } } = files[0];
-        // const isBig = size / 1024 / 1024 / 1024
     };
 
     const saveGlobalVar = () => {

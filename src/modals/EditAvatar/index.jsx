@@ -10,6 +10,7 @@ import OSS from 'ali-oss';
 import { fetchUpdateAvatar } from '@services/user';
 import { OSS_Config } from '@config';
 import axios from 'axios';
+import { RD_FileURL } from '@config';
 
 const EditAvatar = (props) => {
     const { onCancel } = props;
@@ -51,8 +52,8 @@ const EditAvatar = (props) => {
         let formData = new FormData();
         formData.append('file', files[0].originFile);
 
-        const res = await axios.post('http://localhost:20004/api/upload', formData);
-        const url = `http://localhost:20004/${res.data[0].filename}`;
+        const res = await axios.post(`${RD_FileURL}/api/upload`, formData);
+        const url = `${RD_FileURL}/${res.data[0].filename}`;
         // console.log(res.data[0].filename);
 
 

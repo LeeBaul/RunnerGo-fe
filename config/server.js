@@ -1,34 +1,37 @@
 // 后端接口地址
-const RD_BaseURL = {
+export const RD_BaseURL = {
     // development: '172.17.101.188:20123/',
     development: 'https://kpmanage.apipost.cn',
     test: 'https://kpmanage.apipost.cn',
     production: 'https://kpmanage.apipost.cn',
 };
 
+// 后端文件存储地址
+export const RD_FileURL = 'http://localhost:20004';
+
 // 后端文档分享地址
-const RD_ShareURL = {
+export const RD_ShareURL = {
     development: 'https://console-docs.apipost.cn/preview/',
     test: 'https://console-docs.apipost.cn/preview/',
     production: 'https://v7-beta-doc.apipost.cn/preview/',
 };
 
 // 后端Mock服务地址
-const RD_mockUrl = {
+export const RD_mockUrl = {
     development: 'https://console-mock.apipost.cn/app/mock/project',
     test: 'https://console-mock.apipost.cn/app/mock/project',
     production: 'https://console-mock.apipost.cn/app/mock/project',
 };
 
 // 协作websocke地址
-const RD_websocketUrl = {
+export const RD_websocketUrl = {
     development: 'wss://dev_tools_env_test_socket.apipost.cn/v6/apipost.io',
     test: 'wss://dev_tools_env_test_socket.apipost.cn/v6/apipost.io',
     production: 'wss://v7-beta-socket.apipost.cn/v6/apipost.io',
 };
 
 // 云端代理scoket地址
-const Cloud_proxyUrl = {
+export const Cloud_proxyUrl = {
     // development: 'http://127.0.0.1:10036',
     development: 'https://v7-test-proxy.apipost.cn',
     test: 'https://v7-test-proxy.apipost.cn',
@@ -36,7 +39,7 @@ const Cloud_proxyUrl = {
 };
 
 // 统计在线用户socket地址
-const Live_socket_url = {
+export const Live_socket_url = {
     development: 'ws://172.17.101.188:8089/v7/live.io',
     test: 'ws://172.17.101.188:8089/v7/live.io',
     production: 'ws://172.17.101.188:8089/v7/live.io',
