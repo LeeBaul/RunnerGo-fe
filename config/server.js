@@ -14,7 +14,7 @@ export const RD_ShareURL = {
     development: 'https://console-docs.apipost.cn/preview/',
     test: 'https://console-docs.apipost.cn/preview/',
     production: 'https://v7-beta-doc.apipost.cn/preview/',
-};
+}; 
 
 // 后端Mock服务地址
 export const RD_mockUrl = {
