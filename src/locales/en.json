@@ -212,7 +212,8 @@
         "saveTagSuccess": "Successfully saved all labels",
         "NewSuccess": "New successfully!",
         "NewError": "New Failed!",
-        "PlanNameEmpty": "Plan name cannot be empty!"
+        "PlanNameEmpty": "Plan name cannot be empty!",
+        "closeLoop": "Can't realize close the loop, Please create a node in the lower part"
     },
     "modal": {
         "look": "Be careful",
@@ -611,6 +612,7 @@
         "qpsNum": "Requests per second",
         "concurrency": "Concurrency",
         "avgList": "Average response time",
+        "50%List": "50% Response Timeline",
         "90%List": "90% Response Timeline",
         "95%List": "95% Response Timeline",
         "99%List": "99% Response Timeline",

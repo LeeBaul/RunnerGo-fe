@@ -11,6 +11,7 @@ import FooterConfig from './footerConfig';
 import Bus from '@utils/eventBus';
 import { useSelector, useDispatch } from 'react-redux';
 import ApiPicker from './apiPicker';
+import { useTranslation } from 'react-i18next';
 
 
 import SvgClose from '@assets/logo/close';
@@ -25,6 +26,7 @@ const SceneContainer = (props) => {
     const [showApiPicker, setApiPicker] = useState(false);
     const [apiName, setApiName] = useState(api_now ? api_now.name : '新建接口');
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     useEffect(() => {
         setDrawer(apiConfig);
@@ -80,7 +82,7 @@ const SceneContainer = (props) => {
                         {/* <SvgClose width="16px" height="16px" /> */}
                         <SvgClose />
                     </Button>
-                    <Input  size="mini" value={apiName} placeholder="请输入接口名称" onBlur={(e) => onTargetChange('name', e.target.value)} />
+                    <Input  size="mini" value={apiName} placeholder={ t('placeholder.apiName') } onBlur={(e) => onTargetChange('name', e.target.value)} />
                 </div>
                 <div className='drawer-header-right'>
                     {/* <Button className='drawer-save-btn' onClick={() => {

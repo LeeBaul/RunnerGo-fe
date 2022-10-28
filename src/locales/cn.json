@@ -211,7 +211,8 @@
         "saveTagSuccess": "保存所有标签成功",
         "NewSuccess": "新建成功!",
         "NewError": "新建失败!",
-        "PlanNameEmpty": "计划名称不能为空!"
+        "PlanNameEmpty": "计划名称不能为空!",
+        "closeLoop": "无法实现闭环, 请在下方新建节点"
     },
     "modal": {
         "look": "注意",
@@ -595,7 +596,7 @@
         "90%": "90%",
         "95%": "95%",
         "99%": "99%",
-        "qps": "吞吐量",
+        "qps": "RPS",
         "errNum": "错误数",
         "errRate": "错误率",
         "acceptByte": "接受字节数",
@@ -604,6 +605,7 @@
         "qpsNum": "每秒请求数",
         "concurrency": "并发数",
         "avgList": "平均响应时间",
+        "50%List": "50%响应时间线",
         "90%List": "90%响应时间线",
         "95%List": "95%响应时间线",
         "99%List": "99%响应时间线",

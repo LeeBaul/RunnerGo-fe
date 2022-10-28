@@ -117,7 +117,7 @@ const SceneBox = (props) => {
                 return addEdge(_params, eds)
             })
         } else {
-            Message('error', '无法实现闭环, 请在下方新建节点')
+            Message('error', t('message.closeLoop'))
         }
 
     }, [nodes, edges]);

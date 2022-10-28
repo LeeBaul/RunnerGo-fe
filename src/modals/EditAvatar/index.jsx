@@ -9,6 +9,7 @@ import { v4 } from 'uuid';
 import OSS from 'ali-oss';
 import { fetchUpdateAvatar } from '@services/user';
 import { OSS_Config } from '@config';
+import axios from 'axios';
 
 const EditAvatar = (props) => {
     const { onCancel } = props;
@@ -47,11 +48,19 @@ const EditAvatar = (props) => {
             return;
         }
 
-        const client = new OSS(OSS_Config);
-        const { name: res_name, url } = await client.put(
-            `kunpeng/avatar/${v4()}.${nameType}`,
-            files[0].originFile,
-        )
+        let formData = new FormData();
+        formData.append('file', files[0].originFile);
+
+        const res = await axios.post('http://localhost:20004/api/upload', formData);
+        const url = `http://localhost:20004/${res.data[0].filename}`;
+        // console.log(res.data[0].filename);
+
+
+        // const client = new OSS(OSS_Config);
+        // const { name: res_name, url } = await client.put(
+        //     `kunpeng/avatar/${v4()}.${nameType}`,
+        //     files[0].originFile,
+        // )
         console.log(url);
         setAvatarNow(url);
     };
