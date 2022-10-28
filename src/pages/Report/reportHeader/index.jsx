@@ -29,55 +29,55 @@ const ReportHeader = (props) => {
     // const { id: report_id } = useParams();
     const { search } = useLocation();
     const { id: report_id, contrast } = qs.parse(search.slice(1));
-    const select_plan = useSelector((store) =>(store.plan.select_plan));
+    const select_plan = useSelector((store) => (store.plan.select_plan));
     const handleExportPdf = async () => {
-      // 根据dpi放大，防止图片模糊
-      const scale = window.devicePixelRatio > 1 ? window.devicePixelRatio : 2;
-      // 下载尺寸 a4 纸 比例
-      const pdf = new jsPDF('p', 'pt', 'a4')
-      for(let i in refs){
-        const toPdfRef = refs[i];
-        let width = toPdfRef.current.offsetWidth;
-        let height = toPdfRef.current.offsetHeight;
-    
-        const canvas = document.createElement('canvas');
-        canvas.width = width * scale;
-        canvas.height = height * scale;
-        const pdfCanvas = await html2canvas(toPdfRef.current, {
-          useCORS: true,
-          canvas,
-          scale,
-          width,
-          height,
-          x: 0,
-          y: 0,
-        });
-        const imgDataUrl = pdfCanvas.toDataURL();
-   
-        if(height > 14400){ // 超出jspdf高度限制时
-          const ratio = 14400 / height;
-          height = 14400;
-          width = width * ratio;
+        // 根据dpi放大，防止图片模糊
+        const scale = window.devicePixelRatio > 1 ? window.devicePixelRatio : 2;
+        // 下载尺寸 a4 纸 比例
+        const pdf = new jsPDF('p', 'pt', 'a4')
+        for (let i in refs) {
+            const toPdfRef = refs[i];
+            let width = toPdfRef.current.offsetWidth;
+            let height = toPdfRef.current.offsetHeight;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width * scale;
+            canvas.height = height * scale;
+            const pdfCanvas = await html2canvas(toPdfRef.current, {
+                useCORS: true,
+                canvas,
+                scale,
+                width,
+                height,
+                x: 0,
+                y: 0,
+            });
+            const imgDataUrl = pdfCanvas.toDataURL();
+
+            if (height > 14400) { // 超出jspdf高度限制时
+                const ratio = 14400 / height;
+                height = 14400;
+                width = width * ratio;
+            }
+
+            // 缩放为 a4 大小  pdfpdf.internal.pageSize 获取当前pdf设定的宽高
+            height = height * pdf.internal.pageSize.getWidth() / width;
+            width = pdf.internal.pageSize.getWidth();
+
+            // pdf.addImage(pageData, 'JPEG', 左，上，宽度，高度)设置
+            pdf.addImage(imgDataUrl, 'png', 0, 0, width, height)
+
+            // 若当前是最后一张截图，则不再另起一页，直接退出循环
+            if (+i >= refs.length - 1) {
+                break;
+            }
+
+            // 另起一页
+            pdf.addPage();
         }
-   
-        // 缩放为 a4 大小  pdfpdf.internal.pageSize 获取当前pdf设定的宽高
-        height = height * pdf.internal.pageSize.getWidth() / width;
-        width = pdf.internal.pageSize.getWidth();
-    
-        // pdf.addImage(pageData, 'JPEG', 左，上，宽度，高度)设置
-        pdf.addImage(imgDataUrl, 'png', 0, 0, width, height)
-   
-        // 若当前是最后一张截图，则不再另起一页，直接退出循环
-        if(+i >= refs.length - 1){
-          break;
-        }
-   
-        // 另起一页
-        pdf.addPage();
-      }
-   
-      // 导出下载 
-      await pdf.save("pdf名", { returnPromise: true });
+
+        // 导出下载 
+        await pdf.save("pdf名", { returnPromise: true });
     }
 
     const donwloadReport = () => {
@@ -151,25 +151,27 @@ const ReportHeader = (props) => {
     }
 
     return (
-        <div className='report-header' ref={ref1}>
-            <div className='report-header-left'>
-                <Button onClick={() => navigate('/report/list')}>
-                    <SvgLeft  />
-                </Button>
-                <div className='report-name'>{plan_name} / {scene_name}</div>
-                <div className='report-status'>{ status === 1 ? t('btn.running') : t('btn.done')}</div>
-            </div>
-            <div className='report-header-right'>
-                <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>{ t('btn.notifyEmail') }</Button>
-                {/* <Button className='download' onClick={() => donwloadReport()}>下载</Button> */}
-                {
-                    status === 1 
-                    ? <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => stopReport() }  >{ t('btn.breakTask') }</Button>
-                    : <Button disabled={true}>{ t('btn.done') }</Button>
-                }
+        <>
+            <div className='report-header' ref={ref1}>
+                <div className='report-header-left'>
+                    <Button onClick={() => navigate('/report/list')}>
+                        <SvgLeft />
+                    </Button>
+                    <div className='report-name'>{plan_name} / {scene_name}</div>
+                    <div className='report-status'>{status === 1 ? t('btn.running') : t('btn.done')}</div>
+                </div>
+                <div className='report-header-right'>
+                    <Button className='notice' preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setSendEmail(true)}>{t('btn.notifyEmail')}</Button>
+                    {/* <Button className='download' onClick={() => donwloadReport()}>下载</Button> */}
+                    {
+                        status === 1
+                            ? <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => stopReport()}  >{t('btn.breakTask')}</Button>
+                            : <Button disabled={true}>{t('btn.done')}</Button>
+                    }
+                </div>
             </div>
             {showSendEmail && <InvitationModal from="report" email={true} onCancel={() => setSendEmail(false)} />}
-        </div>
+        </>
     )
 };
 

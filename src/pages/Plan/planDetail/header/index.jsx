@@ -56,7 +56,7 @@ const DetailHeader = () => {
 
     const statusList = {
         '1': t('plan.notRun'),
-        '2': <p style={{ color: 'var(--run-green)' }}>{ t('plan.running') }</p>,
+        '2': <p style={{ color: 'var(--run-green)' }}>{t('plan.running')}</p>,
     }
 
     const onConfigChange = (type, value) => {
@@ -92,10 +92,76 @@ const DetailHeader = () => {
     }
 
     return (
-        <div className='detail-header'>
+        <>
+            <div className='detail-header'>
+                <div className='detail-header-left'>
+                    <Button onClick={() => navigate('/plan/list')} >
+                        <SvgLeft />
+                    </Button>
+                    <div className='detail'>
+                        <div className='detail-top'>
+                            <p className='name'>
+                                {t('plan.planManage')} /
+                                <Tooltip
+                                    placement="top"
+                                    content={<div>{planDetail.name}</div>}
+                                >
+                                    <div style={{ marginLeft: '8px' }}>
+                                        <Input value={planDetail.name} onBlur={(e) => changePlanInfo('name', e.target.value)} />
+                                    </div>
+                                </Tooltip>
+                            </p>
+                            <p className='status' style={{ color: planDetail.status === 2 ? 'var(--run-green)' : 'var(--font-color)' }}>
+                                {statusList[planDetail.status]}
+                            </p>
+                        </div>
+                        <div className='detail-bottom'>
+                            <div className='item'>
+                                <p>{t('plan.createdBy')}：{planDetail.created_user_name}</p>
+                                <img src={planDetail.created_user_avatar || avatar} />
+                                <p style={{ marginLeft: '4px' }}></p>
+                            </div>
+                            <div className='item'>
+                                {t('plan.createTime')}：{dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                            </div>
+                            <div className='item'>
+                                {t('plan.updateTime')}：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                            </div>
+                            <div className='item'>
+                                {t('plan.planDesc')}:
+                                <Input value={planDetail.remark} onBlur={(e) => changePlanInfo('remark', e.target.value)} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='detail-header-right'>
+                    <Button className='notice' onClick={() => setPreSet(true)}>{t('plan.preinstall')}</Button>
+                    <Button className='notice' disabled={planDetail.status !== 1} preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setShowEmail(true)}>{t('btn.notifyEmail')}</Button>
+                    {
+                        planDetail.status === 1
+                            ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
+                                if (code === 0) {
+                                    getReportDetail();
+                                    Message('success', t('message.runSuccess'))
+                                    navigate('/report/list');
+                                } else {
+                                    Message('error', t('message.handleError'));
+                                }
+                            })}>{t('btn.runPlan')}</Button>
+                            : <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
+                                if (code === 0) {
+                                    Message('success', t('message.stopSuccess'));
+                                    getReportDetail();
+                                } else {
+                                    Message('error', t('message.stopError'));
+                                }
+                            })} >{t('btn.stopRun')}</Button>
+                    }
+                </div>
+            </div>
             {
                 preSet && (
-                    <Modal title={ t('plan.preinstall') } okText={ t('btn.save') } cancelText={ t('btn.cancel') } onOk={() => {
+                    <Modal title={t('plan.preinstall')} okText={t('btn.save')} cancelText={t('btn.cancel')} onOk={() => {
                         const { task_type, mode, cron_expr, mode_conf } = task_config;
                         Bus.$emit('savePreConfig', { task_type, mode, cron_expr, mode_conf }, () => {
                             setPreSet(false);
@@ -109,71 +175,7 @@ const DetailHeader = () => {
             {
                 showEmail && <InvitationModal from="plan" email={true} onCancel={() => setShowEmail(false)} />
             }
-            <div className='detail-header-left'>
-                <Button onClick={() => navigate('/plan/list')} >
-                    <SvgLeft />
-                </Button>
-                <div className='detail'>
-                    <div className='detail-top'>
-                        <p className='name'>
-                            { t('plan.planManage') } / 
-                            <Tooltip
-                                placement="top"
-                                content={<div>{planDetail.name}</div>}
-                            >
-                              <div style={{ marginLeft: '8px' }}>
-                                 <Input value={planDetail.name} onBlur={(e) => changePlanInfo('name', e.target.value)} />
-                              </div>
-                            </Tooltip>
-                        </p>
-                        <p className='status' style={{ color: planDetail.status === 2 ? 'var(--run-green)' : 'var(--font-color)' }}>
-                            {statusList[planDetail.status]}
-                        </p>
-                    </div>
-                    <div className='detail-bottom'>
-                        <div className='item'>
-                            <p>{ t('plan.createdBy') }：{planDetail.created_user_name}</p>
-                            <img src={planDetail.created_user_avatar || avatar} />
-                            <p style={{ marginLeft: '4px' }}></p>
-                        </div>
-                        <div className='item'>
-                            { t('plan.createTime') }：{dayjs(planDetail.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
-                        </div>
-                        <div className='item'>
-                            { t('plan.updateTime') }：{dayjs(planDetail.updated_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')}
-                        </div>
-                        <div className='item'>
-                            { t('plan.planDesc') }: 
-                            <Input value={planDetail.remark} onBlur={(e) => changePlanInfo('remark', e.target.value)} />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='detail-header-right'>
-                <Button className='notice' onClick={() => setPreSet(true)}>{ t('plan.preinstall') }</Button>
-                <Button className='notice' disabled={ planDetail.status !== 1 } preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setShowEmail(true)}>{ t('btn.notifyEmail') }</Button>
-                {
-                    planDetail.status === 1
-                        ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
-                            if (code === 0) {
-                                getReportDetail();
-                                Message('success', t('message.runSuccess'))
-                                navigate('/report/list');
-                            } else {
-                                Message('error', t('message.handleError'));
-                            }
-                        })}>{ t('btn.runPlan') }</Button>
-                        : <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
-                            if (code === 0) {
-                                Message('success', t('message.stopSuccess'));
-                                getReportDetail();
-                            } else {
-                                Message('error', t('message.stopError'));
-                            }
-                        })} >{ t('btn.stopRun') }</Button>
-                }
-            </div>
-        </div>
+        </>
     )
 };
 
