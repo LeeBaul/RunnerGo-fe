@@ -202,7 +202,11 @@ const Box = (props) => {
                 <p onClick={() => {
                     changeApiConfig(id);
                     refDropdown.current.setPopupVisible(false);
-                }}>{ t('scene.editApi') }</p>
+                }}>{t('scene.editApi')}</p>
+                <p onClick={() => {
+                    Bus.$emit('cloneNode', id, nodes, node_config, id_apis, open_scene, from);
+                    refDropdown.current.setPopupVisible(false);
+                }}>{t('scene.copyApi')}</p>
                 <p onClick={() => {
                     // const _open_scene = cloneDeep(open_scene);
                     // const index = _open_scene.nodes.findIndex(item => item.id === id);
@@ -239,11 +243,7 @@ const Box = (props) => {
 
 
                     refDropdown.current.setPopupVisible(false);
-                }}>{ t('scene.deleteApi') }</p>
-                <p onClick={() => {
-                    Bus.$emit('cloneNode', id, nodes, node_config, id_apis, open_scene, from);
-                    refDropdown.current.setPopupVisible(false);
-                }}>{ t('scene.copyApi') }</p>
+                }}>{t('scene.deleteApi')}</p>
             </div>
         )
     };
@@ -259,8 +259,8 @@ const Box = (props) => {
 
     const topStatus = {
         'default': <></>,
-        'success': <SvgSuccess  className='default' />,
-        'failed': <SvgFailed  className='default' />,
+        'success': <SvgSuccess className='default' />,
+        'failed': <SvgFailed className='default' />,
         'running': <SvgRunning className='default' />,
         'not-run': <></>,
         'not-hit': <></>,
@@ -390,7 +390,7 @@ const Box = (props) => {
 
     const Header = () => {
         return (
-            <div className={ cn('box-item', { 'white-run-color': theme === 'white' ? status === 'success' || status === 'failed' : false}) } style={{ backgroundColor: topBgStyle[status] }}>
+            <div className={cn('box-item', { 'white-run-color': theme === 'white' ? status === 'success' || status === 'failed' : false })} style={{ backgroundColor: topBgStyle[status] }}>
                 <div className='box-item-left'>
                     <SvgApi />
                     <span>{id_apis[id] ? id_apis[id]?.name : '新建接口'}</span>
@@ -629,7 +629,7 @@ const Box = (props) => {
 
                 const api_now = cloneDeep(id_apis[id]);
                 api_now.id = id;
-        
+
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateApiNow',
@@ -662,7 +662,7 @@ const Box = (props) => {
                 <Header />
                 {showApi && <div className='collapse-body'>
                     <div className='api-weight'>
-                        <span>{ t('scene.weight') }</span>
+                        <span>{t('scene.weight')}</span>
                         <Input size="mini" value={weight} onChange={(e) => {
                             if (parseInt(e) > 100 || parseInt(e) < 0) {
                                 Message('error', t('message.apiWeight'));
@@ -674,7 +674,7 @@ const Box = (props) => {
                                 setWeight(parseInt(e));
                                 onTargetChange('weight', parseInt(e));
                             }
-                        }} placeholder={ t('scene.value') } />
+                        }} placeholder={t('scene.value')} />
                     </div>
                     <Select
                         formatRender={(value, childList, text) => (
@@ -689,27 +689,27 @@ const Box = (props) => {
                             onTargetChange('mode', parseInt(e));
                         }}
                     >
-                        <Option value={1}>{ t('scene.modeList.1') }</Option>
-                        <Option value={3}>{ t('scene.modeList.3') }</Option>
+                        <Option value={1}>{t('scene.modeList.1')}</Option>
+                        <Option value={3}>{t('scene.modeList.3')}</Option>
                         {/* <Option value="3">每秒事务数模式</Option> */}
-                        <Option value={4}>{ t('scene.modeList.4') }</Option>
-                        <Option value={5}>{ t('scene.modeList.5') }</Option>
+                        <Option value={4}>{t('scene.modeList.4')}</Option>
+                        <Option value={5}>{t('scene.modeList.5')}</Option>
                     </Select>
                     {/* {<RenderContent />} */}
                     {/* todo: 高阶组件input onchange导致失焦 */}
                     {
                         mode === 3 && <div className='common-flex'>
-                            <span>{ t('scene.errorValue') }</span>
+                            <span>{t('scene.errorValue')}</span>
                             <Input size="mini" value={error_threshold} onChange={(e) => {
                                 setError(parseInt(e));
                                 onTargetChange('error_threshold', parseInt(e));
-                            }} placeholder={ t('scene.errorRate') } />
+                            }} placeholder={t('scene.errorRate')} />
                         </div>
                     }
                     {
                         mode === 4 && <div className='time-mode'>
                             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                                <span>{ t('scene.line') }: </span>
+                                <span>{t('scene.line')}: </span>
                                 <Select
                                     className='config-line'
                                     data-module="select-diy-example"
@@ -717,7 +717,7 @@ const Box = (props) => {
                                         <>
                                             <div className="menulist">{menu}</div>
                                             <div className="diybox">
-                                                <input size="mini" placeholder={ t('placeholder.line') } ref={refInput} className="input" />
+                                                <input size="mini" placeholder={t('placeholder.line')} ref={refInput} className="input" />
                                                 <Button
                                                     size="mini"
                                                     type="primary"
@@ -736,7 +736,7 @@ const Box = (props) => {
                                                         }
                                                     }}
                                                 >
-                                                    { t('btn.add') }
+                                                    {t('btn.add')}
                                                 </Button>
                                             </div>
                                         </>
@@ -756,11 +756,11 @@ const Box = (props) => {
                                 </Select>
                             </div>
                             <div className='common-flex'>
-                                <span>{ t('scene.resTime') }</span>
+                                <span>{t('scene.resTime')}</span>
                                 <Input size="mini" value={response_threshold} onChange={(e) => {
                                     setRes(parseInt(e));
                                     onTargetChange('response_threshold', parseInt(e));
-                                }} placeholder={ t('scene.threshold') } />
+                                }} placeholder={t('scene.threshold')} />
                             </div>
                             {/* <div className='common-flex'>
                             <span>请求数阈值</span>
@@ -773,8 +773,8 @@ const Box = (props) => {
                     }
                     {
                         mode === 5 && <div className='common-flex'>
-                            <span>{ t('scene.reqValue') }</span>
-                            <Input size="mini" placeholder={ t('scene.threshold') } onChange={(e) => {
+                            <span>{t('scene.reqValue')}</span>
+                            <Input size="mini" placeholder={t('scene.threshold')} onChange={(e) => {
                                 setReq(parseInt(e));
                                 onTargetChange('request_threshold', parseInt(e));
                             }} />
@@ -784,7 +784,7 @@ const Box = (props) => {
                 {
                     (status === 'success' || status === 'failed') &&
                     <div className='show-result'>
-                        <Button onClick={() => changeApiConfig(id)}>{ t('btn.seeResult') }</Button>
+                        <Button onClick={() => changeApiConfig(id)}>{t('btn.seeResult')}</Button>
                     </div>
                 }
             </div>
