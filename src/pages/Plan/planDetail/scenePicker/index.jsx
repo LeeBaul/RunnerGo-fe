@@ -118,7 +118,7 @@ const ScenePicker = (props) => {
     let _dataList = [...dataList];
 
     dataList.forEach(elem => {
-      if (elem.type === 'group') {
+      if (elem.type === 'scene') {
         let fn = (id) => {
           let _ = Object.values(sceneDatas).find(item => `${item.target_id}` === `${id}`);
           if (_dataList.findIndex(_item => `${_item.id}` === `${_.parent_id}`) === -1) {
