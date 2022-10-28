@@ -8,6 +8,7 @@ import cn from 'classnames';
 import { v4 } from 'uuid';
 import OSS from 'ali-oss';
 import { fetchUpdateAvatar } from '@services/user';
+import { OSS_Config } from '@config';
 
 const EditAvatar = (props) => {
     const { onCancel } = props;
@@ -45,13 +46,8 @@ const EditAvatar = (props) => {
             Message('error', t('message.AvatarType'));
             return;
         }
-        const ossConfig = {
-            region: 'oss-cn-beijing',
-            accessKeyId: 'LTAI5tEAzFMCX559VD8mRDoZ',
-            accessKeySecret: '5IV7ZpVx95vBHZ3Y74jr9amaMtXpCQ',
-            bucket: 'apipost',
-        };
-        const client = new OSS(ossConfig);
+
+        const client = new OSS(OSS_Config);
         const { name: res_name, url } = await client.put(
             `kunpeng/avatar/${v4()}.${nameType}`,
             files[0].originFile,

@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import PreviewFile from '../PreviewFile';
 import { useTranslation } from 'react-i18next';
+import { OSS_Config } from '@config';
 
 const SceneConfig = (props) => {
     const { onCancel, from } = props;
@@ -196,13 +197,8 @@ const SceneConfig = (props) => {
             Message('error', t('message.FileType'));
             return;
         }
-        const ossConfig = {
-            region: 'oss-cn-beijing',
-            accessKeyId: 'LTAI5tEAzFMCX559VD8mRDoZ',
-            accessKeySecret: '5IV7ZpVx95vBHZ3Y74jr9amaMtXpCQ',
-            bucket: 'apipost',
-        };
-        const client = new OSS(ossConfig);
+
+        const client = new OSS(OSS_Config);
         const { name: res_name, url } = await client.put(
             `kunpeng/test/${v4()}.${nameType}`,
             files[0].originFile,
