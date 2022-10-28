@@ -63,7 +63,7 @@ const webpackConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       publicPath: '',
-      title: '鲲鹏-接口压力测试工具',
+      title: 'RunnerGo-接口压力测试工具',
       filename: path.resolve(__dirname, '../build/index.html'),
       template: path.resolve(__dirname, '../src/index.html'),
     }),
