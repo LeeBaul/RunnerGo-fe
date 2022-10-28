@@ -99,7 +99,8 @@
     "btn": {
         "cancel": "取消",
         "save": "保存",
-        "run": "开始运行",
+        "run": "开始调试",
+        "runPlan": "运行计划",
         "start": "开始",
         "finish": "停止",
         "createPlan": "新建计划",
@@ -503,7 +504,8 @@
         "deleteApi": "删除接口",
         "copyApi": "复制接口",
         "importApiTitle": "API添加器",
-        "addApi": "添加接口"
+        "addApi": "添加接口",
+        "errorRate": "示例: 0.0001"
     },
     "plan": {
         "planId": "计划ID",

@@ -100,7 +100,8 @@
     "btn": {
         "cancel": "Cancel",
         "save": "Save",
-        "run": "Start",
+        "run": "Start debug",
+        "runPlan": "Run plan",
         "start": "Start",
         "finish": "Stop",
         "createPlan": "Create a new plan",
@@ -510,7 +511,8 @@
         "deleteApi": "Delete",
         "copyApi": "Copy",
         "importApiTitle": "SingK AddIt",
-        "addApi": "Add API"
+        "addApi": "Add API",
+        "errorRate": "Example: 0.0001"
     },
     "plan": {
         "planId": "Plan ID",

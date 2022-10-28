@@ -162,7 +162,7 @@ const DetailHeader = () => {
                             } else {
                                 Message('error', t('message.handleError'));
                             }
-                        })}>{ t('btn.run') }</Button>
+                        })}>{ t('btn.runPlan') }</Button>
                         : <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
                             if (code === 0) {
                                 Message('success', t('message.stopSuccess'));

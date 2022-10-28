@@ -249,9 +249,7 @@ const useProject = () => {
                 Bus.$emit('reloadOpens');
                 const team_id = localStorage.getItem('team_id');
                 return of(team_id).pipe(
-                    // step1.加载团队列表
                     concatMap(() => getUserTeamList$().pipe(tap(handleInitTeams))),
-                    // step2. 执行异步上传任务
                     concatMap(() => getIndexPage$().pipe(tap(handleInitIndex))),
                     concatMap(() => getRunningPlan$().pipe(tap(handleInitRunningPlan))),
                     concatMap(() => getApiList$(apiListParams).pipe(tap(handleInitApiList))),
@@ -299,10 +297,10 @@ const useProject = () => {
                     //     return of(getReportList(current_project_id));
                     // }),
                     // tap((d) => handleInitProjectFinish(current_project_id)),
-                    tap(() => {
-                        // 初始化连接协作socket
-                        webSocket.socketInit();
-                    })
+                    // tap(() => {
+                    //     // 初始化连接协作socket
+                    //     webSocket.socketInit();
+                    // })
                 );
             })
         );

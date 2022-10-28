@@ -152,9 +152,9 @@ const LoginBox = (props) => {
   );
 
   const loginNow = () => {
-    if (Object.keys(vcodeObj).length === 0) {
-      return Message('error', t('message.check'));
-    }
+    // if (Object.keys(vcodeObj).length === 0) {
+    //   return Message('error', t('message.check'));
+    // }
     if (emailError) {
       return;
     }
@@ -406,9 +406,9 @@ const LoginBox = (props) => {
               }}
             />
           </div>
-          <div className="item">
+          {/* <div className="item">
             <div id="captcha"></div>
-          </div>
+          </div> */}
           <div className="item">
             <Button
               type="primary"

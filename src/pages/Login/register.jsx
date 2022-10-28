@@ -163,9 +163,9 @@ const RegisterBox = (props) => {
     );
 
     const registerNow = () => {
-        if (Object.keys(vcodeObj).length === 0) {
-            return Message('error', t('message.check'));
-        }
+        // if (Object.keys(vcodeObj).length === 0) {
+        //     return Message('error', t('message.check'));
+        // }
         if (emailError || nameError || pwdDiff || pwdError || checked === 'uncheck') {
             return;
         }
@@ -323,9 +323,9 @@ const RegisterBox = (props) => {
                         />
                         {nameError && <p className='error-tips'>{t('sign.nicknameError')}</p>}
                     </div>
-                    <div className="item">
+                    {/* <div className="item">
                         <div id="captcha"></div>
-                    </div>
+                    </div> */}
                     <div className='item' style={{ flexDirection: 'row', height: 'auto', marginBottom: '24px', alignItems: language === 'cn' ? 'center' : 'flex-start' }}>
                         <CheckBox
                             checked={checked}

@@ -437,7 +437,7 @@ const Box = (props) => {
                 <Input size="mini" value={error_threshold} onChange={(e) => {
                     setError(parseInt(e));
                     onTargetChange('error_threshold', parseInt(e));
-                }} placeholder="阈值" />
+                }} placeholder="示例: 0-1之间, 如0.001" />
             </div>
         )
     };
@@ -703,7 +703,7 @@ const Box = (props) => {
                             <Input size="mini" value={error_threshold} onChange={(e) => {
                                 setError(parseInt(e));
                                 onTargetChange('error_threshold', parseInt(e));
-                            }} placeholder={ t('scene.threshold') } />
+                            }} placeholder={ t('scene.errorRate') } />
                         </div>
                     }
                     {
