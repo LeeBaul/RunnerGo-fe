@@ -214,7 +214,10 @@
         "NewSuccess": "新建成功!",
         "NewError": "新建失败!",
         "PlanNameEmpty": "计划名称不能为空!",
-        "closeLoop": "无法实现闭环, 请在下方新建节点"
+        "closeLoop": "无法实现闭环, 请在下方新建节点",
+        "addSuccess": "添加成功",
+        "addError": "添加失败",
+        "runPlanTooltip": "开始运行并通知所有收件人"
     },
     "modal": {
         "look": "注意",

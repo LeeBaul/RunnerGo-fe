@@ -18,6 +18,7 @@ import SvgSendEmail from '@assets/icons/SendEmail';
 import SvgStop from '@assets/icons/Stop';
 import { useTranslation } from 'react-i18next';
 import InvitationModal from '@modals/ProjectInvitation';
+import { fetchEmailList } from '@services/plan';
 
 const DetailHeader = () => {
     const { t } = useTranslation();
@@ -29,13 +30,32 @@ const DetailHeader = () => {
     const [cron_expr, setCronExpr] = useState('');
     const open_plan = useSelector((store) => store.plan.open_plan);
     const task_config = useSelector((store) => store.plan.task_config);
+    const email_list = useSelector((store) => store.plan.email_list);
     const { id: plan_id } = useParams();
     const [planDetail, setPlanDetail] = useState({});
     const [showEmail, setShowEmail] = useState(false);
+    const [emailList, setEmailList] = useState([]);
 
     useEffect(() => {
         getReportDetail();
     }, [plan_id]);
+
+    useEffect(() => {
+        getEmailList();
+    }, [email_list]);
+
+    const getEmailList = () => {
+        const query = {
+            plan_id,
+            team_id: localStorage.getItem('team_id'),
+        }
+        fetchEmailList(query).subscribe({
+            next: (res) => {
+                const { data: { emails } } = res;
+                setEmailList(emails);
+            }
+        })
+    }
 
     const getReportDetail = () => {
         const query = {
@@ -139,13 +159,23 @@ const DetailHeader = () => {
                     <Button className='notice' disabled={planDetail.status !== 1} preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setShowEmail(true)}>{t('btn.notifyEmail')}</Button>
                     {
                         planDetail.status === 1
-                            ? <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
-                                if (code === 0) {
-                                    getReportDetail();
-                                    Message('success', t('message.runSuccess'))
-                                    navigate('/report/list');
-                                }
-                            })}>{t('btn.runPlan')}</Button>
+                            ? (
+                                emailList && emailList.length > 0 ? <Tooltip placement="top-end" content={<div style={{ whiteSpace: 'nowrap' }}>{t('message.runPlanTooltip')}</div>}>
+                                    <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
+                                        if (code === 0) {
+                                            getReportDetail();
+                                            Message('success', t('message.runSuccess'))
+                                            navigate('/report/list');
+                                        }
+                                    })}>{t('btn.runPlan')}</Button>
+                                </Tooltip> : <Button className='run' preFix={<SvgCareRight width="16" height="16" />} onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
+                                    if (code === 0) {
+                                        getReportDetail();
+                                        Message('success', t('message.runSuccess'))
+                                        navigate('/report/list');
+                                    }
+                                })}>{t('btn.runPlan')}</Button>
+                            )
                             : <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
                                 if (code === 0) {
                                     Message('success', t('message.stopSuccess'));

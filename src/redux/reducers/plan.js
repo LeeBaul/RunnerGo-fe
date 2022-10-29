@@ -41,7 +41,9 @@ const initialState = {
   // 对比时选中的tab
   select_plan: 0,
 
-  open_first: true
+  open_first: true,
+
+  email_list: [],
 };
 
 // action名称
@@ -79,7 +81,8 @@ const actionTypes = {
 
   updateSelectPlan: 'updateSelectPlan',
 
-  updateOpenFirst: 'updateOpenFirst'
+  updateOpenFirst: 'updateOpenFirst',
+  updateEmailList: 'updateEmailList'
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -224,6 +227,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         open_first: action.payload
+      }
+    case `${NAMESPACE}/${actionTypes.updateEmailList}`:
+      return {
+        ...state,
+        email_list: action.payload
       }
     default:
       return state;

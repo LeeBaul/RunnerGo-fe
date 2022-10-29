@@ -30,6 +30,7 @@ import { tap } from 'rxjs';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import qs from 'qs';
+import { useDispatch } from 'react-redux';
 
 import InvitateSuccess from '../InvitateSuccess';
 
@@ -73,6 +74,7 @@ const InvitationModal = (props) => {
   const [invitateSuccess, setInvitateSuccess] = useState(false);
 
   const [oldList, setOldList] = useState([]);
+  const dispatch = useDispatch();
 
   const changeTeamInvitation = (type, invitationPersonnel) => {
     const inputTempValue = invitationPersonnel?.email || inputValue.trim();
@@ -140,6 +142,10 @@ const InvitationModal = (props) => {
                 _addList.splice(index, 1);
                 setAddList(_addList);
               }
+              dispatch({
+                type: 'plan/updateEmailList',
+                payload: addList,
+              })
             }
           }
         });
@@ -224,24 +230,26 @@ const InvitationModal = (props) => {
         }
       }
     })
-    const _query = {
-      plan_id,
-      team_id: localStorage.getItem('team_id'),
-    }
-    fetchEmailList(_query).subscribe({
-      next: (res) => {
-        const { data: { emails } } = res;
-        const oldList = emails.map(item => {
-          return {
-            key: uuidv4(),
-            email: item.email,
-            id: item.id
-          }
-        })
-        setAddList([...addList, ...oldList]);
-        setOldList(oldList);
+    if (plan_id) {
+      const _query = {
+        plan_id,
+        team_id: localStorage.getItem('team_id'),
       }
-    })
+      fetchEmailList(_query).subscribe({
+        next: (res) => {
+          const { data: { emails } } = res;
+          const oldList = emails.map(item => {
+            return {
+              key: uuidv4(),
+              email: item.email,
+              id: item.id
+            }
+          })
+          setAddList([...addList, ...oldList]);
+          setOldList(oldList);
+        }
+      })
+    }
     // getInviteRole({ project_id: current_project_id }).subscribe({
     //   next(resp) {
     //     if (resp?.code === 10000) {
@@ -253,7 +261,7 @@ const InvitationModal = (props) => {
     //   },
     // });
     setSpinning(false);
-  }, []);
+  }, [plan_id]);
 
   const computeStation = (item) => {
     if (item.power === 'readonly') {
@@ -493,10 +501,14 @@ const InvitationModal = (props) => {
           next: (res) => {
             const { code } = res;
             if (code === 0) {
-              Message('success', t('message.sendSuccess'));
+              Message('success', t('message.addSuccess'));
+              dispatch({
+                type: 'plan/updateEmailList',
+                payload: addList,
+              })
               onCancel();
             } else {
-              Message('error', t('message.sendError'));
+              Message('error', t('message.addError'));
             }
           }
         })
@@ -765,7 +777,7 @@ const InvitationModal = (props) => {
               </span> */}
               <Button onClick={onSubmit}>
                 {/* {needBuyStation > 0 ? '购买并全部添加' : '添加协作人员'} */}
-                {from ? t('btn.send') : t('btn.addMem')}
+                {from === 'report' ? t('btn.send') : t('btn.addMem')}
               </Button>
             </div>
           </div>

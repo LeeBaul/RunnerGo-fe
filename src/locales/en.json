@@ -215,7 +215,10 @@
         "NewSuccess": "New successfully!",
         "NewError": "New Failed!",
         "PlanNameEmpty": "Plan name cannot be empty!",
-        "closeLoop": "Can't realize close the loop, Please create a node in the lower part"
+        "closeLoop": "Can't realize close the loop, Please create a node in the lower part",
+        "addSuccess": "Successfully added",
+        "addError": "Fail to added",
+        "runPlanTooltip": "Start run and notify all recipients"
     },
     "modal": {
         "look": "Be careful",
