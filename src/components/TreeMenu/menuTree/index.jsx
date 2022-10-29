@@ -78,6 +78,8 @@ const MenuTrees = (props, treeRef) => {
 
     const nodes_plan = useSelector((store) => store.plan.nodes);
     const edges_plan = useSelector((store) => store.plan.edges);
+
+    const open_first = useSelector((store) => store.plan.open_first);
     const { id } = useParams();
 
 
@@ -318,8 +320,28 @@ const MenuTrees = (props, treeRef) => {
         setWorkspaceCurrent(uuid, `${CURRENT_PROJECT_ID}.CURRENT_EXPAND_KEYS`, keys);
     };
 
+    // useEffect(() => {
+    //     console.log(filteredTreeList, open_first);
+    //     if (filteredTreeList && filteredTreeList.length > 0 && open_first) {
+    //         dispatch({
+    //             type: 'plan/updateOpenFirst',
+    //             payload: false
+    //         })
+    //         console.log(filteredTreeList);
+    //         dispatch({
+    //             type: 'scene/updateOpenName',
+    //             payload: filteredTreeList[0].name,
+    //         })
+    //         dispatch({
+    //             type: 'scene/updateOpenDesc',
+    //             payload: filteredTreeList[0].description
+    //         })
+    //         Bus.$emit('addOpenPlanScene', filteredTreeList[0], id_apis_plan, node_config_plan);
+    //     }
+
+    // }, [filteredTreeList, open_first]);
+
     const renderTreeNode = (nodeItem, { indent, nodeTitle }) => {
-        console.log(nodeItem);
         return (
             <MenuTreeNode>
                 <DragNode

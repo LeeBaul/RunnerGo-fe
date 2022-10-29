@@ -40,6 +40,8 @@ const initialState = {
 
   // 对比时选中的tab
   select_plan: 0,
+
+  open_first: true
 };
 
 // action名称
@@ -75,7 +77,9 @@ const actionTypes = {
   updateRunStatus: 'updateRunStatus',
   updateSelectBox: 'updateSelectBox',
 
-  updateSelectPlan: 'updateSelectPlan'
+  updateSelectPlan: 'updateSelectPlan',
+
+  updateOpenFirst: 'updateOpenFirst'
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -214,6 +218,12 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         select_plan: action.payload,
+      }
+    case `${NAMESPACE}/${actionTypes.updateOpenFirst}`:
+      console.log(action.payload)
+      return {
+        ...state,
+        open_first: action.payload
       }
     default:
       return state;

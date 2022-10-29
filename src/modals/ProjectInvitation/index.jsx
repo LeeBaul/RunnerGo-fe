@@ -22,6 +22,7 @@ import PaymentModal from './Payment/modal';
 import PayAddSuccessModal from './PayAddSuccessModal';
 
 import { fetchInviteMember, fetchGetRole, fetchGetLink } from '@services/user';
+import { fetchEmailList, fetchDeleteEmail } from '@services/plan';
 import { fetchSendPlanEmail } from '@services/plan';
 import { fetchSendReportEmail } from '@services/report';
 import Bus from '@utils/eventBus';
@@ -70,6 +71,8 @@ const InvitationModal = (props) => {
   const [unRegister, setUnRegister] = useState(0);
   const [unEmail, setUnEmail] = useState([]);
   const [invitateSuccess, setInvitateSuccess] = useState(false);
+
+  const [oldList, setOldList] = useState([]);
 
   const changeTeamInvitation = (type, invitationPersonnel) => {
     const inputTempValue = invitationPersonnel?.email || inputValue.trim();
@@ -120,7 +123,29 @@ const InvitationModal = (props) => {
       // 添加后清空输入框内容
       setInputValue('');
     } else if (type === 'delete') {
-      remove(teampAddList, (n) => invitationPersonnel.key === n.key);
+      if (from === 'plan') {
+        const params = {
+          plan_id: parseInt(plan_id),
+          team_id: parseInt(localStorage.getItem('team_id')),
+          email_id: parseInt(invitationPersonnel.id)
+        };
+        fetchDeleteEmail(params).subscribe({
+          next: (res) => {
+            const { code } = res;
+
+            if (code === 0) {
+              const index = addList.findIndex(item => item.id === invitationPersonnel.id);
+              if (index !== -1) {
+                const _addList = cloneDeep(addList);
+                _addList.splice(index, 1);
+                setAddList(_addList);
+              }
+            }
+          }
+        });
+      } else {
+        remove(teampAddList, (n) => invitationPersonnel.key === n.key);
+      }
     } else if (type === 'change') {
       filter(teampAddList, (i) => {
         if (i.key === invitationPersonnel.key) {
@@ -197,6 +222,24 @@ const InvitationModal = (props) => {
         if (role_id === 2) {
           setSelectValue(2)
         }
+      }
+    })
+    const _query = {
+      plan_id,
+      team_id: localStorage.getItem('team_id'),
+    }
+    fetchEmailList(_query).subscribe({
+      next: (res) => {
+        const { data: { emails } } = res;
+        const oldList = emails.map(item => {
+          return {
+            key: uuidv4(),
+            email: item.email,
+            id: item.id
+          }
+        })
+        setAddList([...addList, ...oldList]);
+        setOldList(oldList);
       }
     })
     // getInviteRole({ project_id: current_project_id }).subscribe({
@@ -441,9 +484,10 @@ const InvitationModal = (props) => {
     } else {
       let params = {};
       if (from === 'plan') {
+        console.log(addList, oldList);
         params = {
           plan_id: parseInt(plan_id),
-          emails: addList.map(item => item.email)
+          emails: addList.filter(item => !item.id && (oldList.findIndex(elem => elem.id === item.id) === -1)).map(item => item.email)
         };
         fetchSendPlanEmail(params).subscribe({
           next: (res) => {

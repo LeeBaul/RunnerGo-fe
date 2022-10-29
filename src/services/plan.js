@@ -64,3 +64,13 @@ export const fetchGetTask = (
 export const fetchImportScene = (
     params
 ) => ajax('post', '/management/api/v1/plan/import_scene', 'json', false, params);
+
+// 邮件通知列表
+export const fetchEmailList = (
+    query
+) => ajax('get', '/management/api/v1/plan/email_list', 'json', false, {}, query);
+
+// 删除邮件通知
+export const fetchDeleteEmail = (
+    params
+) => ajax('post', '/management/api/v1/plan/email_delete', 'json', false, params);
