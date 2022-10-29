@@ -653,6 +653,7 @@ const TaskConfig = (props) => {
                     <p >{t('plan.mode')}:</p>
                     <Select value={ mode } style={{ width: '300px', height: '32px', marginLeft: '14px' }} onChange={(e) => {
                         setMode(e);
+                        updateTaskConfig('mode', parseInt(e));
                     }}>
                         {
                             modeList.map((item, index) => (
