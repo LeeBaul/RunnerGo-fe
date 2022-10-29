@@ -741,7 +741,7 @@ const Box = (props) => {
                                                 >
                                                     {t('btn.add')}
                                                 </Button>
-                                            </div>
+                                            </div> 
                                         </>
                                     )}
                                     onChange={(e) => {
