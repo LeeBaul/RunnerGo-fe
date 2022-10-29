@@ -690,6 +690,11 @@ const Box = (props) => {
                         onChange={(e) => {
                             setMode(parseInt(e));
                             onTargetChange('mode', parseInt(e));
+
+                            if (e === 4) {
+                                setPercent(90);
+                                onTargetChange('percent_age', 90);
+                            }
                         }}
                     >
                         <Option value={1}>{t('scene.modeList.1')}</Option>
@@ -748,7 +753,7 @@ const Box = (props) => {
                                         setPercent(parseInt(e));
                                         onTargetChange('percent_age', parseInt(e));
                                     }}
-                                    defaultValue={percent_age}
+                                    value={percent_age}
 
                                 >
                                     {menuList.map((d, index) => (
