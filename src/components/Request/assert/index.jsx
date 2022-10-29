@@ -58,7 +58,7 @@ const Assert = (props) => {
     const columns = [
         {
             title: '',
-            width: 100,
+            width: 150,
             dataIndex: 'response_type',
             // enableResize: true,
             render: (text, rowData, rowIndex) => (

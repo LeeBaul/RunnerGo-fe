@@ -1,10 +1,12 @@
 import React from 'react';
 import './index.less';
+import { useTranslation } from 'react-i18next';
 
 const ResAssert = (props) => {
     const { data } = props;
 
     const assertion = data.assertion || [];
+    const { t } = useTranslation();
     return (
         <div className='res-assert'>
             {
@@ -17,7 +19,7 @@ const ResAssert = (props) => {
                     >
                         {item.msg}
                     </div>
-                )) : <p>没有数据</p>
+                )) : <p>{ t('apis.noData') }</p>
             }
         </div>
     )

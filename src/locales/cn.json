@@ -458,7 +458,8 @@
         "cloneApi": "克隆接口",
         "pasteApi": "粘贴接口",
         "more": "更多",
-        "selectFile": "请选择上传文件"
+        "selectFile": "请选择上传文件",
+        "noData": "没有数据"
     },
     "scene": {
         "createGroup": "新建分组",

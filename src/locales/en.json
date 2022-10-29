@@ -49,7 +49,7 @@
     },
     "leftBar": {
         "index": "Home",
-        "apis": "Apis",
+        "apis": "APIs",
         "scene": "Scene",
         "plan": "Plan",
         "report": "Report",
@@ -104,7 +104,7 @@
         "runPlan": "Run plan",
         "start": "Start",
         "finish": "Stop",
-        "createPlan": "Create a new plan",
+        "createPlan": "New Plan",
         "runScene": "Run",
         "prePage": "Page up",
         "nextPage": "Page down",
@@ -465,7 +465,8 @@
         "cloneApi": "Clone Api",
         "pasteApi": "Paste Api",
         "more": "More",
-        "selectFile": "Upload files"
+        "selectFile": "Upload files",
+        "noData": "No Data"
     },
     "scene": {
         "createGroup": "New Group",
@@ -523,7 +524,7 @@
         "planId": "Plan ID",
         "planName": "Plan name",
         "taskType": "Task Mode",
-        "mode": "Stress mode",
+        "mode": "Stress Mode",
         "createTime": "Created on",
         "updateTime": "Last modified by",
         "status": "State",

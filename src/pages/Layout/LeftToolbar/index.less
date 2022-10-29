@@ -4,13 +4,13 @@
     box-sizing: content-box;
     background-color: var(--bg1);
     border-right: 1px solid var(--border-color-default);
-    padding: 0;
+    padding: 0 8px;
     position: relative;
 
     .toolbar-item {
         width: 78px;
         height: 60px;
-        border-radius: 0;
+        border-radius: 5px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -133,7 +133,7 @@
     left: 78px;
     background-color: var(--bg-3);
     z-index: 999;
-    padding: 15px 0 10px 0;
+    padding: 8px 10px 10px 10px;
     box-sizing: border-box;
     border-radius: 5px;
     &-active {
@@ -154,6 +154,7 @@
       justify-content: center;
       margin-bottom: 10px;
       padding: 4px 10px;
+      border-radius: 5px;
       .default {
         display: flex;
         color: var(--font-1);
