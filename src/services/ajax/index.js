@@ -55,6 +55,7 @@ export const rxAjax = (
     request = request.pipe(
         map((resp, a) => {
             if (resp?.status === 200) {
+                console.log(resp.response, resp.response.code);
                 if (resp.response.code === 0) {
                     return resp?.response;
                 }
@@ -109,8 +110,9 @@ export const rxAjax = (
                 if (resp.response.code === 20005) {
                     Message('error', i18next.t('message.resCode.20005'));
                 }
-                if (resp.response.code === 20006) {
-                    window.location.href = '/#/invitateExpire';
+                if (resp.response.code === 20008) {
+                    console.log(123123);
+                    Message('error', i18next.t('message.resCode.20008'));
                 }
                 // if (resp.response.code === 0000) {
                 //     fetchTokenRefresh()

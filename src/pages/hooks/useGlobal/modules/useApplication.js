@@ -39,27 +39,6 @@ const useProject = () => {
     const userInfo = useSelector((store) => store.user.userInfo);
     const apiDatas = useSelector((store) => store.apis.apiDatas);
     // const userData = useSelector((store) => store.dashboard.userData);
-    // 项目初始化完成
-    const handleInitProjectFinish = async (project_id) => {
-        const apiDatas = await getLocalTargets(project_id);
-        dispatch({
-            type: 'apis/updateApiDatas',
-            payload: apiDatas,
-        });
-
-        // 停止右上角转圈圈
-        dispatch({
-            type: 'global/setDownloadStatus',
-            payload: -1,
-        });
-
-        // 加载本地环境信息
-        const envDatas = await getLocalEnvsDatas(project_id);
-        dispatch({
-            type: 'envs/setEnvDatas',
-            payload: envDatas,
-        });
-    };
 
     // 展示团队列表
     const handleInitTeams = ({ data: { teams } }) => {
@@ -72,22 +51,6 @@ const useProject = () => {
             payload: teamData,
         });
     };
-
-    // 展示项目列表
-    const handleInitProjects = (projectList) => {
-        const projectData = {};
-        projectList.length && projectList.forEach((data) => {
-            projectData[data.project_id] = data;
-        });
-        dispatch({
-            type: 'projects/setProjectData',
-            payload: projectData,
-        });
-    };
-    const [getSingleTestList] = useEventCallback(getSingleTestList$);
-    const [getCombinedTestList] = useEventCallback(getCombinedTestList$);
-    const [getReportList] = useEventCallback(getReportList$);
-
     // 展示首页基本信息
     const handleInitIndex = (res) => {
         const { data, code } = res;
@@ -181,21 +144,10 @@ const useProject = () => {
 
     // 应用程序初始化 第一次打开应用程序
     const handleInitApplication = () => {
-        // let uuid = localStorage.getItem('uuid');
-        // if (uuid === null) {
-        //     uuid = '-1';
-        //     localStorage.setItem('uuid', '-1');
-        // }
 
         dispatch({
             type: 'apis/recoverApiDatas',
         });
-
-        // 开始右上角转圈圈
-        // dispatch({
-        //     type: 'global/setDownloadStatus',
-        //     payload: 1,
-        // });
 
         const ininTheme = (userConfig) => {
             // 用户配置放入redux中
@@ -204,10 +156,6 @@ const useProject = () => {
                     type: 'user/updateConfig',
                     payload: userConfig.config,
                 });
-            // let linkThemeName = userConfig?.config?.SYSTHEMCOLOR || 'dark';
-            // if (linkThemeName === 'white') {
-            //     linkThemeName = 'default';
-            // }
             let linkThemeName = '';
             const theme_color = localStorage.getItem('theme_color');
 
@@ -258,49 +206,6 @@ const useProject = () => {
                             action: 'RELOAD_LOCAL_SCENE'
                         })
                     }),
-                    // concatMap(() => uploadTasks(current_project_id)),
-                    // concatMap(() =>
-                    //     Bus.$emit('getTeamMemberList'),
-                    //     // step3. 加载项目简要信息列表
-                    //     // getUserProjectList$(uuid, current_project_id).pipe(
-                    //     //     tap(handleInitProjects),
-                    //     //     map((projects) => (isArray(projects) ? projects.map((d) => d.project_id) : [])),
-                    //     //     // step3. 加载项目完整信息,并更新本地全局参数/环境变量等信息
-                    //     //     mergeMap((project_ids) => getMultiProjectDetails$(uuid, project_ids))
-                    //     // )
-
-                    // ),
-                    // switchMap(() =>
-                    //     getUserTargetList$(current_project_id).pipe(
-                    //         tap((data) => {
-                    //         })
-                    //     )
-                    // ),
-                    // 获取项目下用户信息列表
-                    // concatMap(() => getProjectUserList$(current_project_id)),
-                    // tap((res) => {
-                    // }),
-                    // 加载分享列表
-                    // switchMap(() =>
-                    //     getShareList(current_project_id).pipe(
-                    //         tap((shareList) => {
-                    //             global$.next({
-                    //                 action: 'RELOAD_SHARE_LIST',
-                    //             });
-                    //         })
-                    //     )
-                    // ),
-                    // 加载测试列表 包括测试报告
-                    // switchMap(() => {
-                    //     getSingleTestList(current_project_id);
-                    //     getCombinedTestList(current_project_id);
-                    //     return of(getReportList(current_project_id));
-                    // }),
-                    // tap((d) => handleInitProjectFinish(current_project_id)),
-                    // tap(() => {
-                    //     // 初始化连接协作socket
-                    //     webSocket.socketInit();
-                    // })
                 );
             })
         );
@@ -452,8 +357,6 @@ const useProject = () => {
     useEventBus('getUserConfig', getUserConfig);
 
     useEffect(() => {
-        // 初始化用户统计长连接
-        const webSocket2 = liveSocketInit();
 
         // 项目初始化
         global$
@@ -512,7 +415,7 @@ const useProject = () => {
         //     .subscribe();
 
         return () => {
-            webSocket2.close();
+
         };
     }, []);
 };

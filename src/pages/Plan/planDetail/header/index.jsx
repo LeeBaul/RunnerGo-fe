@@ -144,8 +144,6 @@ const DetailHeader = () => {
                                     getReportDetail();
                                     Message('success', t('message.runSuccess'))
                                     navigate('/report/list');
-                                } else {
-                                    Message('error', t('message.handleError'));
                                 }
                             })}>{t('btn.runPlan')}</Button>
                             : <Button className='stop' preFix={<SvgStop width="10" height="10" />} onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
