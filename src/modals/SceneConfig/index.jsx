@@ -11,6 +11,7 @@ import PreviewFile from '../PreviewFile';
 import { useTranslation } from 'react-i18next';
 
 import { RD_FileURL } from '@config';
+import axios from 'axios';
 
 
 const SceneConfig = (props) => {
