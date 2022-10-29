@@ -16,7 +16,7 @@ const SceneBox = (props) => {
         <div className='scene-box' style={{ justifyContent: from === 'plan' ? 'space-between' : 'flex-start' }}>
             <div className='scene-box-item' onClick={() => setCreateGroup(true)}>
                 <SvgNewFolder width="18" height="18" />
-                <p>{from !== 'plan' ? t('scene.new') : ''}{t('scene.group')}</p>
+                <p>{from !== 'plan' ? t('scene.new') : ''} {t('scene.group')}</p>
                 <div className='line' style={{ margin: from === 'plan' ? (i18n.language === 'cn' ? '0 25px' : '0 8px'): '0 24px' }}></div>
             </div>
             <div className='scene-box-item' onClick={() => setCreateScene(true)}>
