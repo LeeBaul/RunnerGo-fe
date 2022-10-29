@@ -152,7 +152,7 @@ const ReportHeader = (props) => {
 
     return (
         <>
-            <div className='report-header' ref={ref1}>
+            <div className='report-header' ref={ref1} style={{ paddingTop: report_id ? '0' : '20px' }}>
                 <div className='report-header-left'>
                     <Button onClick={() => navigate('/report/list')}>
                         <SvgLeft />

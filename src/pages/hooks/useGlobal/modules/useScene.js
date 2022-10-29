@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { concatMap, map, tap, from } from 'rxjs';
 import { fetchDeleteApi, fetchChangeSort } from '@services/apis';
 import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi, fetchStopScene } from '@services/scene';
-import { fetchGetTask } from '@services/plan';
+import { fetchGetTask, fetchSavePlan } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail, fetchGetResult } from '@services/apis';
@@ -655,10 +655,25 @@ const useScene = () => {
     };
 
     const cloneSceneTask = (newId, oldId, plan_id) => {
-        // const query = {
-        //     team_id: localStorage.getItem('team_id'),
-        //     plan_id: 
-        // }
+        const query = {
+            team_id: localStorage.getItem('team_id'),
+            plan_id,
+            scene_id: oldId
+        };
+
+        fetchGetTask(query).subscribe({
+            next: (res) => {
+                let { data: { plan_task } } = res;
+
+                plan_task.scene_id = newId;
+                plan_task.name = 'alskjdklajsd';
+                plan_task.remark = 'asdlkjaskldjasd';
+                plan_task.team_id = parseInt(localStorage.getItem('team_id'))
+                
+                fetchSavePlan(plan_task).subscribe();
+                
+            }
+        })
     }
 
     const getNewCoordinate = (nodes) => {
@@ -1014,6 +1029,7 @@ const useScene = () => {
     useEventBus('stopSceneApi', stopSceneApi, [run_api_res]);
     useEventBus('openRecordScene', openRecordScene, [sceneDatas]);
     useEventBus('recordOpenScene', recordOpenScene, [open_scene, open_scene_name]);
+    useEventBus('cloneSceneTask', cloneSceneTask);
 };
 
 export default useScene;
