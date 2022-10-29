@@ -178,7 +178,7 @@ const ApiPicker = (props) => {
         <div className="search-box">
           <Input
             value={filterParams?.key}
-            placeholder={ t('placeholder.searchFolder') }
+            placeholder={ t('placeholder.searchApis') }
             onChange={handleChangeParams.bind(null, 'key')}
           />
           <div className="check-all-panel">
