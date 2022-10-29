@@ -513,7 +513,8 @@
         "copyApi": "Copy",
         "importApiTitle": "SingK AddIt",
         "addApi": "Add API",
-        "errorRate": "Example: 0.0001"
+        "errorRate": "eg: 0.0001",
+        "avgTime": "avg res time"
     },
     "plan": {
         "planId": "Plan ID",

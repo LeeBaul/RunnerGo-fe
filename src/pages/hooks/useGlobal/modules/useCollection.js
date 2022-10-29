@@ -120,6 +120,7 @@ const useCollection = () => {
                 if (code === 0) {
                     if (clone) {
                         Bus.$emit('cloneSceneFlow', resp.data.target_id, clone_id);
+                        Bus.$emit('cloneSceneTask', resp.data.target_id, clone_id, plan_id);
                     }
                     if (from === 'scene') {
                         global$.next({

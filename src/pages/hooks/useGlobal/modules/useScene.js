@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { concatMap, map, tap, from } from 'rxjs';
 import { fetchDeleteApi, fetchChangeSort } from '@services/apis';
 import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi, fetchStopScene } from '@services/scene';
+import { fetchGetTask } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
 import { fetchApiDetail, fetchGetResult } from '@services/apis';
@@ -615,7 +616,7 @@ const useScene = () => {
                 const new_scene = scenes[0];
                 const clone_id = new_scene.target_id;
                 delete new_scene.target_id;
-                new_scene.name = `${new_scene.name} 副本`;
+                new_scene.name = `${new_scene.name} copy`;
                 Bus.$emit('addSceneItem', {
                     type: 'scene',
                     pid: 0,
@@ -652,6 +653,13 @@ const useScene = () => {
             })
         ).subscribe();
     };
+
+    const cloneSceneTask = (newId, oldId, plan_id) => {
+        // const query = {
+        //     team_id: localStorage.getItem('team_id'),
+        //     plan_id: 
+        // }
+    }
 
     const getNewCoordinate = (nodes) => {
         let position = {

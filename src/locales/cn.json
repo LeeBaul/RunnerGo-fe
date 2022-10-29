@@ -506,7 +506,8 @@
         "copyApi": "复制接口",
         "importApiTitle": "API添加器",
         "addApi": "添加接口",
-        "errorRate": "示例: 0.0001"
+        "errorRate": "示例: 0.0001",
+        "avgTime": "平均响应时间"
     },
     "plan": {
         "planId": "计划ID",

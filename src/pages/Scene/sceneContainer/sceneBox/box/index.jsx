@@ -145,7 +145,7 @@ const Box = (props) => {
     // 4. 响应时间模式
     // 5. 每秒请求数模式
     const [mode, setMode] = useState(1);
-    const [menuList, setMenuList] = useState([90, 95, 100]);
+    const [menuList, setMenuList] = useState([50, 90, 95, 100, 101]);
     // 接口权重
     const [weight, setWeight] = useState(100);
     // 错误率阈值
@@ -758,7 +758,7 @@ const Box = (props) => {
                                 >
                                     {menuList.map((d, index) => (
                                         <Option key={index} value={d}>
-                                            {d}
+                                            {d === 101 ? `101(${t('scene.avgTime')})` : d}
                                         </Option>
                                     ))}
                                 </Select>
