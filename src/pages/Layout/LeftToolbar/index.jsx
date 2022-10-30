@@ -147,7 +147,7 @@ const LeftToolbar = () => {
                         </div>
                     }
                 </div>
-                <div className='menu-list-item' style={{ backgroundColor: showTheme ? 'var(--bg-4)' : '' }}>
+                <div className='menu-list-item' style={{ backgroundColor: showTheme ? 'var(--bg-4)' : '', marginBottom: 0 }}>
                     <div className='default' onClick={() => setShowTheme(!showTheme)}>
                         {
                             showTheme ? <SvgDown /> : <SvgRight />

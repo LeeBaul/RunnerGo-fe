@@ -231,7 +231,7 @@
         },
         "addTeamMem": "添加现有团队成员",
         "teamMem": "团队人员",
-        "logTitle": "协作日志(仅保存两天记录)",
+        "logTitle": "协作日志（仅保存两天记录）",
         "operator": "操作人",
         "operateTarget": "操作目标",
         "operateDate": "操作时间",

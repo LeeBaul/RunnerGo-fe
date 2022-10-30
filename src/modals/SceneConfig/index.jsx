@@ -350,7 +350,7 @@ const SceneConfig = (props) => {
                 }
             </div>
             <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
-                <Button style={{ backgroundColor: 'var(--theme-color)' }} preFix={<SvgAdd />}>{ t('scene.addFile') }</Button>
+                <Button className='upload-btn' preFix={<SvgAdd />}>{ t('scene.addFile') }</Button>
             </Upload>
             <p className='container-title'>{ t('scene.addVar') }</p>
             <Table showBorder columns={columns} data={varList} />

@@ -91,6 +91,11 @@ export const GlobalVarModal = css`
     }
     .apipost-btn-default {
         background-color: var(--bg-4);
+        color: var(--content-color-secondary);
+    }
+    .upload-btn {
+        color: var(--common-white) !important;
+        background-color: var(--theme-color) !important;
     }
 `;
 
