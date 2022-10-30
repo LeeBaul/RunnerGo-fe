@@ -258,7 +258,7 @@ const RegisterBox = (props) => {
         <div className="right-wrapper">
             <div className="title item">
                 <p>{t('sign.email_register')}</p>
-                <Select value={i18n.language} onChange={(e) => {
+                <Select placeholder={ t('sign.language') } value={language} onChange={(e) => {
                     i18n.changeLanguage(e);
                     dispatch({
                         type: 'user/updateLanGuaGe',

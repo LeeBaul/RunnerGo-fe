@@ -49,6 +49,7 @@ const LoginBox = (props) => {
   const [emailError, setEmailError] = useState(false);
   // 获取用户全局配置
   const config = useSelector((store) => store.user.config);
+  const language = useSelector((store) => store.user.language);
   const dispatch = useDispatch();
 
 
@@ -115,6 +116,15 @@ const LoginBox = (props) => {
         )
         .subscribe();
     }
+
+    const language = localStorage.getItem('i18nextLng');
+    console.log(language);
+    dispatch({
+        type: 'user/updateLanGuaGe',
+        payload: language
+    })
+
+
     return () => clearInterval(wxCodeTimer);
   }, [panelType]);
 
@@ -378,7 +388,13 @@ const LoginBox = (props) => {
           </div>
         </div> */}
         <p>{ t('sign.email_login') }</p>
-        <Select value={ i18n.language } onChange={(e) => i18n.changeLanguage(e)}>
+        <Select placeholder={ t('sign.language') } value={ language } onChange={(e) => {
+          i18n.changeLanguage(e);
+          dispatch({
+            type: 'user/updateLanGuaGe',
+            payload: e
+        })
+        }}>
           <Option value="cn">中文</Option>
           <Option value="en">English</Option>
         </Select>
