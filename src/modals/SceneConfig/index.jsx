@@ -11,7 +11,8 @@ import PreviewFile from '../PreviewFile';
 import { useTranslation } from 'react-i18next';
 import OSS from 'ali-oss';
 
-import { RD_FileURL } from '@config';
+import { RD_FileURL, OSS_Config } from '@config';
+import { v4 } from 'uuid';
 import axios from 'axios';
 
 
@@ -206,6 +207,8 @@ const SceneConfig = (props) => {
             `kunpeng/test/${v4()}.${nameType}`,
             files[0].originFile,
         )
+
+        console.log(res_name, url);
 
         // let formData = new FormData();
         // formData.append('file', files[0].originFile);
