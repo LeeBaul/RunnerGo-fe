@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import PreviewFile from '../PreviewFile';
 import { useTranslation } from 'react-i18next';
+import OSS from 'ali-oss';
 
 import { RD_FileURL } from '@config';
 import axios from 'axios';
@@ -200,17 +201,17 @@ const SceneConfig = (props) => {
             return;
         }
 
-        // const client = new OSS(OSS_Config);
-        // const { name: res_name, url } = await client.put(
-        //     `kunpeng/test/${v4()}.${nameType}`,
-        //     files[0].originFile,
-        // )
+        const client = new OSS(OSS_Config);
+        const { name: res_name, url } = await client.put(
+            `kunpeng/test/${v4()}.${nameType}`,
+            files[0].originFile,
+        )
 
-        let formData = new FormData();
-        formData.append('file', files[0].originFile);
+        // let formData = new FormData();
+        // formData.append('file', files[0].originFile);
 
-        const res = await axios.post(`${RD_FileURL}/api/upload`, formData);
-        const url = `${RD_FileURL}/${res.data[0].filename}`;
+        // const res = await axios.post(`${RD_FileURL}/api/upload`, formData);
+        // const url = `${RD_FileURL}/${res.data[0].filename}`;
         
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
