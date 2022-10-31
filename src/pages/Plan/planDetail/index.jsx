@@ -82,7 +82,7 @@ const PlanDetail = () => {
     }, []);
 
     useEffect(() => {
-        setApiName(api_now.name)
+        setApiName(api_now.name);
     }, [api_now])
 
     const onTargetChange = (type, value) => {
