@@ -620,5 +620,12 @@
         "collect": "汇总",
         "debugEmpty": "请打开debug模式",
         "title": "测试报告"
+    },
+    "tooltip": {
+        "start": "运行",
+        "stop": "停止",
+        "view": "查看",
+        "copy": "复制",
+        "delete": "删除"
     }
 }

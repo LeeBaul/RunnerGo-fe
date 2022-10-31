@@ -66,7 +66,7 @@ const PlanList = () => {
     };
     const statusList = {
         '1': t('plan.statusList.1'),
-        '2': <p style={{ color: 'var(--run-green)' }}>{ t('plan.statusList.2') }</p>,
+        '2': <p style={{ color: 'var(--run-green)' }}>{t('plan.statusList.2')}</p>,
     };
 
     const copyPlan = (plan_id) => {
@@ -92,61 +92,81 @@ const PlanList = () => {
         const { status, plan_id } = data;
         return (
             <div className='handle-content'>
-                {status === 2 ? <Button className='stop-btn' onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
-                    if (code === 0) {
-                        Message('success', t('message.stopSuccess'));
-                        getPlanList();
-                    } else {
-                        Message('error', t('message.stopError'));
-                    }
-                })}> <SvgStop /></Button> :
-                    <Button className='run-btn' onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
-                        if (code === 0) {
-                            getPlanList();
-                        } else {
-                            Message('error', t('message.handleError'));
-                        }
-                    })}><SvgStart /></Button>}
-                {/* <div className='handle-icons'> */}
-                    <SvgEye onClick={() => {
-                        dispatch({
-                            type: 'plan/updateOpenPlan',
-                            payload: data
-                        })
-                        dispatch({
-                            type: 'plan/updateOpenScene',
-                            payload: null,
-                        })
-                        // let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
-                        // console.log(planMap);
-                        // if (planMap[plan_id]) {
-                        //     console.log(planMap[plan_id]);
-                        //     Bus.$emit('addOpenPlanScene', { target_id: planMap[plan_id] }, id_apis_plan, node_config_plan)
-                        // }
-                        navigate(`/plan/detail/${plan_id}`);
-                        // global$.next({
-                        //     action: 'RELOAD_LOCAL_PLAN',
-                        //     id: plan_id,
-                        // });
-                    }} />
-                    <SvgCopy onClick={() => copyPlan(plan_id)} />
-                    <SvgDelete style={{ fill: '#f00', marginRight: 0 }} onClick={() => {
-                        Modal.confirm({
-                            title: t('modal.look'),
-                            content: t('modal.deletePlan'),
-                            okText: t('btn.ok'),
-                            cancelText: t('btn.cancel'),
-                            onOk: () => {
-                                Bus.$emit('deletePlan', plan_id, (code) => {
-                                    if (code === 0) {
-                                        Message('success', t('message.deleteSuccess'));
-                                    } else {
-                                        Message('error', t('message.deleteError'));
-                                    }
-                                })
+                {status === 2 ? <Tooltip content={t('tooltip.stop')}>
+                    <div>
+                        <Button className='stop-btn' onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
+                            if (code === 0) {
+                                Message('success', t('message.stopSuccess'));
+                                getPlanList();
+                            } else {
+                                Message('error', t('message.stopError'));
                             }
-                        })
-                    }} />
+                        })}> <SvgStop /></Button>
+                    </div>
+                </Tooltip> :
+                    <Tooltip content={t('tooltip.start')}>
+                        <div>
+                            <Button className='run-btn' onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
+                                if (code === 0) {
+                                    getPlanList();
+                                } else {
+                                    Message('error', t('message.handleError'));
+                                }
+                            })}><SvgStart /></Button>
+                        </div>
+                    </Tooltip>}
+                {/* <div className='handle-icons'> */}
+                <Tooltip content={t('tooltip.view')}>
+                    <div>
+                        <SvgEye onClick={() => {
+                            dispatch({
+                                type: 'plan/updateOpenPlan',
+                                payload: data
+                            })
+                            dispatch({
+                                type: 'plan/updateOpenScene',
+                                payload: null,
+                            })
+                            // let planMap = JSON.parse(localStorage.getItem('planMap') || '{}');
+                            // console.log(planMap);
+                            // if (planMap[plan_id]) {
+                            //     console.log(planMap[plan_id]);
+                            //     Bus.$emit('addOpenPlanScene', { target_id: planMap[plan_id] }, id_apis_plan, node_config_plan)
+                            // }
+                            navigate(`/plan/detail/${plan_id}`);
+                            // global$.next({
+                            //     action: 'RELOAD_LOCAL_PLAN',
+                            //     id: plan_id,
+                            // });
+                        }} />
+                    </div>
+                </Tooltip>
+                <Tooltip content={t('tooltip.copy')}>
+                    <div>
+                        <SvgCopy onClick={() => copyPlan(plan_id)} />
+                    </div>
+                </Tooltip>
+                <Tooltip content={t('tooltip.delete')}>
+                    <div>
+                        <SvgDelete style={{ fill: '#f00', marginRight: 0 }} onClick={() => {
+                            Modal.confirm({
+                                title: t('modal.look'),
+                                content: t('modal.deletePlan'),
+                                okText: t('btn.ok'),
+                                cancelText: t('btn.cancel'),
+                                onOk: () => {
+                                    Bus.$emit('deletePlan', plan_id, (code) => {
+                                        if (code === 0) {
+                                            Message('success', t('message.deleteSuccess'));
+                                        } else {
+                                            Message('error', t('message.deleteError'));
+                                        }
+                                    })
+                                }
+                            })
+                        }} />
+                    </div>
+                </Tooltip>
                 {/* </div> */}
             </div>
         )
@@ -196,7 +216,7 @@ const PlanList = () => {
                                 <div className='ellipsis'>{name}</div>
                             </Tooltip>,
                         created_user_name:
-                            <Tooltip  className='tooltip-diy' content={<div>{created_user_name}</div>}>
+                            <Tooltip className='tooltip-diy' content={<div>{created_user_name}</div>}>
                                 <div className='ellipsis'>{created_user_name}</div>
                             </Tooltip>,
                         remark:

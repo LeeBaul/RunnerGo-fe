@@ -54,7 +54,7 @@ const ReportList = () => {
         '3': t('plan.taskList.mixTask')
     };
     const statusList = {
-        '1': <p style={{ color: 'var(--run-green)' }}>{ t('report.statusList.1') }</p>,
+        '1': <p style={{ color: 'var(--run-green)' }}>{t('report.statusList.1')}</p>,
         '2': t('report.statusList.2'),
     }
 
@@ -62,19 +62,27 @@ const ReportList = () => {
         const { report_id } = props;
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate(`/report/detail?id=${report_id}`)} />
+                <Tooltip content={t('tooltip.view')}>
+                    <div>
+                        <SvgEye onClick={() => navigate(`/report/detail?id=${report_id}`)} />
+                    </div>
+                </Tooltip>
                 {/* <SvgCopy /> */}
-                <SvgDelete className='delete-svg' onClick={() => {
-                    Modal.confirm({
-                        title: t('modal.look'),
-                        content: t('modal.deleteReport'),
-                        okText: t('btn.ok'),
-                        cancelText: t('btn.cancel'),
-                        onOk: () => {
-                            deleteReport(report_id);
-                        }
-                    }) 
-                }} />
+                <Tooltip content={t('tooltip.delete')}>
+                    <div>
+                        <SvgDelete className='delete-svg' onClick={() => {
+                            Modal.confirm({
+                                title: t('modal.look'),
+                                content: t('modal.deleteReport'),
+                                okText: t('btn.ok'),
+                                cancelText: t('btn.cancel'),
+                                onOk: () => {
+                                    deleteReport(report_id);
+                                }
+                            })
+                        }} />
+                    </div>
+                </Tooltip>
             </div>
         )
     };

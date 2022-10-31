@@ -627,5 +627,12 @@
         "collect": "Collect",
         "debugEmpty": "Please turn on Debug mode",
         "title": "Test report"
+    },
+    "tooltip": {
+        "start": "Run",
+        "stop": "Stop",
+        "view": "See",
+        "copy": "Copy",
+        "delete": "Delete"
     }
 }
