@@ -782,7 +782,7 @@ const Box = (props) => {
                     {
                         mode === 5 && <div className='common-flex'>
                             <span>{t('scene.reqValue')}</span>
-                            <Input size="mini" placeholder={t('scene.threshold')} onChange={(e) => {
+                            <Input size="mini" value={ request_threshold } placeholder={t('scene.threshold')} onChange={(e) => {
                                 setReq(parseInt(e));
                                 onTargetChange('request_threshold', parseInt(e));
                             }} />
