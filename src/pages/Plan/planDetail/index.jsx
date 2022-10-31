@@ -78,7 +78,7 @@ const PlanDetail = () => {
                 type: 'plan/updateApiConfig',
                 payload: false
             })
-        }
+        } 
     }, []);
 
     useEffect(() => {
