@@ -162,9 +162,9 @@ const LoginBox = (props) => {
   );
 
   const loginNow = () => {
-    // if (Object.keys(vcodeObj).length === 0) {
-    //   return Message('error', t('message.check'));
-    // }
+    if (Object.keys(vcodeObj).length === 0) {
+      return Message('error', t('message.check'));
+    }
     if (emailError) {
       return;
     }
@@ -182,13 +182,11 @@ const LoginBox = (props) => {
     })
       .pipe(
         concatMap(({ data, code }) => {
-          if (code === 20004) {
-            Message('error', '用户名或密码错误!');
-            return;
+          if (code === 0) {
+            saveLocalData(data);
+            localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
+            localStorage.setItem('kunpeng-token', data.token);
           }
-          saveLocalData(data);
-          localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
-          localStorage.setItem('kunpeng-token', data.token);
 
           // setCookie('token', userData.token);
 
@@ -422,9 +420,9 @@ const LoginBox = (props) => {
               }}
             />
           </div>
-          {/* <div className="item">
+          <div className="item">
             <div id="captcha"></div>
-          </div> */}
+          </div>
           <div className="item">
             <Button
               type="primary"
