@@ -217,7 +217,8 @@
         "closeLoop": "无法实现闭环, 请在下方新建节点",
         "addSuccess": "添加成功",
         "addError": "添加失败",
-        "runPlanTooltip": "开始运行并通知所有收件人"
+        "runPlanTooltip": "开始运行并通知所有收件人",
+        "emptyScene": "请先添加接口"
     },
     "modal": {
         "look": "注意",

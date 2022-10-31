@@ -488,6 +488,9 @@ const MenuTrees = (props, treeRef) => {
                         if (type === 'apis') {
                             Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
                         } else if (type === 'scene') {
+                            if ((open_scene_scene.target_id || open_scene_scene.scene_id ) === val.target_id) {
+                                return;
+                            }
                             localStorage.setItem('open_scene', JSON.stringify(val));
                             if (Object.entries(open_scene_scene || {}).length > 0) {
                                 Bus.$emit('saveScene', () => {
@@ -497,6 +500,9 @@ const MenuTrees = (props, treeRef) => {
                                 Bus.$emit('addOpenScene', val)
                             }
                         } else if (type === 'plan') {
+                            if ((open_plan_scene.target_id || open_plan_scene.scene_id ) === val.target_id) {
+                                return;
+                            }
                             if (Object.entries(open_plan_scene || {}).length > 0) {
                                 Bus.$emit('saveScenePlan', nodes_plan, edges_plan, id_apis_plan, node_config_plan, open_plan_scene, id, () => {
                                     Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);

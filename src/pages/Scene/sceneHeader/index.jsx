@@ -100,7 +100,11 @@ const SceneHeader = (props) => {
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     const open_scene_desc = useSelector((store) => store.scene.open_scene_desc);
     const runScene = () => {
-        const { scene_id, target_id } = open_scene;
+        const { scene_id, target_id, nodes } = open_scene;
+        if (!nodes || nodes.length === 0) {
+            Message('error', t('message.emptyScene'));
+            return;
+        }
         if (from === 'scene') {
             dispatch({
                 type: 'scene/updateRunStatus',

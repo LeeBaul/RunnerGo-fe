@@ -781,6 +781,8 @@ const useScene = () => {
     };
 
     const runScene = (scene_id, length, from) => {
+        console.log(open_scene);
+        return;
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
             scene_id: parseInt(scene_id),
@@ -1022,7 +1024,7 @@ const useScene = () => {
     useEventBus('cloneScene', cloneScene);
     useEventBus('cloneSceneFlow', cloneSceneFlow);
     useEventBus('cloneNode', cloneNode);
-    useEventBus('runScene', runScene);
+    useEventBus('runScene', runScene, [open_scene]);
     useEventBus('sendSceneApi', sendSceneApi);
     useEventBus('toDeleteGroup', toDeleteGroup, [sceneDatas]);
     useEventBus('stopScene', stopScene);

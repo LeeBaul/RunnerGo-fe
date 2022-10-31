@@ -218,7 +218,8 @@
         "closeLoop": "Can't realize close the loop, Please create a node in the lower part",
         "addSuccess": "Successfully added",
         "addError": "Fail to added",
-        "runPlanTooltip": "Start run and notify all recipients"
+        "runPlanTooltip": "Start run and notify all recipients",
+        "emptyScene": "Please add the API first"
     },
     "modal": {
         "look": "Be careful",
