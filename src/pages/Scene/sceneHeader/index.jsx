@@ -241,7 +241,7 @@ const SceneHeader = (props) => {
         <div className='scene-header'>
             <div className='scene-header-left'>
                 <p className='name'>{open_scene_name}</p>
-                <p className='desc' style={{ maxWidth: from === 'scene' ? '62vw' : '43vw' }}>{ t('scene.sceneDesc') }：{open_scene_desc}</p>
+                <p className='desc' style={{ maxWidth: from === 'scene' ? '62vw' : '20vw' }}>{ t('scene.sceneDesc') }：{open_scene_desc}</p>
             </div>
             <div className='scene-header-right'>
                 <div className='config' onClick={() => setSceneConfig(true)}>
@@ -249,7 +249,7 @@ const SceneHeader = (props) => {
                     <span>{ t('scene.sceneConfig') }</span>
                 </div>
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene(() => {
-                            Message('success', t('message.saveSuccess'));
+                            Message('success', t('message.saveSuccess')); 
                         })}>{ t('btn.save') }</Button>
                 {
                     run_status === 'running'
