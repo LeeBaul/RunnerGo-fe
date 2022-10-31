@@ -488,7 +488,7 @@ const MenuTrees = (props, treeRef) => {
                         if (type === 'apis') {
                             Bus.$emit('addOpenItem', { id: parseInt(val.target_id) });
                         } else if (type === 'scene') {
-                            if ((open_scene_scene.target_id || open_scene_scene.scene_id ) === val.target_id) {
+                            if (open_scene_scene && (open_scene_scene.target_id || open_scene_scene.scene_id ) === val.target_id) {
                                 return;
                             }
                             localStorage.setItem('open_scene', JSON.stringify(val));
@@ -500,7 +500,8 @@ const MenuTrees = (props, treeRef) => {
                                 Bus.$emit('addOpenScene', val)
                             }
                         } else if (type === 'plan') {
-                            if ((open_plan_scene.target_id || open_plan_scene.scene_id ) === val.target_id) {
+                            console.log(open_plan_scene);
+                            if (open_plan_scene && (open_plan_scene.target_id || open_plan_scene.scene_id ) === val.target_id) {
                                 return;
                             }
                             if (Object.entries(open_plan_scene || {}).length > 0) {

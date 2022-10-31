@@ -70,7 +70,16 @@ const PlanDetail = () => {
         if (apiConfig !== configApi) {
             setConfigApi(apiConfig);
         }
-    }, [apiConfig])
+    }, [apiConfig]);
+
+    useEffect(() => {
+        return () => {
+            dispatch({
+                type: 'plan/updateApiConfig',
+                payload: false
+            })
+        }
+    }, []);
 
     useEffect(() => {
         setApiName(api_now.name)
