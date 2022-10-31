@@ -148,7 +148,7 @@ const Assert = (props) => {
     ];
 
     const tableDataList = () => {
-        return [...parameter, { response_type: '', var: '', compare: '', val: '' }]
+        return [...parameter, { response_type: 0, var: '', compare: '', val: '' }]
     };
 
     return (
