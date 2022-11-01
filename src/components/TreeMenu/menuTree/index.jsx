@@ -491,25 +491,25 @@ const MenuTrees = (props, treeRef) => {
                                 return;
                             }
                             localStorage.setItem('open_scene', JSON.stringify(val));
-                            if (Object.entries(open_scene_scene || {}).length > 0) {
-                                Bus.$emit('saveScene', () => {
-                                    Bus.$emit('addOpenScene', val)
-                                })
-                            } else {
+                            // if (Object.entries(open_scene_scene || {}).length > 0) {
+                            //     Bus.$emit('saveScene', () => {
+                            //         Bus.$emit('addOpenScene', val)
+                            //     })
+                            // } else {
                                 Bus.$emit('addOpenScene', val)
-                            }
+                            // }
                         } else if (type === 'plan') {
                             console.log(open_plan_scene);
                             if (open_plan_scene && (open_plan_scene.target_id || open_plan_scene.scene_id ) === val.target_id) {
                                 return;
                             }
-                            if (Object.entries(open_plan_scene || {}).length > 0) {
-                                Bus.$emit('saveScenePlan', nodes_plan, edges_plan, id_apis_plan, node_config_plan, open_plan_scene, id, () => {
-                                    Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
-                                });
-                            } else {
+                            // if (Object.entries(open_plan_scene || {}).length > 0) {
+                            //     Bus.$emit('saveScenePlan', nodes_plan, edges_plan, id_apis_plan, node_config_plan, open_plan_scene, id, () => {
+                            //         Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
+                            //     });
+                            // } else {
                                 Bus.$emit('addOpenPlanScene', val, id_apis_plan, node_config_plan);
-                            }
+                            // }
                             let open_plan = JSON.parse(localStorage.getItem('open_plan') || '{}');
                             open_plan[id] = val.target_id;
                             localStorage.setItem('open_plan', JSON.stringify(open_plan));
