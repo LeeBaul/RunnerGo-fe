@@ -101,7 +101,7 @@ pipeline {
         stage('npm 编译代码') {
             steps {
             nodejs('node-v16.13.0'){
-            sh''' npm config set registry  https://registry.npmjs.org
+            sh''' npm config set registry  https://registry.npm.taobao.org
                   npm config get registry
                   node -v 
                   export CI=false
