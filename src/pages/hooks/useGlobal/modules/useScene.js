@@ -781,8 +781,6 @@ const useScene = () => {
     };
 
     const runScene = (scene_id, length, from) => {
-        console.log(open_scene);
-        return;
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
             scene_id: parseInt(scene_id),
