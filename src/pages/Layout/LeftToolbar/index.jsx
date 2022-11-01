@@ -88,18 +88,30 @@ const LeftToolbar = () => {
 
     const leftBarList = leftBarItems.map((item, index) => (
         <React.Fragment key={index}>
-            <Link to={item.link}>
-                <div
+            {
+                item.link === '/doc' ? <div
                     key={index}
-                    className={cn('toolbar-item', {
-                        active: currentPath === item.link,
-                    })}
-                    onClick={() => setCurrentPath(item.link)}
+                    className='toolbar-item'
+                    onClick={() => {
+                        window.open('https://rhl469webu.feishu.cn/docx/Rr0cdBuVUoskdkxE5t6cUo9vnOe', '_blank')
+                    }}
                 >
                     <item.icon className='svg-item' />
                     <span className="item-text">{item.title}</span>
                 </div>
-            </Link>
+                    : <Link to={item.link}>
+                        <div
+                            key={index}
+                            className={cn('toolbar-item', {
+                                active: currentPath === item.link,
+                            })}
+                            onClick={() => setCurrentPath(item.link)}
+                        >
+                            <item.icon className='svg-item' />
+                            <span className="item-text">{item.title}</span>
+                        </div>
+                    </Link>
+            }
         </React.Fragment>
     ))
 
@@ -181,7 +193,7 @@ const LeftToolbar = () => {
                         <div><MenuList /></div>
                     }
                 >
-                    <div className={ cn('left-settings', { 'menu-list-active': visible }) }>
+                    <div className={cn('left-settings', { 'menu-list-active': visible })}>
                         <SvgSetting />
                         <p>{t('header.menu')}</p>
                     </div>
