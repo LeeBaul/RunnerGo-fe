@@ -338,7 +338,6 @@ const MenuTrees = (props, treeRef) => {
     //         })
     //         Bus.$emit('addOpenPlanScene', filteredTreeList[0], id_apis_plan, node_config_plan);
     //     }
-
     // }, [filteredTreeList, open_first]);
 
     const renderTreeNode = (nodeItem, { indent, nodeTitle }) => {
