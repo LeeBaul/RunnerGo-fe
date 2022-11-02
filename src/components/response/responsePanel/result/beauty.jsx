@@ -6,6 +6,7 @@ const Beautify = (props) => {
   const { mode, value, currentRef } = props;
   const [editorDom, setEditorDom] = useState(null);
   const { mode: language, value: editValue } = EditFormat(value);
+  console.log(mode, language);
   const handleSetEditor = (editor) => {
     setEditorDom(editor);
   };
