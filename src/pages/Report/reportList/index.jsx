@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import { Button, Message, Tooltip, Modal } from 'adesign-react';
 import './index.less';
 import ReportListHeader from './reportListHeader';
@@ -19,6 +19,44 @@ import { useTranslation } from 'react-i18next';
 
 import { Table } from '@arco-design/web-react';
 import { useSelector } from 'react-redux';
+// import { Resizable } from 'react-resizable';
+
+// const CustomResizeHandle = forwardRef((props, ref) => {
+//     const { handleAxis, ...restProps } = props;
+//     console.log(ref);
+//     return (
+//         <span
+//             ref={ref}
+//             className={`react-resizable-handle react-resizable-handle-${handleAxis}`}
+//             {...restProps}
+//             onClick={(e) => {
+//                 e.stopPropagation();
+//             }}
+//         />
+//     );
+// });
+
+// const ResizableTitle = (props) => {
+//     const { onResize, width, ...restProps } = props;
+
+//     // if (!width) {
+//     //     return <th {...restProps} />;
+//     // }
+
+//     return (
+//         <Resizable
+//             width={width}
+//             height={0}
+//             handle={<CustomResizeHandle />}
+//             onResize={onResize}
+//             draggableOpts={{
+//                 enableUserSelectHack: false,
+//             }}
+//         >
+//             <th {...restProps} />
+//         </Resizable>
+//     );
+// };
 
 const ReportList = () => {
     const navigate = useNavigate();
@@ -179,7 +217,7 @@ const ReportList = () => {
         {
             title: t('index.planName'),
             dataIndex: 'plan_name',
-            ellipsis: true
+            ellipsis: true,
             // width: 200
         },
         {
@@ -296,7 +334,39 @@ const ReportList = () => {
     }
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    const [selectReport, setSelectReport] = useState([])
+    const [selectReport, setSelectReport] = useState([]);
+
+    // const [_columns, setColumns] = useState(
+    //     columns.map((column, index) => {
+    //         if (column.width) {
+    //             return {
+    //                 ...column,
+    //                 onHeaderCell: (col) => ({
+    //                     width: col.width,
+    //                     onResize: handleResize(index),
+    //                 }),
+    //             };
+    //         }
+
+    //         return column;
+    //     })
+    // );
+
+    // const handleResize = (index) => {
+    //     return (e, { size }) => {
+    //         setColumns((prevColumns) => {
+    //             const nextColumns = [...prevColumns];
+    //             nextColumns[index] = { ...nextColumns[index], width: size.width };
+    //             return nextColumns;
+    //         });
+    //     };
+    // }
+
+    // const components = {
+    //     header: {
+    //         th: ResizableTitle,
+    //     },
+    // };
 
 
     return (
@@ -304,10 +374,8 @@ const ReportList = () => {
             <ReportListHeader onChange={getNewkeyword} onDateChange={getSelectDate} selectReport={selectReport} />
             <Table
                 className="report-table"
-                border={{
-                    wrapper: true,
-                    cell: true,
-                }}
+                border
+                borderCell
                 pagination={false}
                 columns={columns}
                 data={reportList}
