@@ -165,6 +165,12 @@ const LoginBox = (props) => {
     if (Object.keys(vcodeObj).length === 0) {
       return Message('error', t('message.check'));
     }
+    if (!EamilReg(email)) {
+      setEmailError(true);
+      return;
+    } else {
+      setEmailError(false);
+    }
     if (emailError) {
       return;
     }

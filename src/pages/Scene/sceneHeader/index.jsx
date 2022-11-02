@@ -237,6 +237,47 @@ const SceneHeader = (props) => {
 
     console.log(open_scene_name, open_scene_desc);
 
+    const formatData = (a, b) => {
+        let result = [];
+        let root = [];
+        a.forEach(item => {
+            if (b.findIndex(elem => elem.target === item.id) === -1) {
+                root.push(item);
+            }
+        })
+        result.push(root);
+    
+        let loop = (result, arr) => {
+            let res = [];
+            arr.forEach(item => {
+               let data =  b.filter(elem => elem.source === item.id).map(elem1 => {
+                result.forEach(item => {
+                    let _index = item.findIndex(elem2 => elem2.id === elem1.target);
+                    if (_index !== -1){
+                        item.splice(_index, 1);
+                    }
+                })
+                 return { id: elem1.target }
+               });
+               res.push(...data);
+            })
+    
+            if (res.length > 0) {
+                result.push(res);
+                return loop(result, res);
+            } else {
+                return result;
+            }
+        }
+    
+        return loop(result, root);
+    };
+
+    const toBeautify = () => {
+        const result = formatData(nodes, edges);
+        console.log(nodes, edges, result);
+    };
+
     return (
         <div className='scene-header'>
             <div className='scene-header-left'>
@@ -248,6 +289,7 @@ const SceneHeader = (props) => {
                     <SvgSetting />
                     <span>{ t('scene.sceneConfig') }</span>
                 </div>
+                <Button className='saveBtn' onClick={() => toBeautify()}>一键美化</Button>
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene(() => {
                             Message('success', t('message.saveSuccess')); 
                         })}>{ t('btn.save') }</Button>

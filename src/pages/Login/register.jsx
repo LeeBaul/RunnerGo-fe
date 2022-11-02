@@ -166,6 +166,32 @@ const RegisterBox = (props) => {
         if (Object.keys(vcodeObj).length === 0) {
             return Message('error', t('message.check'));
         }
+        if (!EamilReg(email)) {
+            setEmailError(true);
+            return;
+        } else {
+            setEmailError(false);
+        }
+        if (nickname.length < 2) {
+            setNameError(true);
+            return;
+        } else {
+            setNameError(false);
+        }
+        if (password !== repeat_password) {
+            setPwdDiff(true);
+            return;
+        } else {
+            setPwdDiff(false);
+        }
+        if (password.length < 6) {
+            setPwdError(true);
+            return;
+        } else {
+            setPwdError(false);
+        }
+        
+        
         if (emailError || nameError || pwdDiff || pwdError || checked === 'uncheck') {
             return;
         }
