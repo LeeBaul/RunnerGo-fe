@@ -104,7 +104,7 @@
         "start": "开始",
         "finish": "停止",
         "createPlan": "新建计划",
-        "runScene": "运行场景",
+        "runScene": "调试场景",
         "prePage": "上一页",
         "nextPage": "下一页",
         "jump": "跳转",

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table } from 'adesign-react';
+import './index.less';
 
 const ResTable = (props) => {
   const { data } = props;
@@ -35,9 +36,9 @@ const ResTable = (props) => {
   ];
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '20px' }} className='can-copy'>
       {/* <Table showHeader={false} showBorder columns={columns} data={list} /> */}
-      { resHeader.split('\r').map(item => <p style={{ marginBottom: '10px' }}>{item}</p>) }
+      { resHeader.split('\r').map(item => <p style={{ marginBottom: '10px' }} className='can-copy'>{item}</p>) }
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'adesign-react';
 import { combineLatest } from 'rxjs';
+import './index.less';
 
 const ReqTable = (props) => {
   const { data } = props;
@@ -38,7 +39,7 @@ const ReqTable = (props) => {
   ];
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '20px' }} className='can-copy'>
       {/* <Table showHeader={false} showBorder columns={columns} data={list} /> */}
       { reqHeader.split('\r').map(item => <p style={{ marginBottom: '10px' }}>{item}</p>) }
     </div>

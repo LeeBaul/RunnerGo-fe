@@ -5,6 +5,7 @@ export const ResultTabs = css`
   .rawhtml {
     line-height: 18px;
     padding: 0 8px;
+    user-select: text !important;
   }
   > .apipost-response-tabs-content {
     height: calc(100% - 36px);

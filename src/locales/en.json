@@ -105,7 +105,7 @@
         "start": "Start",
         "finish": "Stop",
         "createPlan": "New Plan",
-        "runScene": "Run",
+        "runScene": "Debug",
         "prePage": "Page up",
         "nextPage": "Page down",
         "jump": "Go",

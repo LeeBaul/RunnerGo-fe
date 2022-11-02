@@ -58,6 +58,20 @@ const Assert = (props) => {
     const columns = [
         {
             title: '',
+            width: 40,
+            dataIndex: 'is_checked',
+            render: (text, rowData, rowIndex) => (
+                <Switch
+                    size="small"
+                    checked={text === '1' || text === 1}
+                    onChange={(e) => {
+                        handleChange(rowData, rowIndex, { is_checked: e ? 1 : -1 });
+                    }}
+                />
+            ),
+        },
+        {
+            title: '',
             width: 150,
             dataIndex: 'response_type',
             // enableResize: true,
@@ -107,8 +121,8 @@ const Assert = (props) => {
                         onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
-                            parameter[rowIndex] && parameter[rowIndex].response_type === 3 ? 
-                                compare.map(item => <Option value={item.type}>{item.title}</Option>) : 
+                            parameter[rowIndex] && parameter[rowIndex].response_type === 3 ?
+                                compare.map(item => <Option value={item.type}>{item.title}</Option>) :
                                 compare.splice(6, 10).map(item => <Option value={item.type}>{item.title}</Option>)
                         }
                     </Select>
