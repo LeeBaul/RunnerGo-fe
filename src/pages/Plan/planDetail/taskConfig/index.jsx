@@ -303,7 +303,7 @@ const TaskConfig = (props) => {
                             }}>
                                 <Radio className='radio-group-item' value="duration">
                                     <span style={{ marginTop: '5px' }}>{t('plan.duration')}： </span>
-                                    <Input value={mode_conf.duration} onBlur={(e) => {
+                                    <Input value={mode_conf.duration} placeholder={ t('placeholder.unitS') } onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e.target.value);
                                         // setDuration(parseInt(e.target.value));
@@ -315,7 +315,7 @@ const TaskConfig = (props) => {
                                 </Radio>
                                 <Radio className='radio-group-item' value="round_num">
                                     <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}： </span>
-                                    <Input value={mode_conf.round_num} onBlur={(e) => {
+                                    <Input value={mode_conf.round_num} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.round_num = parseInt(e.target.value);
                                         // setRoundNum(_mode_conf);
@@ -328,7 +328,7 @@ const TaskConfig = (props) => {
                             </Group>
                             <div className="right-item">
                                 <span>{t('plan.concurrency')}: </span>
-                                <Input value={mode_conf.concurrency} onBlur={(e) => {
+                                <Input value={mode_conf.concurrency} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.concurrency = parseInt(e.target.value);
                                     // setConcurrency(_mode_conf);
@@ -340,7 +340,7 @@ const TaskConfig = (props) => {
                             </div>
                             <div className="right-item">
                                 <span>{t('plan.reheatTime')}： </span>
-                                <Input value={mode_conf.reheat_time} onBlur={(e) => {
+                                <Input value={mode_conf.reheat_time} placeholder={ t('placeholder.unitS') }  onBlur={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.reheat_time = parseInt(e.target.value);
                                     setModeConf(_mode_conf);
@@ -353,7 +353,7 @@ const TaskConfig = (props) => {
                             : <div className="right-container">
                                 <div className="right-item">
                                     <span>{t('plan.startConcurrency')}： </span>
-                                    <Input value={mode_conf.start_concurrency} onBlur={(e) => {
+                                    <Input value={mode_conf.start_concurrency} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.start_concurrency = parseInt(e.target.value);
                                         setStartConcurrency(parseInt(e.target.value));
@@ -365,7 +365,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item">
                                     <span>{t('plan.step')}： </span>
-                                    <Input value={mode_conf.step} onBlur={(e) => {
+                                    <Input value={mode_conf.step} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step = parseInt(e.target.value);
                                         setStep(parseInt(e.target.value));
@@ -377,7 +377,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item">
                                     <span>{t('plan.stepRunTime')}： </span>
-                                    <Input value={mode_conf.step_run_time} onBlur={(e) => {
+                                    <Input value={mode_conf.step_run_time} placeholder={ t('placeholder.unitS') }  onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step_run_time = parseInt(e.target.value);
                                         setStepRunTime(parseInt(e.target.value));
@@ -389,7 +389,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item">
                                     <span>{t('plan.maxConcurrency')}： </span>
-                                    <Input value={mode_conf.max_concurrency} onBlur={(e) => {
+                                    <Input value={mode_conf.max_concurrency} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.max_concurrency = parseInt(e.target.value);
                                         setMaxConcurrency(parseInt(e.target.value));
@@ -401,7 +401,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item" style={{ marginBottom: 0 }}>
                                     <span>{t('plan.duration')}： </span>
-                                    <Input value={mode_conf.duration} onBlur={(e) => {
+                                    <Input value={mode_conf.duration} placeholder={ t('placeholder.unitS') }  onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e.target.value);
                                         setDuration(parseInt(e.target.value));

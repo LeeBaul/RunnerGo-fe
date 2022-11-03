@@ -75,10 +75,10 @@
   
   /* 浅色模式 */
 
-  --bg-1: #F9F9F9;
-  --bg-2: #FFFFFF;
-  --bg-3: #F4F4F4;
-  --bg-4: #E9E9E9;
+  --bg-1: #FFFFFF;
+  --bg-2: #F8F8F8;
+  --bg-3: #F2F2F2;
+  --bg-4: #E9E9E9;;
   --bg-5: #FEFEFE;
   /* 字体 */
   --font-color: #2B2B2B;

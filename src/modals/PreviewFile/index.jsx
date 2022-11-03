@@ -24,9 +24,9 @@ const PreviewFile = (props) => {
     }, []);
 
     return (
-        <Modal className='preview-modal' title={ t('modal.previewTitle') } visible={true} cancelText={ t('btn.cancel') } okText={ t('btn.ok') } onOk={() => onCancel()} onCancel={() => onCancel()}>
+        <Modal className='preview-modal' title={ t('modal.previewTitle') } visible={true} cancelText={ t('btn.cancel') } okText={ t('btn.ok') } onOk={() => onCancel()} onCancel={() => onCancel()} footer={null}>
             {
-                fileType === 'csv' ? <Table columns={tableColumn} data={tableData} /> : <div>{ data }</div>
+                fileType === 'csv' ? <Table style={{ marginBottom: '12px' }} columns={tableColumn} data={tableData} /> : <div>{ data }</div>
             }
         </Modal>
     )

@@ -95,7 +95,9 @@
             "token": "Token (supporting variables)",
             "username": "User name (variable supported)",
             "password": "Password (support variable)"
-        }
+        },
+        "unitS": "unit: s",
+        "unitR": "unit: r"
     },
     "btn": {
         "cancel": "Cancel",
