@@ -193,6 +193,7 @@
             "20004": "User name or password error!",
             "20005": "User registered",
             "20008": "fill in the Task allocation and save it",
+            "20009": "Insufficient resources",
             "common": "Operation failure, try again later~"
         },
         "folderNameEmpty": "Directory name cannot be empty!",
@@ -573,7 +574,8 @@
         "set": "set up",
         "second": "Round",
         "editPlan": "Edit Plan",
-        "createPlan": "New Plan"
+        "createPlan": "New Plan",
+        "configEchart": "Pressure gradient diagram"
     },
     "report": {
         "done": "Completed",

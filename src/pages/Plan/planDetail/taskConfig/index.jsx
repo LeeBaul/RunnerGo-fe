@@ -9,6 +9,8 @@ import { cloneDeep } from 'lodash';
 import { fetchPlanDetail, fetchSavePlan, fetchGetTask } from '@services/plan';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import 'echarts/lib/echarts';
+import ReactEcharts from 'echarts-for-react';
 import cn from 'classnames';
 const { Group } = Radio;
 
@@ -354,7 +356,7 @@ const TaskConfig = (props) => {
                                     <Input value={mode_conf.start_concurrency} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.start_concurrency = parseInt(e.target.value);
-                                        // setStartConcurrency(parseInt(e.target.value));
+                                        setStartConcurrency(parseInt(e.target.value));
                                         setModeConf(_mode_conf);
                                         // from === 'preset' && onChange('start_concurrency', parseInt(e.target.value));
                                         // from === 'default' && 
@@ -366,7 +368,7 @@ const TaskConfig = (props) => {
                                     <Input value={mode_conf.step} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step = parseInt(e.target.value);
-                                        // setStep(parseInt(e.target.value));
+                                        setStep(parseInt(e.target.value));
                                         setModeConf(_mode_conf);
                                         // from === 'preset' && onChange('step', parseInt(e.target.value));
                                         // from === 'default' && 
@@ -378,7 +380,7 @@ const TaskConfig = (props) => {
                                     <Input value={mode_conf.step_run_time} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step_run_time = parseInt(e.target.value);
-                                        // setStepRunTime(parseInt(e.target.value));
+                                        setStepRunTime(parseInt(e.target.value));
                                         setModeConf(_mode_conf);
                                         // from === 'preset' && onChange('step_run_time', parseInt(e.target.value));
                                         // from === 'default' && 
@@ -390,7 +392,7 @@ const TaskConfig = (props) => {
                                     <Input value={mode_conf.max_concurrency} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.max_concurrency = parseInt(e.target.value);
-                                        // setMaxConcurrency(parseInt(e.target.value));
+                                        setMaxConcurrency(parseInt(e.target.value));
                                         setModeConf(_mode_conf);
                                         // from === 'preset' && onChange('max_concurrency', parseInt(e.target.value));
                                         // from === 'default' && 
@@ -402,7 +404,7 @@ const TaskConfig = (props) => {
                                     <Input value={mode_conf.duration} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e.target.value);
-                                        // setDuration(parseInt(e.target.value));
+                                        setDuration(parseInt(e.target.value));
                                         setModeConf(_mode_conf);
                                         // from === 'preset' && onChange('duration', parseInt(e.target.value));
                                         // from === 'default' && 
@@ -598,7 +600,98 @@ const TaskConfig = (props) => {
                 }
             }
         })
-    }
+    };
+
+    const theme = useSelector((store) => store.user.theme);
+
+    const getOption = (name, x, y) => {
+        let option = {
+            title: {
+                text: name,
+                left: 'center',
+                textStyle: {
+                    color: theme === 'dark' ? '#fff' : '#000',
+                    fontSize: 14
+                },
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: x.length > 0 ? x : [],
+                axisLabel: {
+                    color: theme === 'dark' ? '#fff' : '#000',
+                },
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    color: theme === 'dark' ? '#fff' : '#000',
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: theme === 'dark' ? '#39393D' : '#E9E9E9'
+                    }
+                }
+            },
+            series: [
+                {
+                    data: y.length > 0 ? y : [],
+                    type: 'line'
+                }
+            ]
+        }
+        return option;
+    };
+
+    const [x_echart, setXEchart] = useState([]);
+    const [y_echart, setYEchart] = useState([]);
+
+    useEffect(() => {
+        let result = [];
+        if (start_concurrency > 0 && step > 0 && step_run_time > 0 && max_concurrency > 0 && duration > 0) {
+            result.push([0]);
+            result.push([start_concurrency]);
+            while (true) {
+                if (result[0][result[0].length - 1] >= duration) {
+                    console.log(111, result);
+                    setXEchart(result[0]);
+                    setYEchart(result[1]);
+                    return;
+                }
+                if (result[1][result[1].length - 1] >= max_concurrency) {
+                    result[1][result[1].length - 1] = max_concurrency;
+                    console.log(222, result);
+                    setXEchart(result[0]);
+                    setYEchart(result[1]);
+                    return;
+                }
+                console.log(990990990990);
+                result[0].push(result[0][result[0].length - 1] + step_run_time);
+                result[1].push(result[1][result[1].length - 1] + step)
+            }
+        }
+    }, [start_concurrency, step, step_run_time, max_concurrency, duration]);
+
+
+
+    // [
+    //     [0, 10],
+    //     [5, 12],
+    //     [10, 14],
+    //     [15, 16],
+    //     [20, 18],
+    // ]
+
+
 
     return (
         <div className='task-config'>
@@ -651,7 +744,7 @@ const TaskConfig = (props) => {
                 <Table showBorder columns={column} data={data} /> */}
                 <div className='item' style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                     <p >{t('plan.mode')}:</p>
-                    <Select value={ mode } style={{ width: '300px', height: '32px', marginLeft: '14px' }} onChange={(e) => {
+                    <Select value={mode} style={{ width: '300px', height: '32px', marginLeft: '14px' }} onChange={(e) => {
                         setMode(e);
                         updateTaskConfig('mode', parseInt(e));
                     }}>
@@ -675,6 +768,9 @@ const TaskConfig = (props) => {
                         <TaskConfig />
                     }
                 </div>
+                {
+                    mode !== 1 ? <ReactEcharts style={{ marginTop: '10px' }} className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
+                }
             </div>
         </div>
     )
