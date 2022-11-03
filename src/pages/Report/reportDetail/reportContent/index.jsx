@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './index.less';
 import { Table } from 'adesign-react';
 import 'echarts/lib/echarts';
@@ -33,6 +33,8 @@ const ReportContent = (props) => {
 
     const [configColumn, setConfigColumn] = useState([]);
     const [configData, setConfigData] = useState([]);
+
+    const [tooltipX, setTooltipX] = useState(0);
 
     const theme = useSelector((store) => store.user.theme);
 
@@ -430,7 +432,11 @@ const ReportContent = (props) => {
                 },
             },
             tooltip: {
-                trigger: 'axis'
+                trigger: 'axis',
+                position: (p, params, dom, rect, size) => {
+                    setTooltipX(params[0].dataIndex);
+                    // setTooltipX(p[0]);
+                }
             },
             grid: {
                 left: '3%',
@@ -457,6 +463,9 @@ const ReportContent = (props) => {
                     }
                 }
             },
+            dataZoom: { // 放大和缩放
+                type: 'inside'
+            },
             series: data.length > 0 ? data.map((item, index) => {
                 if (index >= (20 + temp * 20)) {
                     temp++;
@@ -466,12 +475,115 @@ const ReportContent = (props) => {
                     type: 'line',
                     color: colorList[index - temp * 20],
                     // stack: 'Total',
-                    data: item.y_data
+                    data: item.y_data,
+                    showSymbol: false,
                 }
             }) : []
         }
         return option;
-    }
+    };
+
+
+    const echartsRef1 = useRef(null);
+    const echartsRef2 = useRef(null);
+    const echartsRef3 = useRef(null);
+    const echartsRef4 = useRef(null);
+    const echartsRef5 = useRef(null);
+    const echartsRef6 = useRef(null);
+    const echartsRef7 = useRef(null);
+    const echartsRef8 = useRef(null);
+
+    // console.log(echartsRef);
+    // if (echartsRef.current) {
+    //     const dom = echartsRef.current.ele;
+    //     const res = echartsRef.current.echarts.getInstanceByDom(dom ? dom : {});
+    //     console.log(res);
+    //     res.dispatchAction({
+    //         type: 'showTip',
+    //         seriesIndex: 0,
+    //         dataIndex: 0
+    //     });
+    // }
+
+    useEffect(() => {
+        if (
+            echartsRef1.current && echartsRef2.current && echartsRef3.current && echartsRef4.current &&
+            echartsRef5.current && echartsRef6.current && echartsRef7.current && echartsRef8.current
+           ) {
+            const dom1 = echartsRef1.current.ele;
+            const res1 = echartsRef1.current.echarts.getInstanceByDom(dom1 ? dom1 : {});
+            res1.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+            console.log(res1, echartsRef1);
+            // echartsRef1.current.echarts.on('click', () => {
+            //     console.log(123123123123);
+            // })
+            const dom2 = echartsRef2.current.ele;
+            const res2 = echartsRef2.current.echarts.getInstanceByDom(dom2 ? dom2 : {});
+            res2.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+            const dom3 = echartsRef3.current.ele;
+            const res3 = echartsRef3.current.echarts.getInstanceByDom(dom3 ? dom3 : {});
+            res3.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+            const dom4 = echartsRef4.current.ele;
+            const res4 = echartsRef4.current.echarts.getInstanceByDom(dom4 ? dom4 : {});
+            res4.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+            const dom5 = echartsRef5.current.ele;
+            const res5 = echartsRef5.current.echarts.getInstanceByDom(dom5 ? dom5 : {});
+            res5.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+            const dom6 = echartsRef6.current.ele;
+            const res6 = echartsRef6.current.echarts.getInstanceByDom(dom6 ? dom6 : {});
+            res6.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+            const dom7 = echartsRef7.current.ele;
+            const res7 = echartsRef7.current.echarts.getInstanceByDom(dom7 ? dom7 : {});
+            res7.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+            const dom8 = echartsRef8.current.ele;
+            const res8 = echartsRef8.current.echarts.getInstanceByDom(dom8 ? dom8 : {});
+            res8.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: tooltipX,
+            });
+
+        }
+    }, [tooltipX]);
+
+    // if (echartsRef.current) {
+    //     const dom = echartsRef.current.ele;
+    //     const res = echartsRef.current.echarts.getInstanceByDom(dom ? dom : {});
+    //     console.log(res);
+    //     res.dispatchAction({
+    //         type: 'showTip',
+    //         seriesIndex: 0,
+    //         dataIndex: 5,
+    //     });
+    // }
 
     return (
         <div className='report-content'>
@@ -487,14 +599,14 @@ const ReportContent = (props) => {
             <Table showBorder columns={configColumn} data={configData} />
             <Table showBorder columns={columns1} data={tableData1} />
             <div className='echarts-list'>
-                <ReactEcharts className='echarts' option={getOption(t('report.avgList'), avgList)} />
-                <ReactEcharts className='echarts' option={getOption(t('report.qpsNum'), qpsList)} />
-                <ReactEcharts className='echarts' option={getOption(t('report.concurrency'), concurrencyList)} />
-                <ReactEcharts className='echarts' option={getOption(t('report.errNum'), errList)} />
-                <ReactEcharts className='echarts' option={getOption(t('report.50%List'), fiftyList)} />
-                <ReactEcharts className='echarts' option={getOption(t('report.90%List'), ninetyList)} />
-                <ReactEcharts className='echarts' option={getOption(t('report.95%List'), ninetyFive)} />
-                <ReactEcharts className='echarts' option={getOption(t('report.99%List'), ninetyNine)} />
+                <ReactEcharts ref={echartsRef1} className='echarts' option={getOption(t('report.avgList'), avgList)} />
+                <ReactEcharts ref={echartsRef2} className='echarts' option={getOption(t('report.qpsNum'), qpsList)} />
+                <ReactEcharts ref={echartsRef3} className='echarts' option={getOption(t('report.concurrency'), concurrencyList)} />
+                <ReactEcharts ref={echartsRef4} className='echarts' option={getOption(t('report.errNum'), errList)} />
+                <ReactEcharts ref={echartsRef5} className='echarts' option={getOption(t('report.50%List'), fiftyList)} />
+                <ReactEcharts ref={echartsRef6} className='echarts' option={getOption(t('report.90%List'), ninetyList)} />
+                <ReactEcharts ref={echartsRef7} className='echarts' option={getOption(t('report.95%List'), ninetyFive)} />
+                <ReactEcharts ref={echartsRef8} className='echarts' option={getOption(t('report.99%List'), ninetyNine)} />
             </div>
         </div>
     )
