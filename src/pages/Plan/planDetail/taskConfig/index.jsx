@@ -640,12 +640,14 @@ const TaskConfig = (props) => {
                     lineStyle: {
                         color: theme === 'dark' ? '#39393D' : '#E9E9E9'
                     }
-                }
+                },
+                name: '并发数(个)'
             },
             series: [
                 {
                     data: y.length > 0 ? y : [],
-                    type: 'line'
+                    type: 'line',
+                    step: 'end'
                 }
             ]
         }
@@ -661,15 +663,12 @@ const TaskConfig = (props) => {
             result.push([0]);
             result.push([start_concurrency]);
             while (true) {
-                if (result[0][result[0].length - 1] >= duration) {
-                    console.log(111, result);
-                    setXEchart(result[0]);
-                    setYEchart(result[1]);
-                    return;
-                }
                 if (result[1][result[1].length - 1] >= max_concurrency) {
                     result[1][result[1].length - 1] = max_concurrency;
-                    console.log(222, result);
+
+                    result[0].push(result[0][result[0].length - 1] + duration);
+                    result[1].push(result[1][result[1].length - 1]);
+
                     setXEchart(result[0]);
                     setYEchart(result[1]);
                     return;
@@ -770,6 +769,9 @@ const TaskConfig = (props) => {
                 </div>
                 {
                     mode !== 1 ? <ReactEcharts style={{ marginTop: '10px' }} className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
+                }
+                {
+                    mode != 1 ? <p>时间(s)</p> : <></>
                 }
             </div>
         </div>
