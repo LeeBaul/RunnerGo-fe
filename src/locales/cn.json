@@ -478,7 +478,7 @@
         "createControl": "添加控制器",
         "waitControl": "等待控制器",
         "conditionControl": "条件控制器",
-        "importApi": "导入接口",
+        "importApi": "引入接口",
         "groupName": "分组名称",
         "groupDesc": "分组描述",
         "sceneName": "场景名称",
