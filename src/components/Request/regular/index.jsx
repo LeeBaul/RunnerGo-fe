@@ -66,9 +66,10 @@ const Regular = (props) => {
             // enableResize: true,
             render: (text, rowData, rowIndex) => (
                 <Select
-                    value={rowData.type || null}
+                    value={rowData ? rowData.type : 0}
                     placeholder={t('placeholder.plsSelect')}
                     onChange={(e) => {
+                        console.log(e, text, rowData, rowIndex);
                         handleChange(rowData, rowIndex, { type: e });
                     }}
                 >
