@@ -41,7 +41,7 @@ const ReqTable = (props) => {
   return (
     <div style={{ padding: '20px' }} className='can-copy'>
       {/* <Table showHeader={false} showBorder columns={columns} data={list} /> */}
-      { reqHeader.split('\r').map(item => <p style={{ marginBottom: '10px' }}>{item}</p>) }
+      { reqHeader.split('\r').map(item => <p className='can-copy' style={{ marginBottom: '10px' }}>{item}</p>) }
     </div>
   );
 };
