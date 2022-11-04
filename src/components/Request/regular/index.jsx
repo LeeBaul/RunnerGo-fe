@@ -60,7 +60,7 @@ const Regular = (props) => {
             ),
         },
         {
-            title: '类型',
+            title: t('apis.type'),
             width: 150,
             dataIndex: 'type',
             // enableResize: true,
