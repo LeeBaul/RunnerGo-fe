@@ -46,6 +46,38 @@ const Regular = (props) => {
 
     const columns = [
         {
+            title: '',
+            width: 40,
+            dataIndex: 'is_checked',
+            render: (text, rowData, rowIndex) => (
+                <Switch
+                    size="small"
+                    checked={text === '1' || text === 1}
+                    onChange={(e) => {
+                        handleChange(rowData, rowIndex, { is_checked: e ? 1 : -1 });
+                    }}
+                />
+            ),
+        },
+        {
+            title: '类型',
+            width: 150,
+            dataIndex: 'type',
+            // enableResize: true,
+            render: (text, rowData, rowIndex) => (
+                <Select
+                    value={rowData.type || null}
+                    placeholder={t('placeholder.plsSelect')}
+                    onChange={(e) => {
+                        handleChange(rowData, rowIndex, { type: e });
+                    }}
+                >
+                    <Option value={0}>正则</Option>
+                    <Option value={1}>json</Option>
+                </Select>
+            ),
+        },
+        {
             title: t('apis.varName'),
             dataIndex: 'var',
             // enableResize: true,
@@ -107,7 +139,7 @@ const Regular = (props) => {
     ];
 
     const tableDataList = () => {
-        return [...parameter, { var: '', express: '', val: ''}]
+        return [...parameter, { is_checked: 1, type: 0, var: '', express: '', val: '' }]
     };
 
     return (

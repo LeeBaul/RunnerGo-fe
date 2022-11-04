@@ -162,7 +162,7 @@ const Assert = (props) => {
     ];
 
     const tableDataList = () => {
-        return [...parameter, { response_type: 0, var: '', compare: '', val: '' }]
+        return [...parameter, { is_checked: 1, response_type: 0, var: '', compare: '', val: '' }]
     };
 
     return (

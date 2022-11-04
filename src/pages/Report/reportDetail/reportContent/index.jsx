@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './index.less';
 import { Table } from 'adesign-react';
 import 'echarts/lib/echarts';
@@ -436,7 +436,7 @@ const ReportContent = (props) => {
                 position: (p, params, dom, rect, size) => {
                     setTooltipX(params[0].dataIndex);
                     // setTooltipX(p[0]);
-                }
+                },
             },
             grid: {
                 left: '3%',
@@ -506,10 +506,282 @@ const ReportContent = (props) => {
     // }
 
     useEffect(() => {
+        init();
+    }, [echartsRef1]);
+
+
+    const init = useCallback(() => {
+        const res1 = echartsRef1.current;
+        const res2 = echartsRef2.current;
+        const res3 = echartsRef3.current;
+        const res4 = echartsRef4.current;
+        const res5 = echartsRef5.current;
+        const res6 = echartsRef6.current;
+        const res7 = echartsRef7.current;
+        const res8 = echartsRef8.current;
+        if (res1.ele && res2.ele && res3.ele && res4.ele && res5.ele && res6.ele && res7.ele && res8.ele) {
+            const _res1 = res1.echarts.getInstanceByDom(res1 ? res1.ele : {});
+            const _res2 = res1.echarts.getInstanceByDom(res2 ? res2.ele : {});
+            const _res3 = res1.echarts.getInstanceByDom(res3 ? res3.ele : {});
+            const _res4 = res1.echarts.getInstanceByDom(res4 ? res4.ele : {});
+            const _res5 = res1.echarts.getInstanceByDom(res5 ? res5.ele : {});
+            const _res6 = res1.echarts.getInstanceByDom(res6 ? res6.ele : {});
+            const _res7 = res1.echarts.getInstanceByDom(res7 ? res7.ele : {});
+            const _res8 = res1.echarts.getInstanceByDom(res8 ? res8.ele : {});
+            res1.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+            res2.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res1.dispatchAction({
+                    type: 'unselect',
+                    name: '新建接口',
+                })
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+            res3.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+            res4.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+            res5.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+            res6.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+            res7.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+            res8.ele.addEventListener('mouseout', () => {
+                _res1.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res2.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res3.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res4.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res5.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res6.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res7.dispatchAction({
+                    type: 'hideTip'
+                })
+                _res8.dispatchAction({
+                    type: 'hideTip'
+                })
+            })
+        }
+        // const e1 = document.querySelector('.e1');
+        // e1.addEventListener('mouseout', function () {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+        // const e2 = document.querySelector('.e2');
+        // e2.addEventListener('mouseout', function () {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+        // const e3 = document.querySelector('.e3');
+        // e3.addEventListener('mouseout', function () {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+        // const e4 = document.querySelector('.e4');
+        // e4.addEventListener('mouseout', function() {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+        // const e5 = document.querySelector('.e5');
+        // e5.addEventListener('mouseout', function() {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+        // const e6 = document.querySelector('.e6');
+        // e6.addEventListener('mouseout', function() {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+        // const e7 = document.querySelector('.e7');
+        // e7.addEventListener('mouseout', function() {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+        // const e8 = document.querySelector('.e8');
+        // e8.addEventListener('mouseout', function() {
+        //     console.log('asdkasdkaskldjkalsd');
+        // })
+    }, [echartsRef1]);
+
+
+    useEffect(() => {
         if (
             echartsRef1.current && echartsRef2.current && echartsRef3.current && echartsRef4.current &&
             echartsRef5.current && echartsRef6.current && echartsRef7.current && echartsRef8.current
-           ) {
+        ) {
             const dom1 = echartsRef1.current.ele;
             const res1 = echartsRef1.current.echarts.getInstanceByDom(dom1 ? dom1 : {});
             res1.dispatchAction({
@@ -599,14 +871,14 @@ const ReportContent = (props) => {
             <Table showBorder columns={configColumn} data={configData} />
             <Table showBorder columns={columns1} data={tableData1} />
             <div className='echarts-list'>
-                <ReactEcharts ref={echartsRef1} className='echarts' option={getOption(t('report.avgList'), avgList)} />
-                <ReactEcharts ref={echartsRef2} className='echarts' option={getOption(t('report.qpsNum'), qpsList)} />
-                <ReactEcharts ref={echartsRef3} className='echarts' option={getOption(t('report.concurrency'), concurrencyList)} />
-                <ReactEcharts ref={echartsRef4} className='echarts' option={getOption(t('report.errNum'), errList)} />
-                <ReactEcharts ref={echartsRef5} className='echarts' option={getOption(t('report.50%List'), fiftyList)} />
-                <ReactEcharts ref={echartsRef6} className='echarts' option={getOption(t('report.90%List'), ninetyList)} />
-                <ReactEcharts ref={echartsRef7} className='echarts' option={getOption(t('report.95%List'), ninetyFive)} />
-                <ReactEcharts ref={echartsRef8} className='echarts' option={getOption(t('report.99%List'), ninetyNine)} />
+                <ReactEcharts ref={echartsRef1} className='echarts e1' option={getOption(t('report.avgList'), avgList)} />
+                <ReactEcharts ref={echartsRef2} className='echarts e2' option={getOption(t('report.qpsNum'), qpsList)} />
+                <ReactEcharts ref={echartsRef3} className='echarts e3' option={getOption(t('report.concurrency'), concurrencyList)} />
+                <ReactEcharts ref={echartsRef4} className='echarts e4' option={getOption(t('report.errNum'), errList)} />
+                <ReactEcharts ref={echartsRef5} className='echarts e5' option={getOption(t('report.50%List'), fiftyList)} />
+                <ReactEcharts ref={echartsRef6} className='echarts e6' option={getOption(t('report.90%List'), ninetyList)} />
+                <ReactEcharts ref={echartsRef7} className='echarts e7' option={getOption(t('report.95%List'), ninetyFive)} />
+                <ReactEcharts ref={echartsRef8} className='echarts e8' option={getOption(t('report.99%List'), ninetyNine)} />
             </div>
         </div>
     )
