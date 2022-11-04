@@ -89,6 +89,7 @@ const Assert = (props) => {
                 </Select>
             ),
         },
+        // 包含 不包含 等于空 不等于空
         {
             title: t('apis.field'),
             dataIndex: 'var',
@@ -121,7 +122,7 @@ const Assert = (props) => {
                         onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
-                            parameter[rowIndex] && parameter[rowIndex].response_type === 3 ?
+                            parameter[rowIndex] && parameter[rowIndex].response_type === 2 ?
                                 compare.map(item => <Option value={item.type}>{item.title}</Option>) :
                                 compare.splice(6, 10).map(item => <Option value={item.type}>{item.title}</Option>)
                         }
