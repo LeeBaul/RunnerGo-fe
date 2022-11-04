@@ -571,7 +571,9 @@
         "second": "次",
         "editPlan": "编辑计划",
         "createPlan": "新建计划",
-        "configEchart": "加压梯度图"
+        "configEchart": "加压梯度图",
+        "yUnit": "并发数(个)",
+        "xUnit": "时间(s)"
     },
     "report": {
         "done": "已完成",

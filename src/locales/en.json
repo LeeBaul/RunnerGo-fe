@@ -578,7 +578,9 @@
         "second": "Round",
         "editPlan": "Edit Plan",
         "createPlan": "New Plan",
-        "configEchart": "Pressure gradient diagram"
+        "configEchart": "Pressure gradient diagram",
+        "yUnit": "Concurrency(individual)",
+        "xUnit": "Time(s)"
     },
     "report": {
         "done": "Completed",

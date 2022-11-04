@@ -641,7 +641,10 @@ const TaskConfig = (props) => {
                         color: theme === 'dark' ? '#39393D' : '#E9E9E9'
                     }
                 },
-                name: '并发数(个)'
+                name: t('plan.yUnit'),
+                nameTextStyle: {
+                    color: theme === 'dark' ? '#fff' : '#000',
+                }
             },
             series: [
                 {
@@ -771,7 +774,7 @@ const TaskConfig = (props) => {
                     mode !== 1 ? <ReactEcharts style={{ marginTop: '10px' }} className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
                 }
                 {
-                    mode != 1 ? <p>时间(s)</p> : <></>
+                    mode != 1 ? <p>{ t('plan.xUnit') }</p> : <></>
                 }
             </div>
         </div>
