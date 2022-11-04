@@ -287,6 +287,9 @@ const TaskConfig = (props) => {
                 <div className="right">
                     {
                         mode === 1 ? <div className="right-container-first">
+
+                            <div style={{ display: 'flex', marginLeft: '6px'}}>
+                            <span className='must-input' style={{ paddingTop: '8px' }}>*</span>
                             <Group className='radio-group' value={default_mode} onChange={(e) => {
                                 setDefaultMode(e);
                                 // console.log(e);
@@ -302,8 +305,8 @@ const TaskConfig = (props) => {
                                 }
                             }}>
                                 <Radio className='radio-group-item' value="duration">
-                                    <span style={{ marginTop: '5px' }}>{t('plan.duration')}： </span>
-                                    <Input value={mode_conf.duration} placeholder={ t('placeholder.unitS') } onBlur={(e) => {
+                                <span style={{ marginTop: '5px' }}>{t('plan.duration')}： </span>
+                                    <Input value={mode_conf.duration} placeholder={t('placeholder.unitS')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e.target.value);
                                         // setDuration(parseInt(e.target.value));
@@ -314,8 +317,8 @@ const TaskConfig = (props) => {
                                     }} disabled={default_mode === 'round_num'} />
                                 </Radio>
                                 <Radio className='radio-group-item' value="round_num">
-                                    <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}： </span>
-                                    <Input value={mode_conf.round_num} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
+                                <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}： </span>
+                                    <Input value={mode_conf.round_num} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.round_num = parseInt(e.target.value);
                                         // setRoundNum(_mode_conf);
@@ -326,9 +329,10 @@ const TaskConfig = (props) => {
                                     }} disabled={default_mode === 'duration'} />
                                 </Radio>
                             </Group>
+                            </div>
                             <div className="right-item">
-                                <span>{t('plan.concurrency')}: </span>
-                                <Input value={mode_conf.concurrency} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
+                            <span><span className='must-input'>*</span>{t('plan.concurrency')}: </span>
+                                <Input value={mode_conf.concurrency} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.concurrency = parseInt(e.target.value);
                                     // setConcurrency(_mode_conf);
@@ -339,8 +343,8 @@ const TaskConfig = (props) => {
                                 }} />
                             </div>
                             <div className="right-item">
-                                <span>{t('plan.reheatTime')}： </span>
-                                <Input value={mode_conf.reheat_time} placeholder={ t('placeholder.unitS') }  onBlur={(e) => {
+                                &nbsp;<span>{t('plan.reheatTime')}： </span>
+                                <Input value={mode_conf.reheat_time} placeholder={t('placeholder.unitS')} onBlur={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.reheat_time = parseInt(e.target.value);
                                     setModeConf(_mode_conf);
@@ -352,8 +356,8 @@ const TaskConfig = (props) => {
                         </div>
                             : <div className="right-container">
                                 <div className="right-item">
-                                    <span>{t('plan.startConcurrency')}： </span>
-                                    <Input value={mode_conf.start_concurrency} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
+                                <span><span className='must-input'>*</span> {t('plan.startConcurrency')}：</span>
+                                    <Input value={mode_conf.start_concurrency} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.start_concurrency = parseInt(e.target.value);
                                         setStartConcurrency(parseInt(e.target.value));
@@ -364,8 +368,8 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item">
-                                    <span>{t('plan.step')}： </span>
-                                    <Input value={mode_conf.step} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
+                                <span><span className='must-input'>*</span>{t('plan.step')}：</span>
+                                    <Input value={mode_conf.step} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step = parseInt(e.target.value);
                                         setStep(parseInt(e.target.value));
@@ -376,8 +380,8 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item">
-                                    <span>{t('plan.stepRunTime')}： </span>
-                                    <Input value={mode_conf.step_run_time} placeholder={ t('placeholder.unitS') }  onBlur={(e) => {
+                                 <span><span className='must-input'>*</span>{t('plan.stepRunTime')}：</span>
+                                    <Input value={mode_conf.step_run_time} placeholder={t('placeholder.unitS')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step_run_time = parseInt(e.target.value);
                                         setStepRunTime(parseInt(e.target.value));
@@ -388,8 +392,8 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item">
-                                    <span>{t('plan.maxConcurrency')}： </span>
-                                    <Input value={mode_conf.max_concurrency} placeholder={ t('placeholder.unitR') }  onBlur={(e) => {
+                                    <span><span className='must-input'>*</span>{t('plan.maxConcurrency')}： </span>
+                                    <Input value={mode_conf.max_concurrency} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.max_concurrency = parseInt(e.target.value);
                                         setMaxConcurrency(parseInt(e.target.value));
@@ -400,8 +404,8 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item" style={{ marginBottom: 0 }}>
-                                    <span>{t('plan.duration')}： </span>
-                                    <Input value={mode_conf.duration} placeholder={ t('placeholder.unitS') }  onBlur={(e) => {
+                                    <span><span className='must-input'>*</span>{t('plan.duration')}：</span>
+                                    <Input value={mode_conf.duration} placeholder={t('placeholder.unitS')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e.target.value);
                                         setDuration(parseInt(e.target.value));
@@ -563,23 +567,24 @@ const TaskConfig = (props) => {
     // };
 
     const savePlan = () => {
-        // if (mode === 1) {
-        //     const { mode_conf: { duration, round_num, concurrency, reheat_time } } = task_config;
-        //     if (!duration && !round_num) {
-        //         Message('error', '未填必填项!');
-        //         return;
-        //     } else if (!concurrency) {
-        //         Message('error', '未填必填项!');
-        //         return;
-        //     }
-        // } else {
-        //     const { mode_conf: { start_concurrency, step, step_run_time, max_concurrency, duration } } = task_config;
-        //     console.log(start_concurrency, step, step_run_time, max_concurrency, duration);
-        //     if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
-        //         Message('error', '未填必填项!');
-        //         return;
-        //     }
-        // }
+        console.log(mode, mode_conf);
+        if (mode === 1) {
+            const { duration, round_num, concurrency, reheat_time } = mode_conf;
+            if (!duration && !round_num) {
+                Message('error', t('message.taskConfigEmpty'));
+                return;
+            } else if (!concurrency) {
+                Message('error', t('message.taskConfigEmpty'));
+                return;
+            }
+        } else {
+            const { start_concurrency, step, step_run_time, max_concurrency, duration } = mode_conf;
+            console.log(start_concurrency, step, step_run_time, max_concurrency, duration);
+            if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
+                Message('error', t('message.taskConfigEmpty'));
+                return;
+            }
+        }
         console.log(open_scene);
         const params = {
             plan_id: parseInt(plan_id),
@@ -774,7 +779,7 @@ const TaskConfig = (props) => {
                     mode !== 1 ? <ReactEcharts style={{ marginTop: '10px' }} className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
                 }
                 {
-                    mode != 1 ? <p>{ t('plan.xUnit') }</p> : <></>
+                    mode != 1 ? <p>{t('plan.xUnit')}</p> : <></>
                 }
             </div>
         </div>

@@ -8,6 +8,7 @@ const PreviewFile = (props) => {
     const [tableData, setTableData] = useState([]);
     const [tableColumn, setTableColumn] = useState([]);
     const { t } = useTranslation();
+    console.log(data, fileType);
 
     useEffect(() => {
         const column = [];

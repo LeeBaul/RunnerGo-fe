@@ -222,7 +222,8 @@
         "addSuccess": "添加成功",
         "addError": "添加失败",
         "runPlanTooltip": "开始运行并通知所有收件人",
-        "emptyScene": "请先添加接口"
+        "emptyScene": "请先添加接口",
+        "taskConfigEmpty": "必填项不能为空!"
     },
     "modal": {
         "look": "注意",

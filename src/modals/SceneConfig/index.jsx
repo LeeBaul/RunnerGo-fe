@@ -304,6 +304,8 @@ const SceneConfig = (props) => {
             const text = reader.result;
 
             const testData = str2testData(text);
+            console.log(text);
+            console.log(testData);
 
             setPreviewData(testData.length > 0 ? testData : text);
             setFileType(testData.length > 0 ? 'csv' : 'txt');
