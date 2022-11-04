@@ -75,7 +75,9 @@ const DebugLog = (props) => {
     }
 
     const [editorDom, setEditorDom] = useState(null);
+    const { mode: language, value: editValue } = EditFormat(log);
     const currentRef = useRef();
+    console.log(language, editValue);
 
     const handleSetEditor = (editor) => {
         setEditorDom(editor);
@@ -97,10 +99,10 @@ const DebugLog = (props) => {
             <MonacoEditor
                 ref={currentRef}
                 Height="100vh"
-                language="json"
+                language={language || 'json'}
                 options={{ minimap: { enabled: false } }}
                 editorDidMount={handleSetEditor}
-                value={log || ''}
+                value={editValue || ''}
             />
         </div>
     )
