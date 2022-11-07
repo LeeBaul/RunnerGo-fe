@@ -17,7 +17,6 @@ const Beautify = (props) => {
       }
     },
   }));
-  console.log(editValue);
   return (
     <MonacoEditor
       Height="100%"

@@ -18,6 +18,7 @@ import ResAssert from './assert';
 import ResRegex from './regex';
 import Bus from '@utils/eventBus';
 import { useTranslation } from 'react-i18next';
+import './index.less';
 
 const { Tabs, TabPan } = TabComponent;
 const Option = Select.Option;
@@ -83,7 +84,7 @@ const ResPonsePanel = (props) => {
       id: '2',
       title: (
         <>
-          { t('apis.reqHeader') }
+          {t('apis.reqHeader')}
           {/* {numberDom(tempData?.request?.header)} */}
         </>
       ),
@@ -93,26 +94,40 @@ const ResPonsePanel = (props) => {
       id: '3',
       title: (
         <>
-          { t('apis.reqBody') }
+          {t('apis.reqBody')}
           {/* {numberDom(tempData?.request?.header)} */}
         </>
       ),
-      content: <RealTimeResult type="request_body" target={data} tempData={response_data || scene_result  || {}} onChange={onChange}></RealTimeResult>,
+      content: <RealTimeResult type="request_body" target={data} tempData={response_data || scene_result || {}} onChange={onChange}></RealTimeResult>,
     },
     {
       id: '4',
       title: (
         <>
-          { t('apis.resHeader') }
+          {t('apis.resHeader')}
           {/* {numberDom(tempData?.response?.header)} */}
         </>
       ),
-      content: <ResTable data={response_data || scene_result  || {}}></ResTable>,
+      content: <ResTable data={response_data || scene_result || {}}></ResTable>,
     },
     {
       id: '5',
-      title: t('apis.resAssert'),
-      content: <ResAssert data={response_data || scene_result  || {}}></ResAssert>
+      title: (
+        <div style={{ position: 'relative' }}>
+          <span style={{ marginRight: response_data && response_data.assertion ? '8px' : 0 }}>{t('apis.resAssert')}</span>
+          {
+            response_data && response_data.assertion 
+            ? 
+              (
+                response_data.assertion.filter(item => !item.isSucceed).length > 0
+                ? <p style={{ 'min-width': '6px', 'min-height': '6px', borderRadius: '50%', top: '0', right: '0', backgroundColor: '#f00', position: 'absolute' }}></p>
+                : <p style={{ 'min-width': '6px', 'min-height': '6px', borderRadius: '50%', top: '0', right: '0', backgroundColor: '#0f0', position: 'absolute' }}></p>
+              ) 
+            : <></>
+          }
+        </div>
+      ),
+      content: <ResAssert data={response_data || scene_result || {}}></ResAssert>
     },
     {
       id: '6',
@@ -223,7 +238,7 @@ const ResPonsePanel = (props) => {
         <div className={ResponseSendWrapper}>
           <div className="loading_bar_tram"></div>
           <div className="apt_sendLoading_con">
-            <div className="apt_sendLoading_con_text">{ t('btn.sending') }</div>
+            <div className="apt_sendLoading_con_text">{t('btn.sending')}</div>
             <Button
               type="primary"
               onClick={() => {
@@ -239,7 +254,7 @@ const ResPonsePanel = (props) => {
                 // });
               }}
             >
-              { t('btn.cancelSend') }
+              {t('btn.cancelSend')}
             </Button>
           </div>
         </div>
@@ -248,14 +263,14 @@ const ResPonsePanel = (props) => {
         <div className={ResponseErrorWrapper}>
           <Resclose className="close-error-wrapper" onClick={() => setSpecialStatus('none')} />
           <div className="container">
-            { t('apis.cantVisit') }
+            {t('apis.cantVisit')}
             <p className="error_str">{tempData.message}</p>
             <p className="err_desc_go_index">
-              { t('apis.go') }&nbsp;
+              {t('apis.go')}&nbsp;
               <span onClick={() => openUrl('https://www.apipost.cn/')}>
                 https://www.apipost.cn/
               </span>
-              &nbsp;{ t('apis.askHelp') }
+              &nbsp;{t('apis.askHelp')}
             </p>
           </div>
         </div>
