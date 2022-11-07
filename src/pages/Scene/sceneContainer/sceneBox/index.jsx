@@ -43,7 +43,7 @@ const SceneBox = (props) => {
     const refContainer = useRef();
     const dispatch = useDispatch();
 
-    const type_now_scene = useSelector((store) => store.scene.type); 3
+    const type_now_scene = useSelector((store) => store.scene.type); 
     const saveScene = useSelector((store) => store.scene.saveScene);
     const id_apis_scene = useSelector((store) => store.scene.id_apis);
     const node_config_scene = useSelector((store) => store.scene.node_config);
@@ -55,6 +55,8 @@ const SceneBox = (props) => {
     const init_scene_scene = useSelector((store) => store.scene.init_scene);
     const run_res_scene = useSelector((store) => store.scene.run_res);
     const to_loading_scene = useSelector((store) => store.scene.to_loading);
+    const scene_nodes = useSelector((store) => store.scene.nodes);
+    const scene_beautify = useSelector((store) => store.scene.beautify);
 
     const type_now_plan = useSelector((store) => store.plan.type);
     const id_apis_plan = useSelector((store) => store.plan.id_apis);
@@ -67,6 +69,9 @@ const SceneBox = (props) => {
     const init_scene_plan = useSelector((store) => store.plan.init_scene);
     const run_res_plan = useSelector((store) => store.plan.run_res);
     const to_loading_plan = useSelector((store) => store.plan.to_loading);
+    const plan_nodes = useSelector((store) => store.plan.nodes);
+    const plan_beautify = useSelector((store) => store.plan.beautify);
+
 
     const open_scene = useSelector((store) => store.scene.open_scene);
     const open_plan_scene = useSelector((store) => store.plan.open_plan_scene);
@@ -84,6 +89,11 @@ const SceneBox = (props) => {
     const success_edge = from === 'scene' ? success_edge_scene : success_edge_plan;
     const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
 
+    const _nodes = from === 'scene' ? scene_nodes : plan_nodes;
+    const beautify = from === 'scene' ? scene_beautify : plan_beautify;
+
+
+
 
 
     const init_scene = from === 'scene' ? init_scene_scene : init_scene_plan;
@@ -92,6 +102,24 @@ const SceneBox = (props) => {
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+    // useEffect(() => {
+    //     if (_nodes.length > 0 && beautify) {
+    //         setNodes(_nodes);
+
+    //         if (from === 'scene') {
+    //             dispatch({
+    //                 type: 'scene/updateBeautify',
+    //                 payload: false
+    //             }) 
+    //         } else {
+    //             dispatch({
+    //                 type: 'plan/updateBeautify',
+    //                 payload: false
+    //             }) 
+    //         }
+    //     }
+    // }, [_nodes]);
 
     const getFather = (a, b) => {
         let obj = {};
@@ -154,17 +182,17 @@ const SceneBox = (props) => {
     //     return true;
     // };
 
-    const _nodes = [
-        { id: 'a' },
-        { id: 'b' },
-        { id: 'c' },
-    ];
-    const _edges = [
-        { source: 'a', target: 'b' },
-        { source: 'b', target: 'c' },
-    ];
+    // const _nodes = [
+    //     { id: 'a' },
+    //     { id: 'b' },
+    //     { id: 'c' },
+    // ];
+    // const _edges = [
+    //     { source: 'a', target: 'b' },
+    //     { source: 'b', target: 'c' },
+    // ];
 
-    const connect = { source: 'c', target: 'a' }; // 不允许
+    // const connect = { source: 'c', target: 'a' }; // 不允许
     
     useEffect(() => {
         if (edges.length > 0 && to_loading) {

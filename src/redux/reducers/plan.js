@@ -44,6 +44,9 @@ const initialState = {
   open_first: true,
 
   email_list: [],
+  
+
+  beautify: false
 };
 
 // action名称
@@ -82,7 +85,9 @@ const actionTypes = {
   updateSelectPlan: 'updateSelectPlan',
 
   updateOpenFirst: 'updateOpenFirst',
-  updateEmailList: 'updateEmailList'
+  updateEmailList: 'updateEmailList',
+
+  updateBeautify: 'updateBeautify'
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -232,6 +237,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         email_list: action.payload
+      }
+    case `${NAMESPACE}/${actionTypes.updateBeautify}`:
+      return {
+        ...state,
+        beautify: action.payload
       }
     default:
       return state;

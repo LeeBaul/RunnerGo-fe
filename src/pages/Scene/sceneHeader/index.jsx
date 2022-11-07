@@ -246,6 +246,10 @@ const SceneHeader = (props) => {
             }
         })
         result.push(root);
+
+        const findValue = (id) => {
+            return a.find(item => item.id === id);
+        }
     
         let loop = (result, arr) => {
             let res = [];
@@ -257,7 +261,7 @@ const SceneHeader = (props) => {
                         item.splice(_index, 1);
                     }
                 })
-                 return { id: elem1.target }
+                 return { ...findValue(elem1.target) }
                });
                res.push(...data);
             })
@@ -276,6 +280,42 @@ const SceneHeader = (props) => {
     const toBeautify = () => {
         const result = formatData(nodes, edges);
         console.log(nodes, edges, result);
+        result.forEach(item => {
+            const rootY = item[0].position.y;
+
+            item.forEach(elem => {
+                elem.position.y = rootY;
+                elem.positionAbsolute.y = rootY;
+            })
+        })
+
+        let _result = [];
+        result.forEach(item => {
+            item.forEach(elem => {
+                _result.push(elem);
+            })
+        });
+        console.log(result, _result);
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateNodes',
+                payload: _result
+            });
+            dispatch({
+                type: 'scene/updateBeautify',
+                payload: true
+            })
+        } else {
+            dispatch({
+                type: 'plan/updateNodes',
+                payload: _result
+            });
+            dispatch({
+                type: 'plan/updateBeautify',
+                payload: true
+            }) 
+        }
+
     };
 
     return (

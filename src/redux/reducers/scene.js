@@ -39,6 +39,8 @@ const initialState = {
   running_scene: '', // 正在跑的场景id,
 
   select_box: '', //当前选中的节点
+
+  beautify: false, // 美化当前场景
 };
 
 // action名称
@@ -72,7 +74,9 @@ const actionTypes = {
   updateRunningScene: 'updateRunningScene',
   updateRunStatus: 'updateRunStatus',
   updateSelectBox: 'updateSelectBox',
-  updateOpenDesc: 'updateOpenDesc'
+  updateOpenDesc: 'updateOpenDesc',
+
+  updateBeautify: 'updateBeautify'
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -224,6 +228,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         open_scene_desc: action.payload
+      }
+    case `${NAMESPACE}/${actionTypes.updateBeautify}`:
+      return {
+        ...state,
+        beautify: action.payload
       }
     default:
       return state;
