@@ -192,11 +192,10 @@ const LoginBox = (props) => {
             saveLocalData(data);
             localStorage.setItem('expire_time_sec', data.expire_time_sec * 1000);
             localStorage.setItem('kunpeng-token', data.token);
+            return getUserConfig$();
           }
 
           // setCookie('token', userData.token);
-
-          return getUserConfig$();
 
           // return global$.next({
           //   action: 'INIT_APPLICATION',
