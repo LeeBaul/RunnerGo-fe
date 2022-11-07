@@ -143,6 +143,7 @@ const TaskConfig = (props) => {
             mode,
             cron_expr,
             mode_conf,
+            timed_task_conf,
             task_type
         } = preinstall;
         console.log(preinstall);
@@ -161,11 +162,18 @@ const TaskConfig = (props) => {
         step_run_time && setStepRunTime(step_run_time);
         task_type && setTaskType(task_type);
 
+        const { frequency, task_exec_time, task_close_time } = timed_task_conf;
+
+        frequency && setFrequency(frequency);
+        task_exec_time && setTaskExecTime(task_exec_time);
+        task_close_time && setTaskCloseTime(task_close_time);
+
         let _task_config = cloneDeep(task_config);
         _task_config = {
             mode,
             cron_expr,
             mode_conf,
+            timed_task_conf,
             task_type,
         }
 
@@ -697,7 +705,6 @@ const TaskConfig = (props) => {
                     setYEchart(result[1]);
                     return;
                 }
-                console.log(990990990990);
                 result[0].push(result[0][result[0].length - 1] + step_run_time);
                 result[1].push(result[1][result[1].length - 1] + step)
             }
@@ -769,7 +776,7 @@ const TaskConfig = (props) => {
                     </Radio.Group>
                 </div>
                 {
-                    task_type === 2 ?                 <div className='item time-select' style={{ marginBottom: '30px' }}>
+                    task_type === 2 ? <div className='item time-select' style={{ marginBottom: '30px' }}>
                     <div className='explain'>
                         <p>{ t('btn.add') }</p>
                         <SvgExplain />
@@ -792,12 +799,14 @@ const TaskConfig = (props) => {
                         </div>
                         <div className='select-date-right'>
                             <DatePicker
+                                value={taskExecTime}
                                 placeholder={ t('placeholder.startTime') }
                                 showTime
                                 format='YYYY-MM-DD HH:mm:ss'
                                 onChange={onTimeStart}
                             />
                             <DatePicker
+                                value={taskCloseTime}
                                 disabled={frequency === 0}
                                 placeholder={ t('placeholder.endTime') }
                                 style={{ marginTop: '10px' }}
