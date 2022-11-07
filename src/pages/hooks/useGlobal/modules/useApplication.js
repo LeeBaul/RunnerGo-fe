@@ -169,6 +169,12 @@ const useProject = () => {
                 linkThemeName = 'dark'
             }
 
+            if (theme_color === 'dark') {
+                document.body.setAttribute('arco-theme', 'dark');
+            } else {
+                document.body.removeAttribute('arco-theme');
+            }
+
             const url = `/skins/${linkThemeName}.css`;
             document.querySelector(`link[name="apt-template-link"]`).setAttribute('href', url);
         };

@@ -53,6 +53,75 @@
         font-size: 14px;
         font-weight: 600;
       }
+
+
+      .explain {
+        display: flex;
+        align-items: center;
+
+        p {
+          margin-right: 6px;
+        }
+
+        svg {
+          cursor: pointer;
+        }
+      }
+
+      .select-date {
+        display: flex;
+        margin-right: 20px;
+        margin-top: 15px;
+
+        &-left {
+          background-color: var(--bg-1);
+          width: 146px;
+          height: 32px;
+          border: 1px solid var(--bg-4);
+          border-radius: 3px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 6px;
+          padding-right: 0;
+          box-sizing: border-box;
+          margin-right: 20px;
+
+          .apipost-select {
+            height: 30px;
+            background-color: var(--bg-1);
+            border-color: transparent;
+
+            .apipost-select-view-text {
+              font-size: 14px;
+            }
+
+            .apipost-select-view-suffix {
+              svg {
+                width: 8px;
+                height: 8px;
+                min-width: 8px;
+                fill: var(--font-1);
+              }
+            }
+          }
+        }
+
+        &-right {
+          display: flex;
+          flex-direction: column;
+
+          .arco-picker {
+            // height: 2px;
+          }
+        }
+      }
+    }
+
+    .time-select {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
     }
 
     .apipost-table {
@@ -122,6 +191,7 @@
             }
           }
         }
+
       }
     }
 
@@ -263,6 +333,7 @@
 
       .right-item {
         margin-left: 6px;
+
         span {
           width: 100px;
         }

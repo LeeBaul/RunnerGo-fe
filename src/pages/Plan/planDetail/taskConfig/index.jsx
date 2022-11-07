@@ -12,6 +12,9 @@ import { useTranslation } from 'react-i18next';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import cn from 'classnames';
+import { DatePicker } from '@arco-design/web-react';
+import SvgExplain from '@assets/icons/Explain';
+const { RangePicker } = DatePicker;
 const { Group } = Radio;
 
 const { Option } = Select;
@@ -288,50 +291,50 @@ const TaskConfig = (props) => {
                     {
                         mode === 1 ? <div className="right-container-first">
 
-                            <div style={{ display: 'flex', marginLeft: '6px'}}>
-                            <span className='must-input' style={{ paddingTop: '8px' }}>*</span>
-                            <Group className='radio-group' value={default_mode} onChange={(e) => {
-                                setDefaultMode(e);
-                                // console.log(e);
-                                const _mode_conf = cloneDeep(mode_conf);
-                                if (e === 'duration') {
-                                    _mode_conf.round_num = 0;
-                                    setModeConf(_mode_conf);
-                                    updateTaskConfig('round_num', 0);
-                                } else if (e === 'round_num') {
-                                    _mode_conf.duration = 0;
-                                    setModeConf(_mode_conf);
-                                    updateTaskConfig('duration', 0);
-                                }
-                            }}>
-                                <Radio className='radio-group-item' value="duration">
-                                <span style={{ marginTop: '5px' }}>{t('plan.duration')}： </span>
-                                    <Input value={mode_conf.duration} placeholder={t('placeholder.unitS')} onBlur={(e) => {
-                                        const _mode_conf = cloneDeep(mode_conf);
-                                        _mode_conf.duration = parseInt(e.target.value);
-                                        // setDuration(parseInt(e.target.value));
+                            <div style={{ display: 'flex', marginLeft: '6px' }}>
+                                <span className='must-input' style={{ paddingTop: '8px' }}>*</span>
+                                <Group className='radio-group' value={default_mode} onChange={(e) => {
+                                    setDefaultMode(e);
+                                    // console.log(e);
+                                    const _mode_conf = cloneDeep(mode_conf);
+                                    if (e === 'duration') {
+                                        _mode_conf.round_num = 0;
                                         setModeConf(_mode_conf);
-                                        // from === 'preset' && onChange('duration', parseInt(e.target.value));
-                                        // from === 'default' && 
-                                        updateTaskConfig('duration', parseInt(e.target.value));
-                                    }} disabled={default_mode === 'round_num'} />
-                                </Radio>
-                                <Radio className='radio-group-item' value="round_num">
-                                <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}： </span>
-                                    <Input value={mode_conf.round_num} placeholder={t('placeholder.unitR')} onBlur={(e) => {
-                                        const _mode_conf = cloneDeep(mode_conf);
-                                        _mode_conf.round_num = parseInt(e.target.value);
-                                        // setRoundNum(_mode_conf);
+                                        updateTaskConfig('round_num', 0);
+                                    } else if (e === 'round_num') {
+                                        _mode_conf.duration = 0;
                                         setModeConf(_mode_conf);
-                                        // from === 'preset' && onChange('round_num', parseInt(e.target.value));
-                                        // from === 'default' && 
-                                        updateTaskConfig('round_num', parseInt(e.target.value));
-                                    }} disabled={default_mode === 'duration'} />
-                                </Radio>
-                            </Group>
+                                        updateTaskConfig('duration', 0);
+                                    }
+                                }}>
+                                    <Radio className='radio-group-item' value="duration">
+                                        <span style={{ marginTop: '5px' }}>{t('plan.duration')}： </span>
+                                        <Input value={mode_conf.duration} placeholder={t('placeholder.unitS')} onBlur={(e) => {
+                                            const _mode_conf = cloneDeep(mode_conf);
+                                            _mode_conf.duration = parseInt(e.target.value);
+                                            // setDuration(parseInt(e.target.value));
+                                            setModeConf(_mode_conf);
+                                            // from === 'preset' && onChange('duration', parseInt(e.target.value));
+                                            // from === 'default' && 
+                                            updateTaskConfig('duration', parseInt(e.target.value));
+                                        }} disabled={default_mode === 'round_num'} />
+                                    </Radio>
+                                    <Radio className='radio-group-item' value="round_num">
+                                        <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}： </span>
+                                        <Input value={mode_conf.round_num} placeholder={t('placeholder.unitR')} onBlur={(e) => {
+                                            const _mode_conf = cloneDeep(mode_conf);
+                                            _mode_conf.round_num = parseInt(e.target.value);
+                                            // setRoundNum(_mode_conf);
+                                            setModeConf(_mode_conf);
+                                            // from === 'preset' && onChange('round_num', parseInt(e.target.value));
+                                            // from === 'default' && 
+                                            updateTaskConfig('round_num', parseInt(e.target.value));
+                                        }} disabled={default_mode === 'duration'} />
+                                    </Radio>
+                                </Group>
                             </div>
                             <div className="right-item">
-                            <span><span className='must-input'>*</span>{t('plan.concurrency')}: </span>
+                                <span><span className='must-input'>*&nbsp;</span>{t('plan.concurrency')}: </span>
                                 <Input value={mode_conf.concurrency} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.concurrency = parseInt(e.target.value);
@@ -356,7 +359,7 @@ const TaskConfig = (props) => {
                         </div>
                             : <div className="right-container">
                                 <div className="right-item">
-                                <span><span className='must-input'>*</span> {t('plan.startConcurrency')}：</span>
+                                    <span><span className='must-input'>*&nbsp;</span> {t('plan.startConcurrency')}：</span>
                                     <Input value={mode_conf.start_concurrency} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.start_concurrency = parseInt(e.target.value);
@@ -368,7 +371,7 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item">
-                                <span><span className='must-input'>*</span>{t('plan.step')}：</span>
+                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.step')}：</span>
                                     <Input value={mode_conf.step} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step = parseInt(e.target.value);
@@ -380,7 +383,7 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item">
-                                 <span><span className='must-input'>*</span>{t('plan.stepRunTime')}：</span>
+                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.stepRunTime')}：</span>
                                     <Input value={mode_conf.step_run_time} placeholder={t('placeholder.unitS')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step_run_time = parseInt(e.target.value);
@@ -392,7 +395,7 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item">
-                                    <span><span className='must-input'>*</span>{t('plan.maxConcurrency')}： </span>
+                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.maxConcurrency')}： </span>
                                     <Input value={mode_conf.max_concurrency} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.max_concurrency = parseInt(e.target.value);
@@ -404,7 +407,7 @@ const TaskConfig = (props) => {
                                     }} />
                                 </div>
                                 <div className="right-item" style={{ marginBottom: 0 }}>
-                                    <span><span className='must-input'>*</span>{t('plan.duration')}：</span>
+                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.duration')}：</span>
                                     <Input value={mode_conf.duration} placeholder={t('placeholder.unitS')} onBlur={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e.target.value);
@@ -569,6 +572,15 @@ const TaskConfig = (props) => {
     const savePlan = () => {
         console.log(mode, mode_conf);
         if (mode === 1) {
+            if (task_type === 2) {
+                if (frequency === 0 && taskExecTime === 0) {
+                    Message('error', t('message.taskConfigEmpty'));
+                    return;
+                } else if (taskExecTime === 0 || taskCloseTime === 0) {
+                    Message('error', t('message.taskConfigEmpty'));
+                    return;
+                }
+            }
             const { duration, round_num, concurrency, reheat_time } = mode_conf;
             if (!duration && !round_num) {
                 Message('error', t('message.taskConfigEmpty'));
@@ -698,6 +710,25 @@ const TaskConfig = (props) => {
     //     [20, 18],
     // ]
 
+    // 频次: 0-一次，1-每天，2-每周，3-每月
+    const [frequency, setFrequency] = useState(0);
+    // 任务执行时间
+    const [taskExecTime, setTaskExecTime] = useState(0);
+    // 任务结束时间
+    const [taskCloseTime, setTaskCloseTime] = useState(0);
+
+    const onTimeStart = (dateString, date) => {
+        let start_time = new Date(dateString).getTime()
+        setTaskExecTime(start_time);
+        updateTaskConfig('task_exec_time', start_time);
+    }
+
+    const onTimeEnd = (dateString, date) => {
+        let end_time = new Date(dateString).getTime()
+        setTaskExecTime(end_time);
+        updateTaskConfig('task_close_time', end_time);
+    }
+
 
 
     return (
@@ -730,9 +761,50 @@ const TaskConfig = (props) => {
                         updateTaskConfig('task_type', parseInt(e));
                     }}>
                         <Radio value={1}>{t('plan.taskList.commonTask')}</Radio>
-                        {/* <Radio value={2}>{t('plan.taskList.cronTask')}</Radio> */}
+                        <Radio value={2}>{t('plan.taskList.cronTask')}</Radio>
                     </Radio.Group>
                 </div>
+                {
+                    task_type === 2 ?                 <div className='item time-select' style={{ marginBottom: '30px' }}>
+                    <div className='explain'>
+                        <p>{ t('btn.add') }</p>
+                        <SvgExplain />
+                    </div>
+                    <div className='select-date'>
+                        <div className='select-date-left'>
+                            <p>{ t('plan.frequency') }</p>
+                            <Select value={frequency} onChange={(e) => {
+                                setFrequency(e);
+                                updateTaskConfig('frequency', parseInt(e));
+                                if (e === 0) {
+                                    setTaskCloseTime(0);
+                                }
+                            }}>
+                                <Option value={0}>{ t('plan.frequencyList.0') }</Option>
+                                <Option value={1}>{ t('plan.frequencyList.1') }</Option>
+                                <Option value={2}>{ t('plan.frequencyList.2') }</Option>
+                                <Option value={3}>{ t('plan.frequencyList.3') }</Option>
+                            </Select>
+                        </div>
+                        <div className='select-date-right'>
+                            <DatePicker
+                                placeholder={ t('placeholder.startTime') }
+                                showTime
+                                format='YYYY-MM-DD HH:mm:ss'
+                                onChange={onTimeStart}
+                            />
+                            <DatePicker
+                                disabled={frequency === 0}
+                                placeholder={ t('placeholder.endTime') }
+                                style={{ marginTop: '10px' }}
+                                showTime
+                                format='YYYY-MM-DD HH:mm:ss'
+                                onChange={onTimeEnd}
+                            />
+                        </div>
+                    </div>
+                </div> : <></>
+                }
                 {/* {
                     task_type === 2 && <div className='item' style={{ marginBottom: '20px' }}>
                         <p style={{ marginRight: '5px' }}>{t('plan.fillInCron')}: </p>

@@ -97,7 +97,9 @@
             "password": "Password (support variable)"
         },
         "unitS": "unit: s",
-        "unitR": "unit: r"
+        "unitR": "unit: r",
+        "startTime": "Select the start time",
+        "endTime": "Select the end time"
     },
     "btn": {
         "cancel": "Cancel",
@@ -581,7 +583,14 @@
         "createPlan": "New Plan",
         "configEchart": "Pressure gradient diagram",
         "yUnit": "Concurrency(individual)",
-        "xUnit": "Time(s)"
+        "xUnit": "Time(s)",
+        "frequency": "frequency",
+        "frequencyList": {
+            "0": "once",
+            "1": "every day",
+            "2": "weekly",
+            "3": "monthly"
+        }
     },
     "report": {
         "done": "Completed",

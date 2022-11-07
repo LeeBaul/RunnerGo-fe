@@ -123,6 +123,11 @@ const LeftToolbar = () => {
             type: 'user/updateTheme',
             payload: color
         });
+        if (color === 'dark') {
+            document.body.setAttribute('arco-theme', 'dark');
+        } else {
+            document.body.removeAttribute('arco-theme');
+        }
         refMenu.current.setPopupVisible(false);
     }
 

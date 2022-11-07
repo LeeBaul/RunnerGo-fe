@@ -96,7 +96,9 @@
             "password": "密码(支持变量)"
         },
         "unitS": "单位: s",
-        "unitR": "单位: 次"
+        "unitR": "单位: 次",
+        "startTime": "请选择执行时间",
+        "endTime": "请选择结束时间"
     },
     "btn": {
         "cancel": "取消",
@@ -574,7 +576,14 @@
         "createPlan": "新建计划",
         "configEchart": "加压梯度图",
         "yUnit": "并发数(个)",
-        "xUnit": "时间(s)"
+        "xUnit": "时间(s)",
+        "frequency": "频次",
+        "frequencyList": {
+            "0": "一次",
+            "1": "每天",
+            "2": "每周",
+            "3": "每月"
+        }
     },
     "report": {
         "done": "已完成",
