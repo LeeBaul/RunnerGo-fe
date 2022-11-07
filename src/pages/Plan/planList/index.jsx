@@ -93,7 +93,7 @@ const PlanList = () => {
         const { status, plan_id } = data;
         return (
             <div className='handle-content'>
-                {status === 2 ? <Tooltip content={t('tooltip.stop')}>
+                {status === 2 ? <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.stop')}>
                     <div>
                         <Button className='stop-btn' onClick={() => Bus.$emit('stopPlan', plan_id, (code) => {
                             if (code === 0) {
@@ -105,7 +105,7 @@ const PlanList = () => {
                         })}> <SvgStop /></Button>
                     </div>
                 </Tooltip> :
-                    <Tooltip content={t('tooltip.start')}>
+                    <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.start')}>
                         <div>
                             <Button className='run-btn' onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
                                 if (code === 0) {
@@ -117,7 +117,7 @@ const PlanList = () => {
                         </div>
                     </Tooltip>}
                 {/* <div className='handle-icons'> */}
-                <Tooltip content={t('tooltip.view')}>
+                <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.view')}>
                     <div>
                         <SvgEye onClick={() => {
                             dispatch({
@@ -142,12 +142,12 @@ const PlanList = () => {
                         }} />
                     </div>
                 </Tooltip>
-                <Tooltip content={t('tooltip.copy')}>
+                <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.copy')}>
                     <div>
                         <SvgCopy onClick={() => copyPlan(plan_id)} />
                     </div>
                 </Tooltip>
-                <Tooltip content={t('tooltip.delete')}>
+                <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.delete')}>
                     <div>
                         <SvgDelete style={{ fill: '#f00', marginRight: 0 }} onClick={() => {
                             Modal.confirm({

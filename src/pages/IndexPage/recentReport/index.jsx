@@ -127,19 +127,25 @@ const RecentReport = () => {
         const { report_id } = props;
         return (
             <div className='handle-content'>
-                <SvgEye onClick={() => navigate(`/report/detail?id=${report_id}`)} />
+                <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.view')}>
+                    <div> <SvgEye onClick={() => navigate(`/report/detail?id=${report_id}`)} /></div>
+                </Tooltip>
                 {/* <SvgExport /> */}
-                <SvgDelete className='delete' onClick={() => {
-                    Modal.confirm({
-                        title: t('modal.look'),
-                        content: t('modal.deleteReport'),
-                        okText: t('btn.ok'),
-                        cancelText: t('btn.cancel'),
-                        onOk: () => {
-                            deleteReport(report_id);
-                        }
-                    })
-                }} />
+                <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.delete')}>
+                    <div>
+                        <SvgDelete className='delete' onClick={() => {
+                            Modal.confirm({
+                                title: t('modal.look'),
+                                content: t('modal.deleteReport'),
+                                okText: t('btn.ok'),
+                                cancelText: t('btn.cancel'),
+                                onOk: () => {
+                                    deleteReport(report_id);
+                                }
+                            })
+                        }} />
+                    </div>
+                </Tooltip>
             </div>
         )
     };
@@ -340,7 +346,7 @@ const RecentReport = () => {
                 {
                     selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ?
                         <Tooltip
-                            bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' }
+                            bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'}
                             className='tooltip-diy'
                             content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
                         >

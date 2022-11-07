@@ -101,13 +101,13 @@ const ReportList = () => {
         const { report_id } = props;
         return (
             <div className='handle-content'>
-                <Tooltip content={t('tooltip.view')}>
+                <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.view')}>
                     <div>
                         <SvgEye onClick={() => navigate(`/report/detail?id=${report_id}`)} />
                     </div>
                 </Tooltip>
                 {/* <SvgCopy /> */}
-                <Tooltip content={t('tooltip.delete')}>
+                <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('tooltip.delete')}>
                     <div>
                         <SvgDelete className='delete-svg' onClick={() => {
                             Modal.confirm({
@@ -181,15 +181,15 @@ const ReportList = () => {
                         ...item,
                         rank,
                         plan_name:
-                            <Tooltip                             bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' } className='tooltip-diy' content={<div>{plan_name}</div>}>
+                            <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} className='tooltip-diy' content={<div>{plan_name}</div>}>
                                 <div className='ellipsis'>{plan_name}</div>
                             </Tooltip>,
                         scene_name:
-                            <Tooltip                             bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' } className='tooltip-diy' content={<div>{scene_name}</div>}>
+                            <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} className='tooltip-diy' content={<div>{scene_name}</div>}>
                                 <div className='ellipsis'>{scene_name}</div>
                             </Tooltip>,
                         run_user_name:
-                            <Tooltip                             bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' } className='tooltip-diy' content={<div>{run_user_name}</div>}>
+                            <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} className='tooltip-diy' content={<div>{run_user_name}</div>}>
                                 <div className='ellipsis'>{run_user_name}</div>
                             </Tooltip>,
                         task_mode: modeList[task_mode],
