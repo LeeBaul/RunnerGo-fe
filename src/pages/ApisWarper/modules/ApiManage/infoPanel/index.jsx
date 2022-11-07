@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Button, Message } from 'adesign-react';
-import { Right as SvgRight } from 'adesign-react/icons';
+import React, { useState, useEffect, useRef } from 'react';
+import { Input, Button, Message, Dropdown } from 'adesign-react';
+import { Right as SvgRight, Down as SvgDown } from 'adesign-react/icons';
 import ApiStatus from '@components/ApiStatus';
 import APIModal from '@components/ApisDescription';
 import ManageGroup from '@components/ManageGroup';
@@ -15,10 +15,14 @@ import { global$ } from '@hooks/useGlobal/global';
 import { useTranslation } from 'react-i18next';
 import Mousetrap from 'mousetrap';
 import 'mousetrap-global-bind';
+import useFolders from '@hooks/useFolders';
+import { DropWrapper } from './style';
+
 
 const ApiInfoPanel = (props) => {
     const { data, showGenetateCode, onChange, from = 'apis', onSave } = props;
 
+    const refDropdown = useRef();
     const [modalType, setModalType] = useState('');
     const { open_apis, open_api_now } = useSelector((store) => store.opens);
     const { t } = useTranslation();
@@ -30,6 +34,7 @@ const ApiInfoPanel = (props) => {
         id_apis: id_apis_plan,
         id_now: id_now_plan
     } = useSelector((store) => store.plan);
+    const { apiFolders } = useFolders();
 
     const apiDataList = {
         'apis': open_apis,
@@ -52,8 +57,10 @@ const ApiInfoPanel = (props) => {
     Mousetrap.bindGlobal(['command+s', 'ctrl+s'], () => {
         saveApi();
         return false;
-      });
-  
+    });
+
+
+    console.log(apiFolders);
 
     // const keyDown = (e) => {
     //     if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
@@ -72,14 +79,15 @@ const ApiInfoPanel = (props) => {
     //     }
     // }, []);
 
-    const saveApi = () => {
+    const saveApi = (pid) => {
         if (from === 'scene' || from === 'plan') {
             Bus.$emit('saveSceneApi', apiNow, apiData)
         } else {
             console.log(123123);
             Bus.$emit('saveTargetById', {
                 id: apiNow,
-                saveId: _saveId
+                saveId: _saveId,
+                pid: pid ? pid : 0
             }, {}, (code, id) => {
 
                 if (code === 0) {
@@ -165,7 +173,7 @@ const ApiInfoPanel = (props) => {
                         <Input
                             size="mini"
                             className="api-name"
-                            placeholder={ t('placeholder.apiName') }
+                            placeholder={t('placeholder.apiName')}
                             value={data?.name || ''}
                             onChange={(value) => {
                                 onChange('name', value);
@@ -182,8 +190,51 @@ const ApiInfoPanel = (props) => {
                     </Button> */}
                     {/* <ManageGroup target={data} showGenetateCode={showGenetateCode} /> */}
                 </div>
-                <Button className='save-btn' onClick={() => saveApi()}
-                >{ t('btn.save') }</Button>
+
+                <div className='info-panel-right'>
+                    <Button className='save-btn' onClick={() => saveApi()}
+                    >{t('btn.save')}</Button>
+
+                    <Dropdown
+                        ref={refDropdown}
+                        placement="bottom-end"
+                        content={
+                            <div className={DropWrapper}>
+                                <div
+                                    className="drop-item"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        saveApi();
+                                        refDropdown.current.setPopupVisible(false);
+                                    }}
+                                >
+                                    根目录
+                                </div>
+                                {apiFolders.map((item) => (
+                                    <>
+                                        <div
+                                            className="drop-item"
+                                            key={item.target_id}
+                                            {...item}
+                                            value={item.target_id}
+                                            onClick={() => {
+                                                saveApi(item.target_id);
+                                                refDropdown.current.setPopupVisible(false);
+                                            }}
+                                        >
+                                            {`|${new Array(item.level).fill('—').join('')}${item.name}`}
+                                        </div>
+                                    </>
+                                ))}
+                            </div>
+                        }
+
+                    >
+                        <Button className='down-btn'>
+                            <SvgDown width="12px" height="12px" />
+                        </Button>
+                    </Dropdown>
+                </div>
             </div>
         </>
     );
