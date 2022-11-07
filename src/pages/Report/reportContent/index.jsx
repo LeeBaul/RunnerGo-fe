@@ -21,6 +21,7 @@ const ReportContent = () => {
     const [headerData, setHeaderData] = useState({});
     // 头像 昵称 创建时间
     const [infoData, setInfoData] = useState({});
+    const [createTime, setCreateTime] = useState(0);
     // 任务类型 模式 config
     const [configData, setConfigData] = useState({});
     const [stopDebug, setStopDebug] = useState('stop');
@@ -58,6 +59,7 @@ const ReportContent = () => {
             next: (res) => {
                 const { data: { report: { plan_name, plan_id, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status, scene_name } } } = res;
                 setPlanId(plan_id);
+                setCreateTime(created_time_sec);
                 setHeaderData({
                     plan_name,
                     scene_name
@@ -103,7 +105,7 @@ const ReportContent = () => {
                         <ReportHeader data={headerData} status={reportStatus} />
                         <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
 
-                        <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={planId} />
+                        <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={planId} create_time={createTime} />
                     </>
                     : <Tabs defaultActiveId={0} onChange={(e) => dispatch({
                         type: 'plan/updateSelectPlan',

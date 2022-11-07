@@ -247,6 +247,10 @@ const TaskConfig = (props) => {
             _task_config['mode_conf'][type] = value;
         };
 
+        if (task_type === 2) {
+            _task_config['timed_task_conf'][type] = value;
+        }
+
 
         dispatch({
             type: 'plan/updateTaskConfig',
@@ -824,6 +828,27 @@ const TaskConfig = (props) => {
                 <div className='item' style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                     <p >{t('plan.mode')}:</p>
                     <Select value={mode} style={{ width: '300px', height: '32px', marginLeft: '14px' }} onChange={(e) => {
+                        if (e === 1) {
+                            setDuration(0);
+                            updateTaskConfig('duration', 0);
+                            setRoundNum(0);
+                            updateTaskConfig('round_num', 0);
+                            setConcurrency(0);
+                            updateTaskConfig('concurrency', 0);
+                            setReheatTime(0);
+                            updateTaskConfig('reheat_time', 0);
+                        } else {
+                            setStartConcurrency(0);
+                            updateTaskConfig('start_concurrency', 0);
+                            setStep(0);
+                            updateTaskConfig('step', 0);
+                            setStepRunTime(0);
+                            updateTaskConfig('step_run_time', 0);
+                            setMaxConcurrency(0);
+                            updateTaskConfig('max_concurrency', 0);
+                            setDuration(0);
+                            updateTaskConfig('duration', 0);
+                        }
                         setMode(e);
                         updateTaskConfig('mode', parseInt(e));
                     }}>

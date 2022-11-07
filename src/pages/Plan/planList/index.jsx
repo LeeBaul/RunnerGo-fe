@@ -47,6 +47,7 @@ const PlanList = () => {
     const node_config_plan = useSelector((d) => d.plan.node_config);
 
     const language = useSelector((d) => d.user.language);
+    const theme = useSelector((d) => d.user.theme);
 
     const modeList = {
         '1': t('plan.modeList.1'),
@@ -212,15 +213,15 @@ const PlanList = () => {
                         ...item,
                         rank,
                         name:
-                            <Tooltip className='tooltip-diy' content={<div>{name}</div>}>
+                            <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} className='tooltip-diy' content={<div>{name}</div>}>
                                 <div className='ellipsis'>{name}</div>
                             </Tooltip>,
                         created_user_name:
-                            <Tooltip className='tooltip-diy' content={<div>{created_user_name}</div>}>
+                            <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} className='tooltip-diy' content={<div>{created_user_name}</div>}>
                                 <div className='ellipsis'>{created_user_name}</div>
                             </Tooltip>,
                         remark:
-                            <Tooltip className='tooltip-diy' content={<div>{remark}</div>}>
+                            <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} className='tooltip-diy' content={<div>{remark}</div>}>
                                 <div className='ellipsis'>{remark}</div>
                             </Tooltip>,
                         task_type: taskList[task_type],
@@ -384,6 +385,7 @@ const PlanList = () => {
             <PlanHeader onChange={getNewkeyword} onDateChange={getSelectDate} />
             <Table
                 className="plan-table"
+                showSorterTooltip={false}
                 border={{
                     wrapper: true,
                     cell: true,

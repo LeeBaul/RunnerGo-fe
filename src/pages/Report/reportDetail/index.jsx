@@ -14,7 +14,7 @@ const { Tabs, TabPan } = TabComponent;
 
 
 const ReportDetail = (props) => {
-	const { data: configData, stopDebug, onStatus, status, onRunTime, plan_id } = props;
+	const { data: configData, stopDebug, onStatus, status, onRunTime, plan_id, create_time } = props;
 	const { t } = useTranslation();
 
     const [data, setData] = useState([]);
@@ -77,7 +77,7 @@ const ReportDetail = (props) => {
 
 
     const defaultList = [
-        { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} config={configData}  />  },
+        { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} config={configData} create_time={create_time}  />  },
         { id: '2', title: t('report.tabList.1'), content: <DebugLog status={status} end={end} stopDebug={stopDebug} />},
         { id: '3', title: t('report.tabList.2'), content: <PressMonitor status={status} /> },
         { id: '4', title: t('report.tabList.3'), content: '被服务器监控' }

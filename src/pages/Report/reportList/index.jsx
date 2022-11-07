@@ -75,6 +75,7 @@ const ReportList = () => {
     const [sort, setSort] = useState(0);
 
     const language = useSelector((d) => d.user.language);
+    const theme = useSelector((d) => d.user.theme);
 
     const modeList = {
         '1': t('plan.modeList.1'),
@@ -180,15 +181,15 @@ const ReportList = () => {
                         ...item,
                         rank,
                         plan_name:
-                            <Tooltip className='tooltip-diy' content={<div>{plan_name}</div>}>
+                            <Tooltip                             bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' } className='tooltip-diy' content={<div>{plan_name}</div>}>
                                 <div className='ellipsis'>{plan_name}</div>
                             </Tooltip>,
                         scene_name:
-                            <Tooltip className='tooltip-diy' content={<div>{scene_name}</div>}>
+                            <Tooltip                             bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' } className='tooltip-diy' content={<div>{scene_name}</div>}>
                                 <div className='ellipsis'>{scene_name}</div>
                             </Tooltip>,
                         run_user_name:
-                            <Tooltip className='tooltip-diy' content={<div>{run_user_name}</div>}>
+                            <Tooltip                             bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' } className='tooltip-diy' content={<div>{run_user_name}</div>}>
                                 <div className='ellipsis'>{run_user_name}</div>
                             </Tooltip>,
                         task_mode: modeList[task_mode],
@@ -264,7 +265,10 @@ const ReportList = () => {
             title: t('index.startTime'),
             dataIndex: 'run_time_sec',
             width: 200,
-            sorter: true
+            sorter: true,
+            render: (item, items) => {
+                console.log(item, items);
+            }
         },
         {
             title: t('index.endTime'),
@@ -376,6 +380,7 @@ const ReportList = () => {
                 className="report-table"
                 border
                 borderCell
+                showSorterTooltip={false}
                 pagination={false}
                 columns={columns}
                 data={reportList}
@@ -386,14 +391,12 @@ const ReportList = () => {
                         type: 'checkbox',
                         selectedRowKeys,
                         onChange: (selectedRowKeys, selectedRows) => {
-                            console.log('onChange:', selectedRowKeys, selectedRows);
                             setSelectedRowKeys(selectedRowKeys);
                             setSelectReport(selectedRows);
                         },
                     }
                 }
                 onChange={(a, sort, filter, c) => {
-                    console.log(a, sort, c);
                     if (!filter.hasOwnProperty('task_mode')) {
                         setTaskMode('');
                     } else {

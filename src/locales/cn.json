@@ -142,7 +142,8 @@
         "selectImg": "选择图片",
         "okDelMum": "确认移除",
         "add": "添加",
-        "seeResult": "查看结果"
+        "seeResult": "查看结果",
+        "updateConfig": "修改配置"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -583,7 +584,8 @@
             "1": "每天",
             "2": "每周",
             "3": "每月"
-        }
+        },
+        "startTaskTime": "开始执行时间"
     },
     "report": {
         "done": "已完成",

@@ -340,6 +340,7 @@ const RecentReport = () => {
                 {
                     selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ?
                         <Tooltip
+                            bgColor={ theme === 'dark' ? '#39393D' : '#E9E9E9' }
                             className='tooltip-diy'
                             content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
                         >
@@ -354,6 +355,7 @@ const RecentReport = () => {
                     wrapper: true,
                     cell: true,
                 }}
+                showSorterTooltip={false}
                 columns={columns}
                 data={reportList}
                 pagination={false}

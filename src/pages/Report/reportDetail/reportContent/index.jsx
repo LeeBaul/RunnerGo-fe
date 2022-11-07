@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './index.less';
-import { Table } from 'adesign-react';
+import { Button, Table } from 'adesign-react';
+import { Addcircle as SvgAddcircle } from 'adesign-react/icons';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import { cloneDeep } from 'lodash';
@@ -10,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 
 const ReportContent = (props) => {
-    const { data: datas, config: { task_mode, task_type, mode_conf } } = props;
+    const { data: datas, config: { task_mode, task_type, mode_conf }, create_time } = props;
     const { t } = useTranslation();
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);
@@ -219,7 +220,7 @@ const ReportContent = (props) => {
                 step_run_time,
                 threshold_value
             } = mode_conf;
-            setConfigData([{ concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time }]);
+            setConfigData([{ concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time, create_time: dayjs(create_time * 1000).format('YYYY-MM-DD HH:mm:ss') }]);
             let _columns = [];
             if (task_mode === 1) {
                 _columns = [
@@ -239,6 +240,10 @@ const ReportContent = (props) => {
                     {
                         title: t('plan.reheatTime'),
                         dataIndex: 'reheat_time',
+                    },
+                    {
+                        title: t('plan.startTaskTime'),
+                        dataIndex: 'create_time'
                     }
                 ];
             } else {
@@ -262,6 +267,10 @@ const ReportContent = (props) => {
                     {
                         title: t('plan.duration'),
                         dataIndex: 'duration'
+                    },
+                    {
+                        title: t('plan.startTaskTime'),
+                        dataIndex: 'create_time'
                     }
                 ];
             };
@@ -269,96 +278,6 @@ const ReportContent = (props) => {
         }
 
     }, [mode_conf]);
-    const data = [
-        {
-            threshold: '-',
-            concurrent: '-',
-            step: '-',
-            stepRunTime: '-'
-        }
-    ];
-
-    const columns = [
-        {
-            title: '阈值',
-            dataIndex: 'threshold',
-        },
-        {
-            title: '起始并发数',
-            dataIndex: 'concurrent',
-        },
-        {
-            title: '步长',
-            dataIndex: 'step',
-        },
-        {
-            title: '步长执行时间',
-            dataIndex: 'stepRunTime',
-        },
-    ];
-
-    const data1 = [
-        {
-            apiName: '汇总',
-            reqTotal: '20000',
-            resTimeMax: '1000',
-            resTimeMin: '50',
-            custom: '-',
-            ninetyTime: '600',
-            ninetyFiveTime: '900',
-            ninetyNineTime: '-',
-            throughput: '1000',
-            errNum: '50',
-            errRate: '0.025',
-            acceptByte: '900',
-            sendByte: '90'
-        },
-        {
-            apiName: '汇总',
-            reqTotal: '20000',
-            resTimeMax: '1000',
-            resTimeMin: '50',
-            custom: '-',
-            ninetyTime: '600',
-            ninetyFiveTime: '900',
-            ninetyNineTime: '-',
-            throughput: '1000',
-            errNum: '50',
-            errRate: '0.025',
-            acceptByte: '900',
-            sendByte: '90'
-        },
-        {
-            apiName: '汇总',
-            reqTotal: '20000',
-            resTimeMax: '1000',
-            resTimeMin: '50',
-            custom: '-',
-            ninetyTime: '600',
-            ninetyFiveTime: '900',
-            ninetyNineTime: '-',
-            throughput: '1000',
-            errNum: '50',
-            errRate: '0.025',
-            acceptByte: '900',
-            sendByte: '90'
-        },
-        {
-            apiName: '汇总',
-            reqTotal: '20000',
-            resTimeMax: '1000',
-            resTimeMin: '50',
-            custom: '-',
-            ninetyTime: '600',
-            ninetyFiveTime: '900',
-            ninetyNineTime: '-',
-            throughput: '1000',
-            errNum: '50',
-            errRate: '0.025',
-            acceptByte: '900',
-            sendByte: '90'
-        },
-    ];
 
     const columns1 = [
         {
@@ -857,6 +776,10 @@ const ReportContent = (props) => {
     //     });
     // }
 
+    const updateConfig = () => {
+        setConfigData([...configData, configData[configData.length - 1]])
+    }
+
     return (
         <div className='report-content'>
             <div className='report-content-top'>
@@ -868,7 +791,10 @@ const ReportContent = (props) => {
                     <span>{t('report.mode')}: {modeList[task_mode]}</span>
                 </div>
             </div>
-            <Table showBorder columns={configColumn} data={configData} />
+            <div className='report-task-config'>
+                <Table showBorder columns={configColumn} data={configData} />
+                <Button className='update-config-btn' afterFix={<SvgAddcircle />} onClick={() => updateConfig()}>{ t('btn.updateConfig') }</Button>
+            </div>
             <Table showBorder columns={columns1} data={tableData1} />
             <div className='echarts-list'>
                 <ReactEcharts ref={echartsRef1} className='echarts e1' option={getOption(t('report.avgList'), avgList)} />

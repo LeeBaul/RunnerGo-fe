@@ -38,11 +38,34 @@
         display: flex;
         margin-top: 32px;
         flex-wrap: wrap;
+
         .echarts {
             // flex: 1;
             width: 23%;
             margin: 0 12px;
             margin-bottom: 32px;
+        }
+    }
+
+    .report-task-config {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .update-config-btn {
+            margin: 0 auto;
+            width: 110px;
+            height: 32px;
+            border: 1px solid var(--theme-color);
+            border-radius: 6px;
+            min-width: 110px;
+            color: var(--theme-color);
+            margin-top: 12px;
+
+            svg {
+                fill: var(--theme-color);
+                margin-left: 4px;
+            }
         }
     }
 }

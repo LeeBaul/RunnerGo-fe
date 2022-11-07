@@ -27,6 +27,7 @@ const ButtonBox = (props) => {
     const currentTeamId = localStorage.getItem('team_id');
     const [showImport, setImport] = useState(false);
     const userTeams = useSelector((store) => store.teams.teamData);
+    const theme = useSelector((store) => store.user.theme);
 
     const currentTeamName = useMemo(() => {
         let currentTeamId = localStorage.getItem('team_id');
@@ -47,14 +48,14 @@ const ButtonBox = (props) => {
             <div className="buttons-box">
                 <div className="project-title">{currentTeamName}</div>
                 <div className="button-list">
-                    <Tooltip content={ t('apis.createApi') } placement="top">
+                    <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('apis.createApi')} placement="top">
                         <Button size="mini" onClick={() => {
                             Bus.$emit('addOpenItem', { type: 'api' })
                         }}>
                             <SvgNewApis width="18px" height="18px" />
                         </Button>
                     </Tooltip>
-                    <Tooltip content={ t('apis.createFolder') } placement="top">
+                    <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('apis.createFolder')} placement="top">
                         <Button size="mini" onClick={() => setShowFolder(true)}>
                             <SvgNewFolder width="18px" height="18px" />
                         </Button>
@@ -85,7 +86,7 @@ const ButtonBox = (props) => {
                             </Button>
                         </Dropdown>
                     </Tooltip> */}
-                    <Tooltip content={ t('apis.expand') } placement="top">
+                    <Tooltip bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'} content={t('apis.expand')} placement="top">
                         <Button size="mini" onClick={handleExpandAll}>
                             {isExpandAll ? (
                                 <SvgOpen width="18px" height="18px" />
@@ -95,8 +96,8 @@ const ButtonBox = (props) => {
                         </Button>
                     </Tooltip>
                 </div>
-                { showFolder && <FolderCreate onCancel={() => setShowFolder(false)} /> }
-                { showImport && <ImportApi onCancel={() => setImport(false)} /> }
+                {showFolder && <FolderCreate onCancel={() => setShowFolder(false)} />}
+                {showImport && <ImportApi onCancel={() => setImport(false)} />}
             </div>
         </>
     )

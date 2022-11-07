@@ -143,7 +143,8 @@
         "selectImg": "Select a picture",
         "okDelMum": "Confirm Removal",
         "add": "Add",
-        "seeResult": "Response"
+        "seeResult": "Response",
+        "updateConfig": "Modify Config"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -590,7 +591,8 @@
             "1": "every day",
             "2": "weekly",
             "3": "monthly"
-        }
+        },
+        "startTaskTime": "Start execution time"
     },
     "report": {
         "done": "Completed",
