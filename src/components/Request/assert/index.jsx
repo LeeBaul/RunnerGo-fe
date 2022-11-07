@@ -55,6 +55,12 @@ const Assert = (props) => {
         { type: 'notnull', title: t('apis.compareSelect.notnull') },
     ];
 
+    const res_type = {
+        1: cloneDeep(COMPARE_IF_TYPE).splice(6, 10),
+        2: COMPARE_IF_TYPE,
+        3: cloneDeep(COMPARE_IF_TYPE).slice(0, 2)
+    }
+
     const columns = [
         {
             title: '',
@@ -115,6 +121,7 @@ const Assert = (props) => {
             width: 150,
             render: (text, rowData, rowIndex) => {
                 let compare = cloneDeep(COMPARE_IF_TYPE);
+
                 return (
                     <Select
                         value={rowData.compare || null}
@@ -122,9 +129,10 @@ const Assert = (props) => {
                         onChange={(e) => handleChange(rowData, rowIndex, { compare: e })}
                     >
                         {
-                            parameter[rowIndex] && parameter[rowIndex].response_type === 2 ?
-                                compare.map(item => <Option value={item.type}>{item.title}</Option>) :
-                                compare.splice(6, 10).map(item => <Option value={item.type}>{item.title}</Option>)
+                            parameter[rowIndex] 
+                                && res_type[parameter[rowIndex].response_type]
+                            ? res_type[parameter[rowIndex].response_type].map(item => <Option value={item.type}>{item.title}</Option>)
+                            : COMPARE_IF_TYPE.map(item => <Option value={item.type}>{item.title}</Option>)
                         }
                     </Select>
                 );
