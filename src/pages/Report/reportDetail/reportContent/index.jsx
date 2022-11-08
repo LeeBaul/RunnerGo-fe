@@ -356,6 +356,11 @@ const ReportContent = (props) => {
                     setTooltipX(params[0].dataIndex);
                     // setTooltipX(p[0]);
                 },
+                backgroundColor: theme === 'dark' ? '#1F2023' : '#F8F8F8',
+                textStyle: {
+                    color: theme === 'dark' ? '#F3F3F3' : '#333333'
+                },
+                borderColor: theme === 'dark' ? '#27272B' : '#F2F2F2'
             },
             grid: {
                 left: '3%',
