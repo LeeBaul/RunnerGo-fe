@@ -14,6 +14,7 @@ import ReactEcharts from 'echarts-for-react';
 import cn from 'classnames';
 import { DatePicker } from '@arco-design/web-react';
 import SvgExplain from '@assets/icons/Explain';
+import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 const { Group } = Radio;
 
@@ -603,18 +604,27 @@ const TaskConfig = (props) => {
         if (mode === 1) {
             if (task_type === 2) {
                 if (frequency === 0 && taskExecTime === 0) {
+                    console.log(123);
                     Message('error', t('message.taskConfigEmpty'));
                     return;
-                } else if (taskExecTime === 0 || taskCloseTime === 0) {
+                } else if (frequency !== 0 && (taskExecTime === 0 || taskCloseTime === 0)) {
+                    console.log(456);
                     Message('error', t('message.taskConfigEmpty'));
+                    return;
+                }
+
+                if (frequency !== 0 && taskCloseTime > taskExecTime) {
+                    Message('error', t('message.endGTstart'));
                     return;
                 }
             }
             const { duration, round_num, concurrency, reheat_time } = mode_conf;
             if (!duration && !round_num) {
+                console.log(789);
                 Message('error', t('message.taskConfigEmpty'));
                 return;
             } else if (!concurrency) {
+                console.log(999);
                 Message('error', t('message.taskConfigEmpty'));
                 return;
             }
@@ -753,7 +763,7 @@ const TaskConfig = (props) => {
 
     const onTimeEnd = (dateString, date) => {
         let end_time = new Date(dateString).getTime()
-        setTaskExecTime(end_time / 1000);
+        setTaskCloseTime(end_time / 1000);
         updateTaskConfig('task_close_time', end_time / 1000);
     }
 
@@ -816,20 +826,22 @@ const TaskConfig = (props) => {
                             </div>
                             <div className='select-date-right'>
                                 <DatePicker
-                                    value={taskExecTime}
+                                    value={taskExecTime * 1000}
                                     placeholder={t('placeholder.startTime')}
                                     showTime
                                     format='YYYY-MM-DD HH:mm'
                                     onChange={onTimeStart}
+                                    disabledDate={(current) => current.isBefore(dayjs())}
                                 />
                                 <DatePicker
-                                    value={taskCloseTime}
+                                    value={taskCloseTime * 1000}
                                     disabled={frequency === 0}
                                     placeholder={t('placeholder.endTime')}
                                     style={{ marginTop: '10px' }}
                                     showTime
                                     format='YYYY-MM-DD HH:mm'
                                     onChange={onTimeEnd}
+                                    disabledDate={(current) => current.isBefore(dayjs(taskExecTime * 1000).format('YYYY-MM-DD HH:mm:ss'))}
                                 />
                             </div>
                         </div>

@@ -227,7 +227,8 @@
         "addError": "Fail to added",
         "runPlanTooltip": "Start run and notify all recipients",
         "emptyScene": "Please add the API first",
-        "taskConfigEmpty": "The required fields cannot be empty!"
+        "taskConfigEmpty": "The required fields cannot be empty!",
+        "endGTstart": "End time must be greater than execution time"
     },
     "modal": {
         "look": "Be careful",

@@ -29,7 +29,8 @@ const initialState = {
   failed_edge: [], // 运行失败的线
 
   task_config: {
-    mode_conf: {}
+    mode_conf: {},
+    timed_task_conf: {}
   }, // 任务配置
 
   init_scene: false,
