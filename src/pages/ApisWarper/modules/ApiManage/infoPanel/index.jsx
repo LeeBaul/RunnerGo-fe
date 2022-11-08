@@ -208,7 +208,7 @@ const ApiInfoPanel = (props) => {
                                         refDropdown.current.setPopupVisible(false);
                                     }}
                                 >
-                                    根目录
+                                    { t('apis.rootFolder') }
                                 </div>
                                 {apiFolders.map((item) => (
                                     <>

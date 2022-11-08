@@ -501,6 +501,10 @@ const useScene = () => {
             type: 'scene/updateApiConfig',
             payload: false,
         })
+        dispatch({
+            type: 'scene/updateBeautify',
+            payload: false
+        }) 
         let _id = '';
         if (typeof id === 'object') {
             const { target_id, scene_id } = id;

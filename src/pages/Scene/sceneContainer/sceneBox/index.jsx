@@ -103,23 +103,23 @@ const SceneBox = (props) => {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    // useEffect(() => {
-    //     if (_nodes.length > 0 && beautify) {
-    //         setNodes(_nodes);
+    useEffect(() => {
+        if (_nodes && _nodes.length > 0 && beautify) {
+            setNodes(_nodes);
 
-    //         if (from === 'scene') {
-    //             dispatch({
-    //                 type: 'scene/updateBeautify',
-    //                 payload: false
-    //             }) 
-    //         } else {
-    //             dispatch({
-    //                 type: 'plan/updateBeautify',
-    //                 payload: false
-    //             }) 
-    //         }
-    //     }
-    // }, [_nodes]);
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateBeautify',
+                    payload: false
+                }) 
+            } else {
+                dispatch({
+                    type: 'plan/updateBeautify',
+                    payload: false
+                }) 
+            }
+        }
+    }, [_nodes]);
 
     const getFather = (a, b) => {
         let obj = {};
@@ -140,6 +140,7 @@ const SceneBox = (props) => {
         let id_obj = getFather(nodes, edges);
         const res = check([_params.source], _params.target, id_obj);
         if (res) {
+            
             return setEdges((eds) => {
 
                 return addEdge(_params, eds)
@@ -148,7 +149,7 @@ const SceneBox = (props) => {
             Message('error', t('message.closeLoop'))
         }
 
-    }, [nodes, edges]);
+    }, [nodes, edges, from]);
 
     const check = (sources, target, id_obj) => {
         for (const source of sources) {
@@ -665,6 +666,18 @@ const SceneBox = (props) => {
                     payload: [],
                 });
             }
+        }
+
+        if (from === 'scene') {
+            dispatch({
+                type: 'scene/updateBeautify',
+                payload: false
+            }) 
+        } else {
+            dispatch({
+                type: 'plan/updateBeautify',
+                payload: false
+            }) 
         }
     }, [type_now]);
 

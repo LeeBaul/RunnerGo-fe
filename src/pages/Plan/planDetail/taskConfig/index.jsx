@@ -88,7 +88,8 @@ const TaskConfig = (props) => {
                                 mode,
                                 cron_expr,
                                 mode_conf,
-                                task_type
+                                task_type,
+                                timed_task_conf
                             } = plan_task;
                             mode && setMode(mode);
                             cron_expr && setCronExpr(cron_expr);
@@ -104,6 +105,17 @@ const TaskConfig = (props) => {
                             setModeConf(mode_conf);
                             console.log(mode_conf);
                             task_type && setTaskType(task_type);
+
+                            if (timed_task_conf) {
+
+                                const { frequency, task_exec_time, task_close_time } = timed_task_conf;
+
+                                frequency && setFrequency(frequency);
+                                task_exec_time && setTaskExecTime(task_exec_time);
+                                task_close_time && setTaskCloseTime(task_close_time);
+    
+                            }
+
                             if (mode_conf.round_num !== 0) {
                                 setDefaultMode('round_num');
                             } else {
@@ -115,7 +127,8 @@ const TaskConfig = (props) => {
                                     mode,
                                     cron_expr,
                                     task_type,
-                                    mode_conf,
+                                    mode_conf: mode_conf ? mode_conf : {},
+                                    timed_task_conf: timed_task_conf ? timed_task_conf : {}
                                 },
                             })
                         } else {
@@ -139,6 +152,7 @@ const TaskConfig = (props) => {
     }, [open_scene]);
 
     const init = (preinstall = initData) => {
+        console.log('preinstall', preinstall);
         const {
             mode,
             cron_expr,
@@ -172,10 +186,12 @@ const TaskConfig = (props) => {
         _task_config = {
             mode,
             cron_expr,
-            mode_conf,
-            timed_task_conf,
+            mode_conf: mode_conf ? mode_conf : {},
+            timed_task_conf: timed_task_conf ? timed_task_conf : {},
             task_type,
         }
+
+        console.log(_task_config);
 
         dispatch({
             type: 'plan/updateTaskConfig',
@@ -256,6 +272,7 @@ const TaskConfig = (props) => {
         };
 
         if (task_type === 2) {
+            console.log(_task_config);
             _task_config['timed_task_conf'][type] = value;
         }
 
@@ -730,14 +747,14 @@ const TaskConfig = (props) => {
 
     const onTimeStart = (dateString, date) => {
         let start_time = new Date(dateString).getTime()
-        setTaskExecTime(start_time);
-        updateTaskConfig('task_exec_time', start_time);
+        setTaskExecTime(start_time / 1000);
+        updateTaskConfig('task_exec_time', start_time / 1000);
     }
 
     const onTimeEnd = (dateString, date) => {
         let end_time = new Date(dateString).getTime()
-        setTaskExecTime(end_time);
-        updateTaskConfig('task_close_time', end_time);
+        setTaskExecTime(end_time / 1000);
+        updateTaskConfig('task_close_time', end_time / 1000);
     }
 
 
@@ -777,46 +794,46 @@ const TaskConfig = (props) => {
                 </div>
                 {
                     task_type === 2 ? <div className='item time-select' style={{ marginBottom: '30px' }}>
-                    <div className='explain'>
-                        <p>{ t('btn.add') }</p>
-                        <SvgExplain />
-                    </div>
-                    <div className='select-date'>
-                        <div className='select-date-left'>
-                            <p>{ t('plan.frequency') }</p>
-                            <Select value={frequency} onChange={(e) => {
-                                setFrequency(e);
-                                updateTaskConfig('frequency', parseInt(e));
-                                if (e === 0) {
-                                    setTaskCloseTime(0);
-                                }
-                            }}>
-                                <Option value={0}>{ t('plan.frequencyList.0') }</Option>
-                                <Option value={1}>{ t('plan.frequencyList.1') }</Option>
-                                <Option value={2}>{ t('plan.frequencyList.2') }</Option>
-                                <Option value={3}>{ t('plan.frequencyList.3') }</Option>
-                            </Select>
+                        <div className='explain'>
+                            <p>{t('btn.add')}</p>
+                            <SvgExplain />
                         </div>
-                        <div className='select-date-right'>
-                            <DatePicker
-                                value={taskExecTime}
-                                placeholder={ t('placeholder.startTime') }
-                                showTime
-                                format='YYYY-MM-DD HH:mm:ss'
-                                onChange={onTimeStart}
-                            />
-                            <DatePicker
-                                value={taskCloseTime}
-                                disabled={frequency === 0}
-                                placeholder={ t('placeholder.endTime') }
-                                style={{ marginTop: '10px' }}
-                                showTime
-                                format='YYYY-MM-DD HH:mm:ss'
-                                onChange={onTimeEnd}
-                            />
+                        <div className='select-date'>
+                            <div className='select-date-left'>
+                                <p>{t('plan.frequency')}</p>
+                                <Select value={frequency} onChange={(e) => {
+                                    setFrequency(e);
+                                    updateTaskConfig('frequency', parseInt(e));
+                                    if (e === 0) {
+                                        setTaskCloseTime(0);
+                                    }
+                                }}>
+                                    <Option value={0}>{t('plan.frequencyList.0')}</Option>
+                                    <Option value={1}>{t('plan.frequencyList.1')}</Option>
+                                    <Option value={2}>{t('plan.frequencyList.2')}</Option>
+                                    <Option value={3}>{t('plan.frequencyList.3')}</Option>
+                                </Select>
+                            </div>
+                            <div className='select-date-right'>
+                                <DatePicker
+                                    value={taskExecTime}
+                                    placeholder={t('placeholder.startTime')}
+                                    showTime
+                                    format='YYYY-MM-DD HH:mm'
+                                    onChange={onTimeStart}
+                                />
+                                <DatePicker
+                                    value={taskCloseTime}
+                                    disabled={frequency === 0}
+                                    placeholder={t('placeholder.endTime')}
+                                    style={{ marginTop: '10px' }}
+                                    showTime
+                                    format='YYYY-MM-DD HH:mm'
+                                    onChange={onTimeEnd}
+                                />
+                            </div>
                         </div>
-                    </div>
-                </div> : <></>
+                    </div> : <></>
                 }
                 {/* {
                     task_type === 2 && <div className='item' style={{ marginBottom: '20px' }}>
