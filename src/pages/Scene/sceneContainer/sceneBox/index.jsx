@@ -43,7 +43,7 @@ const SceneBox = (props) => {
     const refContainer = useRef();
     const dispatch = useDispatch();
 
-    const type_now_scene = useSelector((store) => store.scene.type); 
+    const type_now_scene = useSelector((store) => store.scene.type);
     const saveScene = useSelector((store) => store.scene.saveScene);
     const id_apis_scene = useSelector((store) => store.scene.id_apis);
     const node_config_scene = useSelector((store) => store.scene.node_config);
@@ -111,12 +111,12 @@ const SceneBox = (props) => {
                 dispatch({
                     type: 'scene/updateBeautify',
                     payload: false
-                }) 
+                })
             } else {
                 dispatch({
                     type: 'plan/updateBeautify',
                     payload: false
-                }) 
+                })
             }
         }
     }, [_nodes]);
@@ -129,7 +129,7 @@ const SceneBox = (props) => {
         b.forEach(item => {
             obj[item.target].push(item.source);
         })
-    
+
         return obj;
     }
 
@@ -140,7 +140,7 @@ const SceneBox = (props) => {
         let id_obj = getFather(nodes, edges);
         const res = check([_params.source], _params.target, id_obj);
         if (res) {
-            
+
             return setEdges((eds) => {
 
                 return addEdge(_params, eds)
@@ -164,7 +164,7 @@ const SceneBox = (props) => {
             }
         }
     }
-    
+
     // const checkConnect = (source, target) => {
     //     if (source === target) {
     //         return false;
@@ -194,7 +194,7 @@ const SceneBox = (props) => {
     // ];
 
     // const connect = { source: 'c', target: 'a' }; // 不允许
-    
+
     useEffect(() => {
         if (edges.length > 0 && to_loading) {
             const _edges = cloneDeep(edges);
@@ -262,7 +262,7 @@ const SceneBox = (props) => {
             import_node.forEach(item => {
                 const id = v4();
                 let position = getNewCoordinate(nodes.concat(_position));
-                _position.push({position})
+                _position.push({ position })
                 const new_node = {
                     id,
                     type: 'api',
@@ -594,7 +594,7 @@ const SceneBox = (props) => {
                 position: getNewCoordinate(nodes),
                 dragHandle: '.drag-content',
             }
-            
+
             // const _open_data = cloneDeep(open_data);
             // if (_open_data.nodes) {
             //     _open_data.nodes.push(new_node);
@@ -672,12 +672,12 @@ const SceneBox = (props) => {
             dispatch({
                 type: 'scene/updateBeautify',
                 payload: false
-            }) 
+            })
         } else {
             dispatch({
                 type: 'plan/updateBeautify',
                 payload: false
-            }) 
+            })
         }
     }, [type_now]);
 
@@ -725,6 +725,10 @@ const SceneBox = (props) => {
                 </MiniMap> */}
 
             </ReactFlow>
+
+            <div className="scene-right-menu" style={{ display: 'none' }}>
+                删除
+            </div>
         </div>
     )
 };

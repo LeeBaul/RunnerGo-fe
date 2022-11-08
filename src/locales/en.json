@@ -144,7 +144,8 @@
         "okDelMum": "Confirm Removal",
         "add": "Add",
         "seeResult": "Response",
-        "updateConfig": "Modify Config"
+        "updateConfig": "Modify Config",
+        "toBeautify": "One click beautify"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",

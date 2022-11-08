@@ -57,6 +57,8 @@ const SceneHeader = (props) => {
     // const run_res = from === 'scene' ? (run_res_scene ? run_res_scene[open_scene.scene_id] : {}) : (run_res_plan ? run_res_plan[open_scene.scene_id] : {});
     const run_status = from === 'scene' ? run_status_scene : run_status_plan;
 
+    console.log(open_scene);
+
     useEffect(() => {
         if (from === 'scene') {
             dispatch({
@@ -100,7 +102,7 @@ const SceneHeader = (props) => {
     const open_scene_name = useSelector((store) => store.scene.open_scene_name);
     const open_scene_desc = useSelector((store) => store.scene.open_scene_desc);
     const runScene = () => {
-        const { scene_id, target_id, nodes } = open_scene;
+        const { scene_id, target_id } = open_scene;
         if (!nodes || nodes.length === 0) {
             Message('error', t('message.emptyScene'));
             return;
@@ -329,7 +331,7 @@ const SceneHeader = (props) => {
                     <SvgSetting />
                     <span>{ t('scene.sceneConfig') }</span>
                 </div>
-                <Button className='saveBtn' onClick={() => toBeautify()}>一键美化</Button>
+                <Button className='saveBtn' onClick={() => toBeautify()}>{ t('btn.toBeautify') }</Button>
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene(() => {
                             Message('success', t('message.saveSuccess')); 
                         })}>{ t('btn.save') }</Button>

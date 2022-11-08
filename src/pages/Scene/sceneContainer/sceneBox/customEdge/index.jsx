@@ -60,18 +60,24 @@ const CustomEdge = (props) => {
         const y = e.clientY;
         const rightMenu = document.getElementsByClassName('scene-right-menu')[0];
         rightMenu.style.display = 'block';
-        rightMenu.style.left = x - 200 + 'px'; // 设置弹窗位置
-        rightMenu.style.top = y - 30 + 'px';
+        rightMenu.style.left = x - 350 + 'px'; // 设置弹窗位置
+        rightMenu.style.top = y - 100 + 'px';
+        setClick(true);
         document.onclick = function() {
             rightMenu.style.display = 'none';
+            setClick(false);
         }
     }
 
     useEffect(() => {
-        const pathDom = document.getElementsByClassName('react-flow__edge-path')[0];
-        pathDom.addEventListener('contextmenu', handleContextMenu);
+        const pathDoms = document.getElementsByClassName('react-flow__edge-path');
+        pathDoms.forEach(item => {
+            item.addEventListener('contextmenu', handleContextMenu);
+        })
         return () => {
-            pathDom.removeEventListener('contextmenu', handleContextMenu);
+            pathDoms.forEach(item => {
+                item.removeEventListener('contextmenu', handleContextMenu);
+            })
         }
     }, []);
 
@@ -86,11 +92,6 @@ const CustomEdge = (props) => {
             d={edgePath}
             onClick={(e) => setClick(true)}
           />
-
-
-          <div className="scene-right-menu" style={{ display: 'none' }}>
-            删除
-          </div>
         </>
     );
 };
