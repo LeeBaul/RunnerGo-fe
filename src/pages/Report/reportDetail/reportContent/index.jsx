@@ -799,19 +799,36 @@ const ReportContent = (props) => {
                 <div className='table-explain'>
                     <p>
                         <p className='circle' style={{ marginLeft: 0 }}></p>
-                        Max（ms）：最大响应时间;
+                        { `Max(ms): 最大响应时间` }
+                    </p>
+                    <p>
+                        <p className='circle' style={{ marginLeft: 0 }}></p>
+                        { `Min(ms): 最小响应时间` }
+                    </p>
+                    <p>
+                        <p className='circle' style={{ marginLeft: 0 }}></p>
+                        { `Avg(ms): 平均响应时长` }
+                    </p>
+                    <p>
+                        <p className='circle' style={{ marginLeft: 0 }}></p>
+                        { `90%: 响应时间90%线` }
+                    </p>
+                    <p>
+                        <p className='circle' style={{ marginLeft: 0 }}></p>
+                        { `95%: 响应时间95%线` }
+                    </p>
+                    <p>
                         <p className='circle'></p>
-                        Min（ms）：最小响应时间；
+                        { `99%: 响应时间99%线` }
+                    </p>
+                    <p>
                         <p className='circle'></p>
-                        Avg（ms）：平均响应时长；
+                        { `RPS: 每秒请求数` }
+                    </p>
+                    <p>
                         <p className='circle'></p>
-                        90%：响应时间90%线；
-                        <p className='circle'></p>
-                        95%：响应时间95%线；
-                        <p className='circle'></p>
-                        99%：响应时间99%线；
-                        <p className='circle'></p>
-                        RPS：每秒请求数;SRPS：每秒成功请求数</p>
+                        { `SRPS: 每秒成功请求数` }
+                    </p>
                 </div>
                 <Table showBorder columns={columns1} data={tableData1} />
             </div>
