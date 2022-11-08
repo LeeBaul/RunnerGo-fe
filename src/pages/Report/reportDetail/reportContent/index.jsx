@@ -793,9 +793,15 @@ const ReportContent = (props) => {
             </div>
             <div className='report-task-config'>
                 <Table showBorder columns={configColumn} data={configData} />
-                <Button className='update-config-btn' afterFix={<SvgAddcircle />} onClick={() => updateConfig()}>{ t('btn.updateConfig') }</Button>
+                <Button className='update-config-btn' afterFix={<SvgAddcircle />} onClick={() => updateConfig()}>{t('btn.updateConfig')}</Button>
             </div>
-            <Table showBorder columns={columns1} data={tableData1} />
+            <div className='report-detail-config'>
+                <div className='table-explain'>
+                    <p className='circle'></p>
+                    <p>Max（ms）：最大响应时间;Min（ms）：最小响应时间；Avg（ms）：平均响应时长；90%：响应时间90%线；95%：响应时间95%线；99%：响应时间99%线；RPS：每秒请求数;SRPS：每秒成功请求数</p>
+                </div>
+                <Table showBorder columns={columns1} data={tableData1} />
+            </div>
             <div className='echarts-list'>
                 <ReactEcharts ref={echartsRef1} className='echarts e1' option={getOption(t('report.avgList'), avgList)} />
                 <ReactEcharts ref={echartsRef2} className='echarts e2' option={getOption(t('report.qpsNum'), qpsList)} />
