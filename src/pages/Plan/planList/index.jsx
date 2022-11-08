@@ -110,8 +110,8 @@ const PlanList = () => {
                             <Button className='run-btn' onClick={() => Bus.$emit('runPlan', plan_id, (code) => {
                                 if (code === 0) {
                                     getPlanList();
-                                } else {
-                                    Message('error', t('message.handleError'));
+                                    Message('success', t('message.runSuccess'))
+                                    navigate('/report/list');
                                 }
                             })}><SvgStart /></Button>
                         </div>
