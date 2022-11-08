@@ -41,6 +41,8 @@ const initialState = {
   select_box: '', //当前选中的节点
 
   beautify: false, // 美化当前场景
+
+  edge_right_id: ''
 };
 
 // action名称
@@ -76,7 +78,9 @@ const actionTypes = {
   updateSelectBox: 'updateSelectBox',
   updateOpenDesc: 'updateOpenDesc',
 
-  updateBeautify: 'updateBeautify'
+  updateBeautify: 'updateBeautify',
+
+  updateEdgeRight: 'updateEdgeRight'
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -233,6 +237,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         beautify: action.payload
+      }
+    case `${NAMESPACE}/${actionTypes.updateEdgeRight}`:
+      return {
+        ...state,
+        edge_right_id: action.payload
       }
     default:
       return state;

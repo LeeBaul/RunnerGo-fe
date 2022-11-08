@@ -56,6 +56,7 @@ const SceneBox = (props) => {
     const run_res_scene = useSelector((store) => store.scene.run_res);
     const to_loading_scene = useSelector((store) => store.scene.to_loading);
     const scene_nodes = useSelector((store) => store.scene.nodes);
+    const scene_edges = useSelector((store) => store.scene.edges);
     const scene_beautify = useSelector((store) => store.scene.beautify);
 
     const type_now_plan = useSelector((store) => store.plan.type);
@@ -70,6 +71,7 @@ const SceneBox = (props) => {
     const run_res_plan = useSelector((store) => store.plan.run_res);
     const to_loading_plan = useSelector((store) => store.plan.to_loading);
     const plan_nodes = useSelector((store) => store.plan.nodes);
+    const plan_edges = useSelector((store) => store.plan.edges);
     const plan_beautify = useSelector((store) => store.plan.beautify);
 
 
@@ -91,6 +93,7 @@ const SceneBox = (props) => {
 
     const _nodes = from === 'scene' ? scene_nodes : plan_nodes;
     const beautify = from === 'scene' ? scene_beautify : plan_beautify;
+    const _edges = from === 'scene' ? scene_edges : plan_edges;
 
 
 
@@ -680,6 +683,75 @@ const SceneBox = (props) => {
             })
         }
     }, [type_now]);
+
+    const scene_edge_right = useSelector((store) => store.scene.edge_right_id);
+    const plan_edge_right = useSelector((store) => store.plan.edge_right_id);
+
+    const edge_right = from === 'scene' ? scene_edge_right : plan_edge_right;
+
+    useEffect(() => {
+        const rightMenu = document.getElementsByClassName('scene-right-menu')[0];
+
+        if (rightMenu) {
+            rightMenu.addEventListener('click', (e) => {
+                console.log(edge_right);
+                const __edges = cloneDeep(_edges);
+                if (edge_right) {
+                    const _index = __edges.findIndex(item => item.id === edge_right);
+                    console.log(__edges, _index)
+                    if (_index !== -1) {
+                        __edges.splice(_index, 1);
+
+                        if (from === 'scene') {
+                            dispatch({
+                                type: 'scene/updateEdges',
+                                payload: __edges
+                            });
+                        } else {
+
+                            dispatch({
+                                type: 'plan/updateEdges',
+                                payload: __edges
+                            });
+                        }
+                    }
+
+                    console.log(__edges);
+                    setEdges(__edges);
+                }
+            })
+        }
+
+        return () => {
+            rightMenu.removeEventListener('click', (e) => {
+                console.log(edge_right);
+                const __edges = cloneDeep(_edges);
+                if (edge_right) {
+                    const _index = __edges.findIndex(item => item.id === edge_right);
+                    console.log(__edges, _index)
+                    if (_index !== -1) {
+                        __edges.splice(_index, 1);
+
+                        if (from === 'scene') {
+                            dispatch({
+                                type: 'scene/updateEdges',
+                                payload: __edges
+                            });
+                        } else {
+
+                            dispatch({
+                                type: 'plan/updateEdges',
+                                payload: __edges
+                            });
+                        }
+                    }
+
+                    console.log(__edges);
+                    setEdges(__edges);
+                }
+            })
+        }
+    }, [edge_right, _edges, from]);
 
 
     return (

@@ -47,7 +47,9 @@ const initialState = {
   email_list: [],
   
 
-  beautify: false
+  beautify: false,
+
+  edge_right_id: '',
 };
 
 // action名称
@@ -88,7 +90,9 @@ const actionTypes = {
   updateOpenFirst: 'updateOpenFirst',
   updateEmailList: 'updateEmailList',
 
-  updateBeautify: 'updateBeautify'
+  updateBeautify: 'updateBeautify',
+
+  updateEdgeRight: 'updateEdgeRight'
 }
 
 export const plansReducer = (state = initialState, action) => {
@@ -243,6 +247,11 @@ export const plansReducer = (state = initialState, action) => {
       return {
         ...state,
         beautify: action.payload
+      }
+    case `${NAMESPACE}/${actionTypes.updateEdgeRight}`:
+      return {
+        ...state,
+        edge_right_id: action.payload
       }
     default:
       return state;
