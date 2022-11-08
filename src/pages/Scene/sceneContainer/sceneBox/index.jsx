@@ -19,6 +19,7 @@ import Bus from '@utils/eventBus';
 import { v4 } from 'uuid';
 import { edges as initialEdges } from './mock';
 import CustomEdge from "./customEdge";
+import { useTranslation } from 'react-i18next';
 
 const nodeTypes = {
     api: Box,
@@ -105,6 +106,8 @@ const SceneBox = (props) => {
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (_nodes && _nodes.length > 0 && beautify) {
@@ -795,11 +798,11 @@ const SceneBox = (props) => {
                     <Controls />
                     <Background color="#aaa" gap={16} />
                 </MiniMap> */}
-
+                <Background />
             </ReactFlow>
 
             <div className="scene-right-menu" style={{ display: 'none' }}>
-                删除
+                { t('index.delete') }
             </div>
         </div>
     )
