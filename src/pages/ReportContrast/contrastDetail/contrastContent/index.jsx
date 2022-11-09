@@ -4,6 +4,7 @@ import { Table } from 'adesign-react';
 import { useTranslation } from 'react-i18next';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
+import { useSelector } from 'react-redux';
 
 const ContrastContent = () => {
     const { t } = useTranslation();
@@ -203,91 +204,93 @@ const ContrastContent = () => {
     const getOption = (name, data) => {
         let option = {
             tooltip: {
-              trigger: 'axis',
-              axisPointer: {
-                type: 'cross',
-                label: {
-                  backgroundColor: '#6a7985'
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
                 }
-              }
             },
             grid: {
-              left: '3%',
-              right: '4%',
-              bottom: '3%',
-              containLabel: true
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
             },
             xAxis: [
-              {
-                type: 'category',
-                boundaryGap: false,
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-              }
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                }
             ],
             yAxis: [
-              {
-                type: 'value'
-              }
+                {
+                    type: 'value'
+                }
             ],
             series: [
-              {
-                name: 'Email',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                  focus: 'series'
+                {
+                    name: 'Email',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [120, 132, 101, 134, 90, 230, 210]
                 },
-                data: [120, 132, 101, 134, 90, 230, 210]
-              },
-              {
-                name: 'Union Ads',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                  focus: 'series'
+                {
+                    name: 'Union Ads',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [220, 182, 191, 234, 290, 330, 310]
                 },
-                data: [220, 182, 191, 234, 290, 330, 310]
-              },
-              {
-                name: 'Video Ads',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                  focus: 'series'
+                {
+                    name: 'Video Ads',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [150, 232, 201, 154, 190, 330, 410]
                 },
-                data: [150, 232, 201, 154, 190, 330, 410]
-              },
-              {
-                name: 'Direct',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                  focus: 'series'
+                {
+                    name: 'Direct',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [320, 332, 301, 334, 390, 330, 320]
                 },
-                data: [320, 332, 301, 334, 390, 330, 320]
-              },
-              {
-                name: 'Search Engine',
-                type: 'line',
-                stack: 'Total',
-                label: {
-                  show: true,
-                  position: 'top'
-                },
-                areaStyle: {},
-                emphasis: {
-                  focus: 'series'
-                },
-                data: [820, 932, 901, 934, 1290, 1330, 1320]
-              }
+                {
+                    name: 'Search Engine',
+                    type: 'line',
+                    stack: 'Total',
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                }
             ]
-          };
+        };
         return option;
     };
+
+    const theme = useSelector((store) => store.user.theme);
 
 
     return (
@@ -296,74 +299,78 @@ const ContrastContent = () => {
 
             <div className="table-data">
                 <p className="title" style={{ color: '#A84B1F' }}>计划名称/场景一</p>
-                <Table className='color1' showBorder columns={column2} data={data2} />
+                <Table className={`color1-${theme}`} showBorder columns={column2} data={data2} />
             </div>
 
 
             <div className="table-data">
                 <p className="title" style={{ color: '#6155BC' }}>计划名称/场景二</p>
-                <Table className='color2' showBorder columns={column2} data={data2} />
+                <Table className={`color2-${theme}`} showBorder columns={column2} data={data2} />
             </div>
 
 
             <div className="table-data">
                 <p className="title" style={{ color: '#32AF3F' }}>计划名称/场景三</p>
-                <Table className='color3' showBorder columns={column2} data={data2} />
+                <Table className={`color3-${theme}`} showBorder columns={column2} data={data2} />
             </div>
 
 
             <div className="table-data">
                 <p className="title" style={{ color: '#3B7BC6' }}>计划名称/场景四</p>
-                <Table className='color4' showBorder columns={column2} data={data2} />
+                <Table className={`color4-${theme}`} showBorder columns={column2} data={data2} />
             </div>
 
             <div className="echart-list">
-                <div className="echart-item">
-                    <div className="title-item item-1">
-                        <p>计划名称/场景一</p>
-                        <p>2022.11.11 12:23:22</p>
+                <div className="echart-title">
+                    <div className="echart-item">
+                        <div className="title-item item-1">
+                            <p>计划名称/场景一</p>
+                            <p>2022.11.11 12:23:22</p>
+                        </div>
                     </div>
-                    <div className="echart-container">
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
+                    <div className="echart-item">
+                        <div className="title-item item-2">
+                            <p>计划名称/场景一</p>
+                            <p>2022.11.11 12:23:22</p>
+                        </div>
                     </div>
-                </div>
-                <div className="echart-item">
-                    <div className="title-item item-2">
-                        <p>计划名称/场景一</p>
-                        <p>2022.11.11 12:23:22</p>
+                    <div className="echart-item">
+                        <div className="title-item item-3">
+                            <p>计划名称/场景一</p>
+                            <p>2022.11.11 12:23:22</p>
+                        </div>
                     </div>
-                    <div className="echart-container">
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                    </div>
-                </div>
-                <div className="echart-item">
-                    <div className="title-item item-3">
-                        <p>计划名称/场景一</p>
-                        <p>2022.11.11 12:23:22</p>
-                    </div>
-                    <div className="echart-container">
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
+                    <div className="echart-item">
+                        <div className="title-item item-4">
+                            <p>计划名称/场景一</p>
+                            <p>2022.11.11 12:23:22</p>
+                        </div>
                     </div>
                 </div>
-                <div className="echart-item">
-                    <div className="title-item item-4">
-                        <p>计划名称/场景一</p>
-                        <p>2022.11.11 12:23:22</p>
+                <div className="echart-container">
+                    <div className="echart-container-item">
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
                     </div>
-                    <div className="echart-container">
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
-                        <ReactEcharts className='echarts e1' option={getOption()} />
+                    <div className="echart-container-item">
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                    </div>
+                    <div className="echart-container-item">
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                    </div>
+                    <div className="echart-container-item">
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
+                        <ReactEcharts className='echart e1' option={getOption()} />
                     </div>
                 </div>
             </div>
