@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import './index.less';
 import { Table } from 'adesign-react';
 import { useTranslation } from 'react-i18next';
+import 'echarts/lib/echarts';
+import ReactEcharts from 'echarts-for-react';
 
 const ContrastContent = () => {
     const { t } = useTranslation();
@@ -198,6 +200,95 @@ const ContrastContent = () => {
 
     }, []);
 
+    const getOption = (name, data) => {
+        let option = {
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+            xAxis: [
+              {
+                type: 'category',
+                boundaryGap: false,
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value'
+              }
+            ],
+            series: [
+              {
+                name: 'Email',
+                type: 'line',
+                stack: 'Total',
+                areaStyle: {},
+                emphasis: {
+                  focus: 'series'
+                },
+                data: [120, 132, 101, 134, 90, 230, 210]
+              },
+              {
+                name: 'Union Ads',
+                type: 'line',
+                stack: 'Total',
+                areaStyle: {},
+                emphasis: {
+                  focus: 'series'
+                },
+                data: [220, 182, 191, 234, 290, 330, 310]
+              },
+              {
+                name: 'Video Ads',
+                type: 'line',
+                stack: 'Total',
+                areaStyle: {},
+                emphasis: {
+                  focus: 'series'
+                },
+                data: [150, 232, 201, 154, 190, 330, 410]
+              },
+              {
+                name: 'Direct',
+                type: 'line',
+                stack: 'Total',
+                areaStyle: {},
+                emphasis: {
+                  focus: 'series'
+                },
+                data: [320, 332, 301, 334, 390, 330, 320]
+              },
+              {
+                name: 'Search Engine',
+                type: 'line',
+                stack: 'Total',
+                label: {
+                  show: true,
+                  position: 'top'
+                },
+                areaStyle: {},
+                emphasis: {
+                  focus: 'series'
+                },
+                data: [820, 932, 901, 934, 1290, 1330, 1320]
+              }
+            ]
+          };
+        return option;
+    };
+
 
     return (
         <div className="contrast-content">
@@ -213,7 +304,7 @@ const ContrastContent = () => {
                 <p className="title" style={{ color: '#6155BC' }}>计划名称/场景二</p>
                 <Table className='color2' showBorder columns={column2} data={data2} />
             </div>
-            
+
 
             <div className="table-data">
                 <p className="title" style={{ color: '#32AF3F' }}>计划名称/场景三</p>
@@ -227,22 +318,52 @@ const ContrastContent = () => {
             </div>
 
             <div className="echart-list">
-                <div className="title">
+                <div className="echart-item">
                     <div className="title-item item-1">
                         <p>计划名称/场景一</p>
                         <p>2022.11.11 12:23:22</p>
                     </div>
+                    <div className="echart-container">
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                    </div>
+                </div>
+                <div className="echart-item">
                     <div className="title-item item-2">
-                        <p>计划名称/场景二</p>
+                        <p>计划名称/场景一</p>
                         <p>2022.11.11 12:23:22</p>
                     </div>
+                    <div className="echart-container">
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                    </div>
+                </div>
+                <div className="echart-item">
                     <div className="title-item item-3">
-                        <p>计划名称/场景三</p>
+                        <p>计划名称/场景一</p>
                         <p>2022.11.11 12:23:22</p>
                     </div>
+                    <div className="echart-container">
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                    </div>
+                </div>
+                <div className="echart-item">
                     <div className="title-item item-4">
-                        <p>计划名称/场景四</p>
+                        <p>计划名称/场景一</p>
                         <p>2022.11.11 12:23:22</p>
+                    </div>
+                    <div className="echart-container">
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
+                        <ReactEcharts className='echarts e1' option={getOption()} />
                     </div>
                 </div>
             </div>
