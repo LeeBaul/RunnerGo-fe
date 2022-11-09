@@ -82,6 +82,7 @@ const ReportContent = (props) => {
         let _error_rate = 0;
         let _received_bytes = 0;
         let _send_bytes = 0;
+        let _sprs = 0;
 
         let _qps_list = [];
         let _err_list = [];
@@ -114,6 +115,7 @@ const ReportContent = (props) => {
                 ninety_list,
                 ninety_five_list,
                 ninety_nine_list,
+                srps,
             } = item;
             item.total_request_time = total_request_time;
             item.error_rate = `${error_rate * 100}%`
@@ -133,6 +135,7 @@ const ReportContent = (props) => {
             _error_rate += error_rate;
             _received_bytes += received_bytes;
             _send_bytes += send_bytes;
+            _sprs += srps;
 
             _qps_list.push({
                 api_name,
@@ -198,6 +201,7 @@ const ReportContent = (props) => {
             ninety_request_time_line_value: '-',
             ninety_five_request_time_line_value: '-',
             ninety_nine_request_time_line_value: '-',
+            srps: '-',
             qps: '-',
             error_num: _error_num,
             error_rate: '-',
@@ -322,8 +326,8 @@ const ReportContent = (props) => {
             dataIndex: 'qps',
         },
         {
-            title: t('report.errNum'),
-            dataIndex: 'error_num',
+            title: t('report.srps'),
+            dataIndex: 'srps',
         },
         {
             title: t('report.errRate'),

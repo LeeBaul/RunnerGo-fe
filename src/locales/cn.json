@@ -627,6 +627,7 @@
         "95%": "95%",
         "99%": "99%",
         "qps": "RPS",
+        "srps": "SRPS",
         "errNum": "错误数",
         "errRate": "错误率",
         "acceptByte": "接受字节数",

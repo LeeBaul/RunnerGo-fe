@@ -634,6 +634,7 @@
         "95%": "95%",
         "99%": "99%",
         "qps": "Tps",
+        "srps": "SRPS",
         "errNum": "Error number",
         "errRate": "Error rate",
         "acceptByte": "Received bytes",
