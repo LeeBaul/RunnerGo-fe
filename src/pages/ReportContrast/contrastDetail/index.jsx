@@ -2,8 +2,8 @@ import React from "react";
 import './index.less';
 import { useTranslation } from 'react-i18next';
 import { Tabs as TabComponent } from 'adesign-react';
-import ContrastContent from "./contrastContent";
-import ContrastMonitor from "./contrastMonitor";
+import ContrastContent from './contrastContent';
+import ContrastMonitor from './contrastMonitor';
 import { TabStyle } from './style';
 
 const { Tabs, TabPan } = TabComponent;
