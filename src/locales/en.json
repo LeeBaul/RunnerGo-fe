@@ -649,7 +649,8 @@
         "99%List": "99% Response Timeline",
         "collect": "Collect",
         "debugEmpty": "Please turn on Debug mode",
-        "title": "Test report"
+        "title": "Test report",
+        "contrastReport": "Comparison report"
     },
     "tooltip": {
         "start": "Run",

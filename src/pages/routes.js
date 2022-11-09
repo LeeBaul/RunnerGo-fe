@@ -13,6 +13,7 @@ import Doc from "./Doc";
 import UserHome from "./UserHome";
 import EmailReport from "./EmailReport";
 import InvitateExpire from "./InvitateExpire";
+import ReportContrast from "./ReportContrast";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -87,6 +88,11 @@ const Route = [
         name: 'invitateExpire',
         path: '/invitateExpire',
         element: InvitateExpire
+    },
+    {
+        name: 'reportContrast',
+        path: '/reportContrast',
+        element: ReportContrast
     }
 ];
 

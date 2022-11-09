@@ -256,13 +256,15 @@ const TaskConfig = (props) => {
 
     const updateTaskConfig = (type, value) => {
         const _task_config = cloneDeep(task_config);
+        const arr = ['duration', 'round_num', 'concurrency', 'reheat_time', 'start_concurrency', 'step', 'step_run_time', 'max_concurrency'];
+
         if (type === 'task_type') {
             _task_config['task_type'] = value;
         } else if (type === 'cron_expr') {
             _task_config['cron_expr'] = value;
         } else if (type === 'mode') {
             _task_config['mode'] = value;
-        } else {
+        } else if (arr.includes(type)) {
             _task_config['task_type'] = task_type;
             if (task_type === 2) {
                 _task_config['cron_expr'] = cron_expr;
@@ -270,13 +272,18 @@ const TaskConfig = (props) => {
             _task_config['mode'] = mode;
             _task_config['mode_conf'] = mode_conf;
             _task_config['mode_conf'][type] = value;
-        };
-
-        if (task_type === 2) {
-            console.log(_task_config);
-            _task_config['timed_task_conf'][type] = value;
+        } else {
+            if (task_type === 2) {
+                console.log(_task_config);
+                _task_config['timed_task_conf'][type] = value;
+                if (type === 'frequency' && value === 0 && taskExecTime) {
+                    _task_config['timed_task_conf']['task_close_time'] = value + 60;
+                }
+                if (frequency === 0 && type === 'task_exec_time') {
+                    _task_config['timed_task_conf']['task_close_time'] = value + 60;
+                }
+            }
         }
-
 
         dispatch({
             type: 'plan/updateTaskConfig',
@@ -600,6 +607,7 @@ const TaskConfig = (props) => {
     // };
 
     const savePlan = () => {
+        console.log(frequency, taskExecTime, taskCloseTime);
         console.log(mode, mode_conf);
         if (mode === 1) {
             if (task_type === 2) {
@@ -613,7 +621,7 @@ const TaskConfig = (props) => {
                     return;
                 }
 
-                if (frequency !== 0 && taskCloseTime > taskExecTime) {
+                if (frequency !== 0 && taskCloseTime <= taskExecTime) {
                     Message('error', t('message.endGTstart'));
                     return;
                 }
@@ -651,8 +659,6 @@ const TaskConfig = (props) => {
 
                 if (code === 0) {
                     Message('success', t('message.saveSuccess'));
-                } else {
-                    Message('error', t('message.saveError'));
                 }
             }
         })
@@ -759,11 +765,6 @@ const TaskConfig = (props) => {
         let start_time = new Date(dateString).getTime()
         setTaskExecTime(start_time / 1000);
         updateTaskConfig('task_exec_time', start_time / 1000);
-
-        if (frequency === 0) {
-            setTaskCloseTime(start_time / 1000 + 60);
-            updateTaskConfig('task_close_time', start_time / 1000  + 60);
-        }
     }
 
     const onTimeEnd = (dateString, date) => {
@@ -771,6 +772,8 @@ const TaskConfig = (props) => {
         setTaskCloseTime(end_time / 1000);
         updateTaskConfig('task_close_time', end_time / 1000);
     }
+
+    console.log(dayjs());
 
 
 
@@ -836,7 +839,7 @@ const TaskConfig = (props) => {
                                     showTime
                                     format='YYYY-MM-DD HH:mm'
                                     onChange={onTimeStart}
-                                    disabledDate={(current) => current.isBefore(dayjs())}
+                                    disabledDate={(current) => current.isBefore(new Date().getTime() - 86400000)}
                                 />
                                 <DatePicker
                                     value={taskCloseTime * 1000}
