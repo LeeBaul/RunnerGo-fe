@@ -1,6 +1,6 @@
 import React from "react";
 import './index.less';
-import ContrastHeader from './ContrastHeader';
+import ContrastHeader from './contrastHeader';
 import ContrastDetail from './contrastDetail';
 
 const ReportContrast = () => {
