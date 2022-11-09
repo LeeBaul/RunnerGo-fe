@@ -572,6 +572,7 @@ const Box = (props) => {
     };
 
     const onTargetChange = (type, value) => {
+        console.log(type, value);
         Bus.$emit('updateNodeConfig', type, value, id, node_config, from);
     }
 
@@ -691,10 +692,8 @@ const Box = (props) => {
                             setMode(parseInt(e));
                             onTargetChange('mode', parseInt(e));
 
-                            if (e === 4) {
-                                setPercent(90);
-                                onTargetChange('percent_age', 90);
-                            }
+                            console.log(e);
+                            setPercent(90);
                         }}
                     >
                         <Option value={1}>{t('scene.modeList.1')}</Option>

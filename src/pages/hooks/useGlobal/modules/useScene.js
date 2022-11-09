@@ -283,8 +283,12 @@ const useScene = () => {
     }
 
     const updateNodeConfig = (type, value, id, node_config, from) => {
+        console.log(type, value, id, node_config, from);
         const _node_config = cloneDeep(node_config);
         _node_config[id][type] = value;
+        if (type === 'mode' && value === 4) {
+            _node_config[id]['percent_age'] = 90;
+        }
         // switch (type) {
         //     case 'weight':
         //         _node_config[id].weight = value;
@@ -319,6 +323,8 @@ const useScene = () => {
         //     default:
         //         break;
         // }
+
+        console.log(_node_config);
         if (from === 'scene') {
             dispatch({
                 type: 'scene/updateNodeConfig',

@@ -284,7 +284,7 @@ const SceneHeader = (props) => {
         console.log(nodes, edges, result);
         result.forEach((item, index) => {
             // const rootY = item[0].position.y;
-            let Y = 50 + (index) * 200;
+            let Y = 50 + (index) * 220;
 
             item.forEach(elem => {
                 elem.position.y = Y;

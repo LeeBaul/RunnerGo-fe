@@ -759,6 +759,11 @@ const TaskConfig = (props) => {
         let start_time = new Date(dateString).getTime()
         setTaskExecTime(start_time / 1000);
         updateTaskConfig('task_exec_time', start_time / 1000);
+
+        if (frequency === 0) {
+            setTaskCloseTime(start_time / 1000 + 60);
+            updateTaskConfig('task_close_time', start_time / 1000  + 60);
+        }
     }
 
     const onTimeEnd = (dateString, date) => {
