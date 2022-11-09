@@ -21,6 +21,9 @@ const CustomEdge = (props) => {
     } = props;
     console.log(sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, borderRadius)
 
+    const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
+    console.log(markerEnd);
+
     const edgePath = getBezierPath({
         sourceX,
         sourceY,
@@ -28,10 +31,8 @@ const CustomEdge = (props) => {
         targetX,
         targetY,
         targetPosition,
-        borderRadius,
+        borderRadius
     });
-
-    const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
 
     const [click, setClick] = useState(false);
     const dispatch = useDispatch();
@@ -118,6 +119,7 @@ const CustomEdge = (props) => {
                 })}
                 d={edgePath}
                 onClick={(e) => setClick(true)}
+                markerEnd={markerEnd}
             />
         </>
     );

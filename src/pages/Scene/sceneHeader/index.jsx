@@ -282,12 +282,13 @@ const SceneHeader = (props) => {
     const toBeautify = () => {
         const result = formatData(nodes, edges);
         console.log(nodes, edges, result);
-        result.forEach(item => {
-            const rootY = item[0].position.y;
+        result.forEach((item, index) => {
+            // const rootY = item[0].position.y;
+            let Y = 50 + (index) * 200;
 
             item.forEach(elem => {
-                elem.position.y = rootY;
-                elem.positionAbsolute.y = rootY;
+                elem.position.y = Y;
+                elem.positionAbsolute.y = Y;
             })
         })
 

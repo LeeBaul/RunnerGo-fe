@@ -145,9 +145,11 @@ const SceneBox = (props) => {
         _params.type = 'common';
         let id_obj = getFather(nodes, edges);
         const res = check([_params.source], _params.target, id_obj);
+        console.log(params);
         if (res) {
 
             return setEdges((eds) => {
+                console.log(eds);
 
                 return addEdge(_params, eds)
             })
