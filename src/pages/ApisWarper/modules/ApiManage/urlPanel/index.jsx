@@ -107,6 +107,8 @@ const ApiURLPanel = (props) => {
     const refDropdown = useRef(null);
     const [saveId, setSaveId] = useState(null);
 
+    console.log(open_scene_scene);
+
     return (
         <div className="api-url-panel" style={{ marginLeft: from === 'apis' ? '16px' : '' }}>
             <div className="api-url-panel-group">
@@ -146,7 +148,7 @@ const ApiURLPanel = (props) => {
                             });
                         } else if (from === 'plan') {
                             Bus.$emit('saveScenePlan', nodes, edges, id_apis, node_config, open_plan_scene, id, () => {
-                                Bus.$emit('sendSceneApi', open_plan_scene.scene_id, id_now_plan, open_plan_res || {}, 'plan');
+                                Bus.$emit('sendSceneApi', open_plan_scene.scene_id || open_plan_scene.target_id, id_now_plan, open_plan_res || {}, 'plan');
                             });
                         } else {
                             Bus.$emit('saveTargetById', {
