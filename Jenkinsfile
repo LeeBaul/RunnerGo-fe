@@ -11,7 +11,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     environment {
-        git="172.17.101.191:2223/kunpeng/kunpeng-fe.git"
+        git="172.17.101.191:2223/RG/RunnerGo-fe.git"
         def BUILDVERSION = createVersion()
         feishuWb="https://open.feishu.cn/open-apis/bot/v2/hook/e1ea72fe-d073-4304-bf9d-21fbb602986e"
         scriptPath="/data/docker/jenkins/fasongfeishu"
@@ -23,7 +23,7 @@ pipeline {
             defaultValue: "",
             name: 'WEBHOOK_REF',
             type: 'PT_BRANCH_TAG',
-            remoteURL: 'ssh://git@172.17.101.191:2223/kunpeng/kunpeng-fe.git',
+            remoteURL: 'ssh://git@172.17.101.191:2223/RG/RunnerGo-fe.git',
             credentialsId: 'bcb57094-5e19-4f14-9c15-0046ed8a91fe',
             selectedValue: 'DEFAULT',
             sortMode: 'DESCENDING'
