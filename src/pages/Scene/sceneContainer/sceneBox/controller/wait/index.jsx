@@ -308,21 +308,33 @@ const WaitController = (props) => {
     }
 
     return (
-        <>
+        <div className={cn({
+            selectBox: selectBox
+        })} onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setSelectBox(true);
+
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateSelectBox',
+                    payload: id,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateSelectBox',
+                    payload: id,
+                })
+            }
+
+        }}>
             <Handle
                 type="target"
                 position="top"
                 id="a"
                 className="my_handle"
             />
-            <div className={cn('controller-wait', {
-                selectBox: selectBox
-            })}
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setSelectBox(true);
-                }}
+            <div className="controller-wait"
             >
                 <div className='controller-wait-header' style={{ backgroundColor: topBg }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -379,7 +391,7 @@ const WaitController = (props) => {
                 id="b"
                 className="my_handle"
             />
-        </>
+        </div>
     )
 };
 

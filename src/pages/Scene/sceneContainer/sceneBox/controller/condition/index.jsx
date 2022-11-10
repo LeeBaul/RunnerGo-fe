@@ -46,6 +46,7 @@ const ConditionController = (props) => {
     const to_loading_scene = useSelector((store) => store.scene.to_loading);
     const open_scene_scene = useSelector((store) => store.scene.open_scene);
     const running_scene_scene = useSelector((store) => store.scene.running_scene);
+    const select_box_scene = useSelector((store) => store.scene.select_box);
 
     const run_res_plan = useSelector((store) => store.plan.run_res);
     const edges_plan = useSelector((store) => store.plan.edges);
@@ -56,6 +57,7 @@ const ConditionController = (props) => {
     const to_loading_plan = useSelector((store) => store.plan.to_loading);
     const open_scene_plan = useSelector((store) => store.plan.open_plan_scene);
     const running_scene_plan = useSelector((store) => store.plan.running_scene);
+    const select_box_plan = useSelector((store) => store.plan.select_box);
 
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
@@ -66,6 +68,7 @@ const ConditionController = (props) => {
     const to_loading = from === 'scene' ? to_loading_scene : to_loading_plan;
     const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
     const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
+    const select_box = from === 'scene' ? select_box_scene : select_box_plan;
     const dispatch = useDispatch();
     // 变量
     const [_var, setVar] = useState('');
@@ -321,6 +324,17 @@ const ConditionController = (props) => {
         }
     }
 
+    useEffect(() => {
+
+        if (select_box === id && selectBox === false) {
+
+            setSelectBox(true);
+        } else if (select_box !== id) {
+
+            setSelectBox(false);
+        }
+    }, [select_box]);
+
 
     return (
         <div className={cn({
@@ -329,6 +343,19 @@ const ConditionController = (props) => {
             e.preventDefault();
             e.stopPropagation();
             setSelectBox(true);
+
+            if (from === 'scene') {
+                dispatch({
+                    type: 'scene/updateSelectBox',
+                    payload: id,
+                })
+            } else {
+                dispatch({
+                    type: 'plan/updateSelectBox',
+                    payload: id,
+                })
+            }
+
         }}>
             <Handle
                 type="target"
