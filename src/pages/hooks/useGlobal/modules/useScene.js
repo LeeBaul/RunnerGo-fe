@@ -656,6 +656,11 @@ const useScene = () => {
                 const clone_flow = cloneDeep(data);
                 delete clone_flow['scene_id'];
                 clone_flow.scene_id = parseInt(id);
+                clone_flow.nodes.forEach(item => {
+                    const id = v4();
+                    item.id = id;
+                    item.data.id = id;
+                })
 
                 return from(fetchCreateSceneFlow(clone_flow))
             }),
