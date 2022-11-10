@@ -257,7 +257,9 @@ const useOpens = () => {
                 if (!isURL(reqUrl)) {
                     reqUrl = `http://${reqUrl}`;
                 }
+                console.log(reqUrl);
                 const urlObj = createUrl(reqUrl);
+                console.log(urlObj);
                 if (isArray(tempOpenApis[target_id]?.request?.query?.parameter)) {
                     // 提取query
                     const searchParams = GetUrlQueryToArray(urlObj?.search || '');
@@ -277,7 +279,8 @@ const useOpens = () => {
                             type: obj?.type || 'Text', // 字段类型
                             not_null: obj?.not_null || 1, // 必填｜-1选填
                             field_type: obj?.field_type || 'String', // 类型
-                            value: value?.trim(), // 参数值
+                            // value: value?.trim(), // 参数值
+                            value: decodeURIComponent(value.trim())
                         });
                     });
                     set(tempOpenApis[target_id], 'request.query.parameter', queryList);

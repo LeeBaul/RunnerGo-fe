@@ -224,6 +224,7 @@ const ReportContent = (props) => {
                 step_run_time,
                 threshold_value
             } = mode_conf;
+
             setConfigData([{ concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time, create_time: dayjs(create_time * 1000).format('YYYY-MM-DD HH:mm:ss') }]);
             let _columns = [];
             if (task_mode === 1) {

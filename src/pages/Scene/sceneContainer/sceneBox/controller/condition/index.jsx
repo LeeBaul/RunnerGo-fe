@@ -94,7 +94,7 @@ const ConditionController = (props) => {
     }, [init_scene]);
 
     useEffect(() => {
-        
+
         if (open_scene) {
             if (to_loading && running_scene === open_scene.scene_id) {
                 setStatus('running');
@@ -323,27 +323,26 @@ const ConditionController = (props) => {
 
 
     return (
-        <>
+        <div className={cn({
+            selectBox: selectBox
+        })} onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setSelectBox(true);
+        }}>
             <Handle
                 type="target"
                 position="top"
                 id="a"
                 className="my_handle"
             />
-            <div className={cn('controller-condition', {
-                selectBox: selectBox
-            })} 
-            onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setSelectBox(true);
-            }}
+            <div className="controller-condition"
             >
 
-                <div className={ cn('controller-condition-header', { 'white-run-color': status === 'success' || status === 'failed' }) } style={{ backgroundColor: topBgStyle[status] }} >
+                <div className={cn('controller-condition-header', { 'white-run-color': status === 'success' || status === 'failed' })} style={{ backgroundColor: topBgStyle[status] }} >
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='type'>
-                            { t('scene.condition') }
+                            {t('scene.condition')}
                         </div>
                         {
                             topStatus[status]
@@ -365,7 +364,7 @@ const ConditionController = (props) => {
                             <div><SvgMore className='more-svg' /></div>
                         </Dropdown> */}
                         <SvgClose onClick={() => {
-                              if (from === 'scene') {
+                            if (from === 'scene') {
                                 dispatch({
                                     type: 'scene/updateDeleteNode',
                                     payload: id,
@@ -382,7 +381,7 @@ const ConditionController = (props) => {
                 <div className='controller-condition-main'>
                     <div className='item'>
                         <p>if</p>
-                        <Input value={_var} size="mini" placeholder={ t('placeholder.varName') } onChange={(e) => {
+                        <Input value={_var} size="mini" placeholder={t('placeholder.varName')} onChange={(e) => {
                             onTargetChange('var', e);
                             setVar(e);
                         }} />
@@ -390,7 +389,7 @@ const ConditionController = (props) => {
                     <div className='item'>
                         <Select
                             value={compare}
-                            placeholder={ t('placeholder.plsSelect') }
+                            placeholder={t('placeholder.plsSelect')}
                             onChange={(e) => {
                                 onTargetChange('compare', e);
                                 setCompare(e);
@@ -407,13 +406,13 @@ const ConditionController = (props) => {
                         <Input size="mini" disabled={compare === 'null' || compare === 'notnull'} value={val} onChange={(e) => {
                             setVal(e);
                             onTargetChange('val', e);
-                        }} placeholder={ t('placeholder.varVal') } />
+                        }} placeholder={t('placeholder.varVal')} />
                     </div>
                     <div className='item'>
                         <Input size="mini" value={remark} onChange={(e) => {
                             setRemark(e);
                             onTargetChange('remark', e);
-                        }} placeholder={ t('placeholder.remark') } />
+                        }} placeholder={t('placeholder.remark')} />
                     </div>
                 </div>
             </div>
@@ -423,7 +422,7 @@ const ConditionController = (props) => {
                 id="b"
                 className="my_handle"
             />
-        </>
+        </div>
     )
 };
 

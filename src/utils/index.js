@@ -626,48 +626,50 @@ export const isURL = (_url) => {
  * @param _url String
  * @return {URLObj}
  */
-export const createUrl = (_url) => {
+ export const createUrl = (_url) => {
     if (typeof _url !== 'string') {
-        _url += '';
+      _url += '';
     }
     if (!isURL(_url)) {
-        _url = `http://${_url}`;
+      _url = `http://${_url}`;
     }
-
+  
     const hostReg = /(http([s]?):\/\/)([^\/\?\\#]*)([\/|\?|\\#]?)/i;
     const host_arr = _url.match(hostReg);
     const protocol = host_arr[1];
     const host = host_arr[3];
-
+  
     // 主域部分
     const origin = protocol + host;
-
+  
     // 剩下部分
-    _url = `https://www.apipost.cn${_url.substring(origin.length)}`;
-
+    _url = `https://www.runnergo.cn${_url.substring(origin.length)}`;
+  
     let urls = {};
     try {
-        urls = new URL(_url);
+      urls = new URL(_url);
     } catch {
-        const http_url = `https://www.apipost.cn${_url.substring(origin.length)}`;
-        const a = document.createElement('a');
-        a.href = http_url;
-        urls = {
-            source: _url,
-            href: a.href,
-            protocol: a.protocol,
-            host: a.hostname,
-            hostname: a.hostname,
-            port: a.port,
-            origin: a.origin,
-            search: a.search,
-            pathname: a.pathname,
-            file: (a.pathname.match(/\/([^\/?#]+)$/i) || ['', ''])[1],
-            hash: a.hash,
-        };
+      const http_url = `https://www.runnergo.cn${_url.substring(origin.length)}`;
+      const a = document.createElement('a');
+      a.href = http_url;
+      urls = {
+        source: _url,
+        href: a.href,
+        protocol: a.protocol,
+        host: a.hostname,
+        hostname: a.hostname,
+        port: a.port,
+        origin: a.origin,
+        search: a.search,
+        pathname: a.pathname,
+        file: (a.pathname.match(/\/([^\/?#]+)$/i) || ['', ''])[1],
+        hash: a.hash,
+      };
     }
     return urls;
-};
+  };
+  
+  
 
 export const GetUrlQuery = (uri) => {
     let url = '';
@@ -688,6 +690,8 @@ export const GetUrlQuery = (uri) => {
 };
 
 export const GetUrlQueryToArray = (url) => {
+    console.log(url);
+    console.log(ATools.getUrlQueryArray(url));
     return ATools.getUrlQueryArray(url);
 };
 
