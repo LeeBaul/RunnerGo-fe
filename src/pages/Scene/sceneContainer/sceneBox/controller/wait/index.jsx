@@ -28,6 +28,7 @@ const WaitController = (props) => {
     const failed_edge_scene = useSelector((store) => store.scene.failed_edge);
     const open_scene_scene = useSelector((store) => store.scene.open_scene);
     const running_scene_scene = useSelector((store) => store.scene.running_scene);
+    const select_box_scene = useSelector((store) => store.scene.select_box);
 
     const run_res_plan = useSelector((store) => store.plan.run_res);
     const edges_plan = useSelector((store) => store.plan.edges);
@@ -38,6 +39,7 @@ const WaitController = (props) => {
     const failed_edge_plan = useSelector((store) => store.plan.failed_edge);
     const open_scene_plan = useSelector((store) => store.plan.open_plan_scene);
     const running_scene_plan = useSelector((store) => store.plan.running_scene);
+    const select_box_plan = useSelector((store) => store.plan.select_box);
 
     const run_res = from === 'scene' ? run_res_scene : run_res_plan;
     const edges = from === 'scene' ? edges_scene : edges_plan;
@@ -48,6 +50,7 @@ const WaitController = (props) => {
     const failed_edge = from === 'scene' ? failed_edge_scene : failed_edge_plan;
     const open_scene = from === 'scene' ? open_scene_scene : open_scene_plan;
     const running_scene = from === 'scene' ? running_scene_scene : running_scene_plan;
+    const select_box = from === 'scene' ? select_box_scene : select_box_plan;
     const dispatch = useDispatch();
 
     const { t } = useTranslation();
@@ -306,6 +309,17 @@ const WaitController = (props) => {
             setSelectBox(false);
         }
     }
+
+    useEffect(() => {
+        console.log(select_box, id, selectBox);
+        if (select_box === id && selectBox === false) {
+
+            setSelectBox(true);
+        } else if (select_box !== id) {
+
+            setSelectBox(false);
+        }
+    }, [select_box]);
 
     return (
         <div className={cn({
