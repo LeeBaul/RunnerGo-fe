@@ -878,7 +878,7 @@ const ReportContent = (props) => {
             </div>
             <div className='report-task-config'>
                 <Table showBorder columns={configColumn} data={configData} />
-                <Button className='update-config-btn' afterFix={<SvgAddcircle />} onClick={() => updateConfig()}>{t('btn.updateConfig')}</Button>
+                <Button className='update-config-btn' disabled={ status === 2 } afterFix={<SvgAddcircle />} onClick={() => updateConfig()}>{t('btn.updateConfig')}</Button>
             </div>
             <div className='report-detail-config'>
                 <div className='table-explain'>
