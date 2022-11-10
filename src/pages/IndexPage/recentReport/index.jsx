@@ -306,14 +306,6 @@ const RecentReport = () => {
         }
     }
 
-    useEffect(() => {
-        if (theme === 'dark') {
-            document.body.setAttribute('arco-theme', 'dark');
-        } else {
-            document.body.removeAttribute('arco-theme');
-        }
-    }, [theme]);
-
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [selectReport, setSelectReport] = useState(false);
 

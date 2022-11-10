@@ -169,9 +169,13 @@ const useProject = () => {
                 linkThemeName = 'dark'
             }
 
-            if (theme_color === 'dark') {
+            console.log(123123123);
+
+            if (theme_color === 'dark' || !theme_color) {
+                console.log('237189273891728391');
                 document.body.setAttribute('arco-theme', 'dark');
-            } else {
+            } else if (theme_color === 'white') {
+                console.log('237189273891728391');
                 document.body.removeAttribute('arco-theme');
             }
 
