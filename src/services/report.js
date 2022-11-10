@@ -77,3 +77,8 @@ export const fetchEmailMachine = (
 export const fetchEmailReportInfo = (
     query
 ) => ajax('get', '/html/api/v1/report/task_detail', 'json', false, {}, query);
+
+// 编辑报告配置并执行
+export const fetchEditReport = (
+    params
+) => ajax('post', '/management/api/v1/report/change_task_conf_run', 'json', false, params);

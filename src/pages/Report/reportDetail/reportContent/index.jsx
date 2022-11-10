@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './index.less';
-import { Button, Table } from 'adesign-react';
+import { Button, Table, Input, Message } from 'adesign-react';
 import { Addcircle as SvgAddcircle } from 'adesign-react/icons';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
@@ -8,10 +8,13 @@ import { cloneDeep } from 'lodash';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { fetchEditReport } from '@services/report';
+import { useLocation } from 'react-router-dom';
+import qs from 'qs';
 
 
 const ReportContent = (props) => {
-    const { data: datas, config: { task_mode, task_type, mode_conf }, create_time } = props;
+    const { data: datas, config: { task_mode, task_type, mode_conf, change_take_conf }, create_time, status, plan_id } = props;
     const { t } = useTranslation();
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);
@@ -36,6 +39,11 @@ const ReportContent = (props) => {
     const [configData, setConfigData] = useState([]);
 
     const [tooltipX, setTooltipX] = useState(0);
+
+    const { search } = useLocation();
+	const { id: report_id, contrast } = qs.parse(search.slice(1));
+
+    const [refresh, setRefresh] = useState(true);
 
     const theme = useSelector((store) => store.user.theme);
 
@@ -212,7 +220,10 @@ const ReportContent = (props) => {
     }, [datas]);
 
     useEffect(() => {
-        if (mode_conf) {
+        if (change_take_conf) {
+            if (!refresh) {
+                return;
+            }
             const {
                 concurrency,
                 duration,
@@ -223,9 +234,14 @@ const ReportContent = (props) => {
                 step,
                 step_run_time,
                 threshold_value
-            } = mode_conf;
+            } = change_take_conf[0];
 
-            setConfigData([{ concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time, create_time: dayjs(create_time * 1000).format('YYYY-MM-DD HH:mm:ss') }]);
+            setConfigData(change_take_conf.map(item => {
+                return {
+                    ...item,
+                    created_time_sec: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss')
+                }
+            }));
             let _columns = [];
             if (task_mode === 1) {
                 _columns = [
@@ -248,7 +264,7 @@ const ReportContent = (props) => {
                     },
                     {
                         title: t('plan.startTaskTime'),
-                        dataIndex: 'create_time'
+                        dataIndex: 'created_time_sec'
                     }
                 ];
             } else {
@@ -275,14 +291,15 @@ const ReportContent = (props) => {
                     },
                     {
                         title: t('plan.startTaskTime'),
-                        dataIndex: 'create_time'
+                        dataIndex: 'created_time_sec'
                     }
                 ];
             };
             setConfigColumn(_columns);
+            setRefresh(false);
         }
 
-    }, [mode_conf]);
+    }, [change_take_conf]);
 
     const columns1 = [
         {
@@ -786,8 +803,66 @@ const ReportContent = (props) => {
     //     });
     // }
 
+
+
     const updateConfig = () => {
-        setConfigData([...configData, configData[configData.length - 1]])
+        if (typeof configData[configData.length - 1].created_time_sec !== 'string') {
+            return;
+        }
+        let duration = null;
+        let concurrency = null;
+        let reheat_time = null;
+        let start_concurrency = null;
+        let step = null;
+        let step_run_time = null;
+        let max_concurrency = null;
+        let saveConfig = () => {
+            if (task_mode === 1) {
+                if (!concurrency || !duration) {
+                    Message('error', t('message.taskConfigEmpty'));
+                    return;
+                }
+            } else {
+                if (!start_concurrency || !step || !step_run_time || !max_concurrency) {
+                     Message('error', t('message.taskConfigEmpty'));
+                    return;
+                }
+            }
+            const params = {
+                report_id: Number(report_id),
+                plan_id: Number(plan_id),
+                team_id: Number(localStorage.getItem('team_id')),
+                mode_conf: {
+                    duration,
+                    concurrency,
+                    reheat_time,
+                    start_concurrency,
+                    step,
+                    step_run_time,
+                    max_concurrency
+                }
+            };
+            fetchEditReport(params).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    const { code } = res;
+                    if (code === 0) {
+                        setRefresh(true);
+                        Message('success', t('report.configRunSuccess'))
+                    }
+                }
+            })
+        }
+        setConfigData([...configData, {
+            duration: <Input value={duration} onChange={(e) => (duration = Number(e))} />,
+            concurrency: <Input value={concurrency} onChange={(e) => (concurrency = Number(e))} />,
+            reheat_time: <Input value={reheat_time} onChange={(e) => (reheat_time = Number(e))} />,
+            start_concurrency: <Input value={start_concurrency} onChange={(e) => (start_concurrency = Number(e))} />,
+            step: <Input value={step} onChange={(e) => (step = Number(e))} />,
+            step_run_time: <Input value={step_run_time} onChange={(e) => (step_run_time = Number(e))} />,
+            max_concurrency: <Input value={max_concurrency} onChange={(e) => (max_concurrency = Number(e))} />,
+            created_time_sec: <Button onClick={() => saveConfig()}>{ t('report.configRun') }</Button>
+        }])
     }
 
     return (

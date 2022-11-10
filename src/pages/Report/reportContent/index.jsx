@@ -57,7 +57,7 @@ const ReportContent = () => {
         };
         fetchReportInfo(query).subscribe({
             next: (res) => {
-                const { data: { report: { plan_name, plan_id, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status, scene_name } } } = res;
+                const { data: { report: { plan_name, plan_id, task_mode, task_type, mode_conf, user_name, user_avatar, created_time_sec, task_status, scene_name, change_take_conf } } } = res;
                 setPlanId(plan_id);
                 setCreateTime(created_time_sec);
                 setHeaderData({
@@ -74,6 +74,7 @@ const ReportContent = () => {
                     task_type,
                     mode_conf,
                     plan_id,
+                    change_take_conf,
                 });
                 setReportStatus(task_status);
                 if (task_status === 2) {

@@ -214,6 +214,17 @@ const SceneBox = (props) => {
         }
     }, [to_loading]);
 
+    useEffect(() => {
+        if (edges.length) {
+            const _edges = cloneDeep(edges);
+            _edges.forEach(item => {
+                item.style = {};
+                item.markerEnd = {};
+            });
+            setEdges(_edges);
+        }
+    }, [init_scene])
+
 
     const getNewCoordinate = (nodes) => {
         let position = {

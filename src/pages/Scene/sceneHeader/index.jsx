@@ -321,6 +321,33 @@ const SceneHeader = (props) => {
 
     };
 
+    const initScene = () => {
+        dispatch({
+            type: 'scene/updateRunRes',
+            payload: null,
+        });
+        dispatch({
+            type: 'scene/updateRunningScene',
+            payload: '',
+        });
+        dispatch({
+            type: 'scene/updateSuccessEdge',
+            payload: [],
+        });
+        dispatch({
+            type: 'scene/updateFailedEdge',
+            payload: [],
+        });
+        dispatch({
+            type: 'scene/updateBeautify',
+            payload: false
+        });
+        dispatch({
+            type: 'scene/updateInitScene',
+            payload: !init_scene
+        })
+    }
+
     return (
         <div className='scene-header'>
             <div className='scene-header-left'>
@@ -332,6 +359,7 @@ const SceneHeader = (props) => {
                     <SvgSetting />
                     <span>{ t('scene.sceneConfig') }</span>
                 </div>
+                {/* <Button className='saveBtn' onClick={() => initScene()}>初始化调试结果</Button> */}
                 <Button className='saveBtn' onClick={() => toBeautify()}>{ t('btn.toBeautify') }</Button>
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene(() => {
                             Message('success', t('message.saveSuccess')); 

@@ -643,7 +643,9 @@
         "collect": "汇总",
         "debugEmpty": "请打开debug模式",
         "title": "测试报告",
-        "contrastReport": "对比报告"
+        "contrastReport": "对比报告",
+        "configRun": "执行",
+        "configRunSuccess": "执行成功!"
     },
     "tooltip": {
         "start": "运行",

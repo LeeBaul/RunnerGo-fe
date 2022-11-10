@@ -650,7 +650,9 @@
         "collect": "Collect",
         "debugEmpty": "Please turn on Debug mode",
         "title": "Test report",
-        "contrastReport": "Comparison report"
+        "contrastReport": "Comparison report",
+        "configRun": "Run",
+        "configRunSuccess": "Run successful!"
     },
     "tooltip": {
         "start": "Run",

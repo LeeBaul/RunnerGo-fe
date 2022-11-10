@@ -175,7 +175,7 @@ const Box = (props) => {
     }, [node_config]);
 
     useEffect(() => {
-        setStatus('status');
+        setStatus('default');
     }, [init_scene]);
 
     useEffect(() => {
@@ -708,8 +708,8 @@ const Box = (props) => {
                         mode === 3 && <div className='common-flex'>
                             <span>{t('scene.errorValue')}</span>
                             <Input size="mini" value={error_threshold} onChange={(e) => {
-                                setError(parseInt(e));
-                                onTargetChange('error_threshold', parseInt(e));
+                                setError(Number(e));
+                                onTargetChange('error_threshold', Number(e));
                             }} placeholder={t('scene.errorRate')} />
                         </div>
                     }
