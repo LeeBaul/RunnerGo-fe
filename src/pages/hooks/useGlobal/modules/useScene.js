@@ -657,10 +657,22 @@ const useScene = () => {
                 delete clone_flow['scene_id'];
                 clone_flow.scene_id = parseInt(id);
                 clone_flow.nodes.forEach(item => {
+                    const _id = item.id;
                     const id = v4();
                     item.id = id;
                     item.data.id = id;
+
+                    clone_flow.edges.forEach(item => {
+                        if (item.target === _id) {
+                            item.target = id;
+                        }
+                        if (item.source === _id) {
+                            item.source = id;
+                        }
+                    })
                 })
+
+                console.log(clone_flow);
 
                 return from(fetchCreateSceneFlow(clone_flow))
             }),
