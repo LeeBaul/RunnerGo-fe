@@ -292,6 +292,22 @@ const ContrastContent = () => {
 
     const theme = useSelector((store) => store.user.theme);
 
+    useEffect(() => {
+        window.addEventListener('wheel', (e) => {
+            const echart_title = document.getElementsByClassName('echart-title')[0];
+            const echart_container = document.getElementsByClassName('echart-container')[0];
+            if (echart_title.getBoundingClientRect().top === 50) {
+                echart_title.style.position = 'fixed';
+                echart_title.style.top = '50px';
+            }
+            if (echart_container.getBoundingClientRect().top > 100) {
+                echart_title.style.position = 'relative';
+                echart_title.style.top = '0';
+            }
+            console.log(echart_container.getBoundingClientRect().top)
+        })
+    }, []);
+
 
     return (
         <div className="contrast-content">
