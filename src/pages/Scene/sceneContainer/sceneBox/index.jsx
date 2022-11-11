@@ -818,7 +818,7 @@ const SceneBox = (props) => {
         const flow = document.getElementsByClassName('react-flow')[0];
         console.log(add_new)
 
-        flow.addEventListener('mousemove', (e) => {
+        const mousemove = (e) => {
             // console.log(e);
             // console.log(svgMouse);
             const { pageX, pageY, offsetX, offsetY } = e;
@@ -826,13 +826,13 @@ const SceneBox = (props) => {
             if (add_new === 'api') {
                 setShowMouse(true);
 
-                svgMouse.style.top = offsetY - 0 + 'px';
-                svgMouse.style.left = offsetX - 0 + 'px';
+                svgMouse.style.top = offsetY + 'px';
+                svgMouse.style.left = offsetX + 'px';
                 // svgMouse.style.display = 'block';
             }
-        })
+        }
 
-        flow.addEventListener('click', (e) => {
+        const click = (e) => {
             const { offsetX, offsetY } = e;
             console.log(offsetX, offsetY);
             if (add_new === 'api') {
@@ -902,7 +902,16 @@ const SceneBox = (props) => {
                 }
                 svgMouse.style.display = 'none';
             }
-        })
+        }
+
+        flow.addEventListener('mousemove', mousemove);
+
+        flow.addEventListener('click', click);
+
+        return () => {
+            flow.removeEventListener('mousemove', mousemove);
+            flow.removeEventListener('click', click);
+        }
     }, [add_new]);
 
 
