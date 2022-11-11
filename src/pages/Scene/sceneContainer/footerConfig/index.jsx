@@ -33,34 +33,50 @@ const FooterConfig = (props) => {
                 <div className='wait' onClick={() => {
                     if (from === 'scene') {
                         dispatch({
-                            type: 'scene/updateType',
-                            payload: ['add', 'wait_controller']
+                            type: 'scene/updateAddNew',
+                            payload: 'wait_controller'
                         })
+                        // dispatch({
+                        //     type: 'scene/updateType',
+                        //     payload: ['add', 'wait_controller']
+                        // })
                     } else {
                         dispatch({
-                            type: 'plan/updateType',
-                            payload: ['add', 'wait_controller']
+                            type: 'plan/updateAddNew',
+                            payload: 'wait_controller'
                         })
+                        // dispatch({
+                        //     type: 'plan/updateType',
+                        //     payload: ['add', 'wait_controller']
+                        // })
                     }
                 }}>
                     <SvgAdd />
-                    <span>{ t('scene.waitControl') }</span>
+                    <span>{t('scene.waitControl')}</span>
                 </div>
                 <div className='condition' onClick={() => {
-                    if (from ==='scene') {
-                      dispatch({
-                        type: 'scene/updateType',
-                        payload: ['add', 'condition_controller']
-                      })
+                    if (from === 'scene') {
+                        dispatch({
+                            type: 'scene/updateAddNew',
+                            payload: 'condition_controller'
+                        })
+                        // dispatch({
+                        //     type: 'scene/updateType',
+                        //     payload: ['add', 'condition_controller']
+                        // })
                     } else {
-                      dispatch({
-                        type: 'plan/updateType',
-                        payload: ['add', 'condition_controller']
-                      })
+                        dispatch({
+                            type: 'plan/updateAddNew',
+                            payload: 'condition_controller'
+                        })
+                        // dispatch({
+                        //     type: 'plan/updateType',
+                        //     payload: ['add', 'condition_controller']
+                        // })
                     }
                 }}>
                     <SvgAdd />
-                    <span>{ t('scene.conditionControl') }</span>
+                    <span>{t('scene.conditionControl')}</span>
                 </div>
             </div>
             }
@@ -68,28 +84,36 @@ const FooterConfig = (props) => {
                 <div className='config-item' onClick={() => {
                     if (from === 'scene') {
                         dispatch({
-                        type: 'scene/updateType',
-                        payload: ['add', 'api']
-                      })
+                            type: 'scene/updateAddNew',
+                            payload: 'api'
+                        })
+                        //     dispatch({
+                        //     type: 'scene/updateType',
+                        //     payload: ['add', 'api']
+                        //   })
                     } else {
                         dispatch({
-                            type: 'plan/updateType',
-                            payload: ['add', 'api']
+                            type: 'plan/updateAddNew',
+                            payload: 'api'
                         })
+                        // dispatch({
+                        //     type: 'plan/updateType',
+                        //     payload: ['add', 'api']
+                        // })
                     }
                 }}>
                     <SvgApis />
-                    <span>{ t('scene.createApi') }</span>
+                    <span>{t('scene.createApi')}</span>
                 </div>
                 <span className='line'></span>
                 <div className='config-item' onClick={() => setShowControl(!showControl)}>
                     <SvgAdd />
-                    <span>{ t('scene.createControl') }</span>
+                    <span>{t('scene.createControl')}</span>
                 </div>
                 <span className='line'></span>
                 <div className='config-item' onClick={() => onChange('api', true)}>
                     <SvgDownload />
-                    <span>{ t('scene.importApi') }</span>
+                    <span>{t('scene.importApi')}</span>
                 </div>
                 {/* {
                     from === 'plan' && (

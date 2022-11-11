@@ -21,6 +21,8 @@ import { edges as initialEdges } from './mock';
 import CustomEdge from "./customEdge";
 import { useTranslation } from 'react-i18next';
 
+import SvgMouse from '@assets/icons/mouse.svg';
+
 const nodeTypes = {
     api: Box,
     condition_controller: ConditionController,
@@ -564,6 +566,10 @@ const SceneBox = (props) => {
         // }
     }, [failed_edge]);
 
+    
+    const [showMouse, setShowMouse] = useState(false);
+    const [position, setPosition] = useState([]);
+
     useEffect(() => {
         const [action, type] = type_now;
 
@@ -577,9 +583,17 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: getNewCoordinate(nodes),
+                position: {
+                    x: position[0],
+                    y: position[1]
+                },
+                positionAbsolute: {
+                    x: position[0],
+                    y: position[1]
+                },
                 dragHandle: '.drag-content',
             }
+            setPosition([]);
             const _open_data = cloneDeep(open_data);
             if (_open_data.nodes) {
                 _open_data.nodes.push(new_node);
@@ -610,9 +624,18 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: getNewCoordinate(nodes),
+                position: {
+                    x: position[0],
+                    y: position[1]
+                },
+                positionAbsolute: {
+                    x: position[0],
+                    y: position[1]
+                },
                 dragHandle: '.drag-content',
             }
+
+            setPosition([]);
 
             // const _open_data = cloneDeep(open_data);
             // if (_open_data.nodes) {
@@ -645,9 +668,17 @@ const SceneBox = (props) => {
                     id,
                     from,
                 },
-                position: getNewCoordinate(nodes),
+                position: {
+                    x: position[0],
+                    y: position[1]
+                },
+                positionAbsolute: {
+                    x: position[0],
+                    y: position[1]
+                },
                 dragHandle: '.drag-content',
             }
+            setPosition([]);
             // const _open_data = cloneDeep(open_data || []);
             // if (_open_data.nodes) {
             //     _open_data.nodes.push(new_node);
@@ -698,7 +729,7 @@ const SceneBox = (props) => {
                 payload: false
             })
         }
-    }, [type_now]);
+    }, [type_now, position]);
 
     const scene_edge_right = useSelector((store) => store.scene.edge_right_id);
     const plan_edge_right = useSelector((store) => store.plan.edge_right_id);
@@ -769,6 +800,79 @@ const SceneBox = (props) => {
         }
     }, [edge_right, _edges, from]);
 
+    const add_new_scene = useSelector((store) => store.scene.add_new);
+    const add_new_plan = useSelector((store) => store.plan.add_new);
+    const add_new = from === 'scene' ? add_new_scene : add_new_plan;
+    console.log(add_new, 'add_new');
+    const svgMouse = document.getElementsByClassName('svg-mouse')[0];
+
+    if (add_new === 'api') {
+
+        svgMouse && (svgMouse.style.display = 'block')
+    }  else if (!add_new) {
+        svgMouse && (svgMouse.style.display = 'none')
+    }
+
+    useEffect(() => {
+
+        const flow = document.getElementsByClassName('react-flow')[0];
+        console.log(add_new)
+
+        flow.addEventListener('mousemove', (e) => {
+            // console.log(e);
+            // console.log(svgMouse);
+            const { pageX, pageY, offsetX, offsetY } = e;
+
+            if (add_new === 'api') {
+                setShowMouse(true);
+
+                svgMouse.style.top = offsetY - 0 + 'px';
+                svgMouse.style.left = offsetX - 0 + 'px';
+                // svgMouse.style.display = 'block';
+            }
+        })
+
+        flow.addEventListener('click', (e) => {
+            const { offsetX, offsetY } = e;
+            console.log(offsetX, offsetY);
+            if (add_new === 'api') {
+                setPosition([offsetX, offsetY]);
+                dispatch({
+                    type: 'scene/updateType',
+                    payload: ['add', 'api']
+                })
+                dispatch({
+                    type: 'scene/updateAddNew',
+                    payload: ''
+                })
+                svgMouse.style.display = 'none';
+            } else if (add_new === 'wait_controller') {
+                setPosition([offsetX, offsetY]);
+                dispatch({
+                    type: 'scene/updateType',
+                    payload: ['add', 'wait_controller']
+                })
+                dispatch({
+                    type: 'scene/updateAddNew',
+                    payload: ''
+                })
+                svgMouse.style.display = 'none';
+            } else if (add_new === 'condition_controller') {
+                setPosition([offsetX, offsetY]);
+                dispatch({
+                    type: 'scene/updateType',
+                    payload: ['add', 'condition_controller']
+                })
+                dispatch({
+                    type: 'scene/updateAddNew',
+                    payload: ''
+                })
+                svgMouse.style.display = 'none';
+            }
+        })
+    }, [add_new]);
+
+
 
     return (
         <div ref={refContainer} style={{ width: '100%', height: '100%' }}>
@@ -814,8 +918,12 @@ const SceneBox = (props) => {
                 <Background />
             </ReactFlow>
 
+            {
+                <SvgMouse className='svg-mouse' />
+            }
+
             <div className="scene-right-menu" style={{ display: 'none' }}>
-                { t('index.delete') }
+                {t('index.delete')}
             </div>
         </div>
     )

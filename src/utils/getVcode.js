@@ -2,7 +2,7 @@ export const getVcodefun = () =>
   new Promise((reslove) => {
     window.initGeetest4(
       {
-        captchaId: '6e565a95d7da27b5d1c949357761a8e4',
+        captchaId: '21e60344e9f4fb23947d51d00302b547',
         nativeButton: {
           height: '100%',
           width: '100%',

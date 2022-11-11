@@ -42,7 +42,9 @@ const initialState = {
 
   beautify: false, // 美化当前场景
 
-  edge_right_id: ''
+  edge_right_id: '',
+
+  add_new: ''
 };
 
 // action名称
@@ -80,7 +82,9 @@ const actionTypes = {
 
   updateBeautify: 'updateBeautify',
 
-  updateEdgeRight: 'updateEdgeRight'
+  updateEdgeRight: 'updateEdgeRight',
+
+  updateAddNew: 'updateAddNew'
 };
 
 export const sceneReducer = (state = initialState, action) => {
@@ -242,6 +246,11 @@ export const sceneReducer = (state = initialState, action) => {
       return {
         ...state,
         edge_right_id: action.payload
+      }
+    case `${NAMESPACE}/${actionTypes.updateAddNew}`:
+      return {
+        ...state,
+        add_new: action.payload
       }
     default:
       return state;

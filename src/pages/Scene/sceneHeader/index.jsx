@@ -5,7 +5,7 @@ import {
     Save as SvgSave,
     CaretRight as SvgCaretRight
 } from 'adesign-react/icons';
-import { Button, Message } from 'adesign-react';
+import { Button, Message, Tooltip } from 'adesign-react';
 import { useSelector, useDispatch } from 'react-redux';
 import CreateApi from '@modals/CreateApi';
 import SceneConfig from '@modals/SceneConfig';
@@ -187,7 +187,7 @@ const SceneHeader = (props) => {
         }
         saveScene(_callback);
 
-    
+
 
         // const _edges = cloneDeep(edges);
         // // _edges[0].animated = true;
@@ -205,12 +205,12 @@ const SceneHeader = (props) => {
     };
 
     const keyDown = (e) => {
-        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
             saveScene(() => {
                 Message('success', t('message.saveSuccess'));
             })
-         }
+        }
     }
 
     useEffect(() => {
@@ -219,7 +219,7 @@ const SceneHeader = (props) => {
         }
     }, [nodes, edges, node_config, id_apis, open_scene])
 
-    
+
     useEffect(() => {
 
         document.addEventListener('keydown', keyDown);
@@ -252,22 +252,22 @@ const SceneHeader = (props) => {
         const findValue = (id) => {
             return a.find(item => item.id === id);
         }
-    
+
         let loop = (result, arr) => {
             let res = [];
             arr.forEach(item => {
-               let data =  b.filter(elem => elem.source === item.id).map(elem1 => {
-                result.forEach(item => {
-                    let _index = item.findIndex(elem2 => elem2.id === elem1.target);
-                    if (_index !== -1){
-                        item.splice(_index, 1);
-                    }
-                })
-                 return { ...findValue(elem1.target) }
-               });
-               res.push(...data);
+                let data = b.filter(elem => elem.source === item.id).map(elem1 => {
+                    result.forEach(item => {
+                        let _index = item.findIndex(elem2 => elem2.id === elem1.target);
+                        if (_index !== -1) {
+                            item.splice(_index, 1);
+                        }
+                    })
+                    return { ...findValue(elem1.target) }
+                });
+                res.push(...data);
             })
-    
+
             if (res.length > 0) {
                 result.push(res);
                 return loop(result, res);
@@ -275,7 +275,7 @@ const SceneHeader = (props) => {
                 return result;
             }
         }
-    
+
         return loop(result, root);
     };
 
@@ -316,7 +316,7 @@ const SceneHeader = (props) => {
             dispatch({
                 type: 'plan/updateBeautify',
                 payload: true
-            }) 
+            })
         }
 
     };
@@ -352,24 +352,35 @@ const SceneHeader = (props) => {
         <div className='scene-header'>
             <div className='scene-header-left'>
                 <p className='name'>{open_scene_name}</p>
-                <p className='desc' style={{ maxWidth: from === 'scene' ? '62vw' : '20vw' }}>{ t('scene.sceneDesc') }：{open_scene_desc}</p>
+                {
+                    open_scene_desc ? <Tooltip content={open_scene_desc}>
+                        <p className='desc' style={{ maxWidth: from === 'scene' ? '62vw' : '20vw' }}>
+                            <span>{t('scene.sceneDesc')}：</span>
+                            {open_scene_desc}
+                        </p>
+                    </Tooltip>
+                        : <p className='desc' style={{ maxWidth: from === 'scene' ? '62vw' : '20vw' }}>
+                            <span>{t('scene.sceneDesc')}：</span>
+                            {open_scene_desc}
+                        </p>
+                }
             </div>
             <div className='scene-header-right'>
                 <div className='config' onClick={() => setSceneConfig(true)}>
                     <SvgSetting />
-                    <span>{ t('scene.sceneConfig') }</span>
+                    <span>{t('scene.sceneConfig')}</span>
                 </div>
                 {/* <Button className='saveBtn' onClick={() => initScene()}>初始化调试结果</Button> */}
-                <Button className='saveBtn' onClick={() => toBeautify()}>{ t('btn.toBeautify') }</Button>
+                <Button className='saveBtn' onClick={() => toBeautify()}>{t('btn.toBeautify')}</Button>
                 <Button className='saveBtn' preFix={<SvgSave />} onClick={() => saveScene(() => {
-                            Message('success', t('message.saveSuccess')); 
-                        })}>{ t('btn.save') }</Button>
+                    Message('success', t('message.saveSuccess'));
+                })}>{t('btn.save')}</Button>
                 {
                     run_status === 'running'
                         ? <Button className='stopBtn' preFix={<SvgStop />} onClick={() => Bus.$emit('stopScene', open_scene.scene_id, from, () => {
                             Message('success', t('message.stopSuccess'));
-                        })}>{ t('btn.stopRun') }</Button>
-                        : <Button className='runBtn' style={{ background: from === 'plan' ? '#2BA58F' : 'var(--run-green)' }} preFix={<SvgCaretRight />} onClick={() => runScene()}>{ from === 'scene' ? t('btn.run') : t('btn.runScene') }</Button>
+                        })}>{t('btn.stopRun')}</Button>
+                        : <Button className='runBtn' style={{ background: from === 'plan' ? '#2BA58F' : 'var(--run-green)' }} preFix={<SvgCaretRight />} onClick={() => runScene()}>{from === 'scene' ? t('btn.run') : t('btn.runScene')}</Button>
                 }
             </div>
             {showSceneConfig && <SceneConfig from={from} onCancel={() => setSceneConfig(false)} />}
