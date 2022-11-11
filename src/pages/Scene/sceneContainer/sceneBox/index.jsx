@@ -837,36 +837,69 @@ const SceneBox = (props) => {
             console.log(offsetX, offsetY);
             if (add_new === 'api') {
                 setPosition([offsetX, offsetY]);
-                dispatch({
-                    type: 'scene/updateType',
-                    payload: ['add', 'api']
-                })
-                dispatch({
-                    type: 'scene/updateAddNew',
-                    payload: ''
-                })
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateType',
+                        payload: ['add', 'api']
+                    })
+                    dispatch({
+                        type: 'scene/updateAddNew',
+                        payload: ''
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateType',
+                        payload: ['add', 'api']
+                    })
+                    dispatch({
+                        type: 'plan/updateAddNew',
+                        payload: ''
+                    })
+                }
                 svgMouse.style.display = 'none';
             } else if (add_new === 'wait_controller') {
                 setPosition([offsetX, offsetY]);
-                dispatch({
-                    type: 'scene/updateType',
-                    payload: ['add', 'wait_controller']
-                })
-                dispatch({
-                    type: 'scene/updateAddNew',
-                    payload: ''
-                })
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateType',
+                        payload: ['add', 'wait_controller']
+                    })
+                    dispatch({
+                        type: 'scene/updateAddNew',
+                        payload: ''
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateType',
+                        payload: ['add', 'wait_controller']
+                    })
+                    dispatch({
+                        type: 'plan/updateAddNew',
+                        payload: ''
+                    })
+                }
                 svgMouse.style.display = 'none';
             } else if (add_new === 'condition_controller') {
                 setPosition([offsetX, offsetY]);
-                dispatch({
-                    type: 'scene/updateType',
-                    payload: ['add', 'condition_controller']
-                })
-                dispatch({
-                    type: 'scene/updateAddNew',
-                    payload: ''
-                })
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateType',
+                        payload: ['add', 'condition_controller']
+                    })
+                    dispatch({
+                        type: 'scene/updateAddNew',
+                        payload: ''
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateType',
+                        payload: ['add', 'condition_controller']
+                    })
+                    dispatch({
+                        type: 'plan/updateAddNew',
+                        payload: ''
+                    })
+                }
                 svgMouse.style.display = 'none';
             }
         })
