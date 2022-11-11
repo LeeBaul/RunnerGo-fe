@@ -371,8 +371,8 @@ const ReportContrast = () => {
 
     return (
         <div className="report-contrast">
-            <ContrastHeader />
-            <ContrastDetail />
+            <ContrastHeader name={data.report_names} />
+            <ContrastDetail list1={data.list1} list2={data.list2} list3={data.list3} list4={data.list4} />
         </div>
     )
 };

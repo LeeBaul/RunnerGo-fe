@@ -823,7 +823,7 @@ const SceneBox = (props) => {
             // console.log(svgMouse);
             const { pageX, pageY, offsetX, offsetY } = e;
 
-            if (add_new === 'api') {
+            if (add_new === 'api' || add_new === 'wait_controller' || add_new === 'condition_controller') {
                 setShowMouse(true);
 
                 svgMouse.style.top = offsetY + 'px';

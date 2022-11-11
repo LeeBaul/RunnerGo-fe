@@ -6,7 +6,9 @@ import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import { useSelector } from 'react-redux';
 
-const ContrastContent = () => {
+const ContrastContent = (props) => {
+    const { list1, list2, list3 } = props;
+
     const { t } = useTranslation();
     const [column1, setColumn1] = useState(
         [

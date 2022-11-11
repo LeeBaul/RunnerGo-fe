@@ -8,12 +8,14 @@ import { TabStyle } from './style';
 
 const { Tabs, TabPan } = TabComponent;
 
-const ContrastDetail = () => {
+const ContrastDetail = (props) => {
+    const { list1, list2, list3, list4 } = props;
+
     const { t } = useTranslation();
 
     const defaultList = [
-        { id: '1', title: t('report.tabList.0'), content: <ContrastContent /> },
-        { id: '2', title: t('report.tabList.2'), content: <ContrastMonitor /> },
+        { id: '1', title: t('report.tabList.0'), content: <ContrastContent list1={list1} list2={list2} list3={list3} /> },
+        { id: '2', title: t('report.tabList.2'), content: <ContrastMonitor list4={list4} /> },
     ];
 
     return (

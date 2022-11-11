@@ -3,7 +3,8 @@ import './index.less';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 
-const ContrastMonitor = () => {
+const ContrastMonitor = (props) => {
+    const { list4 } = props;
 
     let base = +new Date(1988, 9, 3);
     let oneDay = 24 * 3600 * 1000;
