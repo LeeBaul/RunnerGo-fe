@@ -395,6 +395,8 @@
         "desc": "描述",
         "emptyBody": "该请求暂时没有正文",
         "notAuth": "该接口不需要认证",
+        "requestContent": "请求区",
+        "responseContent": "响应区",
         "authList": {
             "noauth": "无需认证",
             "kv": "私密键值对",

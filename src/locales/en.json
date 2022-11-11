@@ -396,6 +396,8 @@
         "desc": "Description",
         "emptyBody": "The request has no body temporarily",
         "notAuth": "This interface does not require authentication",
+        "requestContent": "Request area",
+        "responseContent": "Response area",
         "authList": {
             "noauth": "No authentication required",
             "kv": "Private Key Value Pair",

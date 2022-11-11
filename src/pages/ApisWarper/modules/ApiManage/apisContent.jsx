@@ -6,6 +6,7 @@ import cn from 'classnames';
 import ResquestPanel from '@components/Request/requestPanel';
 import ResponsePanel from '@components/response/responsePanel';
 import { ApisContentWarper } from './style';
+import { useTranslation } from 'react-i18next';
 
 const { ScaleItem, ScalePanel } = Scale;
 
@@ -21,6 +22,7 @@ const ApisContent = (props) => {
     const refContainer = useRef(null);
 
     const [contentLayouts, setContentLayouts] = useState (null);
+    const { t } = useTranslation();
 
     const refWrapper = useRef(null);
     useEffect(() => {
@@ -133,7 +135,7 @@ const ApisContent = (props) => {
                                 vertical: !(APIS_TAB_DIRECTION > 0),
                             })}
                         >
-                            请求区
+                            ⬇{ t('apis.requestContent') }⬇
                         </div>
                     ) : (
                         <ResquestPanel data={data || {}} onChange={onChange} />
@@ -147,7 +149,7 @@ const ApisContent = (props) => {
                                 vertical: !(APIS_TAB_DIRECTION > 0),
                             })}
                         >
-                            响应区
+                            ⬇{ t('apis.responseContent') }⬇
                         </div>
                     ) : (
                         <ResponsePanel
