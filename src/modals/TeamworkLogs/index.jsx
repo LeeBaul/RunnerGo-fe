@@ -107,11 +107,14 @@ const TeamworkLogs = (props) => {
             if (max === 0) max = 1;
             setMaxPage(max);
             operations.forEach(item => {
+              // console.log(item);
               const itemData = {
                 ...item,
                 time: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD'),
                 created_time_sec: dayjs(item.created_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
               };
+
+              console.log(itemData);
 
               if (list.length === 0) {
                 list.push({
@@ -134,6 +137,7 @@ const TeamworkLogs = (props) => {
               }
             });
             setList(list);
+            console.log(list);
           }
         })
       )
@@ -314,7 +318,7 @@ const TeamworkLogs = (props) => {
                           {/* </Tooltip> */}
                         </div>
                         <div className="time">
-                          { it.created_time_sec }
+                          { logItem.created_time_sec }
                         </div>
                       </div>
                     )),
