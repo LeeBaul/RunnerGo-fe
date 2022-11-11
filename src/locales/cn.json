@@ -228,7 +228,8 @@
         "runPlanTooltip": "开始运行并通知所有收件人",
         "emptyScene": "请先添加接口",
         "taskConfigEmpty": "必填项不能为空!",
-        "endGTstart": "结束时间必须大于执行时间"
+        "endGTstart": "结束时间必须大于执行时间",
+        "contrastMode": "对比的报告模式必须一样!"
     },
     "modal": {
         "look": "注意",

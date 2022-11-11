@@ -293,12 +293,20 @@ const WaitController = (props) => {
     };
 
     const [selectBox, setSelectBox] = useState(false);
+    const wait = document.querySelector('.controller-wait');
+    const svgMouse = document.querySelector('.svgMouse');
 
     useEffect(() => {
-        document.addEventListener('click', (e) => clickOutSide(e))
+        const boxMouseOver = () => {
+            svgMouse.style.display = 'none';
+        }
+        document.addEventListener('click', (e) => clickOutSide(e));
+        wait && wait.addEventListener('onmouseover', boxMouseOver);
+
 
         return () => {
             document.removeEventListener('click', (e) => clickOutSide(e));
+            wait.removeEventListener('onmouseover', boxMouseOver);
         }
     }, []);
 

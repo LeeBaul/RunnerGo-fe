@@ -227,91 +227,181 @@ const ReportContrast = () => {
             {
                 name: "计划1/场景2",
                 time: "2022.11.11 12:23:22",
-                data: [
-                    {
+                data: {
+                    api1: {
+                        api_name: "接口1",
                         avg_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
                         qps_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
                         concurrency_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
                         error_num_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
                         fifty_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
                         ninety_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
                         ninety_five_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
                         ninety_nine_list: [
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
                             },
                             {
-                                time_stamp: 1668076867,
-                                value: 38.5
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                name: "计划1/场景2",
+                time: "2022.11.11 12:23:22",
+                data: {
+                    api1: {
+                        api_name: "接口1",
+                        avg_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
                             }
                         ],
+                        qps_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ],
+                        concurrency_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ],
+                        error_num_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ],
+                        fifty_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ],
+                        ninety_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ],
+                        ninety_five_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ],
+                        ninety_nine_list: [
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            },
+                            {
+                                time_stamp: 1668134583,
+                                value: 32.3
+                            }
+                        ]
                     }
-                ]
-            }
+                }
+            },
         ],
         list4: [
             {

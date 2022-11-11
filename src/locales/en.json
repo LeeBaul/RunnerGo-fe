@@ -229,7 +229,8 @@
         "runPlanTooltip": "Start run and notify all recipients",
         "emptyScene": "Please add the API first",
         "taskConfigEmpty": "The required fields cannot be empty!",
-        "endGTstart": "End time must be greater than execution time"
+        "endGTstart": "End time must be greater than execution time",
+        "contrastMode": "The reporting mode for comparison must be the same!"
     },
     "modal": {
         "look": "Be careful",

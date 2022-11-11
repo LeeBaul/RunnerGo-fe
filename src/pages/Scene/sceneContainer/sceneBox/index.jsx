@@ -806,7 +806,8 @@ const SceneBox = (props) => {
     console.log(add_new, 'add_new');
     const svgMouse = document.getElementsByClassName('svg-mouse')[0];
 
-    if (add_new === 'api') {
+
+    if (add_new === 'api' || add_new === 'wait_controller' || add_new === 'condition_controller') {
 
         svgMouse && (svgMouse.style.display = 'block')
     }  else if (!add_new) {
@@ -822,7 +823,7 @@ const SceneBox = (props) => {
             // console.log(e);
             // console.log(svgMouse);
             const { pageX, pageY, offsetX, offsetY } = e;
-
+            // console.log(offsetX, offsetY);
             if (add_new === 'api' || add_new === 'wait_controller' || add_new === 'condition_controller') {
                 setShowMouse(true);
 
@@ -834,7 +835,7 @@ const SceneBox = (props) => {
 
         const click = (e) => {
             const { offsetX, offsetY } = e;
-            console.log(offsetX, offsetY);
+            // console.log(offsetX, offsetY);
             if (add_new === 'api') {
                 setPosition([offsetX, offsetY]);
                 if (from === 'scene') {

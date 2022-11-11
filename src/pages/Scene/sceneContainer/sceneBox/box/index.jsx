@@ -578,11 +578,21 @@ const Box = (props) => {
 
     const [selectBox, setSelectBox] = useState(false);
 
+    const box = document.querySelector('.box');
+    const svgMouse = document.querySelector('.svgMouse');
+
     useEffect(() => {
+        const boxMouseOver = () => {
+            svgMouse.style.display = 'none';
+        }
+
         document.addEventListener('click', (e) => clickOutSide(e));
+        box && box.addEventListener('onmouseover', boxMouseOver);
+        
 
         return () => {
             document.removeEventListener('click', (e) => clickOutSide(e));
+            box.removeEventListener('onmouseover', boxMouseOver);
         }
     }, []);
 

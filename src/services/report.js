@@ -82,3 +82,8 @@ export const fetchEmailReportInfo = (
 export const fetchEditReport = (
     params
 ) => ajax('post', '/management/api/v1/report/change_task_conf_run', 'json', false, params);
+
+// 对比报告
+export const fetchContrastReport = (
+    params
+) => ajax('post', '/management/api/v1/report/compare_report', 'json', false, params);

@@ -308,11 +308,20 @@ const ConditionController = (props) => {
 
     const [selectBox, setSelectBox] = useState(false);
 
+    const condition = document.querySelector('.controller-condition');
+    const svgMouse = document.querySelector('.svgMouse');
+
     useEffect(() => {
+        const boxMouseOver = () => {
+            svgMouse.style.display = 'none';
+        }
+
         document.addEventListener('click', (e) => clickOutSide(e))
+        condition && condition.addEventListener('onmouseover', boxMouseOver);
 
         return () => {
             document.removeEventListener('click', (e) => clickOutSide(e));
+            condition.removeEventListener('onmouseover', boxMouseOver);
         }
     }, []);
 

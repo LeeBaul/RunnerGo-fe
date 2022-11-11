@@ -5,11 +5,13 @@ import { useTranslation } from 'react-i18next';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import { useSelector } from 'react-redux';
+import dayjs from "dayjs";
 
 const ContrastContent = (props) => {
     const { list1, list2, list3 } = props;
 
     const { t } = useTranslation();
+    const colorList = ['#A84B1F', '#6155BC', '#32AF3F', '#3B7BC6']
     const [column1, setColumn1] = useState(
         [
             {
@@ -54,6 +56,7 @@ const ContrastContent = (props) => {
             }
         ]
     );
+
     const [data1, setData1] = useState([
         {
             name: <p style={{ color: '#A84B1F' }}>计划名称/场景一</p>,
@@ -104,6 +107,196 @@ const ContrastContent = (props) => {
             duration: 200
         }
     ]);
+
+    const [avgList, setAvgList] = useState([])
+    const [qpsList, setQpsList] = useState([]);
+    const [concurrencyList, setConcurrencyList] = useState([]);
+    const [errList, setErrList] = useState([]);
+    const [fiftyList, setFiftyList] = useState([]);
+    const [ninetyList, setNinetyList] = useState([]);
+    const [ninetyFive, setNinetyFive] = useState([]);
+    const [ninetyNine, setNinetyNine] = useState([]);
+
+    useEffect(() => {
+        if (list1 && list1.length > 0) {
+            const { mode } = list1[0];
+            let column = [];
+            if (mode === 1) {
+                column = [
+                    {
+                        title: t('index.sceneName'),
+                        dataIndex: 'name'
+                    },
+                    {
+                        title: t('index.performer'),
+                        dataIndex: 'performer'
+                    },
+                    {
+                        title: t('plan.startTaskTime'),
+                        dataIndex: 'create_time_sec'
+                    },
+                    {
+                        title: t('report.taskType'),
+                        dataIndex: 'task_type'
+                    },
+                    {
+                        title: t('report.mode'),
+                        dataIndex: 'mode'
+                    },
+                    {
+                        title: t('plan.duration'),
+                        dataIndex: 'duration'
+                    },
+                    {
+                        title: t('plan.concurrency'),
+                        dataIndex: 'concurrency'
+                    },
+                    {
+                        title: t('plan.roundNum'),
+                        dataIndex: 'round_num',
+                    },
+                    {
+                        title: t('plan.reheatTime'),
+                        dataIndex: 'reheat_time'
+                    }
+                ]
+            } else {
+                column = [
+                    {
+                        title: t('index.sceneName'),
+                        dataIndex: 'name'
+                    },
+                    {
+                        title: t('index.performer'),
+                        dataIndex: 'performer'
+                    },
+                    {
+                        title: t('plan.startTaskTime'),
+                        dataIndex: 'create_time_sec'
+                    },
+                    {
+                        title: t('report.taskType'),
+                        dataIndex: 'task_type'
+                    },
+                    {
+                        title: t('report.mode'),
+                        dataIndex: 'mode'
+                    },
+                    {
+                        title: t('plan.startConcurrency'),
+                        dataIndex: 'start_concurrency'
+                    },
+                    {
+                        title: t('plan.step'),
+                        dataIndex: 'step'
+                    },
+                    {
+                        title: t('plan.stepRunTime'),
+                        dataIndex: 'step_run_time'
+                    },
+                    {
+                        title: t('plan.maxConcurrency'),
+                        dataIndex: 'max_concurrency'
+                    },
+                    {
+                        title: t('plan.duration'),
+                        dataIndex: 'duration'
+                    }
+                ]
+            }
+
+            setColumn1(column);
+            setData1(list1.map((item, index) => {
+                return {
+                    ...item,
+                    name: <p style={{ color: colorList[index] }}>{item.name}</p>
+                }
+            }))
+        }
+
+        if (list2 && list2.length) {
+            setData2(list2);
+        }
+
+        if (list3 && list3.length) {
+
+            list3.forEach(item => {
+                let avgList = [];
+                let qpsList = [];
+                let concurrencyList = [];
+                let errorList = [];
+                let fiftyList = [];
+                let ninetyList = [];
+                let ninetyFive = [];
+                let ninetyNine = [];
+
+                Object.values(item.data).forEach(elem => {
+                    const { api_name, avg_list, qps_list, concurrency_list, error_num_list, fifty_list, ninety_list, ninety_five_list, ninety_nine_list } = elem;
+
+                    avgList.push({
+                        api_name,
+                        x_data: avg_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: avg_list.map(elem1 => elem1.value)
+                    })
+
+                    qpsList.push({
+                        api_name,
+                        x_data: qps_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: qps_list.map(elem1 => elem1.value)
+                    })
+
+                    concurrencyList.push({
+                        api_name,
+                        x_data: concurrency_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: concurrency_list.map(elem1 => elem1.value)
+                    })
+
+                    errorList.push({
+                        api_name,
+                        x_data: error_num_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: error_num_list.map(elem1 => elem1.value)
+                    })
+
+
+                    fiftyList.push({
+                        api_name,
+                        x_data: fifty_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: fifty_list.map(elem1 => elem1.value)  
+                    })
+
+                    ninetyList.push({
+                        api_name,
+                        x_data: ninety_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: ninety_list.map(elem1 => elem1.value) 
+                    })
+
+                    ninetyFive.push({
+                        api_name,
+                        x_data: ninety_five_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: ninety_five_list.map(elem1 => elem1.value) 
+                    })
+
+                    ninetyNine.push({
+                        api_name,
+                        x_data: ninety_nine_list.map(elem1 => dayjs(elem1.time_stamp * 1000).format('HH:mm:ss')),
+                        y_data: ninety_nine_list.map(elem1 => elem1.value) 
+                    })
+                })
+
+                item.avg_list = avgList;
+                item.qps_list = qpsList;
+                item.concurrency_list = concurrencyList;
+                item.error_num_list = errorList;
+                item.fifty_list = fiftyList;
+                item.ninety_list = ninetyList;
+                item.ninety_five_list = ninetyFive;
+                item.ninety_nine_list = ninetyNine;
+            })
+            setData3(list3);
+            console.log(list3);
+        }
+    }, []);
+
     const [column2, setColumn2] = useState([
         {
             title: t('report.apiName'),
@@ -199,20 +392,40 @@ const ContrastContent = (props) => {
         }
     ])
 
+    const [data3, setData3] = useState([]);
+
     useEffect(() => {
 
     }, []);
 
+    const _colorList = [
+        '#FF5959', '#FF9559', '#FFD159', '#8EFF59', '#59FFF5', '#59AFFF', '#5D59FF', '#8E59FF', '#CA59FF', '#FF59DB',
+        '#B90000', '#B9A600', '#5CB900', '#00B9AE', '#0098B9', '#0029B9', '#7300B9', '#9F00B9', '#B9006F', '#B94E00',
+    ]
+
     const getOption = (name, data) => {
+        console.log(name, data);
+        let temp = 0;
         let option = {
+            title: {
+                text: name,
+                left: 'center',
+                textStyle: {
+                    color: theme === 'dark' ? '#fff' : '#000',
+                    fontSize: 14
+                },
+            },
             tooltip: {
                 trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
-                    }
-                }
+                position: (p, params, dom, rect, size) => {
+                    setTooltipX(params[0].dataIndex);
+                    // setTooltipX(p[0]);
+                },
+                backgroundColor: theme === 'dark' ? '#1F2023' : '#F8F8F8',
+                textStyle: {
+                    color: theme === 'dark' ? '#F3F3F3' : '#333333'
+                },
+                borderColor: theme === 'dark' ? '#27272B' : '#F2F2F2'
             },
             grid: {
                 left: '3%',
@@ -220,75 +433,42 @@ const ContrastContent = (props) => {
                 bottom: '3%',
                 containLabel: true
             },
-            xAxis: [
-                {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: data[0] ? data[0].x_data : [],
+                axisLabel: {
+                    color: theme === 'dark' ? '#fff' : '#000',
+                },
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    color: theme === 'dark' ? '#fff' : '#000',
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: theme === 'dark' ? '#39393D' : '#E9E9E9'
+                    }
                 }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
+            },
+            dataZoom: { // 放大和缩放
+                type: 'inside'
+            },
+            series: data.length > 0 ? data.map((item, index) => {
+                if (index >= (20 + temp * 20)) {
+                    temp++;
                 }
-            ],
-            series: [
-                {
-                    name: 'Email',
+                return {
+                    name: item.api_name,
                     type: 'line',
-                    stack: 'Total',
-                    areaStyle: {},
-                    emphasis: {
-                        focus: 'series'
-                    },
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: 'Union Ads',
-                    type: 'line',
-                    stack: 'Total',
-                    areaStyle: {},
-                    emphasis: {
-                        focus: 'series'
-                    },
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: 'Video Ads',
-                    type: 'line',
-                    stack: 'Total',
-                    areaStyle: {},
-                    emphasis: {
-                        focus: 'series'
-                    },
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                },
-                {
-                    name: 'Direct',
-                    type: 'line',
-                    stack: 'Total',
-                    areaStyle: {},
-                    emphasis: {
-                        focus: 'series'
-                    },
-                    data: [320, 332, 301, 334, 390, 330, 320]
-                },
-                {
-                    name: 'Search Engine',
-                    type: 'line',
-                    stack: 'Total',
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                    areaStyle: {},
-                    emphasis: {
-                        focus: 'series'
-                    },
-                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    color: _colorList[index - temp * 20],
+                    // stack: 'Total',
+                    data: item.y_data,
+                    showSymbol: false,
                 }
-            ]
-        };
+            }) : []
+        }
         return option;
     };
 
@@ -310,86 +490,50 @@ const ContrastContent = (props) => {
         })
     }, []);
 
+    let list = [t('report.avgList'), t('report.qpsNum'), t('report.concurrency'), t('report.errNum'), t('report.50%List'), t('report.90%List'), t('report.95%List'), t('report.99%List')];
+
 
     return (
         <div className="contrast-content">
             <Table showBorder columns={column1} data={data1} />
 
-            <div className="table-data">
-                <p className="title" style={{ color: '#A84B1F' }}>计划名称/场景一</p>
-                <Table className={`color1-${theme}`} showBorder columns={column2} data={data2} />
-            </div>
-
-
-            <div className="table-data">
-                <p className="title" style={{ color: '#6155BC' }}>计划名称/场景二</p>
-                <Table className={`color2-${theme}`} showBorder columns={column2} data={data2} />
-            </div>
-
-
-            <div className="table-data">
-                <p className="title" style={{ color: '#32AF3F' }}>计划名称/场景三</p>
-                <Table className={`color3-${theme}`} showBorder columns={column2} data={data2} />
-            </div>
-
-
-            <div className="table-data">
-                <p className="title" style={{ color: '#3B7BC6' }}>计划名称/场景四</p>
-                <Table className={`color4-${theme}`} showBorder columns={column2} data={data2} />
-            </div>
+            {
+                data2.map((item, index) => (
+                    <div className="table-data">
+                        <p className="title" style={{ color: colorList[index] }}>{item.name}</p>
+                        <Table className={`color${index + 1}-${theme}`} showBorder columns={column2} data={item.data} />
+                    </div>
+                ))
+            }
 
             <div className="echart-list">
                 <div className="echart-title">
-                    <div className="echart-item">
-                        <div className="title-item item-1">
-                            <p>计划名称/场景一</p>
-                            <p>2022.11.11 12:23:22</p>
-                        </div>
-                    </div>
-                    <div className="echart-item">
-                        <div className="title-item item-2">
-                            <p>计划名称/场景一</p>
-                            <p>2022.11.11 12:23:22</p>
-                        </div>
-                    </div>
-                    <div className="echart-item">
-                        <div className="title-item item-3">
-                            <p>计划名称/场景一</p>
-                            <p>2022.11.11 12:23:22</p>
-                        </div>
-                    </div>
-                    <div className="echart-item">
-                        <div className="title-item item-4">
-                            <p>计划名称/场景一</p>
-                            <p>2022.11.11 12:23:22</p>
-                        </div>
-                    </div>
+                    {
+                        data3.map((item, index) => (
+                            <div className="echart-item">
+                                <div className={`title-item item-${index + 1}`}>
+                                    <p>{item.name}</p>
+                                    <p>{item.time}</p>
+                                </div>
+                            </div>
+                        ))
+                    }
                 </div>
                 <div className="echart-container">
-                    <div className="echart-container-item">
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                    </div>
-                    <div className="echart-container-item">
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                    </div>
-                    <div className="echart-container-item">
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                    </div>
-                    <div className="echart-container-item">
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                        <ReactEcharts className='echart e1' option={getOption()} />
-                    </div>
+                    {
+                        data3.map(item => (
+                            <div className="echart-container-item">
+                                <ReactEcharts className='echart e1' option={getOption(list[0], item.avg_list)} />
+                                <ReactEcharts className='echart e1' option={getOption(list[1], item.qps_list)} />
+                                <ReactEcharts className='echart e1' option={getOption(list[2], item.concurrency_list)} />
+                                <ReactEcharts className='echart e1' option={getOption(list[3], item.error_num_list)} />
+                                <ReactEcharts className='echart e1' option={getOption(list[4], item.fifty_list)} />
+                                <ReactEcharts className='echart e1' option={getOption(list[5], item.ninety_list)} />
+                                <ReactEcharts className='echart e1' option={getOption(list[6], item.ninety_five_list)} />
+                                <ReactEcharts className='echart e1' option={getOption(list[7], item.ninety_nine_list)} />
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         </div>

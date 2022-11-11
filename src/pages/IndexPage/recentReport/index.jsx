@@ -310,14 +310,23 @@ const RecentReport = () => {
     const [selectReport, setSelectReport] = useState(false);
 
     const toContrast = () => {
+        let task_mode = '';
         const _selectReport = selectReport.map(item => {
+            if (index === 0) {
+                task_mode = item.task_mode
+            } else {
+                if (task_mode !== item.task_mode) {
+                    Message('error', t('message.contrastMode'))
+                    return;
+                }
+            }
             return {
                 report_id: item.report_id,
                 plan_name: item.plan_name.props.content.props.children,
                 scene_name: item.scene_name.props.content.props.children,
             }
         });
-        navigate(`/report/detail?contrast=${JSON.stringify(_selectReport)}`)
+        navigate(`/reportContrast?contrast=${JSON.stringify(_selectReport)}`)
     }
     return (
         <div className='recent-report'>
