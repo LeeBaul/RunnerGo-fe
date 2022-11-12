@@ -466,6 +466,12 @@ const ContrastContent = (props) => {
 
     console.log(column1, data1);
 
+    const widthList = {
+        2: '46vw',
+        3: '30vw',
+        4: '22vw'
+    }
+
     return (
         <div className="contrast-content">
             <Table showBorder columns={column1} data={data1} />
@@ -483,7 +489,7 @@ const ContrastContent = (props) => {
                 <div className="echart-title">
                     {
                         data3.map((item, index) => (
-                            <div className="echart-item">
+                            <div className="echart-item" style={{ width: widthList[data3.length] }}>
                                 <div className={`title-item item-${index + 1}`}>
                                     <p>{item.name}</p>
                                     <p>{item.time}</p>
@@ -495,7 +501,7 @@ const ContrastContent = (props) => {
                 <div className="echart-container">
                     {
                         data3.map(item => (
-                            <div className="echart-container-item">
+                            <div className={`echart-container-${data3.length === 2 ? 'two' : 'item'}`} style={{ width: widthList[data3.length] }}>
                                 <ReactEcharts className='echart e1' option={getOption(list[0], item.avg_list)} />
                                 <ReactEcharts className='echart e1' option={getOption(list[1], item.qps_list)} />
                                 <ReactEcharts className='echart e1' option={getOption(list[2], item.concurrency_list)} />
