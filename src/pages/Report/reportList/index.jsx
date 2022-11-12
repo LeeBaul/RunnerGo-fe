@@ -267,7 +267,7 @@ const ReportList = () => {
             width: 200,
             sorter: true,
             render: (item, items) => {
-                console.log(item, items);
+                // console.log(item, items);
             }
         },
         {

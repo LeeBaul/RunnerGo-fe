@@ -24,11 +24,11 @@ const ContrastContent = (props) => {
             },
             {
                 title: t('plan.startTaskTime'),
-                dataIndex: 'startTaskTime'
+                dataIndex: 'created_time_sec'
             },
             {
                 title: t('report.taskType'),
-                dataIndex: 'taskType'
+                dataIndex: 'task_type'
             },
             {
                 title: t('report.mode'),
@@ -36,7 +36,7 @@ const ContrastContent = (props) => {
             },
             {
                 title: t('plan.startConcurrency'),
-                dataIndex: 'startConcurrency'
+                dataIndex: 'start_concurrency'
             },
             {
                 title: t('plan.step'),
@@ -44,11 +44,11 @@ const ContrastContent = (props) => {
             },
             {
                 title: t('plan.stepRunTime'),
-                dataIndex: 'stepRunTime'
+                dataIndex: 'step_run_time'
             },
             {
                 title: t('plan.maxConcurrency'),
-                dataIndex: 'maxConcurrency'
+                dataIndex: 'max_concurrency'
             },
             {
                 title: t('plan.duration'),
@@ -57,56 +57,7 @@ const ContrastContent = (props) => {
         ]
     );
 
-    const [data1, setData1] = useState([
-        {
-            name: <p style={{ color: '#A84B1F' }}>计划名称/场景一</p>,
-            performer: 'Creator',
-            startTaskTime: '2022.11.02 12:24:33',
-            taskType: '普通任务',
-            mode: '并发模式',
-            startConcurrency: 20,
-            step: 5,
-            stepRunTime: 100,
-            maxConcurrency: 500,
-            duration: 200
-        },
-        {
-            name: <p style={{ color: '#6155BC' }}>计划名称/场景二</p>,
-            performer: 'Creator',
-            startTaskTime: '2022.11.02 12:24:33',
-            taskType: '普通任务',
-            mode: '并发模式',
-            startConcurrency: 20,
-            step: 5,
-            stepRunTime: 100,
-            maxConcurrency: 500,
-            duration: 200
-        },
-        {
-            name: <p style={{ color: '#32AF3F' }}>计划名称/场景三</p>,
-            performer: 'Creator',
-            startTaskTime: '2022.11.02 12:24:33',
-            taskType: '普通任务',
-            mode: '并发模式',
-            startConcurrency: 20,
-            step: 5,
-            stepRunTime: 100,
-            maxConcurrency: 500,
-            duration: 200
-        },
-        {
-            name: <p style={{ color: '#3B7BC6' }}>计划名称/场景四</p>,
-            performer: 'Creator',
-            startTaskTime: '2022.11.02 12:24:33',
-            taskType: '普通任务',
-            mode: '并发模式',
-            startConcurrency: 20,
-            step: 5,
-            stepRunTime: 100,
-            maxConcurrency: 500,
-            duration: 200
-        }
-    ]);
+    const [data1, setData1] = useState([]);
 
     const [avgList, setAvgList] = useState([])
     const [qpsList, setQpsList] = useState([]);
@@ -117,11 +68,26 @@ const ContrastContent = (props) => {
     const [ninetyFive, setNinetyFive] = useState([]);
     const [ninetyNine, setNinetyNine] = useState([]);
 
+    const taskTypeList = {
+        1: t('plan.taskList.commonTask'),
+        2: t('plan.taskList.cronTask')
+    };
+
+    const taskModeList = {
+        1: t('plan.modeList.1'),
+        2: t('plan.modeList.2'),
+        3: t('plan.modeList.3'),
+        4: t('plan.modeList.4'),
+        5: t('plan.modeList.5'),
+        6: t('plan.modeList.6'),
+        7: t('plan.modeList.7'),
+    }
+
     useEffect(() => {
         if (list1 && list1.length > 0) {
-            const { mode } = list1[0];
+            const { task_mode } = list1[0];
             let column = [];
-            if (mode === 1) {
+            if (task_mode === 1) {
                 column = [
                     {
                         title: t('index.sceneName'),
@@ -133,7 +99,7 @@ const ContrastContent = (props) => {
                     },
                     {
                         title: t('plan.startTaskTime'),
-                        dataIndex: 'create_time_sec'
+                        dataIndex: 'created_time_sec'
                     },
                     {
                         title: t('report.taskType'),
@@ -141,7 +107,7 @@ const ContrastContent = (props) => {
                     },
                     {
                         title: t('report.mode'),
-                        dataIndex: 'mode'
+                        dataIndex: 'task_mode'
                     },
                     {
                         title: t('plan.duration'),
@@ -172,7 +138,7 @@ const ContrastContent = (props) => {
                     },
                     {
                         title: t('plan.startTaskTime'),
-                        dataIndex: 'create_time_sec'
+                        dataIndex: 'created_time_sec'
                     },
                     {
                         title: t('report.taskType'),
@@ -180,7 +146,7 @@ const ContrastContent = (props) => {
                     },
                     {
                         title: t('report.mode'),
-                        dataIndex: 'mode'
+                        dataIndex: 'task_mode'
                     },
                     {
                         title: t('plan.startConcurrency'),
@@ -209,15 +175,25 @@ const ContrastContent = (props) => {
             setData1(list1.map((item, index) => {
                 return {
                     ...item,
-                    name: <p style={{ color: colorList[index] }}>{item.name}</p>
+                    name: <p style={{ color: colorList[index] }}>{item.name}</p>,
+                    task_type: taskTypeList[item.task_type],
+                    task_mode: taskModeList[item.task_mode]
                 }
             }))
         }
 
+
+
+    }, [list1]);
+
+    useEffect(() => {
         if (list2 && list2.length) {
+            console.log(list2);
             setData2(list2);
         }
+    }, [list2]);
 
+    useEffect(() => {
         if (list3 && list3.length) {
 
             list3.forEach(item => {
@@ -295,7 +271,7 @@ const ContrastContent = (props) => {
             setData3(list3);
             console.log(list3);
         }
-    }, []);
+    }, [list3]);
 
     const [column2, setColumn2] = useState([
         {
@@ -403,6 +379,8 @@ const ContrastContent = (props) => {
         '#B90000', '#B9A600', '#5CB900', '#00B9AE', '#0098B9', '#0029B9', '#7300B9', '#9F00B9', '#B9006F', '#B94E00',
     ]
 
+    const theme = useSelector((store) => store.user.theme);
+
     const getOption = (name, data) => {
         console.log(name, data);
         let temp = 0;
@@ -417,10 +395,6 @@ const ContrastContent = (props) => {
             },
             tooltip: {
                 trigger: 'axis',
-                position: (p, params, dom, rect, size) => {
-                    setTooltipX(params[0].dataIndex);
-                    // setTooltipX(p[0]);
-                },
                 backgroundColor: theme === 'dark' ? '#1F2023' : '#F8F8F8',
                 textStyle: {
                     color: theme === 'dark' ? '#F3F3F3' : '#333333'
@@ -472,8 +446,6 @@ const ContrastContent = (props) => {
         return option;
     };
 
-    const theme = useSelector((store) => store.user.theme);
-
     useEffect(() => {
         window.addEventListener('wheel', (e) => {
             const echart_title = document.getElementsByClassName('echart-title')[0];
@@ -492,6 +464,7 @@ const ContrastContent = (props) => {
 
     let list = [t('report.avgList'), t('report.qpsNum'), t('report.concurrency'), t('report.errNum'), t('report.50%List'), t('report.90%List'), t('report.95%List'), t('report.99%List')];
 
+    console.log(column1, data1);
 
     return (
         <div className="contrast-content">

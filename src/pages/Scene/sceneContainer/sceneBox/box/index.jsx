@@ -718,8 +718,8 @@ const Box = (props) => {
                         mode === 3 && <div className='common-flex'>
                             <span>{t('scene.errorValue')}</span>
                             <Input size="mini" value={error_threshold} onChange={(e) => {
-                                setError(Number(e));
-                                onTargetChange('error_threshold', Number(e));
+                                setError(parseFloat(e));
+                                onTargetChange('error_threshold', parseFloat(e));
                             }} placeholder={t('scene.errorRate')} />
                         </div>
                     }

@@ -26,7 +26,6 @@ const ReportDetail = (props) => {
 	const select_plan = useSelector((store) =>(store.plan.select_plan));
 	
 	let report_detail_t = null;
-	console.log(plan_id);
 
     useEffect(() => {
 		if (report_id) {
@@ -48,7 +47,6 @@ const ReportDetail = (props) => {
 	}, [select_plan, plan_id]);
 
 	const getReportDetail = (plan_id) => {
-		console.log(plan_id);
 		const query = {
 			report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
 			plan_id,
