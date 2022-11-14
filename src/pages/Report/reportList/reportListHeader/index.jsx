@@ -94,12 +94,12 @@ const ReportListHeader = (props) => {
                         <Tooltip
                             bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'}
                             className='tooltip-diy'
-                            content={selectReport.length < 2 || selectReport.length > 5 ? t('index.contrastText') : ''}
+                            content={selectReport.length < 2 || selectReport.length > 4 ? t('index.contrastText') : ''}
                         >
                             <Button
                                 className='contrast-btn'
-                                style={{ backgroundColor: selectReport.length < 2 || selectReport.length > 5 ? 'var(--bg-4)' : '', color: selectReport.length < 2 || selectReport.length > 5 > 5 ? 'var(--font-1)' : '' }}
-                                disabled={selectReport.length < 2 || selectReport.length > 5}
+                                style={{ backgroundColor: selectReport.length < 2 || selectReport.length > 4 ? 'var(--bg-4)' : '', color: selectReport.length < 2 || selectReport.length > 4 ? 'var(--font-1)' : '' }}
+                                disabled={selectReport.length < 2 || selectReport.length > 4}
                                 onClick={() => toContrast()}
                             >
                                 {t('btn.contrast')}
@@ -107,7 +107,7 @@ const ReportListHeader = (props) => {
                         </Tooltip>
                         : <Button
                             className='contrast-btn'
-                            disabled={selectReport.length < 2 || selectReport.length > 5}
+                            disabled={selectReport.length < 2 || selectReport.length > 4}
                             onClick={() => toContrast()}
                         >
                             {t('btn.contrast')}

@@ -351,15 +351,15 @@ const RecentReport = () => {
                     showTime="true"
                 />
                 {
-                    selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ?
+                    selectedRowKeys.length < 2 || selectedRowKeys.length > 4 ?
                         <Tooltip
                             bgColor={theme === 'dark' ? '#39393D' : '#E9E9E9'}
                             className='tooltip-diy'
-                            content={selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? t('index.contrastText') : ''}
+                            content={selectedRowKeys.length < 2 || selectedRowKeys.length > 4 ? t('index.contrastText') : ''}
                         >
-                            <Button className='contrast-btn' style={{ backgroundColor: selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? 'var(--bg-4)' : '', color: selectedRowKeys.length < 2 || selectedRowKeys.length > 5 ? 'var(--font-1)' : '' }} disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
+                            <Button className='contrast-btn' style={{ backgroundColor: selectedRowKeys.length < 2 || selectedRowKeys.length > 4 ? 'var(--bg-4)' : '', color: selectedRowKeys.length < 2 || selectedRowKeys.length > 4 ? 'var(--font-1)' : '' }} disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 4} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
                         </Tooltip>
-                        : <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 5} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
+                        : <Button className='contrast-btn' disabled={selectedRowKeys.length < 2 || selectedRowKeys.length > 4} onClick={() => toContrast()}>{t('btn.contrast')}</Button>
                 }
             </div>
             <Table
