@@ -1,6 +1,7 @@
 .preset-config {
     display: flex;
     flex-direction: column;
+    padding: 10px 16px 0 8px;
 
     .top {
         display: flex;
@@ -25,7 +26,28 @@
                     height: 12px;
 
                     fill: var(--common-white);
+                    margin-right: 4px;
                 }
+            }
+        }
+    }
+
+    .preset-table {
+        margin-top: 22px;
+
+        .handle {
+            display: flex;
+            justify-content: space-between;
+            svg {
+                width: 16px;
+                height: 16px;
+
+                fill: var(--common-white);
+                cursor: pointer;
+            }
+
+            .delete {
+                fill: #f00;
             }
         }
     }

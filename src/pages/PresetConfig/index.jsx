@@ -1,6 +1,10 @@
 import React from 'react';
 import { Button } from 'adesign-react';
-import { Add as SvgAdd } from 'adesign-react/icons';
+import {
+    Add as SvgAdd,
+    Copy as SvgCopy,
+    Delete as SvgDelete,
+} from 'adesign-react/icons';
 import './index.less';
 import { useTranslation } from 'react-i18next';
 import { Table } from '@arco-design/web-react';
@@ -37,7 +41,7 @@ const PresetConfig = () => {
             dataIndex: 'maxConcurrency'
         },
         {
-            title: t('colum.preset.duration'),
+            title: t('column.preset.duration'),
             dataIndex: 'duration'
         },
         {
@@ -54,7 +58,8 @@ const PresetConfig = () => {
         },
         {
             title: t('column.preset.handle'),
-            dataIndex: 'handle'
+            dataIndex: 'handle',
+            width: 72,
         }
     ];
 
@@ -71,7 +76,10 @@ const PresetConfig = () => {
             roundNum: 200,
             concurrency: 200,
             reheatTime: 200,
-            handle: <div>123</div>
+            handle: <div className='handle'>
+                <SvgCopy />
+                <SvgDelete className='delete' />
+            </div>
         },
         {
             name: '配置一',
@@ -85,7 +93,10 @@ const PresetConfig = () => {
             roundNum: 200,
             concurrency: 200,
             reheatTime: 200,
-            handle: <div>123</div>
+            handle: <div className='handle'>
+            <SvgCopy />
+            <SvgDelete className="delete" />
+        </div>
         },
         {
             name: '配置一',
@@ -99,7 +110,10 @@ const PresetConfig = () => {
             roundNum: 200,
             concurrency: 200,
             reheatTime: 200,
-            handle: <div>123</div>
+            handle: <div className='handle'>
+            <SvgCopy />
+            <SvgDelete className="delete" />
+        </div>
         }
     ]
     return (
@@ -110,12 +124,13 @@ const PresetConfig = () => {
                     <Button preFix={<SvgAdd />}>新建</Button>
                 </div>
             </div>
-            <Table 
+            <Table
+                className="preset-table"
                 border={{
                     wrapper: true,
                     cell: true,
-                }} 
-                columns={column} 
+                }}
+                columns={column}
                 data={data}
                 showSorterTooltip={false}
                 pagination={false}

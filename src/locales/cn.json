@@ -387,7 +387,7 @@
         "performer": "执行者",
         "status": "状态",
         "handle": "操作",
-        "contrastText": "请选择2-5份报告进行对比",
+        "contrastText": "请选择2-4份报告进行对比",
         "create": "新建",
         "update": "修改",
         "delete": "删除",

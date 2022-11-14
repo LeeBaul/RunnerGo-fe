@@ -388,7 +388,7 @@
         "performer": "Performer",
         "status": "State",
         "handle": "Operation",
-        "contrastText": "Please select 2-5 reports for comparison",
+        "contrastText": "Please select 2-4 reports for comparison",
         "create": "New",
         "update": "Mod",
         "delete": "Del",

@@ -169,6 +169,7 @@ const ReportList = () => {
         };
         fetchReportList(query).subscribe({
             next: (res) => {
+                console.log(res);
                 const { data: { reports, total } } = res;
                 setTotal(total);
                 // let bool = false;
@@ -177,6 +178,7 @@ const ReportList = () => {
                     // if (status === 1) {
                     //     bool = true;
                     // }
+                    console.log(run_time_sec);
                     return {
                         ...item,
                         rank,
@@ -266,9 +268,6 @@ const ReportList = () => {
             dataIndex: 'run_time_sec',
             width: 200,
             sorter: true,
-            render: (item, items) => {
-                // console.log(item, items);
-            }
         },
         {
             title: t('index.endTime'),
