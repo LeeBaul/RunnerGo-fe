@@ -230,7 +230,8 @@
         "emptyScene": "Please add the API first",
         "taskConfigEmpty": "The required fields cannot be empty!",
         "endGTstart": "End time must be greater than execution time",
-        "contrastMode": "The reporting mode for comparison must be the same!"
+        "contrastMode": "The reporting mode for comparison must be the same!",
+        "contrastRunning": "Running reports cannot be compared!"
     },
     "modal": {
         "look": "Be careful",

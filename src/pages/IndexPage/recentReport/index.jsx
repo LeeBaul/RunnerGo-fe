@@ -112,7 +112,7 @@ const RecentReport = () => {
                                 task_type: taskList[task_type],
                                 run_time_sec: dayjs(run_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
                                 last_time_sec: status === 1 ? '-' : dayjs(last_time_sec * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                                status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>{t('report.statusList.1')}</p> : <p>{t('report.statusList.2')}</p>,
+                                status: status === 1 ? <p style={{ color: 'var(--run-green)' }}>{t('report.statusList.1')}</p> : t('report.statusList.2'),
                                 operation: <HandleContent report_id={report_id} />
                             }
                         });
@@ -311,15 +311,21 @@ const RecentReport = () => {
 
     const toContrast = () => {
         let task_mode = '';
-        const _selectReport = selectReport.map(item => {
-            if (index === 0) {
-                task_mode = item.task_mode
+        if (selectReport.filter(item => item.status === t('report.statusList.2')).length !== selectReport.length) {
+            Message('error', t('message.contrastRunning'));
+            return;
+        }
+        for (let i = 0; i < selectReport.length; i++) {
+            if (i === 0) {
+                task_mode = selectReport[i].task_mode;
             } else {
-                if (task_mode !== item.task_mode) {
+                if (task_mode !== selectReport[i].task_mode) {
                     Message('error', t('message.contrastMode'))
                     return;
                 }
             }
+        }
+        const _selectReport = selectReport.map((item, index) => {
             return {
                 report_id: item.report_id,
                 plan_name: item.plan_name.props.content.props.children,

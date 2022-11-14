@@ -72,12 +72,12 @@ const LeftToolbar = () => {
             icon: SvgReport,
             link: '/report',
         },
-        // {
-        //     type: 'machine',
-        //     title: t('leftBar.machine'),
-        //     icon: SvgMachine,
-        //     link: '/machine',
-        // },
+        {
+            type: 'machine',
+            title: t('leftBar.machine'),
+            icon: SvgMachine,
+            link: '/machine',
+        },
         {
             type: 'doc',
             title: t('leftBar.docs'),

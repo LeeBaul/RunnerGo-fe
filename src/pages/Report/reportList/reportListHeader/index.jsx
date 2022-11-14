@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { Input, Button, Tooltip } from 'adesign-react';
+import { Input, Button, Tooltip, Message } from 'adesign-react';
 import {
     Search as SvgSearch,
     Add as SvgAdd
@@ -45,15 +45,22 @@ const ReportListHeader = (props) => {
 
     const toContrast = () => {
         let task_mode = '';
-        const _selectReport = selectReport.map((item, index) => {
-            if (index === 0) {
-                task_mode = item.task_mode
+
+        if (selectReport.filter(item => item.status === t('report.statusList.2')).length !== selectReport.length) {
+            Message('error', t('message.contrastRunning'));
+            return;
+        }
+        for (let i = 0; i < selectReport.length; i++) {
+            if (i === 0) {
+                task_mode = selectReport[i].task_mode;
             } else {
-                if (task_mode !== item.task_mode) {
+                if (task_mode !== selectReport[i].task_mode) {
                     Message('error', t('message.contrastMode'))
                     return;
                 }
             }
+        }
+        const _selectReport = selectReport.map((item, index) => {
             return {
                 report_id: item.report_id,
                 plan_name: item.plan_name.props.content.props.children,

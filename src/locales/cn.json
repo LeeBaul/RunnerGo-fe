@@ -229,7 +229,8 @@
         "emptyScene": "请先添加接口",
         "taskConfigEmpty": "必填项不能为空!",
         "endGTstart": "结束时间必须大于执行时间",
-        "contrastMode": "对比的报告模式必须一样!"
+        "contrastMode": "对比的报告模式必须一样!",
+        "contrastRunning": "运行中的报告无法对比!"
     },
     "modal": {
         "look": "注意",

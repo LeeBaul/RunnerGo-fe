@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './index.less';
-import { Table } from 'adesign-react';
+import { Table, Tooltip } from 'adesign-react';
 import { useTranslation } from 'react-i18next';
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
@@ -175,7 +175,9 @@ const ContrastContent = (props) => {
             setData1(list1.map((item, index) => {
                 return {
                     ...item,
-                    name: <p style={{ color: colorList[index] }}>{item.name}</p>,
+                    name: <Tooltip content={item.name}><p style={{ color: colorList[index] }}>{item.name}</p></Tooltip>,
+                    performer: <Tooltip content={item.performer}><p>{item.performer}</p></Tooltip>,
+                    created_time_sec: <Tooltip content={item.created_time_sec}><p>{item.created_time_sec}</p></Tooltip>,
                     task_type: taskTypeList[item.task_type],
                     task_mode: taskModeList[item.task_mode]
                 }
