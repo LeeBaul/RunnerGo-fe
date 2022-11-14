@@ -54,7 +54,8 @@
         "plan": "计划管理",
         "report": "报告管理",
         "machine": "机器管理",
-        "docs": "使用文档"
+        "docs": "使用文档",
+        "preset": "预设配置"
     },
     "placeholder": {
         "searchApis": "搜索目录或接口",
@@ -98,7 +99,8 @@
         "unitS": "单位: s",
         "unitR": "单位: 次",
         "startTime": "请选择执行时间",
-        "endTime": "请选择结束时间"
+        "endTime": "请选择结束时间",
+        "searchMachine": "搜索机器名称"
     },
     "btn": {
         "cancel": "取消",
@@ -144,7 +146,9 @@
         "add": "添加",
         "seeResult": "查看结果",
         "updateConfig": "修改配置",
-        "toBeautify": "一键美化"
+        "toBeautify": "一键美化",
+        "machineStart": "启用",
+        "machineStop": "停用"
     },
     "message": {
         "saveSuccess": "保存成功!",
@@ -332,6 +336,33 @@
             "varName": "变量名",
             "varVal": "变量值",
             "varDesc": "变量描述"
+        },
+        "machine": {
+            "machineID": "机器ID",
+            "cpu": "CPU使用率",
+            "cpuLoad1": "cpu-load1",
+            "cpuLoad5": "cpu-load5",
+            "cpcuLoad15": "cpu-load15",
+            "memory": "内存使用率",
+            "disk": "磁盘使用率",
+            "maxCoprogram": "最大协程数",
+            "useCoprogram": "已用协程数",
+            "type": "机器类型",
+            "handle": "操作"
+        },
+        "preset": {
+            "name": "配置名称",
+            "creator": "创建人",
+            "taskType": "任务类型",
+            "taskMode": "压测模式",
+            "startConcurrency": "起始并发数",
+            "step": "并发数步长",
+            "maxConcurrency": "最大并发数",
+            "duration": "持续时长",
+            "roundNum": "轮次",
+            "concurrency": "并发数",
+            "reheatTime": "预热",
+            "handle": "操作"
         }
     },
     "index": {
@@ -657,5 +688,11 @@
         "view": "查看",
         "copy": "复制",
         "delete": "删除"
+    },
+    "machine": {
+        "serverType": {
+            "1": "主力机器",
+            "2": "备用机器"
+        }
     }
 }

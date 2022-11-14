@@ -54,7 +54,8 @@
         "plan": "Plan",
         "report": "Report",
         "machine": "Machine",
-        "docs": "Docs"
+        "docs": "Docs",
+        "preset": "Preset"
     },
     "placeholder": {
         "searchApis": "Search for Directory/API",
@@ -99,7 +100,8 @@
         "unitS": "unit: s",
         "unitR": "unit: r",
         "startTime": "Select the start time",
-        "endTime": "Select the end time"
+        "endTime": "Select the end time",
+        "searchMachine": "Search for machine name"
     },
     "btn": {
         "cancel": "Cancel",
@@ -145,7 +147,9 @@
         "add": "Add",
         "seeResult": "Response",
         "updateConfig": "Modify Config",
-        "toBeautify": "One click beautify"
+        "toBeautify": "Pretty",
+        "machineStart": "Start",
+        "machineStop": "Shutoff"
     },
     "message": {
         "saveSuccess": "Saving succeeded!",
@@ -333,6 +337,33 @@
             "varName": "Variable key",
             "varVal": "Variable values",
             "varDesc": "variable description"
+        },
+        "machine": {
+            "machineID": "Name",
+            "cpu": "CPU usage",
+            "cpuLoad1": "cpu-load1",
+            "cpuLoad5": "cpu-load5",
+            "cpcuLoad15": "cpu-load15",
+            "memory": "Mem usage",
+            "disk": "Disk usage",
+            "maxCoprogram": "Max coroutines",
+            "useCoprogram": "Coroutine used",
+            "type": "Type",
+            "handle": "Operation"
+        },
+        "preset": {
+            "name": "配置名称",
+            "creator": "创建人",
+            "taskType": "任务类型",
+            "taskMode": "压测模式",
+            "startConcurrency": "起始并发数",
+            "step": "并发数步长",
+            "maxConcurrency": "最大并发数",
+            "duration": "持续时长",
+            "roundNum": "轮次",
+            "concurrency": "并发数",
+            "reheatTime": "预热",
+            "handle": "操作"
         }
     },
     "index": {
@@ -664,5 +695,11 @@
         "view": "See",
         "copy": "Copy",
         "delete": "Delete"
+    },
+    "machine": {
+        "serverType": {
+            "1": "Main machine",
+            "2": "Standby machine"
+        }
     }
 }

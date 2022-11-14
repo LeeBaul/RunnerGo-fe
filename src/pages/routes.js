@@ -14,6 +14,7 @@ import UserHome from "./UserHome";
 import EmailReport from "./EmailReport";
 import InvitateExpire from "./InvitateExpire";
 import ReportContrast from "./ReportContrast";
+import PresetConfig from "./PresetConfig";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -93,6 +94,11 @@ const Route = [
         name: 'reportContrast',
         path: '/reportContrast',
         element: ReportContrast
+    },
+    {
+        name: 'preset',
+        path: '/preset',
+        element: PresetConfig
     }
 ];
 

@@ -79,6 +79,12 @@ const LeftToolbar = () => {
             link: '/machine',
         },
         {
+            type: 'preset',
+            title: t('leftBar.preset'),
+            icon: SvgMachine,
+            link: '/preset',
+        },
+        {
             type: 'doc',
             title: t('leftBar.docs'),
             icon: SvgDoc,
