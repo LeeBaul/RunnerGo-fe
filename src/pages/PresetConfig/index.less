@@ -3,9 +3,29 @@
     flex-direction: column;
     padding: 10px 16px 0 8px;
 
+    .apipost-tabs-header {
+        border-bottom: none;
+    }
+
+    .tabs-content {
+        width: 100%;
+        div {
+            width: 100%;
+
+            .tabs-item {
+                width: 50% !important;
+            }
+
+            .active {
+                background-color: var(--bg-3);
+            }
+        }
+    }
+
     .top {
         display: flex;
         justify-content: space-between;
+        margin-top: 20px;
 
         &-left {
             color: var(--font-1);

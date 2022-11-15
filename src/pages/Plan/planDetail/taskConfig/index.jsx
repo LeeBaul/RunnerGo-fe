@@ -773,7 +773,6 @@ const TaskConfig = (props) => {
         updateTaskConfig('task_close_time', end_time / 1000);
     }
 
-    console.log(dayjs());
 
 
 

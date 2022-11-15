@@ -20,11 +20,7 @@ const IndexPage = () => {
     const [log, setLog] = useState([]);
     const dispatch = useDispatch();
     // 操作日志
-    // const [logList, setLogList] = useState([]);
     const userInfo = useSelector((store) => store.user.userInfo);
-    // const dispatch = useDispatch();
-    // const userData = useSelector((store) => store.dashboard.userData);
-    // const logList = useSelector((store) => store.teams.logList);
 
     useEffect(() => {
         fetchDashBoardInfo({
@@ -39,51 +35,7 @@ const IndexPage = () => {
         })
     }, [userInfo]);
 
-    // useEffect(() => {
-    //     global$.next({
-    //         action: 'GET_MEMBERLIST',
-    //     });
-    // }, []);
 
-    // useEffect(() => {
-    //     fetchDashBoardInfo({
-    //         team_id: window.team_id
-    //     })
-    //         .pipe(
-    //             tap((resp) => {
-    //                 const { data, code } = resp;
-    //                 if (code === 0) {
-    //                     const { api_num, plan_num, report_num, scene_num, user, operations } = data;
-    //                     setInfo({
-    //                         api_num,
-    //                         plan_num,
-    //                         report_num,
-    //                         scene_num
-    //                     });
-    //                     setUser(user);
-    //                     setLogList(operations);
-    //                     const newInfo = cloneDeep(userInfo);
-    //                     newInfo.email = user.email;
-    //                     newInfo.nickname = user.nickname;
-    //                     newInfo.avatar = user.avatar;
-    //                     newInfo.user_id = user.user_id;
-    //                     newInfo.role_id = user.role_id;
-                        
-    //                     dispatch({
-    //                         type: 'user/updateUserInfo',
-    //                         payload: newInfo
-    //                     })
-    //                 }
-    //             })
-    //         )
-    //         .subscribe();
-
-    // }, []);
-
-
-
-    // fetch('https://kpmanage.apipost.cn/management/api/v1/dashboard/default').then((res) => {
-    // })
 
     const handleShowAsync = (bool) => {
         setShowAsync(bool);

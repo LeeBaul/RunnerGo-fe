@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'adesign-react';
+import { Button, Tabs as TabList } from 'adesign-react';
 import {
     Add as SvgAdd,
     Copy as SvgCopy,
@@ -9,7 +9,9 @@ import './index.less';
 import { useTranslation } from 'react-i18next';
 import { Table } from '@arco-design/web-react';
 import CreatePreset from '@modals/CreatePreset';
+import Pagination from '@components/Pagination';
 
+const { Tabs, TabPan } = TabList;
 const PresetConfig = () => {
     const { t } = useTranslation();
     const column = [
@@ -95,9 +97,9 @@ const PresetConfig = () => {
             concurrency: 200,
             reheatTime: 200,
             handle: <div className='handle'>
-            <SvgCopy />
-            <SvgDelete className="delete" />
-        </div>
+                <SvgCopy />
+                <SvgDelete className="delete" />
+            </div>
         },
         {
             name: '配置一',
@@ -112,15 +114,46 @@ const PresetConfig = () => {
             concurrency: 200,
             reheatTime: 200,
             handle: <div className='handle'>
-            <SvgCopy />
-            <SvgDelete className="delete" />
-        </div>
+                <SvgCopy />
+                <SvgDelete className="delete" />
+            </div>
         }
     ];
 
+
+
     const [showCreate, setShowCreate] = useState(false);
+
+    const [total, setTotal] = useState(0);
+    const [currentPage, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+
+    const pageChange = (page, size) => {
+        if (size !== pageSize) {
+            localStorage.setItem('preset_pagesize', size);
+        }
+        sessionStorage.setItem('preset_page', page);
+        page !== currentPage && setPage(page);
+        size !== pageSize && setPageSize(size);
+    };
+
+    const defaultList = [
+        { id: 0, title: '性能测试', content: "123" },
+        { id: 1, title: '自动化测试', content: "456" },
+    ];
+
+
     return (
         <div className='preset-config'>
+            <div className='tab'>
+                <Tabs defaultActiveId={0}>
+                    {defaultList.map((d) => (
+                        <TabPan key={d.id} id={d.id} title={d.title} >
+
+                        </TabPan>
+                    ))}
+                </Tabs>
+            </div>
             <div className='top'>
                 <p className='top-left'>预设配置</p>
                 <div className='top-right'>
@@ -138,8 +171,9 @@ const PresetConfig = () => {
                 showSorterTooltip={false}
                 pagination={false}
             />
+            {total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
 
-            { showCreate && <CreatePreset /> }
+            {showCreate && <CreatePreset />}
         </div>
     )
 };
