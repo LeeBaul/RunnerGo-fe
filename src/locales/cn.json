@@ -101,7 +101,8 @@
         "startTime": "请选择执行时间",
         "endTime": "请选择结束时间",
         "searchMachine": "搜索机器名称",
-        "configName": "配置名称必填"
+        "configName": "配置名称必填",
+        "configSearch": "搜索配置名称"
     },
     "btn": {
         "cancel": "取消",
@@ -205,6 +206,7 @@
             "20008": "请填写任务配置并保存",
             "20009": "资源不足",
             "20010": "场景不能为空",
+            "20011": "预设配置名称已存在",
             "common": "操作异常, 稍后再试~"
         },
         "folderNameEmpty": "目录名称不能为空!",
@@ -236,7 +238,7 @@
         "endGTstart": "结束时间必须大于执行时间",
         "contrastMode": "对比的报告模式必须一样!",
         "contrastRunning": "运行中的报告无法对比!",
-        "confNameEmpty": "配置名称不能为空!"
+        "configNameEmpty": "配置名称不能为空!"
     },
     "modal": {
         "look": "注意",

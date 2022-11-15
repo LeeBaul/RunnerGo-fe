@@ -4,7 +4,7 @@ import { Save as SvgSave, Import as SvgImport } from 'adesign-react/icons';
 import { fetchPreConfig } from '@services/plan';
 import { useSelector, useDispatch } from 'react-redux';
 import './index.less';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, round } from 'lodash';
 // import { fetchPlanDetail } from '@services/plan';
 import { fetchPlanDetail, fetchSavePlan, fetchGetTask } from '@services/plan';
 import { useParams } from 'react-router-dom';
@@ -15,6 +15,7 @@ import cn from 'classnames';
 import { DatePicker } from '@arco-design/web-react';
 import SvgExplain from '@assets/icons/Explain';
 import dayjs from 'dayjs';
+import PreviewPreset from '@modals/PreviewPreset';
 const { RangePicker } = DatePicker;
 const { Group } = Radio;
 
@@ -114,7 +115,7 @@ const TaskConfig = (props) => {
                                 frequency && setFrequency(frequency);
                                 task_exec_time && setTaskExecTime(task_exec_time);
                                 task_close_time && setTaskCloseTime(task_close_time);
-    
+
                             }
 
                             if (mode_conf.round_num !== 0) {
@@ -155,7 +156,7 @@ const TaskConfig = (props) => {
     const init = (preinstall = initData) => {
         console.log('preinstall', preinstall);
         const {
-            mode,
+            task_mode,
             cron_expr,
             mode_conf,
             timed_task_conf,
@@ -163,7 +164,7 @@ const TaskConfig = (props) => {
         } = preinstall;
         console.log(preinstall);
         const { concurrency, duration, max_concurrency, reheat_time, round_num, start_concurrency, step, step_run_time } = mode_conf;
-        mode && setMode(mode);
+        task_mode && setMode(task_mode);
         cron_expr && setCronExpr(cron_expr);
         console.log(mode_conf);
         setModeConf(mode_conf);
@@ -201,7 +202,7 @@ const TaskConfig = (props) => {
     }
 
     useEffect(() => {
-        getPreConfig();
+        // getPreConfig();
     }, []);
 
     const getPreConfig = (callback) => {
@@ -724,25 +725,30 @@ const TaskConfig = (props) => {
 
     useEffect(() => {
         let result = [];
-        if (start_concurrency > 0 && step > 0 && step_run_time > 0 && max_concurrency > 0 && duration > 0) {
-            result.push([0]);
-            result.push([start_concurrency]);
-            while (true) {
-                if (result[1][result[1].length - 1] >= max_concurrency) {
-                    result[1][result[1].length - 1] = max_concurrency;
+        if (mode === 1) {
+            setXEchart([0, duration]);
+            setYEchart([concurrency, concurrency]);
+        } else {
+            if (start_concurrency > 0 && step > 0 && step_run_time > 0 && max_concurrency > 0 && duration > 0) {
+                result.push([0]);
+                result.push([start_concurrency]);
+                while (true) {
+                    if (result[1][result[1].length - 1] >= max_concurrency) {
+                        result[1][result[1].length - 1] = max_concurrency;
 
-                    result[0].push(result[0][result[0].length - 1] + duration);
-                    result[1].push(result[1][result[1].length - 1]);
+                        result[0].push(result[0][result[0].length - 1] + duration);
+                        result[1].push(result[1][result[1].length - 1]);
 
-                    setXEchart(result[0]);
-                    setYEchart(result[1]);
-                    return;
+                        setXEchart(result[0]);
+                        setYEchart(result[1]);
+                        return;
+                    }
+                    result[0].push(result[0][result[0].length - 1] + step_run_time);
+                    result[1].push(result[1][result[1].length - 1] + step)
                 }
-                result[0].push(result[0][result[0].length - 1] + step_run_time);
-                result[1].push(result[1][result[1].length - 1] + step)
             }
         }
-    }, [start_concurrency, step, step_run_time, max_concurrency, duration]);
+    }, [start_concurrency, step, step_run_time, max_concurrency, duration, round_num, concurrency, reheat_time]);
 
 
 
@@ -775,6 +781,14 @@ const TaskConfig = (props) => {
 
 
     const refDropdown = useRef();
+    const [showImport, setShowImport] = useState(false);
+    const [preset, setPreset] = useState({});
+
+    useEffect(() => {
+        if (Object.entries(preset).length > 0) {
+            init(preset);
+        }
+    }, [preset]);
 
     return (
         <div className='task-config'>
@@ -783,27 +797,7 @@ const TaskConfig = (props) => {
                     <p>{t('plan.taskConfig')}</p>
                     <div className='btn'>
                         <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>{t('btn.save')}</Button>
-                        <Dropdown
-                            ref={refDropdown}
-                            className='drop-preset'
-                            content={(
-                                <div data-module='dropdown-example'>
-                                  <div>Observables</div>
-                                  <div>Observer</div>
-                                  <div>Operators</div>
-                                  <div>Subscription</div>
-                                  <div>Subjects</div>
-                                  <div className='special' onClick={() => {
-                                    refDropdown.current?.setPopupVisible(false);
-                                  }}>click here close</div>
-                                </div>
-                            )}
-                        >
-                            <Button className='pre-btn'>{t('plan.importPre')}</Button>
-                        </Dropdown>
-                        {/* <Button className='pre-btn' onClick={() => {
-                            getPreConfig(() => init(initData))
-                        }}>{t('plan.importPre')}</Button> */}
+                        <Button className='pre-btn' onClick={() => setShowImport(true)}>{t('plan.importPre')}</Button>
                     </div>
                 </div>
             }
@@ -935,13 +929,18 @@ const TaskConfig = (props) => {
                         <TaskConfig />
                     }
                 </div>
-                {
-                    mode !== 1 ? <ReactEcharts style={{ marginTop: '10px' }} className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
-                }
-                {
-                    mode != 1 ? <p>{t('plan.xUnit')}</p> : <></>
-                }
+                <ReactEcharts style={{ marginTop: '10px' }} className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} />
+                <p>{t('plan.xUnit')}</p>
             </div>
+            {
+                showImport && <PreviewPreset onCancel={(e) => {
+                    console.log(e);
+                    if (e) {
+                        setPreset(e);
+                    }
+                    setShowImport(false);
+                }} />
+            }
         </div>
     )
 };

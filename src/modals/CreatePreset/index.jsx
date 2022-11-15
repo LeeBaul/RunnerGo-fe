@@ -13,7 +13,7 @@ import ReactEcharts from 'echarts-for-react';
 import { fetchSavePreset } from '@services/preset';
 
 const CreatePreset = (props) => {
-    const { onCancel } = props;
+    const { onCancel, configDetail } = props;
 
     const { t } = useTranslation();
     const language = useSelector((store) => store.user.language);
@@ -29,10 +29,53 @@ const CreatePreset = (props) => {
     const [step_run_time, setStepRunTime] = useState(null);
     const [max_concurrency, setMaxConcurrency] = useState(null);
     const [default_mode, setDefaultMode] = useState('duration');
+    const [id, setId] = useState(null);
 
     const modeList = [t('plan.modeList.1'), t('plan.modeList.2'), t('plan.modeList.3'), t('plan.modeList.4'), t('plan.modeList.5')];
     const theme = useSelector((store) => store.user.theme);
 
+
+    useEffect(() => {
+        if (Object.entries(configDetail).length > 0) {
+            const {
+                id,
+                conf_name,
+                mode_conf: {
+                    concurrency,
+                    duration,
+                    max_concurrency,
+                    reheat_time,
+                    round_num,
+                    start_concurrency,
+                    step,
+                    step_run_time
+                },
+                task_mode,
+                task_type,
+                timed_task_conf: {
+                    frequency,
+                    task_close_time,
+                    task_exec_time
+                }
+            } = configDetail;
+
+            setId(id);
+            setConfName(conf_name);
+            setConcurrency(concurrency);
+            setDuration(duration);
+            setMaxConcurrency(max_concurrency);
+            setReheatTime(reheat_time);
+            setRoundNum(round_num);
+            setStartConcurrency(start_concurrency);
+            setStep(step);
+            setStepRunTime(step_run_time);
+            setTaskType(task_type);
+            setMode(task_mode);
+            setFrequency(frequency);
+            setTaskExecTime(task_exec_time);
+            setTaskCloseTime(task_close_time);
+        }
+    }, [configDetail]);
 
 
     const taskConfig = () => {
@@ -170,25 +213,30 @@ const CreatePreset = (props) => {
 
     useEffect(() => {
         let result = [];
-        if (start_concurrency > 0 && step > 0 && step_run_time > 0 && max_concurrency > 0 && duration > 0) {
-            result.push([0]);
-            result.push([start_concurrency]);
-            while (true) {
-                if (result[1][result[1].length - 1] >= max_concurrency) {
-                    result[1][result[1].length - 1] = max_concurrency;
+        if (task_mode === 1) {
+            setXEchart([0, duration]);
+            setYEchart([concurrency, concurrency]);
+        } else {
+            if (start_concurrency > 0 && step > 0 && step_run_time > 0 && max_concurrency > 0 && duration > 0) {
+                result.push([0]);
+                result.push([start_concurrency]);
+                while (true) {
+                    if (result[1][result[1].length - 1] >= max_concurrency) {
+                        result[1][result[1].length - 1] = max_concurrency;
 
-                    result[0].push(result[0][result[0].length - 1] + duration);
-                    result[1].push(result[1][result[1].length - 1]);
+                        result[0].push(result[0][result[0].length - 1] + duration);
+                        result[1].push(result[1][result[1].length - 1]);
 
-                    setXEchart(result[0]);
-                    setYEchart(result[1]);
-                    return;
+                        setXEchart(result[0]);
+                        setYEchart(result[1]);
+                        return;
+                    }
+                    result[0].push(result[0][result[0].length - 1] + step_run_time);
+                    result[1].push(result[1][result[1].length - 1] + step)
                 }
-                result[0].push(result[0][result[0].length - 1] + step_run_time);
-                result[1].push(result[1][result[1].length - 1] + step)
             }
         }
-    }, [start_concurrency, step, step_run_time, max_concurrency, duration]);
+    }, [start_concurrency, step, step_run_time, max_concurrency, duration, round_num, concurrency, reheat_time]);
     console.log(123123);
 
     const saveConfig = () => {
@@ -197,56 +245,84 @@ const CreatePreset = (props) => {
             return;
         }
 
-        if (task_mode === 1) {
-            if (task_type === 2) {
-                if (frequency === 0 && task_exec_time === 0) {
-                    Message('error', t('message.taskConfigEmpty'));
-                    return;
-                } else if (frequency !== 0 && (task_exec_time === 0 || task_close_time === 0)) {
-                    Message('error', t('message.taskConfigEmpty'));
-                    return;
-                }
+        // if (task_mode === 1) {
+        //     if (task_type === 2) {
+        //         if (frequency === 0 && task_exec_time === 0) {
+        //             Message('error', t('message.taskConfigEmpty'));
+        //             return;
+        //         } else if (frequency !== 0 && (task_exec_time === 0 || task_close_time === 0)) {
+        //             Message('error', t('message.taskConfigEmpty'));
+        //             return;
+        //         }
 
-                if (frequency !== 0 && task_close_time <= task_exec_time) {
-                    Message('error', t('message.endGTstart'));
-                    return;
+        //         if (frequency !== 0 && task_close_time <= task_exec_time) {
+        //             Message('error', t('message.endGTstart'));
+        //             return;
+        //         }
+        //     }
+        //     if (!duration && !round_num) {
+        //         Message('error', t('message.taskConfigEmpty'));
+        //         return;
+        //     } else if (!concurrency) {
+        //         Message('error', t('message.taskConfigEmpty'));
+        //         return;
+        //     }
+        // } else {
+        //     if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
+        //         Message('error', t('message.taskConfigEmpty'));
+        //         return;
+        //     }
+        // }
+        let params = {};
+        if (id) {
+            params = {
+                id,
+                team_id: parseInt(localStorage.getItem('team_id')),
+                conf_name,
+                task_type,
+                task_mode,
+                mode_conf: {
+                    concurrency,
+                    duration,
+                    max_concurrency,
+                    reheat_time,
+                    round_num,
+                    start_concurrency,
+                    step,
+                    step_run_time,
+                    threshold_value: 0
+                },
+                timed_task_conf: {
+                    frequency,
+                    task_exec_time,
+                    task_close_time
                 }
-            }
-            if (!duration && !round_num) {
-                Message('error', t('message.taskConfigEmpty'));
-                return;
-            } else if (!concurrency) {
-                Message('error', t('message.taskConfigEmpty'));
-                return;
-            }
+            };
         } else {
-            if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
-                Message('error', t('message.taskConfigEmpty'));
-                return;
-            }
+            params = {
+                team_id: parseInt(localStorage.getItem('team_id')),
+                conf_name,
+                task_type,
+                task_mode,
+                mode_conf: {
+                    concurrency,
+                    duration,
+                    max_concurrency,
+                    reheat_time,
+                    round_num,
+                    start_concurrency,
+                    step,
+                    step_run_time,
+                    threshold_value: 0
+                },
+                timed_task_conf: {
+                    frequency,
+                    task_exec_time,
+                    task_close_time
+                }
+            };
         }
-        const params = {
-            team_id: parseInt(localStorage.getItem('team_id')),
-            conf_name,
-            task_type,
-            task_mode,
-            mode_conf: {
-                concurrency,
-                duration,
-                max_concurrency,
-                reheat_time,
-                round_num,
-                start_concurrency,
-                step,
-                step_run_time,
-                threshold_value: 0
-            },
-            timed_task_conf: {
-                frequency,
-                task_exec_time,
-                task_close_time
-            }
-        };
+        console.log(params);
 
         fetchSavePreset(params).subscribe({
             next: (res) => {
@@ -255,7 +331,7 @@ const CreatePreset = (props) => {
 
                 if (code === 0) {
                     Message('success', t('message.saveSuccess'));
-                    onCancel();
+                    onCancel(true);
                 }
             }
         })
@@ -277,7 +353,7 @@ const CreatePreset = (props) => {
                     <Button className='top-right' onClick={onCancel}><SvgClose /></Button>
                 </div>
                 <div className="config-name item">
-                    <p><span className="must-input">*</span><span>{ t('column.preset.name') }：</span></p>
+                    <p><span className="must-input">*</span><span>{t('column.preset.name')}：</span></p>
                     <Input value={conf_name} placeholder={t('placeholder.configName')} onChange={(e) => setConfName(e)} />
                 </div>
 
@@ -384,12 +460,8 @@ const CreatePreset = (props) => {
                         </div>
                     </div>
                     <div className="task-config-container-right">
-                        {
-                            task_mode !== 1 ? <ReactEcharts className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
-                        }
-                        {
-                            task_mode != 1 ? <p style={{ marginLeft: '20px' }}>{t('plan.xUnit')}</p> : <></>
-                        }
+                        <ReactEcharts className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} />
+                        <p style={{ marginLeft: '20px' }}>{t('plan.xUnit')}</p>
                     </div>
                 </div>
             </Modal>

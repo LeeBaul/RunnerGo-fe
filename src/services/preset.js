@@ -15,3 +15,12 @@ export const fetchPresetDetail = (
     params
 ) => ajax('post', '/management/api/v1/preinstall/detail', 'json', false, params);
  
+// 删除预设配置
+export const fetchDeletePreset = (
+    params
+) => ajax('post', '/management/api/v1/preinstall/delete', 'json', false, params);
+
+// 复制预设配置
+export const fetchCopyPreset = (
+    params
+) => ajax('post', '/management/api/v1/preinstall/copy', 'json', false, params);

@@ -102,7 +102,8 @@
         "startTime": "Select the start time",
         "endTime": "Select the end time",
         "searchMachine": "Search for machine name",
-        "configName": "Config name is required"
+        "configName": "Config name is required",
+        "configSearch": "Search Configuration Name"
     },
     "btn": {
         "cancel": "Cancel",
@@ -206,6 +207,7 @@
             "20008": "fill in the Task allocation and save it",
             "20009": "Insufficient resources",
             "20010": "The scene cannot be empty",
+            "20011": "preinstall yet exists",
             "common": "Operation failure, try again later~"
         },
         "folderNameEmpty": "Directory name cannot be empty!",
@@ -237,7 +239,7 @@
         "endGTstart": "End time must be greater than execution time",
         "contrastMode": "The reporting mode for comparison must be the same!",
         "contrastRunning": "Running reports cannot be compared!",
-        "confNameEmpty": "Configuration name cannot be empty!"
+        "configNameEmpty": "Configuration name cannot be empty!"
     },
     "modal": {
         "look": "Be careful",

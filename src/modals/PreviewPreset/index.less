@@ -1,26 +1,15 @@
-.preset-config {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 16px 0 8px;
-
-    .apipost-tabs-header {
-        border-bottom: none;
+.preview-preset {
+    .apipost-modal-container {
+        width: 1000px !important;
+        height: 730px !important;
+        max-width: 1200px !important;
     }
-
-    .tabs-content {
-        width: 100%;
-
-        div {
-            width: 100%;
-
-            .tabs-item {
-                width: 50% !important;
-            }
-
-            .active {
-                background-color: var(--bg-3);
-            }
-        }
+    .apipost-modal-body {
+        width: 1000px !important;
+        height: 730px !important;
+        max-height: 730px !important;
+        max-width: 1200px !important;
+        overflow-y: scroll;
     }
 
     .top {
@@ -70,26 +59,15 @@
             }
         }
     }
-
-    .preset-table {
-        margin-top: 22px;
+    &-table {
+        margin-top: 20px;
         margin-bottom: 20px;
 
         .handle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            svg {
-                width: 16px;
-                height: 16px;
-
-                fill: var(--common-white);
-                cursor: pointer;
-            }
-
-            .delete {
-                fill: #f00;
+            .apipost-btn {
+                background-color: var(--theme-color);
+                color: var(--common-white);
+                width: 44px;
             }
         }
     }
