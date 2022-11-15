@@ -11,6 +11,7 @@ const { Option } = Select;
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
 import { fetchSavePreset } from '@services/preset';
+import SvgExplain from '@assets/icons/Explain';
 
 const CreatePreset = (props) => {
     const { onCancel, configDetail } = props;
@@ -148,6 +149,7 @@ const CreatePreset = (props) => {
     const [y_echart, setYEchart] = useState([]);
 
     const onTimeStart = (dateString, date) => {
+        console.log(dateString);
         let start_time = new Date(dateString).getTime()
         setTaskExecTime(start_time / 1000);
     }
