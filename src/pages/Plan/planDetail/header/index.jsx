@@ -155,7 +155,7 @@ const DetailHeader = () => {
                     </div>
                 </div>
                 <div className='detail-header-right'>
-                    <Button className='notice' onClick={() => setPreSet(true)}>{t('plan.preinstall')}</Button>
+                    {/* <Button className='notice' onClick={() => setPreSet(true)}>{t('plan.preinstall')}</Button> */}
                     <Button className='notice' disabled={planDetail.status !== 1} preFix={<SvgSendEmail width="16" height="16" />} onClick={() => setShowEmail(true)}>{t('btn.notifyEmail')}</Button>
                     {
                         planDetail.status === 1

@@ -101,7 +101,8 @@
         "unitR": "unit: r",
         "startTime": "Select the start time",
         "endTime": "Select the end time",
-        "searchMachine": "Search for machine name"
+        "searchMachine": "Search for machine name",
+        "configName": "Config name is required"
     },
     "btn": {
         "cancel": "Cancel",

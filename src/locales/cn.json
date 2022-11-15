@@ -100,7 +100,8 @@
         "unitR": "单位: 次",
         "startTime": "请选择执行时间",
         "endTime": "请选择结束时间",
-        "searchMachine": "搜索机器名称"
+        "searchMachine": "搜索机器名称",
+        "configName": "配置名称必填"
     },
     "btn": {
         "cancel": "取消",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'adesign-react';
 import {
     Add as SvgAdd,
@@ -8,6 +8,7 @@ import {
 import './index.less';
 import { useTranslation } from 'react-i18next';
 import { Table } from '@arco-design/web-react';
+import CreatePreset from '@modals/CreatePreset';
 
 const PresetConfig = () => {
     const { t } = useTranslation();
@@ -115,13 +116,15 @@ const PresetConfig = () => {
             <SvgDelete className="delete" />
         </div>
         }
-    ]
+    ];
+
+    const [showCreate, setShowCreate] = useState(false);
     return (
         <div className='preset-config'>
             <div className='top'>
                 <p className='top-left'>预设配置</p>
                 <div className='top-right'>
-                    <Button preFix={<SvgAdd />}>新建</Button>
+                    <Button preFix={<SvgAdd />} onClick={() => setShowCreate(true)}>新建</Button>
                 </div>
             </div>
             <Table
@@ -135,6 +138,8 @@ const PresetConfig = () => {
                 showSorterTooltip={false}
                 pagination={false}
             />
+
+            { showCreate && <CreatePreset /> }
         </div>
     )
 };
