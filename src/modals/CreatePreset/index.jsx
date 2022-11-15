@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './index.less';
-import { Modal, Button, Input, Radio, Select } from 'adesign-react';
+import { Modal, Button, Input, Radio, Select, Message } from 'adesign-react';
 import { useTranslation } from 'react-i18next';
 import SvgClose from '@assets/logo/close';
 import { useSelector } from 'react-redux';
@@ -10,12 +10,16 @@ const { Group } = Radio;
 const { Option } = Select;
 import 'echarts/lib/echarts';
 import ReactEcharts from 'echarts-for-react';
+import { fetchSavePreset } from '@services/preset';
 
-const CreatePreset = () => {
+const CreatePreset = (props) => {
+    const { onCancel } = props;
+
     const { t } = useTranslation();
     const language = useSelector((store) => store.user.language);
+    const [conf_name, setConfName] = useState('');
     const [task_type, setTaskType] = useState(1);
-    const [mode, setMode] = useState(1);
+    const [task_mode, setMode] = useState(1);
     const [duration, setDuration] = useState(null);
     const [round_num, setRoundNum] = useState(null);
     const [concurrency, setConcurrency] = useState(null);
@@ -25,11 +29,6 @@ const CreatePreset = () => {
     const [step_run_time, setStepRunTime] = useState(null);
     const [max_concurrency, setMaxConcurrency] = useState(null);
     const [default_mode, setDefaultMode] = useState('duration');
-    const [frequency, setFrequency] = useState(0);
-    const [taskExecTime, setTaskExecTime] = useState(0);
-    const [taskCloseTime, setTaskCloseTime] = useState(0);
-    const [x_echart, setXEchart] = useState([]);
-    const [y_echart, setYEchart] = useState([]);
 
     const modeList = [t('plan.modeList.1'), t('plan.modeList.2'), t('plan.modeList.3'), t('plan.modeList.4'), t('plan.modeList.5')];
     const theme = useSelector((store) => store.user.theme);
@@ -98,6 +97,12 @@ const CreatePreset = () => {
             </div>
         )
     }
+
+    const [frequency, setFrequency] = useState(0);
+    const [task_exec_time, setTaskExecTime] = useState(0);
+    const [task_close_time, setTaskCloseTime] = useState(0);
+    const [x_echart, setXEchart] = useState([]);
+    const [y_echart, setYEchart] = useState([]);
 
     const onTimeStart = (dateString, date) => {
         let start_time = new Date(dateString).getTime()
@@ -186,6 +191,70 @@ const CreatePreset = () => {
     }, [start_concurrency, step, step_run_time, max_concurrency, duration]);
     console.log(123123);
 
+    const saveConfig = () => {
+        if (!conf_name) {
+            Message('error', t('message.confNameEmpty'));
+            return;
+        }
+
+        if (task_mode === 1) {
+            if (task_type === 2) {
+                if (frequency === 0 && task_exec_time === 0) {
+                    Message('error', t('message.taskConfigEmpty'));
+                    return;
+                } else if (frequency !== 0 && (task_exec_time === 0 || task_close_time === 0)) {
+                    Message('error', t('message.taskConfigEmpty'));
+                    return;
+                }
+
+                if (frequency !== 0 && task_close_time <= task_exec_time) {
+                    Message('error', t('message.endGTstart'));
+                    return;
+                }
+            }
+            if (!duration && !round_num) {
+                Message('error', t('message.taskConfigEmpty'));
+                return;
+            } else if (!concurrency) {
+                Message('error', t('message.taskConfigEmpty'));
+                return;
+            }
+        } else {
+            if (!start_concurrency || !step || !step_run_time || !max_concurrency || !duration) {
+                Message('error', t('message.taskConfigEmpty'));
+                return;
+            }
+        }
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
+            conf_name,
+            task_type,
+            task_mode,
+            mode_conf: {
+                concurrency,
+                duration,
+                max_concurrency,
+                reheat_time,
+                round_num,
+                start_concurrency,
+                step,
+                step_run_time,
+                threshold_value
+            },
+            timed_task_conf: {
+                frequency,
+                task_exec_time,
+                task_close_time
+            }
+        };
+
+        fetchSavePreset(params).subscribe({
+            next: (res) => {
+                console.log(res);
+            }
+        })
+    }
+
     return (
         <div>
             <Modal
@@ -194,14 +263,16 @@ const CreatePreset = () => {
                 title={null}
                 okText={t('btn.save')}
                 cancelText={t('btn.close')}
+                onOk={() => saveConfig()}
+                onCancel={onCancel}
             >
                 <div className="top">
                     <p className="top-left">{t('leftBar.preset')}</p>
                     <Button className='top-right'><SvgClose /></Button>
                 </div>
                 <div className="config-name item">
-                    <p><span className="must-input">*</span><span>配置名称：</span></p>
-                    <Input placeholder={t('placeholder.configName')} />
+                    <p><span className="must-input">*</span><span>{ t('column.preset.name') }：</span></p>
+                    <Input value={conf_name} placeholder={t('placeholder.configName')} onChange={(e) => setConfName(e)} />
                 </div>
 
                 <div className='task-config-container'>
@@ -236,7 +307,7 @@ const CreatePreset = () => {
                                     </div>
                                     <div className='select-date-right'>
                                         <DatePicker
-                                            value={taskExecTime * 1000}
+                                            value={task_exec_time * 1000}
                                             placeholder={t('placeholder.startTime')}
                                             showTime
                                             format='YYYY-MM-DD HH:mm'
@@ -244,14 +315,14 @@ const CreatePreset = () => {
                                             disabledDate={(current) => current.isBefore(new Date().getTime() - 86400000)}
                                         />
                                         <DatePicker
-                                            value={taskCloseTime * 1000}
+                                            value={task_close_time * 1000}
                                             disabled={frequency === 0}
                                             placeholder={t('placeholder.endTime')}
                                             style={{ marginTop: '10px' }}
                                             showTime
                                             format='YYYY-MM-DD HH:mm'
                                             onChange={onTimeEnd}
-                                            disabledDate={(current) => current.isBefore(dayjs(taskExecTime * 1000).format('YYYY-MM-DD HH:mm:ss'))}
+                                            disabledDate={(current) => current.isBefore(dayjs(task_exec_time * 1000).format('YYYY-MM-DD HH:mm:ss'))}
                                         />
                                     </div>
                                 </div>
@@ -259,7 +330,7 @@ const CreatePreset = () => {
                         }
                         <div className='item' style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                             <p >{t('plan.mode')}:</p>
-                            <Select value={mode} style={{ width: '300px', height: '32px', marginLeft: '14px' }} onChange={(e) => {
+                            <Select value={task_mode} style={{ width: '300px', height: '32px', marginLeft: '14px' }} onChange={(e) => {
                                 if (e === 1) {
                                     setDuration(0);
                                     // updateTaskConfig('duration', 0);
@@ -308,10 +379,10 @@ const CreatePreset = () => {
                     </div>
                     <div className="task-config-container-right">
                         {
-                            mode !== 1 ? <ReactEcharts className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
+                            task_mode !== 1 ? <ReactEcharts className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} /> : <></>
                         }
                         {
-                            mode != 1 ? <p style={{ marginLeft: '20px' }}>{t('plan.xUnit')}</p> : <></>
+                            task_mode != 1 ? <p style={{ marginLeft: '20px' }}>{t('plan.xUnit')}</p> : <></>
                         }
                     </div>
                 </div>

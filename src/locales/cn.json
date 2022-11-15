@@ -235,7 +235,8 @@
         "taskConfigEmpty": "必填项不能为空!",
         "endGTstart": "结束时间必须大于执行时间",
         "contrastMode": "对比的报告模式必须一样!",
-        "contrastRunning": "运行中的报告无法对比!"
+        "contrastRunning": "运行中的报告无法对比!",
+        "confNameEmpty": "配置名称不能为空!"
     },
     "modal": {
         "look": "注意",
@@ -695,5 +696,9 @@
             "1": "主力机器",
             "2": "备用机器"
         }
+    },
+    "preset": {
+        "performance": "性能测试",
+        "automation": "自动化测试"
     }
 }

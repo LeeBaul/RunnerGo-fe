@@ -675,6 +675,7 @@ const usePlan = () => {
 
     const stopPlan = (plan_id, callback) => {
         const params = {
+            team_id: parseInt(localStorage.getItem('team_id')),
             plan_ids: [parseInt(plan_id)],
         };
         console.log(params);

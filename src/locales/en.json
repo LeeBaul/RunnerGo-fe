@@ -236,7 +236,8 @@
         "taskConfigEmpty": "The required fields cannot be empty!",
         "endGTstart": "End time must be greater than execution time",
         "contrastMode": "The reporting mode for comparison must be the same!",
-        "contrastRunning": "Running reports cannot be compared!"
+        "contrastRunning": "Running reports cannot be compared!",
+        "confNameEmpty": "Configuration name cannot be empty!"
     },
     "modal": {
         "look": "Be careful",
@@ -702,5 +703,9 @@
             "1": "Main machine",
             "2": "Standby machine"
         }
+    },
+    "preset": {
+        "performance": "performance testing",
+        "automation": "automated testing"
     }
 }

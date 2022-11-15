@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Table } from '@arco-design/web-react';
 import CreatePreset from '@modals/CreatePreset';
 import Pagination from '@components/Pagination';
+import { fetchSavePreset } from '@services/preset';
 
 const { Tabs, TabPan } = TabList;
 const PresetConfig = () => {
@@ -138,8 +139,8 @@ const PresetConfig = () => {
     };
 
     const defaultList = [
-        { id: 0, title: '性能测试', content: "123" },
-        { id: 1, title: '自动化测试', content: "456" },
+        { id: 0, title: t('preset.performance'), content: "123" },
+        { id: 1, title: t('preset.automation'), content: "456" },
     ];
 
 
@@ -155,9 +156,9 @@ const PresetConfig = () => {
                 </Tabs>
             </div>
             <div className='top'>
-                <p className='top-left'>预设配置</p>
+                <p className='top-left'>{ t('leftBar.preset') }</p>
                 <div className='top-right'>
-                    <Button preFix={<SvgAdd />} onClick={() => setShowCreate(true)}>新建</Button>
+                    <Button preFix={<SvgAdd />} onClick={() => setShowCreate(true)}>{ t('index.create') }</Button>
                 </div>
             </div>
             <Table
@@ -173,7 +174,7 @@ const PresetConfig = () => {
             />
             {total > 0 && <Pagination total={total} current={currentPage} size={pageSize} onChange={(page, pageSize) => pageChange(page, pageSize)} />}
 
-            {showCreate && <CreatePreset />}
+            {showCreate && <CreatePreset onCancel={() => setShowCreate(false)} />}
         </div>
     )
 };
