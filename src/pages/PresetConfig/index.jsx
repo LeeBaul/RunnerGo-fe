@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Table } from '@arco-design/web-react';
 import CreatePreset from '@modals/CreatePreset';
 import Pagination from '@components/Pagination';
-import { fetchSavePreset } from '@services/preset';
+import { fetchPresetList } from '@services/preset';
 
 const { Tabs, TabPan } = TabList;
 const PresetConfig = () => {
@@ -128,6 +128,18 @@ const PresetConfig = () => {
     const [total, setTotal] = useState(0);
     const [currentPage, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    const [tableData, setTableData] = useState([]);
+
+    useEffect(() => {
+        const params = {
+            team_id: parseInt(localStorage.getItem('team_id'))
+        };
+        fetchPresetList(params).subscribe({
+            next: (res) => {
+                console.log(res);
+            }
+        })
+    }, []);
 
     const pageChange = (page, size) => {
         if (size !== pageSize) {

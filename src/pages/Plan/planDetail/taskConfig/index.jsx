@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Radio, Switch, Table, Input, Button, Message, Select } from 'adesign-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Radio, Switch, Table, Input, Button, Message, Select, Dropdown } from 'adesign-react';
 import { Save as SvgSave, Import as SvgImport } from 'adesign-react/icons';
 import { fetchPreConfig } from '@services/plan';
 import { useSelector, useDispatch } from 'react-redux';
@@ -774,7 +774,7 @@ const TaskConfig = (props) => {
     }
 
 
-
+    const refDropdown = useRef();
 
     return (
         <div className='task-config'>
@@ -783,9 +783,27 @@ const TaskConfig = (props) => {
                     <p>{t('plan.taskConfig')}</p>
                     <div className='btn'>
                         <Button className='save' onClick={() => savePlan()} preFix={<SvgSave width="16" height="16" />}>{t('btn.save')}</Button>
-                        <Button className='pre-btn' preFix={<SvgImport style={{ marginRight: '4px' }} />} onClick={() => {
+                        <Dropdown
+                            ref={refDropdown}
+                            className='drop-preset'
+                            content={(
+                                <div data-module='dropdown-example'>
+                                  <div>Observables</div>
+                                  <div>Observer</div>
+                                  <div>Operators</div>
+                                  <div>Subscription</div>
+                                  <div>Subjects</div>
+                                  <div className='special' onClick={() => {
+                                    refDropdown.current?.setPopupVisible(false);
+                                  }}>click here close</div>
+                                </div>
+                            )}
+                        >
+                            <Button className='pre-btn'>{t('plan.importPre')}</Button>
+                        </Dropdown>
+                        {/* <Button className='pre-btn' onClick={() => {
                             getPreConfig(() => init(initData))
-                        }}>{t('plan.importPre')}</Button>
+                        }}>{t('plan.importPre')}</Button> */}
                     </div>
                 </div>
             }

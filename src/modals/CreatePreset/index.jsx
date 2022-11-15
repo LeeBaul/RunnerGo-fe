@@ -53,43 +53,43 @@ const CreatePreset = (props) => {
                                 }}>
                                     <Radio className='radio-group-item' value="duration">
                                         <span style={{ marginTop: '5px' }}>{t('plan.duration')}： </span>
-                                        <Input value={duration} placeholder={t('placeholder.unitS')} onChange={(e) => setDuration(e)} disabled={default_mode === 'round_num'} />
+                                        <Input value={duration} placeholder={t('placeholder.unitS')} onChange={(e) => setDuration(parseInt(e))} disabled={default_mode === 'round_num'} />
                                     </Radio>
                                     <Radio className='radio-group-item' value="round_num">
                                         <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}： </span>
-                                        <Input value={round_num} placeholder={t('placeholder.unitR')} onChange={(e) => setRoundNum(e)} disabled={default_mode === 'duration'} />
+                                        <Input value={round_num} placeholder={t('placeholder.unitR')} onChange={(e) => setRoundNum(parseInt(e))} disabled={default_mode === 'duration'} />
                                     </Radio>
                                 </Group>
                             </div>
                             <div className="right-item">
                                 <span><span className='must-input'>*&nbsp;</span>{t('plan.concurrency')}: </span>
-                                <Input value={concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setConcurrency(e)} />
+                                <Input value={concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setConcurrency(parseInt(e))} />
                             </div>
                             <div className="right-item">
                                 &nbsp;<span>{t('plan.reheatTime')}： </span>
-                                <Input value={reheat_time} placeholder={t('placeholder.unitS')} onChange={(e) => setReheatTime(e)} />
+                                <Input value={reheat_time} placeholder={t('placeholder.unitS')} onChange={(e) => setReheatTime(parseInt(e))} />
                             </div>
                         </div>
                             : <div className="right-container">
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span> {t('plan.startConcurrency')}：</span>
-                                    <Input value={start_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setStartConcurrency(e)} />
+                                    <Input value={start_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setStartConcurrency(parseInt(e))} />
                                 </div>
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.step')}：</span>
-                                    <Input value={step} placeholder={t('placeholder.unitR')} onChange={(e) => setStep(e)} />
+                                    <Input value={step} placeholder={t('placeholder.unitR')} onChange={(e) => setStep(parseInt(e))} />
                                 </div>
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.stepRunTime')}：</span>
-                                    <Input value={step_run_time} placeholder={t('placeholder.unitS')} onChange={(e) => setStepRunTime(e)} />
+                                    <Input value={step_run_time} placeholder={t('placeholder.unitS')} onChange={(e) => setStepRunTime(parseInt(e))} />
                                 </div>
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.maxConcurrency')}： </span>
-                                    <Input value={max_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setMaxConcurrency(e)} />
+                                    <Input value={max_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setMaxConcurrency(parseInt(e))} />
                                 </div>
                                 <div className="right-item" style={{ marginBottom: 0 }}>
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.duration')}：</span>
-                                    <Input value={duration} placeholder={t('placeholder.unitS')} onChange={(e) => setDuration(e)} />
+                                    <Input value={duration} placeholder={t('placeholder.unitS')} onChange={(e) => setDuration(parseInt(e))} />
                                 </div>
                             </div>
                     }
@@ -239,7 +239,7 @@ const CreatePreset = (props) => {
                 start_concurrency,
                 step,
                 step_run_time,
-                threshold_value
+                threshold_value: 0
             },
             timed_task_conf: {
                 frequency,
@@ -251,6 +251,12 @@ const CreatePreset = (props) => {
         fetchSavePreset(params).subscribe({
             next: (res) => {
                 console.log(res);
+                const { code } = res;
+
+                if (code === 0) {
+                    Message('success', t('message.saveSuccess'));
+                    onCancel();
+                }
             }
         })
     }
