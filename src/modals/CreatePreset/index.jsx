@@ -44,7 +44,7 @@ const CreatePreset = (props) => {
                 </div>
                 <div className="right">
                     {
-                        mode === 1 ? <div className="right-container-first">
+                        task_mode === 1 ? <div className="right-container-first">
 
                             <div style={{ display: 'flex', marginLeft: '6px' }}>
                                 <span className='must-input' style={{ paddingTop: '8px' }}>*</span>
@@ -268,7 +268,7 @@ const CreatePreset = (props) => {
             >
                 <div className="top">
                     <p className="top-left">{t('leftBar.preset')}</p>
-                    <Button className='top-right'><SvgClose /></Button>
+                    <Button className='top-right' onClick={onCancel}><SvgClose /></Button>
                 </div>
                 <div className="config-name item">
                     <p><span className="must-input">*</span><span>{ t('column.preset.name') }：</span></p>
