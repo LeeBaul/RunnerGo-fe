@@ -186,7 +186,7 @@ const TaskConfig = (props) => {
 
         let _task_config = cloneDeep(task_config);
         _task_config = {
-            mode,
+            mode: task_mode,
             cron_expr,
             mode_conf: mode_conf ? mode_conf : {},
             timed_task_conf: timed_task_conf ? timed_task_conf : {},
