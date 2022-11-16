@@ -222,6 +222,8 @@ const PresetConfig = () => {
             onOk: () => {
                 const params = {
                     id,
+                    team_id: parseInt(localStorage.getItem('team_id')),
+                    conf_name: name
                 };
                 fetchDeletePreset(params).subscribe({
                     next: (res) => {

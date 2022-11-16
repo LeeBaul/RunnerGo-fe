@@ -249,6 +249,7 @@
         "deletePreset2": "？Cannot be recovered after deletion",
         "deletePlan": "Are you sure you want to delete this schedule?",
         "deleteReport": "Are you sure you want to delete this report?",
+        "deleteScene": "Are you sure you want to delete this scenario?",
         "invitation": "Invite",
         "roleList": {
             "0": "Member",

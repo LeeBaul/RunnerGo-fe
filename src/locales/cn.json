@@ -248,6 +248,7 @@
         "deletePreset2": "？删除后不可恢复",
         "deletePlan": "是否确定要删除此计划？",
         "deleteReport": "是否确定要删除此报告？",
+        "deleteScene": "是否确定要删除此场景？",
         "invitation": "邀请",
         "roleList": {
             "0": "成员",
