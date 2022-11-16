@@ -419,7 +419,10 @@
             "13": "Delete Scene",
             "14": "Delete Plan",
             "15": "Run Scene",
-            "16": "Run Plan"
+            "16": "Run Plan",
+            "17": "New Preset Config",
+            "18": "Modify Preset Config",
+            "19": "Delete Preset config"
         }
     },
     "apis": {
