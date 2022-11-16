@@ -103,7 +103,7 @@ const ReportContent = () => {
             {
                 report_id ?
                     <>
-                        <ReportHeader data={headerData} status={reportStatus} />
+                        <ReportHeader data={headerData} status={reportStatus} plan_id={planId} />
                         <ReportExecutor data={infoData} status={reportStatus} runTime={runTime} onStop={(e) => setStopDebug(e)} />
 
                         <ReportDetail onRunTime={(e) => setRunTime(e)} data={configData} stopDebug={stopDebug} status={reportStatus} plan_id={planId} create_time={createTime} />

@@ -38,7 +38,8 @@ const Pagination = (props) => {
                 defaultValue={pageSize}
                 onChange={(e) => {
                     setPageSize(e);
-                    onChange && onChange(currentPage, e);
+                    setCurrentPage(1);
+                    onChange && onChange(1, e);
                 }}
             >
                 {

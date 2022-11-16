@@ -22,6 +22,7 @@ const ReportDetail = (props) => {
 	const { search } = useLocation();
 	const { id: report_id, contrast } = qs.parse(search.slice(1));
 	const [end, setEnd] = useState(false);
+	const [analysis, setAnalysis] = useState({});
 	// const [runTime, setRunTime] = useState(0);
 	const select_plan = useSelector((store) =>(store.plan.select_plan));
 	
@@ -54,12 +55,14 @@ const ReportDetail = (props) => {
 		};
 		fetchReportDetail(query).subscribe({
 			next: (res) => {
-				const { data: { results, end } } = res;
+				const { data: { results, end, analysis } } = res;
 				const dataList = [];
 				for (let i in results) {
 					dataList.push(results[i]);
 				}
+				console.log(JSON.parse(analysis));
 				setData(dataList);
+				analysis && setAnalysis(JSON.parse(analysis));
 				const item = dataList.length > 0 ? dataList[0].qps_list : [];
 				const time = item.length > 1 ? item[item.length - 1].time_stamp - item[0].time_stamp : 0;
 				// setRunTime(time);
@@ -75,7 +78,7 @@ const ReportDetail = (props) => {
 
 
     const defaultList = [
-        { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} status={status} config={configData} create_time={create_time} plan_id={plan_id}  />  },
+        { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} status={status} config={configData} create_time={create_time} plan_id={plan_id} analysis={analysis}  />  },
         { id: '2', title: t('report.tabList.1'), content: <DebugLog status={status} end={end} stopDebug={stopDebug} />},
         { id: '3', title: t('report.tabList.2'), content: <PressMonitor status={status} /> },
         { id: '4', title: t('report.tabList.3'), content: '被服务器监控' }

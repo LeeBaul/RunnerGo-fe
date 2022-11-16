@@ -15,6 +15,7 @@ import EmailReport from "./EmailReport";
 import InvitateExpire from "./InvitateExpire";
 import ReportContrast from "./ReportContrast";
 import PresetConfig from "./PresetConfig";
+import Page404 from "./404";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -99,10 +100,15 @@ const Route = [
         name: 'preset',
         path: '/preset',
         element: PresetConfig
+    },
+    {
+        name: '404',
+        path: '/404',
+        element: Page404
     }
 ];
 
-const ignorePage = ['login', 'register', 'find', 'userhome', 'reset', 'emailReport', 'invitateExpire'];
+const ignorePage = ['login', 'register', 'find', 'userhome', 'reset', 'emailReport', 'invitateExpire', '404'];
 
 // export const RoutePages = Route;
 

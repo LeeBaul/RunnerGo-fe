@@ -20,7 +20,7 @@ import InvitationModal from '@modals/ProjectInvitation';
 
 const ReportHeader = (props) => {
     console.log(props);
-    const { data: { plan_name, scene_name }, status } = props;
+    const { data: { plan_name, scene_name }, status, plan_id } = props;
     const { t } = useTranslation();
     const [showSendEmail, setSendEmail] = useState(false);
     const navigate = useNavigate();
@@ -133,6 +133,7 @@ const ReportHeader = (props) => {
     const stopReport = () => {
         console.log(123);
         const params = {
+            plan_id: parseInt(plan_id),
             team_id: parseInt(localStorage.getItem('team_id')),
             report_ids: [parseInt(report_id ? report_id : JSON.parse(contrast)[select_plan].report_id)],
         };
