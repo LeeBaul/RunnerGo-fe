@@ -48,6 +48,9 @@ const TeamworkLogs = (props) => {
     "14": t('index.logType.14'),
     "15": t('index.logType.15'),
     "16": t('index.logType.16'),
+    "17": t('index.logType.17'),
+    "18": t('index.logType.18'),
+    "19": t('index.logType.19'),
 }
 
   const refTooltip = useRef(null);

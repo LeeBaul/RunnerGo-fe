@@ -110,7 +110,12 @@ const CreatePreset = (props) => {
                                 <Input value={concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setConcurrency(parseInt(e))} />
                             </div>
                             <div className="right-item">
-                                &nbsp;<span>{t('plan.reheatTime')}： </span>
+                            <div class="reheat-explain">
+                                    <span>{t('plan.reheatTime')}： </span>
+                                    <Tooltip content={<div>{t('plan.reheatExplain')}</div>}>
+                                        <div><SvgExplain /></div>
+                                    </Tooltip>
+                                </div>
                                 <Input value={reheat_time} placeholder={t('placeholder.unitS')} onChange={(e) => setReheatTime(parseInt(e))} />
                             </div>
                         </div>
