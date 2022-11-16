@@ -953,7 +953,7 @@ const ReportContent = (props) => {
             <div className='report-result'>
                 <div className='title'>
                     <p className='line'></p>
-                    <p className='label'>报告结果</p>
+                    <p className='label'>{ t('report.reportResult') }</p>
                 </div>
                 <div className='content'>
                    {
@@ -967,7 +967,7 @@ const ReportContent = (props) => {
             <div className='report-desc'>
                 <div className='title'>
                     <p className='line'></p>
-                    <p className='label'>结果分析</p>
+                    <p className='label'>{ t('report.reportDesc') }</p>
                 </div>
                 <div className='content'>
                     <Textarea value={desc} onChange={(e) => setDesc(e)} onBlur={() => updateDesc()} />

@@ -208,6 +208,7 @@
             "20009": "Insufficient resources",
             "20010": "The scene cannot be empty",
             "20011": "preinstall yet exists",
+            "20012": "report not found",
             "common": "Operation failure, try again later~"
         },
         "folderNameEmpty": "Directory name cannot be empty!",
@@ -691,7 +692,9 @@
         "title": "Test report",
         "contrastReport": "Comparison report",
         "configRun": "Run",
-        "configRunSuccess": "Run successful!"
+        "configRunSuccess": "Run successful!",
+        "reportResult": "Report results",
+        "reportDesc": "Result analysis"
     },
     "tooltip": {
         "start": "Run",

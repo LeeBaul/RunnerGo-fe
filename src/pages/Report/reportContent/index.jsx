@@ -36,7 +36,7 @@ const ReportContent = () => {
     useEffect(() => {
         if (report_id) {
             getReportInfo();
-            report_info_t = setInterval(getReportInfo, 1000);
+            report_info_t = setInterval(getReportInfo, 3000);
 
             return () => {
                 report_info_t && clearInterval(report_info_t);

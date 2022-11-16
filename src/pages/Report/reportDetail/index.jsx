@@ -34,7 +34,7 @@ const ReportDetail = (props) => {
 			getReportDetail(plan_id);
 			report_detail_t = setInterval(() => {
 				getReportDetail(plan_id);
-			}, 1000);
+			}, 3000);
 	
 			return () => {
 				clearInterval(report_detail_t);

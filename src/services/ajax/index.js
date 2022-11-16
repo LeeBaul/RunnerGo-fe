@@ -122,6 +122,10 @@ export const rxAjax = (
                 if (resp.response.code === 20011) {
                     Message('error', i18next.t('message.resCode.20011'));
                 }
+                if (resp.response.code === 20012) {
+                    Message('error', i18next.t('message.resCode.20012'));   
+                    window.location.href = '/#/404';
+                }
                 // if (resp.response.code === 0000) {
                 //     fetchTokenRefresh()
                 //     .pipe(

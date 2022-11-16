@@ -207,6 +207,7 @@
             "20009": "资源不足",
             "20010": "场景不能为空",
             "20011": "预设配置名称已存在",
+            "20012": "报告不存在",
             "common": "操作异常, 稍后再试~"
         },
         "folderNameEmpty": "目录名称不能为空!",
@@ -684,7 +685,9 @@
         "title": "测试报告",
         "contrastReport": "对比报告",
         "configRun": "执行",
-        "configRunSuccess": "执行成功!"
+        "configRunSuccess": "执行成功!",
+        "reportResult": "报告结果",
+        "reportDesc": "结果分析"
     },
     "tooltip": {
         "start": "运行",
