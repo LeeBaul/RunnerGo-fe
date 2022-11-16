@@ -882,6 +882,12 @@ const ReportContent = (props) => {
         })
     }
 
+    useEffect(() => {
+        if (description) {
+            setDesc(description);
+        }
+    }, [description])
+
     return (
         <div className='report-content'>
             <div className='report-content-top'>
