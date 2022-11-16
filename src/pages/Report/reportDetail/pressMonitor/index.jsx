@@ -154,7 +154,7 @@ const PressMonitor = (props) => {
     return (
         <div className='press-monitor'>
             {
-               metrics.length > 0 && metrics.map(item => (
+               metrics && metrics.length > 0 && metrics.map(item => (
                     <div className='monitor-list'>
                     <ReactEcharts className='echarts' option={getOption('cpu', item.cpu)} />
                     <ReactEcharts className='echarts' option={getOption('disk_io', item.disk_io)} />
