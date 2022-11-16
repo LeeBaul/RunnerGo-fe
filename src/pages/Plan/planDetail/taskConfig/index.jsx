@@ -774,9 +774,9 @@ const TaskConfig = (props) => {
     const [timeText, setTimeText] = useState('');
 
     useEffect(() => {
-        let start = dayjs(taskExecTime * 1000).format('YYYY:MM:DD HH:mm');
+        let start = dayjs(taskExecTime * 1000).format('YYYY-MM-DD HH:mm');
         let start_time = dayjs(taskExecTime * 1000).format('HH:mm');
-        let end = dayjs(taskCloseTime * 1000).format('YYYY:MM:DD HH:mm');
+        let end = dayjs(taskCloseTime * 1000).format('YYYY-MM-DD HH:mm');
         if (frequency === 1) {
             setTimeText(`自${start}起, 每天的${start_time}该场景将自动执行一次, 直至${end}结束`);
         } else if (frequency === 2) {
