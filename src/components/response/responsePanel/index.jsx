@@ -114,7 +114,7 @@ const ResPonsePanel = (props) => {
       id: '5',
       title: (
         <div style={{ position: 'relative' }}>
-          <span style={{ marginRight: response_data && response_data.assertion ? '8px' : 0 }}>{t('apis.resAssert')}</span>
+          <span style={{ marginRight: ((response_data && response_data.assertion) || (scene_result  && scene_result.assertion)) ? '8px' : 0 }}>{t('apis.resAssert')}</span>
           {
             response_data ?
               response_data && response_data.assertion

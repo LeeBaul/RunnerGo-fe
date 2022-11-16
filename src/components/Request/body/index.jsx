@@ -260,7 +260,6 @@ const Body = (props) => {
         return (
           <Switch
             size="small"
-            disabled={readonly == 1}
             checked={text > 0}
             onChange={(e) => {
               handleChange(rowData, rowIndex, { not_null: e ? 1 : -1 });
@@ -282,6 +281,9 @@ const Body = (props) => {
             value={BODYTYPELIST.includes(rowData?.field_type) ? rowData?.field_type : 'String'}
             disabled={readonly == 1}
             onChange={(newVal) => {
+              if (newVal === 'Text') {
+                handleChange(rowData, rowIndex, { fileBase64: [] });
+              }
               handleChange(rowData, rowIndex, { field_type: newVal });
             }}
           >
