@@ -44,7 +44,7 @@ const ReportContent = (props) => {
     const [desc, setDesc] = useState('');
 
     const { search } = useLocation();
-	const { id: report_id, contrast } = qs.parse(search.slice(1));
+    const { id: report_id, contrast } = qs.parse(search.slice(1));
 
     const [refresh, setRefresh] = useState(true);
 
@@ -827,7 +827,7 @@ const ReportContent = (props) => {
                 }
             } else {
                 if (!start_concurrency || !step || !step_run_time || !max_concurrency) {
-                     Message('error', t('message.taskConfigEmpty'));
+                    Message('error', t('message.taskConfigEmpty'));
                     return;
                 }
             }
@@ -864,7 +864,7 @@ const ReportContent = (props) => {
             step: <Input value={step} onChange={(e) => (step = Number(e))} />,
             step_run_time: <Input value={step_run_time} onChange={(e) => (step_run_time = Number(e))} />,
             max_concurrency: <Input value={max_concurrency} onChange={(e) => (max_concurrency = Number(e))} />,
-            created_time_sec: <Button onClick={() => saveConfig()}>{ t('report.configRun') }</Button>
+            created_time_sec: <Button onClick={() => saveConfig()}>{t('report.configRun')}</Button>
         }])
     };
 
@@ -902,41 +902,41 @@ const ReportContent = (props) => {
             </div>
             <div className='report-task-config'>
                 <Table showBorder columns={configColumn} data={configData} />
-                <Button className='update-config-btn' disabled={ status === 2 } afterFix={<SvgAddcircle />} onClick={() => updateConfig()}>{t('btn.updateConfig')}</Button>
+                <Button className='update-config-btn' disabled={status === 2} afterFix={<SvgAddcircle />} onClick={() => updateConfig()}>{t('btn.updateConfig')}</Button>
             </div>
             <div className='report-detail-config'>
                 <div className='table-explain'>
                     <p>
                         <p className='circle' style={{ marginLeft: 0 }}></p>
-                        { `Max(ms): 最大响应时间` }
+                        {`Max(ms): 最大响应时间`}
                     </p>
                     <p>
                         <p className='circle' style={{ marginLeft: 0 }}></p>
-                        { `Min(ms): 最小响应时间` }
+                        {`Min(ms): 最小响应时间`}
                     </p>
                     <p>
                         <p className='circle' style={{ marginLeft: 0 }}></p>
-                        { `Avg(ms): 平均响应时长` }
+                        {`Avg(ms): 平均响应时长`}
                     </p>
                     <p>
                         <p className='circle' style={{ marginLeft: 0 }}></p>
-                        { `90%: 响应时间90%线` }
+                        {`90%: 响应时间90%线`}
                     </p>
                     <p>
                         <p className='circle' style={{ marginLeft: 0 }}></p>
-                        { `95%: 响应时间95%线` }
+                        {`95%: 响应时间95%线`}
                     </p>
                     <p>
                         <p className='circle'></p>
-                        { `99%: 响应时间99%线` }
+                        {`99%: 响应时间99%线`}
                     </p>
                     <p>
                         <p className='circle'></p>
-                        { `RPS: 每秒请求数` }
+                        {`RPS: 每秒请求数`}
                     </p>
                     <p>
                         <p className='circle'></p>
-                        { `SRPS: 每秒成功请求数` }
+                        {`SRPS: 每秒成功请求数`}
                     </p>
                 </div>
                 <Table showBorder columns={columns1} data={tableData1} />
@@ -951,29 +951,36 @@ const ReportContent = (props) => {
                 <ReactEcharts ref={echartsRef7} className='echarts e7' option={getOption(t('report.95%List'), ninetyFive)} />
                 <ReactEcharts ref={echartsRef8} className='echarts e8' option={getOption(t('report.99%List'), ninetyNine)} />
             </div>
-            <div className='report-result'>
-                <div className='title'>
-                    <p className='line'></p>
-                    <p className='label'>{ t('report.reportResult') }</p>
-                </div>
-                <div className='content'>
-                   {
-                    analysis.length > 0 && analysis.map((item, index) => <p className='content-item' key={index}>{ item }</p>)
-                   }
-                </div>
-                <div className='desc'>
-                    { description }
-                </div>
-            </div>
-            <div className='report-desc'>
-                <div className='title'>
-                    <p className='line'></p>
-                    <p className='label'>{ t('report.reportDesc') }</p>
-                </div>
-                <div className='content'>
-                    <Textarea value={desc} onChange={(e) => setDesc(e)} onBlur={() => updateDesc()} />
-                </div>
-            </div>
+            {
+                status === 2 ?
+                    <>
+                        <div className='report-result'>
+                            <div className='title'>
+                                <p className='line'></p>
+                                <p className='label'>{t('report.reportResult')}</p>
+                            </div>
+                            <div className='content'>
+                                {
+                                    analysis.length > 0 && analysis.map((item, index) => <p className='content-item' key={index}>{item}</p>)
+                                }
+                            </div>
+                            <div className='desc'>
+                                {description}
+                            </div>
+                        </div>
+                        <div className='report-desc'>
+                            <div className='title'>
+                                <p className='line'></p>
+                                <p className='label'>{t('report.reportDesc')}</p>
+                            </div>
+                            <div className='content'>
+                                <Textarea value={desc} onChange={(e) => setDesc(e)} onBlur={() => updateDesc()} />
+                            </div>
+                        </div>
+                    </>
+                    : <></>
+            }
+
         </div>
     )
 };

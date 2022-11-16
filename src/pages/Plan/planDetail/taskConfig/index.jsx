@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Radio, Switch, Table, Input, Button, Message, Select, Dropdown } from 'adesign-react';
+import { Radio, Switch, Table, Input, Button, Message, Select, Dropdown, Tooltip } from 'adesign-react';
 import { Save as SvgSave, Import as SvgImport } from 'adesign-react/icons';
 import { fetchPreConfig } from '@services/plan';
 import { useSelector, useDispatch } from 'react-redux';
@@ -825,7 +825,11 @@ const TaskConfig = (props) => {
                     task_type === 2 ? <div className='item time-select' style={{ marginBottom: '30px' }}>
                         <div className='explain'>
                             <p>{t('btn.add')}</p>
-                            <SvgExplain />
+                            <Tooltip content={<div>{t('plan.explain')}</div>}>
+                                <div>
+                                    <SvgExplain />
+                                </div>
+                            </Tooltip>
                         </div>
                         <div className='select-date'>
                             <div className='select-date-left'>

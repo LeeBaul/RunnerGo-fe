@@ -638,7 +638,8 @@
             "2": "weekly",
             "3": "monthly"
         },
-        "startTaskTime": "Start execution time"
+        "startTaskTime": "Start execution time",
+        "explain": "After saving the configuration and starting to run, it will automatically run at the specified time. The effective time range of this scheduled task is 365 days after setting"
     },
     "report": {
         "done": "Completed",
