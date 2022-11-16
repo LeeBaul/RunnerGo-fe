@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Tabs as TabList, Input, Message } from 'adesign-react';
+import { Button, Tabs as TabList, Input, Message, Modal } from 'adesign-react';
 import {
     Add as SvgAdd,
     Copy as SvgCopy,
@@ -43,6 +43,10 @@ const PresetConfig = () => {
         {
             title: t('column.preset.step'),
             dataIndex: 'step'
+        },
+        {
+            title: t('column.preset.stepRunTime'),
+            dataIndex: 'step_run_time'
         },
         {
             title: t('column.preset.maxConcurrency'),
@@ -135,6 +139,7 @@ const PresetConfig = () => {
     const [tableData, setTableData] = useState([]);
     const [configDetail, setCofigDetail] = useState({});
     const [searchWord, setSearchWord] = useState('');
+    const [totalData, setTotalData] = useState([]);
 
     const modeList = {
         '1': t('plan.modeList.1'),
@@ -164,6 +169,7 @@ const PresetConfig = () => {
             next: (res) => {
                 console.log(res);
                 const { data: { preinstall_list, total } } = res;
+                setTotalData(preinstall_list);
                 setTableData(preinstall_list.map(item => {
                     const { mode_conf, task_type, task_mode } = item;
                     return {
@@ -173,11 +179,11 @@ const PresetConfig = () => {
                         task_mode: modeList[task_mode],
                         handle: <div className='handle'>
                             <SvgEye onClick={() => {
-                                setCofigDetail(item);
+                                setCofigDetail(preinstall_list.find(elem => elem.id === item.id));
                                 setShowCreate(true);
                             }} />
                             <SvgCopy onClick={() => copyPreset(item.id)} />
-                            <SvgDelete className='delete' onClick={() => deletePreset(item.id)} />
+                            <SvgDelete className='delete' onClick={() => deletePreset(item.id, item.conf_name)} />
                         </div>
                     }
                 }));
@@ -207,20 +213,29 @@ const PresetConfig = () => {
         })
     }
 
-    const deletePreset = (id) => {
-        const params = {
-            id,
-        };
-        fetchDeletePreset(params).subscribe({
-            next: (res) => {
-                const { code } = res;
-                console.log(code);
-                if (code === 0) {
-                    Message('success', t('message.deleteSuccess'));
-                    getTableData();
-                }
+    const deletePreset = (id, name) => {
+        Modal.confirm({
+            title: t('modal.deletePresetTitle'),
+            content: `${t('modal.deletePreset1')}${name}${t('modal.deletePreset2')}`,
+            okText: t('btn.ok'),
+            cancelText: t('btn.cancel'),
+            onOk: () => {
+                const params = {
+                    id,
+                };
+                fetchDeletePreset(params).subscribe({
+                    next: (res) => {
+                        const { code } = res;
+                        console.log(code);
+                        if (code === 0) {
+                            Message('success', t('message.deleteSuccess'));
+                            getTableData();
+                        }
+                    }
+                })
             }
         })
+
     }
 
     const pageChange = (page, size) => {
@@ -274,7 +289,7 @@ const PresetConfig = () => {
                 onRow={(record, index) => {
                     return {
                         onDoubleClick: (event) => {
-                            setCofigDetail(record);
+                            setCofigDetail(totalData.find(item => item.id === record.id));
                             setShowCreate(true);
                         },
                     };

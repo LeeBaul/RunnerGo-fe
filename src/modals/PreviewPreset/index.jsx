@@ -44,6 +44,10 @@ const PreviewPreset = (props) => {
             dataIndex: 'step'
         },
         {
+            title: t('column.preset.stepRunTime'),
+            dataIndex: 'step_run_time'
+        },
+        {
             title: t('column.preset.maxConcurrency'),
             dataIndex: 'max_concurrency'
         },

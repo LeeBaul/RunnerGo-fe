@@ -244,6 +244,9 @@
     },
     "modal": {
         "look": "Be careful",
+        "deletePresetTitle": "Delete Config",
+        "deletePreset1": "confirm deletion",
+        "deletePreset2": "？Cannot be recovered after deletion",
         "deletePlan": "Are you sure you want to delete this schedule?",
         "deleteReport": "Are you sure you want to delete this report?",
         "invitation": "Invite",
@@ -357,18 +360,19 @@
             "handle": "Operation"
         },
         "preset": {
-            "name": "配置名称",
-            "creator": "创建人",
-            "taskType": "任务类型",
-            "taskMode": "压测模式",
-            "startConcurrency": "起始并发数",
-            "step": "并发数步长",
-            "maxConcurrency": "最大并发数",
-            "duration": "持续时长",
-            "roundNum": "轮次",
-            "concurrency": "并发数",
-            "reheatTime": "预热",
-            "handle": "操作"
+            "name": "Config name",
+            "creator": "Creator",
+            "taskType": "Task Type",
+            "taskMode": "Mode",
+            "startConcurrency": "Start concurrency",
+            "step": "Step",
+            "stepRunTime": "Step duration",
+            "maxConcurrency": "Max concurrency",
+            "duration": "Duration",
+            "roundNum": "Round",
+            "concurrency": "Concurrency",
+            "reheatTime": "Reheat time",
+            "handle": "Operation"
         }
     },
     "index": {

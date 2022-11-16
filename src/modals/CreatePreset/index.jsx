@@ -59,6 +59,7 @@ const CreatePreset = (props) => {
                     task_exec_time
                 }
             } = configDetail;
+            console.log(task_mode);
 
             setId(id);
             setConfName(conf_name);
@@ -243,7 +244,7 @@ const CreatePreset = (props) => {
 
     const saveConfig = () => {
         if (!conf_name) {
-            Message('error', t('message.confNameEmpty'));
+            Message('error', t('message.configNameEmpty'));
             return;
         }
 

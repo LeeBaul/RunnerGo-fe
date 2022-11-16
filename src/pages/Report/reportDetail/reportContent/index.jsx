@@ -16,6 +16,7 @@ const { Textarea } = Input;
 
 const ReportContent = (props) => {
     const { data: datas, config: { task_mode, task_type, mode_conf, change_take_conf }, create_time, status, plan_id, analysis, refreshData, description } = props;
+    console.log(datas);
     const { t } = useTranslation();
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);

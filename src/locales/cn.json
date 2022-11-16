@@ -243,6 +243,9 @@
     },
     "modal": {
         "look": "注意",
+        "deletePresetTitle": "删除配置",
+        "deletePreset1": "确认删除",
+        "deletePreset2": "？删除后不可恢复",
         "deletePlan": "是否确定要删除此计划？",
         "deleteReport": "是否确定要删除此报告？",
         "invitation": "邀请",
@@ -362,6 +365,7 @@
             "taskMode": "压测模式",
             "startConcurrency": "起始并发数",
             "step": "并发数步长",
+            "stepRunTime": "步长持续时长",
             "maxConcurrency": "最大并发数",
             "duration": "持续时长",
             "roundNum": "轮次",

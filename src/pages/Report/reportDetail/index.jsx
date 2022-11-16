@@ -58,20 +58,23 @@ const ReportDetail = (props) => {
 			next: (res) => {
 				const { data: { results, end, analysis, description } } = res;
 				const dataList = [];
+				console.log(results);
 				for (let i in results) {
 					dataList.push(results[i]);
 				}
 				console.log(analysis);
-				let _analysis = JSON.parse(analysis);
-				console.log(_analysis);
-				let analysis_list = [];
-				for (let i in _analysis) {
-					console.log(i, _analysis);
-					analysis_list.push(`${i}: ${_analysis[i]}`)
+				if (analysis && Object.entries(analysis).length > 0) {
+					let _analysis = JSON.parse(analysis);
+					console.log(_analysis);
+					let analysis_list = [];
+					for (let i in _analysis) {
+						console.log(i, _analysis);
+						analysis_list.push(`${i}: ${_analysis[i]}`)
+					}
+					analysis && setAnalysis(analysis_list);
 				}
 				setDescription(description);
 				setData(dataList);
-				analysis && setAnalysis(analysis_list);
 				const item = dataList.length > 0 ? dataList[0].qps_list : [];
 				const time = item.length > 1 ? item[item.length - 1].time_stamp - item[0].time_stamp : 0;
 				// setRunTime(time);
