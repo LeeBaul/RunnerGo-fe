@@ -16,7 +16,6 @@ const { Textarea } = Input;
 
 const ReportContent = (props) => {
     const { data: datas, config: { task_mode, task_type, mode_conf, change_take_conf }, create_time, status, plan_id, analysis, refreshData, description } = props;
-    console.log(datas);
     const { t } = useTranslation();
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);
@@ -129,7 +128,7 @@ const ReportContent = (props) => {
                 srps,
             } = item;
             item.total_request_time = total_request_time;
-            item.error_rate = `${error_rate * 100}%`
+            item.error_rate = `${(error_rate * 100).toFixed(2)}%`
             tps.push(qps);
             rps.push(qps);
             concurrency.push(qps);
@@ -216,7 +215,7 @@ const ReportContent = (props) => {
             qps: '-',
             error_num: _error_num,
             error_rate: '-',
-            received_bytes: _received_bytes,
+            received_bytes: _received_bytes.toFixed(1),
             send_bytes: _send_bytes,
         });
         setTableData1(_datas);
@@ -738,7 +737,6 @@ const ReportContent = (props) => {
                 seriesIndex: 0,
                 dataIndex: tooltipX,
             });
-            console.log(res1, echartsRef1);
             // echartsRef1.current.echarts.on('click', () => {
             //     console.log(123123123123);
             // })
@@ -847,7 +845,6 @@ const ReportContent = (props) => {
             };
             fetchEditReport(params).subscribe({
                 next: (res) => {
-                    console.log(res);
                     const { code } = res;
                     if (code === 0) {
                         setRefresh(true);

@@ -13,6 +13,7 @@ import {
     Select,
     Dropdown,
     Message,
+    Tooltip
 } from 'adesign-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Handle, MarkerType } from 'react-flow-renderer';
@@ -396,7 +397,7 @@ const Box = (props) => {
             <div className={cn('box-item', { 'white-run-color': theme === 'white' ? status === 'success' || status === 'failed' : false })} style={{ backgroundColor: topBgStyle[status] }}>
                 <div className='box-item-left'>
                     <SvgApi />
-                    <span>{id_apis[id] ? id_apis[id]?.name : '新建接口'}</span>
+                    <span className='name'>{id_apis[id] ? id_apis[id]?.name : '新建接口'}</span>
                     {
                         topStatus[status]
                     }

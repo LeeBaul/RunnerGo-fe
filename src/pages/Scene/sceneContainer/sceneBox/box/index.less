@@ -108,8 +108,12 @@
       display: flex;
       align-items: center;
 
-      span {
+      .name {
         margin-left: 4px;
+        max-width: 124px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       .default {

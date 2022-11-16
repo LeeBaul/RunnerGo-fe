@@ -58,17 +58,13 @@ const ReportDetail = (props) => {
 			next: (res) => {
 				const { data: { results, end, analysis, description } } = res;
 				const dataList = [];
-				console.log(results);
 				for (let i in results) {
 					dataList.push(results[i]);
 				}
-				console.log(analysis);
 				if (analysis && Object.entries(analysis).length > 0) {
 					let _analysis = JSON.parse(analysis);
-					console.log(_analysis);
 					let analysis_list = [];
 					for (let i in _analysis) {
-						console.log(i, _analysis);
 						analysis_list.push(`${i}: ${_analysis[i]}`)
 					}
 					analysis && setAnalysis(analysis_list);
