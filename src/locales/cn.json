@@ -85,7 +85,7 @@
         "currentPwd": "请输入当前密码",
         "planName": "请输入计划名称",
         "planDesc": "请输入计划描述",
-        "varName": "变量: name",
+        "varName": "变量: {{name}}",
         "varVal": "变量值",
         "remark": "备注",
         "line": "大于等于50, 小于100",

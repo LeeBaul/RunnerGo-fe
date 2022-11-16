@@ -264,7 +264,14 @@ export const notResponseWrapper = css`
     min-height: 0;
     align-items: center;
     justify-content: center;
+
+    svg {
+      fill: var(--font-1) !important;
+
+    }
+
     &_text {
+      margin-top: 20px;
       font-size: var(--size-12px);
     }
   }

@@ -32,6 +32,7 @@ export const notResponseWrapper = css`
     min-height: 0;
     align-items: center;
     justify-content: center;
+
     &_text {
       font-size: var(--size-12px);
     }

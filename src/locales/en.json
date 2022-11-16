@@ -86,7 +86,7 @@
         "currentPwd": "Please enter the current password",
         "planName": "Please enter the plan name",
         "planDesc": "Please enter the plan description",
-        "varName": "var: name",
+        "varName": "var: {{name}}",
         "varVal": "Value",
         "remark": "Remark",
         "line": "≥50 & ≤100",
