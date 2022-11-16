@@ -884,7 +884,9 @@ const ReportContent = (props) => {
         if (description) {
             setDesc(description);
         }
-    }, [description])
+    }, [description]);
+
+    const [editDesc, setEditDesc] = useState(false);
 
     return (
         <div className='report-content'>
@@ -966,12 +968,21 @@ const ReportContent = (props) => {
                             <div className='title'>
                                 <p className='line'></p>
                                 <p className='label'>{t('report.reportDesc')}</p>
+                                {
+                                    editDesc ? <Button onClick={() => {
+                                        setEditDesc(false);
+                                        updateDesc();
+                                    }}>{ t('btn.save') }</Button>
+                                        : <Button onClick={() => setEditDesc(true)}>{ t('modal.edit') }</Button>
+                                }
                             </div>
                             <div className='content'>
-                                <div className='desc'>
-                                    {description}
-                                </div>
-                                <Textarea value={desc} onChange={(e) => setDesc(e)} onBlur={() => updateDesc()} />
+                                {
+                                    editDesc ? <Textarea value={desc} onChange={(e) => setDesc(e)}  />
+                                        : <div className='desc'>
+                                            {description}
+                                        </div>
+                                }
                             </div>
                         </div>
                     </>
