@@ -87,3 +87,8 @@ export const fetchEditReport = (
 export const fetchContrastReport = (
     params
 ) => ajax('post', '/management/api/v1/report/compare_report', 'json', false, params);
+
+// 保存或更新测试结果描述
+export const fetchUpdateDesc = (
+    params
+) => ajax('post', '/management/api/v1/report/update/description', 'json', false, params);

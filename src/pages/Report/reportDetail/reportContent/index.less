@@ -56,6 +56,48 @@
         }
     }
 
+    .report-result, .report-desc {
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            display: flex;
+
+            .line {
+                width: 3px;
+                height: 15px;
+                background-color: var(--theme-color);
+            }
+
+            .label {
+                font-size: 14px;
+                color: var(--font-1);
+                margin-left: 6px;
+            }
+        }
+        
+        .content {
+            display: flex;
+            padding-left: 9px;
+            margin-top: 14px;
+        }
+
+        .desc {
+            padding-left: 9px;
+        }
+    }
+
+    .report-desc {
+        margin-top: 26px;
+
+        .apipost-textarea-wrapper {
+            width: 100%;
+            border: 1px solid var(--bg-4);
+            border-radius: 5px;
+            margin-top: 4px;
+        }
+    }
+
     .report-task-config {
         display: flex;
         flex-direction: column;

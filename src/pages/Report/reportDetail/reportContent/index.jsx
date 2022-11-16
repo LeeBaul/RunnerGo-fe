@@ -8,13 +8,14 @@ import { cloneDeep } from 'lodash';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { fetchEditReport } from '@services/report';
+import { fetchEditReport, fetchUpdateDesc } from '@services/report';
 import { useLocation } from 'react-router-dom';
 import qs from 'qs';
+const { Textarea } = Input;
 
 
 const ReportContent = (props) => {
-    const { data: datas, config: { task_mode, task_type, mode_conf, change_take_conf }, create_time, status, plan_id, analysis } = props;
+    const { data: datas, config: { task_mode, task_type, mode_conf, change_take_conf }, create_time, status, plan_id, analysis, refreshData, description } = props;
     const { t } = useTranslation();
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);
@@ -39,6 +40,7 @@ const ReportContent = (props) => {
     const [configData, setConfigData] = useState([]);
 
     const [tooltipX, setTooltipX] = useState(0);
+    const [desc, setDesc] = useState('');
 
     const { search } = useLocation();
 	const { id: report_id, contrast } = qs.parse(search.slice(1));
@@ -863,6 +865,21 @@ const ReportContent = (props) => {
             max_concurrency: <Input value={max_concurrency} onChange={(e) => (max_concurrency = Number(e))} />,
             created_time_sec: <Button onClick={() => saveConfig()}>{ t('report.configRun') }</Button>
         }])
+    };
+
+    const updateDesc = () => {
+        const params = {
+            report_id: parseInt(report_id),
+            description: desc
+        };
+        fetchUpdateDesc(params).subscribe({
+            next: (res) => {
+                const { code } = res;
+                if (code === 0) {
+                    refreshData(true);
+                }
+            }
+        })
     }
 
     return (
@@ -926,6 +943,29 @@ const ReportContent = (props) => {
                 <ReactEcharts ref={echartsRef6} className='echarts e6' option={getOption(t('report.90%List'), ninetyList)} />
                 <ReactEcharts ref={echartsRef7} className='echarts e7' option={getOption(t('report.95%List'), ninetyFive)} />
                 <ReactEcharts ref={echartsRef8} className='echarts e8' option={getOption(t('report.99%List'), ninetyNine)} />
+            </div>
+            <div className='report-result'>
+                <div className='title'>
+                    <p className='line'></p>
+                    <p className='label'>报告结果</p>
+                </div>
+                <div className='content'>
+                   {
+                    analysis.length > 0 && analysis.map((item, index) => <p className='content-item' key={index}>{ item }</p>)
+                   }
+                </div>
+                <div className='desc'>
+                    { description }
+                </div>
+            </div>
+            <div className='report-desc'>
+                <div className='title'>
+                    <p className='line'></p>
+                    <p className='label'>结果分析</p>
+                </div>
+                <div className='content'>
+                    <Textarea value={desc} onChange={(e) => setDesc(e)} onBlur={() => updateDesc()} />
+                </div>
             </div>
         </div>
     )
