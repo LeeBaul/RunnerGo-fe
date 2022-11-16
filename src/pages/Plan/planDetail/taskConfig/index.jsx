@@ -294,7 +294,7 @@ const TaskConfig = (props) => {
 
 
     // 并发模式 60 82
-    const TaskConfig = () => {
+    const taskConfig = () => {
         return (
             <div className="task-config-detail" style={{ marginLeft: language === 'cn' ? '60px' : '82px' }}>
                 <div className="left">
@@ -384,7 +384,12 @@ const TaskConfig = (props) => {
                                 }} />
                             </div>
                             <div className="right-item">
-                                &nbsp;<span>{t('plan.reheatTime')}： </span>
+                                <div class="reheat-explain">
+                                    &nbsp;&nbsp;&nbsp;<span>{t('plan.reheatTime')}： </span>
+                                    <Tooltip content={<div>{t('plan.reheatExplain')}</div>}>
+                                        <div><SvgExplain /></div>
+                                    </Tooltip>
+                                </div>
                                 <Input value={mode_conf.reheat_time} placeholder={t('placeholder.unitS')} onBlur={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.reheat_time = parseInt(e.target.value);
@@ -766,6 +771,36 @@ const TaskConfig = (props) => {
     const [taskExecTime, setTaskExecTime] = useState(0);
     // 任务结束时间
     const [taskCloseTime, setTaskCloseTime] = useState(0);
+    const [timeText, setTimeText] = useState('');
+
+    useEffect(() => {
+        let start = dayjs(taskExecTime * 1000).format('YYYY:MM:DD HH:mm');
+        let start_time = dayjs(taskExecTime * 1000).format('HH:mm');
+        let end = dayjs(taskCloseTime * 1000).format('YYYY:MM:DD HH:mm');
+        if (frequency === 1) {
+            setTimeText(`自${start}起, 每天的${start_time}该场景将自动执行一次, 直至${end}结束`);
+        } else if (frequency === 2) {
+            let week = new Date(taskExecTime).getDay();
+            let weekList = {
+                0: '周日',
+                1: '周一',
+                2: '周二',
+                3: '周三',
+                4: '周四',
+                5: '周五',
+                6: '周六'
+            };
+            setTimeText(`自${start}起, 每${weekList[week]}的${start_time}该场景将自动执行一次, 直至${end}结束`);
+        } else if (frequency === 3) {
+            let day = new Date(taskExecTime).getDate();
+            setTimeText(`自${start}起, 每月${day}日的的${start_time}该场景将自动执行一次, 直至${end}结束`);
+        } else {
+            setTimeText('');
+        }
+        if (!taskExecTime || !taskCloseTime) {
+            setTimeText('');
+        }
+    }, [taskExecTime, taskCloseTime, frequency]);
 
     const onTimeStart = (dateString, date) => {
         let start_time = new Date(dateString).getTime()
@@ -824,15 +859,15 @@ const TaskConfig = (props) => {
                 {
                     task_type === 2 ? <div className='item time-select' style={{ marginBottom: '30px' }}>
                         <div className='explain'>
-                            <p>{t('btn.add')}</p>
-                            <Tooltip content={<div>{t('plan.explain')}</div>}>
-                                <div>
-                                    <SvgExplain />
-                                </div>
-                            </Tooltip>
-                        </div>
-                        <div className='select-date'>
-                            <div className='select-date-left'>
+                            <div className='explain-left'>
+                                <p>{t('btn.add')}</p>
+                                <Tooltip content={<div>{t('plan.explain')}</div>}>
+                                    <div>
+                                        <SvgExplain />
+                                    </div>
+                                </Tooltip>
+                            </div>
+                            <div className='explain-right'>
                                 <p>{t('plan.frequency')}</p>
                                 <Select value={frequency} onChange={(e) => {
                                     setFrequency(e);
@@ -847,27 +882,37 @@ const TaskConfig = (props) => {
                                     <Option value={3}>{t('plan.frequencyList.3')}</Option>
                                 </Select>
                             </div>
+                        </div>
+                        <div className='select-date'>
                             <div className='select-date-right'>
-                                <DatePicker
-                                    value={taskExecTime * 1000}
-                                    placeholder={t('placeholder.startTime')}
-                                    showTime
-                                    format='YYYY-MM-DD HH:mm'
-                                    onChange={onTimeStart}
-                                    disabledDate={(current) => current.isBefore(new Date().getTime() - 86400000)}
-                                />
-                                <DatePicker
-                                    value={taskCloseTime * 1000}
-                                    disabled={frequency === 0}
-                                    placeholder={t('placeholder.endTime')}
-                                    style={{ marginTop: '10px' }}
-                                    showTime
-                                    format='YYYY-MM-DD HH:mm'
-                                    onChange={onTimeEnd}
-                                    disabledDate={(current) => current.isBefore(dayjs(taskExecTime * 1000).format('YYYY-MM-DD HH:mm:ss'))}
-                                />
+                                <div className='time-item'>
+                                    <p className='label'>{ t('index.startTime') }:</p>
+                                    <DatePicker
+                                        value={taskExecTime * 1000}
+                                        placeholder={t('placeholder.startTime')}
+                                        style={{ marginTop: '10px' }}
+                                        showTime
+                                        format='YYYY-MM-DD HH:mm'
+                                        onChange={onTimeStart}
+                                        disabledDate={(current) => current.isBefore(new Date().getTime() - 86400000)}
+                                    />
+                                </div>
+                                <div className='time-item'>
+                                    <p className='label'>{ t('index.endTime') }:</p>
+                                    <DatePicker
+                                        value={taskCloseTime * 1000}
+                                        disabled={frequency === 0}
+                                        placeholder={t('placeholder.endTime')}
+                                        style={{ marginTop: '10px' }}
+                                        showTime
+                                        format='YYYY-MM-DD HH:mm'
+                                        onChange={onTimeEnd}
+                                        disabledDate={(current) => current.isBefore(dayjs(taskExecTime * 1000).format('YYYY-MM-DD HH:mm:ss'))}
+                                    />
+                                </div>
                             </div>
                         </div>
+                        <p className='time-explain'>{timeText}</p>
                     </div> : <></>
                 }
                 {/* {
@@ -930,7 +975,7 @@ const TaskConfig = (props) => {
                 </div>
                 <div className='other-config'>
                     {
-                        <TaskConfig />
+                        taskConfig()
                     }
                 </div>
                 <ReactEcharts style={{ marginTop: '10px' }} className='echarts' option={getOption(t('plan.configEchart'), x_echart, y_echart)} />

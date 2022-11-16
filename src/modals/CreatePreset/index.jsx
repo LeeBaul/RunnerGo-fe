@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './index.less';
-import { Modal, Button, Input, Radio, Select, Message } from 'adesign-react';
+import { Modal, Button, Input, Radio, Select, Message, Tooltip } from 'adesign-react';
 import { useTranslation } from 'react-i18next';
 import SvgClose from '@assets/logo/close';
 import { useSelector } from 'react-redux';
@@ -92,7 +92,6 @@ const CreatePreset = (props) => {
                         task_mode === 1 ? <div className="right-container-first">
 
                             <div style={{ display: 'flex', marginLeft: '6px' }}>
-                                <span className='must-input' style={{ paddingTop: '8px' }}>*</span>
                                 <Group className='radio-group' value={default_mode} onChange={(e) => {
                                     setDefaultMode(e);
                                 }}>
@@ -107,7 +106,7 @@ const CreatePreset = (props) => {
                                 </Group>
                             </div>
                             <div className="right-item">
-                                <span><span className='must-input'>*&nbsp;</span>{t('plan.concurrency')}: </span>
+                                <span>{t('plan.concurrency')}: </span>
                                 <Input value={concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setConcurrency(parseInt(e))} />
                             </div>
                             <div className="right-item">
@@ -117,23 +116,23 @@ const CreatePreset = (props) => {
                         </div>
                             : <div className="right-container">
                                 <div className="right-item">
-                                    <span><span className='must-input'>*&nbsp;</span> {t('plan.startConcurrency')}：</span>
+                                    <span>{t('plan.startConcurrency')}：</span>
                                     <Input value={start_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setStartConcurrency(parseInt(e))} />
                                 </div>
                                 <div className="right-item">
-                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.step')}：</span>
+                                    <span>{t('plan.step')}：</span>
                                     <Input value={step} placeholder={t('placeholder.unitR')} onChange={(e) => setStep(parseInt(e))} />
                                 </div>
                                 <div className="right-item">
-                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.stepRunTime')}：</span>
+                                    <span>{t('plan.stepRunTime')}：</span>
                                     <Input value={step_run_time} placeholder={t('placeholder.unitS')} onChange={(e) => setStepRunTime(parseInt(e))} />
                                 </div>
                                 <div className="right-item">
-                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.maxConcurrency')}： </span>
+                                    <span>{t('plan.maxConcurrency')}： </span>
                                     <Input value={max_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => setMaxConcurrency(parseInt(e))} />
                                 </div>
                                 <div className="right-item" style={{ marginBottom: 0 }}>
-                                    <span><span className='must-input'>*&nbsp;</span>{t('plan.duration')}：</span>
+                                    <span>{t('plan.duration')}：</span>
                                     <Input value={duration} placeholder={t('placeholder.unitS')} onChange={(e) => setDuration(parseInt(e))} />
                                 </div>
                             </div>
@@ -148,6 +147,36 @@ const CreatePreset = (props) => {
     const [task_close_time, setTaskCloseTime] = useState(0);
     const [x_echart, setXEchart] = useState([]);
     const [y_echart, setYEchart] = useState([]);
+    const [timeText, setTimeText] = useState('');
+
+    useEffect(() => {
+        let start = dayjs(task_exec_time * 1000).format('YYYY:MM:DD HH:mm');
+        let start_time = dayjs(task_exec_time * 1000).format('HH:mm');
+        let end = dayjs(task_close_time * 1000).format('YYYY:MM:DD HH:mm');
+        if (frequency === 1) {
+            setTimeText(`自${start}起, 每天的${start_time}该场景将自动执行一次, 直至${end}结束`);
+        } else if (frequency === 2) {
+            let week = new Date(task_exec_time).getDay();
+            let weekList = {
+                0: '周日',
+                1: '周一',
+                2: '周二',
+                3: '周三',
+                4: '周四',
+                5: '周五',
+                6: '周六'
+            };
+            setTimeText(`自${start}起, 每${weekList[week]}的${start_time}该场景将自动执行一次, 直至${end}结束`);
+        } else if (frequency === 3) {
+            let day = new Date(task_exec_time).getDate();
+            setTimeText(`自${start}起, 每月${day}日的的${start_time}该场景将自动执行一次, 直至${end}结束`);
+        } else {
+            setTimeText('');
+        }
+        if (!task_exec_time || !task_close_time) {
+            setTimeText('');
+        }
+    }, [task_exec_time, task_close_time, frequency]);
 
     const onTimeStart = (dateString, date) => {
         console.log(dateString);
@@ -370,48 +399,63 @@ const CreatePreset = (props) => {
                             </Radio.Group>
                         </div>
                         {
-                            task_type === 2 ? <div className='item time-select' style={{ marginBottom: '30px' }}>
-                                <div className='explain'>
-                                    <p>{t('btn.add')}</p>
-                                    <SvgExplain />
-                                </div>
-                                <div className='select-date'>
-                                    <div className='select-date-left'>
-                                        <p>{t('plan.frequency')}</p>
-                                        <Select value={frequency} onChange={(e) => {
-                                            setFrequency(e);
-                                            if (e === 0) {
-                                                setTaskCloseTime(0);
-                                            }
-                                        }}>
-                                            <Option value={0}>{t('plan.frequencyList.0')}</Option>
-                                            <Option value={1}>{t('plan.frequencyList.1')}</Option>
-                                            <Option value={2}>{t('plan.frequencyList.2')}</Option>
-                                            <Option value={3}>{t('plan.frequencyList.3')}</Option>
-                                        </Select>
-                                    </div>
-                                    <div className='select-date-right'>
-                                        <DatePicker
-                                            value={task_exec_time * 1000}
-                                            placeholder={t('placeholder.startTime')}
-                                            showTime
-                                            format='YYYY-MM-DD HH:mm'
-                                            onChange={onTimeStart}
-                                            disabledDate={(current) => current.isBefore(new Date().getTime() - 86400000)}
-                                        />
-                                        <DatePicker
-                                            value={task_close_time * 1000}
-                                            disabled={frequency === 0}
-                                            placeholder={t('placeholder.endTime')}
-                                            style={{ marginTop: '10px' }}
-                                            showTime
-                                            format='YYYY-MM-DD HH:mm'
-                                            onChange={onTimeEnd}
-                                            disabledDate={(current) => current.isBefore(dayjs(task_exec_time * 1000).format('YYYY-MM-DD HH:mm:ss'))}
-                                        />
-                                    </div>
-                                </div>
-                            </div> : <></>
+                                 task_type === 2 ? <div className='item time-select' style={{ marginBottom: '30px' }}>
+                                 <div className='explain'>
+                                     <div className='explain-left'>
+                                         <p>{t('btn.add')}</p>
+                                         <Tooltip content={<div>{t('plan.explain')}</div>}>
+                                             <div>
+                                                 <SvgExplain />
+                                             </div>
+                                         </Tooltip>
+                                     </div>
+                                     <div className='explain-right'>
+                                         <p>{t('plan.frequency')}</p>
+                                         <Select value={frequency} onChange={(e) => {
+                                             setFrequency(e);
+                                             updateTaskConfig('frequency', parseInt(e));
+                                             if (e === 0) {
+                                                 setTaskCloseTime(0);
+                                             }
+                                         }}>
+                                             <Option value={0}>{t('plan.frequencyList.0')}</Option>
+                                             <Option value={1}>{t('plan.frequencyList.1')}</Option>
+                                             <Option value={2}>{t('plan.frequencyList.2')}</Option>
+                                             <Option value={3}>{t('plan.frequencyList.3')}</Option>
+                                         </Select>
+                                     </div>
+                                 </div>
+                                 <div className='select-date'>
+                                     <div className='select-date-right'>
+                                         <div className='time-item'>
+                                             <p className='label'>{ t('index.startTime') }:</p>
+                                             <DatePicker
+                                                 value={task_exec_time * 1000}
+                                                 placeholder={t('placeholder.startTime')}
+                                                 style={{ marginTop: '10px' }}
+                                                 showTime
+                                                 format='YYYY-MM-DD HH:mm'
+                                                 onChange={onTimeStart}
+                                                 disabledDate={(current) => current.isBefore(new Date().getTime() - 86400000)}
+                                             />
+                                         </div>
+                                         <div className='time-item' style={{ marginLeft: '10px' }}>
+                                             <p className='label'>{ t('index.endTime') }:</p>
+                                             <DatePicker
+                                                 value={task_close_time * 1000}
+                                                 disabled={frequency === 0}
+                                                 placeholder={t('placeholder.endTime')}
+                                                 style={{ marginTop: '10px' }}
+                                                 showTime
+                                                 format='YYYY-MM-DD HH:mm'
+                                                 onChange={onTimeEnd}
+                                                 disabledDate={(current) => current.isBefore(dayjs(task_exec_time * 1000).format('YYYY-MM-DD HH:mm:ss'))}
+                                             />
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <p className='time-explain'>{timeText}</p>
+                             </div> : <></>
                         }
                         <div className='item' style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                             <p >{t('plan.mode')}:</p>
