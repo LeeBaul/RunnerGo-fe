@@ -961,9 +961,6 @@ const ReportContent = (props) => {
                                     analysis.length > 0 && analysis.map((item, index) => <p className='content-item' key={index}>{item}</p>)
                                 }
                             </div>
-                            <div className='desc'>
-                                {description}
-                            </div>
                         </div>
                         <div className='report-desc'>
                             <div className='title'>
@@ -971,6 +968,9 @@ const ReportContent = (props) => {
                                 <p className='label'>{t('report.reportDesc')}</p>
                             </div>
                             <div className='content'>
+                                <div className='desc'>
+                                    {description}
+                                </div>
                                 <Textarea value={desc} onChange={(e) => setDesc(e)} onBlur={() => updateDesc()} />
                             </div>
                         </div>
