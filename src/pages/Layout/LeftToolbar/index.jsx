@@ -53,6 +53,13 @@ const LeftToolbar = () => {
     console.log(location);
 
     useEffect(() => {
+        let leftBarOpen = sessionStorage.getItem('leftBarOpen');
+        if (leftBarOpen) {
+            setOpenKeys(JSON.parse(leftBarOpen));
+        }
+    }, []);
+
+    useEffect(() => {
         const { pathname } = location;
         setSelectKey([`/${pathname.split('/')[1]}`])
     }, [location]);
@@ -224,7 +231,8 @@ const LeftToolbar = () => {
                     onClickSubMenu={(k, ok, kp) => {
                         console.log(k, ok, kp)
                         setOpenKeys(ok);
-                        
+                        sessionStorage.setItem('leftBarOpen', JSON.stringify(ok));
+
                     }}
                     onCollapseChange={(e) => {
                         console.log(e);
@@ -262,6 +270,7 @@ const LeftToolbar = () => {
                             </div>
                         }
                     >
+
                         <Link to="/plan">
                             <MenuItem key='/plan'>{t('leftBar.plan')}</MenuItem>
                         </Link>
