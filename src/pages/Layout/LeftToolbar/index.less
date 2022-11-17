@@ -8,6 +8,28 @@
   position: relative;
   padding-top: 8px;
   color: var(--font-1) !important;
+  position: relative;
+
+  .collapse-btn {
+    width: 24px;
+    height: 24px;
+    background-color: var(--bg-4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -12px;
+    cursor: pointer;
+
+    svg {
+      width: 15px;
+      height: 15px;
+      fill: var(--font-2);
+    }
+  }
 
 
   .arco-menu-selected {
@@ -260,4 +282,8 @@
       }
     }
   }
+}
+
+.arco-menu-light {
+  background-color: transparent;
 }

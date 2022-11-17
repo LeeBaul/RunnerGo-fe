@@ -16,7 +16,8 @@ import {
     Setting1 as SvgSetting,
     Right as SvgRight,
     LogoutRight as SvgLogout,
-    Down as SvgDown
+    Down as SvgDown,
+    Left as SvgLeft
 } from 'adesign-react/icons';
 import SvgHome from '@assets/icons/Home';
 import SvgScene from '@assets/icons/Scene1';
@@ -213,13 +214,20 @@ const LeftToolbar = () => {
 
     console.log(refMenu);
 
+    const [collapseStatus, setCollapseStatus] = useState(true);
+
     return (
         <>
             <div className="left-toolbars">
                 {/* {leftBarList} */}
+                <div className="collapse-btn" onClick={() => setCollapseStatus(!collapseStatus)}>
+                    {
+                        collapseStatus ? <SvgRight /> : <SvgLeft />
+                    }
+                </div>
+                {/* 48 */}
                 <Menu
-                    style={{ width: '170px', paddingBottom: '100px' }}
-                    hasCollapseButton
+                    style={{ width: collapseStatus ? '170px' : '56px', paddingBottom: '100px' }}
                     selectedKeys={selectKey}
                     openKeys={openKeys}
                     defaultOpenKeys={openKeys}
