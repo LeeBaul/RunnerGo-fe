@@ -354,6 +354,7 @@ const TaskConfig = (props) => {
                                             setModeConf(_mode_conf);
                                             // from === 'preset' && onChange('duration', parseInt(e.target.value));
                                             // from === 'default' && 
+                                            setDuration(parseInt(e.target.value));
                                             updateTaskConfig('duration', parseInt(e.target.value));
                                         }} disabled={default_mode === 'round_num'} />
                                     </Radio>
@@ -364,6 +365,7 @@ const TaskConfig = (props) => {
                                             _mode_conf.round_num = parseInt(e.target.value);
                                             // setRoundNum(_mode_conf);
                                             setModeConf(_mode_conf);
+                                            setRoundNum(parseInt(e.target.value));
                                             // from === 'preset' && onChange('round_num', parseInt(e.target.value));
                                             // from === 'default' && 
                                             updateTaskConfig('round_num', parseInt(e.target.value));
@@ -376,7 +378,7 @@ const TaskConfig = (props) => {
                                 <Input value={mode_conf.concurrency} placeholder={t('placeholder.unitR')} onBlur={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.concurrency = parseInt(e.target.value);
-                                    // setConcurrency(_mode_conf);
+                                    setConcurrency(parseInt(e.target.value));
                                     setModeConf(_mode_conf);
                                     // from === 'preset' && onChange('concurrency', parseInt(e.target.value));
                                     // from === 'default' && 
@@ -731,8 +733,14 @@ const TaskConfig = (props) => {
     useEffect(() => {
         let result = [];
         if (mode === 1) {
-            setXEchart([0, duration]);
-            setYEchart([concurrency, concurrency]);
+            console.log(round_num, default_mode);
+            if (default_mode === 'duration') {
+                setXEchart([0, duration]);
+                setYEchart([concurrency, concurrency]);
+            } else if (default_mode === 'round_num') {
+                setXEchart([0, round_num]);
+                setYEchart([concurrency, concurrency]);
+            }
         } else {
             if (start_concurrency > 0 && step > 0 && step_run_time > 0 && max_concurrency > 0 && duration > 0) {
                 result.push([0]);
@@ -753,7 +761,7 @@ const TaskConfig = (props) => {
                 }
             }
         }
-    }, [start_concurrency, step, step_run_time, max_concurrency, duration, round_num, concurrency, reheat_time]);
+    }, [start_concurrency, step, step_run_time, max_concurrency, duration, round_num, concurrency, reheat_time, default_mode]);
 
 
 
@@ -780,7 +788,8 @@ const TaskConfig = (props) => {
         if (frequency === 1) {
             setTimeText(`自${start}起, 每天的${start_time}该场景将自动执行一次, 直至${end}结束`);
         } else if (frequency === 2) {
-            let week = new Date(taskExecTime).getDay();
+            let week = new Date(taskExecTime * 1000).getDay();
+            console.log(week);
             let weekList = {
                 0: '周日',
                 1: '周一',
