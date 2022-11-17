@@ -47,6 +47,7 @@ const LeftToolbar = () => {
     const theme = useSelector((store) => store.user.theme);
     const [visible, setVisible] = useState(false);
     const [selectKey, setSelectKey] = useState([]);
+    const [openKeys, setOpenKeys] = useState([]);
     const location = useLocation();
 
     console.log(location);
@@ -212,67 +213,71 @@ const LeftToolbar = () => {
                 <Menu
                     style={{ width: '170px', paddingBottom: '100px' }}
                     hasCollapseButton
-                    selectedKeys={ selectKey }
+                    selectedKeys={selectKey}
+                    openKeys={openKeys}
+                    defaultOpenKeys={openKeys}
                     onClickMenuItem={(k, e, kp) => {
                         console.log(k, e, kp);
                         setSelectKey([k]);
-                        
+
                     }}
                     onClickSubMenu={(k, ok, kp) => {
                         console.log(k, ok, kp)
+                        setOpenKeys(ok);
+                        
                     }}
                     onCollapseChange={(e) => {
                         console.log(e);
                     }}
                 >
                     <Link to="/index">
-                        <MenuItem key='/index'><SvgHome className="arco-icon arco-icon-robot" />{ t('leftBar.index') }</MenuItem>
+                        <MenuItem key='/index'><SvgHome className="arco-icon arco-icon-robot" />{t('leftBar.index')}</MenuItem>
                     </Link>
                     <Link to="/apis">
-                        <MenuItem key='/apis'><SvgApis className="arco-icon arco-icon-robot" />{ t('leftBar.apis') }</MenuItem>
+                        <MenuItem key='/apis'><SvgApis className="arco-icon arco-icon-robot" />{t('leftBar.apis')}</MenuItem>
                     </Link>
                     <Link to="/scene">
-                        <MenuItem key='/scene'><SvgScene className="arco-icon arco-icon-robot" />{ t('leftBar.scene') }</MenuItem>
+                        <MenuItem key='/scene'><SvgScene className="arco-icon arco-icon-robot" />{t('leftBar.scene')}</MenuItem>
                     </Link>
                     <SubMenu
                         key='1'
                         title={
                             <div className="sub-menu-title">
-                                <SvgPlan className="arco-icon arco-icon-robot" />{ t('leftBar.test') }
+                                <SvgPlan className="arco-icon arco-icon-robot" />{t('leftBar.test')}
                             </div>
                         }
                     >
-                        <Link to="/plan">
-                            <MenuItem key='/plan'>{ t('leftBar.plan') }</MenuItem>
+                        <Link to="/testPlan">
+                            <MenuItem key='/testPlan'>{t('leftBar.plan')}</MenuItem>
                         </Link>
-                        <Link to="/report">
-                            <MenuItem key='/report'>{ t('leftBar.report') }</MenuItem>
+                        <Link to="/testReport">
+                            <MenuItem key='/testReport'>{t('leftBar.report')}</MenuItem>
                         </Link>
                     </SubMenu>
                     <SubMenu
                         key='2'
                         title={
                             <div className="sub-menu-title">
-                                <SvgReport className="arco-icon arco-icon-robot" />{ t('leftBar.performance') }
+                                <SvgReport className="arco-icon arco-icon-robot" />{t('leftBar.performance')}
                             </div>
                         }
                     >
-                        <Link to="/testPlan">
-                            <MenuItem key='/testPlan'>{ t('leftBar.plan') }</MenuItem>
+                        <Link to="/plan">
+                            <MenuItem key='/plan'>{t('leftBar.plan')}</MenuItem>
                         </Link>
-                        <Link to="/testReport">
-                            <MenuItem key='/testReport'>{ t('leftBar.report') }</MenuItem>
+                        <Link to="/report">
+                            <MenuItem key='/report'>{t('leftBar.report')}</MenuItem>
                         </Link>
                     </SubMenu>
                     <Link to="/preset">
-                        <MenuItem key='/preset'><SvgPreset className="arco-icon arco-icon-robot" />{ t('leftBar.preset') }</MenuItem>
+                        <MenuItem key='/preset'><SvgPreset className="arco-icon arco-icon-robot" />{t('leftBar.preset')}</MenuItem>
                     </Link>
                     <Link to="/machine">
-                        <MenuItem key='/machine'><SvgMachine className="arco-icon arco-icon-robot" />{ t('leftBar.machine') }</MenuItem>
+                        <MenuItem key='/machine'><SvgMachine className="arco-icon arco-icon-robot" />{t('leftBar.machine')}</MenuItem>
                     </Link>
                     <MenuItem onClick={() => {
                         window.open('https://rhl469webu.feishu.cn/docx/Rr0cdBuVUoskdkxE5t6cUo9vnOe', '_blank')
-                    }} key='/doc'><SvgDoc className="arco-icon arco-icon-robot" />{ t('leftBar.docs') }</MenuItem>
+                    }} key='/doc'><SvgDoc className="arco-icon arco-icon-robot" />{t('leftBar.docs')}</MenuItem>
                 </Menu>
                 <Dropdown
                     ref={refMenu}
