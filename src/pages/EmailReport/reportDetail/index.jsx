@@ -22,6 +22,8 @@ const ReportDetail = (props) => {
 	const { search } = useLocation();
 	const { report_id, contrast } = qs.parse(search.slice(1));
 	const [end, setEnd] = useState(false);
+	const [analysis, setAnalysis] = useState({});
+	const [description, setDescription] = useState('');
 	// const [runTime, setRunTime] = useState(0);
 	const select_plan = useSelector((store) =>(store.plan.select_plan));
 	
@@ -54,11 +56,20 @@ const ReportDetail = (props) => {
 		};
 		fetchEmailReportDetail(query).subscribe({
 			next: (res) => {
-				const { data: { results, end } } = res;
+				const { data: { results, end, analysis, description } } = res;
 				const dataList = [];
 				for (let i in results) {
 					dataList.push(results[i]);
 				}
+				if (analysis && Object.entries(analysis).length > 0) {
+					let _analysis = JSON.parse(analysis);
+					let analysis_list = [];
+					for (let i in _analysis) {
+						analysis_list.push(`${i}: ${_analysis[i]}`)
+					}
+					analysis && setAnalysis(analysis_list);
+				}
+				setDescription(description);
 				setData(dataList);
 				const item = dataList.length > 0 ? dataList[0].qps_list : [];
 				const time = item.length > 1 ? item[item.length - 1].time_stamp - item[0].time_stamp : 0;
@@ -75,7 +86,7 @@ const ReportDetail = (props) => {
 
 
     const defaultList = [
-        { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} config={configData}  />  },
+        { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} config={configData} create_time={create_time} plan_id={plan_id} analysis={analysis} description={description}   />  },
         { id: '2', title: t('report.tabList.1'), content: <DebugLog status={status} end={end} stopDebug={stopDebug} />},
         { id: '3', title: t('report.tabList.2'), content: <PressMonitor status={status} /> }
     ];
