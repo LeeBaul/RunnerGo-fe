@@ -976,6 +976,7 @@ const useScene = () => {
     const stopScene = (scene_id, from, callback) => {
         const params = {
             scene_id: parseInt(scene_id),
+            team_id: parseInt(localStorage.getItem('team_id'))
         };
         fetchStopScene(params).subscribe({
             next: (res) => {
