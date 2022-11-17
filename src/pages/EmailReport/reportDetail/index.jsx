@@ -87,7 +87,6 @@ const ReportDetail = (props) => {
 
     const defaultList = [
         { id: '1', title: t('report.tabList.0'), content: <ReportContent data={data} config={configData} create_time={create_time} plan_id={plan_id} analysis={analysis} description={description}   />  },
-        { id: '2', title: t('report.tabList.1'), content: <DebugLog status={status} end={end} stopDebug={stopDebug} />},
         { id: '3', title: t('report.tabList.2'), content: <PressMonitor status={status} /> }
     ];
 
