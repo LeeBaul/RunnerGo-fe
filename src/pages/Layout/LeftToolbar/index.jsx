@@ -227,10 +227,11 @@ const LeftToolbar = () => {
                 </div>
                 {/* 48 */}
                 <Menu
-                    style={{ width: collapseStatus ? '170px' : '56px', paddingBottom: '100px' }}
+                    style={{ width: '170px', paddingBottom: '100px' }}
                     selectedKeys={selectKey}
                     openKeys={openKeys}
                     defaultOpenKeys={openKeys}
+                    collapse={!collapseStatus}
                     onClickMenuItem={(k, e, kp) => {
                         console.log(k, e, kp);
                         setSelectKey([k]);
