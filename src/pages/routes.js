@@ -16,6 +16,8 @@ import InvitateExpire from "./InvitateExpire";
 import ReportContrast from "./ReportContrast";
 import PresetConfig from "./PresetConfig";
 import Page404 from "./404";
+import TestPlan from "./TestPlan";
+import TestReport from "./TestReport";
 
 import Header from './Layout/Header';
 import LeftToolbar from './Layout/LeftToolbar';
@@ -105,6 +107,16 @@ const Route = [
         name: '404',
         path: '/404',
         element: Page404
+    },
+    {
+        name: 'testPlan',
+        path: '/testPlan',
+        element: TestPlan
+    },
+    {
+        name: 'testReport',
+        path: '/testReport',
+        element: TestReport
     }
 ];
 

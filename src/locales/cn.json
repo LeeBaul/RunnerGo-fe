@@ -52,6 +52,8 @@
         "apis": "接口管理",
         "scene": "场景管理",
         "plan": "计划管理",
+        "test": "自动化测试",
+        "performance": "性能测试",
         "report": "报告管理",
         "machine": "机器管理",
         "docs": "使用文档",

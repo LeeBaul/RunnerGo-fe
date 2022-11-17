@@ -1,6 +1,6 @@
 .left-toolbars {
-  height: calc(100vh - 50px);
-  width: 78px;
+  // height: calc(100vh - 50px);
+  // width: 180px;
   box-sizing: content-box;
   background-color: var(--bg1);
   border-right: 1px solid var(--border-color-default);
@@ -8,8 +8,30 @@
   position: relative;
   padding-top: 8px;
 
+  .arco-menu-item {
+    display: flex;
+    align-items: center;
+    svg {
+      fill: var(--font-1);
+      min-width: 16px;
+      width: 16px;
+      min-height: 16px;
+      height: 16px;
+      // margin-right: 4px !important;
+    }
+  }
+
+  .sub-menu-title {
+    svg {
+      fill: var(--font-1);
+      width: 16px;
+      height: 16px;
+      // margin-right: 0px !important;
+    }
+  }
+
   .toolbar-item {
-    width: 78px;
+    width: 180px;
     height: 60px;
     border-radius: 5px;
     display: flex;
