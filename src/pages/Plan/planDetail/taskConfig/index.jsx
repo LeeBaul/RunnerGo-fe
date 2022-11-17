@@ -278,10 +278,10 @@ const TaskConfig = (props) => {
                 console.log(_task_config);
                 _task_config['timed_task_conf'][type] = value;
                 if (type === 'frequency' && value === 0 && taskExecTime) {
-                    _task_config['timed_task_conf']['task_close_time'] = value + 60;
+                    _task_config['timed_task_conf']['task_close_time'] = value + 120;
                 }
                 if (frequency === 0 && type === 'task_exec_time') {
-                    _task_config['timed_task_conf']['task_close_time'] = value + 60;
+                    _task_config['timed_task_conf']['task_close_time'] = value + 120;
                 }
             }
         }
