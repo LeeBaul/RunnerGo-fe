@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 
 const ReportContent = (props) => {
-    const { data: datas, config: { task_mode, task_type, mode_conf, change_take_conf }, create_time, status, plan_id, analysis, description } = props;
+    const { data: datas, config: { task_mode, task_type, mode_conf, change_take_conf }, status, plan_id, analysis, description } = props;
     const { t } = useTranslation();
     const [tableData, setTableData] = useState([]);
     const [tableData1, setTableData1] = useState([]);
