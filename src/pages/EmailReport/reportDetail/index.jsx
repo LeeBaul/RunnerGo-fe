@@ -47,9 +47,6 @@ const ReportDetail = (props) => {
 	}, [select_plan, plan_id]); 
 
 	const getReportDetail = (plan_id) => {
-		if (plan_id === 0) {
-			return;
-		}
 		const query = {
 			report_id: report_id ? report_id : JSON.parse(contrast)[select_plan].report_id,
 			plan_id,
