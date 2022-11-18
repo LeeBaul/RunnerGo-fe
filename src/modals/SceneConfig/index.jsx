@@ -333,7 +333,7 @@ const SceneConfig = (props) => {
 
     return (
         <Modal className={GlobalVarModal} visible={true} title={ t('scene.sceneConfig') } okText={ t('btn.save') } cancelText={ t('btn.cancel') } onOk={() => saveGlobalVar()} onCancel={onCancel} >
-            {/* <p className='container-title'>{ t('scene.addFile') }</p>
+            <p className='container-title'>{ t('scene.addFile') }</p>
             <span>{ t('scene.fileSize') }</span>
             <div className='file-list'>
                 {
@@ -353,7 +353,7 @@ const SceneConfig = (props) => {
             </div>
             <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
                 <Button className='upload-btn' preFix={<SvgAdd />}>{ t('scene.addFile') }</Button>
-            </Upload> */}
+            </Upload>
             <p className='container-title'>{ t('scene.addVar') }</p>
             <Table showBorder columns={columns} data={varList} />
             { showPreview && <PreviewFile fileType={fileType} data={previewData} onCancel={() => setPreview(false)} /> }
