@@ -276,7 +276,7 @@ const SceneConfig = (props) => {
     const deleteFile = (name) => {
         const params = {
             team_id: parseInt(localStorage.getItem('team_id')),
-            scene_id: open_scene.scene_id ? open_scene.scene_id : open_scene.target_id,
+            scene_id: open_scene.scene_id ? parseInt(open_scene.scene_id) : parseInt(open_scene.target_id),
             name,
         };
         fetchDeleteImport(params).subscribe({
