@@ -129,9 +129,9 @@ export const RoutePages = Route.map(item => {
         return {
             ...item,
             element: () => <>
-                <Header />
+                {/* <Header /> */}
                 <div className='section-page'>
-                    <LeftToolbar />
+                    {/* <LeftToolbar /> */}
                     <div className='main-page'>
                         <item.element />
                     </div>

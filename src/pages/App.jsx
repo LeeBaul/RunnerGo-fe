@@ -103,15 +103,38 @@ const App = () => {
     useGlobal(null);
     useAsyncTask(); // 使用异步任务
     useApt();
+    console.log(location.pathname);
+
+    const _ignorePage = ['/login', '/register', '/find', '/userhome', '/reset', '/emailReport', '/invitateExpire', '/404'];
     return (
         <>
             <ConfigProvider locale={i18n.language === 'en' ? enUS : cnUS}>
-                <Routes>
-                    {RoutePages.map((d) => (
-                        <Route key={d.name} path={d.path} element={<d.element />}></Route>
-                    ))}
-                    <Route path='/' element={<Navigate to="login" />} />
-                </Routes>
+                {
+                    !_ignorePage.includes(location.pathname)
+                        ? <> <Header />
+                            <div className='section-page'>
+                                <LeftToolbar />
+                                <div className='main-page'>
+                                    <Routes>
+                                        {RoutePages.map((d) => (
+                                            <Route key={d.name} path={d.path} element={<d.element />}></Route>
+                                        ))}
+                                        <Route path='/' element={<Navigate to="login" />} />
+                                    </Routes>
+                                </div>
+                            </div></>
+                        : <>
+                            <div className='section-page'>
+                                <div className='main-page'>
+                                    <Routes>
+                                        {RoutePages.map((d) => (
+                                            <Route key={d.name} path={d.path} element={<d.element />}></Route>
+                                        ))}
+                                        <Route path='/' element={<Navigate to="login" />} />
+                                    </Routes>
+                                </div>
+                            </div></>
+                }
             </ConfigProvider>
         </>
     )

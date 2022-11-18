@@ -258,6 +258,7 @@ const LeftToolbar = () => {
                     </Link>
                     <SubMenu
                         key='1'
+                        selectable
                         title={
                             <div className="sub-menu-title">
                                 <SvgPlan className="arco-icon arco-icon-robot" />{t('leftBar.test')}
@@ -265,14 +266,15 @@ const LeftToolbar = () => {
                         }
                     >
                         <Link to="/testPlan">
-                            <MenuItem key='/testPlan'>{t('leftBar.plan')}</MenuItem>
+                            <MenuItem className="sub-item" key='/testPlan'>{t('leftBar.plan')}</MenuItem>
                         </Link>
                         <Link to="/testReport">
-                            <MenuItem key='/testReport'>{t('leftBar.report')}</MenuItem>
+                            <MenuItem className="sub-item" key='/testReport'>{t('leftBar.report')}</MenuItem>
                         </Link>
                     </SubMenu>
                     <SubMenu
                         key='2'
+                        selectable
                         title={
                             <div className="sub-menu-title">
                                 <SvgReport className="arco-icon arco-icon-robot" />{t('leftBar.performance')}
@@ -281,10 +283,10 @@ const LeftToolbar = () => {
                     >
 
                         <Link to="/plan">
-                            <MenuItem key='/plan'>{t('leftBar.plan')}</MenuItem>
+                            <MenuItem className="sub-item" key='/plan'>{t('leftBar.plan')}</MenuItem>
                         </Link>
                         <Link to="/report">
-                            <MenuItem key='/report'>{t('leftBar.report')}</MenuItem>
+                            <MenuItem className="sub-item" key='/report'>{t('leftBar.report')}</MenuItem>
                         </Link>
                     </SubMenu>
                     <Link to="/preset">
