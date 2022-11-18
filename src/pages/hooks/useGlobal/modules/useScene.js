@@ -4,7 +4,7 @@ import { cloneDeep, isArray, set, findIndex } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { concatMap, map, tap, from } from 'rxjs';
 import { fetchDeleteApi, fetchChangeSort } from '@services/apis';
-import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi, fetchStopScene } from '@services/scene';
+import { fetchCreateGroup, fetchCreateScene, fetchSceneDetail, fetchCreateSceneFlow, fetchSceneFlowDetail, fetchCreatePre, fetchRunScene, fetchGetSceneRes, fetchSendSceneApi, fetchStopScene, fetchDeleteScene } from '@services/scene';
 import { fetchGetTask, fetchSavePlan } from '@services/plan';
 import { formatSceneData, isURL, createUrl, GetUrlQueryToArray } from '@utils';
 import { getBaseCollection } from '@constants/baseCollection';
@@ -590,7 +590,7 @@ const useScene = () => {
         const params = {
             target_id: parseInt(id),
         };
-        fetchDeleteApi(params).subscribe({
+        fetchDeleteScene(params).subscribe({
             next: (res) => {
                 if (res.code === 0 || parseInt(open_scene || open_scene.scene_id || open_scene.target_id) === parseInt(id)) {
                     if (from === 'scene') {
@@ -938,7 +938,7 @@ const useScene = () => {
 
     const toDeleteGroup = (target_id, callback) => {
 
-        fetchDeleteApi({ target_id: parseInt(target_id) }).subscribe({
+        fetchDeleteScene({ target_id: parseInt(target_id) }).subscribe({
             next: (res) => {
                 if (res.code === 0) {
                     callback && callback();

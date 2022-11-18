@@ -1,11 +1,12 @@
 import { copyStringToClipboard, getClipboardText, getSafeJSON } from '@utils';
 // import { Collection } from '@indexedDB/project';
-import { Message } from 'adesign-react';
+import { Message, Modal } from 'adesign-react';
 import { isArray, isObject, isPlainObject, isString, isUndefined } from 'lodash';
 import Bus from '@utils/eventBus';
 import { getCoverData, getFullData, deleteMultiData } from './common';
 import { fetchGroupDetail } from '@services/scene';
 import { global$ } from '@hooks/useGlobal/global';
+import i18next from 'i18next';
 
 export const createApi = ({ params, props }) => {
     Bus.$emit('addOpenItem', { type: 'api', pid: params.target_id });
@@ -109,11 +110,19 @@ export const pasteToCurrent = ({ props, params }) => {
 export const pasteFolderToRoot = ({ props }) => { };
 export const deleteFolder = async ({ target_id }) => {
     // deleteMultiData(target_id);
-    Bus.$emit('toDeleteGroup', target_id, () => {
-        Message('success', '删除成功!');
-        global$.next({
-            action: 'RELOAD_LOCAL_SCENE',
-        });
+    Modal.confirm({
+        title: i18next.t('modal.look'),
+        content: i18next.t('modal.deleteScene'),
+        okText: i18next.t('btn.ok'),
+        cancelText: i18next.t('btn.cancel'),
+        onOk: () => {
+            Bus.$emit('toDeleteGroup', target_id, () => {
+                Message('success', i18next.t('message.deleteSuccess'));
+                global$.next({
+                    action: 'RELOAD_LOCAL_SCENE',
+                });
+            })
+        }
     })
 };
 

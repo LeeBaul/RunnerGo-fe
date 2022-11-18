@@ -117,10 +117,7 @@ export const deleteFolder = async ({ target_id }, props, open_scene, from) => {
             Bus.$emit('deleteScene', target_id, open_scene, from, (code) => {
                 if (code === 0) {
                     Message('success', i18next.t('message.deleteSuccess'));
-                } else {
-                    Message('error', i18next.t('message.deleteError'));
                 }
-        
             })
         }
     })

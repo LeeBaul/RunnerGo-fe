@@ -89,3 +89,8 @@ export const fetchDeleteImport = (
 export const fetchStopScene = (
     params
 ) => ajax('post', '/management/api/v1/scene/stop', 'json', false, params);
+
+// 删除分组或场景
+export const fetchDeleteScene = (
+    params
+) => ajax('post', '/management/api/v1/scene/delete', 'json', false, params);
