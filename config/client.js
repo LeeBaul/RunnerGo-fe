@@ -1,14 +1,14 @@
 // 前端-H5页面地址 管理中心地址，主要用于跳转
 const FE_BaseUrl = {
-    development: 'https://dev_tools_env_dev_fe.apipost.cn',
-    test: 'https://dev_tools_env_dev_fe.apipost.cn',
-    production: 'https://console.apipost.cn',
+    development: '',
+    test: '',
+    production: '',
 };
 
 // 当前运行环境fe主域，主要用于cookie
 const FE_Host = {
     development: '',
-    test: 'apipost.cn',
+    test: '',
     production: 'apipost.cn',
 };
 
