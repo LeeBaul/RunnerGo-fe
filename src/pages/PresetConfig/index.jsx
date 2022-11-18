@@ -251,7 +251,7 @@ const PresetConfig = () => {
 
     const defaultList = [
         { id: 0, title: t('preset.performance'), content: "123" },
-        { id: 1, title: t('preset.automation'), content: "456" },
+        { id: 1, title: t('preset.automation'), content: "456", disabled: true },
     ];
 
     const getNewSearchword = debounce((e) => setSearchWord(e), 500);
@@ -262,7 +262,7 @@ const PresetConfig = () => {
             <div className='tab'>
                 <Tabs defaultActiveId={0}>
                     {defaultList.map((d) => (
-                        <TabPan key={d.id} id={d.id} title={d.title} >
+                        <TabPan key={d.id} id={d.id} title={d.title} disabled={d.disabled} >
 
                         </TabPan>
                     ))}

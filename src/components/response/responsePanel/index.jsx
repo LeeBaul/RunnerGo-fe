@@ -250,6 +250,7 @@ const ResPonsePanel = (props) => {
             <div className="apt_sendLoading_con_text">{t('btn.sending')}</div>
             <Button
               type="primary"
+              className='cancel-send-btn'
               onClick={() => {
                 if (from === 'apis') {
                   Bus.$emit('stopSend', data.target_id);
