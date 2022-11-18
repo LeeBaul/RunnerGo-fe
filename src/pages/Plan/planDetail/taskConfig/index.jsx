@@ -22,7 +22,8 @@ const { Group } = Radio;
 const { Option } = Select;
 
 const TaskConfig = (props) => {
-    const { from, onChange } = props;
+    const { from, onChange, planDetail: { status } } = props;
+    console.log(status, 'asdljaslkdjaklsdjklasdjklasd');
     const { t } = useTranslation();
     const column = [
         {
@@ -836,6 +837,7 @@ const TaskConfig = (props) => {
 
     return (
         <div className='task-config'>
+            {/* <div className='task-config-mask'></div> */}
             {
                 from !== 'preset' && <div className='task-config-header'>
                     <p>{t('plan.taskConfig')}</p>

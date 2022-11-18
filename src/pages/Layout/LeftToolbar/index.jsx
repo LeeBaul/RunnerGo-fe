@@ -9,7 +9,7 @@ import {
     Apis as SvgApis,
     Answer as SvgDesign,
     ShareDoc as SvgShare,
-    Processtest as SvgTest,
+    // Processtest as SvgTest,
     Project as SvgProject,
     Doc as SvgDoc,
     Delete as RecycleIcon,
@@ -25,6 +25,8 @@ import SvgPlan from '@assets/icons/Plan1';
 import SvgReport from '@assets/icons/Report1';
 import SvgMachine from '@assets/icons/Machine';
 import SvgPreset from '@assets/icons/Preset';
+import SvgTest from '@assets/icons/left-test';
+import SvgPer from '@assets/icons/left-performance';
 //  import SvgGroup from '@assets/icons/H';
 
 import { useTranslation } from 'react-i18next';
@@ -261,23 +263,7 @@ const LeftToolbar = () => {
                         selectable
                         title={
                             <div className="sub-menu-title">
-                                <SvgPlan className="arco-icon arco-icon-robot" />{t('leftBar.test')}
-                            </div>
-                        }
-                    >
-                        <Link to="/testPlan">
-                            <MenuItem className="sub-item" key='/testPlan'>{t('leftBar.plan')}</MenuItem>
-                        </Link>
-                        <Link to="/testReport">
-                            <MenuItem className="sub-item" key='/testReport'>{t('leftBar.report')}</MenuItem>
-                        </Link>
-                    </SubMenu>
-                    <SubMenu
-                        key='2'
-                        selectable
-                        title={
-                            <div className="sub-menu-title">
-                                <SvgReport className="arco-icon arco-icon-robot" />{t('leftBar.performance')}
+                                <SvgPer className="arco-icon arco-icon-robot" />{t('leftBar.performance')}
                             </div>
                         }
                     >
@@ -289,6 +275,23 @@ const LeftToolbar = () => {
                             <MenuItem className="sub-item" key='/report'>{t('leftBar.report')}</MenuItem>
                         </Link>
                     </SubMenu>
+                    <SubMenu
+                        key='2'
+                        selectable
+                        title={
+                            <div className="sub-menu-title">
+                                <SvgTest className="arco-icon arco-icon-robot" />{t('leftBar.test')}
+                            </div>
+                        }
+                    >
+                        <Link to="/testPlan">
+                            <MenuItem className="sub-item" key='/testPlan'>{t('leftBar.plan')}</MenuItem>
+                        </Link>
+                        <Link to="/testReport">
+                            <MenuItem className="sub-item" key='/testReport'>{t('leftBar.report')}</MenuItem>
+                        </Link>
+                    </SubMenu>
+
                     <Link to="/preset">
                         <MenuItem key='/preset'><SvgPreset className="arco-icon arco-icon-robot" />{t('leftBar.preset')}</MenuItem>
                     </Link>

@@ -147,11 +147,9 @@ const SceneBox = (props) => {
         _params.type = 'common';
         let id_obj = getFather(nodes, edges);
         const res = check([_params.source], _params.target, id_obj);
-        console.log(params);
         if (res) {
 
             return setEdges((eds) => {
-                console.log(eds);
 
                 return addEdge(_params, eds)
             })
@@ -601,7 +599,6 @@ const SceneBox = (props) => {
                 _open_data.nodes = [new_node];
                 _open_data.edges = [];
             }
-            console.log(_open_data);
             if (from === 'scene') {
                 Bus.$emit('addNewSceneApi', new_node.id, id_apis, node_config, { id }, { id }, from);
                 // dispatch({
@@ -741,11 +738,9 @@ const SceneBox = (props) => {
 
         if (rightMenu) {
             rightMenu.addEventListener('click', (e) => {
-                console.log(edge_right);
                 const __edges = cloneDeep(_edges);
                 if (edge_right) {
                     const _index = __edges.findIndex(item => item.id === edge_right);
-                    console.log(__edges, _index)
                     if (_index !== -1) {
                         __edges.splice(_index, 1);
 
@@ -763,7 +758,6 @@ const SceneBox = (props) => {
                         }
                     }
 
-                    console.log(__edges);
                     setEdges(__edges);
                 }
             })
@@ -771,11 +765,9 @@ const SceneBox = (props) => {
 
         return () => {
             rightMenu.removeEventListener('click', (e) => {
-                console.log(edge_right);
                 const __edges = cloneDeep(_edges);
                 if (edge_right) {
                     const _index = __edges.findIndex(item => item.id === edge_right);
-                    console.log(__edges, _index)
                     if (_index !== -1) {
                         __edges.splice(_index, 1);
 
@@ -793,7 +785,6 @@ const SceneBox = (props) => {
                         }
                     }
 
-                    console.log(__edges);
                     setEdges(__edges);
                 }
             })
@@ -803,8 +794,12 @@ const SceneBox = (props) => {
     const add_new_scene = useSelector((store) => store.scene.add_new);
     const add_new_plan = useSelector((store) => store.plan.add_new);
     const add_new = from === 'scene' ? add_new_scene : add_new_plan;
-    console.log(add_new, 'add_new');
+
     const svgMouse = document.getElementsByClassName('svg-mouse')[0];
+
+    const [zoom, setZoom] = useState(1);
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
 
 
     if (add_new === 'api' || add_new === 'wait_controller' || add_new === 'condition_controller') {
@@ -817,7 +812,6 @@ const SceneBox = (props) => {
     useEffect(() => {
 
         const flow = document.getElementsByClassName('react-flow')[0];
-        console.log(add_new)
 
         const mousemove = (e) => {
             // console.log(e);
@@ -837,7 +831,7 @@ const SceneBox = (props) => {
             const { offsetX, offsetY } = e;
             // console.log(offsetX, offsetY);
             if (add_new === 'api') {
-                setPosition([offsetX, offsetY]);
+                setPosition([offsetX * zoom - x, offsetY * zoom - y]);
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateType',
@@ -859,7 +853,7 @@ const SceneBox = (props) => {
                 }
                 svgMouse.style.display = 'none';
             } else if (add_new === 'wait_controller') {
-                setPosition([offsetX, offsetY]);
+                setPosition([offsetX * zoom - x, offsetY * zoom - y]);
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateType',
@@ -881,7 +875,7 @@ const SceneBox = (props) => {
                 }
                 svgMouse.style.display = 'none';
             } else if (add_new === 'condition_controller') {
-                setPosition([offsetX, offsetY]);
+                setPosition([offsetX * zoom - x, offsetY * zoom - y]);
                 if (from === 'scene') {
                     dispatch({
                         type: 'scene/updateType',
@@ -930,7 +924,7 @@ const SceneBox = (props) => {
             flow.removeEventListener('mousemove', mousemove);
             flow.removeEventListener('click', click);
         }
-    }, [add_new]);
+    }, [add_new, zoom]);
 
 
 
@@ -954,6 +948,12 @@ const SceneBox = (props) => {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 onInit={onInit}
+                onMove={(e, viewport) => {
+                    const { x, y, zoom } = viewport;
+                    setX(x);
+                    setY(y);
+                    setZoom(zoom);
+                }}
             // fitView
             >
                 {/* <MiniMap
@@ -975,6 +975,7 @@ const SceneBox = (props) => {
                     <Controls />
                     <Background color="#aaa" gap={16} />
                 </MiniMap> */}
+                <Controls />
                 <Background />
             </ReactFlow>
 

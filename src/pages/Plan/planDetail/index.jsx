@@ -178,9 +178,11 @@ const PlanDetail = () => {
         </div>
     };
 
+    const [planDetail, setPlanDetail] = useState({});
+
     return (
         <div className='plan-detail'>
-            <DetailHeader />
+            <DetailHeader onGetDetail={(e) => setPlanDetail(e)}  />
             {importApi && <ApiPicker onCancel={() => setImportApi(false)} />}
             {importScene && <ScenePicker onCancel={() => setImportScene(false)} />}
             {
@@ -223,7 +225,7 @@ const PlanDetail = () => {
                 </ScaleItem>
                 <ScaleItem enableScale={false}>
                     {
-                        open_plan_scene && <TaskConfig from='default' refresh={open_plan_scene} />
+                        open_plan_scene && <TaskConfig from='default' refresh={open_plan_scene} planDetail={planDetail} />
                     }
                 </ScaleItem>
             </ScalePanel>

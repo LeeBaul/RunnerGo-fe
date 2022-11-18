@@ -20,7 +20,8 @@ import { useTranslation } from 'react-i18next';
 import InvitationModal from '@modals/ProjectInvitation';
 import { fetchEmailList } from '@services/plan';
 
-const DetailHeader = () => {
+const DetailHeader = (props) => {
+    const { onGetDetail } = props;
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [preSet, setPreSet] = useState(false);
@@ -66,6 +67,7 @@ const DetailHeader = () => {
             next: (res) => {
                 const { data: { plan } } = res;
                 setPlanDetail(plan);
+                onGetDetail(plan);
             }
         })
     }
