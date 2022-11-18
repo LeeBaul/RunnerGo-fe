@@ -909,6 +909,23 @@ const SceneBox = (props) => {
 
         flow.addEventListener('click', click);
 
+        flow.oncontextmenu = () => {
+            if (add_new) {
+                if (from === 'scene') {
+                    dispatch({
+                        type: 'scene/updateAddNew',
+                        payload: ''
+                    })
+                } else {
+                    dispatch({
+                        type: 'plan/updateAddNew',
+                        payload: ''
+                    })
+                }
+                svgMouse.style.display = 'none';
+            }
+        }
+
         return () => {
             flow.removeEventListener('mousemove', mousemove);
             flow.removeEventListener('click', click);

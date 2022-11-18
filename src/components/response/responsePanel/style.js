@@ -5,6 +5,7 @@ export const responseTabs = css`
   height: 100%;
   & > .apipost-tabs-content {
     height: calc(100% - 30px);
+    padding-bottom: 30px;
     overflow: auto;
     margin-top: -1px;
   }
