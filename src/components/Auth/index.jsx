@@ -90,11 +90,11 @@ const Authen = (props) => {
     bearer:t('apis.authList.bearer'),
     basic: t('apis.authList.basic'),
     digest: t('apis.authList.digest'),
-    oauth1: t('apis.authList.oauth1'),
-    hawk: t('apis.authList.hawk'),
-    awsv4: t('apis.authList.awsv4'),
-    ntlm: t('apis.authList.ntlm'),
-    edgegrid: t('apis.authList.edgegrid')
+    // oauth1: t('apis.authList.oauth1'),
+    // hawk: t('apis.authList.hawk'),
+    // awsv4: t('apis.authList.awsv4'),
+    // ntlm: t('apis.authList.ntlm'),
+    // edgegrid: t('apis.authList.edgegrid')
   };
 
   return (

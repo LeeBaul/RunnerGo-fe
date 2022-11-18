@@ -62,6 +62,23 @@ const Info = (props) => {
                     }
                 }
             }, 10);
+        } else if (start === end) {
+            switch (index) {
+                case 0:
+                    setPlan(start);
+                    break;
+                case 1:
+                    setScene(start);
+                    break;
+                case 2:
+                    setReport(start);
+                    break;
+                case 3:
+                    setApi(start);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
