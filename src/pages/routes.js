@@ -122,23 +122,23 @@ const Route = [
 
 const ignorePage = ['login', 'register', 'find', 'userhome', 'reset', 'emailReport', 'invitateExpire', '404'];
 
-// export const RoutePages = Route;
+export const RoutePages = Route;
 
-export const RoutePages = Route.map(item => {
-    if (!ignorePage.includes(item.name)) {
-        return {
-            ...item,
-            element: () => <>
-                {/* <Header /> */}
-                <div className='section-page'>
-                    {/* <LeftToolbar /> */}
-                    <div className='main-page'>
-                        <item.element />
-                    </div>
-                </div>
-            </>
-        }
-    } else {
-        return item;
-    }
-})
+// export const RoutePages = Route.map(item => {
+//     if (!ignorePage.includes(item.name)) {
+//         return {
+//             ...item,
+//             element: () => <>
+//                 {/* <Header /> */}
+//                 <div className='section-page'>
+//                     {/* <LeftToolbar /> */}
+//                     <div className='main-page'>
+//                         <item.element />
+//                     </div>
+//                 </div>
+//             </>
+//         }
+//     } else {
+//         return item;
+//     }
+// })
