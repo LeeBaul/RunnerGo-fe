@@ -23,13 +23,13 @@ const ResRegex = (props) => {
     // }, [regex]);
 
     return (
-        <div className='res-regex'>
+        <div className='res-regex can-copy'>
             {
                 _regexList.length > 0 ? (
                     _regexList.map(item => (
-                        <p className='res-regex-item'>{item}</p>
+                        <p className='res-regex-item can-copy'>{item}</p>
                     ))
-                ) : <p>{ t('apis.noData') }</p>
+                ) : <p className='can-copy'>{ t('apis.noData') }</p>
             }
         </div>
     )

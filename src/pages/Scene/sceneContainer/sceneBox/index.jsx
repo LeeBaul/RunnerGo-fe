@@ -975,7 +975,7 @@ const SceneBox = (props) => {
                     <Controls />
                     <Background color="#aaa" gap={16} />
                 </MiniMap> */}
-                <Controls />
+                {/* <Controls /> */}
                 <Background />
             </ReactFlow>
 
