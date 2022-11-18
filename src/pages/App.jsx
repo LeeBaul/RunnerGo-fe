@@ -105,7 +105,7 @@ const App = () => {
     useApt();
     console.log(location.pathname);
 
-    const _ignorePage = ['/login', '/register', '/find', '/userhome', '/reset', '/emailReport', '/invitateExpire', '/404'];
+    const _ignorePage = ['/login', '/register', '/find', '/userhome', '/reset', '/emailReport', '/invitateExpire', '/404', '/'];
     return (
         <>
             <ConfigProvider locale={i18n.language === 'en' ? enUS : cnUS}>
