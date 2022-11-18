@@ -332,7 +332,7 @@ const TaskConfig = (props) => {
 
                             <div style={{ display: 'flex', marginLeft: '6px' }}>
                                 <span className='must-input' style={{ paddingTop: '8px' }}>*</span>
-                                <Group className='radio-group' value={default_mode} onChange={(e) => {
+                                <Group disabled={status === 2} className='radio-group' value={default_mode} onChange={(e) => {
                                     setDefaultMode(e);
                                     // console.log(e);
                                     const _mode_conf = cloneDeep(mode_conf);
@@ -346,7 +346,7 @@ const TaskConfig = (props) => {
                                         updateTaskConfig('duration', 0);
                                     }
                                 }}>
-                                    <Radio className='radio-group-item' value="duration">
+                                    <Radio disabled={status === 2} className='radio-group-item' value="duration">
                                         <span style={{ marginTop: '5px' }}>{t('plan.duration')}： </span>
                                         <Input value={mode_conf.duration} placeholder={t('placeholder.unitS')} onChange={(e) => {
                                             const _mode_conf = cloneDeep(mode_conf);
@@ -359,9 +359,9 @@ const TaskConfig = (props) => {
                                             updateTaskConfig('duration', parseInt(e));
                                         }} disabled={default_mode === 'round_num'} />
                                     </Radio>
-                                    <Radio className='radio-group-item' value="round_num">
+                                    <Radio disabled={status === 2} className='radio-group-item' value="round_num">
                                         <span style={{ marginTop: '5px' }}>{t('plan.roundNum')}： </span>
-                                        <Input value={mode_conf.round_num} placeholder={t('placeholder.unitR')} onChange={(e) => {
+                                        <Input  value={mode_conf.round_num} placeholder={t('placeholder.unitR')} onChange={(e) => {
                                             const _mode_conf = cloneDeep(mode_conf);
                                             _mode_conf.round_num = parseInt(e);
                                             // setRoundNum(_mode_conf);
@@ -376,7 +376,7 @@ const TaskConfig = (props) => {
                             </div>
                             <div className="right-item">
                                 <span><span className='must-input'>*&nbsp;</span>{t('plan.concurrency')}: </span>
-                                <Input value={mode_conf.concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => {
+                                <Input disabled={status === 2} value={mode_conf.concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.concurrency = parseInt(e);
                                     setConcurrency(parseInt(e));
@@ -393,7 +393,7 @@ const TaskConfig = (props) => {
                                         <div><SvgExplain /></div>
                                     </Tooltip>
                                 </div>
-                                <Input value={mode_conf.reheat_time} placeholder={t('placeholder.unitS')} onChange={(e) => {
+                                <Input disabled={status === 2} value={mode_conf.reheat_time} placeholder={t('placeholder.unitS')} onChange={(e) => {
                                     const _mode_conf = cloneDeep(mode_conf);
                                     _mode_conf.reheat_time = parseInt(e);
                                     setModeConf(_mode_conf);
@@ -406,7 +406,7 @@ const TaskConfig = (props) => {
                             : <div className="right-container">
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span> {t('plan.startConcurrency')}：</span>
-                                    <Input value={mode_conf.start_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => {
+                                    <Input disabled={status === 2} value={mode_conf.start_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.start_concurrency = parseInt(e);
                                         setStartConcurrency(parseInt(e));
@@ -418,7 +418,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.step')}：</span>
-                                    <Input value={mode_conf.step} placeholder={t('placeholder.unitR')} onChange={(e) => {
+                                    <Input disabled={status === 2} value={mode_conf.step} placeholder={t('placeholder.unitR')} onChange={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step = parseInt(e);
                                         setStep(parseInt(e));
@@ -430,7 +430,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.stepRunTime')}：</span>
-                                    <Input value={mode_conf.step_run_time} placeholder={t('placeholder.unitS')} onChange={(e) => {
+                                    <Input disabled={status === 2} value={mode_conf.step_run_time} placeholder={t('placeholder.unitS')} onChange={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.step_run_time = parseInt(e);
                                         setStepRunTime(parseInt(e));
@@ -442,7 +442,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item">
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.maxConcurrency')}： </span>
-                                    <Input value={mode_conf.max_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => {
+                                    <Input disabled={status === 2} value={mode_conf.max_concurrency} placeholder={t('placeholder.unitR')} onChange={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.max_concurrency = parseInt(e);
                                         setMaxConcurrency(parseInt(e));
@@ -454,7 +454,7 @@ const TaskConfig = (props) => {
                                 </div>
                                 <div className="right-item" style={{ marginBottom: 0 }}>
                                     <span><span className='must-input'>*&nbsp;</span>{t('plan.duration')}：</span>
-                                    <Input value={mode_conf.duration} placeholder={t('placeholder.unitS')} onChange={(e) => {
+                                    <Input disabled={status === 2} value={mode_conf.duration} placeholder={t('placeholder.unitS')} onChange={(e) => {
                                         const _mode_conf = cloneDeep(mode_conf);
                                         _mode_conf.duration = parseInt(e);
                                         setDuration(parseInt(e));
@@ -835,9 +835,33 @@ const TaskConfig = (props) => {
         }
     }, [preset]);
 
+    const [showTask, setShowTask] = useState(false);
+
+    useEffect(() => {
+        const mask = document.querySelector('.task-config');
+
+        const showMaskFn = () => {
+            if (status === 2) {
+                setShowTask(!showTask);
+            }
+        }
+
+        mask.addEventListener('mouseover', showMaskFn);
+        mask.addEventListener('mouseenter', showMaskFn);
+
+        return () => {
+            mask.removeEventListener('mouseover', showMaskFn);
+            mask.removeEventListener('mouseenter', showMaskFn);
+        }
+    }, [status, theme, showTask]);
+
     return (
         <div className='task-config'>
-            {/* <div className='task-config-mask'></div> */}
+            {
+                showTask && <div className='task-config-mask' style={{ backgroundColor: theme === 'dark' ? 'rgba(47,47,47, .5)' : 'rgba(222,222,222, .5)'}}>
+                    <div className='text'>{ t('plan.showMask') }</div>
+                </div>
+            }
             {
                 from !== 'preset' && <div className='task-config-header'>
                     <p>{t('plan.taskConfig')}</p>
@@ -897,7 +921,7 @@ const TaskConfig = (props) => {
                         <div className='select-date'>
                             <div className='select-date-right'>
                                 <div className='time-item'>
-                                    <p className='label'>{ t('index.startTime') }:</p>
+                                    <p className='label'>{t('index.startTime')}:</p>
                                     <DatePicker
                                         value={taskExecTime * 1000}
                                         placeholder={t('placeholder.startTime')}
@@ -909,7 +933,7 @@ const TaskConfig = (props) => {
                                     />
                                 </div>
                                 <div className='time-item'>
-                                    <p className='label'>{ t('index.endTime') }:</p>
+                                    <p className='label'>{t('index.endTime')}:</p>
                                     <DatePicker
                                         value={taskCloseTime * 1000}
                                         disabled={frequency === 0}
