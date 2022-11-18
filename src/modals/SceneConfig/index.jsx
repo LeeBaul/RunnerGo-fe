@@ -349,7 +349,7 @@ const SceneConfig = (props) => {
                             </div>
                         </div>
                     ))
-                }
+                } 
             </div>
             <Upload showFilesList={false} onChange={(files, fileList) => uploadFile(files, fileList)}>
                 <Button className='upload-btn' preFix={<SvgAdd />}>{ t('scene.addFile') }</Button>
